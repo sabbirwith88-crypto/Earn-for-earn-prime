@@ -11,6 +11,19 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     
+    <!-- Monetag SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
+    
+    <!-- Onclickads SDK -->
+    <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
+    
+    <!-- AdsGram SDK -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    
+    <!-- Adexium SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -3526,6 +3539,25 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
+        // Initialize Onclickads with Spot ID 428519
+        window.initCdTma?.({ id: '428519' }).then(show => window.showOnclickAd = show).catch(e => console.log('Onclickads init error:', e));
+
+        // Initialize AdsGram with block ID int-23824
+        const adController = window.Adsgram ? window.Adsgram.init({ blockId: "int-23824" }) : null;
+
+        // Initialize Adexium Widget
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const adexiumWidget = new AdexiumWidget({
+                    wid: '077da1c2-1caf-48d5-b1ef-a12f9bee82b7',
+                    adFormat: 'interstitial'
+                });
+                window.adexiumWidget = adexiumWidget;
+            } catch (e) {
+                console.error('Adexium init error:', e);
+            }
+        });
+
         // Privacy Policy and Terms & Conditions URLs
         const PRIVACY_POLICY_URL = 'https://earn-for-earn-privacy-police.vercel.app/';
         const TERMS_CONDITIONS_URL = 'https://earn-for-earn-terms-condition.vercel.app/';
@@ -4081,6 +4113,137 @@
                 }
             }
             
+            // New method to show rewarded ad for task 1
+            async showRewardedAd() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (typeof show_10541383 === 'function') {
+                            // Show rewarded interstitial ad
+                            show_10541383().then(() => {
+                                // User watched the ad
+                                console.log('Ad watched successfully');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('Ad error:', error);
+                                reject(error);
+                            });
+                        } else {
+                            console.error('Ad SDK not loaded properly');
+                            reject(new Error('Ad SDK not loaded'));
+                        }
+                    } catch (error) {
+                        console.error('Error showing ad:', error);
+                        reject(error);
+                    }
+                });
+            }
+            
+            // New method to show in-app interstitial ad for task 2
+            async showInAppInterstitialAd() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (typeof show_10541383 === 'function') {
+                            // Show in-app interstitial ad with settings
+                            // Settings: show 2 ads within 0.1 hours (6 minutes), 30 sec interval, 5 sec delay
+                            show_10541383({ 
+                                type: 'inApp', 
+                                inAppSettings: { 
+                                    frequency: 2, 
+                                    capping: 0.1, 
+                                    interval: 30, 
+                                    timeout: 5, 
+                                    everyPage: false 
+                                } 
+                            }).then(() => {
+                                console.log('In-app ad watched successfully');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('In-app ad error:', error);
+                                reject(error);
+                            });
+                        } else {
+                            console.error('Ad SDK not loaded properly');
+                            reject(new Error('Ad SDK not loaded'));
+                        }
+                    } catch (error) {
+                        console.error('Error showing in-app ad:', error);
+                        reject(error);
+                    }
+                });
+            }
+            
+            // New method to show onclickads for task 3
+            async showOnclickAd() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (typeof window.showOnclickAd === 'function') {
+                            // Show onclickad
+                            window.showOnclickAd().then(() => {
+                                console.log('Onclickad watched successfully');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('Onclickad error:', error);
+                                reject(error);
+                            });
+                        } else {
+                            console.error('Onclickad SDK not loaded properly');
+                            reject(new Error('Onclickad SDK not loaded'));
+                        }
+                    } catch (error) {
+                        console.error('Error showing onclickad:', error);
+                        reject(error);
+                    }
+                });
+            }
+            
+            // New method to show AdsGram ad for task 4
+            async showAdsGramAd() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (adController) {
+                            // Show AdsGram interstitial ad
+                            adController.show().then(() => {
+                                console.log('AdsGram ad watched successfully');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('AdsGram ad error:', error);
+                                reject(error);
+                            });
+                        } else {
+                            console.error('AdsGram SDK not loaded properly');
+                            reject(new Error('AdsGram SDK not loaded'));
+                        }
+                    } catch (error) {
+                        console.error('Error showing AdsGram ad:', error);
+                        reject(error);
+                    }
+                });
+            }
+            
+            // New method to show Adexium ad for task 5
+            async showAdexiumAd() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (window.adexiumWidget) {
+                            // Show Adexium interstitial ad
+                            window.adexiumWidget.show().then(() => {
+                                console.log('Adexium ad watched successfully');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('Adexium ad error:', error);
+                                reject(error);
+                            });
+                        } else {
+                            console.error('Adexium SDK not loaded properly');
+                            reject(new Error('Adexium SDK not loaded'));
+                        }
+                    } catch (error) {
+                        console.error('Error showing Adexium ad:', error);
+                        reject(error);
+                    }
+                });
+            }
+            
             async completeTask(userId, taskId, reward) {
                 try {
                     const userData = await this.getUserData(userId);
@@ -4229,16 +4392,16 @@
         
         // General Tasks - 10 tasks with $0.0008 each
         const generalTasks = [
-            { id: 'task1', title: 'Task 1 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task2', title: 'Task 2 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task3', title: 'Task 3 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task4', title: 'Task 4 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task5', title: 'Task 5 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task6', title: 'Task 6 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task7', title: 'Task 7 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task8', title: 'Task 8 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task9', title: 'Task 9 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
-            { id: 'task10', title: 'Task 10 - Earn USD', description: 'Click start to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true }
+            { id: 'task1', title: 'Task 1 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'rewarded' },
+            { id: 'task2', title: 'Task 2 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'interstitial' },
+            { id: 'task3', title: 'Task 3 - Watch Onclick Ad', description: 'Watch an onclick ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'onclick' },
+            { id: 'task4', title: 'Task 4 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram' },
+            { id: 'task5', title: 'Task 5 - Watch Adexium Ad', description: 'Watch an Adexium ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adexium' },
+            { id: 'task6', title: 'Task 6 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
+            { id: 'task7', title: 'Task 7 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
+            { id: 'task8', title: 'Task 8 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
+            { id: 'task9', title: 'Task 9 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
+            { id: 'task10', title: 'Task 10 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true }
         ];
         
         // DOM Elements
@@ -5197,14 +5360,44 @@
             }
             
             const btn = document.getElementById(`start-task-${task.id}`);
-            if (btn) btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+            if (btn) btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading ad...';
             
-            // Start timer for 3 seconds
-            currentTask = task; 
-            taskButtonElement = btn; 
-            taskSecondsRemaining = 3;
-            warningTimerDisplay.textContent = taskSecondsRemaining; 
-            showModal(timerWarningModal);
+            try {
+                // Show appropriate ad based on task type
+                if (task.id === 'task1') {
+                    // Task 1 - Show rewarded interstitial ad
+                    await userManager.showRewardedAd();
+                } else if (task.id === 'task2') {
+                    // Task 2 - Show in-app interstitial ad
+                    await userManager.showInAppInterstitialAd();
+                } else if (task.id === 'task3') {
+                    // Task 3 - Show onclickad
+                    await userManager.showOnclickAd();
+                } else if (task.id === 'task4') {
+                    // Task 4 - Show AdsGram ad
+                    await userManager.showAdsGramAd();
+                } else if (task.id === 'task5') {
+                    // Task 5 - Show Adexium ad
+                    await userManager.showAdexiumAd();
+                } else {
+                    // Other tasks - Show regular rewarded ad as fallback
+                    await userManager.showRewardedAd();
+                }
+                
+                // User watched the ad, now start the task timer
+                currentTask = task; 
+                taskButtonElement = btn; 
+                taskSecondsRemaining = 3;
+                warningTimerDisplay.textContent = taskSecondsRemaining; 
+                showModal(timerWarningModal);
+            } catch (error) {
+                console.error('Ad failed:', error);
+                showModal(errorModal, 'Failed to load ad. Please try again.');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                }
+            }
         }
         
         async function startTaskTimer() {

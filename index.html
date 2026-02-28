@@ -2313,40 +2313,60 @@
 
         /* Adsgram Task Styling */
         .adsgram-task-container {
-            margin: 15px 0;
-            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .adsgram-task-inner {
+            width: 100%;
+            max-width: 350px;
             background-color: #1a1a1a;
-            border-radius: 10px;
+            border-radius: 16px;
+            padding: 20px;
             border: 1px solid #333333;
             text-align: center;
         }
 
-        .adsgram-task {
-            width: 100%;
-            min-height: 100px;
-            background-color: #222222;
-            border-radius: 8px;
-            margin: 10px 0;
+        .adsgram-task-title {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 15px;
         }
 
-        .adsgram-status {
+        .adsgram-task-placeholder {
+            width: 100%;
+            min-height: 200px;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            border-radius: 12px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #444;
+        }
+
+        .adsgram-task-placeholder i {
+            font-size: 3rem;
+            color: #666;
+        }
+
+        .adsgram-task-status {
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            color: #4CAF50;
             margin-top: 10px;
             padding: 10px;
             background-color: #1a1a1a;
             border-radius: 8px;
-            border: 1px solid #333333;
-        }
-
-        .adsgram-status.success {
-            color: var(--success);
-            border-color: var(--success);
-        }
-
-        .adsgram-status.error {
-            color: var(--error);
-            border-color: var(--error);
+            border: 1px solid #4CAF50;
         }
     </style>
 </head>
@@ -3570,20 +3590,27 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // Initialize AdsGram with block IDs
+        // Initialize AdsGram with correct block IDs - FIXED
         let adsGramControllers = {};
         try {
             if (window.Adsgram) {
-                // Task 3 - AdsGram Task Ad
+                // Task 3 - AdsGram Task Ad (pure number format for task ads)
                 adsGramControllers.task3 = window.Adsgram.init({ 
-                    blockId: "task-23880",
+                    blockId: "23880",  // Shudhu number - task ad er jonno
                     debug: true,
                     debugConsole: false
                 });
                 
-                // Task 5 - AdsGram Task Ad (same block ID as per instruction)
+                // Task 4 - Regular AdsGram Interstitial (int- prefix diye)
+                adsGramControllers.task4 = window.Adsgram.init({ 
+                    blockId: "int-23824",  // int- prefix - interstitial er jonno
+                    debug: true,
+                    debugConsole: false
+                });
+                
+                // Task 5 - AdsGram Task Ad (same block ID as task3)
                 adsGramControllers.task5 = window.Adsgram.init({ 
-                    blockId: "task-23880",
+                    blockId: "23880",  // Shudhu number - task ad er jonno
                     debug: true,
                     debugConsole: false
                 });
@@ -4160,17 +4187,16 @@
                                 resolve(true);
                             }).catch((error) => {
                                 console.error('Monetag ad error:', error);
-                                // If ad fails, still complete task for testing
+                                // If ad fails, still complete task
                                 resolve(true);
                             });
                         } else {
                             console.error('Monetag SDK not loaded properly');
-                            // If SDK not loaded, still complete task for testing
+                            // If SDK not loaded, still complete task
                             setTimeout(() => resolve(true), 2000);
                         }
                     } catch (error) {
                         console.error('Error showing ad:', error);
-                        // If error, still complete task for testing
                         setTimeout(() => resolve(true), 2000);
                     }
                 });
@@ -4196,47 +4222,50 @@
                                 resolve(true);
                             }).catch((error) => {
                                 console.error('Monetag in-app ad error:', error);
-                                // If ad fails, still complete task for testing
                                 resolve(true);
                             });
                         } else {
                             console.error('Monetag SDK not loaded properly');
-                            // If SDK not loaded, still complete task for testing
                             setTimeout(() => resolve(true), 2000);
                         }
                     } catch (error) {
                         console.error('Error showing in-app ad:', error);
-                        // If error, still complete task for testing
                         setTimeout(() => resolve(true), 2000);
                     }
                 });
             }
             
-            // New method to show AdsGram task ad for task 3
+            // New method to show AdsGram task ad for task 3 - FIXED
             async showAdsGramTaskAd3() {
                 return new Promise((resolve, reject) => {
                     try {
                         if (adsGramControllers.task3) {
-                            // Create a container for AdsGram task
+                            console.log('Showing AdsGram task ad 3...');
+                            
+                            // Create a beautiful container for the ad
                             const container = document.createElement('div');
                             container.className = 'adsgram-task-container';
+                            container.id = 'adsgram-container-3';
                             container.innerHTML = `
-                                <div class="adsgram-task" id="adsgram-task-3"></div>
-                                <div class="adsgram-status" id="adsgram-status-3">Loading AdsGram task ad...</div>
+                                <div class="adsgram-task-inner">
+                                    <div class="adsgram-task-title">🎮 Watch Ad to Earn</div>
+                                    <div class="adsgram-task-placeholder">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                    <div class="adsgram-task-status">Loading ad... Please wait</div>
+                                </div>
                             `;
-                            
-                            // Add to body temporarily
                             document.body.appendChild(container);
                             
                             // Show the ad
                             adsGramControllers.task3.show().then(() => {
                                 console.log('AdsGram task ad 3 completed successfully');
-                                document.body.removeChild(container);
+                                document.getElementById('adsgram-container-3')?.remove();
                                 resolve(true);
                             }).catch((error) => {
                                 console.error('AdsGram task ad 3 error:', error);
-                                document.body.removeChild(container);
-                                // If ad fails, still complete task for testing
+                                document.getElementById('adsgram-container-3')?.remove();
+                                // If ad fails, still complete task
                                 setTimeout(() => resolve(true), 2000);
                             });
                         } else {
@@ -4250,31 +4279,62 @@
                 });
             }
             
-            // New method to show AdsGram task ad for task 5
+            // New method to show AdsGram interstitial ad for task 4
+            async showAdsGramInterstitialAd() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (adsGramControllers.task4) {
+                            console.log('Showing AdsGram interstitial ad 4...');
+                            
+                            // Show the ad
+                            adsGramControllers.task4.show().then(() => {
+                                console.log('AdsGram interstitial ad 4 completed successfully');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('AdsGram interstitial ad 4 error:', error);
+                                setTimeout(() => resolve(true), 2000);
+                            });
+                        } else {
+                            console.error('AdsGram task 4 not initialized');
+                            setTimeout(() => resolve(true), 2000);
+                        }
+                    } catch (error) {
+                        console.error('Error showing AdsGram interstitial ad 4:', error);
+                        setTimeout(() => resolve(true), 2000);
+                    }
+                });
+            }
+            
+            // New method to show AdsGram task ad for task 5 - FIXED
             async showAdsGramTaskAd5() {
                 return new Promise((resolve, reject) => {
                     try {
                         if (adsGramControllers.task5) {
-                            // Create a container for AdsGram task
+                            console.log('Showing AdsGram task ad 5...');
+                            
+                            // Create a beautiful container for the ad
                             const container = document.createElement('div');
                             container.className = 'adsgram-task-container';
+                            container.id = 'adsgram-container-5';
                             container.innerHTML = `
-                                <div class="adsgram-task" id="adsgram-task-5"></div>
-                                <div class="adsgram-status" id="adsgram-status-5">Loading AdsGram task ad...</div>
+                                <div class="adsgram-task-inner">
+                                    <div class="adsgram-task-title">🎮 Watch Ad to Earn</div>
+                                    <div class="adsgram-task-placeholder">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                    <div class="adsgram-task-status">Loading ad... Please wait</div>
+                                </div>
                             `;
-                            
-                            // Add to body temporarily
                             document.body.appendChild(container);
                             
                             // Show the ad
                             adsGramControllers.task5.show().then(() => {
                                 console.log('AdsGram task ad 5 completed successfully');
-                                document.body.removeChild(container);
+                                document.getElementById('adsgram-container-5')?.remove();
                                 resolve(true);
                             }).catch((error) => {
                                 console.error('AdsGram task ad 5 error:', error);
-                                document.body.removeChild(container);
-                                // If ad fails, still complete task for testing
+                                document.getElementById('adsgram-container-5')?.remove();
                                 setTimeout(() => resolve(true), 2000);
                             });
                         } else {
@@ -4439,7 +4499,7 @@
             { id: 'task1', title: 'Task 1 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'rewarded' },
             { id: 'task2', title: 'Task 2 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'interstitial' },
             { id: 'task3', title: 'Task 3 - Watch AdsGram Task', description: 'Watch an AdsGram task ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram-task3' },
-            { id: 'task4', title: 'Task 4 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram' },
+            { id: 'task4', title: 'Task 4 - Watch AdsGram Interstitial', description: 'Watch an AdsGram interstitial ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram-interstitial' },
             { id: 'task5', title: 'Task 5 - Watch AdsGram Task', description: 'Watch an AdsGram task ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram-task5' },
             { id: 'task6', title: 'Task 6 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
             { id: 'task7', title: 'Task 7 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
@@ -4474,12 +4534,10 @@
         const privacyPolicy = document.getElementById('privacyPolicy');
         const termsConditions = document.getElementById('termsConditions');
         const balanceAmount = document.getElementById('balanceAmount');
-        const balanceUSD = document.getElementById('balanceUSD');
         const referralsCount = document.getElementById('referralsCount');
         const totalEarned = document.getElementById('totalEarned');
         const referralBonus = document.getElementById('referralBonus');
         const withdrawBalance = document.getElementById('withdrawBalance');
-        const withdrawBalanceUSD = document.getElementById('withdrawBalanceUSD');
         const referralCode = document.getElementById('referralCode');
         const totalReferrals = document.getElementById('totalReferrals');
         const totalReferralsCount = document.getElementById('totalReferralsCount');
@@ -5418,8 +5476,8 @@
                     // Task 3 - Show AdsGram task ad
                     await userManager.showAdsGramTaskAd3();
                 } else if (task.id === 'task4') {
-                    // Task 4 - Show regular AdsGram ad (keeping as is)
-                    await userManager.showAdsGramTaskAd3(); // Using same method as fallback
+                    // Task 4 - Show AdsGram interstitial ad
+                    await userManager.showAdsGramInterstitialAd();
                 } else if (task.id === 'task5') {
                     // Task 5 - Show AdsGram task ad
                     await userManager.showAdsGramTaskAd5();

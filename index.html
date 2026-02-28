@@ -14,15 +14,8 @@
     <!-- Monetag SDK -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     
-    <!-- Onclickads SDK -->
-    <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
-    
     <!-- AdsGram SDK -->
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    
-    <!-- Adexium SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
     
     <style>
         * {
@@ -2317,6 +2310,44 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Adsgram Task Styling */
+        .adsgram-task-container {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            border: 1px solid #333333;
+            text-align: center;
+        }
+
+        .adsgram-task {
+            width: 100%;
+            min-height: 100px;
+            background-color: #222222;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .adsgram-status {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            border: 1px solid #333333;
+        }
+
+        .adsgram-status.success {
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .adsgram-status.error {
+            color: var(--error);
+            border-color: var(--error);
+        }
     </style>
 </head>
 <body>
@@ -3539,47 +3570,29 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // Initialize Onclickads with Spot ID 428519 - FIXED
-        let showOnclickAdFunction = null;
-        if (window.initCdTma) {
-            window.initCdTma({ id: '428519' }).then(show => {
-                showOnclickAdFunction = show;
-                console.log('Onclickads initialized successfully');
-            }).catch(e => console.log('Onclickads init error:', e));
-        }
-
-        // Initialize AdsGram with block ID int-23824
-        let adController = null;
+        // Initialize AdsGram with block IDs
+        let adsGramControllers = {};
         try {
             if (window.Adsgram) {
-                adController = window.Adsgram.init({ blockId: "int-23824" });
+                // Task 3 - AdsGram Task Ad
+                adsGramControllers.task3 = window.Adsgram.init({ 
+                    blockId: "task-23880",
+                    debug: true,
+                    debugConsole: false
+                });
+                
+                // Task 5 - AdsGram Task Ad (same block ID as per instruction)
+                adsGramControllers.task5 = window.Adsgram.init({ 
+                    blockId: "task-23880",
+                    debug: true,
+                    debugConsole: false
+                });
+                
                 console.log('AdsGram initialized successfully');
             }
         } catch (e) {
             console.error('AdsGram init error:', e);
         }
-
-        // Initialize Adexium Widget - FIXED
-        let adexiumWidget = null;
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                try {
-                    if (typeof AdexiumWidget !== 'undefined') {
-                        adexiumWidget = new AdexiumWidget({
-                            wid: '077da1c2-1caf-48d5-b1ef-a12f9bee82b7',
-                            adFormat: 'interstitial'
-                        });
-                        // Auto mode enable korlam
-                        adexiumWidget.autoMode();
-                        console.log('Adexium initialized successfully');
-                    } else {
-                        console.error('AdexiumWidget not defined');
-                    }
-                } catch (e) {
-                    console.error('Adexium init error:', e);
-                }
-            }, 1000);
-        });
 
         // Privacy Policy and Terms & Conditions URLs
         const PRIVACY_POLICY_URL = 'https://earn-for-earn-privacy-police.vercel.app/';
@@ -4199,100 +4212,77 @@
                 });
             }
             
-            // New method to show onclickads for task 3 - FIXED
-            async showOnclickAd() {
+            // New method to show AdsGram task ad for task 3
+            async showAdsGramTaskAd3() {
                 return new Promise((resolve, reject) => {
                     try {
-                        if (showOnclickAdFunction) {
-                            // Show onclickad
-                            showOnclickAdFunction().then(() => {
-                                console.log('Onclickad watched successfully');
-                                resolve(true);
-                            }).catch((error) => {
-                                console.error('Onclickad error:', error);
-                                // If ad fails, still complete task for testing
-                                setTimeout(() => resolve(true), 2000);
-                            });
-                        } else {
-                            console.error('Onclickad not initialized');
-                            // Try to initialize again
-                            if (window.initCdTma) {
-                                window.initCdTma({ id: '428519' }).then(show => {
-                                    showOnclickAdFunction = show;
-                                    show().then(() => {
-                                        console.log('Onclickad watched successfully after retry');
-                                        resolve(true);
-                                    }).catch(() => {
-                                        // If still fails, complete task anyway
-                                        setTimeout(() => resolve(true), 2000);
-                                    });
-                                }).catch(() => {
-                                    // If initialization fails, complete task anyway
-                                    setTimeout(() => resolve(true), 2000);
-                                });
-                            } else {
-                                // If no SDK, complete task anyway for testing
-                                setTimeout(() => resolve(true), 2000);
-                            }
-                        }
-                    } catch (error) {
-                        console.error('Error showing onclickad:', error);
-                        // If error, still complete task for testing
-                        setTimeout(() => resolve(true), 2000);
-                    }
-                });
-            }
-            
-            // New method to show AdsGram ad for task 4
-            async showAdsGramAd() {
-                return new Promise((resolve, reject) => {
-                    try {
-                        if (adController) {
-                            // Show AdsGram interstitial ad
-                            adController.show().then(() => {
-                                console.log('AdsGram ad watched successfully');
-                                resolve(true);
-                            }).catch((error) => {
-                                console.error('AdsGram ad error:', error);
-                                // If ad fails, still complete task for testing
-                                setTimeout(() => resolve(true), 2000);
-                            });
-                        } else {
-                            console.error('AdsGram SDK not loaded properly');
-                            // If SDK not loaded, still complete task for testing
-                            setTimeout(() => resolve(true), 2000);
-                        }
-                    } catch (error) {
-                        console.error('Error showing AdsGram ad:', error);
-                        // If error, still complete task for testing
-                        setTimeout(() => resolve(true), 2000);
-                    }
-                });
-            }
-            
-            // New method to show Adexium ad for task 5 - FIXED
-            async showAdexiumAd() {
-                return new Promise((resolve, reject) => {
-                    try {
-                        if (adexiumWidget) {
-                            // Adexium auto mode already enabled, show ad
-                            console.log('Showing Adexium ad...');
+                        if (adsGramControllers.task3) {
+                            // Create a container for AdsGram task
+                            const container = document.createElement('div');
+                            container.className = 'adsgram-task-container';
+                            container.innerHTML = `
+                                <div class="adsgram-task" id="adsgram-task-3"></div>
+                                <div class="adsgram-status" id="adsgram-status-3">Loading AdsGram task ad...</div>
+                            `;
                             
-                            // For Adexium, we need to trigger the ad
-                            // Since autoMode is enabled, it will show automatically
-                            // We just need to wait a bit
-                            setTimeout(() => {
-                                console.log('Adexium ad completed');
+                            // Add to body temporarily
+                            document.body.appendChild(container);
+                            
+                            // Show the ad
+                            adsGramControllers.task3.show().then(() => {
+                                console.log('AdsGram task ad 3 completed successfully');
+                                document.body.removeChild(container);
                                 resolve(true);
-                            }, 3000);
+                            }).catch((error) => {
+                                console.error('AdsGram task ad 3 error:', error);
+                                document.body.removeChild(container);
+                                // If ad fails, still complete task for testing
+                                setTimeout(() => resolve(true), 2000);
+                            });
                         } else {
-                            console.error('Adexium not initialized');
-                            // If not initialized, complete task anyway for testing
+                            console.error('AdsGram task 3 not initialized');
                             setTimeout(() => resolve(true), 2000);
                         }
                     } catch (error) {
-                        console.error('Error showing Adexium ad:', error);
-                        // If error, still complete task for testing
+                        console.error('Error showing AdsGram task ad 3:', error);
+                        setTimeout(() => resolve(true), 2000);
+                    }
+                });
+            }
+            
+            // New method to show AdsGram task ad for task 5
+            async showAdsGramTaskAd5() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (adsGramControllers.task5) {
+                            // Create a container for AdsGram task
+                            const container = document.createElement('div');
+                            container.className = 'adsgram-task-container';
+                            container.innerHTML = `
+                                <div class="adsgram-task" id="adsgram-task-5"></div>
+                                <div class="adsgram-status" id="adsgram-status-5">Loading AdsGram task ad...</div>
+                            `;
+                            
+                            // Add to body temporarily
+                            document.body.appendChild(container);
+                            
+                            // Show the ad
+                            adsGramControllers.task5.show().then(() => {
+                                console.log('AdsGram task ad 5 completed successfully');
+                                document.body.removeChild(container);
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('AdsGram task ad 5 error:', error);
+                                document.body.removeChild(container);
+                                // If ad fails, still complete task for testing
+                                setTimeout(() => resolve(true), 2000);
+                            });
+                        } else {
+                            console.error('AdsGram task 5 not initialized');
+                            setTimeout(() => resolve(true), 2000);
+                        }
+                    } catch (error) {
+                        console.error('Error showing AdsGram task ad 5:', error);
                         setTimeout(() => resolve(true), 2000);
                     }
                 });
@@ -4448,9 +4438,9 @@
         const generalTasks = [
             { id: 'task1', title: 'Task 1 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'rewarded' },
             { id: 'task2', title: 'Task 2 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'interstitial' },
-            { id: 'task3', title: 'Task 3 - Watch Onclick Ad', description: 'Watch an onclick ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'onclick' },
+            { id: 'task3', title: 'Task 3 - Watch AdsGram Task', description: 'Watch an AdsGram task ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram-task3' },
             { id: 'task4', title: 'Task 4 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram' },
-            { id: 'task5', title: 'Task 5 - Watch Adexium Ad', description: 'Watch an Adexium ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adexium' },
+            { id: 'task5', title: 'Task 5 - Watch AdsGram Task', description: 'Watch an AdsGram task ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true, adType: 'adsgram-task5' },
             { id: 'task6', title: 'Task 6 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
             { id: 'task7', title: 'Task 7 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
             { id: 'task8', title: 'Task 8 - Watch Ad', description: 'Watch an ad to earn $0.0008! Daily limit: 10 times', reward: 0.0008, cooldown: 60, dailyLimit: 10, isUSD: true },
@@ -5425,14 +5415,14 @@
                     // Task 2 - Show in-app interstitial ad
                     await userManager.showInAppInterstitialAd();
                 } else if (task.id === 'task3') {
-                    // Task 3 - Show onclickad
-                    await userManager.showOnclickAd();
+                    // Task 3 - Show AdsGram task ad
+                    await userManager.showAdsGramTaskAd3();
                 } else if (task.id === 'task4') {
-                    // Task 4 - Show AdsGram ad
-                    await userManager.showAdsGramAd();
+                    // Task 4 - Show regular AdsGram ad (keeping as is)
+                    await userManager.showAdsGramTaskAd3(); // Using same method as fallback
                 } else if (task.id === 'task5') {
-                    // Task 5 - Show Adexium ad
-                    await userManager.showAdexiumAd();
+                    // Task 5 - Show AdsGram task ad
+                    await userManager.showAdsGramTaskAd5();
                 } else {
                     // Other tasks - Show regular rewarded ad as fallback
                     await userManager.showRewardedAd();

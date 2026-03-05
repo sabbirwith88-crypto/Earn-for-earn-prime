@@ -20,6 +20,9 @@
     <!-- Adexora SDK - For Task 7 and Task 9 -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     
+    <!-- TMA Ads SDK - For Task 5 and Task 6 -->
+    <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -2308,6 +2311,48 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* Game Sort by Reward - Higher rewards on top */
+        .game-task-container {
+            transition: all 0.3s ease;
+        }
+        
+        /* Weekly Reset Banner */
+        .weekly-reset-banner {
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .reset-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .reset-info i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .reset-text {
+            font-size: 0.9rem;
+            color: white;
+        }
+        
+        .reset-timer {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            border-radius: 50px;
+        }
     </style>
 </head>
 <body>
@@ -2576,7 +2621,16 @@
                         <h2 style="font-size: 1.3rem; color: white;">Game Tasks</h2>
                     </div>
                     
-                    <!-- Game Task Container 1 - Green Road: Car Racing -->
+                    <!-- Weekly Reset Banner -->
+                    <div class="weekly-reset-banner" id="weeklyResetBanner">
+                        <div class="reset-info">
+                            <i class="fas fa-sync-alt"></i>
+                            <span class="reset-text">Game Tasks Reset Every Friday</span>
+                        </div>
+                        <div class="reset-timer" id="weeklyResetTimer">Loading...</div>
+                    </div>
+                    
+                    <!-- Game Task Container 1 - Green Road: Car Racing ($1.200) - HIGHEST REWARD -->
                     <div class="game-task-container" id="gameTaskContainer1">
                         <div class="task-card" id="gameTaskCard1">
                             <div class="task-image" id="gameTaskImage1">
@@ -2589,7 +2643,7 @@
                             </div>
                             
                             <div class="task-description">
-                                Play the game, complete the challenge and submit the verification code.
+                                Play the game, complete 100 levels and submit the verification code.
                             </div>
                             
                             <div class="game-install-info">
@@ -2599,7 +2653,7 @@
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Complete the challenge and get the verification code</span>
+                                    <span>Step 2: Complete 100 levels and get the verification code</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-code"></i>
@@ -2632,30 +2686,30 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) -->
-                    <div class="game-task-container" id="gameTaskContainer2">
-                        <div class="task-card" id="gameTaskCard2">
-                            <div class="task-image" id="gameTaskImage2">
-                                <i class="fas fa-basketball-ball" style="font-size: 3rem; color: var(--ball-game);"></i>
+                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($1.200) - HIGHEST REWARD -->
+                    <div class="game-task-container" id="gameTaskContainer6">
+                        <div class="task-card" id="gameTaskCard6">
+                            <div class="task-image" id="gameTaskImage6">
+                                <i class="fas fa-skull" style="font-size: 3rem; color: var(--zombie);"></i>
                             </div>
                             
                             <div class="task-header">
-                                <div class="task-title">Lunch The Ball Game</div>
-                                <div class="task-reward ball">0.100</div>
+                                <div class="task-title">Zombie Road</div>
+                                <div class="task-reward zombie">1.200</div>
                             </div>
                             
                             <div class="task-description">
-                                Play the game, complete Level 18 and submit the verification code.
+                                Play the game, achieve 80,000 score and submit the verification code.
                             </div>
                             
                             <div class="game-install-info">
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 1: Play Lunch The Ball Game from the link below</span>
+                                    <span>Step 1: Play Zombie Road from the link below</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Complete Level 18 and get the verification code</span>
+                                    <span>Step 2: Achieve 80,000 score and get the verification code</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-code"></i>
@@ -2670,25 +2724,25 @@
                                 </div>
                             </div>
                             
-                            <button class="task-button ball" id="playGameBtn2">
+                            <button class="task-button zombie" id="playGameBtn6">
                                 <i class="fas fa-gamepad"></i> Play Game
                             </button>
                             
                             <div class="code-submit-section">
                                 <label class="form-label">Enter Verification Code</label>
                                 <div class="code-input-group">
-                                    <input type="text" id="gameCodeInput2" class="code-input" placeholder="Enter code">
-                                    <button class="submit-code-btn" id="submitGameCodeBtn2">Submit</button>
+                                    <input type="text" id="gameCodeInput6" class="code-input" placeholder="Enter code">
+                                    <button class="submit-code-btn" id="submitGameCodeBtn6">Submit</button>
                                 </div>
-                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after completing Level 18</div>
+                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after achieving 80,000 score</div>
                             </div>
                             
-                            <div id="gameTaskStatus2" class="task-status pending" style="display: none;"></div>
-                            <div class="task-progress" id="gameTaskProgress2">Status: Ready to start</div>
+                            <div id="gameTaskStatus6" class="task-status pending" style="display: none;"></div>
+                            <div class="task-progress" id="gameTaskProgress6">Status: Ready to start</div>
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 3 - All Sort Puzzle (Level 70) -->
+                    <!-- Game Task Container 3 - All Sort Puzzle (Level 70) ($0.500) - MEDIUM REWARD -->
                     <div class="game-task-container" id="gameTaskContainer3">
                         <div class="task-card" id="gameTaskCard3">
                             <div class="task-image" id="gameTaskImage3">
@@ -2744,7 +2798,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 4 - Block Blast (Level 50) -->
+                    <!-- Game Task Container 4 - Block Blast (Level 50) ($0.300) - MEDIUM REWARD -->
                     <div class="game-task-container" id="gameTaskContainer4">
                         <div class="task-card" id="gameTaskCard4">
                             <div class="task-image" id="gameTaskImage4">
@@ -2800,7 +2854,63 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 5 - SOS Game (AI Hard) -->
+                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.100) - LOWER REWARD -->
+                    <div class="game-task-container" id="gameTaskContainer2">
+                        <div class="task-card" id="gameTaskCard2">
+                            <div class="task-image" id="gameTaskImage2">
+                                <i class="fas fa-basketball-ball" style="font-size: 3rem; color: var(--ball-game);"></i>
+                            </div>
+                            
+                            <div class="task-header">
+                                <div class="task-title">Lunch The Ball Game</div>
+                                <div class="task-reward ball">0.100</div>
+                            </div>
+                            
+                            <div class="task-description">
+                                Play the game, complete Level 18 and submit the verification code.
+                            </div>
+                            
+                            <div class="game-install-info">
+                                <div class="game-step">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Step 1: Play Lunch The Ball Game from the link below</span>
+                                </div>
+                                <div class="game-step">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Step 2: Complete Level 18 and get the verification code</span>
+                                </div>
+                                <div class="game-step">
+                                    <i class="fas fa-code"></i>
+                                    <span>Step 3: Enter the verification code and submit</span>
+                                </div>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div class="warning-text">
+                                    <strong>⚠️ WARNING:</strong> Fake codes will result in <strong>PERMANENT BAN</strong>. No cheating allowed!
+                                </div>
+                            </div>
+                            
+                            <button class="task-button ball" id="playGameBtn2">
+                                <i class="fas fa-gamepad"></i> Play Game
+                            </button>
+                            
+                            <div class="code-submit-section">
+                                <label class="form-label">Enter Verification Code</label>
+                                <div class="code-input-group">
+                                    <input type="text" id="gameCodeInput2" class="code-input" placeholder="Enter code">
+                                    <button class="submit-code-btn" id="submitGameCodeBtn2">Submit</button>
+                                </div>
+                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after completing Level 18</div>
+                            </div>
+                            
+                            <div id="gameTaskStatus2" class="task-status pending" style="display: none;"></div>
+                            <div class="task-progress" id="gameTaskProgress2">Status: Ready to start</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Task Container 5 - SOS Game (AI Hard) ($0.040) - LOWER REWARD -->
                     <div class="game-task-container" id="gameTaskContainer5">
                         <div class="task-card" id="gameTaskCard5">
                             <div class="task-image" id="gameTaskImage5">
@@ -2853,62 +2963,6 @@
                             
                             <div id="gameTaskStatus5" class="task-status pending" style="display: none;"></div>
                             <div class="task-progress" id="gameTaskProgress5">Status: Ready to start</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) -->
-                    <div class="game-task-container" id="gameTaskContainer6">
-                        <div class="task-card" id="gameTaskCard6">
-                            <div class="task-image" id="gameTaskImage6">
-                                <i class="fas fa-skull" style="font-size: 3rem; color: var(--zombie);"></i>
-                            </div>
-                            
-                            <div class="task-header">
-                                <div class="task-title">Zombie Road</div>
-                                <div class="task-reward zombie">1.200</div>
-                            </div>
-                            
-                            <div class="task-description">
-                                Play the game, achieve 80,000 score and submit the verification code.
-                            </div>
-                            
-                            <div class="game-install-info">
-                                <div class="game-step">
-                                    <i class="fas fa-gamepad"></i>
-                                    <span>Step 1: Play Zombie Road from the link below</span>
-                                </div>
-                                <div class="game-step">
-                                    <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Achieve 80,000 score and get the verification code</span>
-                                </div>
-                                <div class="game-step">
-                                    <i class="fas fa-code"></i>
-                                    <span>Step 3: Enter the verification code and submit</span>
-                                </div>
-                            </div>
-                            
-                            <div class="warning-box">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <div class="warning-text">
-                                    <strong>⚠️ WARNING:</strong> Fake codes will result in <strong>PERMANENT BAN</strong>. No cheating allowed!
-                                </div>
-                            </div>
-                            
-                            <button class="task-button zombie" id="playGameBtn6">
-                                <i class="fas fa-gamepad"></i> Play Game
-                            </button>
-                            
-                            <div class="code-submit-section">
-                                <label class="form-label">Enter Verification Code</label>
-                                <div class="code-input-group">
-                                    <input type="text" id="gameCodeInput6" class="code-input" placeholder="Enter code">
-                                    <button class="submit-code-btn" id="submitGameCodeBtn6">Submit</button>
-                                </div>
-                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after achieving 80,000 score</div>
-                            </div>
-                            
-                            <div id="gameTaskStatus6" class="task-status pending" style="display: none;"></div>
-                            <div class="task-progress" id="gameTaskProgress6">Status: Ready to start</div>
                         </div>
                     </div>
                     
@@ -3186,14 +3240,15 @@
                                 <p><strong>Direct USD Earnings:</strong> All rewards are in USD with 3 decimal precision</p>
                                 <p><strong>General Task Reward:</strong> $0.0008 per task (20 attempts per task, 200 total daily)</p>
                                 <p><strong>Game Task Rewards:</strong></p>
-                                <p>- Green Road: $1.200</p>
-                                <p>- Lunch The Ball (Level 18): $0.100</p>
-                                <p>- All Sort (Level 70): $0.500</p>
-                                <p>- Block Blast (Level 50): $0.300</p>
-                                <p>- SOS Game (AI Hard): $0.040</p>
-                                <p>- Zombie Road (80,000 score): $1.200</p>
+                                <p>- Green Road: $1.200 (Complete 100 levels)</p>
+                                <p>- Zombie Road: $1.200 (80,000 score)</p>
+                                <p>- All Sort: $0.500 (Level 70)</p>
+                                <p>- Block Blast: $0.300 (Level 50)</p>
+                                <p>- Lunch The Ball: $0.100 (Level 18)</p>
+                                <p>- SOS Game: $0.040 (AI Hard)</p>
                                 <p><strong>Referral Bonus:</strong> $0.200 per referral</p>
                                 <p><strong>Withdrawal Method:</strong> Binance only</p>
+                                <p><strong>Game Reset:</strong> Every Friday at 00:00 UTC</p>
                                 <p><strong>Next Payment Window:</strong> <span id="infoNextPayment">Loading...</span></p>
                             </div>
                         </div>
@@ -3208,7 +3263,7 @@
                                 <p>2. <strong>Fake Game Codes:</strong> Submitting fake verification codes will result in immediate permanent ban.</p>
                                 <p>3. <strong>Age Requirement:</strong> You must be at least 18 years old to use this app and withdraw.</p>
                                 <p>4. <strong>Fair Use:</strong> Complete tasks honestly. Don't use VPNs or fake information.</p>
-                                <p>5. <strong>Task Limits:</strong> General tasks: 20 attempts each, 200 total per day. Game tasks: 1 per game per day.</p>
+                                <p>5. <strong>Task Limits:</strong> General tasks: 20 attempts each, 200 total per day. Game tasks: 1 per game per day, reset every Friday.</p>
                                 <p>6. <strong>One Account:</strong> Only one account per person is allowed.</p>
                                 <p>7. <strong>Monthly Withdrawals:</strong> You can withdraw once per month during 3rd-9th payment period.</p>
                                 <p>8. <strong>Payment Processing:</strong> All withdrawals are processed between 3rd-9th of each month.</p>
@@ -3413,6 +3468,58 @@
             </div>
         </div>
         
+        <!-- Sequential Unlock Modal for Task 3 and Task 8 -->
+        <div class="modal" id="sequentialUnlockModal">
+            <div class="modal-content" style="max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                <div class="modal-title">
+                    <i class="fas fa-lock" style="color: var(--orange); margin-right: 10px;"></i>
+                    4-Step Unlock (120 seconds)
+                </div>
+                <div class="modal-message" id="sequentialUnlockMessage">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="font-size: 3rem; font-weight: bold; color: var(--orange);" id="seqTimerDisplay">120</div>
+                        <div style="color: var(--text-secondary);">Seconds remaining</div>
+                    </div>
+                    
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 20px 0;">
+                        <div class="seq-link-box" id="seqLink1" style="flex: 1 1 150px; background: #1a1a1a; border-radius: 60px; padding: 20px; text-align: center; border: 2px solid #333; opacity: 1; cursor: pointer;">
+                            <i class="fas fa-link" style="font-size: 2rem; display: block; margin-bottom: 10px; color: var(--purple);"></i>
+                            <span style="font-weight: bold;">LINK 1</span>
+                            <div id="seqDone1" style="display: none; background: var(--success); color: white; padding: 5px; border-radius: 50px; margin-top: 10px;">✅ DONE</div>
+                        </div>
+                        <div class="seq-link-box" id="seqLink2" style="flex: 1 1 150px; background: #1a1a1a; border-radius: 60px; padding: 20px; text-align: center; border: 2px solid #333; opacity: 0.5; cursor: not-allowed;">
+                            <i class="fas fa-lock" style="font-size: 2rem; display: block; margin-bottom: 10px; color: #666;"></i>
+                            <span style="font-weight: bold;">LINK 2</span>
+                            <div id="seqDone2" style="display: none; background: var(--success); color: white; padding: 5px; border-radius: 50px; margin-top: 10px;">✅ DONE</div>
+                        </div>
+                        <div class="seq-link-box" id="seqLink3" style="flex: 1 1 150px; background: #1a1a1a; border-radius: 60px; padding: 20px; text-align: center; border: 2px solid #333; opacity: 0.5; cursor: not-allowed;">
+                            <i class="fas fa-lock" style="font-size: 2rem; display: block; margin-bottom: 10px; color: #666;"></i>
+                            <span style="font-weight: bold;">LINK 3</span>
+                            <div id="seqDone3" style="display: none; background: var(--success); color: white; padding: 5px; border-radius: 50px; margin-top: 10px;">✅ DONE</div>
+                        </div>
+                        <div class="seq-link-box" id="seqLink4" style="flex: 1 1 150px; background: #1a1a1a; border-radius: 60px; padding: 20px; text-align: center; border: 2px solid #333; opacity: 0.5; cursor: not-allowed;">
+                            <i class="fas fa-lock" style="font-size: 2rem; display: block; margin-bottom: 10px; color: #666;"></i>
+                            <span style="font-weight: bold;">LINK 4</span>
+                            <div id="seqDone4" style="display: none; background: var(--success); color: white; padding: 5px; border-radius: 50px; margin-top: 10px;">✅ DONE</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 20px 0;" id="seqRewardBox" style="opacity: 0.4;">
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--gold);">$0.002</div>
+                        <div style="color: var(--text-secondary);">REWARD (click to claim)</div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="modal-btn secondary" id="seqCloseBtn">Close</button>
+                    </div>
+                    
+                    <div style="margin-top: 15px; font-size: 0.85rem; color: var(--warning); text-align: center;">
+                        ⚠️ You must complete all 4 links within 120 seconds. Early exit = reject.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Simple Visit Website Modal (No timer, no reward) -->
         <div class="modal" id="visitWebsiteModal">
             <div class="modal-content">
@@ -3429,6 +3536,32 @@
                             <i class="fas fa-external-link-alt"></i> Open Link
                         </button>
                         <button class="visit-btn cancel" id="visitCancelBtn" style="width:100%; margin-top:10px; padding:14px; background-color:#222222; color:white; border:1px solid #333333; border-radius:10px; font-weight:600; cursor:pointer;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TMA Ad Modal for Task 5 and Task 6 -->
+        <div class="modal" id="tmaAdModal">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <i class="fas fa-play-circle" style="color: var(--purple); margin-right: 10px;"></i>
+                    Watch Ad to Earn
+                </div>
+                <div class="modal-message" style="text-align: center;">
+                    <div style="margin: 20px 0;">
+                        <i class="fas fa-ad" style="font-size: 4rem; color: var(--purple);"></i>
+                    </div>
+                    <p>Watch this ad to earn <strong>$0.0008</strong></p>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">The ad will open in a new window. Complete it to get reward.</p>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="modal-btn primary" id="playTmaAdBtn">
+                            <i class="fas fa-play"></i> Watch Ad Now
+                        </button>
+                        <button class="modal-btn secondary" id="cancelTmaAdBtn" style="margin-top: 10px;">
                             <i class="fas fa-times"></i> Cancel
                         </button>
                     </div>
@@ -3490,6 +3623,9 @@
     </div>
     
     <script>
+        // TMA Ads initialization
+        window.initCdTma?.({ id: '428696' }).then(show => window.tmaShow = show).catch(e => console.log(e));
+
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCAlQL5txzjUagN9A5L0Idki9sjAezOczk",
@@ -3510,13 +3646,29 @@
         // Initialize AdsGram with block ID int-23824
         const adController = window.Adsgram ? window.Adsgram.init({ blockId: "int-23824" }) : null;
 
-        // Adexora is loaded via script tag - no initialization needed
+        // Game Bot Links
+        const GAME_LINKS = {
+            game1: 'https://t.me/greenroad_bot',
+            game2: 'https://t.me/lunchtheball_bot',
+            game3: 'https://t.me/allsortpuzzle_bot',
+            game4: 'https://t.me/Boxblastpro_bot',
+            game5: 'https://t.me/sosgameultra_bot',
+            game6: 'https://t.me/zombieroad_bot'
+        };
+
+        // Sequential Unlock Links (Task 3 and Task 8)
+        const SEQUENTIAL_LINKS = {
+            1: 'https://www.effectivegatecpm.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d',
+            2: 'https://ukuleqasforsalesre.com?hTTVD=1246757',
+            3: 'https://omg10.com/4/10686606',
+            4: 'https://www.effectivegatecpm.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d'
+        };
 
         // Privacy Policy and Terms & Conditions URLs
         const PRIVACY_POLICY_URL = 'https://earn-for-earn-privacy-police.vercel.app/';
         const TERMS_CONDITIONS_URL = 'https://earn-for-earn-terms-condition.vercel.app/';
 
-        // Task 3 URL
+        // Task 3 URL (fallback)
         const TASK3_URL = 'https://www.effectivegatecpm.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d';
 
         // Loading Progress Management
@@ -3599,6 +3751,7 @@
                 };
                 this.gameTaskSubmissions = {};
                 this.lastResetDate = localStorage.getItem('earnUSDLastResetDate') || new Date().toDateString();
+                this.lastWeeklyReset = localStorage.getItem('lastWeeklyReset') || new Date().toDateString();
                 this.cooldownTimers = {};
                 
                 try {
@@ -3609,12 +3762,26 @@
                 } catch(e) { console.error('Error loading saved data:', e); }
                 
                 this.checkAndResetDailyCounts();
+                this.checkAndResetWeeklyGames();
             }
             
             checkAndResetDailyCounts() {
                 const today = new Date().toDateString();
                 if (today !== this.lastResetDate) {
                     this.dailyTaskCounts = {};
+                    localStorage.setItem('earnUSDLastResetDate', today);
+                    localStorage.setItem('earnUSDDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
+                }
+            }
+            
+            checkAndResetWeeklyGames() {
+                const now = new Date();
+                const dayOfWeek = now.getDay(); // 0 = Sunday, 5 = Friday
+                const lastReset = new Date(this.lastWeeklyReset);
+                
+                // Check if it's Friday (day 5) and last reset was before today
+                if (dayOfWeek === 5 && lastReset.toDateString() !== now.toDateString()) {
+                    // Reset all game tasks
                     this.gameTasksSubmitted = {
                         game1: false,
                         game2: false,
@@ -3623,9 +3790,32 @@
                         game5: false,
                         game6: false
                     };
-                    localStorage.setItem('earnUSDLastResetDate', today);
-                    localStorage.setItem('earnUSDDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
+                    this.lastWeeklyReset = now.toDateString();
+                    localStorage.setItem('lastWeeklyReset', this.lastWeeklyReset);
+                    
+                    // Also reset in Firebase if user is logged in
+                    if (this.currentUser) {
+                        database.ref('users/' + this.currentUser.uid).update({
+                            gameTasksSubmitted: this.gameTasksSubmitted
+                        });
+                    }
                 }
+            }
+            
+            getTimeUntilWeeklyReset() {
+                const now = new Date();
+                const dayOfWeek = now.getDay();
+                const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+                if (daysUntilFriday === 0 && dayOfWeek === 5) {
+                    // It's Friday, check if we've passed reset time (midnight UTC)
+                    const utcHours = now.getUTCHours();
+                    if (utcHours === 0) {
+                        return 0; // Just reset
+                    }
+                    // Otherwise reset is next Friday
+                    return 7 * 24 * 60 * 60 * 1000;
+                }
+                return daysUntilFriday * 24 * 60 * 60 * 1000;
             }
             
             async loadDailyCountsFromFirebase(userId) {
@@ -3848,7 +4038,10 @@
                     
                     await this.loadDailyCountsFromFirebase(user.uid);
                     
-                    // Set gameTasksSubmitted from userData
+                    // Check weekly reset
+                    this.checkAndResetWeeklyGames();
+                    
+                    // Set gameTasksSubmitted from userData with weekly reset applied
                     this.gameTasksSubmitted = userData.gameTasksSubmitted || {
                         game1: false,
                         game2: false,
@@ -3971,15 +4164,13 @@
                     const userData = await this.getUserData(userId);
                     if (!userData) return { success: false, message: 'User not found' };
                     
-                    // Check if already submitted today for this game
-                    const today = new Date().toDateString();
-                    const gameTasks = userData.gameTasks || [];
-                    const todaySubmissions = gameTasks.filter(t => 
-                        t.gameType === gameType && new Date(t.submittedAt).toDateString() === today
-                    );
+                    // Check weekly reset
+                    this.checkAndResetWeeklyGames();
                     
-                    if (todaySubmissions.length >= 1) {
-                        return { success: false, message: 'You can only submit this game task once per day!' };
+                    // Check if already submitted for this week
+                    if (this.gameTasksSubmitted[gameType] || 
+                        (userData.gameTasksSubmitted && userData.gameTasksSubmitted[gameType])) {
+                        return { success: false, message: 'You can only submit this game task once per week! Resets every Friday.' };
                     }
                     
                     // Simple validation - code should not be empty
@@ -3988,16 +4179,16 @@
                     }
                     
                     const rewards = {
-                        game1: 1.20, // Green Road
-                        game2: 0.10,  // Lunch The Ball
-                        game3: 0.50,  // All Sort
-                        game4: 0.30,  // Block Blast
+                        game1: 1.20, // Green Road (100 levels)
+                        game2: 0.10,  // Lunch The Ball (Level 18)
+                        game3: 0.50,  // All Sort (Level 70)
+                        game4: 0.30,  // Block Blast (Level 50)
                         game5: 0.04,   // SOS Game (AI Hard)
-                        game6: 1.20  // Zombie Road
+                        game6: 1.20  // Zombie Road (80,000 Score)
                     };
                     
                     const gameNames = {
-                        game1: 'Green Road: Car Racing',
+                        game1: 'Green Road: Car Racing (100 levels)',
                         game2: 'Lunch The Ball Game (Level 18)',
                         game3: 'All Sort - Puzzle Game (Level 70)',
                         game4: 'Block Blast (Level 50)',
@@ -4028,6 +4219,7 @@
                     await database.ref('users/' + userId + '/gameTasks/' + taskId).set(gameTask);
                     
                     // Update user's game tasks array
+                    const gameTasks = userData.gameTasks || [];
                     const updatedGameTasks = [...gameTasks, gameTask];
                     
                     // Update gameTasksSubmitted status
@@ -4109,16 +4301,14 @@
                 });
             }
             
-            // New method for task 3 and task 8 - Just open link, no reward
-            async openTaskLink() {
+            // New method for task 3 and task 8 - Sequential unlock
+            async showSequentialUnlock() {
                 return new Promise((resolve, reject) => {
                     try {
-                        // Open the link in a new tab
-                        window.open(TASK3_URL, '_blank');
-                        console.log('Task link opened successfully');
-                        resolve(true);
+                        // Show sequential unlock modal
+                        showSequentialUnlockModal(resolve, reject);
                     } catch (error) {
-                        console.error('Error opening task link:', error);
+                        console.error('Error showing sequential unlock:', error);
                         reject(error);
                     }
                 });
@@ -4143,6 +4333,37 @@
                         }
                     } catch (error) {
                         console.error('Error showing AdsGram ad:', error);
+                        reject(error);
+                    }
+                });
+            }
+            
+            // New method to show TMA ad for task 5 and task 6
+            async showTmaAd() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (window.tmaShow) {
+                            // Show TMA ad
+                            window.tmaShow().then(() => {
+                                console.log('TMA ad watched successfully');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('TMA ad error:', error);
+                                reject(error);
+                            });
+                        } else {
+                            console.error('TMA SDK not loaded properly');
+                            // Initialize and try again
+                            window.initCdTma?.({ id: '428696' }).then(show => {
+                                window.tmaShow = show;
+                                show().then(() => {
+                                    console.log('TMA ad watched successfully');
+                                    resolve(true);
+                                }).catch(reject);
+                            }).catch(reject);
+                        }
+                    } catch (error) {
+                        console.error('Error showing TMA ad:', error);
                         reject(error);
                     }
                 });
@@ -4294,6 +4515,7 @@
             
             // Check if game task is submitted for specific game
             isGameTaskSubmitted(gameType) {
+                this.checkAndResetWeeklyGames();
                 return this.gameTasksSubmitted[gameType] || 
                        (this.userData && this.userData.gameTasksSubmitted && this.userData.gameTasksSubmitted[gameType]) || 
                        false;
@@ -4322,12 +4544,12 @@
         const generalTasks = [
             { id: 'task1', title: 'Task 1 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
             { id: 'task2', title: 'Task 2 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
-            { id: 'task3', title: 'Task 3 - Visit Website (Support)', description: 'Just for support, please visit the website. No reward. Daily limit: 20 times', reward: 0, cooldown: 60, dailyLimit: 20, isUSD: false, adType: 'visit' },
+            { id: 'task3', title: 'Task 3 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
             { id: 'task4', title: 'Task 4 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adsgram' },
-            { id: 'task5', title: 'Task 5 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
-            { id: 'task6', title: 'Task 6 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
+            { id: 'task5', title: 'Task 5 - Watch TMA Ad', description: 'Watch a TMA ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'tma' },
+            { id: 'task6', title: 'Task 6 - Watch TMA Ad', description: 'Watch a TMA ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'tma' },
             { id: 'task7', title: 'Task 7 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
-            { id: 'task8', title: 'Task 8 - Visit Website (Support)', description: 'Just for support, please visit the website. No reward. Daily limit: 20 times', reward: 0, cooldown: 60, dailyLimit: 20, isUSD: false, adType: 'visit' },
+            { id: 'task8', title: 'Task 8 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
             { id: 'task9', title: 'Task 9 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
             { id: 'task10', title: 'Task 10 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adsgram' }
         ];
@@ -4373,6 +4595,7 @@
         const zeroShareReferralBtn = document.getElementById('zeroShareReferralBtn');
         const generalTaskLimitInfo = document.getElementById('generalTaskLimitInfo');
         const resetTime = document.getElementById('resetTime');
+        const weeklyResetTimer = document.getElementById('weeklyResetTimer');
         const generalTasksContainer = document.getElementById('generalTasksContainer');
         const privacyPolicyBtn = document.getElementById('privacyPolicyBtn');
         const termsConditionsBtn = document.getElementById('termsConditionsBtn');
@@ -4480,7 +4703,8 @@
         const referralBonusModal = document.getElementById('referralBonusModal');
         const chatModal = document.getElementById('chatModal');
         const timerWarningModal = document.getElementById('timerWarningModal');
-        const visitWebsiteModal = document.getElementById('visitWebsiteModal');
+        const sequentialUnlockModal = document.getElementById('sequentialUnlockModal');
+        const tmaAdModal = document.getElementById('tmaAdModal');
         const changePasswordModal = document.getElementById('changePasswordModal');
         const cooldownModal = document.getElementById('cooldownModal');
         const successModalMessage = document.getElementById('successModalMessage');
@@ -4498,8 +4722,19 @@
         const referralBonusOkBtn = document.getElementById('referralBonusOkBtn');
         const timerOkBtn = document.getElementById('timerOkBtn');
         const timerCancelBtn = document.getElementById('timerCancelBtn');
-        const visitOpenLinkBtn = document.getElementById('visitOpenLinkBtn');
-        const visitCancelBtn = document.getElementById('visitCancelBtn');
+        const seqLink1 = document.getElementById('seqLink1');
+        const seqLink2 = document.getElementById('seqLink2');
+        const seqLink3 = document.getElementById('seqLink3');
+        const seqLink4 = document.getElementById('seqLink4');
+        const seqDone1 = document.getElementById('seqDone1');
+        const seqDone2 = document.getElementById('seqDone2');
+        const seqDone3 = document.getElementById('seqDone3');
+        const seqDone4 = document.getElementById('seqDone4');
+        const seqTimerDisplay = document.getElementById('seqTimerDisplay');
+        const seqCloseBtn = document.getElementById('seqCloseBtn');
+        const seqRewardBox = document.getElementById('seqRewardBox');
+        const playTmaAdBtn = document.getElementById('playTmaAdBtn');
+        const cancelTmaAdBtn = document.getElementById('cancelTmaAdBtn');
         const startChatBtn = document.getElementById('startChatBtn');
         const cancelChatBtn = document.getElementById('cancelChatBtn');
         const changePasswordBtn = document.getElementById('changePassword');
@@ -4521,6 +4756,16 @@
         let taskCompleted = false;
         let cooldownTimerInterval = null;
         let selectedWithdrawMethod = 'binance'; // Default to binance since it's the only option
+        
+        // Sequential Unlock variables
+        let seqUnlockedLevel = 1;
+        let seqWaitingForLink = null;
+        let seqTimeLeft = 120;
+        let seqTimerInterval = null;
+        let seqRewardUnlocked = false;
+        let seqLinkDone = {1: false, 2: false, 3: false, 4: false};
+        let seqResolve = null;
+        let seqReject = null;
         
         function showLoading(msg = 'Loading...') { loadingText.textContent = msg; loadingSpinner.classList.add('active'); }
         function hideLoading() { loadingSpinner.classList.remove('active'); }
@@ -4621,14 +4866,15 @@
         function updateGameTaskStatus(userData) {
             if (!userData) return;
             
-            const today = new Date().toDateString();
+            // Check weekly reset
+            userManager.checkAndResetWeeklyGames();
+            
+            // Sort game containers by reward (already sorted in HTML)
             
             // Update Game 1 status (Green Road)
             const isGame1Submitted = userManager.isGameTaskSubmitted('game1');
-            const game1Tasks = (userData.gameTasks || []).filter(t => t.gameType === 'game1');
-            const game1Today = game1Tasks.filter(t => new Date(t.submittedAt).toDateString() === today);
             
-            if (isGame1Submitted || game1Today.length >= 1) {
+            if (isGame1Submitted) {
                 gameTaskContainer1.style.display = 'none';
             } else {
                 gameTaskContainer1.style.display = 'block';
@@ -4642,10 +4888,8 @@
             
             // Update Game 2 status (Lunch The Ball)
             const isGame2Submitted = userManager.isGameTaskSubmitted('game2');
-            const game2Tasks = (userData.gameTasks || []).filter(t => t.gameType === 'game2');
-            const game2Today = game2Tasks.filter(t => new Date(t.submittedAt).toDateString() === today);
             
-            if (isGame2Submitted || game2Today.length >= 1) {
+            if (isGame2Submitted) {
                 gameTaskContainer2.style.display = 'none';
             } else {
                 gameTaskContainer2.style.display = 'block';
@@ -4659,10 +4903,8 @@
             
             // Update Game 3 status (All Sort)
             const isGame3Submitted = userManager.isGameTaskSubmitted('game3');
-            const game3Tasks = (userData.gameTasks || []).filter(t => t.gameType === 'game3');
-            const game3Today = game3Tasks.filter(t => new Date(t.submittedAt).toDateString() === today);
             
-            if (isGame3Submitted || game3Today.length >= 1) {
+            if (isGame3Submitted) {
                 gameTaskContainer3.style.display = 'none';
             } else {
                 gameTaskContainer3.style.display = 'block';
@@ -4676,10 +4918,8 @@
             
             // Update Game 4 status (Block Blast)
             const isGame4Submitted = userManager.isGameTaskSubmitted('game4');
-            const game4Tasks = (userData.gameTasks || []).filter(t => t.gameType === 'game4');
-            const game4Today = game4Tasks.filter(t => new Date(t.submittedAt).toDateString() === today);
             
-            if (isGame4Submitted || game4Today.length >= 1) {
+            if (isGame4Submitted) {
                 gameTaskContainer4.style.display = 'none';
             } else {
                 gameTaskContainer4.style.display = 'block';
@@ -4693,10 +4933,8 @@
             
             // Update Game 5 status (SOS Game)
             const isGame5Submitted = userManager.isGameTaskSubmitted('game5');
-            const game5Tasks = (userData.gameTasks || []).filter(t => t.gameType === 'game5');
-            const game5Today = game5Tasks.filter(t => new Date(t.submittedAt).toDateString() === today);
             
-            if (isGame5Submitted || game5Today.length >= 1) {
+            if (isGame5Submitted) {
                 gameTaskContainer5.style.display = 'none';
             } else {
                 gameTaskContainer5.style.display = 'block';
@@ -4710,10 +4948,8 @@
             
             // Update Game 6 status (Zombie Road)
             const isGame6Submitted = userManager.isGameTaskSubmitted('game6');
-            const game6Tasks = (userData.gameTasks || []).filter(t => t.gameType === 'game6');
-            const game6Today = game6Tasks.filter(t => new Date(t.submittedAt).toDateString() === today);
             
-            if (isGame6Submitted || game6Today.length >= 1) {
+            if (isGame6Submitted) {
                 gameTaskContainer6.style.display = 'none';
             } else {
                 gameTaskContainer6.style.display = 'block';
@@ -4730,6 +4966,26 @@
             if (!userData) return;
             const nextWindow = userManager.getNextPaymentWindow();
             infoNextPayment.textContent = nextWindow.formatted;
+        }
+        
+        function updateWeeklyResetTimer() {
+            const timeUntilReset = userManager.getTimeUntilWeeklyReset();
+            if (timeUntilReset <= 0) {
+                weeklyResetTimer.textContent = 'Resetting now...';
+                return;
+            }
+            const days = Math.floor(timeUntilReset / (24 * 60 * 60 * 1000));
+            const hours = Math.floor((timeUntilReset % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+            const minutes = Math.floor((timeUntilReset % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((timeUntilReset % (60 * 1000)) / 1000);
+            
+            if (days > 0) {
+                weeklyResetTimer.textContent = `${days}d ${hours}h`;
+            } else if (hours > 0) {
+                weeklyResetTimer.textContent = `${hours}h ${minutes}m`;
+            } else {
+                weeklyResetTimer.textContent = `${minutes}m ${seconds}s`;
+            }
         }
         
         async function initializeApp() { 
@@ -4787,6 +5043,7 @@
                                 }
                                 userManager.currentUser = user;
                                 userManager.userData = userData;
+                                userManager.checkAndResetWeeklyGames();
                                 userManager.gameTasksSubmitted = userData.gameTasksSubmitted || {
                                     game1: false,
                                     game2: false,
@@ -4831,13 +5088,16 @@
             
             // Setup game task listeners
             setupGameTaskListeners();
+            
+            // Start weekly reset timer update
+            setInterval(updateWeeklyResetTimer, 1000);
         }
         
         function setupGameTaskListeners() {
-            // Game 1 - Green Road
+            // Game 1 - Green Road (100 levels)
             if (playGameBtn1) {
                 playGameBtn1.addEventListener('click', function() {
-                    window.open('https://t.me/Ahmed97650', '_blank');
+                    window.open(GAME_LINKS.game1, '_blank');
                     showModal(warningModal, '⚠️ WARNING: Fake codes will result in PERMANENT BAN. No cheating allowed!');
                 });
             }
@@ -4878,7 +5138,7 @@
             // Game 2 - Lunch The Ball
             if (playGameBtn2) {
                 playGameBtn2.addEventListener('click', function() {
-                    window.open('https://t.me/Ahmed97650', '_blank');
+                    window.open(GAME_LINKS.game2, '_blank');
                     showModal(warningModal, '⚠️ WARNING: Fake codes will result in PERMANENT BAN. No cheating allowed!');
                 });
             }
@@ -4919,7 +5179,7 @@
             // Game 3 - All Sort
             if (playGameBtn3) {
                 playGameBtn3.addEventListener('click', function() {
-                    window.open('https://t.me/Ahmed97650', '_blank');
+                    window.open(GAME_LINKS.game3, '_blank');
                     showModal(warningModal, '⚠️ WARNING: Fake codes will result in PERMANENT BAN. No cheating allowed!');
                 });
             }
@@ -4960,7 +5220,7 @@
             // Game 4 - Block Blast
             if (playGameBtn4) {
                 playGameBtn4.addEventListener('click', function() {
-                    window.open('https://t.me/Ahmed97650', '_blank');
+                    window.open(GAME_LINKS.game4, '_blank');
                     showModal(warningModal, '⚠️ WARNING: Fake codes will result in PERMANENT BAN. No cheating allowed!');
                 });
             }
@@ -5001,7 +5261,7 @@
             // Game 5 - SOS Game (AI Hard)
             if (playGameBtn5) {
                 playGameBtn5.addEventListener('click', function() {
-                    window.open('https://t.me/Ahmed97650', '_blank');
+                    window.open(GAME_LINKS.game5, '_blank');
                     showModal(warningModal, '⚠️ WARNING: Fake codes will result in PERMANENT BAN. No cheating allowed!');
                 });
             }
@@ -5042,7 +5302,7 @@
             // Game 6 - Zombie Road
             if (playGameBtn6) {
                 playGameBtn6.addEventListener('click', function() {
-                    window.open('https://t.me/Ahmed97650', '_blank');
+                    window.open(GAME_LINKS.game6, '_blank');
                     showModal(warningModal, '⚠️ WARNING: Fake codes will result in PERMANENT BAN. No cheating allowed!');
                 });
             }
@@ -5228,34 +5488,187 @@
             }, 1000);
         }
         
-        // Visit Website Function - No reward, just open link
-        function startVisitTask(task) {
-            showModal(visitWebsiteModal);
-            currentVisitTask = task;
+        // Sequential Unlock Modal Functions
+        function showSequentialUnlockModal(resolve, reject) {
+            seqResolve = resolve;
+            seqReject = reject;
+            
+            // Reset state
+            seqUnlockedLevel = 1;
+            seqLinkDone = {1: false, 2: false, 3: false, 4: false};
+            seqRewardUnlocked = false;
+            seqTimeLeft = 120;
+            seqWaitingForLink = null;
+            
+            // Reset UI
+            seqLink1.style.opacity = '1';
+            seqLink1.style.cursor = 'pointer';
+            seqLink1.querySelector('i').className = 'fas fa-link';
+            seqDone1.style.display = 'none';
+            
+            seqLink2.style.opacity = '0.5';
+            seqLink2.style.cursor = 'not-allowed';
+            seqLink2.querySelector('i').className = 'fas fa-lock';
+            seqDone2.style.display = 'none';
+            
+            seqLink3.style.opacity = '0.5';
+            seqLink3.style.cursor = 'not-allowed';
+            seqLink3.querySelector('i').className = 'fas fa-lock';
+            seqDone3.style.display = 'none';
+            
+            seqLink4.style.opacity = '0.5';
+            seqLink4.style.cursor = 'not-allowed';
+            seqLink4.querySelector('i').className = 'fas fa-lock';
+            seqDone4.style.display = 'none';
+            
+            seqRewardBox.style.opacity = '0.4';
+            seqRewardBox.style.cursor = 'not-allowed';
+            
+            seqTimerDisplay.textContent = seqTimeLeft;
+            
+            // Show modal
+            sequentialUnlockModal.classList.add('active');
+            
+            // Start timer
+            if (seqTimerInterval) clearInterval(seqTimerInterval);
+            seqTimerInterval = setInterval(() => {
+                seqTimeLeft--;
+                seqTimerDisplay.textContent = seqTimeLeft;
+                
+                if (seqTimeLeft <= 0) {
+                    clearInterval(seqTimerInterval);
+                    seqTimerInterval = null;
+                    // Time's up - reject
+                    if (seqReject) {
+                        seqReject(new Error('Time expired'));
+                    }
+                    hideModal(sequentialUnlockModal);
+                }
+            }, 1000);
         }
         
-        function openVisitLink() {
-            // Open the link
-            window.open(TASK3_URL, '_blank');
+        function handleSeqLinkClick(linkNum) {
+            // If link is locked
+            if (linkNum > seqUnlockedLevel) {
+                alert('Complete previous links first!');
+                return;
+            }
             
-            hideModal(visitWebsiteModal);
+            // If link already done
+            if (seqLinkDone[linkNum]) {
+                window.open(SEQUENTIAL_LINKS[linkNum], '_blank');
+                return;
+            }
             
-            // Complete the task (counts as attempt but no reward)
-            completeVisitTask();
+            // If waiting for a different link (shouldn't happen, but just in case)
+            if (seqWaitingForLink !== null && seqWaitingForLink !== linkNum) {
+                // Reject previous
+                alert(`❌ REJECTED! Link ${seqWaitingForLink} (left early). No unlock.`);
+                clearInterval(seqTimerInterval);
+                if (seqReject) {
+                    seqReject(new Error('Left early'));
+                }
+                hideModal(sequentialUnlockModal);
+                return;
+            }
+            
+            // Open link
+            window.open(SEQUENTIAL_LINKS[linkNum], '_blank');
+            
+            // Mark as waiting
+            seqWaitingForLink = linkNum;
+            
+            // Set timeout to mark as done after 4 seconds
+            setTimeout(() => {
+                if (seqWaitingForLink === linkNum) {
+                    // Mark as done
+                    seqLinkDone[linkNum] = true;
+                    
+                    // Update UI
+                    if (linkNum === 1) {
+                        seqDone1.style.display = 'inline-block';
+                    } else if (linkNum === 2) {
+                        seqDone2.style.display = 'inline-block';
+                    } else if (linkNum === 3) {
+                        seqDone3.style.display = 'inline-block';
+                    } else if (linkNum === 4) {
+                        seqDone4.style.display = 'inline-block';
+                    }
+                    
+                    // Unlock next link
+                    if (linkNum < 4) {
+                        seqUnlockedLevel = linkNum + 1;
+                        if (linkNum === 1) {
+                            seqLink2.style.opacity = '1';
+                            seqLink2.style.cursor = 'pointer';
+                            seqLink2.querySelector('i').className = 'fas fa-link';
+                        } else if (linkNum === 2) {
+                            seqLink3.style.opacity = '1';
+                            seqLink3.style.cursor = 'pointer';
+                            seqLink3.querySelector('i').className = 'fas fa-link';
+                        } else if (linkNum === 3) {
+                            seqLink4.style.opacity = '1';
+                            seqLink4.style.cursor = 'pointer';
+                            seqLink4.querySelector('i').className = 'fas fa-link';
+                        }
+                    } else {
+                        // All links done - unlock reward
+                        seqRewardUnlocked = true;
+                        seqRewardBox.style.opacity = '1';
+                        seqRewardBox.style.cursor = 'pointer';
+                        
+                        // Stop timer
+                        clearInterval(seqTimerInterval);
+                        seqTimerInterval = null;
+                        
+                        // Show success message
+                        alert('✅ All 4 links completed! Click on reward to claim $0.002');
+                    }
+                    
+                    seqWaitingForLink = null;
+                }
+            }, 4000);
         }
         
-        async function completeVisitTask() {
-            const user = userManager.currentUser;
-            if (!user || !currentVisitTask) return;
+        function claimSeqReward() {
+            if (!seqRewardUnlocked) {
+                alert('Complete all 4 links first!');
+                return;
+            }
             
-            // Complete the task with 0 reward (just counts as an attempt)
-            await userManager.completeTask(user.uid, currentVisitTask.id, 0);
-            updateUserInfo(userManager.userData);
-            updateGeneralTaskStatuses();
+            // Resolve with success
+            if (seqResolve) {
+                seqResolve(true);
+            }
             
-            showModal(successModal, 'Thank you for your support!');
+            // Close modal
+            hideModal(sequentialUnlockModal);
+        }
+        
+        // TMA Ad Functions
+        function showTmaAdModal(task) {
+            currentTask = task;
+            tmaAdModal.classList.add('active');
+        }
+        
+        async function playTmaAd() {
+            tmaAdModal.classList.remove('active');
             
-            currentVisitTask = null;
+            try {
+                await userManager.showTmaAd();
+                
+                // Ad watched successfully, start 3 second timer
+                taskSecondsRemaining = 3;
+                warningTimerDisplay.textContent = taskSecondsRemaining;
+                showModal(timerWarningModal);
+            } catch (error) {
+                console.error('TMA ad failed:', error);
+                showModal(errorModal, 'Failed to load ad. Please try again.');
+                if (taskButtonElement) {
+                    taskButtonElement.disabled = false;
+                    taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                }
+            }
         }
         
         async function startGeneralTask(task) {
@@ -5279,40 +5692,59 @@
             const btn = document.getElementById(`start-task-${task.id}`);
             if (btn) btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
             
+            taskButtonElement = btn;
+            
             try {
-                if (task.adType === 'visit') {
-                    // Task 3 and Task 8 - Just open link, no reward
-                    currentVisitTask = task;
-                    startVisitTask(task);
+                if (task.adType === 'sequential') {
+                    // Task 3 and Task 8 - Sequential unlock (120 seconds, reward $0.002)
+                    await userManager.showSequentialUnlock();
                     
-                    if (btn) {
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                    }
-                } else {
-                    // Other tasks with ads
-                    if (task.id === 'task1' || task.id === 'task6') {
-                        // Task 1, 6 - Show rewarded interstitial ad (Monetag)
-                        await userManager.showRewardedAd();
-                    } else if (task.id === 'task2' || task.id === 'task5') {
-                        // Task 2, 5 - Show in-app interstitial ad (Monetag)
-                        await userManager.showInAppInterstitialAd();
-                    } else if (task.id === 'task4' || task.id === 'task10') {
-                        // Task 4, 10 - Show AdsGram ad
-                        await userManager.showAdsGramAd();
-                    } else if (task.id === 'task7' || task.id === 'task9') {
-                        // Task 7 and Task 9 - Show Adexora ad
-                        await userManager.showAdexoraAd();
-                    } else {
-                        // Fallback
-                        await userManager.showRewardedAd();
-                    }
+                    // Sequential unlock completed successfully, complete the task
+                    await userManager.completeTask(user.uid, task.id, task.reward);
+                    updateUserInfo(userManager.userData);
+                    updateGeneralTaskStatuses();
+                    showModal(successModal, `Task completed successfully! $${task.reward.toFixed(4)} has been added to your balance.`);
                     
-                    // User watched the ad, now start the task timer
-                    currentTask = task; 
-                    taskButtonElement = btn; 
+                    currentTask = null;
+                    taskButtonElement = null;
+                } else if (task.adType === 'tma') {
+                    // Task 5 and Task 6 - TMA ads
+                    showTmaAdModal(task);
+                } else if (task.adType === 'rewarded') {
+                    await userManager.showRewardedAd();
+                    // Start 3 second timer
+                    currentTask = task;
                     taskSecondsRemaining = 3;
-                    warningTimerDisplay.textContent = taskSecondsRemaining; 
+                    warningTimerDisplay.textContent = taskSecondsRemaining;
+                    showModal(timerWarningModal);
+                } else if (task.adType === 'interstitial') {
+                    await userManager.showInAppInterstitialAd();
+                    // Start 3 second timer
+                    currentTask = task;
+                    taskSecondsRemaining = 3;
+                    warningTimerDisplay.textContent = taskSecondsRemaining;
+                    showModal(timerWarningModal);
+                } else if (task.adType === 'adsgram') {
+                    await userManager.showAdsGramAd();
+                    // Start 3 second timer
+                    currentTask = task;
+                    taskSecondsRemaining = 3;
+                    warningTimerDisplay.textContent = taskSecondsRemaining;
+                    showModal(timerWarningModal);
+                } else if (task.adType === 'adexora') {
+                    await userManager.showAdexoraAd();
+                    // Start 3 second timer
+                    currentTask = task;
+                    taskSecondsRemaining = 3;
+                    warningTimerDisplay.textContent = taskSecondsRemaining;
+                    showModal(timerWarningModal);
+                } else {
+                    // Fallback
+                    await userManager.showRewardedAd();
+                    // Start 3 second timer
+                    currentTask = task;
+                    taskSecondsRemaining = 3;
+                    warningTimerDisplay.textContent = taskSecondsRemaining;
                     showModal(timerWarningModal);
                 }
             } catch (error) {
@@ -5543,24 +5975,26 @@
                 if (timerOkBtn) timerOkBtn.addEventListener('click', function() { hideModal(timerWarningModal); startTaskTimer(); });
                 if (timerCancelBtn) timerCancelBtn.addEventListener('click', function() { hideModal(timerWarningModal); if (taskButtonElement) { taskButtonElement.disabled=false; taskButtonElement.innerHTML='<i class="fas fa-play-circle"></i> Start Task'; currentTask=null; taskButtonElement=null; } });
                 
-                // Visit Website Modal buttons
-                if (visitOpenLinkBtn) {
-                    visitOpenLinkBtn.addEventListener('click', openVisitLink);
-                }
+                // Sequential Unlock Modal listeners
+                if (seqLink1) seqLink1.addEventListener('click', () => handleSeqLinkClick(1));
+                if (seqLink2) seqLink2.addEventListener('click', () => handleSeqLinkClick(2));
+                if (seqLink3) seqLink3.addEventListener('click', () => handleSeqLinkClick(3));
+                if (seqLink4) seqLink4.addEventListener('click', () => handleSeqLinkClick(4));
+                if (seqRewardBox) seqRewardBox.addEventListener('click', claimSeqReward);
+                if (seqCloseBtn) seqCloseBtn.addEventListener('click', function() { 
+                    if (seqTimerInterval) clearInterval(seqTimerInterval);
+                    hideModal(sequentialUnlockModal); 
+                });
                 
-                if (visitCancelBtn) {
-                    visitCancelBtn.addEventListener('click', function() {
-                        hideModal(visitWebsiteModal);
-                        if (currentVisitTask) {
-                            const btn = document.getElementById(`start-task-${currentVisitTask.id}`);
-                            if (btn) {
-                                btn.disabled = false;
-                                btn.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                            }
-                            currentVisitTask = null;
-                        }
-                    });
-                }
+                // TMA Ad Modal listeners
+                if (playTmaAdBtn) playTmaAdBtn.addEventListener('click', playTmaAd);
+                if (cancelTmaAdBtn) cancelTmaAdBtn.addEventListener('click', function() {
+                    tmaAdModal.classList.remove('active');
+                    if (taskButtonElement) {
+                        taskButtonElement.disabled = false;
+                        taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
+                    }
+                });
                 
                 // Withdrawal method - Only Binance now
                 if (binanceMethodCard) {
@@ -5620,7 +6054,7 @@
                     });
                 }
                 
-                [successModal, errorModal, warningModal, gameCodeSubmittedModal, referralBonusModal, chatModal, timerWarningModal, visitWebsiteModal, changePasswordModal, cooldownModal].forEach(m => { 
+                [successModal, errorModal, warningModal, gameCodeSubmittedModal, referralBonusModal, chatModal, timerWarningModal, sequentialUnlockModal, tmaAdModal, changePasswordModal, cooldownModal].forEach(m => { 
                     if (m) m.addEventListener('click', function(e) { if (e.target === this) hideModal(this); }); 
                 });
                 

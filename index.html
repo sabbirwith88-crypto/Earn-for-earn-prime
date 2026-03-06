@@ -21,6 +21,7 @@
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     
     <style>
+        /* Keep all your existing styles exactly as they are */
         * {
             margin: 0;
             padding: 0;
@@ -72,6 +73,7 @@
             --install-dark: #455A64;
         }
         
+        /* Rest of your CSS remains exactly the same */
         body {
             background-color: var(--bg-primary);
             color: var(--text-primary);
@@ -2336,13 +2338,13 @@
             transition: all 0.3s ease;
         }
         
-        /* Weekly Reset Banner */
+        /* Weekly Reset Banner - REMOVED as per requirement */
         .weekly-reset-banner {
             background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 20px;
-            display: flex;
+            display: none; /* HIDDEN */
             align-items: center;
             justify-content: space-between;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -2640,8 +2642,8 @@
                         <h2 style="font-size: 1.3rem; color: white;">Game Tasks</h2>
                     </div>
                     
-                    <!-- Weekly Reset Banner -->
-                    <div class="weekly-reset-banner" id="weeklyResetBanner">
+                    <!-- Weekly Reset Banner - REMOVED as per requirement (hidden via CSS) -->
+                    <div class="weekly-reset-banner" id="weeklyResetBanner" style="display: none;">
                         <div class="reset-info">
                             <i class="fas fa-sync-alt"></i>
                             <span class="reset-text">Game Tasks Reset Every Friday</span>
@@ -2774,7 +2776,7 @@
                             </div>
                             
                             <div class="task-description">
-                                Play the game, complete Level 70 and submit the verification code.
+                                Play the game, complete Level 100 and submit the verification code.
                             </div>
                             
                             <div class="game-install-info">
@@ -2784,7 +2786,7 @@
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Complete Level 70 and get the verification code</span>
+                                    <span>Step 2: Complete Level 100 and get the verification code</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-code"></i>
@@ -3328,7 +3330,6 @@
                                 <p>- Install App: $0.003 (Install app from ad)</p>
                                 <p><strong>Referral Bonus:</strong> $0.200 per referral</p>
                                 <p><strong>Withdrawal Method:</strong> Binance only</p>
-                                <p><strong>Game Reset:</strong> Every Friday at 00:00 UTC</p>
                                 <p><strong>Next Payment Window:</strong> <span id="infoNextPayment">Loading...</span></p>
                             </div>
                         </div>
@@ -3343,7 +3344,7 @@
                                 <p>2. <strong>Fake Game Codes:</strong> Submitting fake verification codes will result in immediate permanent ban.</p>
                                 <p>3. <strong>Age Requirement:</strong> You must be at least 18 years old to use this app and withdraw.</p>
                                 <p>4. <strong>Fair Use:</strong> Complete tasks honestly. Don't use VPNs or fake information.</p>
-                                <p>5. <strong>Task Limits:</strong> General tasks: 20 attempts each, 200 total per day. Game tasks: 1 per game per week, reset every Friday.</p>
+                                <p>5. <strong>Task Limits:</strong> General tasks: 20 attempts each, 200 total per day.</p>
                                 <p>6. <strong>One Account:</strong> Only one account per person is allowed.</p>
                                 <p>7. <strong>Monthly Withdrawals:</strong> You can withdraw once per month during 3rd-9th payment period.</p>
                                 <p>8. <strong>Payment Processing:</strong> All withdrawals are processed between 3rd-9th of each month.</p>
@@ -3786,26 +3787,25 @@
         }
         const loadingManager = new LoadingManager();
 
-        // FirebaseUserManager Class - Updated for USD with 3 decimal precision
+        // FirebaseUserManager Class - Updated for USD with 3 decimal precision and new game task logic
         class FirebaseUserManager {
             constructor() {
                 this.currentUser = null;
                 this.userData = null;
                 this.taskCompletions = {};
                 this.dailyTaskCounts = {};
-                this.gameTasksSubmitted = {
-                    game1: false, // Green Road
-                    game2: false, // Lunch The Ball
-                    game3: false, // All Sort
-                    game4: false, // Block Blast
-                    game5: false, // SOS Game (AI Hard)
-                    game6: false, // Zombie Road
-                    game7: false  // Install App & register 
+                // UPDATED: Track active submissions for each game
+                this.activeGameSubmissions = {
+                    game1: false,
+                    game2: false,
+                    game3: false,
+                    game4: false,
+                    game5: false,
+                    game6: false,
+                    game7: false
                 };
                 this.gameTaskSubmissions = {};
                 this.lastResetDate = localStorage.getItem('earnUSDLastResetDate') || new Date().toDateString();
-                this.lastWeeklyReset = localStorage.getItem('lastWeeklyReset') || new Date().toDateString();
-                this.cooldownTimers = {};
                 
                 try {
                     const savedCounts = localStorage.getItem('earnUSDDailyTaskCounts');
@@ -3815,7 +3815,6 @@
                 } catch(e) { console.error('Error loading saved data:', e); }
                 
                 this.checkAndResetDailyCounts();
-                this.checkAndResetWeeklyGames();
             }
             
             checkAndResetDailyCounts() {
@@ -3825,51 +3824,6 @@
                     localStorage.setItem('earnUSDLastResetDate', today);
                     localStorage.setItem('earnUSDDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
                 }
-            }
-            
-            checkAndResetWeeklyGames() {
-                const now = new Date();
-                const dayOfWeek = now.getDay(); // 0 = Sunday, 5 = Friday
-                const lastReset = new Date(this.lastWeeklyReset);
-                
-                // Check if it's Friday (day 5) and last reset was before today
-                if (dayOfWeek === 5 && lastReset.toDateString() !== now.toDateString()) {
-                    // Reset all game tasks
-                    this.gameTasksSubmitted = {
-                        game1: false,
-                        game2: false,
-                        game3: false,
-                        game4: false,
-                        game5: false,
-                        game6: false,
-                        game7: false
-                    };
-                    this.lastWeeklyReset = now.toDateString();
-                    localStorage.setItem('lastWeeklyReset', this.lastWeeklyReset);
-                    
-                    // Also reset in Firebase if user is logged in
-                    if (this.currentUser) {
-                        database.ref('users/' + this.currentUser.uid).update({
-                            gameTasksSubmitted: this.gameTasksSubmitted
-                        });
-                    }
-                }
-            }
-            
-            getTimeUntilWeeklyReset() {
-                const now = new Date();
-                const dayOfWeek = now.getDay();
-                const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
-                if (daysUntilFriday === 0 && dayOfWeek === 5) {
-                    // It's Friday, check if we've passed reset time (midnight UTC)
-                    const utcHours = now.getUTCHours();
-                    if (utcHours === 0) {
-                        return 0; // Just reset
-                    }
-                    // Otherwise reset is next Friday
-                    return 7 * 24 * 60 * 60 * 1000;
-                }
-                return daysUntilFriday * 24 * 60 * 60 * 1000;
             }
             
             async loadDailyCountsFromFirebase(userId) {
@@ -4010,7 +3964,8 @@
                         dailyTaskCounts: {},
                         lastActive: new Date().toISOString(),
                         lastWithdrawalMonth: null,
-                        gameTasksSubmitted: {
+                        // UPDATED: Track active submissions instead of submitted status
+                        activeGameSubmissions: {
                             game1: false,
                             game2: false,
                             game3: false,
@@ -4078,9 +4033,9 @@
                         await database.ref('users/' + user.uid).update({ gameTasks: [] });
                     }
                     
-                    // Check if gameTasksSubmitted exists in userData
-                    if (!userData.gameTasksSubmitted) {
-                        userData.gameTasksSubmitted = {
+                    // UPDATED: Check if activeGameSubmissions exists in userData
+                    if (!userData.activeGameSubmissions) {
+                        userData.activeGameSubmissions = {
                             game1: false,
                             game2: false,
                             game3: false,
@@ -4089,16 +4044,13 @@
                             game6: false,
                             game7: false
                         };
-                        await database.ref('users/' + user.uid).update({ gameTasksSubmitted: userData.gameTasksSubmitted });
+                        await database.ref('users/' + user.uid).update({ activeGameSubmissions: userData.activeGameSubmissions });
                     }
                     
                     await this.loadDailyCountsFromFirebase(user.uid);
                     
-                    // Check weekly reset
-                    this.checkAndResetWeeklyGames();
-                    
-                    // Set gameTasksSubmitted from userData with weekly reset applied
-                    this.gameTasksSubmitted = userData.gameTasksSubmitted || {
+                    // UPDATED: Set activeGameSubmissions from userData
+                    this.activeGameSubmissions = userData.activeGameSubmissions || {
                         game1: false,
                         game2: false,
                         game3: false,
@@ -4117,7 +4069,7 @@
                             createdAt: new Date().toISOString(), fairUseVerified: false, withdrawalHistory: [],
                             tasksCompleted: [], gameTasks: [], dailyTaskCounts: {},
                             lastActive: new Date().toISOString(), lastWithdrawalMonth: null,
-                            gameTasksSubmitted: {
+                            activeGameSubmissions: {
                                 game1: false,
                                 game2: false,
                                 game3: false,
@@ -4217,18 +4169,16 @@
                 }
             }
             
+            // UPDATED: Submit game task - now hides task immediately and sets active submission
             async submitGameTask(userId, gameCode, gameType) {
                 try {
                     const userData = await this.getUserData(userId);
                     if (!userData) return { success: false, message: 'User not found' };
                     
-                    // Check weekly reset
-                    this.checkAndResetWeeklyGames();
-                    
-                    // Check if already submitted for this week
-                    if (this.gameTasksSubmitted[gameType] || 
-                        (userData.gameTasksSubmitted && userData.gameTasksSubmitted[gameType])) {
-                        return { success: false, message: 'You can only submit this game task once per week! Resets every Friday.' };
+                    // Check if there's already an active submission for this game
+                    if (this.activeGameSubmissions[gameType] || 
+                        (userData.activeGameSubmissions && userData.activeGameSubmissions[gameType])) {
+                        return { success: false, message: 'You already have a pending submission for this game. Wait for admin approval or rejection.' };
                     }
                     
                     // Simple validation - code should not be empty
@@ -4282,23 +4232,67 @@
                     const gameTasks = userData.gameTasks || [];
                     const updatedGameTasks = [...gameTasks, gameTask];
                     
-                    // Update gameTasksSubmitted status
-                    const updatedGameTasksSubmitted = { ...userData.gameTasksSubmitted };
-                    updatedGameTasksSubmitted[gameType] = true;
+                    // UPDATED: Update activeGameSubmissions status (set to true)
+                    const updatedActiveGameSubmissions = { ...userData.activeGameSubmissions };
+                    updatedActiveGameSubmissions[gameType] = true;
                     
                     await database.ref('users/' + userId).update({ 
                         gameTasks: updatedGameTasks,
-                        gameTasksSubmitted: updatedGameTasksSubmitted
+                        activeGameSubmissions: updatedActiveGameSubmissions
                     });
                     
                     this.userData.gameTasks = updatedGameTasks;
-                    this.userData.gameTasksSubmitted = updatedGameTasksSubmitted;
-                    this.gameTasksSubmitted = updatedGameTasksSubmitted;
+                    this.userData.activeGameSubmissions = updatedActiveGameSubmissions;
+                    this.activeGameSubmissions = updatedActiveGameSubmissions;
                     
                     return { success: true, message: 'Game code submitted for verification!', taskId };
                 } catch (error) {
                     console.error('Error submitting game task:', error);
                     return { success: false, message: error.message };
+                }
+            }
+            
+            // UPDATED: Listen for game task status changes (to be called periodically)
+            async listenForGameTaskUpdates(userId) {
+                try {
+                    // Listen for changes in gameTasks
+                    database.ref('users/' + userId + '/gameTasks').on('value', (snapshot) => {
+                        const gameTasks = snapshot.val() || [];
+                        const userData = this.userData;
+                        
+                        if (!userData) return;
+                        
+                        // Check for any game tasks that were rejected or approved
+                        const activeSubmissions = { ...userData.activeGameSubmissions };
+                        
+                        // Reset active submissions based on latest game tasks
+                        Object.keys(activeSubmissions).forEach(gameType => {
+                            const pendingTasks = gameTasks.filter(t => 
+                                t.gameType === gameType && t.status === 'pending'
+                            );
+                            
+                            if (pendingTasks.length === 0) {
+                                // No pending tasks for this game type, so it's available
+                                activeSubmissions[gameType] = false;
+                            }
+                        });
+                        
+                        // Update if changed
+                        if (JSON.stringify(activeSubmissions) !== JSON.stringify(userData.activeGameSubmissions)) {
+                            userData.activeGameSubmissions = activeSubmissions;
+                            this.activeGameSubmissions = activeSubmissions;
+                            
+                            // Update in Firebase
+                            database.ref('users/' + userId).update({ activeGameSubmissions: activeSubmissions });
+                            
+                            // Refresh UI
+                            if (typeof updateGameTaskStatus === 'function') {
+                                updateGameTaskStatus(userData);
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error listening for game task updates:', error);
                 }
             }
             
@@ -4542,11 +4536,10 @@
                 } catch (error) { console.error('Error getting user by referral code:', error); return null; }
             }
             
-            // Check if game task is submitted for specific game
-            isGameTaskSubmitted(gameType) {
-                this.checkAndResetWeeklyGames();
-                return this.gameTasksSubmitted[gameType] || 
-                       (this.userData && this.userData.gameTasksSubmitted && this.userData.gameTasksSubmitted[gameType]) || 
+            // UPDATED: Check if game task has active submission
+            hasActiveGameSubmission(gameType) {
+                return this.activeGameSubmissions[gameType] || 
+                       (this.userData && this.userData.activeGameSubmissions && this.userData.activeGameSubmissions[gameType]) || 
                        false;
             }
             
@@ -4895,18 +4888,14 @@
             });
         }
         
+        // UPDATED: Update game task status based on active submissions
         function updateGameTaskStatus(userData) {
             if (!userData) return;
             
-            // Check weekly reset
-            userManager.checkAndResetWeeklyGames();
-            
-            // Sort game containers by reward (already sorted in HTML)
-            
             // Update Game 1 status (Green Road)
-            const isGame1Submitted = userManager.isGameTaskSubmitted('game1');
+            const hasActiveGame1 = userManager.hasActiveGameSubmission('game1');
             
-            if (isGame1Submitted) {
+            if (hasActiveGame1) {
                 gameTaskContainer1.style.display = 'none';
             } else {
                 gameTaskContainer1.style.display = 'block';
@@ -4919,9 +4908,9 @@
             }
             
             // Update Game 2 status (Lunch The Ball)
-            const isGame2Submitted = userManager.isGameTaskSubmitted('game2');
+            const hasActiveGame2 = userManager.hasActiveGameSubmission('game2');
             
-            if (isGame2Submitted) {
+            if (hasActiveGame2) {
                 gameTaskContainer2.style.display = 'none';
             } else {
                 gameTaskContainer2.style.display = 'block';
@@ -4934,9 +4923,9 @@
             }
             
             // Update Game 3 status (All Sort)
-            const isGame3Submitted = userManager.isGameTaskSubmitted('game3');
+            const hasActiveGame3 = userManager.hasActiveGameSubmission('game3');
             
-            if (isGame3Submitted) {
+            if (hasActiveGame3) {
                 gameTaskContainer3.style.display = 'none';
             } else {
                 gameTaskContainer3.style.display = 'block';
@@ -4949,9 +4938,9 @@
             }
             
             // Update Game 4 status (Block Blast)
-            const isGame4Submitted = userManager.isGameTaskSubmitted('game4');
+            const hasActiveGame4 = userManager.hasActiveGameSubmission('game4');
             
-            if (isGame4Submitted) {
+            if (hasActiveGame4) {
                 gameTaskContainer4.style.display = 'none';
             } else {
                 gameTaskContainer4.style.display = 'block';
@@ -4964,9 +4953,9 @@
             }
             
             // Update Game 5 status (SOS Game)
-            const isGame5Submitted = userManager.isGameTaskSubmitted('game5');
+            const hasActiveGame5 = userManager.hasActiveGameSubmission('game5');
             
-            if (isGame5Submitted) {
+            if (hasActiveGame5) {
                 gameTaskContainer5.style.display = 'none';
             } else {
                 gameTaskContainer5.style.display = 'block';
@@ -4979,9 +4968,9 @@
             }
             
             // Update Game 6 status (Zombie Road)
-            const isGame6Submitted = userManager.isGameTaskSubmitted('game6');
+            const hasActiveGame6 = userManager.hasActiveGameSubmission('game6');
             
-            if (isGame6Submitted) {
+            if (hasActiveGame6) {
                 gameTaskContainer6.style.display = 'none';
             } else {
                 gameTaskContainer6.style.display = 'block';
@@ -4994,9 +4983,9 @@
             }
             
             // Update Game 7 status (Install App)
-            const isGame7Submitted = userManager.isGameTaskSubmitted('game7');
+            const hasActiveGame7 = userManager.hasActiveGameSubmission('game7');
             
-            if (isGame7Submitted) {
+            if (hasActiveGame7) {
                 gameTaskContainer7.style.display = 'none';
             } else {
                 gameTaskContainer7.style.display = 'block';
@@ -5016,23 +5005,8 @@
         }
         
         function updateWeeklyResetTimer() {
-            const timeUntilReset = userManager.getTimeUntilWeeklyReset();
-            if (timeUntilReset <= 0) {
-                weeklyResetTimer.textContent = 'Resetting now...';
-                return;
-            }
-            const days = Math.floor(timeUntilReset / (24 * 60 * 60 * 1000));
-            const hours = Math.floor((timeUntilReset % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-            const minutes = Math.floor((timeUntilReset % (60 * 60 * 1000)) / (60 * 1000));
-            const seconds = Math.floor((timeUntilReset % (60 * 1000)) / 1000);
-            
-            if (days > 0) {
-                weeklyResetTimer.textContent = `${days}d ${hours}h`;
-            } else if (hours > 0) {
-                weeklyResetTimer.textContent = `${hours}h ${minutes}m`;
-            } else {
-                weeklyResetTimer.textContent = `${minutes}m ${seconds}s`;
-            }
+            // REMOVED: Weekly reset timer no longer needed
+            weeklyResetTimer.textContent = 'Resets after admin approval/rejection';
         }
         
         async function initializeApp() { 
@@ -5076,7 +5050,7 @@
                                         dailyTaskCounts: {},
                                         lastActive: new Date().toISOString(), 
                                         lastWithdrawalMonth:null,
-                                        gameTasksSubmitted: {
+                                        activeGameSubmissions: {
                                             game1: false,
                                             game2: false,
                                             game3: false,
@@ -5091,8 +5065,7 @@
                                 }
                                 userManager.currentUser = user;
                                 userManager.userData = userData;
-                                userManager.checkAndResetWeeklyGames();
-                                userManager.gameTasksSubmitted = userData.gameTasksSubmitted || {
+                                userManager.activeGameSubmissions = userData.activeGameSubmissions || {
                                     game1: false,
                                     game2: false,
                                     game3: false,
@@ -5103,6 +5076,9 @@
                                 };
                                 
                                 await userManager.loadDailyCountsFromFirebase(user.uid);
+                                
+                                // UPDATED: Start listening for game task updates
+                                userManager.listenForGameTaskUpdates(user.uid);
                                 
                                 await loadingManager.animateProgress(100); await loadingManager.completeStep(4);
                                 setTimeout(() => { loadingManager.hide(); setTimeout(() => { showMainApp(user, userData); }, 300); }, 800);
@@ -5138,7 +5114,7 @@
             // Setup game task listeners
             setupGameTaskListeners();
             
-            // Start weekly reset timer update
+            // Start weekly reset timer update (removed)
             setInterval(updateWeeklyResetTimer, 1000);
         }
         

@@ -2985,7 +2985,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 7 - NEW: Install App Task ($0.003) -->
+                    <!-- Game Task Container 7 - NEW: Install App & register  Task ($0.02 ) -->
                     <div class="game-task-container" id="gameTaskContainer7">
                         <div class="task-card" id="gameTaskCard7">
                             <div class="task-image" id="gameTaskImage7">
@@ -2993,18 +2993,18 @@
                             </div>
                             
                             <div class="task-header">
-                                <div class="task-title">Install App & Earn</div>
-                                <div class="task-reward install">0.003</div>
+                                <div class="task-title">Install App & register</div>
+                                <div class="task-reward install">0.02</div>
                             </div>
                             
                             <div class="task-description">
-                                Install the app and submit the app name to earn $0.003!
+                                Install the app & register and submit the app name to earn $0.02!
                             </div>
                             
                             <div class="game-install-info">
                                 <div class="game-step">
                                     <i class="fas fa-link"></i>
-                                    <span>Step 1: Click the link below and wait 5 seconds</span>
+                                    <span>Step 1: Click the link below and Open With Corme</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-ad"></i>
@@ -3012,11 +3012,11 @@
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-download"></i>
-                                    <span>Step 3: Download and install the app from the ad</span>
+                                    <span>Step 3: Download And Register the app from the ad</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-pen"></i>
-                                    <span>Step 4: Enter the name of the app you installed and submit</span>
+                                    <span>Step 4: Enter Your Registered Username Or Eamil </span>
                                 </div>
                             </div>
                             
@@ -3032,7 +3032,7 @@
                             </button>
                             
                             <div class="code-submit-section">
-                                <label class="form-label">Enter Installed App Name</label>
+                                <label class="form-label">Enter User Name or </label>
                                 <div class="code-input-group">
                                     <input type="text" id="gameCodeInput7" class="code-input" placeholder="Enter app name">
                                     <button class="submit-code-btn" id="submitGameCodeBtn7">Submit</button>
@@ -3800,7 +3800,7 @@
                     game4: false, // Block Blast
                     game5: false, // SOS Game (AI Hard)
                     game6: false, // Zombie Road
-                    game7: false  // Install App
+                    game7: false  // Install App & register 
                 };
                 this.gameTaskSubmissions = {};
                 this.lastResetDate = localStorage.getItem('earnUSDLastResetDate') || new Date().toDateString();
@@ -4243,7 +4243,7 @@
                         game4: 0.30,  // Block Blast (Level 50)
                         game5: 0.04,   // SOS Game (AI Hard)
                         game6: 1.20,  // Zombie Road (80,000 Score)
-                        game7: 0.003  // Install App
+                        game7: 0.02  // Install App & register 
                     };
                     
                     const gameNames = {
@@ -4253,7 +4253,7 @@
                         game4: 'Block Blast (Level 50)',
                         game5: 'SOS Game - AI Hard',
                         game6: 'Zombie Road (80,000 Score)',
-                        game7: 'Install App'
+                        game7: 'Install App & register'
                     };
                     
                     const reward = rewards[gameType];

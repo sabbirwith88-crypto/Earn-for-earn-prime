@@ -20,9 +20,6 @@
     <!-- Adexora SDK - For Task 7 and Task 9 -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     
-    <!-- TMA Ads SDK - For Task 5 and Task 6 -->
-    <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
-    
     <style>
         * {
             margin: 0;
@@ -71,6 +68,8 @@
             --privacy-dark: #00838F;
             --terms: #FFA726;
             --terms-dark: #F57C00;
+            --install: #607D8B;
+            --install-dark: #455A64;
         }
         
         body {
@@ -914,6 +913,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        .task-reward.install {
+            background: linear-gradient(135deg, var(--install), var(--install-dark));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
         .task-description {
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -1080,6 +1085,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        .task-button.install {
+            background: linear-gradient(135deg, var(--install), var(--install-dark));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
         .task-button.completed {
             background-color: var(--success);
             color: white;
@@ -1143,6 +1154,10 @@
         
         .task-button.payoneer:hover:not(:disabled):not(.completed) {
             background: linear-gradient(135deg, var(--payoneer-dark), var(--payoneer));
+        }
+        
+        .task-button.install:hover:not(:disabled):not(.completed) {
+            background: linear-gradient(135deg, var(--install-dark), var(--install));
         }
         
         .task-button:disabled {
@@ -2217,6 +2232,10 @@
             background: linear-gradient(135deg, var(--zombie), var(--zombie-dark));
         }
         
+        .game-icon.install {
+            background: linear-gradient(135deg, var(--install), var(--install-dark));
+        }
+        
         .game-name {
             font-size: 0.95rem;
             font-weight: 600;
@@ -2686,30 +2705,30 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($1.200) - HIGHEST REWARD -->
-                    <div class="game-task-container" id="gameTaskContainer6">
-                        <div class="task-card" id="gameTaskCard6">
-                            <div class="task-image" id="gameTaskImage6">
-                                <i class="fas fa-skull" style="font-size: 3rem; color: var(--zombie);"></i>
+                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.100) - LOWER REWARD -->
+                    <div class="game-task-container" id="gameTaskContainer2">
+                        <div class="task-card" id="gameTaskCard2">
+                            <div class="task-image" id="gameTaskImage2">
+                                <i class="fas fa-basketball-ball" style="font-size: 3rem; color: var(--ball-game);"></i>
                             </div>
                             
                             <div class="task-header">
-                                <div class="task-title">Zombie Road</div>
-                                <div class="task-reward zombie">1.200</div>
+                                <div class="task-title">Lunch The Ball Game</div>
+                                <div class="task-reward ball">0.100</div>
                             </div>
                             
                             <div class="task-description">
-                                Play the game, achieve 80,000 score and submit the verification code.
+                                Play the game, complete Level 18 and submit the verification code.
                             </div>
                             
                             <div class="game-install-info">
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 1: Play Zombie Road from the link below</span>
+                                    <span>Step 1: Play Lunch The Ball Game from the link below</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Achieve 80,000 score and get the verification code</span>
+                                    <span>Step 2: Complete Level 18 and get the verification code</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-code"></i>
@@ -2724,21 +2743,21 @@
                                 </div>
                             </div>
                             
-                            <button class="task-button zombie" id="playGameBtn6">
+                            <button class="task-button ball" id="playGameBtn2">
                                 <i class="fas fa-gamepad"></i> Play Game
                             </button>
                             
                             <div class="code-submit-section">
                                 <label class="form-label">Enter Verification Code</label>
                                 <div class="code-input-group">
-                                    <input type="text" id="gameCodeInput6" class="code-input" placeholder="Enter code">
-                                    <button class="submit-code-btn" id="submitGameCodeBtn6">Submit</button>
+                                    <input type="text" id="gameCodeInput2" class="code-input" placeholder="Enter code">
+                                    <button class="submit-code-btn" id="submitGameCodeBtn2">Submit</button>
                                 </div>
-                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after achieving 80,000 score</div>
+                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after completing Level 18</div>
                             </div>
                             
-                            <div id="gameTaskStatus6" class="task-status pending" style="display: none;"></div>
-                            <div class="task-progress" id="gameTaskProgress6">Status: Ready to start</div>
+                            <div id="gameTaskStatus2" class="task-status pending" style="display: none;"></div>
+                            <div class="task-progress" id="gameTaskProgress2">Status: Ready to start</div>
                         </div>
                     </div>
                     
@@ -2854,62 +2873,6 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.100) - LOWER REWARD -->
-                    <div class="game-task-container" id="gameTaskContainer2">
-                        <div class="task-card" id="gameTaskCard2">
-                            <div class="task-image" id="gameTaskImage2">
-                                <i class="fas fa-basketball-ball" style="font-size: 3rem; color: var(--ball-game);"></i>
-                            </div>
-                            
-                            <div class="task-header">
-                                <div class="task-title">Lunch The Ball Game</div>
-                                <div class="task-reward ball">0.100</div>
-                            </div>
-                            
-                            <div class="task-description">
-                                Play the game, complete Level 18 and submit the verification code.
-                            </div>
-                            
-                            <div class="game-install-info">
-                                <div class="game-step">
-                                    <i class="fas fa-gamepad"></i>
-                                    <span>Step 1: Play Lunch The Ball Game from the link below</span>
-                                </div>
-                                <div class="game-step">
-                                    <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Complete Level 18 and get the verification code</span>
-                                </div>
-                                <div class="game-step">
-                                    <i class="fas fa-code"></i>
-                                    <span>Step 3: Enter the verification code and submit</span>
-                                </div>
-                            </div>
-                            
-                            <div class="warning-box">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <div class="warning-text">
-                                    <strong>⚠️ WARNING:</strong> Fake codes will result in <strong>PERMANENT BAN</strong>. No cheating allowed!
-                                </div>
-                            </div>
-                            
-                            <button class="task-button ball" id="playGameBtn2">
-                                <i class="fas fa-gamepad"></i> Play Game
-                            </button>
-                            
-                            <div class="code-submit-section">
-                                <label class="form-label">Enter Verification Code</label>
-                                <div class="code-input-group">
-                                    <input type="text" id="gameCodeInput2" class="code-input" placeholder="Enter code">
-                                    <button class="submit-code-btn" id="submitGameCodeBtn2">Submit</button>
-                                </div>
-                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after completing Level 18</div>
-                            </div>
-                            
-                            <div id="gameTaskStatus2" class="task-status pending" style="display: none;"></div>
-                            <div class="task-progress" id="gameTaskProgress2">Status: Ready to start</div>
-                        </div>
-                    </div>
-                    
                     <!-- Game Task Container 5 - SOS Game (AI Hard) ($0.040) - LOWER REWARD -->
                     <div class="game-task-container" id="gameTaskContainer5">
                         <div class="task-card" id="gameTaskCard5">
@@ -2963,6 +2926,122 @@
                             
                             <div id="gameTaskStatus5" class="task-status pending" style="display: none;"></div>
                             <div class="task-progress" id="gameTaskProgress5">Status: Ready to start</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($1.200) - HIGHEST REWARD -->
+                    <div class="game-task-container" id="gameTaskContainer6">
+                        <div class="task-card" id="gameTaskCard6">
+                            <div class="task-image" id="gameTaskImage6">
+                                <i class="fas fa-skull" style="font-size: 3rem; color: var(--zombie);"></i>
+                            </div>
+                            
+                            <div class="task-header">
+                                <div class="task-title">Zombie Road</div>
+                                <div class="task-reward zombie">1.200</div>
+                            </div>
+                            
+                            <div class="task-description">
+                                Play the game, achieve 80,000 score and submit the verification code.
+                            </div>
+                            
+                            <div class="game-install-info">
+                                <div class="game-step">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Step 1: Play Zombie Road from the link below</span>
+                                </div>
+                                <div class="game-step">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Step 2: Achieve 80,000 score and get the verification code</span>
+                                </div>
+                                <div class="game-step">
+                                    <i class="fas fa-code"></i>
+                                    <span>Step 3: Enter the verification code and submit</span>
+                                </div>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div class="warning-text">
+                                    <strong>⚠️ WARNING:</strong> Fake codes will result in <strong>PERMANENT BAN</strong>. No cheating allowed!
+                                </div>
+                            </div>
+                            
+                            <button class="task-button zombie" id="playGameBtn6">
+                                <i class="fas fa-gamepad"></i> Play Game
+                            </button>
+                            
+                            <div class="code-submit-section">
+                                <label class="form-label">Enter Verification Code</label>
+                                <div class="code-input-group">
+                                    <input type="text" id="gameCodeInput6" class="code-input" placeholder="Enter code">
+                                    <button class="submit-code-btn" id="submitGameCodeBtn6">Submit</button>
+                                </div>
+                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after achieving 80,000 score</div>
+                            </div>
+                            
+                            <div id="gameTaskStatus6" class="task-status pending" style="display: none;"></div>
+                            <div class="task-progress" id="gameTaskProgress6">Status: Ready to start</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Task Container 7 - NEW: Install App Task ($0.003) -->
+                    <div class="game-task-container" id="gameTaskContainer7">
+                        <div class="task-card" id="gameTaskCard7">
+                            <div class="task-image" id="gameTaskImage7">
+                                <i class="fas fa-download" style="font-size: 3rem; color: var(--install);"></i>
+                            </div>
+                            
+                            <div class="task-header">
+                                <div class="task-title">Install App & Earn</div>
+                                <div class="task-reward install">0.003</div>
+                            </div>
+                            
+                            <div class="task-description">
+                                Install the app and submit the app name to earn $0.003!
+                            </div>
+                            
+                            <div class="game-install-info">
+                                <div class="game-step">
+                                    <i class="fas fa-link"></i>
+                                    <span>Step 1: Click the link below and wait 5 seconds</span>
+                                </div>
+                                <div class="game-step">
+                                    <i class="fas fa-ad"></i>
+                                    <span>Step 2: Click on the ad that appears</span>
+                                </div>
+                                <div class="game-step">
+                                    <i class="fas fa-download"></i>
+                                    <span>Step 3: Download and install the app from the ad</span>
+                                </div>
+                                <div class="game-step">
+                                    <i class="fas fa-pen"></i>
+                                    <span>Step 4: Enter the name of the app you installed and submit</span>
+                                </div>
+                            </div>
+                            
+                            <div class="warning-box">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div class="warning-text">
+                                    <strong>⚠️ WARNING:</strong> Fake app names will result in <strong>PERMANENT BAN</strong>. You must actually install the app!
+                                </div>
+                            </div>
+                            
+                            <button class="task-button install" id="playGameBtn7">
+                                <i class="fas fa-external-link-alt"></i> Go to App Link
+                            </button>
+                            
+                            <div class="code-submit-section">
+                                <label class="form-label">Enter Installed App Name</label>
+                                <div class="code-input-group">
+                                    <input type="text" id="gameCodeInput7" class="code-input" placeholder="Enter app name">
+                                    <button class="submit-code-btn" id="submitGameCodeBtn7">Submit</button>
+                                </div>
+                                <div class="form-note" style="margin-top: 5px;">Enter the exact name of the app you installed</div>
+                            </div>
+                            
+                            <div id="gameTaskStatus7" class="task-status pending" style="display: none;"></div>
+                            <div class="task-progress" id="gameTaskProgress7">Status: Ready to start</div>
                         </div>
                     </div>
                     
@@ -3246,6 +3325,7 @@
                                 <p>- Block Blast: $0.300 (Level 50)</p>
                                 <p>- Lunch The Ball: $0.100 (Level 18)</p>
                                 <p>- SOS Game: $0.040 (AI Hard)</p>
+                                <p>- Install App: $0.003 (Install app from ad)</p>
                                 <p><strong>Referral Bonus:</strong> $0.200 per referral</p>
                                 <p><strong>Withdrawal Method:</strong> Binance only</p>
                                 <p><strong>Game Reset:</strong> Every Friday at 00:00 UTC</p>
@@ -3263,7 +3343,7 @@
                                 <p>2. <strong>Fake Game Codes:</strong> Submitting fake verification codes will result in immediate permanent ban.</p>
                                 <p>3. <strong>Age Requirement:</strong> You must be at least 18 years old to use this app and withdraw.</p>
                                 <p>4. <strong>Fair Use:</strong> Complete tasks honestly. Don't use VPNs or fake information.</p>
-                                <p>5. <strong>Task Limits:</strong> General tasks: 20 attempts each, 200 total per day. Game tasks: 1 per game per day, reset every Friday.</p>
+                                <p>5. <strong>Task Limits:</strong> General tasks: 20 attempts each, 200 total per day. Game tasks: 1 per game per week, reset every Friday.</p>
                                 <p>6. <strong>One Account:</strong> Only one account per person is allowed.</p>
                                 <p>7. <strong>Monthly Withdrawals:</strong> You can withdraw once per month during 3rd-9th payment period.</p>
                                 <p>8. <strong>Payment Processing:</strong> All withdrawals are processed between 3rd-9th of each month.</p>
@@ -3543,32 +3623,6 @@
             </div>
         </div>
         
-        <!-- TMA Ad Modal for Task 5 and Task 6 -->
-        <div class="modal" id="tmaAdModal">
-            <div class="modal-content">
-                <div class="modal-title">
-                    <i class="fas fa-play-circle" style="color: var(--purple); margin-right: 10px;"></i>
-                    Watch Ad to Earn
-                </div>
-                <div class="modal-message" style="text-align: center;">
-                    <div style="margin: 20px 0;">
-                        <i class="fas fa-ad" style="font-size: 4rem; color: var(--purple);"></i>
-                    </div>
-                    <p>Watch this ad to earn <strong>$0.0008</strong></p>
-                    <p style="font-size: 0.9rem; color: var(--text-secondary);">The ad will open in a new window. Complete it to get reward.</p>
-                    
-                    <div style="margin-top: 20px;">
-                        <button class="modal-btn primary" id="playTmaAdBtn">
-                            <i class="fas fa-play"></i> Watch Ad Now
-                        </button>
-                        <button class="modal-btn secondary" id="cancelTmaAdBtn" style="margin-top: 10px;">
-                            <i class="fas fa-times"></i> Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <!-- Cooldown Modal -->
         <div class="modal" id="cooldownModal">
             <div class="modal-content">
@@ -3623,9 +3677,6 @@
     </div>
     
     <script>
-        // TMA Ads initialization
-        window.initCdTma?.({ id: '428696' }).then(show => window.tmaShow = show).catch(e => console.log(e));
-
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCAlQL5txzjUagN9A5L0Idki9sjAezOczk",
@@ -3653,7 +3704,8 @@
             game3: 'https://t.me/allsortpuzzle_bot',
             game4: 'https://t.me/Boxblastpro_bot',
             game5: 'https://t.me/sosgameultra_bot',
-            game6: 'https://t.me/zombieroad_bot'
+            game6: 'https://t.me/zombieroad_bot',
+            game7: 'https://www.overthegridge.help/?sl=6072721-00d5f&pub_click_id={External_ID_from_traffic_source}&site={subID}&pub_sub_id={sub_'
         };
 
         // Sequential Unlock Links (Task 3 and Task 8)
@@ -3747,7 +3799,8 @@
                     game3: false, // All Sort
                     game4: false, // Block Blast
                     game5: false, // SOS Game (AI Hard)
-                    game6: false  // Zombie Road
+                    game6: false, // Zombie Road
+                    game7: false  // Install App
                 };
                 this.gameTaskSubmissions = {};
                 this.lastResetDate = localStorage.getItem('earnUSDLastResetDate') || new Date().toDateString();
@@ -3788,7 +3841,8 @@
                         game3: false,
                         game4: false,
                         game5: false,
-                        game6: false
+                        game6: false,
+                        game7: false
                     };
                     this.lastWeeklyReset = now.toDateString();
                     localStorage.setItem('lastWeeklyReset', this.lastWeeklyReset);
@@ -3962,7 +4016,8 @@
                             game3: false,
                             game4: false,
                             game5: false,
-                            game6: false
+                            game6: false,
+                            game7: false
                         },
                         isBanned: false
                     };
@@ -4031,7 +4086,8 @@
                             game3: false,
                             game4: false,
                             game5: false,
-                            game6: false
+                            game6: false,
+                            game7: false
                         };
                         await database.ref('users/' + user.uid).update({ gameTasksSubmitted: userData.gameTasksSubmitted });
                     }
@@ -4048,7 +4104,8 @@
                         game3: false,
                         game4: false,
                         game5: false,
-                        game6: false
+                        game6: false,
+                        game7: false
                     };
                     
                     if (!userData) {
@@ -4066,7 +4123,8 @@
                                 game3: false,
                                 game4: false,
                                 game5: false,
-                                game6: false
+                                game6: false,
+                                game7: false
                             },
                             isBanned: false
                         };
@@ -4175,7 +4233,7 @@
                     
                     // Simple validation - code should not be empty
                     if (!gameCode || gameCode.trim() === '') {
-                        return { success: false, message: 'Please enter a verification code.' };
+                        return { success: false, message: 'Please enter a verification code or app name.' };
                     }
                     
                     const rewards = {
@@ -4184,7 +4242,8 @@
                         game3: 0.50,  // All Sort (Level 70)
                         game4: 0.30,  // Block Blast (Level 50)
                         game5: 0.04,   // SOS Game (AI Hard)
-                        game6: 1.20  // Zombie Road (80,000 Score)
+                        game6: 1.20,  // Zombie Road (80,000 Score)
+                        game7: 0.003  // Install App
                     };
                     
                     const gameNames = {
@@ -4193,7 +4252,8 @@
                         game3: 'All Sort - Puzzle Game (Level 70)',
                         game4: 'Block Blast (Level 50)',
                         game5: 'SOS Game - AI Hard',
-                        game6: 'Zombie Road (80,000 Score)'
+                        game6: 'Zombie Road (80,000 Score)',
+                        game7: 'Install App'
                     };
                     
                     const reward = rewards[gameType];
@@ -4242,7 +4302,7 @@
                 }
             }
             
-            // New method to show rewarded ad for task 1
+            // New method to show rewarded ad for task 1 and task 5
             async showRewardedAd() {
                 return new Promise((resolve, reject) => {
                     try {
@@ -4267,7 +4327,7 @@
                 });
             }
             
-            // New method to show in-app interstitial ad for task 2
+            // New method to show in-app interstitial ad for task 2 and task 6
             async showInAppInterstitialAd() {
                 return new Promise((resolve, reject) => {
                     try {
@@ -4333,37 +4393,6 @@
                         }
                     } catch (error) {
                         console.error('Error showing AdsGram ad:', error);
-                        reject(error);
-                    }
-                });
-            }
-            
-            // New method to show TMA ad for task 5 and task 6
-            async showTmaAd() {
-                return new Promise((resolve, reject) => {
-                    try {
-                        if (window.tmaShow) {
-                            // Show TMA ad
-                            window.tmaShow().then(() => {
-                                console.log('TMA ad watched successfully');
-                                resolve(true);
-                            }).catch((error) => {
-                                console.error('TMA ad error:', error);
-                                reject(error);
-                            });
-                        } else {
-                            console.error('TMA SDK not loaded properly');
-                            // Initialize and try again
-                            window.initCdTma?.({ id: '428696' }).then(show => {
-                                window.tmaShow = show;
-                                show().then(() => {
-                                    console.log('TMA ad watched successfully');
-                                    resolve(true);
-                                }).catch(reject);
-                            }).catch(reject);
-                        }
-                    } catch (error) {
-                        console.error('Error showing TMA ad:', error);
                         reject(error);
                     }
                 });
@@ -4546,8 +4575,8 @@
             { id: 'task2', title: 'Task 2 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
             { id: 'task3', title: 'Task 3 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
             { id: 'task4', title: 'Task 4 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adsgram' },
-            { id: 'task5', title: 'Task 5 - Watch TMA Ad', description: 'Watch a TMA ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'tma' },
-            { id: 'task6', title: 'Task 6 - Watch TMA Ad', description: 'Watch a TMA ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'tma' },
+            { id: 'task5', title: 'Task 5 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
+            { id: 'task6', title: 'Task 6 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
             { id: 'task7', title: 'Task 7 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
             { id: 'task8', title: 'Task 8 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
             { id: 'task9', title: 'Task 9 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
@@ -4612,36 +4641,42 @@
         const gameTaskContainer4 = document.getElementById('gameTaskContainer4');
         const gameTaskContainer5 = document.getElementById('gameTaskContainer5');
         const gameTaskContainer6 = document.getElementById('gameTaskContainer6');
+        const gameTaskContainer7 = document.getElementById('gameTaskContainer7');
         const gameCodeInput1 = document.getElementById('gameCodeInput1');
         const gameCodeInput2 = document.getElementById('gameCodeInput2');
         const gameCodeInput3 = document.getElementById('gameCodeInput3');
         const gameCodeInput4 = document.getElementById('gameCodeInput4');
         const gameCodeInput5 = document.getElementById('gameCodeInput5');
         const gameCodeInput6 = document.getElementById('gameCodeInput6');
+        const gameCodeInput7 = document.getElementById('gameCodeInput7');
         const submitGameCodeBtn1 = document.getElementById('submitGameCodeBtn1');
         const submitGameCodeBtn2 = document.getElementById('submitGameCodeBtn2');
         const submitGameCodeBtn3 = document.getElementById('submitGameCodeBtn3');
         const submitGameCodeBtn4 = document.getElementById('submitGameCodeBtn4');
         const submitGameCodeBtn5 = document.getElementById('submitGameCodeBtn5');
         const submitGameCodeBtn6 = document.getElementById('submitGameCodeBtn6');
+        const submitGameCodeBtn7 = document.getElementById('submitGameCodeBtn7');
         const playGameBtn1 = document.getElementById('playGameBtn1');
         const playGameBtn2 = document.getElementById('playGameBtn2');
         const playGameBtn3 = document.getElementById('playGameBtn3');
         const playGameBtn4 = document.getElementById('playGameBtn4');
         const playGameBtn5 = document.getElementById('playGameBtn5');
         const playGameBtn6 = document.getElementById('playGameBtn6');
+        const playGameBtn7 = document.getElementById('playGameBtn7');
         const gameTaskStatus1 = document.getElementById('gameTaskStatus1');
         const gameTaskStatus2 = document.getElementById('gameTaskStatus2');
         const gameTaskStatus3 = document.getElementById('gameTaskStatus3');
         const gameTaskStatus4 = document.getElementById('gameTaskStatus4');
         const gameTaskStatus5 = document.getElementById('gameTaskStatus5');
         const gameTaskStatus6 = document.getElementById('gameTaskStatus6');
+        const gameTaskStatus7 = document.getElementById('gameTaskStatus7');
         const gameTaskProgress1 = document.getElementById('gameTaskProgress1');
         const gameTaskProgress2 = document.getElementById('gameTaskProgress2');
         const gameTaskProgress3 = document.getElementById('gameTaskProgress3');
         const gameTaskProgress4 = document.getElementById('gameTaskProgress4');
         const gameTaskProgress5 = document.getElementById('gameTaskProgress5');
         const gameTaskProgress6 = document.getElementById('gameTaskProgress6');
+        const gameTaskProgress7 = document.getElementById('gameTaskProgress7');
         
         // Game Task History
         const zeroGameHistory = document.getElementById('zeroGameHistory');
@@ -4704,7 +4739,6 @@
         const chatModal = document.getElementById('chatModal');
         const timerWarningModal = document.getElementById('timerWarningModal');
         const sequentialUnlockModal = document.getElementById('sequentialUnlockModal');
-        const tmaAdModal = document.getElementById('tmaAdModal');
         const changePasswordModal = document.getElementById('changePasswordModal');
         const cooldownModal = document.getElementById('cooldownModal');
         const successModalMessage = document.getElementById('successModalMessage');
@@ -4733,8 +4767,6 @@
         const seqTimerDisplay = document.getElementById('seqTimerDisplay');
         const seqCloseBtn = document.getElementById('seqCloseBtn');
         const seqRewardBox = document.getElementById('seqRewardBox');
-        const playTmaAdBtn = document.getElementById('playTmaAdBtn');
-        const cancelTmaAdBtn = document.getElementById('cancelTmaAdBtn');
         const startChatBtn = document.getElementById('startChatBtn');
         const cancelChatBtn = document.getElementById('cancelChatBtn');
         const changePasswordBtn = document.getElementById('changePassword');
@@ -4960,6 +4992,21 @@
                 gameTaskStatus6.style.display = 'none';
                 gameTaskProgress6.textContent = 'Status: Ready to start';
             }
+            
+            // Update Game 7 status (Install App)
+            const isGame7Submitted = userManager.isGameTaskSubmitted('game7');
+            
+            if (isGame7Submitted) {
+                gameTaskContainer7.style.display = 'none';
+            } else {
+                gameTaskContainer7.style.display = 'block';
+                gameCodeInput7.disabled = false;
+                gameCodeInput7.value = '';
+                submitGameCodeBtn7.disabled = false;
+                playGameBtn7.disabled = false;
+                gameTaskStatus7.style.display = 'none';
+                gameTaskProgress7.textContent = 'Status: Ready to start';
+            }
         }
         
         function updatePaymentSchedule(userData) {
@@ -5035,7 +5082,8 @@
                                             game3: false,
                                             game4: false,
                                             game5: false,
-                                            game6: false
+                                            game6: false,
+                                            game7: false
                                         },
                                         isBanned: false
                                     };
@@ -5050,7 +5098,8 @@
                                     game3: false,
                                     game4: false,
                                     game5: false,
-                                    game6: false
+                                    game6: false,
+                                    game7: false
                                 };
                                 
                                 await userManager.loadDailyCountsFromFirebase(user.uid);
@@ -5334,6 +5383,52 @@
                         displayGameTaskHistory(userManager.userData);
                         
                         gameCodeInput6.value = '';
+                    } else {
+                        showModal(errorModal, result.message);
+                    }
+                });
+            }
+            
+            // Game 7 - Install App
+            if (playGameBtn7) {
+                playGameBtn7.addEventListener('click', function() {
+                    window.open(GAME_LINKS.game7, '_blank');
+                    showModal(warningModal, '⚠️ WARNING: Fake app names will result in PERMANENT BAN. You must actually install the app!');
+                });
+            }
+            
+            if (submitGameCodeBtn7) {
+                submitGameCodeBtn7.addEventListener('click', async function() {
+                    const user = userManager.currentUser;
+                    if (!user) return;
+                    
+                    const appName = gameCodeInput7.value.trim();
+                    
+                    if (!appName) {
+                        showModal(errorModal, 'Please enter the app name you installed');
+                        return;
+                    }
+                    
+                    if (appName.length < 3) {
+                        showModal(errorModal, 'Please enter a valid app name');
+                        return;
+                    }
+                    
+                    showLoading('Submitting app name...');
+                    const result = await userManager.submitGameTask(user.uid, appName, 'game7');
+                    hideLoading();
+                    
+                    if (result.success) {
+                        showModal(gameCodeSubmittedModal, 'Your app name has been submitted to admin for verification. Check history for status updates.');
+                        
+                        // Hide game container
+                        gameTaskContainer7.style.display = 'none';
+                        
+                        // Update user info and reload tasks
+                        updateUserInfo(userManager.userData);
+                        displayGameTaskHistory(userManager.userData);
+                        
+                        gameCodeInput7.value = '';
                     } else {
                         showModal(errorModal, result.message);
                     }
@@ -5645,32 +5740,6 @@
             hideModal(sequentialUnlockModal);
         }
         
-        // TMA Ad Functions
-        function showTmaAdModal(task) {
-            currentTask = task;
-            tmaAdModal.classList.add('active');
-        }
-        
-        async function playTmaAd() {
-            tmaAdModal.classList.remove('active');
-            
-            try {
-                await userManager.showTmaAd();
-                
-                // Ad watched successfully, start 3 second timer
-                taskSecondsRemaining = 3;
-                warningTimerDisplay.textContent = taskSecondsRemaining;
-                showModal(timerWarningModal);
-            } catch (error) {
-                console.error('TMA ad failed:', error);
-                showModal(errorModal, 'Failed to load ad. Please try again.');
-                if (taskButtonElement) {
-                    taskButtonElement.disabled = false;
-                    taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                }
-            }
-        }
-        
         async function startGeneralTask(task) {
             const user = userManager.currentUser; if (!user) return;
             const can = userManager.canCompleteTask(user.uid, task.id);
@@ -5707,9 +5776,6 @@
                     
                     currentTask = null;
                     taskButtonElement = null;
-                } else if (task.adType === 'tma') {
-                    // Task 5 and Task 6 - TMA ads
-                    showTmaAdModal(task);
                 } else if (task.adType === 'rewarded') {
                     await userManager.showRewardedAd();
                     // Start 3 second timer
@@ -5986,16 +6052,6 @@
                     hideModal(sequentialUnlockModal); 
                 });
                 
-                // TMA Ad Modal listeners
-                if (playTmaAdBtn) playTmaAdBtn.addEventListener('click', playTmaAd);
-                if (cancelTmaAdBtn) cancelTmaAdBtn.addEventListener('click', function() {
-                    tmaAdModal.classList.remove('active');
-                    if (taskButtonElement) {
-                        taskButtonElement.disabled = false;
-                        taskButtonElement.innerHTML = '<i class="fas fa-play-circle"></i> Start Task';
-                    }
-                });
-                
                 // Withdrawal method - Only Binance now
                 if (binanceMethodCard) {
                     binanceMethodCard.classList.add('active');
@@ -6054,7 +6110,7 @@
                     });
                 }
                 
-                [successModal, errorModal, warningModal, gameCodeSubmittedModal, referralBonusModal, chatModal, timerWarningModal, sequentialUnlockModal, tmaAdModal, changePasswordModal, cooldownModal].forEach(m => { 
+                [successModal, errorModal, warningModal, gameCodeSubmittedModal, referralBonusModal, chatModal, timerWarningModal, sequentialUnlockModal, changePasswordModal, cooldownModal].forEach(m => { 
                     if (m) m.addEventListener('click', function(e) { if (e.target === this) hideModal(this); }); 
                 });
                 

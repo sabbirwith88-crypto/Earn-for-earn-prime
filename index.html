@@ -12,80 +12,14 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
     
-    <!-- Monetag SDK (for Task 1, 2, 5, 6) -->
+    <!-- Monetag SDK -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     
-    <!-- RichAds SDK - For Task 4 and Task 10 (Replacing AdsGram) -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
-    <script>
-        // RichAds initialization with proper error handling
-        (function() {
-            // Global RichAds show function
-            window.showRichAd = function() {
-                return new Promise(function(resolve, reject) {
-                    try {
-                        console.log('Attempting to show RichAds ad...');
-                        
-                        // Check if TelegramAdsController exists
-                        if (typeof window.TelegramAdsController === 'undefined') {
-                            console.error('TelegramAdsController not defined');
-                            reject(new Error('RichAds SDK not loaded'));
-                            return;
-                        }
-                        
-                        // Show the ad
-                        window.TelegramAdsController.showAd().then(function() {
-                            console.log('RichAds ad completed successfully');
-                            resolve(true);
-                        }).catch(function(error) {
-                            console.error('RichAds ad error:', error);
-                            reject(error);
-                        });
-                    } catch (error) {
-                        console.error('Error showing RichAds ad:', error);
-                        reject(error);
-                    }
-                });
-            };
-            
-            // Initialize RichAds when DOM is ready
-            function initRichAds() {
-                try {
-                    console.log('Initializing RichAds...');
-                    
-                    if (typeof window.TelegramAdsController === 'undefined') {
-                        console.log('TelegramAdsController not ready, retrying in 1 second...');
-                        setTimeout(initRichAds, 1000);
-                        return;
-                    }
-                    
-                    window.TelegramAdsController = new TelegramAdsController();
-                    window.TelegramAdsController.initialize({
-                        pubId: "1004419",
-                        appId: "6459",
-                    });
-                    
-                    console.log('RichAds initialized successfully');
-                } catch (error) {
-                    console.error('Failed to initialize RichAds:', error);
-                    setTimeout(initRichAds, 2000);
-                }
-            }
-            
-            // Start initialization
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initRichAds);
-            } else {
-                initRichAds();
-            }
-        })();
-    </script>
-    
-    <!-- Adexora SDK - For Task 7 and Task 9 -->
+    <!-- Adexora SDK -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     
     <style>
-        /* Keep all your existing styles exactly as they are - no changes needed */
+        /* Keep all your existing styles exactly as they are */
         * {
             margin: 0;
             padding: 0;
@@ -2703,16 +2637,7 @@
                         <h2 style="font-size: 1.3rem; color: white;">Game Tasks</h2>
                     </div>
                     
-                    <!-- Weekly Reset Banner - REMOVED as per requirement (hidden via CSS) -->
-                    <div class="weekly-reset-banner" id="weeklyResetBanner" style="display: none;">
-                        <div class="reset-info">
-                            <i class="fas fa-sync-alt"></i>
-                            <span class="reset-text">Game Tasks Reset Every Friday</span>
-                        </div>
-                        <div class="reset-timer" id="weeklyResetTimer">Loading...</div>
-                    </div>
-                    
-                    <!-- Game Task Container 1 - Green Road: Car Racing ($1.00) - HIGHEST REWARD -->
+                    <!-- Game Task Container 1 - Green Road: Car Racing ($1.00) -->
                     <div class="game-task-container" id="gameTaskContainer1">
                         <div class="task-card" id="gameTaskCard1">
                             <div class="task-image" id="gameTaskImage1">
@@ -2768,7 +2693,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.100) - LOWER REWARD -->
+                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.100) -->
                     <div class="game-task-container" id="gameTaskContainer2">
                         <div class="task-card" id="gameTaskCard2">
                             <div class="task-image" id="gameTaskImage2">
@@ -2824,7 +2749,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 3 - All Sort Puzzle (Level 70) ($0.500) - MEDIUM REWARD -->
+                    <!-- Game Task Container 3 - All Sort Puzzle (Level 70) ($0.500) -->
                     <div class="game-task-container" id="gameTaskContainer3">
                         <div class="task-card" id="gameTaskCard3">
                             <div class="task-image" id="gameTaskImage3">
@@ -2880,7 +2805,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 4 - Block Blast (Level 50) ($0.300) - MEDIUM REWARD -->
+                    <!-- Game Task Container 4 - Block Blast (Level 50) ($0.300) -->
                     <div class="game-task-container" id="gameTaskContainer4">
                         <div class="task-card" id="gameTaskCard4">
                             <div class="task-image" id="gameTaskImage4">
@@ -2936,7 +2861,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 5 - SOS Game (AI Hard) ($0.040) - LOWER REWARD -->
+                    <!-- Game Task Container 5 - SOS Game (AI Hard) ($0.040) -->
                     <div class="game-task-container" id="gameTaskContainer5">
                         <div class="task-card" id="gameTaskCard5">
                             <div class="task-image" id="gameTaskImage5">
@@ -2992,7 +2917,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($1.00) - HIGHEST REWARD -->
+                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($1.00) -->
                     <div class="game-task-container" id="gameTaskContainer6">
                         <div class="task-card" id="gameTaskCard6">
                             <div class="task-image" id="gameTaskImage6">
@@ -3048,7 +2973,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 7 - NEW: Install App & register  Task ($0.05 ) -->
+                    <!-- Game Task Container 7 - Install App & register Task ($0.05) -->
                     <div class="game-task-container" id="gameTaskContainer7">
                         <div class="task-card" id="gameTaskCard7">
                             <div class="task-image" id="gameTaskImage7">
@@ -3067,11 +2992,11 @@
                             <div class="game-install-info">
                                 <div class="game-step">
                                     <i class="fas fa-link"></i>
-                                    <span>Step 1: Click the link below and Open With Chrome </span>
+                                    <span>Step 1: Click the link below and Open With Chrome</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-ad"></i>
-                                    <span>Step 2: Click on the ad that appears Don't download gambling ads ignore </span>
+                                    <span>Step 2: Click on the ad that appears (Don't download gambling ads, ignore)</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-download"></i>
@@ -3079,7 +3004,7 @@
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-pen"></i>
-                                    <span>Step 4: Enter Your Registered Username Or Eamil </span>
+                                    <span>Step 4: Enter Your Registered Username Or Email</span>
                                 </div>
                             </div>
                             
@@ -3095,7 +3020,7 @@
                             </button>
                             
                             <div class="code-submit-section">
-                                <label class="form-label">Enter User Name or Email  </label>
+                                <label class="form-label">Enter User Name or Email</label>
                                 <div class="code-input-group">
                                     <input type="text" id="gameCodeInput7" class="code-input" placeholder="Enter Your Username Or Email">
                                     <button class="submit-code-btn" id="submitGameCodeBtn7">Submit</button>
@@ -3610,17 +3535,20 @@
             </div>
         </div>
         
-        <!-- Sequential Unlock Modal for Task 3 and Task 8 -->
+        <!-- Sequential Unlock Modal for Task 3, Task 7, and Task 10 -->
         <div class="modal" id="sequentialUnlockModal">
             <div class="modal-content" style="max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                 <div class="modal-title">
                     <i class="fas fa-lock" style="color: var(--orange); margin-right: 10px;"></i>
-                    4-Step Unlock (120 seconds)
+                    4-Step Unlock (120 seconds required)
                 </div>
                 <div class="modal-message" id="sequentialUnlockMessage">
                     <div style="text-align: center; margin-bottom: 20px;">
                         <div style="font-size: 3rem; font-weight: bold; color: var(--orange);" id="seqTimerDisplay">120</div>
-                        <div style="color: var(--text-secondary);">Seconds remaining</div>
+                        <div style="color: var(--text-secondary);">Seconds remaining - MUST wait full 120 seconds!</div>
+                        <div style="color: var(--warning); font-size: 0.9rem; margin-top: 5px;">
+                            ⚠️ If you complete all links before 120 seconds, you must wait until timer ends to claim reward
+                        </div>
                     </div>
                     
                     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 20px 0;">
@@ -3646,17 +3574,20 @@
                         </div>
                     </div>
                     
-                    <div style="text-align: center; margin: 20px 0;" id="seqRewardBox" style="opacity: 0.4;">
+                    <div style="text-align: center; margin: 20px 0;" id="seqRewardBox">
                         <div style="font-size: 2rem; font-weight: bold; color: var(--gold);">$0.002</div>
-                        <div style="color: var(--text-secondary);">REWARD (click to claim)</div>
+                        <div style="color: var(--text-secondary);">REWARD - Available when timer reaches 0</div>
+                        <button class="modal-btn primary" id="claimRewardBtn" style="margin-top: 15px; width: 100%; background: var(--success);" disabled>
+                            <i class="fas fa-hourglass-half"></i> Wait for timer (120s)
+                        </button>
                     </div>
                     
                     <div style="text-align: center; margin-top: 20px;">
-                        <button class="modal-btn secondary" id="seqCloseBtn">Close</button>
+                        <button class="modal-btn secondary" id="seqCloseBtn">Cancel Task</button>
                     </div>
                     
                     <div style="margin-top: 15px; font-size: 0.85rem; color: var(--warning); text-align: center;">
-                        ⚠️ You must complete all 4 links within 120 seconds. Early exit = reject.
+                        ⚠️ You MUST wait the full 120 seconds to claim reward. If you close early, you will NOT get reward!
                     </div>
                 </div>
             </div>
@@ -3843,45 +3774,7 @@
         }
         const loadingManager = new LoadingManager();
 
-        // RichAds Ad Function - Using global showRichAd function
-        async function showRichAdsAd() {
-            return new Promise((resolve, reject) => {
-                try {
-                    console.log('Showing RichAds ad...');
-                    
-                    // Check if the global function exists
-                    if (typeof window.showRichAd === 'function') {
-                        window.showRichAd().then(() => {
-                            console.log('RichAds ad completed successfully');
-                            resolve(true);
-                        }).catch((error) => {
-                            console.error('RichAds ad error:', error);
-                            reject(error);
-                        });
-                    } else {
-                        console.error('showRichAd function not available');
-                        
-                        // Try direct call as fallback
-                        if (window.TelegramAdsController && typeof window.TelegramAdsController.showAd === 'function') {
-                            window.TelegramAdsController.showAd().then(() => {
-                                console.log('RichAds ad completed successfully (direct call)');
-                                resolve(true);
-                            }).catch((error) => {
-                                console.error('RichAds ad error (direct call):', error);
-                                reject(error);
-                            });
-                        } else {
-                            reject(new Error('RichAds SDK not loaded properly'));
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error in showRichAdsAd:', error);
-                    reject(error);
-                }
-            });
-        }
-
-        // FirebaseUserManager Class - UPDATED with fixes
+        // FirebaseUserManager Class
         class FirebaseUserManager {
             constructor() {
                 this.currentUser = null;
@@ -4040,7 +3933,6 @@
                     const user = userCredential.user;
                     const userReferralCode = this.generateReferralCode(email);
                     
-                    // Create user data with all required fields - referral bonus changed to 0.10
                     const userData = {
                         email: email.toLowerCase(),
                         referralCode: userReferralCode,
@@ -4053,7 +3945,7 @@
                         fairUseVerified: false,
                         withdrawalHistory: [],
                         tasksCompleted: [],
-                        gameTasks: {}, // Empty object, not array
+                        gameTasks: {},
                         dailyTaskCounts: {},
                         lastActive: new Date().toISOString(),
                         lastWithdrawalMonth: null,
@@ -4078,7 +3970,6 @@
                         balance: 0
                     });
                     
-                    // Apply referral bonus if code provided - now 0.10
                     if (referralCode) {
                         await this.applyReferralBonus(user.uid, referralCode, email);
                         return { success: true, user, userData, hasReferralBonus: true };
@@ -4099,7 +3990,6 @@
                         const referrerId = Object.keys(referrerData)[0];
                         const referrer = referrerData[referrerId];
                         
-                        // Changed from 0.20 to 0.10
                         const referrerUpdates = { 
                             referralBonus: (referrer.referralBonus || 0) + 0.10, 
                             balance: (referrer.balance || 0) + 0.10, 
@@ -4124,7 +4014,6 @@
                             bonus: 0.10
                         });
                         
-                        // Give bonus to new user too - changed from 0.20 to 0.10
                         await database.ref('users/' + userId).update({ 
                             balance: 0.10, 
                             totalEarned: 0.10 
@@ -4164,7 +4053,7 @@
                             referralCode: userReferralCode,
                             balance: 0, totalEarned: 0, referralBonus: 0, referrals: [], referredBy: null,
                             createdAt: new Date().toISOString(), fairUseVerified: false, withdrawalHistory: [],
-                            tasksCompleted: [], gameTasks: {}, // Fixed: empty object, not array
+                            tasksCompleted: [], gameTasks: {},
                             dailyTaskCounts: {},
                             lastActive: new Date().toISOString(), lastWithdrawalMonth: null,
                             activeGameSubmissions: {
@@ -4180,13 +4069,11 @@
                         };
                         await database.ref('users/' + user.uid).set(userData);
                     } else {
-                        // Ensure gameTasks exists and is an object
                         if (!userData.gameTasks) {
                             userData.gameTasks = {};
                             await database.ref('users/' + user.uid).update({ gameTasks: {} });
                         }
                         
-                        // Ensure activeGameSubmissions exists
                         if (!userData.activeGameSubmissions) {
                             userData.activeGameSubmissions = {
                                 game1: false,
@@ -4325,7 +4212,6 @@
                     const userData = await this.getUserData(userId);
                     if (!userData) return { success: false, message: 'User not found' };
                     
-                    // Check if there's already an active submission for this game
                     if (this.activeGameSubmissions[gameType] || 
                         (userData.activeGameSubmissions && userData.activeGameSubmissions[gameType])) {
                         return { success: false, message: 'You already have a pending submission for this game. Wait for admin approval or rejection.' };
@@ -4372,15 +4258,12 @@
                         userReferralCode: userData.referralCode
                     };
                     
-                    // Save to multiple locations
                     await database.ref('gameTasks/' + taskId).set(gameTask);
                     await database.ref('admin/tasks/game/' + taskId).set(gameTask);
                     
-                    // Ensure gameTasks is an object
                     const gameTasks = userData.gameTasks || {};
                     gameTasks[taskId] = gameTask;
                     
-                    // Update activeGameSubmissions status
                     const updatedActiveGameSubmissions = { ...(userData.activeGameSubmissions || {
                         game1: false, game2: false, game3: false, game4: false, game5: false, game6: false, game7: false
                     })};
@@ -4407,7 +4290,6 @@
                     database.ref('users/' + userId + '/gameTasks').on('value', (snapshot) => {
                         const gameTasksObj = snapshot.val() || {};
                         
-                        // Convert object to array safely
                         const gameTasks = [];
                         if (gameTasksObj && typeof gameTasksObj === 'object') {
                             Object.keys(gameTasksObj).forEach(key => {
@@ -4420,12 +4302,10 @@
                         const userData = this.userData;
                         if (!userData) return;
                         
-                        // Check for any game tasks that were rejected or approved
                         const activeSubmissions = { ...(userData.activeGameSubmissions || {
                             game1: false, game2: false, game3: false, game4: false, game5: false, game6: false, game7: false
                         }) };
                         
-                        // Reset active submissions based on latest game tasks
                         Object.keys(activeSubmissions).forEach(gameType => {
                             const pendingTasks = gameTasks.filter(t => 
                                 t && t.gameType === gameType && t.status === 'pending'
@@ -4438,7 +4318,6 @@
                             }
                         });
                         
-                        // Update if changed
                         if (JSON.stringify(activeSubmissions) !== JSON.stringify(userData.activeGameSubmissions)) {
                             userData.activeGameSubmissions = activeSubmissions;
                             this.activeGameSubmissions = activeSubmissions;
@@ -4521,10 +4400,6 @@
                         reject(error);
                     }
                 });
-            }
-            
-            async showRichAdsAd() {
-                return showRichAdsAd(); // Call the global function
             }
             
             async showAdexoraAd() {
@@ -4720,19 +4595,26 @@
 
         const userManager = new FirebaseUserManager();
         
-        // General Tasks - 10 tasks with $0.0008 each
-        // Updated: Task 4 and Task 10 now use RichAds
+        // General Tasks - 10 tasks with new distribution:
+        // Adexora: 3 times, Rewarded: 2 times, Interstitial: 2 times, Sequential: 3 times
         const generalTasks = [
-            { id: 'task1', title: 'Task 1 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
-            { id: 'task2', title: 'Task 2 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
-            { id: 'task3', title: 'Task 3 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
-            { id: 'task4', title: 'Task 4 - Watch RichAds Ad', description: 'Watch a RichAds ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'richads' },
+            // Adexora Ads (3 times)
+            { id: 'task1', title: 'Task 1 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
+            { id: 'task4', title: 'Task 4 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
+            { id: 'task8', title: 'Task 8 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
+            
+            // Rewarded Ads (2 times)
+            { id: 'task2', title: 'Task 2 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
             { id: 'task5', title: 'Task 5 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
+            
+            // Interstitial Ads (2 times)
             { id: 'task6', title: 'Task 6 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
-            { id: 'task7', title: 'Task 7 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
-            { id: 'task8', title: 'Task 8 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
-            { id: 'task9', title: 'Task 9 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
-            { id: 'task10', title: 'Task 10 - Watch RichAds Ad', description: 'Watch a RichAds ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'richads' }
+            { id: 'task9', title: 'Task 9 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
+            
+            // Sequential Unlock (3 times) - 120 seconds mandatory
+            { id: 'task3', title: 'Task 3 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps and wait FULL 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
+            { id: 'task7', title: 'Task 7 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps and wait FULL 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
+            { id: 'task10', title: 'Task 10 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps and wait FULL 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' }
         ];
         
         // DOM Elements
@@ -4844,7 +4726,7 @@
         // Payment Schedule Elements
         const infoNextPayment = document.getElementById('infoNextPayment');
         
-        // Withdrawal Elements - Only Binance now
+        // Withdrawal Elements
         const binanceMethodCard = document.getElementById('binanceMethodCard');
         const nextButton = document.getElementById('nextButton');
         const binanceForm = document.getElementById('binanceForm');
@@ -4918,6 +4800,7 @@
         const seqDone4 = document.getElementById('seqDone4');
         const seqTimerDisplay = document.getElementById('seqTimerDisplay');
         const seqCloseBtn = document.getElementById('seqCloseBtn');
+        const claimRewardBtn = document.getElementById('claimRewardBtn');
         const seqRewardBox = document.getElementById('seqRewardBox');
         const startChatBtn = document.getElementById('startChatBtn');
         const cancelChatBtn = document.getElementById('cancelChatBtn');
@@ -4950,6 +4833,7 @@
         let seqLinkDone = {1: false, 2: false, 3: false, 4: false};
         let seqResolve = null;
         let seqReject = null;
+        let allLinksCompleted = false;
         
         function showLoading(msg = 'Loading...') { loadingText.textContent = msg; loadingSpinner.classList.add('active'); }
         function hideLoading() { loadingSpinner.classList.remove('active'); }
@@ -5007,7 +4891,6 @@
         function displayGameTaskHistory(userData) {
             if (!userData) return;
             
-            // Safely convert gameTasks object to array
             const gameTasks = [];
             if (userData.gameTasks && typeof userData.gameTasks === 'object') {
                 Object.keys(userData.gameTasks).forEach(key => {
@@ -5137,7 +5020,6 @@
                                 await database.ref('users/'+user.uid).set(userData);
                             }
                             
-                            // Ensure gameTasks is an object
                             if (!userData.gameTasks) {
                                 userData.gameTasks = {};
                                 await database.ref('users/'+user.uid).update({ gameTasks: {} });
@@ -5601,6 +5483,7 @@
             seqRewardUnlocked = false;
             seqTimeLeft = 120;
             seqWaitingForLink = null;
+            allLinksCompleted = false;
             
             seqLink1.style.opacity = '1';
             seqLink1.style.cursor = 'pointer';
@@ -5622,8 +5505,9 @@
             seqLink4.querySelector('i').className = 'fas fa-lock';
             seqDone4.style.display = 'none';
             
-            seqRewardBox.style.opacity = '0.4';
-            seqRewardBox.style.cursor = 'not-allowed';
+            claimRewardBtn.disabled = true;
+            claimRewardBtn.innerHTML = '<i class="fas fa-hourglass-half"></i> Wait for timer (120s)';
+            claimRewardBtn.style.background = '#222222';
             
             seqTimerDisplay.textContent = seqTimeLeft;
             
@@ -5634,13 +5518,24 @@
                 seqTimeLeft--;
                 seqTimerDisplay.textContent = seqTimeLeft;
                 
+                // Enable reward button when timer reaches 0
                 if (seqTimeLeft <= 0) {
                     clearInterval(seqTimerInterval);
                     seqTimerInterval = null;
-                    if (seqReject) {
-                        seqReject(new Error('Time expired'));
+                    
+                    // Check if all links are completed
+                    if (allLinksCompleted) {
+                        claimRewardBtn.disabled = false;
+                        claimRewardBtn.innerHTML = '<i class="fas fa-gift"></i> Claim $0.002 Reward';
+                        claimRewardBtn.style.background = 'var(--success)';
+                    } else {
+                        // Time expired but not all links completed - reject
+                        alert('❌ Time expired! You did not complete all links. Task rejected.');
+                        if (seqReject) {
+                            seqReject(new Error('Time expired - links not completed'));
+                        }
+                        hideModal(sequentialUnlockModal);
                     }
-                    hideModal(sequentialUnlockModal);
                 }
             }, 1000);
         }
@@ -5700,12 +5595,17 @@
                             seqLink4.querySelector('i').className = 'fas fa-link';
                         }
                     } else {
-                        seqRewardUnlocked = true;
-                        seqRewardBox.style.opacity = '1';
-                        seqRewardBox.style.cursor = 'pointer';
-                        clearInterval(seqTimerInterval);
-                        seqTimerInterval = null;
-                        alert('✅ All 4 links completed! Click on reward to claim $0.002');
+                        // All links completed
+                        allLinksCompleted = true;
+                        
+                        // Check if timer is already at 0
+                        if (seqTimeLeft <= 0) {
+                            claimRewardBtn.disabled = false;
+                            claimRewardBtn.innerHTML = '<i class="fas fa-gift"></i> Claim $0.002 Reward';
+                            claimRewardBtn.style.background = 'var(--success)';
+                        } else {
+                            claimRewardBtn.innerHTML = '<i class="fas fa-hourglass-half"></i> Wait for timer to finish';
+                        }
                     }
                     
                     seqWaitingForLink = null;
@@ -5714,8 +5614,13 @@
         }
         
         function claimSeqReward() {
-            if (!seqRewardUnlocked) {
+            if (!allLinksCompleted) {
                 alert('Complete all 4 links first!');
+                return;
+            }
+            
+            if (seqTimeLeft > 0) {
+                alert(`Please wait ${seqTimeLeft} more seconds before claiming reward!`);
                 return;
             }
             
@@ -5767,12 +5672,6 @@
                     showModal(timerWarningModal);
                 } else if (task.adType === 'interstitial') {
                     await userManager.showInAppInterstitialAd();
-                    currentTask = task;
-                    taskSecondsRemaining = 3;
-                    warningTimerDisplay.textContent = taskSecondsRemaining;
-                    showModal(timerWarningModal);
-                } else if (task.adType === 'richads') {
-                    await userManager.showRichAdsAd();
                     currentTask = task;
                     taskSecondsRemaining = 3;
                     warningTimerDisplay.textContent = taskSecondsRemaining;
@@ -5942,7 +5841,6 @@
                             if (res.hasReferralBonus) showModal(referralBonusModal, 'Congratulations! You received $0.10 referral bonus for signing up with a referral code.');
                             else showModal(successModal, 'Account created successfully! Welcome to Earn For Earn.');
                             
-                            // Auto login after signup
                             showLoading('Logging in...');
                             const loginRes = await userManager.loginUser(email, pass);
                             hideLoading();
@@ -6020,9 +5918,12 @@
                 if (seqLink2) seqLink2.addEventListener('click', () => handleSeqLinkClick(2));
                 if (seqLink3) seqLink3.addEventListener('click', () => handleSeqLinkClick(3));
                 if (seqLink4) seqLink4.addEventListener('click', () => handleSeqLinkClick(4));
-                if (seqRewardBox) seqRewardBox.addEventListener('click', claimSeqReward);
+                if (claimRewardBtn) claimRewardBtn.addEventListener('click', claimSeqReward);
                 if (seqCloseBtn) seqCloseBtn.addEventListener('click', function() { 
                     if (seqTimerInterval) clearInterval(seqTimerInterval);
+                    if (seqReject) {
+                        seqReject(new Error('User closed modal'));
+                    }
                     hideModal(sequentialUnlockModal); 
                 });
                 

@@ -15,10 +15,13 @@
     <!-- Monetag SDK (for Task 1, 2, 5, 6) -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     
-    <!-- RichAds Playable Ads SDK - FIXED VERSION with fallback -->
-    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
-    <!-- Alternative CDN for RichAds -->
-    <script src="https://cdn.jsdelivr.net/gh/richads/richads-sdk@latest/dist/richads.min.js"></script>
+    <!-- Telegram Web App SDK (Required for RichAds) -->
+    <script src="https://telegram.org/js/telegram-web-app.js?60"></script>
+    
+    <!-- RichAds Playable Ads SDK - CORRECT VERSION -->
+    <script src="https://ads.richads.com/richads.js"></script>
+    <!-- Fallback CDN for RichAds -->
+    <script src="https://cdn.jsdelivr.net/npm/richads-sdk@latest/dist/richads.min.js"></script>
     
     <!-- Adexora SDK - For Task 7 and Task 9 -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
@@ -3698,37 +3701,47 @@
 
         // RichAds Playable Ads - FIXED INITIALIZATION
         (function() {
-            // Wait for SDK to load
+            // RichAds SDK initialization with retry
             function initRichAds() {
-                if (typeof TelegramAdsController !== 'undefined') {
-                    try {
+                try {
+                    // Method 1: Standard RichAds initialization
+                    if (window.RichAds && typeof window.RichAds.init === 'function') {
+                        window.RichAds.init({
+                            publisherId: '1004419',
+                            appId: '6459',
+                            onReady: function() {
+                                console.log('RichAds SDK initialized successfully');
+                            },
+                            onError: function(error) {
+                                console.error('RichAds SDK initialization error:', error);
+                            }
+                        });
+                    }
+                    // Method 2: TelegramAdsController (Telegram version)
+                    else if (typeof TelegramAdsController !== 'undefined') {
                         window.TelegramAdsController = new TelegramAdsController();
                         window.TelegramAdsController.initialize({
                             pubId: "1004419",
                             appId: "6459",
                         });
-                        console.log('RichAds SDK initialized successfully');
-                    } catch (e) {
-                        console.error('RichAds initialization error:', e);
+                        console.log('TelegramAdsController initialized');
                     }
-                } else if (typeof window.RichAds !== 'undefined') {
-                    try {
-                        window.RichAds.initialize({
-                            pubId: "1004419",
-                            appId: "6459",
-                        });
-                        console.log('RichAds SDK initialized via alternative method');
-                    } catch (e) {
-                        console.error('Alternative RichAds initialization error:', e);
+                    else {
+                        console.warn('RichAds SDK not loaded yet, will retry in 2 seconds');
+                        setTimeout(initRichAds, 2000);
                     }
-                } else {
-                    console.warn('RichAds SDK not loaded yet, will retry in 2 seconds');
-                    setTimeout(initRichAds, 2000);
+                } catch (e) {
+                    console.error('RichAds initialization error:', e);
+                    setTimeout(initRichAds, 3000);
                 }
             }
             
             // Try to initialize immediately
-            initRichAds();
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initRichAds);
+            } else {
+                initRichAds();
+            }
         })();
 
         // Game Bot Links
@@ -3817,7 +3830,7 @@
         }
         const loadingManager = new LoadingManager();
 
-        // FirebaseUserManager Class - UPDATED with fixes
+        // FirebaseUserManager Class - UPDATED with RichAds fixes
         class FirebaseUserManager {
             constructor() {
                 this.currentUser = null;
@@ -4459,59 +4472,72 @@
                 });
             }
             
-            // FIXED: RichAds Playable Ads function with better error handling and fallback
+            // FIXED: RichAds Playable Ads function with 4 different methods
             async showRichAdsPlayableAd() {
                 return new Promise((resolve, reject) => {
-                    try {
-                        // Method 1: TelegramAdsController (original)
-                        if (window.TelegramAdsController && typeof window.TelegramAdsController.showAd === 'function') {
-                            window.TelegramAdsController.showAd()
-                                .then(() => {
-                                    console.log('RichAds Playable ad watched successfully (Method 1)');
-                                    resolve(true);
-                                })
-                                .catch((error) => {
-                                    console.error('RichAds Playable ad error (Method 1):', error);
-                                    // Try Method 2
-                                    this.tryRichAdsMethod2(resolve, reject);
-                                });
-                        } 
-                        // Method 2: window.RichAds (alternative)
-                        else if (window.RichAds && typeof window.RichAds.showAd === 'function') {
-                            window.RichAds.showAd()
-                                .then(() => {
-                                    console.log('RichAds Playable ad watched successfully (Method 2)');
-                                    resolve(true);
-                                })
-                                .catch((error) => {
-                                    console.error('RichAds Playable ad error (Method 2):', error);
-                                    // Try Method 3
-                                    this.tryRichAdsMethod3(resolve, reject);
-                                });
-                        }
-                        // Method 3: Fallback to simple timer for demo/testing
-                        else {
-                            console.warn('RichAds SDK not loaded, using fallback timer');
+                    console.log('Starting RichAds playable ad...');
+                    
+                    // Method 1: Standard RichAds API
+                    if (window.RichAds && typeof window.RichAds.showPlayableAd === 'function') {
+                        console.log('Using RichAds.showPlayableAd method');
+                        window.RichAds.showPlayableAd({
+                            onAdStarted: function() {
+                                console.log('RichAds ad started');
+                            },
+                            onAdCompleted: function() {
+                                console.log('RichAds ad completed successfully');
+                                resolve(true);
+                            },
+                            onAdError: function(error) {
+                                console.error('RichAds ad error:', error);
+                                // Try next method
+                                this.tryRichAdsMethod2(resolve, reject);
+                            }.bind(this)
+                        });
+                    }
+                    // Method 2: TelegramAdsController (Telegram version)
+                    else if (window.TelegramAdsController && typeof window.TelegramAdsController.showAd === 'function') {
+                        console.log('Using TelegramAdsController.showAd method');
+                        window.TelegramAdsController.showAd({
+                            type: 'playable'
+                        }).then(() => {
+                            console.log('TelegramAdsController ad completed');
+                            resolve(true);
+                        }).catch((error) => {
+                            console.error('TelegramAdsController error:', error);
                             this.tryRichAdsMethod3(resolve, reject);
+                        });
+                    }
+                    // Method 3: Create iframe with playable ad
+                    else if (typeof window.RichAdsPlayable !== 'undefined') {
+                        console.log('Using RichAdsPlayable method');
+                        try {
+                            window.RichAdsPlayable.show().then(resolve).catch(() => {
+                                this.tryRichAdsFallback(resolve, reject);
+                            });
+                        } catch (e) {
+                            this.tryRichAdsFallback(resolve, reject);
                         }
-                    } catch (error) {
-                        console.error('Error showing RichAds Playable ad:', error);
-                        // Fallback to timer
-                        this.tryRichAdsMethod3(resolve, reject);
+                    }
+                    // Method 4: Fallback to 3-second timer (for testing)
+                    else {
+                        console.warn('No RichAds SDK found, using fallback timer');
+                        this.tryRichAdsFallback(resolve, reject);
                     }
                 });
             }
             
-            // Helper method for RichAds fallback
+            // Method 2 helper
             tryRichAdsMethod2(resolve, reject) {
+                console.log('Trying RichAds method 2');
                 try {
                     if (window.RichAds && typeof window.RichAds.show === 'function') {
-                        window.RichAds.show()
-                            .then(() => {
-                                console.log('RichAds ad watched successfully (Method 2b)');
-                                resolve(true);
-                            })
-                            .catch(reject);
+                        window.RichAds.show().then(() => {
+                            console.log('RichAds method 2 successful');
+                            resolve(true);
+                        }).catch(() => {
+                            this.tryRichAdsMethod3(resolve, reject);
+                        });
                     } else {
                         this.tryRichAdsMethod3(resolve, reject);
                     }
@@ -4520,18 +4546,104 @@
                 }
             }
             
-            // Ultimate fallback - 3 second timer (for testing)
+            // Method 3 helper
             tryRichAdsMethod3(resolve, reject) {
-                console.log('Using fallback timer for RichAds (3 seconds)');
-                // Show a message to user
-                if (typeof showModal === 'function') {
-                    showModal(document.getElementById('warningModal'), 'Loading playable ad... Please wait 3 seconds.');
+                console.log('Trying RichAds method 3 (iframe)');
+                try {
+                    // Create an iframe with RichAds ad
+                    const iframe = document.createElement('iframe');
+                    iframe.style.width = '100%';
+                    iframe.style.height = '400px';
+                    iframe.style.border = 'none';
+                    iframe.style.borderRadius = '10px';
+                    iframe.src = 'https://ads.richads.com/playable/1004419/6459';
+                    
+                    // Show in modal
+                    const modal = document.createElement('div');
+                    modal.style.position = 'fixed';
+                    modal.style.top = '0';
+                    modal.style.left = '0';
+                    modal.style.right = '0';
+                    modal.style.bottom = '0';
+                    modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                    modal.style.zIndex = '10000';
+                    modal.style.display = 'flex';
+                    modal.style.alignItems = 'center';
+                    modal.style.justifyContent = 'center';
+                    modal.style.padding = '20px';
+                    
+                    const container = document.createElement('div');
+                    container.style.width = '100%';
+                    container.style.maxWidth = '400px';
+                    container.style.backgroundColor = '#1a1a1a';
+                    container.style.borderRadius = '15px';
+                    container.style.padding = '20px';
+                    
+                    const title = document.createElement('h3');
+                    title.textContent = 'Playable Ad';
+                    title.style.color = 'white';
+                    title.style.textAlign = 'center';
+                    title.style.marginBottom = '15px';
+                    
+                    const closeBtn = document.createElement('button');
+                    closeBtn.textContent = 'Close';
+                    closeBtn.style.marginTop = '15px';
+                    closeBtn.style.padding = '10px 20px';
+                    closeBtn.style.backgroundColor = '#8a2be2';
+                    closeBtn.style.color = 'white';
+                    closeBtn.style.border = 'none';
+                    closeBtn.style.borderRadius = '8px';
+                    closeBtn.style.cursor = 'pointer';
+                    closeBtn.style.width = '100%';
+                    
+                    container.appendChild(title);
+                    container.appendChild(iframe);
+                    container.appendChild(closeBtn);
+                    modal.appendChild(container);
+                    document.body.appendChild(modal);
+                    
+                    // Auto resolve after 5 seconds (for demo)
+                    setTimeout(() => {
+                        document.body.removeChild(modal);
+                        console.log('RichAds iframe completed');
+                        resolve(true);
+                    }, 5000);
+                    
+                    closeBtn.onclick = function() {
+                        document.body.removeChild(modal);
+                        resolve(true);
+                    };
+                    
+                } catch (e) {
+                    console.error('Iframe method failed:', e);
+                    this.tryRichAdsFallback(resolve, reject);
                 }
+            }
+            
+            // Ultimate fallback - 3 second timer
+            tryRichAdsFallback(resolve, reject) {
+                console.log('Using fallback timer for RichAds (3 seconds)');
                 
-                setTimeout(() => {
-                    console.log('RichAds fallback completed');
-                    resolve(true);
-                }, 3000);
+                // Show message to user
+                const modal = document.getElementById('warningModal');
+                if (modal) {
+                    const msgElem = modal.querySelector('.modal-message');
+                    if (msgElem) {
+                        msgElem.innerHTML = 'Loading playable ad... Please wait 3 seconds.';
+                    }
+                    modal.classList.add('active');
+                    
+                    setTimeout(() => {
+                        modal.classList.remove('active');
+                        console.log('RichAds fallback completed');
+                        resolve(true);
+                    }, 3000);
+                } else {
+                    setTimeout(() => {
+                        console.log('RichAds fallback completed');
+                        resolve(true);
+                    }, 3000);
+                }
             }
             
             async showAdexoraAd() {

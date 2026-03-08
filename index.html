@@ -15,8 +15,71 @@
     <!-- Monetag SDK (for Task 1, 2, 5, 6) -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     
-    <!-- AdsGram SDK - For Task 4 and Task 10 -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <!-- RichAds SDK - For Task 4 and Task 10 (Replacing AdsGram) -->
+    <script src="https://richinfo.co/richpartners/telegram/js/tg-ob.js"></script>
+    <script>
+        // RichAds initialization with proper error handling
+        (function() {
+            // Global RichAds show function
+            window.showRichAd = function() {
+                return new Promise(function(resolve, reject) {
+                    try {
+                        console.log('Attempting to show RichAds ad...');
+                        
+                        // Check if TelegramAdsController exists
+                        if (typeof window.TelegramAdsController === 'undefined') {
+                            console.error('TelegramAdsController not defined');
+                            reject(new Error('RichAds SDK not loaded'));
+                            return;
+                        }
+                        
+                        // Show the ad
+                        window.TelegramAdsController.showAd().then(function() {
+                            console.log('RichAds ad completed successfully');
+                            resolve(true);
+                        }).catch(function(error) {
+                            console.error('RichAds ad error:', error);
+                            reject(error);
+                        });
+                    } catch (error) {
+                        console.error('Error showing RichAds ad:', error);
+                        reject(error);
+                    }
+                });
+            };
+            
+            // Initialize RichAds when DOM is ready
+            function initRichAds() {
+                try {
+                    console.log('Initializing RichAds...');
+                    
+                    if (typeof window.TelegramAdsController === 'undefined') {
+                        console.log('TelegramAdsController not ready, retrying in 1 second...');
+                        setTimeout(initRichAds, 1000);
+                        return;
+                    }
+                    
+                    window.TelegramAdsController = new TelegramAdsController();
+                    window.TelegramAdsController.initialize({
+                        pubId: "1004419",
+                        appId: "6459",
+                    });
+                    
+                    console.log('RichAds initialized successfully');
+                } catch (error) {
+                    console.error('Failed to initialize RichAds:', error);
+                    setTimeout(initRichAds, 2000);
+                }
+            }
+            
+            // Start initialization
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initRichAds);
+            } else {
+                initRichAds();
+            }
+        })();
+    </script>
     
     <!-- Adexora SDK - For Task 7 and Task 9 -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
@@ -3694,9 +3757,6 @@
         const database = firebase.database();
         const analytics = firebase.analytics();
 
-        // Initialize AdsGram with block ID int-23824
-        const adController = window.Adsgram ? window.Adsgram.init({ blockId: "int-23824" }) : null;
-
         // Game Bot Links
         const GAME_LINKS = {
             game1: 'https://t.me/greenroad_bot',
@@ -3782,6 +3842,44 @@
             }
         }
         const loadingManager = new LoadingManager();
+
+        // RichAds Ad Function - Using global showRichAd function
+        async function showRichAdsAd() {
+            return new Promise((resolve, reject) => {
+                try {
+                    console.log('Showing RichAds ad...');
+                    
+                    // Check if the global function exists
+                    if (typeof window.showRichAd === 'function') {
+                        window.showRichAd().then(() => {
+                            console.log('RichAds ad completed successfully');
+                            resolve(true);
+                        }).catch((error) => {
+                            console.error('RichAds ad error:', error);
+                            reject(error);
+                        });
+                    } else {
+                        console.error('showRichAd function not available');
+                        
+                        // Try direct call as fallback
+                        if (window.TelegramAdsController && typeof window.TelegramAdsController.showAd === 'function') {
+                            window.TelegramAdsController.showAd().then(() => {
+                                console.log('RichAds ad completed successfully (direct call)');
+                                resolve(true);
+                            }).catch((error) => {
+                                console.error('RichAds ad error (direct call):', error);
+                                reject(error);
+                            });
+                        } else {
+                            reject(new Error('RichAds SDK not loaded properly'));
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error in showRichAdsAd:', error);
+                    reject(error);
+                }
+            });
+        }
 
         // FirebaseUserManager Class - UPDATED with fixes
         class FirebaseUserManager {
@@ -4425,26 +4523,8 @@
                 });
             }
             
-            async showAdsGramAd() {
-                return new Promise((resolve, reject) => {
-                    try {
-                        if (adController) {
-                            adController.show().then(() => {
-                                console.log('AdsGram ad watched successfully');
-                                resolve(true);
-                            }).catch((error) => {
-                                console.error('AdsGram ad error:', error);
-                                reject(error);
-                            });
-                        } else {
-                            console.error('AdsGram SDK not loaded properly');
-                            reject(new Error('AdsGram SDK not loaded'));
-                        }
-                    } catch (error) {
-                        console.error('Error showing AdsGram ad:', error);
-                        reject(error);
-                    }
-                });
+            async showRichAdsAd() {
+                return showRichAdsAd(); // Call the global function
             }
             
             async showAdexoraAd() {
@@ -4641,17 +4721,18 @@
         const userManager = new FirebaseUserManager();
         
         // General Tasks - 10 tasks with $0.0008 each
+        // Updated: Task 4 and Task 10 now use RichAds
         const generalTasks = [
             { id: 'task1', title: 'Task 1 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
             { id: 'task2', title: 'Task 2 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
             { id: 'task3', title: 'Task 3 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
-            { id: 'task4', title: 'Task 4 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adsgram' },
+            { id: 'task4', title: 'Task 4 - Watch RichAds Ad', description: 'Watch a RichAds ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'richads' },
             { id: 'task5', title: 'Task 5 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
             { id: 'task6', title: 'Task 6 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
             { id: 'task7', title: 'Task 7 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
             { id: 'task8', title: 'Task 8 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps within 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
             { id: 'task9', title: 'Task 9 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
-            { id: 'task10', title: 'Task 10 - Watch AdsGram Ad', description: 'Watch an AdsGram ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adsgram' }
+            { id: 'task10', title: 'Task 10 - Watch RichAds Ad', description: 'Watch a RichAds ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'richads' }
         ];
         
         // DOM Elements
@@ -5690,8 +5771,8 @@
                     taskSecondsRemaining = 3;
                     warningTimerDisplay.textContent = taskSecondsRemaining;
                     showModal(timerWarningModal);
-                } else if (task.adType === 'adsgram') {
-                    await userManager.showAdsGramAd();
+                } else if (task.adType === 'richads') {
+                    await userManager.showRichAdsAd();
                     currentTask = task;
                     taskSecondsRemaining = 3;
                     warningTimerDisplay.textContent = taskSecondsRemaining;

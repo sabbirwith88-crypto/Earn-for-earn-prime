@@ -71,6 +71,40 @@
             --install-dark: #455A64;
         }
         
+        /* Add business email style */
+        .business-email {
+            background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .business-email a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .business-email a:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .business-email p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
         body {
             background-color: var(--bg-primary);
             color: var(--text-primary);
@@ -2693,7 +2727,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.100) -->
+                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.05) -->
                     <div class="game-task-container" id="gameTaskContainer2">
                         <div class="task-card" id="gameTaskCard2">
                             <div class="task-image" id="gameTaskImage2">
@@ -2702,7 +2736,7 @@
                             
                             <div class="task-header">
                                 <div class="task-title">Lunch The Ball Game</div>
-                                <div class="task-reward ball">0.100</div>
+                                <div class="task-reward ball">0.05</div>
                             </div>
                             
                             <div class="task-description">
@@ -2749,7 +2783,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 3 - All Sort Puzzle (Level 70) ($0.500) -->
+                    <!-- Game Task Container 3 - All Sort Puzzle (Level 70) ($0.12) -->
                     <div class="game-task-container" id="gameTaskContainer3">
                         <div class="task-card" id="gameTaskCard3">
                             <div class="task-image" id="gameTaskImage3">
@@ -2758,11 +2792,11 @@
                             
                             <div class="task-header">
                                 <div class="task-title">All Sort - Puzzle Game</div>
-                                <div class="task-reward puzzle">0.500</div>
+                                <div class="task-reward puzzle">0.12</div>
                             </div>
                             
                             <div class="task-description">
-                                Play the game, complete Level 100 and submit the verification code.
+                                Play the game, complete Level 70 and submit the verification code.
                             </div>
                             
                             <div class="game-install-info">
@@ -2772,7 +2806,7 @@
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Complete Level 100 and get the verification code</span>
+                                    <span>Step 2: Complete Level 70 and get the verification code</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-code"></i>
@@ -2805,7 +2839,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 4 - Block Blast (Level 50) ($0.300) -->
+                    <!-- Game Task Container 4 - Block Blast (Level 50) ($0.07) -->
                     <div class="game-task-container" id="gameTaskContainer4">
                         <div class="task-card" id="gameTaskCard4">
                             <div class="task-image" id="gameTaskImage4">
@@ -2814,7 +2848,7 @@
                             
                             <div class="task-header">
                                 <div class="task-title">Block Blast</div>
-                                <div class="task-reward block">0.300</div>
+                                <div class="task-reward block">0.07</div>
                             </div>
                             
                             <div class="task-description">
@@ -2861,7 +2895,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 5 - SOS Game (AI Hard) ($0.040) -->
+                    <!-- Game Task Container 5 - SOS Game (AI Hard) ($0.01) - UPDATED -->
                     <div class="game-task-container" id="gameTaskContainer5">
                         <div class="task-card" id="gameTaskCard5">
                             <div class="task-image" id="gameTaskImage5">
@@ -2870,7 +2904,7 @@
                             
                             <div class="task-header">
                                 <div class="task-title">SOS Game - AI Hard</div>
-                                <div class="task-reward ai-hard">0.040</div>
+                                <div class="task-reward ai-hard">0.01</div>
                             </div>
                             
                             <div class="task-description">
@@ -2917,7 +2951,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($1.00) -->
+                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($0.12) -->
                     <div class="game-task-container" id="gameTaskContainer6">
                         <div class="task-card" id="gameTaskCard6">
                             <div class="task-image" id="gameTaskImage6">
@@ -2926,7 +2960,7 @@
                             
                             <div class="task-header">
                                 <div class="task-title">Zombie Road</div>
-                                <div class="task-reward zombie">1.00</div>
+                                <div class="task-reward zombie">0.12</div>
                             </div>
                             
                             <div class="task-description">
@@ -3280,7 +3314,7 @@
                     <div id="referralsList" style="display: none;"></div>
                 </div>
                 
-                <!-- Information Section -->
+                <!-- Information Section - Updated with new business email -->
                 <div id="info-section" class="content-section">
                     <!-- Back Button -->
                     <div class="back-button" id="infoBackBtn">
@@ -3294,6 +3328,7 @@
                             Important Information
                         </div>
                         
+
                         <div class="info-card">
                             <div class="info-card-title">
                                 <i class="fas fa-calendar-alt"></i>
@@ -3308,11 +3343,11 @@
                                 <p><strong>General Task Reward:</strong> $0.0008 per task (20 attempts per task, 200 total daily)</p>
                                 <p><strong>Game Task Rewards:</strong></p>
                                 <p>- Green Road: $1.00 (Complete 100 levels)</p>
-                                <p>- Zombie Road: $1.00 (80,000 score)</p>
-                                <p>- All Sort: $0.50 (Level 70)</p>
-                                <p>- Block Blast: $0.30 (Level 50)</p>
-                                <p>- Lunch The Ball: $0.10 (Level 18)</p>
-                                <p>- SOS Game: $0.04 (AI Hard)</p>
+                                <p>- Zombie Road: $0.12 (80,000 score)</p>
+                                <p>- All Sort: $0.12 (Level 70)</p>
+                                <p>- Block Blast: $0.07 (Level 50)</p>
+                                <p>- Lunch The Ball: $0.05 (Level 18)</p>
+                                <p>- SOS Game: $0.01 (AI Hard) - UPDATED</p>
                                 <p>- Install App: $0.05 (Install app from ad)</p>
                                 <p><strong>Referral Bonus:</strong> $0.10 per referral</p>
                                 <p><strong>Withdrawal Method:</strong> Binance only</p>
@@ -3347,6 +3382,7 @@
                                 <p>We're here to help you 24/7. If you have any questions, issues, or need support, please contact us:</p>
                                 <p><strong>Telegram Chat Support:</strong> @earnforearnsuportteam</p>
                                 <p><strong>Email Support:</strong> earnforearnsuportteam@gmail.com</p>
+                                <p><strong>Business Email:</strong> earnforearnbusinessteam@gmail.com (For sponsorships)</p>
                                 <p><strong>Response Time:</strong> Usually within 24 hours</p>
                                 <p><strong>For Technical Issues:</strong> Contact our support team with screenshots</p>
                                 <p><strong>For Payment Issues:</strong> Contact with your withdrawal ID during payment period</p>
@@ -3535,19 +3571,19 @@
             </div>
         </div>
         
-        <!-- Sequential Unlock Modal for Task 3, Task 7, and Task 10 -->
+        <!-- Sequential Unlock Modal for Task 3, Task 7, and Task 10 - Updated to 65 seconds -->
         <div class="modal" id="sequentialUnlockModal">
             <div class="modal-content" style="max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                 <div class="modal-title">
                     <i class="fas fa-lock" style="color: var(--orange); margin-right: 10px;"></i>
-                    4-Step Unlock (120 seconds required)
+                    4-Step Unlock (65 seconds required)
                 </div>
                 <div class="modal-message" id="sequentialUnlockMessage">
                     <div style="text-align: center; margin-bottom: 20px;">
-                        <div style="font-size: 3rem; font-weight: bold; color: var(--orange);" id="seqTimerDisplay">120</div>
-                        <div style="color: var(--text-secondary);">Seconds remaining - MUST wait full 120 seconds!</div>
+                        <div style="font-size: 3rem; font-weight: bold; color: var(--orange);" id="seqTimerDisplay">65</div>
+                        <div style="color: var(--text-secondary);">Seconds remaining - MUST wait full 65 seconds!</div>
                         <div style="color: var(--warning); font-size: 0.9rem; margin-top: 5px;">
-                            ⚠️ If you complete all links before 120 seconds, you must wait until timer ends to claim reward
+                            ⚠️ If you complete all links before 65 seconds, you must wait until timer ends to claim reward
                         </div>
                     </div>
                     
@@ -3578,7 +3614,7 @@
                         <div style="font-size: 2rem; font-weight: bold; color: var(--gold);">$0.002</div>
                         <div style="color: var(--text-secondary);">REWARD - Available when timer reaches 0</div>
                         <button class="modal-btn primary" id="claimRewardBtn" style="margin-top: 15px; width: 100%; background: var(--success);" disabled>
-                            <i class="fas fa-hourglass-half"></i> Wait for timer (120s)
+                            <i class="fas fa-hourglass-half"></i> Wait for timer (65s)
                         </button>
                     </div>
                     
@@ -3587,7 +3623,7 @@
                     </div>
                     
                     <div style="margin-top: 15px; font-size: 0.85rem; color: var(--warning); text-align: center;">
-                        ⚠️ You MUST wait the full 120 seconds to claim reward. If you close early, you will NOT get reward!
+                        ⚠️ You MUST wait the full 65 seconds to claim reward. If you close early, you will NOT get reward!
                     </div>
                 </div>
             </div>
@@ -4221,14 +4257,15 @@
                         return { success: false, message: 'Please enter a verification code or app name.' };
                     }
                     
+                    // Updated rewards with new pricing
                     const rewards = {
-                        game1: 1.00,
-                        game2: 0.10,
-                        game3: 0.50,
-                        game4: 0.30,
-                        game5: 0.04,
-                        game6: 1.00,
-                        game7: 0.05
+                        game1: 1.00,  // Green Road (unchanged)
+                        game2: 0.05,  // Lunch The Ball - updated to $0.05
+                        game3: 0.12,  // All Sort Puzzle - updated to $0.12
+                        game4: 0.07,  // Block Blast - updated to $0.07
+                        game5: 0.01,  // SOS Game - updated to $0.01
+                        game6: 0.12,  // Zombie Road - updated to $0.12
+                        game7: 0.05   // Install App (unchanged)
                     };
                     
                     const gameNames = {
@@ -4596,7 +4633,7 @@
         const userManager = new FirebaseUserManager();
         
         // General Tasks - 10 tasks with new distribution:
-        // Adexora: 3 times, Rewarded: 2 times, Interstitial: 2 times, Sequential: 3 times
+        // Adexora: 3 times, Rewarded: 2 times, Interstitial: 2 times, Sequential: 3 times (65 seconds)
         const generalTasks = [
             // Adexora Ads (3 times)
             { id: 'task1', title: 'Task 1 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
@@ -4611,10 +4648,10 @@
             { id: 'task6', title: 'Task 6 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
             { id: 'task9', title: 'Task 9 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
             
-            // Sequential Unlock (3 times) - 120 seconds mandatory
-            { id: 'task3', title: 'Task 3 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps and wait FULL 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
-            { id: 'task7', title: 'Task 7 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps and wait FULL 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' },
-            { id: 'task10', title: 'Task 10 - 4-Step Unlock (120 sec)', description: 'Complete 4 steps and wait FULL 120 seconds to earn $0.002!', reward: 0.002, cooldown: 120, dailyLimit: 20, isUSD: true, adType: 'sequential' }
+            // Sequential Unlock (3 times) - 65 seconds mandatory (UPDATED)
+            { id: 'task3', title: 'Task 3 - 4-Step Unlock (65 sec)', description: 'Complete 4 steps and wait FULL 65 seconds to earn $0.002!', reward: 0.002, cooldown: 65, dailyLimit: 20, isUSD: true, adType: 'sequential' },
+            { id: 'task7', title: 'Task 7 - 4-Step Unlock (65 sec)', description: 'Complete 4 steps and wait FULL 65 seconds to earn $0.002!', reward: 0.002, cooldown: 65, dailyLimit: 20, isUSD: true, adType: 'sequential' },
+            { id: 'task10', title: 'Task 10 - 4-Step Unlock (65 sec)', description: 'Complete 4 steps and wait FULL 65 seconds to earn $0.002!', reward: 0.002, cooldown: 65, dailyLimit: 20, isUSD: true, adType: 'sequential' }
         ];
         
         // DOM Elements
@@ -4824,10 +4861,10 @@
         let cooldownTimerInterval = null;
         let selectedWithdrawMethod = 'binance';
         
-        // Sequential Unlock variables
+        // Sequential Unlock variables - Updated to 65 seconds
         let seqUnlockedLevel = 1;
         let seqWaitingForLink = null;
-        let seqTimeLeft = 120;
+        let seqTimeLeft = 65; // Changed from 120 to 65
         let seqTimerInterval = null;
         let seqRewardUnlocked = false;
         let seqLinkDone = {1: false, 2: false, 3: false, 4: false};
@@ -5218,7 +5255,7 @@
                 });
             }
             
-            // Game 5 - SOS Game
+            // Game 5 - SOS Game (updated reward)
             if (playGameBtn5) {
                 playGameBtn5.addEventListener('click', function() {
                     window.open(GAME_LINKS.game5, '_blank');
@@ -5481,7 +5518,7 @@
             seqUnlockedLevel = 1;
             seqLinkDone = {1: false, 2: false, 3: false, 4: false};
             seqRewardUnlocked = false;
-            seqTimeLeft = 120;
+            seqTimeLeft = 65; // Changed from 120 to 65
             seqWaitingForLink = null;
             allLinksCompleted = false;
             
@@ -5506,7 +5543,7 @@
             seqDone4.style.display = 'none';
             
             claimRewardBtn.disabled = true;
-            claimRewardBtn.innerHTML = '<i class="fas fa-hourglass-half"></i> Wait for timer (120s)';
+            claimRewardBtn.innerHTML = '<i class="fas fa-hourglass-half"></i> Wait for timer (65s)';
             claimRewardBtn.style.background = '#222222';
             
             seqTimerDisplay.textContent = seqTimeLeft;

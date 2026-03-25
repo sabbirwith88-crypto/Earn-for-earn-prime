@@ -61,6 +61,8 @@
             --ai-hard-dark: #C2185B;
             --zombie: #795548;
             --zombie-dark: #5D4037;
+            --brick: #FF9800;
+            --brick-dark: #F57C00;
             --payoneer: #2C3E50;
             --payoneer-dark: #1A252F;
             --privacy: #00ACC1;
@@ -71,7 +73,6 @@
             --install-dark: #455A64;
         }
         
-        /* Add business email style */
         .business-email {
             background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             border-radius: 12px;
@@ -940,6 +941,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        .task-reward.brick {
+            background: linear-gradient(135deg, var(--brick), var(--brick-dark));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
         .task-reward.payoneer {
             background: linear-gradient(135deg, var(--payoneer), var(--payoneer-dark));
             color: white;
@@ -1112,6 +1119,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        .task-button.brick {
+            background: linear-gradient(135deg, var(--brick), var(--brick-dark));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
         .task-button.payoneer {
             background: linear-gradient(135deg, var(--payoneer), var(--payoneer-dark));
             color: white;
@@ -1183,6 +1196,10 @@
         
         .task-button.zombie:hover:not(:disabled):not(.completed) {
             background: linear-gradient(135deg, var(--zombie-dark), var(--zombie));
+        }
+        
+        .task-button.brick:hover:not(:disabled):not(.completed) {
+            background: linear-gradient(135deg, var(--brick-dark), var(--brick));
         }
         
         .task-button.payoneer:hover:not(:disabled):not(.completed) {
@@ -1478,7 +1495,7 @@
         }
         
         .requirements-list {
-            background-color: var(--bg-secondary);
+            background-color: var(--bg-card);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
@@ -2265,6 +2282,10 @@
             background: linear-gradient(135deg, var(--zombie), var(--zombie-dark));
         }
         
+        .game-icon.brick {
+            background: linear-gradient(135deg, var(--brick), var(--brick-dark));
+        }
+        
         .game-icon.install {
             background: linear-gradient(135deg, var(--install), var(--install-dark));
         }
@@ -2660,7 +2681,7 @@
                     </div>
                 </div>
                 
-                <!-- Game Tasks Section -->
+                <!-- Game Tasks Section - UPDATED WITH NEW REWARDS AND REMOVED INSTALL TASK -->
                 <div id="game-section" class="content-section">
                     <div class="back-button" id="gameBackBtn">
                         <i class="fas fa-arrow-left"></i>
@@ -2671,7 +2692,7 @@
                         <h2 style="font-size: 1.3rem; color: white;">Game Tasks</h2>
                     </div>
                     
-                    <!-- Game Task Container 1 - Green Road: Car Racing ($0.12) -->
+                    <!-- Game Task 1 - Green Road: Car Racing ($0.12) -->
                     <div class="game-task-container" id="gameTaskContainer1">
                         <div class="task-card" id="gameTaskCard1">
                             <div class="task-image" id="gameTaskImage1">
@@ -2727,7 +2748,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 2 - Lunch The Ball Game (Level 18) ($0.05) -->
+                    <!-- Game Task 2 - Lunch The Ball Game (Level 18) - UPDATED REWARD $0.60 -->
                     <div class="game-task-container" id="gameTaskContainer2">
                         <div class="task-card" id="gameTaskCard2">
                             <div class="task-image" id="gameTaskImage2">
@@ -2736,7 +2757,7 @@
                             
                             <div class="task-header">
                                 <div class="task-title">Lunch The Ball Game</div>
-                                <div class="task-reward ball">0.0500</div>
+                                <div class="task-reward ball">0.6000</div>
                             </div>
                             
                             <div class="task-description">
@@ -2783,7 +2804,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 3 - All Sort Puzzle (Level 70) ($0.12) -->
+                    <!-- Game Task 3 - All Sort Puzzle (Level 70) - UPDATED REWARD $0.20 -->
                     <div class="game-task-container" id="gameTaskContainer3">
                         <div class="task-card" id="gameTaskCard3">
                             <div class="task-image" id="gameTaskImage3">
@@ -2792,11 +2813,11 @@
                             
                             <div class="task-header">
                                 <div class="task-title">All Sort - Puzzle Game</div>
-                                <div class="task-reward puzzle">0.1200</div>
+                                <div class="task-reward puzzle">0.2000</div>
                             </div>
                             
                             <div class="task-description">
-                                Play the game, complete Level 100 and submit the verification code.
+                                Play the game, complete Level 70 and submit the verification code.
                             </div>
                             
                             <div class="game-install-info">
@@ -2806,7 +2827,7 @@
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-gamepad"></i>
-                                    <span>Step 2: Complete Level 100 and get the verification code</span>
+                                    <span>Step 2: Complete Level 70 and get the verification code</span>
                                 </div>
                                 <div class="game-step">
                                     <i class="fas fa-code"></i>
@@ -2839,7 +2860,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 4 - Block Blast (Level 50) ($0.07) -->
+                    <!-- Game Task 4 - Block Blast (Level 50) - UPDATED REWARD $0.10 -->
                     <div class="game-task-container" id="gameTaskContainer4">
                         <div class="task-card" id="gameTaskCard4">
                             <div class="task-image" id="gameTaskImage4">
@@ -2848,7 +2869,7 @@
                             
                             <div class="task-header">
                                 <div class="task-title">Block Blast</div>
-                                <div class="task-reward block">0.0700</div>
+                                <div class="task-reward block">0.1000</div>
                             </div>
                             
                             <div class="task-description">
@@ -2895,7 +2916,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 5 - SOS Game (AI Hard) ($0.01) -->
+                    <!-- Game Task 5 - SOS Game (AI Hard) ($0.01) -->
                     <div class="game-task-container" id="gameTaskContainer5">
                         <div class="task-card" id="gameTaskCard5">
                             <div class="task-image" id="gameTaskImage5">
@@ -2951,7 +2972,7 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 6 - Zombie Road (80,000 Score) ($0.12) -->
+                    <!-- Game Task 6 - Zombie Road (80,000 Score) - UPDATED REWARD $0.18 -->
                     <div class="game-task-container" id="gameTaskContainer6">
                         <div class="task-card" id="gameTaskCard6">
                             <div class="task-image" id="gameTaskImage6">
@@ -2960,7 +2981,7 @@
                             
                             <div class="task-header">
                                 <div class="task-title">Zombie Road</div>
-                                <div class="task-reward zombie">0.1200</div>
+                                <div class="task-reward zombie">0.1800</div>
                             </div>
                             
                             <div class="task-description">
@@ -3007,59 +3028,55 @@
                         </div>
                     </div>
                     
-                    <!-- Game Task Container 7 - Install App & register Task ($0.05) -->
+                    <!-- NEW Game Task 7 - Brick Ball (Level 70) - REWARD $0.17 -->
                     <div class="game-task-container" id="gameTaskContainer7">
                         <div class="task-card" id="gameTaskCard7">
                             <div class="task-image" id="gameTaskImage7">
-                                <i class="fas fa-download" style="font-size: 3rem; color: var(--install);"></i>
+                                <i class="fas fa-cube" style="font-size: 3rem; color: var(--brick);"></i>
                             </div>
                             
                             <div class="task-header">
-                                <div class="task-title">Install App & register</div>
-                                <div class="task-reward install">0.0500</div>
+                                <div class="task-title">Brick Ball</div>
+                                <div class="task-reward brick">0.1700</div>
                             </div>
                             
                             <div class="task-description">
-                                Install the app & register and submit the app name to earn $0.05!
+                                Play the game, complete 70 levels and submit the verification code.
                             </div>
                             
                             <div class="game-install-info">
                                 <div class="game-step">
-                                    <i class="fas fa-link"></i>
-                                    <span>Step 1: Click the link below and Open With Chrome</span>
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Step 1: Play Brick Ball from the link below</span>
                                 </div>
                                 <div class="game-step">
-                                    <i class="fas fa-ad"></i>
-                                    <span>Step 2: Click on the ad that appears (Don't download gambling ads, ignore)</span>
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Step 2: Complete 70 levels and get the verification code</span>
                                 </div>
                                 <div class="game-step">
-                                    <i class="fas fa-download"></i>
-                                    <span>Step 3: Download And Register the app from the ad</span>
-                                </div>
-                                <div class="game-step">
-                                    <i class="fas fa-pen"></i>
-                                    <span>Step 4: Enter Your Registered Username Or Email</span>
+                                    <i class="fas fa-code"></i>
+                                    <span>Step 3: Enter the verification code and submit</span>
                                 </div>
                             </div>
                             
                             <div class="warning-box">
                                 <i class="fas fa-exclamation-triangle"></i>
                                 <div class="warning-text">
-                                    <strong>⚠️ WARNING:</strong> Fake app names will result in <strong>PERMANENT BAN</strong>. You must actually install the app!
+                                    <strong>⚠️ WARNING:</strong> Fake codes will result in <strong>PERMANENT BAN</strong>. No cheating allowed!
                                 </div>
                             </div>
                             
-                            <button class="task-button install" id="playGameBtn7">
-                                <i class="fas fa-external-link-alt"></i> Go to App Link
+                            <button class="task-button brick" id="playGameBtn7">
+                                <i class="fas fa-gamepad"></i> Play Game
                             </button>
                             
                             <div class="code-submit-section">
-                                <label class="form-label">Enter User Name or Email</label>
+                                <label class="form-label">Enter Verification Code</label>
                                 <div class="code-input-group">
-                                    <input type="text" id="gameCodeInput7" class="code-input" placeholder="Enter Your Username Or Email">
+                                    <input type="text" id="gameCodeInput7" class="code-input" placeholder="Enter code">
                                     <button class="submit-code-btn" id="submitGameCodeBtn7">Submit</button>
                                 </div>
-                                <div class="form-note" style="margin-top: 5px;">Enter the exact Username of the app you installed</div>
+                                <div class="form-note" style="margin-top: 5px;">Paste the code you received after completing Level 70</div>
                             </div>
                             
                             <div id="gameTaskStatus7" class="task-status pending" style="display: none;"></div>
@@ -3314,7 +3331,7 @@
                     <div id="referralsList" style="display: none;"></div>
                 </div>
                 
-                <!-- Information Section - Updated with new business email -->
+                <!-- Information Section -->
                 <div id="info-section" class="content-section">
                     <!-- Back Button -->
                     <div class="back-button" id="infoBackBtn">
@@ -3328,7 +3345,6 @@
                             Important Information
                         </div>
                         
-
                         <div class="info-card">
                             <div class="info-card-title">
                                 <i class="fas fa-calendar-alt"></i>
@@ -3341,14 +3357,14 @@
                                 <p><strong>Monthly Limit:</strong> One withdrawal per month</p>
                                 <p><strong>Direct USD Earnings:</strong> All rewards are in USD with 4 decimal precision</p>
                                 <p><strong>General Task Reward:</strong> $0.0008 per task (20 attempts per task, 200 total daily)</p>
-                                <p><strong>Game Task Rewards:</strong></p>
-                                <p>- Green Road: $0.12 (Complete 100 levels) - NEW PRICE!</p>
-                                <p>- Zombie Road: $0.12 (80,000 score)</p>
-                                <p>- All Sort: $0.12 (Level 70)</p>
-                                <p>- Block Blast: $0.07 (Level 100)</p>
-                                <p>- Lunch The Ball: $0.05 (Level 18)</p>
+                                <p><strong>Game Task Rewards (UPDATED):</strong></p>
+                                <p>- Green Road: $0.12 (Complete 100 levels)</p>
+                                <p>- Lunch The Ball: $0.60 (Level 18) - INCREASED!</p>
+                                <p>- All Sort Puzzle: $0.20 (Level 70) - INCREASED!</p>
+                                <p>- Block Blast: $0.10 (Level 50) - UPDATED!</p>
                                 <p>- SOS Game: $0.01 (AI Hard)</p>
-                                <p>- Install App: $0.05 (Install app from ad)</p>
+                                <p>- Zombie Road: $0.18 (80,000 score) - INCREASED!</p>
+                                <p>- Brick Ball: $0.17 (Complete 70 levels) - NEW GAME!</p>
                                 <p><strong>Referral Bonus:</strong> $0.10 per referral</p>
                                 <p><strong>Withdrawal Method:</strong> Binance only</p>
                                 <p><strong>Next Payment Window:</strong> <span id="infoNextPayment">Loading...</span></p>
@@ -3384,12 +3400,9 @@
                                 <p><strong>Email Support:</strong> earnforearnsuportteam@gmail.com</p>
                                 <p><strong>Business Email:</strong> earnforearnbusinessteam@gmail.com (For sponsorships)</p>
                                 <p><strong>Response Time:</strong> Usually within 24 hours</p>
-                                <p><strong>For Technical Issues:</strong> Contact our support team with screenshots</p>
-                                <p><strong>For Payment Issues:</strong> Contact with your withdrawal ID during payment period</p>
                             </div>
                         </div>
                         
-                        <!-- Legal Options - Privacy Policy and Terms & Conditions buttons -->
                         <div class="legal-options">
                             <button class="support-button privacy-button" id="privacyPolicyBtn">
                                 <i class="fas fa-shield-alt"></i> Privacy Policy
@@ -3571,7 +3584,7 @@
             </div>
         </div>
         
-        <!-- Sequential Unlock Modal for Task 3, Task 7, and Task 10 - Updated to 65 seconds -->
+        <!-- Sequential Unlock Modal for Task 3, Task 7, and Task 10 -->
         <div class="modal" id="sequentialUnlockModal">
             <div class="modal-content" style="max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                 <div class="modal-title">
@@ -3724,7 +3737,7 @@
         const database = firebase.database();
         const analytics = firebase.analytics();
 
-        // Game Bot Links
+        // Game Bot Links - Updated with Brick Ball link
         const GAME_LINKS = {
             game1: 'https://t.me/greenroad_bot',
             game2: 'https://t.me/lunchtheball_bot',
@@ -3732,20 +3745,33 @@
             game4: 'https://t.me/Boxblastpro_bot',
             game5: 'https://t.me/sosgameultra_bot',
             game6: 'https://t.me/zombieroad_bot',
-            game7: 'https://www.overthegridge.help/?sl=6072721-00d5f&pub_click_id={External_ID_from_traffic_source}&site={subID}&pub_sub_id={sub_'
-        };
-
-        // Sequential Unlock Links
-        const SEQUENTIAL_LINKS = {
-            1: 'https://www.effectivegatecpm.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d',
-            2: 'https://ukuleqasforsalesre.com?hTTVD=1246757',
-            3: 'https://omg10.com/4/10686606',
-            4: 'https://www.effectivegatecpm.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d'
+            game7: 'https://t.me/brickball_bot'
         };
 
         // Privacy Policy and Terms & Conditions URLs
         const PRIVACY_POLICY_URL = 'https://earn-for-earn-privacy-police.vercel.app/';
         const TERMS_CONDITIONS_URL = 'https://earn-for-earn-terms-condition.vercel.app/';
+
+        // Game Rewards (UPDATED)
+        const GAME_REWARDS = {
+            game1: 0.12,   // Green Road
+            game2: 0.60,   // Lunch The Ball - UPDATED
+            game3: 0.20,   // All Sort Puzzle - UPDATED
+            game4: 0.10,   // Block Blast - UPDATED
+            game5: 0.01,   // SOS Game
+            game6: 0.18,   // Zombie Road - UPDATED
+            game7: 0.17    // Brick Ball - NEW
+        };
+        
+        const GAME_NAMES = {
+            game1: 'Green Road: Car Racing (100 levels)',
+            game2: 'Lunch The Ball Game (Level 18)',
+            game3: 'All Sort - Puzzle Game (Level 70)',
+            game4: 'Block Blast (Level 50)',
+            game5: 'SOS Game - AI Hard',
+            game6: 'Zombie Road (80,000 Score)',
+            game7: 'Brick Ball (70 Levels)'
+        };
 
         // Loading Progress Management
         class LoadingManager {
@@ -3815,8 +3841,6 @@
             constructor() {
                 this.currentUser = null;
                 this.userData = null;
-                this.taskCompletions = {};
-                this.dailyTaskCounts = {};
                 this.activeGameSubmissions = {
                     game1: false,
                     game2: false,
@@ -3826,38 +3850,6 @@
                     game6: false,
                     game7: false
                 };
-                this.gameTaskSubmissions = {};
-                this.lastResetDate = localStorage.getItem('earnUSDLastResetDate') || new Date().toDateString();
-                
-                try {
-                    const savedCounts = localStorage.getItem('earnUSDDailyTaskCounts');
-                    if (savedCounts) this.dailyTaskCounts = JSON.parse(savedCounts);
-                    const savedGameSubmissions = localStorage.getItem('gameTaskSubmissions');
-                    if (savedGameSubmissions) this.gameTaskSubmissions = JSON.parse(savedGameSubmissions);
-                } catch(e) { console.error('Error loading saved data:', e); }
-                
-                this.checkAndResetDailyCounts();
-            }
-            
-            checkAndResetDailyCounts() {
-                const today = new Date().toDateString();
-                if (today !== this.lastResetDate) {
-                    this.dailyTaskCounts = {};
-                    localStorage.setItem('earnUSDLastResetDate', today);
-                    localStorage.setItem('earnUSDDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
-                }
-            }
-            
-            async loadDailyCountsFromDatabase(userId) {
-                try {
-                    const userData = await this.getUserData(userId);
-                    if (userData && userData.dailyTaskCounts) {
-                        this.dailyTaskCounts[userId] = userData.dailyTaskCounts;
-                        localStorage.setItem('earnUSDDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
-                        return userData.dailyTaskCounts;
-                    }
-                } catch(e) { console.error('Error loading daily counts:', e); }
-                return null;
             }
             
             generateReferralCode(email) {
@@ -3892,52 +3884,6 @@
                     const d = new Date(w.date);
                     return d.getMonth() === currentMonth && d.getFullYear() === currentYear && w.status !== 'cancelled';
                 });
-            }
-            
-            getLastWithdrawalDate(userData) {
-                const history = userData.withdrawalHistory || [];
-                const sorted = history.filter(w => w.status === 'completed' || w.status === 'pending' || w.status === 'approved').sort((a,b) => new Date(b.date) - new Date(a.date));
-                return sorted.length ? new Date(sorted[0].date) : null;
-            }
-            
-            getNextWithdrawalDate(userData) {
-                if (this.isWithinPaymentWindow() && !this.hasWithdrawnThisMonth(userData)) return "Available now (3rd-9th)";
-                const last = this.getLastWithdrawalDate(userData);
-                if (last) {
-                    const lastMonth = last.getMonth(), lastYear = last.getFullYear();
-                    const currMonth = new Date().getMonth(), currYear = new Date().getFullYear();
-                    if (lastMonth === currMonth && lastYear === currYear) {
-                        const next = this.getNextPaymentWindow();
-                        return next.formatted;
-                    }
-                }
-                const today = new Date(), day = today.getDate();
-                if (day < 3) {
-                    const m = today.getMonth(), y = today.getFullYear();
-                    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                    return `3rd - 9th ${months[m]} ${y}`;
-                } else if (day > 9) {
-                    return this.getNextPaymentWindow().formatted;
-                }
-                return "Calculating...";
-            }
-            
-            getWithdrawalProgress(userData) {
-                const balance = userData.balance || 0;
-                const minWithdrawal = 2.0;
-                if (balance >= minWithdrawal) return "100% - Ready to withdraw!";
-                else {
-                    const percentage = Math.min(Math.round((balance / minWithdrawal) * 100), 99);
-                    return `${percentage}% - Need $${(minWithdrawal - balance).toFixed(4)} more`;
-                }
-            }
-            
-            getPaymentStatus(userData) {
-                const isWithin = this.isWithinPaymentWindow();
-                const hasWithdrawn = this.hasWithdrawnThisMonth(userData);
-                if (isWithin && !hasWithdrawn) return { text: "Open for Withdrawals", status: "open", color: "var(--success)" };
-                else if (hasWithdrawn) return { text: "Already Withdrawn This Month", status: "used", color: "var(--text-secondary)" };
-                else return { text: "Closed - Wait for 3rd-9th", status: "closed", color: "var(--error)" };
             }
             
             async isUserBanned(userId) {
@@ -3986,13 +3932,7 @@
                         lastActive: new Date().toISOString(),
                         lastWithdrawalMonth: null,
                         activeGameSubmissions: {
-                            game1: false,
-                            game2: false,
-                            game3: false,
-                            game4: false,
-                            game5: false,
-                            game6: false,
-                            game7: false
+                            game1: false, game2: false, game3: false, game4: false, game5: false, game6: false, game7: false
                         },
                         isBanned: false
                     };
@@ -4074,13 +4014,7 @@
                             dailyTaskCounts: {},
                             lastActive: new Date().toISOString(), lastWithdrawalMonth: null,
                             activeGameSubmissions: {
-                                game1: false,
-                                game2: false,
-                                game3: false,
-                                game4: false,
-                                game5: false,
-                                game6: false,
-                                game7: false
+                                game1: false, game2: false, game3: false, game4: false, game5: false, game6: false, game7: false
                             },
                             isBanned: false
                         };
@@ -4093,13 +4027,7 @@
                         
                         if (!userData.activeGameSubmissions) {
                             userData.activeGameSubmissions = {
-                                game1: false,
-                                game2: false,
-                                game3: false,
-                                game4: false,
-                                game5: false,
-                                game6: false,
-                                game7: false
+                                game1: false, game2: false, game3: false, game4: false, game5: false, game6: false, game7: false
                             };
                             await database.ref('users/' + user.uid).update({ activeGameSubmissions: userData.activeGameSubmissions });
                         }
@@ -4107,16 +4035,8 @@
                         await database.ref('users/' + user.uid).update({ lastActive: new Date().toISOString() });
                     }
                     
-                    await this.loadDailyCountsFromDatabase(user.uid);
-                    
                     this.activeGameSubmissions = userData.activeGameSubmissions || {
-                        game1: false,
-                        game2: false,
-                        game3: false,
-                        game4: false,
-                        game5: false,
-                        game6: false,
-                        game7: false
+                        game1: false, game2: false, game3: false, game4: false, game5: false, game6: false, game7: false
                     };
                     
                     this.currentUser = user;
@@ -4236,28 +4156,8 @@
                         return { success: false, message: 'Please enter a verification code or app name.' };
                     }
                     
-                    const rewards = {
-                        game1: 0.12,  // Green Road - updated to $0.12
-                        game2: 0.05,
-                        game3: 0.12,
-                        game4: 0.07,
-                        game5: 0.01,
-                        game6: 0.12,
-                        game7: 0.05
-                    };
-                    
-                    const gameNames = {
-                        game1: 'Green Road: Car Racing (100 levels)',
-                        game2: 'Lunch The Ball Game (Level 18)',
-                        game3: 'All Sort - Puzzle Game (Level 100)',
-                        game4: 'Block Blast (Level 50)',
-                        game5: 'SOS Game - AI Hard',
-                        game6: 'Zombie Road (80,000 Score)',
-                        game7: 'Install App & register'
-                    };
-                    
-                    const reward = rewards[gameType];
-                    const gameName = gameNames[gameType];
+                    const reward = GAME_REWARDS[gameType];
+                    const gameName = GAME_NAMES[gameType];
                     
                     const taskId = 'GAME' + Date.now() + Math.random().toString(36).substr(2, 6).toUpperCase();
                     const gameTask = {
@@ -4463,16 +4363,6 @@
                     
                     this.userData = { ...this.userData, ...updates };
                     
-                    if (!this.dailyTaskCounts[userId]) this.dailyTaskCounts[userId] = {};
-                    if (!this.dailyTaskCounts[userId][today]) this.dailyTaskCounts[userId][today] = {};
-                    this.dailyTaskCounts[userId][today][taskId] = (this.dailyTaskCounts[userId][today][taskId] || 0) + 1;
-                    
-                    localStorage.setItem('earnUSDDailyTaskCounts', JSON.stringify(this.dailyTaskCounts));
-                    
-                    if (!this.taskCompletions[userId]) this.taskCompletions[userId] = {};
-                    if (!this.taskCompletions[userId][taskId]) this.taskCompletions[userId][taskId] = {};
-                    this.taskCompletions[userId][taskId].lastCompleted = new Date().toISOString();
-                    
                     return true;
                 } catch (error) { 
                     console.error('Error completing task:', error); 
@@ -4488,8 +4378,7 @@
                     dailyCounts = this.userData.dailyTaskCounts;
                 }
                 
-                const taskDailyCount = dailyCounts[today]?.[taskId] || 
-                                      this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
+                const taskDailyCount = dailyCounts[today]?.[taskId] || 0;
                 
                 const dailyTotalCount = this.getDailyTotalCount(userId, today);
                 
@@ -4501,19 +4390,7 @@
                     return { canComplete: false, timeRemaining: 0, reason: 'total_daily_limit', taskDailyCount, dailyTotalCount };
                 }
                 
-                if (!this.taskCompletions[userId]?.[taskId]) {
-                    return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
-                }
-                
-                const lastCompletion = new Date(this.taskCompletions[userId][taskId].lastCompleted);
-                const timeDiff = Date.now() - lastCompletion;
-                const cooldownTime = 60 * 1000;
-                
-                if (timeDiff >= cooldownTime) {
-                    return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
-                } else {
-                    return { canComplete: false, timeRemaining: Math.ceil((cooldownTime - timeDiff) / 1000), reason: 'cooldown', taskDailyCount, dailyTotalCount };
-                }
+                return { canComplete: true, timeRemaining: 0, taskDailyCount, dailyTotalCount };
             }
             
             getDailyTotalCount(userId, date) {
@@ -4523,8 +4400,7 @@
                     return Object.values(this.userData.dailyTaskCounts[today]).reduce((a,b) => a + b, 0);
                 }
                 
-                const counts = this.dailyTaskCounts[userId]?.[today] || {};
-                return Object.values(counts).reduce((a,b) => a + b, 0);
+                return 0;
             }
             
             getTaskDailyCount(userId, taskId) {
@@ -4534,7 +4410,7 @@
                     return this.userData.dailyTaskCounts[today][taskId] || 0;
                 }
                 
-                return this.dailyTaskCounts[userId]?.[today]?.[taskId] || 0;
+                return 0;
             }
             
             getTimeUntilReset() {
@@ -4605,20 +4481,13 @@
         
         // General Tasks - 10 tasks
         const generalTasks = [
-            // Adexora Ads (3 times)
             { id: 'task1', title: 'Task 1 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
             { id: 'task4', title: 'Task 4 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
             { id: 'task8', title: 'Task 8 - Watch Adexora Ad', description: 'Watch an Adexora ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'adexora' },
-            
-            // Rewarded Ads (2 times)
             { id: 'task2', title: 'Task 2 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
             { id: 'task5', title: 'Task 5 - Watch Rewarded Ad', description: 'Watch a rewarded ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'rewarded' },
-            
-            // Interstitial Ads (2 times)
             { id: 'task6', title: 'Task 6 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
             { id: 'task9', title: 'Task 9 - Watch Interstitial Ad', description: 'Watch an interstitial ad to earn $0.0008! Daily limit: 20 times', reward: 0.0008, cooldown: 60, dailyLimit: 20, isUSD: true, adType: 'interstitial' },
-            
-            // Sequential Unlock (3 times) - 65 seconds mandatory
             { id: 'task3', title: 'Task 3 - 4-Step Unlock (65 sec)', description: 'Complete 4 steps and wait FULL 65 seconds to earn $0.002!', reward: 0.002, cooldown: 65, dailyLimit: 20, isUSD: true, adType: 'sequential' },
             { id: 'task7', title: 'Task 7 - 4-Step Unlock (65 sec)', description: 'Complete 4 steps and wait FULL 65 seconds to earn $0.002!', reward: 0.002, cooldown: 65, dailyLimit: 20, isUSD: true, adType: 'sequential' },
             { id: 'task10', title: 'Task 10 - 4-Step Unlock (65 sec)', description: 'Complete 4 steps and wait FULL 65 seconds to earn $0.002!', reward: 0.002, cooldown: 65, dailyLimit: 20, isUSD: true, adType: 'sequential' }
@@ -4675,13 +4544,6 @@
         const banReason = document.getElementById('banReason');
         
         // Game Task Elements
-        const gameTaskContainer1 = document.getElementById('gameTaskContainer1');
-        const gameTaskContainer2 = document.getElementById('gameTaskContainer2');
-        const gameTaskContainer3 = document.getElementById('gameTaskContainer3');
-        const gameTaskContainer4 = document.getElementById('gameTaskContainer4');
-        const gameTaskContainer5 = document.getElementById('gameTaskContainer5');
-        const gameTaskContainer6 = document.getElementById('gameTaskContainer6');
-        const gameTaskContainer7 = document.getElementById('gameTaskContainer7');
         const gameCodeInput1 = document.getElementById('gameCodeInput1');
         const gameCodeInput2 = document.getElementById('gameCodeInput2');
         const gameCodeInput3 = document.getElementById('gameCodeInput3');
@@ -4703,20 +4565,6 @@
         const playGameBtn5 = document.getElementById('playGameBtn5');
         const playGameBtn6 = document.getElementById('playGameBtn6');
         const playGameBtn7 = document.getElementById('playGameBtn7');
-        const gameTaskStatus1 = document.getElementById('gameTaskStatus1');
-        const gameTaskStatus2 = document.getElementById('gameTaskStatus2');
-        const gameTaskStatus3 = document.getElementById('gameTaskStatus3');
-        const gameTaskStatus4 = document.getElementById('gameTaskStatus4');
-        const gameTaskStatus5 = document.getElementById('gameTaskStatus5');
-        const gameTaskStatus6 = document.getElementById('gameTaskStatus6');
-        const gameTaskStatus7 = document.getElementById('gameTaskStatus7');
-        const gameTaskProgress1 = document.getElementById('gameTaskProgress1');
-        const gameTaskProgress2 = document.getElementById('gameTaskProgress2');
-        const gameTaskProgress3 = document.getElementById('gameTaskProgress3');
-        const gameTaskProgress4 = document.getElementById('gameTaskProgress4');
-        const gameTaskProgress5 = document.getElementById('gameTaskProgress5');
-        const gameTaskProgress6 = document.getElementById('gameTaskProgress6');
-        const gameTaskProgress7 = document.getElementById('gameTaskProgress7');
         
         // Game Task History
         const zeroGameHistory = document.getElementById('zeroGameHistory');
@@ -4807,7 +4655,6 @@
         const seqTimerDisplay = document.getElementById('seqTimerDisplay');
         const seqCloseBtn = document.getElementById('seqCloseBtn');
         const claimRewardBtn = document.getElementById('claimRewardBtn');
-        const seqRewardBox = document.getElementById('seqRewardBox');
         const startChatBtn = document.getElementById('startChatBtn');
         const cancelChatBtn = document.getElementById('cancelChatBtn');
         const changePasswordBtn = document.getElementById('changePassword');
@@ -4830,7 +4677,7 @@
         let cooldownTimerInterval = null;
         let selectedWithdrawMethod = 'binance';
         
-        // Sequential Unlock variables - Updated to 65 seconds
+        // Sequential Unlock variables
         let seqUnlockedLevel = 1;
         let seqWaitingForLink = null;
         let seqTimeLeft = 65;
@@ -4840,6 +4687,14 @@
         let seqResolve = null;
         let seqReject = null;
         let allLinksCompleted = false;
+        
+        // Sequential Unlock Links
+        const SEQUENTIAL_LINKS = {
+            1: 'https://www.effectivegatecpm.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d',
+            2: 'https://ukuleqasforsalesre.com?hTTVD=1246757',
+            3: 'https://omg10.com/4/10686606',
+            4: 'https://www.effectivegatecpm.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d'
+        };
         
         function showLoading(msg = 'Loading...') { loadingText.textContent = msg; loadingSpinner.classList.add('active'); }
         function hideLoading() { loadingSpinner.classList.remove('active'); }
@@ -4949,35 +4804,38 @@
             if (!userData) return;
             
             const hasActiveGame1 = userManager.hasActiveGameSubmission('game1');
-            gameTaskContainer1.style.display = hasActiveGame1 ? 'none' : 'block';
+            const gameContainer1 = document.getElementById('gameTaskContainer1');
+            if (gameContainer1) gameContainer1.style.display = hasActiveGame1 ? 'none' : 'block';
             
             const hasActiveGame2 = userManager.hasActiveGameSubmission('game2');
-            gameTaskContainer2.style.display = hasActiveGame2 ? 'none' : 'block';
+            const gameContainer2 = document.getElementById('gameTaskContainer2');
+            if (gameContainer2) gameContainer2.style.display = hasActiveGame2 ? 'none' : 'block';
             
             const hasActiveGame3 = userManager.hasActiveGameSubmission('game3');
-            gameTaskContainer3.style.display = hasActiveGame3 ? 'none' : 'block';
+            const gameContainer3 = document.getElementById('gameTaskContainer3');
+            if (gameContainer3) gameContainer3.style.display = hasActiveGame3 ? 'none' : 'block';
             
             const hasActiveGame4 = userManager.hasActiveGameSubmission('game4');
-            gameTaskContainer4.style.display = hasActiveGame4 ? 'none' : 'block';
+            const gameContainer4 = document.getElementById('gameTaskContainer4');
+            if (gameContainer4) gameContainer4.style.display = hasActiveGame4 ? 'none' : 'block';
             
             const hasActiveGame5 = userManager.hasActiveGameSubmission('game5');
-            gameTaskContainer5.style.display = hasActiveGame5 ? 'none' : 'block';
+            const gameContainer5 = document.getElementById('gameTaskContainer5');
+            if (gameContainer5) gameContainer5.style.display = hasActiveGame5 ? 'none' : 'block';
             
             const hasActiveGame6 = userManager.hasActiveGameSubmission('game6');
-            gameTaskContainer6.style.display = hasActiveGame6 ? 'none' : 'block';
+            const gameContainer6 = document.getElementById('gameTaskContainer6');
+            if (gameContainer6) gameContainer6.style.display = hasActiveGame6 ? 'none' : 'block';
             
             const hasActiveGame7 = userManager.hasActiveGameSubmission('game7');
-            gameTaskContainer7.style.display = hasActiveGame7 ? 'none' : 'block';
+            const gameContainer7 = document.getElementById('gameTaskContainer7');
+            if (gameContainer7) gameContainer7.style.display = hasActiveGame7 ? 'none' : 'block';
         }
         
         function updatePaymentSchedule(userData) {
             if (!userData) return;
             const nextWindow = userManager.getNextPaymentWindow();
-            infoNextPayment.textContent = nextWindow.formatted;
-        }
-        
-        function updateWeeklyResetTimer() {
-            // Not needed for this version
+            if (infoNextPayment) infoNextPayment.textContent = nextWindow.formatted;
         }
         
         async function initializeApp() { 
@@ -5037,7 +4895,6 @@
                                 game1: false, game2: false, game3: false, game4: false, game5: false, game6: false, game7: false
                             };
                             
-                            await userManager.loadDailyCountsFromDatabase(user.uid);
                             userManager.listenForGameTaskUpdates(user.uid);
                             
                             await loadingManager.animateProgress(100); await loadingManager.completeStep(4);
@@ -5293,11 +5150,11 @@
                 });
             }
             
-            // Game 7 - Install App
+            // Game 7 - Brick Ball (NEW)
             if (playGameBtn7) {
                 playGameBtn7.addEventListener('click', function() {
                     window.open(GAME_LINKS.game7, '_blank');
-                    showModal(warningModal, '⚠️ WARNING: Fake app names will result in PERMANENT BAN. You must actually install the app!');
+                    showModal(warningModal, '⚠️ WARNING: Fake codes will result in PERMANENT BAN. No cheating allowed!');
                 });
             }
             
@@ -5306,24 +5163,19 @@
                     const user = userManager.currentUser;
                     if (!user) return;
                     
-                    const appName = gameCodeInput7.value.trim();
+                    const code = gameCodeInput7.value.trim();
                     
-                    if (!appName) {
-                        showModal(errorModal, 'Please enter the app name you installed');
+                    if (!code) {
+                        showModal(errorModal, 'Please enter a verification code');
                         return;
                     }
                     
-                    if (appName.length < 3) {
-                        showModal(errorModal, 'Please enter a valid app name');
-                        return;
-                    }
-                    
-                    showLoading('Submitting app name...');
-                    const result = await userManager.submitGameTask(user.uid, appName, 'game7');
+                    showLoading('Submitting code...');
+                    const result = await userManager.submitGameTask(user.uid, code, 'game7');
                     hideLoading();
                     
                     if (result.success) {
-                        showModal(gameCodeSubmittedModal, 'Your app name has been submitted to admin for verification. Check history for status updates.');
+                        showModal(gameCodeSubmittedModal, 'Your game code has been submitted to admin for verification. Check history for status updates.');
                         updateUserInfo(userManager.userData);
                         displayGameTaskHistory(userManager.userData);
                         gameCodeInput7.value = '';
@@ -5523,18 +5375,15 @@
                 seqTimeLeft--;
                 seqTimerDisplay.textContent = seqTimeLeft;
                 
-                // Enable reward button when timer reaches 0
                 if (seqTimeLeft <= 0) {
                     clearInterval(seqTimerInterval);
                     seqTimerInterval = null;
                     
-                    // Check if all links are completed
                     if (allLinksCompleted) {
                         claimRewardBtn.disabled = false;
                         claimRewardBtn.innerHTML = '<i class="fas fa-gift"></i> Claim $0.002 Reward';
                         claimRewardBtn.style.background = 'var(--success)';
                     } else {
-                        // Time expired but not all links completed - reject
                         alert('❌ Time expired! You did not complete all links. Task rejected.');
                         if (seqReject) {
                             seqReject(new Error('Time expired - links not completed'));
@@ -5600,10 +5449,8 @@
                             seqLink4.querySelector('i').className = 'fas fa-link';
                         }
                     } else {
-                        // All links completed
                         allLinksCompleted = true;
                         
-                        // Check if timer is already at 0
                         if (seqTimeLeft <= 0) {
                             claimRewardBtn.disabled = false;
                             claimRewardBtn.innerHTML = '<i class="fas fa-gift"></i> Claim $0.002 Reward';
@@ -5736,17 +5583,17 @@
             if (!userData) return false;
             let allMet = true;
             if (userData.balance >= 2.0) {
-                req1Status.textContent = 'Met'; req1Status.className = 'requirement-status completed'; req1Icon.innerHTML = '<i class="fas fa-check"></i>'; req1Icon.className = 'requirement-icon completed';
-            } else { req1Status.textContent = `Need $${(2.0 - userData.balance).toFixed(4)} more`; req1Status.className = 'requirement-status'; req1Icon.innerHTML = '<i class="fas fa-dollar-sign"></i>'; req1Icon.className = 'requirement-icon pending'; allMet = false; }
+                req1Status.textContent = 'Met'; req1Status.className = 'requirement-status completed'; if(req1Icon) { req1Icon.innerHTML = '<i class="fas fa-check"></i>'; req1Icon.className = 'requirement-icon completed'; }
+            } else { req1Status.textContent = `Need $${(2.0 - userData.balance).toFixed(4)} more`; req1Status.className = 'requirement-status'; if(req1Icon) { req1Icon.innerHTML = '<i class="fas fa-dollar-sign"></i>'; req1Icon.className = 'requirement-icon pending'; } allMet = false; }
             if ((userData.referrals || []).length >= 3) {
-                req2Status.textContent = 'Met'; req2Status.className = 'requirement-status completed'; req2Icon.innerHTML = '<i class="fas fa-check"></i>'; req2Icon.className = 'requirement-icon completed';
-            } else { req2Status.textContent = `Need ${3 - (userData.referrals || []).length} more referrals`; req2Status.className = 'requirement-status'; req2Icon.innerHTML = '<i class="fas fa-user-friends"></i>'; req2Icon.className = 'requirement-icon pending'; allMet = false; }
+                req2Status.textContent = 'Met'; req2Status.className = 'requirement-status completed'; if(req2Icon) { req2Icon.innerHTML = '<i class="fas fa-check"></i>'; req2Icon.className = 'requirement-icon completed'; }
+            } else { req2Status.textContent = `Need ${3 - (userData.referrals || []).length} more referrals`; req2Status.className = 'requirement-status'; if(req2Icon) { req2Icon.innerHTML = '<i class="fas fa-user-friends"></i>'; req2Icon.className = 'requirement-icon pending'; } allMet = false; }
             const within = userManager.isWithinPaymentWindow();
-            if (within) { req3Status.textContent = 'Available (3rd-9th)'; req3Status.className = 'requirement-status completed'; req3Icon.innerHTML = '<i class="fas fa-check"></i>'; req3Icon.className = 'requirement-icon completed'; }
-            else { req3Status.textContent = 'Wait for payment window (3rd-9th)'; req3Status.className = 'requirement-status'; req3Icon.innerHTML = '<i class="fas fa-calendar-alt"></i>'; req3Icon.className = 'requirement-icon pending'; allMet = false; }
+            if (within) { req3Status.textContent = 'Available (3rd-9th)'; req3Status.className = 'requirement-status completed'; if(req3Icon) { req3Icon.innerHTML = '<i class="fas fa-check"></i>'; req3Icon.className = 'requirement-icon completed'; } }
+            else { req3Status.textContent = 'Wait for payment window (3rd-9th)'; req3Status.className = 'requirement-status'; if(req3Icon) { req3Icon.innerHTML = '<i class="fas fa-calendar-alt"></i>'; req3Icon.className = 'requirement-icon pending'; } allMet = false; }
             const hasWithdrawn = userManager.hasWithdrawnThisMonth(userData);
-            if (!hasWithdrawn) { req4Status.textContent = 'Not withdrawn this month'; req4Status.className = 'requirement-status completed'; req4Icon.innerHTML = '<i class="fas fa-check"></i>'; req4Icon.className = 'requirement-icon completed'; }
-            else { req4Status.textContent = 'Already withdrawn this month'; req4Status.className = 'requirement-status'; req4Icon.innerHTML = '<i class="fas fa-ban"></i>'; req4Icon.className = 'requirement-icon pending'; allMet = false; }
+            if (!hasWithdrawn) { req4Status.textContent = 'Not withdrawn this month'; req4Status.className = 'requirement-status completed'; if(req4Icon) { req4Icon.innerHTML = '<i class="fas fa-check"></i>'; req4Icon.className = 'requirement-icon completed'; } }
+            else { req4Status.textContent = 'Already withdrawn this month'; req4Status.className = 'requirement-status'; if(req4Icon) { req4Icon.innerHTML = '<i class="fas fa-ban"></i>'; req4Icon.className = 'requirement-icon pending'; } allMet = false; }
             if (allMet) { nextButton.disabled = false; nextButton.classList.add('active'); }
             else { nextButton.disabled = true; nextButton.classList.remove('active'); }
             return allMet;

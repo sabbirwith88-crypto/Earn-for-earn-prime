@@ -2482,7 +2482,7 @@
             </div>
         </div>
         
-        <div class="loading-version">Version 4.0.0 - One-Time Tasks & Updated Rewards</div>
+        <div class="loading-version">Version 4.0.0 - Persistent Login & Full Updates</div>
     </div>
     
     <!-- Loading Spinner for operations -->
@@ -3178,7 +3178,7 @@
                             </div>
                             <div class="info-card-content">
                                 <p>We're here to help you 24/7. If you have any questions, issues, or need support, please contact us:</p>
-                                <p><strong>Telegram Chat Support:</strong> @earnforearnsupport</p>
+                                <p><strong>Telegram Chat Support:</strong> @earnforearnsupPort</p>
                                 <p><strong>Email Support:</strong> earnforearnsuportteam@gmail.com</p>
                                 <p><strong>Business Email:</strong> earnforearnbusinessteam@gmail.com (For sponsorships)</p>
                                 <p><strong>Response Time:</strong> Usually within 24 hours</p>
@@ -3243,7 +3243,7 @@
             </div>
         </div>
         
-        <!-- Modals (same as before, kept for compatibility) -->
+        <!-- Modals -->
         <div class="modal" id="successModal"><div class="modal-content"><div class="modal-title"><i class="fas fa-check-circle" style="color: #cccccc; margin-right: 10px;"></i>Success!</div><div class="modal-message" id="successModalMessage">Operation completed successfully.</div><div class="modal-actions"><button class="modal-btn primary" id="successOkBtn">OK</button></div></div></div>
         <div class="modal" id="errorModal"><div class="modal-content"><div class="modal-title"><i class="fas fa-exclamation-circle" style="color: #cccccc; margin-right: 10px;"></i>Error</div><div class="modal-message" id="errorMessage">An error occurred.</div><div class="modal-actions"><button class="modal-btn primary" id="errorOkBtn">OK</button></div></div></div>
         <div class="modal" id="warningModal"><div class="modal-content"><div class="modal-title"><i class="fas fa-exclamation-triangle" style="color: var(--orange); margin-right: 10px;"></i>⚠️ WARNING</div><div class="modal-message" id="warningMessage">Fake codes will result in permanent ban!</div><div class="modal-actions"><button class="modal-btn orange" id="warningOkBtn">I Understand</button></div></div></div>
@@ -3269,8 +3269,11 @@
             measurementId: "G-NNTGVVJVRE"
         };
 
+        // Initialize Firebase with persistence
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+        // Set persistence to LOCAL so user stays logged in even after closing the app
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         const database = firebase.database();
         const analytics = firebase.analytics();
 
@@ -3304,8 +3307,8 @@
 
         // One-Time Telegram Tasks
         const ONE_TIME_TASKS = [
-            { id: 'telegram_update', title: 'Join Telegram Update Channel', description: 'Join our official Telegram channel for updates and announcements.', reward: 0.003, link: 'https://t.me/earnforearnupdate', channelName: 'Earn For Earn Updates' },
-            { id: 'telegram_proof', title: 'Join Payment Proof Channel', description: 'Join our payment proof channel to see real withdrawal proofs.', reward: 0.003, link: 'https://t.me/earnforearnpaymentproof', channelName: 'Earn For Earn Payment Proofs' }
+            { id: 'telegram_update', title: 'Join Telegram Update Channel', description: 'Join our official Telegram channel for updates and announcements.', reward: 0.003, link: 'https://t.me/earnforearnupdates', channelName: 'Earn For Earn Updates' },
+            { id: 'telegram_proof', title: 'Join Payment Proof Channel', description: 'Join our payment proof channel to see real withdrawal proofs.', reward: 0.003, link: 'https://t.me/earnforearnproofs', channelName: 'Earn For Earn Payment Proofs' }
         ];
 
         // Daily Sequential Tasks (3 tasks, $0.002 each, 20 daily limit)

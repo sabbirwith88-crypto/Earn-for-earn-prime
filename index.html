@@ -275,6 +275,11 @@
             padding: 24px;
             margin-bottom: 24px;
             border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
         .task-header {
             display: flex;
@@ -310,6 +315,7 @@
             font-size: 0.85rem;
             cursor: pointer;
             gap: 6px;
+            transition: all 0.2s;
         }
         .step-btn i { font-size: 1.3rem; }
         .step-btn.completed { background: var(--success); border-color: var(--success); }
@@ -317,7 +323,7 @@
         .step-btn.active-step { border: 2px solid var(--warning); box-shadow: 0 0 8px var(--warning); background: #2a2a2a; }
         
         .claim-btn {
-            background: var(--gold);
+            background: linear-gradient(90deg, var(--gold), #e6b422);
             color: #000;
             font-weight: bold;
             padding: 14px;
@@ -326,6 +332,17 @@
             border: none;
             margin-top: 16px;
             cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        .claim-btn:hover {
+            transform: scale(0.98);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .claim-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
         .cooldown-timer {
             background: #1a1a1a;
@@ -395,6 +412,11 @@
             border-radius: 60px;
             color: white;
             margin: 10px 0;
+            transition: 0.2s;
+        }
+        .form-input:focus {
+            border-color: var(--purple);
+            outline: none;
         }
         .rules-box {
             background: var(--bg-card);
@@ -419,6 +441,27 @@
             font-size: 0.9rem;
         }
         
+        .withdraw-btn {
+            background: linear-gradient(90deg, var(--purple), var(--blue));
+            color: white;
+            font-weight: bold;
+            padding: 16px;
+            border-radius: 60px;
+            width: 100%;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .withdraw-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(108,92,231,0.4);
+        }
+        .withdraw-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .referral-professional {
             background: linear-gradient(145deg, #141414, #0c0c0c);
             border-radius: 32px;
@@ -447,6 +490,11 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: scale(0.98);
         }
         .friend-card {
             background: var(--bg-elevated);
@@ -531,6 +579,30 @@
             cursor: pointer;
             margin-bottom: 20px;
             color: var(--text-secondary);
+        }
+        .withdrawal-history-card {
+            background: var(--bg-elevated);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--purple);
+        }
+        .history-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .status-pending { background: #f39c12; color: black; }
+        .status-approved { background: #00b894; color: white; }
+        .status-rejected { background: #e74c3c; color: white; }
+        .withdraw-id {
+            font-family: monospace;
+            background: #00000055;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
         }
         /* First-time Referral Code Modal */
         .referral-code-modal {
@@ -685,7 +757,7 @@
             </div>
             <input type="text" id="binanceAccount" class="form-input" placeholder="Binance Email / UID">
             <input type="number" id="withdrawAmount" step="0.001" min="0.5" class="form-input" placeholder="Amount ($)">
-            <button id="submitWithdrawBtn" class="claim-btn" style="background:var(--purple);" data-i18n="request_withdrawal">Request Withdrawal</button>
+            <button id="submitWithdrawBtn" class="withdraw-btn" data-i18n="request_withdrawal">Request Withdrawal</button>
             <div style="margin-top:30px;"><h4 data-i18n="withdrawal_history">Withdrawal History</h4><div id="historyList"></div></div>
         </div>
         
@@ -734,6 +806,16 @@
     </div>
 </div>
 
+<!-- Success Modal for Withdrawal -->
+<div class="modal" id="withdrawSuccessModal">
+    <div class="modal-content">
+        <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success); margin-bottom: 15px;"></i>
+        <h3>Withdrawal Request Submitted!</h3>
+        <div id="withdrawSuccessDetails" style="margin: 15px 0; text-align: left; background: #00000033; padding: 12px; border-radius: 24px;"></div>
+        <button class="modal-btn" id="closeSuccessModal" style="background: var(--purple);">OK</button>
+    </div>
+</div>
+
 <!-- Timer & Try Again Modals -->
 <div class="modal" id="timerModal">
     <div class="modal-content">
@@ -768,7 +850,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     
-    // ==================== TELEGRAM USER (auto-detect) ====================
+    // ==================== TELEGRAM USER ====================
     let webApp = window.Telegram?.WebApp;
     if(webApp) webApp.expand();
     let tgUser = webApp?.initDataUnsafe?.user;
@@ -779,7 +861,7 @@
         telegramUsername = "guest_" + Date.now();
     }
     
-    // ==================== GLOBAL VARIABLES ====================
+    // ==================== GLOBALS ====================
     let userData = null;
     let linkStepsDone = 0, videoStepsDone = 0;
     let pendingLinkStep = null, linkStartTime = 0, linkInterval = null;
@@ -790,7 +872,7 @@
         "https://link.gigapub.tech/l/9jfxp27o6m"
     ];
     
-    // ==================== MULTILINGUAL SYSTEM (All 6 languages complete) ====================
+    // ==================== MULTILINGUAL SYSTEM (6 languages) ====================
     const translations = {
         en: {
             loading_initializing: "Initializing system...", loading_ads: "Loading advertisements...", loading_auth: "Connecting to account...", loading_data: "Loading user data...", loading_ready: "Ready to earn!",
@@ -949,7 +1031,6 @@
         const langNames = { en: 'English', hi: 'हिन्दी', bn: 'বাংলা', es: 'Español', ar: 'العربية', fr: 'Français' };
         document.getElementById('currentLangLabel').innerText = langNames[currentLang] || 'English';
         
-        // Update dynamic buttons
         const claimLink = document.getElementById('claimLinkRewardBtn');
         if(claimLink && t) claimLink.innerText = t.claim_reward;
         const claimVideo = document.getElementById('claimVideoRewardBtn');
@@ -985,7 +1066,7 @@
         });
     }
     
-    // Helper functions (showSpinner, showModal, hideModal, showStatus, updateUser, fetchUserData, etc.)
+    // Helper functions
     function showSpinner(show) { document.getElementById('spinner').style.display = show ? 'flex' : 'none'; }
     function showModal(modal) { modal.classList.add('active'); }
     function hideModal(modal) { modal.classList.remove('active'); }
@@ -1101,7 +1182,7 @@
         proceedToApp();
     }
     
-    // Cooldown countdown function (40,39,38...)
+    // Cooldown countdown
     function startCooldownCountdown(elementId, endTime) {
         const element = document.getElementById(elementId);
         if(!element) return;
@@ -1136,7 +1217,6 @@
         updateWithdrawCalc();
         displayWithdrawalHistory();
         
-        // Update cooldown displays
         const linkCooldown = userData.linkTask?.cooldownUntil || 0;
         if(linkCooldown > Date.now()) startCooldownCountdown('linkCooldownArea', linkCooldown);
         else document.getElementById('linkCooldownArea').innerHTML = '';
@@ -1146,7 +1226,7 @@
         else document.getElementById('videoCooldownArea').innerHTML = '';
     }
     
-    // Link Task UI and Logic
+    // Link Task
     function renderLinkTaskUI() {
         const cooldown = Math.max(0, (userData.linkTask?.cooldownUntil||0) - Date.now());
         const canStart = cooldown <= 0;
@@ -1240,7 +1320,7 @@
         refreshUI();
     }
     
-    // Video Ads (with correct IDs)
+    // Video Ads
     const videoAdTypes = { 1: 'adsgram', 2: 'monetag', 3: 'giga' };
     function renderVideoTaskUI() {
         const cooldown = Math.max(0, (userData.videoTask?.cooldownUntil||0) - Date.now());
@@ -1273,22 +1353,16 @@
                 if(ctrl) {
                     await ctrl.show();
                     completed = true;
-                } else {
-                    console.warn("Adsgram init failed");
                 }
             } else if(adType === 'monetag') {
                 if(window.show_10541383) {
                     await window.show_10541383();
                     completed = true;
-                } else {
-                    console.warn("Monetag not ready");
                 }
             } else if(adType === 'giga') {
                 if(window.showGiga) {
                     await window.showGiga();
                     completed = true;
-                } else {
-                    console.warn("Giga not ready");
                 }
             }
             showSpinner(false);
@@ -1303,7 +1377,6 @@
             }
         } catch(err) {
             showSpinner(false);
-            console.error("Ad error:", err);
             showStatus(`Ad error: ${err.message || 'unknown'}`, 'error');
         }
     }
@@ -1396,23 +1469,57 @@
         if((userData.referrals||[]).length < 3) return showStatus('Need 3 referrals', 'error');
         const fee = amt * 0.03;
         const net = amt - fee;
-        const wid = { id: Date.now(), amount: amt, fee, netAmount: net, method: 'Binance', details: acc, status: 'pending', date: Date.now() };
+        const wid = { 
+            id: Date.now(), 
+            withdrawId: 'WD-' + Date.now().toString().slice(-8) + Math.floor(Math.random()*1000),
+            amount: amt, 
+            fee, 
+            netAmount: net, 
+            method: 'Binance', 
+            account: acc,
+            status: 'pending', 
+            date: Date.now() 
+        };
         const newBal = (userData.balance||0) - amt;
         const history = [...(userData.withdrawalHistory||[]), wid];
         await updateUser({ balance: newBal, withdrawalHistory: history });
-        showStatus(`Withdrawal request submitted! Net: $${net.toFixed(3)}`, 'success');
+        
+        // Show success modal with details
+        const detailsDiv = document.getElementById('withdrawSuccessDetails');
+        detailsDiv.innerHTML = `
+            <div style="margin-bottom:8px;"><strong>Withdrawal ID:</strong> ${wid.withdrawId}</div>
+            <div style="margin-bottom:8px;"><strong>Amount:</strong> $${amt.toFixed(3)}</div>
+            <div style="margin-bottom:8px;"><strong>Fee (3%):</strong> $${fee.toFixed(3)}</div>
+            <div style="margin-bottom:8px;"><strong>Net Amount:</strong> $${net.toFixed(3)}</div>
+            <div><strong>Binance Account:</strong> ${acc}</div>
+        `;
+        showModal(document.getElementById('withdrawSuccessModal'));
+        
         document.getElementById('binanceAccount').value = '';
         document.getElementById('withdrawAmount').value = '';
         refreshUI();
     }
     document.getElementById('submitWithdrawBtn')?.addEventListener('click', submitWithdrawal);
+    document.getElementById('closeSuccessModal')?.addEventListener('click', () => hideModal(document.getElementById('withdrawSuccessModal')));
     
     function displayWithdrawalHistory() {
         const hist = userData?.withdrawalHistory || [];
         const container = document.getElementById('historyList');
         if(!container) return;
         if(hist.length === 0) { container.innerHTML = '<div class="task-card">No withdrawal requests</div>'; return; }
-        container.innerHTML = hist.slice().reverse().map(w => `<div class="task-card" style="margin:8px 0; padding:14px;"><small>${new Date(w.date).toLocaleString()}</small><br>Amount: $${w.amount.toFixed(3)} → Net: $${w.netAmount.toFixed(3)}<br>Status: ${w.status}</div>`).join('');
+        container.innerHTML = hist.slice().reverse().map(w => `
+            <div class="withdrawal-history-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span class="withdraw-id"><i class="fas fa-receipt"></i> ${w.withdrawId}</span>
+                    <span class="history-status status-${w.status}">${w.status.toUpperCase()}</span>
+                </div>
+                <div><strong>Amount:</strong> $${w.amount.toFixed(3)}</div>
+                <div><strong>Fee:</strong> $${w.fee.toFixed(3)}</div>
+                <div><strong>Net:</strong> $${w.netAmount.toFixed(3)}</div>
+                <div><strong>Account:</strong> ${w.account}</div>
+                <div style="font-size:0.7rem; color:var(--text-secondary); margin-top:8px;">${new Date(w.date).toLocaleString()}</div>
+            </div>
+        `).join('');
     }
     
     // Navigation

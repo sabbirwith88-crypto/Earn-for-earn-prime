@@ -769,7 +769,7 @@
             <div class="referral-professional">
                 <i class="fas fa-user-plus" style="font-size:2.5rem; color:var(--purple);"></i>
                 <h3 style="margin:15px 0;" data-i18n="your_referral_code">Your Referral Code</h3>
-                <p data-i18n="referral_desc">Share this code with friends. When they join using your code, both get $0.05 bonus!</p>
+                <p data-i18n="referral_desc">Share this code with friends. When they join using your code, both get $0.01 bonus!</p>
                 <div class="referral-code-display" id="referralCodeDisplay"></div>
                 <div class="btn-group">
                     <button class="btn-primary" id="copyReferralCodeBtn"><i class="fas fa-copy"></i> <span data-i18n="copy_code">Copy Code</span></button>
@@ -900,7 +900,7 @@
             one_time_rewards: "One‑Time Telegram Rewards", available_balance: "Available Balance", withdraw_requirements: "Withdrawal Requirements (All must be met)",
             min_balance_label: "Minimum Balance:", min_balance_value: "$0.500", min_refs_label: "Minimum Referrals:", min_refs_value: "3 active referrals",
             amount: "Amount", fee: "Fee (3%)", you_receive: "You Receive", request_withdrawal: "Request Withdrawal", withdrawal_history: "Withdrawal History",
-            your_referral_code: "Your Referral Code", referral_desc: "Share this code with friends. When they join using your code, both get $0.05 bonus!",
+            your_referral_code: "Your Referral Code", referral_desc: "Share this code with friends. When they join using your code, both get $0.01 bonus!",
             copy_code: "Copy Code", share_telegram: "Share on Telegram", your_referrals: "Your Referrals",
             support: "Support", business_email: "Business: earnforearnbusinessteam@gmail.com", withdraw_conditions: "Withdrawal Conditions",
             cond1: "• Minimum balance $0.500", cond2: "• Minimum 3 referrals", cond3: "• 3% service fee", cond4: "• Processing within 7 days after approval", cond5: "• Unlimited withdrawals if conditions met",
@@ -969,7 +969,7 @@
             one_time_rewards: "Recompensas Únicas de Telegram", available_balance: "Saldo Disponible", withdraw_requirements: "Requisitos de Retiro (Todos deben cumplirse)",
             min_balance_label: "Saldo Mínimo:", min_balance_value: "$0.500", min_refs_label: "Referidos Mínimos:", min_refs_value: "3 referidos activos",
             amount: "Monto", fee: "Tarifa (3%)", you_receive: "Usted Recibe", request_withdrawal: "Solicitar Retiro", withdrawal_history: "Historial de Retiros",
-            your_referral_code: "Su Código de Referido", referral_desc: "Comparta este código con amigos. Cuando se unan con su código, ambos reciben $0.05 de bonificación.",
+            your_referral_code: "Su Código de Referido", referral_desc: "Comparta este código con amigos. Cuando se unan con su código, ambos reciben $0.01 de bonificación.",
             copy_code: "Copiar Código", share_telegram: "Compartir en Telegram", your_referrals: "Tus Referidos",
             support: "Soporte", business_email: "Negocios: earnforearnbusinessteam@gmail.com", withdraw_conditions: "Condiciones de Retiro",
             cond1: "• Saldo mínimo $0.500", cond2: "• Mínimo 3 referidos", cond3: "• Tarifa del 3%", cond4: "• Procesamiento dentro de 7 días después de la aprobación", cond5: "• Retiros ilimitados si se cumplen las condiciones",
@@ -1015,7 +1015,7 @@
             one_time_rewards: "Récompenses Telegram Unique", available_balance: "Solde Disponible", withdraw_requirements: "Conditions de Retrait (Toutes doivent être remplies)",
             min_balance_label: "Solde Minimum:", min_balance_value: "$0.500", min_refs_label: "Références Minimum:", min_refs_value: "3 références actives",
             amount: "Montant", fee: "Frais (3%)", you_receive: "Vous Recevez", request_withdrawal: "Demander un Retrait", withdrawal_history: "Historique des Retraits",
-            your_referral_code: "Votre Code de Parrainage", referral_desc: "Partagez ce code avec vos amis. Lorsqu'ils rejoignent avec votre code, vous recevez tous les deux $0.05 de bonus!",
+            your_referral_code: "Votre Code de Parrainage", referral_desc: "Partagez ce code avec vos amis. Lorsqu'ils rejoignent avec votre code, vous recevez tous les deux $0.01 de bonus!",
             copy_code: "Copier le Code", share_telegram: "Partager sur Telegram", your_referrals: "Vos Références",
             support: "Support", business_email: "Affaires: earnforearnbusinessteam@gmail.com", withdraw_conditions: "Conditions de Retrait",
             cond1: "• Solde minimum $0.500", cond2: "• Minimum 3 références", cond3: "• Frais de 3%", cond4: "• Traitement sous 7 jours après approbation", cond5: "• Retraits illimités si les conditions sont remplies",
@@ -1110,7 +1110,7 @@
         const referrerId = Object.keys(snapshot.val())[0];
         if(referrerId === telegramId) return false;
         const referrerData = snapshot.val()[referrerId];
-        const bonus = 0.05;
+        const bonus = 0.01;
         const updatedRefs = [...(referrerData.referrals||[]), { username: telegramUsername, id: telegramId, date: Date.now(), bonus }];
         await db.ref(`users/${referrerId}`).update({
             referrals: updatedRefs,

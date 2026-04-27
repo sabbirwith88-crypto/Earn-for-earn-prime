@@ -797,12 +797,12 @@
     </div>
 </div>
 
-<!-- First-time Referral Code Modal -->
+<!-- First-time Referral Code Modal with 0.01 bonus text -->
 <div id="referralCodeModal" class="referral-code-modal" style="display: none;">
     <div class="referral-code-card">
         <i class="fas fa-gift" style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;"></i>
         <h2 style="margin-bottom: 10px;">Welcome to Earn For Earn!</h2>
-        <p style="margin-bottom: 15px;">Enter a referral code (if you have one) to get a $0.05 bonus. You can also skip.</p>
+        <p style="margin-bottom: 15px;">Enter a referral code (if you have one) to get a $0.01 bonus. You can also skip.</p>
         <input type="text" id="referralCodeInput" placeholder="Enter referral code" maxlength="20" autocomplete="off">
         <button id="submitReferralCodeBtn" class="claim-btn" style="background: var(--purple);">Claim Bonus</button>
         <button id="skipReferralCodeBtn" class="claim-btn skip-btn" style="background: transparent; color: var(--text-secondary);">Skip for now</button>
@@ -866,7 +866,6 @@
     let linkStepsDone = 0, videoStepsDone = 0;
     let pendingLinkStep = null, linkStartTime = 0, linkInterval = null;
     
-    // 10 LINK URLS
     const LINK_URLS = [
         "https://www.profitablecpmratenetwork.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d",
         "https://omg10.com/4/10686606",
@@ -880,14 +879,12 @@
         "https://narilyhukelpfulin.com?hTTVD=1246757"
     ];
     
-    // 10 VIDEO AD TYPES
     const videoAdSequence = [
         'adsgram', 'monetag', 'giga', 'adexora', 'monetag',
         'adsgram', 'monetag', 'giga', 'monetag', 'adexora'
     ];
     
-    // ==================== COMPLETE MULTILINGUAL TRANSLATIONS (6 LANGUAGES) ====================
-    // Based on original file but updated for 10-link/10-video and $0.011 reward
+    // ==================== TRANSLATIONS (REF BONUS 0.01 everywhere) ====================
     const translations = {
         en: {
             loading_initializing: "Initializing system...", loading_ads: "Loading advertisements...", loading_auth: "Connecting to account...", loading_data: "Loading user data...", loading_ready: "Ready to earn!",
@@ -923,7 +920,7 @@
             one_time_rewards: "एक बार के टेलीग्राम इनाम", available_balance: "उपलब्ध बैलेंस", withdraw_requirements: "निकासी आवश्यकताएँ (सभी पूरी करें)",
             min_balance_label: "न्यूनतम बैलेंस:", min_balance_value: "$0.500", min_refs_label: "न्यूनतम रेफरल:", min_refs_value: "3 सक्रिय रेफरल",
             amount: "राशि", fee: "शुल्क (3%)", you_receive: "आपको मिलेगा", request_withdrawal: "निकासी का अनुरोध करें", withdrawal_history: "निकासी इतिहास",
-            your_referral_code: "आपका रेफरल कोड", referral_desc: "यह कोड दोस्तों के साथ साझा करें। कोड का उपयोग करने पर दोनों को $0.05 बोनस मिलता है!",
+            your_referral_code: "आपका रेफरल कोड", referral_desc: "यह कोड दोस्तों के साथ साझा करें। कोड का उपयोग करने पर दोनों को $0.01 बोनस मिलता है!",
             copy_code: "कोड कॉपी करें", share_telegram: "टेलीग्राम पर साझा करें", your_referrals: "आपके रेफरल",
             support: "सहायता", business_email: "व्यवसाय: earnforearnbusinessteam@gmail.com", withdraw_conditions: "निकासी की शर्तें",
             cond1: "• न्यूनतम बैलेंस $0.500", cond2: "• न्यूनतम 3 रेफरल", cond3: "• 3% सेवा शुल्क", cond4: "• अनुमोदन के बाद 7 दिनों के भीतर प्रक्रिया", cond5: "• शर्तें पूरी होने पर असीमित निकासी",
@@ -946,7 +943,7 @@
             one_time_rewards: "একবারের টেলিগ্রাম রিওয়ার্ড", available_balance: "উপলব্ধ ব্যালেন্স", withdraw_requirements: "টাকা তোলার শর্ত (সব পূরণ করুন)",
             min_balance_label: "ন্যূনতম ব্যালেন্স:", min_balance_value: "$0.৫০০", min_refs_label: "ন্যূনতম রেফারেল:", min_refs_value: "৩ সক্রিয় রেফারেল",
             amount: "পরিমাণ", fee: "ফি (৩%)", you_receive: "আপনি পাবেন", request_withdrawal: "উত্তোলনের অনুরোধ করুন", withdrawal_history: "উত্তোলনের ইতিহাস",
-            your_referral_code: "আপনার রেফারেল কোড", referral_desc: "এই কোড বন্ধুদের সাথে শেয়ার করুন। আপনার কোড ব্যবহার করলে উভয়েই $0.০৫ বোনাস পাবেন!",
+            your_referral_code: "আপনার রেফারেল কোড", referral_desc: "এই কোড বন্ধুদের সাথে শেয়ার করুন। আপনার কোড ব্যবহার করলে উভয়েই $0.০১ বোনাস পাবেন!",
             copy_code: "কোড কপি করুন", share_telegram: "টেলিগ্রামে শেয়ার করুন", your_referrals: "আপনার রেফারেল",
             support: "সাপোর্ট", business_email: "ব্যবসা: earnforearnbusinessteam@gmail.com", withdraw_conditions: "উত্তোলনের শর্ত",
             cond1: "• ন্যূনতম ব্যালেন্স $0.৫০০", cond2: "• ন্যূনতম ৩ রেফারেল", cond3: "• ৩% সার্ভিস ফি", cond4: "• অনুমোদনের পর ৭ দিনের মধ্যে প্রক্রিয়াকরণ", cond5: "• শর্ত পূরণ হলে সীমাহীন উত্তোলন",
@@ -959,6 +956,7 @@
             try_again: "আবার চেষ্টা করুন", cancel: "বাতিল", loading_ad: "বিজ্ঞাপন লোড হচ্ছে..."
         },
         es: {
+            // Spanish translation already had 0.01, keep
             loading_initializing: "Inicializando sistema...", loading_ads: "Cargando anuncios...", loading_auth: "Conectando a la cuenta...", loading_data: "Cargando datos de usuario...", loading_ready: "¡Listo para ganar!",
             your_balance: "Su Saldo", usd_precision: "USD | 3 decimales", referrals: "Referidos", total_earned: "Ganado Total", ref_bonus: "Bono Ref",
             platform_rules: "Reglas de la Plataforma", rule1: "No herramientas automatizadas – prohibición permanente", rule2: "Edad mínima 18 años para retiros", rule3: "Retiro requiere $0.500 de saldo + 3 referidos", rule4: "Se aplica una tarifa del 3%",
@@ -992,7 +990,7 @@
             one_time_rewards: "مكافآت تليغرام لمرة واحدة", available_balance: "الرصيد المتاح", withdraw_requirements: "متطلبات السحب (يجب تحقيق الكل)",
             min_balance_label: "الحد الأدنى للرصيد:", min_balance_value: "$0.500", min_refs_label: "الحد الأدنى للإحالات:", min_refs_value: "3 إحالات نشطة",
             amount: "المبلغ", fee: "الرسوم (3%)", you_receive: "ستستلم", request_withdrawal: "طلب سحب", withdrawal_history: "سجل السحوبات",
-            your_referral_code: "رمز الإحالة الخاص بك", referral_desc: "شارك هذا الرمز مع الأصدقاء. عند انضمامهم باستخدام رمزك، يحصل كل منكما على مكافأة $0.05!",
+            your_referral_code: "رمز الإحالة الخاص بك", referral_desc: "شارك هذا الرمز مع الأصدقاء. عند انضمامهم باستخدام رمزك، يحصل كل منكما على مكافأة $0.01!",
             copy_code: "نسخ الرمز", share_telegram: "مشاركة على تليغرام", your_referrals: "إحالاتك",
             support: "الدعم", business_email: "الأعمال: earnforearnbusinessteam@gmail.com", withdraw_conditions: "شروط السحب",
             cond1: "• الحد الأدنى للرصيد $0.500", cond2: "• الحد الأدنى 3 إحالات", cond3: "• رسوم خدمة 3%", cond4: "• المعالجة خلال 7 أيام بعد الموافقة", cond5: "• سحوبات غير محدودة إذا تم استيفاء الشروط",
@@ -1081,7 +1079,7 @@
         });
     }
     
-    // ==================== HELPER FUNCTIONS ====================
+    // ========== Helper functions (unchanged except referral bonus = 0.01) ==========
     function showSpinner(show) { document.getElementById('spinner').style.display = show ? 'flex' : 'none'; }
     function showModal(modal) { modal.classList.add('active'); }
     function hideModal(modal) { modal.classList.remove('active'); }
@@ -1223,7 +1221,7 @@
         else document.getElementById('videoCooldownArea').innerHTML = '';
     }
     
-    // ==================== 10-LINK TASK ====================
+    // Link task functions (identical, unchanged)
     function renderLinkTaskUI() {
         const cooldown = Math.max(0, (userData.linkTask?.cooldownUntil||0) - Date.now());
         const canStart = cooldown <= 0;
@@ -1251,7 +1249,7 @@
         if(claimBtn) claimBtn.onclick = () => claimLinkReward();
     }
     
-    async function startLinkStep(step) {
+    async function startLinkStep(step) { /* unchanged but safe */ 
         pendingLinkStep = step;
         const modal = document.getElementById('timerModal');
         const timerDisp = document.getElementById('timerCountdown');
@@ -1323,7 +1321,7 @@
         refreshUI();
     }
     
-    // ==================== 10-VIDEO ADS TASK ====================
+    // Video ad tasks (unchanged)
     function renderVideoTaskUI() {
         const cooldown = Math.max(0, (userData.videoTask?.cooldownUntil||0) - Date.now());
         const canStart = cooldown <= 0;
@@ -1394,7 +1392,7 @@
         refreshUI();
     }
     
-    // ==================== TELEGRAM ONE-TIME TASKS ====================
+    // Telegram tasks (unchanged)
     const tgTasks = [
         {id:'telegramUpdate', title:'Join Update Channel', reward:0.003, link:'https://t.me/earnforearnupdate', key:'telegramUpdate'},
         {id:'telegramProof', title:'Join Payment Proof Channel', reward:0.003, link:'https://t.me/earnforearnpaymentproof', key:'telegramProof'}
@@ -1511,7 +1509,7 @@
         `).join('');
     }
     
-    // ==================== NAVIGATION ====================
+    // Navigation
     function switchSection(id) {
         document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -1551,7 +1549,7 @@
     document.getElementById('submitWithdrawBtn').addEventListener('click', submitWithdrawal);
     document.getElementById('closeSuccessModal').addEventListener('click', () => hideModal(document.getElementById('withdrawSuccessModal')));
     
-    // ==================== LOADING ANIMATION ====================
+    // Loading
     const loadingFill = document.getElementById('loadingFill');
     const loadingStepText = document.getElementById('loadingStep');
     const loadSteps = ['loading_initializing', 'loading_ads', 'loading_auth', 'loading_data', 'loading_ready'];

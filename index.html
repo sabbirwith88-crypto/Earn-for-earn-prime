@@ -1,459 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>⚡ New Update Countdown | 9th May 2026 · 8PM</title>
-  <!-- Google Fonts for modern typography -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      min-height: 100vh;
-      background: linear-gradient(145deg, #0a0f1e 0%, #0c1222 100%);
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      position: relative;
-    }
-
-    /* animated grid + glow effect */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(circle at 25% 40%, rgba(0, 255, 255, 0.03) 1.5px, transparent 1.5px);
-      background-size: 42px 42px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .card {
-      position: relative;
-      z-index: 2;
-      max-width: 780px;
-      width: 100%;
-      background: rgba(18, 25, 45, 0.65);
-      backdrop-filter: blur(12px);
-      border-radius: 3rem;
-      border: 1px solid rgba(66, 153, 225, 0.25);
-      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(80, 180, 255, 0.15) inset;
-      padding: 2.2rem 2rem 2.8rem;
-      transition: all 0.3s ease;
-      text-align: center;
-    }
-
-    @media (max-width: 550px) {
-      .card {
-        padding: 1.8rem 1.2rem 2.2rem;
-        border-radius: 2rem;
-      }
-    }
-
-    .badge {
-      display: inline-block;
-      background: rgba(0, 212, 255, 0.12);
-      backdrop-filter: blur(4px);
-      padding: 0.3rem 1.1rem;
-      border-radius: 60px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      color: #7bc2ff;
-      border: 0.5px solid rgba(98, 191, 255, 0.4);
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #FFFFFF, #c0e0ff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.75rem;
-    }
-
-    @media (max-width: 550px) {
-      h1 {
-        font-size: 2rem;
-      }
-    }
-
-    .date-time-highlight {
-      background: rgba(0, 30, 60, 0.6);
-      border-radius: 2rem;
-      padding: 0.75rem 1rem;
-      margin: 1.2rem 0 1rem;
-      display: inline-flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.5rem;
-      align-items: baseline;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(130, 190, 255, 0.2);
-    }
-
-    .target-date {
-      font-size: 1.35rem;
-      font-weight: 600;
-      background: linear-gradient(120deg, #f0f9ff, #b9dcff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      letter-spacing: 0.3px;
-    }
-
-    .target-time {
-      font-family: monospace;
-      font-weight: 700;
-      background: #0a1428;
-      padding: 0.2rem 0.7rem;
-      border-radius: 40px;
-      font-size: 1.2rem;
-      color: #8bbfff;
-      border: 0.5px solid #2f5390;
-    }
-
-    .desc-text {
-      color: #a4bbdd;
-      font-weight: 500;
-      margin-bottom: 2rem;
-      font-size: 1rem;
-      border-left: 2px solid #2f6eb3;
-      padding-left: 1rem;
-      text-align: center;
-      display: inline-block;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 40px;
-      padding: 0.4rem 1.4rem;
-      backdrop-filter: blur(2px);
-    }
-
-    /* countdown grid */
-    .countdown-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.2rem;
-      margin: 2rem 0 1.8rem;
-    }
-
-    .timer-block {
-      background: rgba(10, 20, 35, 0.7);
-      backdrop-filter: blur(8px);
-      border-radius: 1.8rem;
-      padding: 1rem 0.8rem;
-      min-width: 110px;
-      flex: 1;
-      text-align: center;
-      border: 1px solid rgba(72, 187, 255, 0.25);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease;
-    }
-
-    .timer-block:hover {
-      transform: translateY(-4px);
-      border-color: rgba(0, 180, 255, 0.6);
-    }
-
-    .timer-number {
-      font-size: 3.5rem;
-      font-weight: 800;
-      background: linear-gradient(145deg, #eef5ff, #b0dbff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      line-height: 1.1;
-      letter-spacing: 2px;
-      font-family: 'Inter', monospace;
-    }
-
-    .timer-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #7d9ed7;
-      margin-top: 6px;
-    }
-
-    @media (max-width: 480px) {
-      .timer-number {
-        font-size: 2.4rem;
-      }
-      .timer-block {
-        min-width: 70px;
-        padding: 0.8rem 0.3rem;
-      }
-      .countdown-grid {
-        gap: 0.8rem;
-      }
-    }
-
-    .message-area {
-      margin-top: 1.2rem;
-      font-size: 0.95rem;
-      font-weight: 500;
-      padding: 0.7rem;
-      background: rgba(0, 30, 60, 0.5);
-      border-radius: 40px;
-      color: #cbe4ff;
-      backdrop-filter: blur(2px);
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .launch-message {
-      background: linear-gradient(95deg, #1a3c5e, #0f2a44);
-      color: #eaf6ff;
-      font-weight: 600;
-      padding: 0.7rem 1rem;
-      border-radius: 2rem;
-      border-left: 4px solid #2bc0ff;
-    }
-
-    .footnote {
-      margin-top: 2rem;
-      font-size: 0.7rem;
-      color: #6080aa;
-      letter-spacing: 0.3px;
-      border-top: 1px dashed rgba(100, 150, 200, 0.3);
-      padding-top: 1.2rem;
-    }
-
-    .highlight-days {
-      text-shadow: 0 0 6px rgba(0, 200, 255, 0.4);
-    }
-
-    /* small animation */
-    @keyframes gentlePulse {
-      0% { opacity: 0.7; }
-      100% { opacity: 1; }
-    }
-    .timer-block {
-      animation: gentlePulse 1.8s infinite alternate ease-in-out;
-    }
-    .timer-block:nth-child(1) { animation-delay: 0s; }
-    .timer-block:nth-child(2) { animation-delay: 0.1s; }
-    .timer-block:nth-child(3) { animation-delay: 0.2s; }
-    .timer-block:nth-child(4) { animation-delay: 0.3s; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Earn For Earn – PEPE Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Telegram Web App SDK (as requested) -->
+    <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+    <!-- Ad Network SDKs -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js" async></script>
+    <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383' async></script>
+    <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js" async></script>
+    <script src="https://ad.gigapub.tech/script?id=6432" async></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        :root {
+            --bg-primary: #0a0a0a; --bg-secondary: #121212; --bg-card: #1e1e1e; --bg-elevated: #2a2a2a;
+            --text-primary: #ffffff; --text-secondary: #b0b0b0; --border: #2c2c2c;
+            --purple: #6c5ce7; --purple-dark: #5b4bc4; --blue: #0984e3; --success: #00b894;
+            --error: #d63031; --warning: #fdcb6e; --gold: #f9ca24;
+        }
+        body { background-color: var(--bg-primary); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+        .app-container { width: 100%; max-width: 500px; margin: 0 auto; min-height: 100vh; background: radial-gradient(circle at 10% 20%, #0f0f0f, #000); position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        
+        .auth-container { display: flex; flex-direction: column; justify-content: center; min-height: 100vh; padding: 32px 24px; }
+        .auth-card { background: var(--bg-card); border-radius: 48px; padding: 32px 24px; border: 1px solid var(--border); }
+        .auth-tabs { display: flex; gap: 12px; margin-bottom: 28px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+        .auth-tab { flex: 1; text-align: center; padding: 8px; background: none; border: none; color: var(--text-secondary); font-weight: 600; font-size: 1rem; cursor: pointer; border-radius: 40px; transition: 0.2s; }
+        .auth-tab.active { background: var(--purple); color: white; }
+        .auth-title { font-size: 1.8rem; font-weight: 700; background: linear-gradient(45deg, var(--purple), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; margin-bottom: 28px; }
+        .floating-label-group { position: relative; margin: 20px 0; }
+        .floating-input { width: 100%; padding: 12px 16px; background: #000; border: 1px solid var(--border); border-radius: 40px; color: white; font-size: 0.95rem; }
+        .floating-input:focus { border-color: var(--purple); outline: none; }
+        .floating-label { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); transition: 0.2s; pointer-events: none; font-size: 0.9rem; }
+        .floating-input:focus ~ .floating-label, .floating-input:not(:placeholder-shown) ~ .floating-label { top: -8px; left: 12px; font-size: 0.7rem; background: #000; padding: 0 6px; color: var(--purple); }
+        .auth-btn { background: linear-gradient(90deg, var(--purple), var(--blue)); color: white; font-weight: bold; padding: 12px; border-radius: 40px; width: 100%; border: none; margin-top: 20px; cursor: pointer; transition: 0.2s; }
+        .error-msg { color: var(--error); font-size: 0.75rem; margin-top: 5px; }
+        
+        /* Loading screen */
+        .loading-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.3s; pointer-events: none; }
+        .loading-screen.hidden { opacity: 0; visibility: hidden; }
+        .loading-logo { width: 80px; height: 80px; border-radius: 30px; background: linear-gradient(135deg, var(--purple), var(--purple-dark)); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(108,92,231,0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(108,92,231,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(108,92,231,0); } }
+        .loading-logo i { font-size: 2.5rem; color: white; }
+        .loading-title { font-size: 1.5rem; font-weight: 700; background: linear-gradient(45deg, var(--purple), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .loading-progress { width: 200px; height: 3px; background: #333; border-radius: 4px; margin: 15px auto; overflow: hidden; }
+        .loading-progress-fill { width: 100%; height: 100%; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.3s; }
+        
+        /* Header */
+        .header { background: rgba(18,18,18,0.95); backdrop-filter: blur(15px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .app-title { font-size: 1.3rem; font-weight: 700; background: linear-gradient(45deg, var(--purple), var(--blue)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .user-profile { width: 36px; height: 36px; border-radius: 60px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; border: 1px solid var(--border); }
+        .user-menu { position: absolute; top: 55px; right: 15px; background: rgba(30,30,30,0.98); backdrop-filter: blur(20px); border-radius: 24px; padding: 12px; min-width: 220px; border: 1px solid rgba(108,92,231,0.3); display: none; z-index: 150; }
+        .user-menu.active { display: block; }
+        .menu-item { padding: 10px 16px; border-radius: 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .menu-item:hover { background: rgba(255,255,255,0.05); }
+        
+        /* Cards */
+        .balance-card { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); border-radius: 32px; padding: 20px; margin-bottom: 20px; }
+        .balance-amount { font-size: 2.2rem; font-weight: 700; margin: 5px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--bg-card); border-radius: 24px; padding: 12px; text-align: center; border: 1px solid var(--border); }
+        .stat-value { font-size: 1.3rem; font-weight: 700; }
+        .rule-card { background: var(--bg-card); border-radius: 28px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--border); }
+        .rule-card h3 { font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .rule-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; align-items: center; }
+        .task-card { background: var(--bg-card); border-radius: 32px; padding: 18px; margin-bottom: 18px; border: 1px solid var(--border); }
+        .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .task-reward { background: linear-gradient(135deg, var(--gold), #e6b422); padding: 4px 12px; border-radius: 40px; font-weight: 800; color: #000; font-size: 0.8rem; }
+        .steps-container { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 15px 0; }
+        .step-btn { aspect-ratio: 1; border-radius: 50px; background: #222; border: 2px solid #333; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; font-size: 0.7rem; cursor: pointer; transition: 0.2s; }
+        .step-btn.completed { background: var(--success); border-color: var(--success); color: white; }
+        .step-btn.active-step { border: 2px solid var(--warning); box-shadow: 0 0 10px rgba(253,203,110,0.6); }
+        .step-btn.locked { opacity: 0.3; cursor: not-allowed; }
+        .claim-btn { background: linear-gradient(90deg, var(--gold), #e6b422); color: #000; font-weight: bold; padding: 10px; border-radius: 40px; width: 100%; border: none; margin-top: 10px; cursor: pointer; font-size: 0.9rem; }
+        .progress-bar { height: 8px; background: #333; border-radius: 20px; margin: 10px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--blue)); width: 0%; border-radius: 20px; transition: width 0.3s; }
+        .cooldown-timer, .daily-limit-text, .reset-timer { text-align: center; margin-top: 8px; font-size: 0.8rem; font-weight: 500; }
+        .reset-timer { background: rgba(108,92,231,0.15); padding: 4px; border-radius: 40px; }
+        .live-cooldown { font-family: monospace; font-size: 1rem; font-weight: bold; background: rgba(0,0,0,0.5); display: inline-block; padding: 4px 12px; border-radius: 40px; margin-top: 5px; }
+        
+        /* One-time task boxes */
+        .one-time-task-box { background: linear-gradient(145deg, #1a1f2e, #11151f); border-radius: 32px; padding: 16px; margin-bottom: 18px; border: 1px solid rgba(108,92,231,0.4); }
+        .one-time-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .join-telegram-btn { background: #0088cc; color: white; padding: 10px 16px; border-radius: 40px; border: none; font-weight: bold; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .one-time-reward-badge { background: rgba(0,184,148,0.2); border-radius: 40px; padding: 2px 10px; font-size: 0.7rem; color: var(--success); }
+        
+        /* Survey */
+        .survey-list-card { background: var(--bg-card); border-radius: 28px; padding: 18px; margin-bottom: 20px; }
+        .survey-item { background: var(--bg-elevated); border-radius: 20px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .survey-start-btn { background: var(--purple); border: none; padding: 8px 18px; border-radius: 40px; color: white; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
+        .survey-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.96); z-index: 3000; overflow-y: auto; padding: 60px 20px 40px; }
+        .survey-modal.active { display: block; }
+        .survey-question { background: var(--bg-card); border-radius: 28px; padding: 18px; margin: 15px 0; }
+        .survey-option { background: var(--bg-elevated); padding: 10px 16px; border-radius: 40px; margin-bottom: 8px; cursor: pointer; border: 1px solid var(--border); }
+        .survey-option.selected { background: var(--purple); border-color: var(--purple); color: white; }
+        .survey-nav button { width: 100%; padding: 12px; border-radius: 40px; border: none; font-weight: bold; cursor: pointer; background: linear-gradient(90deg, var(--purple), var(--blue)); color: white; margin-top: 12px; }
+        
+        .referral-professional { background: linear-gradient(145deg, #141414, #0c0c0c); border-radius: 32px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .referral-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0; }
+        .referral-stat-card { background: var(--bg-elevated); border-radius: 24px; padding: 12px; }
+        .referral-stat-value { font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, var(--gold), #e6b422); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .referral-code-box { background: #000; padding: 12px; border-radius: 40px; margin: 15px 0; display: flex; align-items: center; justify-content: space-between; }
+        .copy-btn-icon { background: var(--purple); border: none; padding: 6px 14px; border-radius: 40px; color: white; cursor: pointer; }
+        .cashout-container { background: var(--bg-card); border-radius: 32px; padding: 18px; margin-bottom: 20px; }
+        .requirement-check { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+        .check-icon { width: 24px; height: 24px; border-radius: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; }
+        .check-icon.success { background: var(--success); color: white; }
+        .check-icon.pending { background: #333; color: var(--text-secondary); }
+        .fee-calculator { background: var(--bg-elevated); border-radius: 24px; padding: 14px; margin: 15px 0; }
+        .fee-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.85rem; }
+        .withdraw-btn { background: linear-gradient(90deg, var(--purple), var(--blue)); color: white; font-weight: bold; padding: 12px; border-radius: 40px; width: 100%; border: none; margin-top: 15px; cursor: pointer; }
+        .form-input { width: 100%; padding: 10px 14px; background: #000; border: 1px solid var(--border); border-radius: 40px; color: white; margin: 8px 0; font-size: 0.9rem; }
+        .history-card { background: var(--bg-elevated); border-radius: 20px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--purple); }
+        .status-badge { padding: 2px 10px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; background: #f39c12; color: black; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(18,18,18,0.96); backdrop-filter: blur(12px); display: flex; justify-content: space-around; padding: 8px 0 18px; border-top: 1px solid var(--border); max-width: 500px; margin: 0 auto; z-index: 100; }
+        .nav-btn { background: none; border: none; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.65rem; padding: 6px; flex: 1; border-radius: 20px; cursor: pointer; transition: 0.2s; }
+        .nav-btn i { font-size: 1.3rem; }
+        .nav-btn.active { color: white; background: var(--bg-elevated); }
+        .content-section { display: none; padding: 15px; padding-bottom: 80px; }
+        .content-section.active { display: block; }
+        .back-button { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 40px; font-size: 0.8rem; }
+        .info-note { background: rgba(253,203,110,0.1); padding: 8px; border-radius: 20px; margin-top: 10px; font-size: 0.7rem; color: var(--warning); text-align: center; }
+        .modal { display: none; position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--bg-card); border-radius: 40px; padding: 24px; width: 90%; max-width: 360px; }
+        .status-message { padding: 10px; border-radius: 40px; margin: 10px 0; text-align: center; font-size: 0.8rem; }
+        .status-success { background: rgba(0,184,148,0.15); color: var(--success); }
+        .status-error { background: rgba(214,48,49,0.15); color: var(--error); }
+        .copyable { cursor: pointer; background: rgba(108,92,231,0.15); border-radius: 40px; padding: 6px 12px; margin: 5px 0; display: inline-block; }
+        .friend-list-item { display: flex; justify-content: space-between; background: var(--bg-elevated); padding: 10px; border-radius: 20px; margin-bottom: 8px; align-items: center; }
+    </style>
 </head>
 <body>
-
-<div class="card">
-  <div class="badge">
-    🚀 VERSION 3.0 · MAJOR RELEASE
-  </div>
-  <h1>✨ NEW UPDATE COMING ✨</h1>
-  
-  <!-- Updated target: 9th May 2026, 8:00 PM -->
-  <div class="date-time-highlight">
-    <span class="target-date">📅 9 May 2026</span>
-    <span class="target-time">⏰ 8:00 PM (20:00)</span>
-  </div>
-  
-  <div class="desc-text">
-    🎯 Countdown to launch — get ready for next‑gen features
-  </div>
-
-  <!-- COUNTDOWN TIMER DISPLAY (Days · Hours · Minutes · Seconds) -->
-  <div class="countdown-grid" id="countdownContainer">
-    <div class="timer-block">
-      <div class="timer-number" id="daysValue">--</div>
-      <div class="timer-label">DAYS</div>
-    </div>
-    <div class="timer-block">
-      <div class="timer-number" id="hoursValue">--</div>
-      <div class="timer-label">HOURS</div>
-    </div>
-    <div class="timer-block">
-      <div class="timer-number" id="minutesValue">--</div>
-      <div class="timer-label">MINUTES</div>
-    </div>
-    <div class="timer-block">
-      <div class="timer-number" id="secondsValue">--</div>
-      <div class="timer-label">SECONDS</div>
-    </div>
-  </div>
-  
-  <!-- dynamic message / status area -->
-  <div class="message-area" id="statusMessage">
-    ⏳ preparing the update environment ...
-  </div>
-  
-  <div class="footnote" id="dynamicFootnote">
-    🌍 based on your local timezone · target: <strong>May 9, 2026 at 20:00:00</strong><br>
-    📆 days countdown includes full days left until the moment arrives
-  </div>
+<div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo"><i class="fas fa-coins"></i></div>
+    <div class="loading-title">Earn For Earn</div>
+    <div class="loading-progress"><div class="loading-progress-fill"></div></div>
 </div>
 
-<script>
-  (function() {
-    // ============================================================
-    // TARGET UPDATE DATE & TIME : 9th MAY 2026 - 8:00 PM (20:00)
-    // Month in JS is 0-index: January = 0, May = 4
-    const targetYear = 2026;
-    const targetMonth = 4;     // MAY (0=Jan, 4=May)
-    const targetDay = 9;
-    const targetHour = 20;      // 8 PM
-    const targetMinute = 0;
-    const targetSecond = 0;
-    
-    const targetDate = new Date(targetYear, targetMonth, targetDay, targetHour, targetMinute, targetSecond);
-    
-    // DOM elements
-    const daysSpan = document.getElementById('daysValue');
-    const hoursSpan = document.getElementById('hoursValue');
-    const minutesSpan = document.getElementById('minutesValue');
-    const secondsSpan = document.getElementById('secondsValue');
-    const statusDiv = document.getElementById('statusMessage');
-    const footnoteDiv = document.getElementById('dynamicFootnote');
-    
-    // Helper: format number with leading zero for hours/min/sec, but days raw integer
-    function formatTwoDigits(num) {
-      return num < 10 ? '0' + num : num;
-    }
-    
-    // Update footnote dynamically to show user's local target & correct month
-    function updateFootnote() {
-      if (footnoteDiv) {
-        const userLocalString = targetDate.toLocaleString(undefined, {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true
-        });
-        footnoteDiv.innerHTML = `🌍 your device timezone · target arrives at: <strong>${userLocalString}</strong><br>
-        📆 precise countdown: days, hours, minutes & seconds remaining until <strong>9th May 2026, 8:00 PM</strong>`;
-      }
-    }
-    
-    // Update countdown logic
-    function updateCountdown() {
-      const now = new Date(); // current local time
-      const timeDiffMs = targetDate - now;
-      
-      // Check if update time has already arrived (or passed)
-      if (timeDiffMs <= 0) {
-        // Update is LIVE or already released
-        daysSpan.innerText = '00';
-        hoursSpan.innerText = '00';
-        minutesSpan.innerText = '00';
-        secondsSpan.innerText = '00';
-        
-        statusDiv.innerHTML = '🎉🔥 UPDATE IS LIVE! 🔥🎉<br> The new version is now available — refresh and enjoy!';
-        statusDiv.classList.add('launch-message');
-        // also ensure footnote keeps correct target references but show live state
-        if (footnoteDiv && !footnoteDiv.innerHTML.includes('LIVE')) {
-          footnoteDiv.innerHTML = `✅ UPDATE RELEASED! Target was: 9th May 2026, 8:00 PM ✅<br>🎊 You're on the latest version — enjoy the features! 🎊`;
-        }
-        return;
-      }
-      
-      // Calculate positive remaining time
-      const totalSecondsRemaining = Math.floor(timeDiffMs / 1000);
-      const daysRemaining = Math.floor(totalSecondsRemaining / 86400);
-      const hoursRemaining = Math.floor((totalSecondsRemaining % 86400) / 3600);
-      const minutesRemaining = Math.floor((totalSecondsRemaining % 3600) / 60);
-      const secondsRemaining = totalSecondsRemaining % 60;
-      
-      // Update DOM with nice formatting
-      // Days shown as integer (no leading zeros, full days count)
-      daysSpan.innerText = daysRemaining;
-      hoursSpan.innerText = formatTwoDigits(hoursRemaining);
-      minutesSpan.innerText = formatTwoDigits(minutesRemaining);
-      secondsSpan.innerText = formatTwoDigits(secondsRemaining);
-      
-      // Dynamic status message changes based on remaining time (enhanced and exciting)
-      if (daysRemaining === 0 && hoursRemaining < 1) {
-        statusDiv.innerHTML = `⚡ Less than one hour left! Final preparations in progress — stay tuned ⚡`;
-      } else if (daysRemaining === 0) {
-        statusDiv.innerHTML = `🌟 Only ${hoursRemaining} hours and ${minutesRemaining} minutes left! Get ready for the big surprise 🌟`;
-      } else if (daysRemaining <= 3) {
-        statusDiv.innerHTML = `🔔 FINAL COUNTDOWN · ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} to go! Expect major upgrades 🔔`;
-      } else if (daysRemaining <= 7) {
-        statusDiv.innerHTML = `🚀 Just around the corner! ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining — hype mode activated 🚀`;
-      } else {
-        statusDiv.innerHTML = `📡 Scheduled update: ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining · full changelog drops on 9th May 2026 at 8PM 📡`;
-      }
-      
-      // Remove launch class if it was previously active but now still counting
-      if (statusDiv.classList.contains('launch-message') && timeDiffMs > 0) {
-        statusDiv.classList.remove('launch-message');
-      }
-    }
-    
-    // initial call + set interval (refresh every second)
-    updateCountdown();
-    updateFootnote();       // set accurate footnote with May 2026 time
-    const intervalId = setInterval(updateCountdown, 1000);
-    
-    // optional: clean interval if page gets unloaded (good practice)
-    window.addEventListener('beforeunload', function() {
-      if (intervalId) clearInterval(intervalId);
-    });
-    
-    // Additional check: ensure target date is correct & handle any invalid date edge case
-    if (isNaN(targetDate.getTime())) {
-      daysSpan.innerText = 'ERR';
-      hoursSpan.innerText = 'ERR';
-      minutesSpan.innerText = 'ERR';
-      secondsSpan.innerText = 'ERR';
-      statusDiv.innerHTML = '⚠️ Invalid target date configuration. Please check script.';
-      if (intervalId) clearInterval(intervalId);
-    }
-    
-    // Visual micro-interaction: update footnote every minute to reflect timezone changes if needed
-    // but not crucial, already correct. Also ensure that when the date changes, the footnote shows fresh context
-    setInterval(() => {
-      if (targetDate - new Date() > 0) {
-        updateFootnote();
-      }
-    }, 30000); // refresh footnote every 30 sec to keep timezone string precise (optional)
-    
-    // Provide extra tooltip on date display to show exact local representation
-    const targetDateElem = document.querySelector('.target-date');
-    if (targetDateElem) {
-      targetDateElem.setAttribute('title', `Exact release moment: ${targetDate.toString()}`);
-    }
-    const timeElem = document.querySelector('.target-time');
-    if (timeElem) {
-      timeElem.setAttribute('title', `Your local countdown target: ${targetDate.toLocaleTimeString()}`);
-    }
-    
-    // Double-check that the DAYS, HOURS, MINUTES, SECONDS are correctly counting down
-    // with full support for "days" as requested.
-    console.log(`Countdown active until: ${targetDate.toString()} (user local time)`);
-  })();
-</script>
+<div class="app-container" id="mainApp" style="display: none;">
+    <div class="header">
+        <div class="app-title">Earn For Earn</div>
+        <div class="user-profile" id="profileBtn"><span id="userInitial">U</span></div>
+    </div>
+    <div class="user-menu" id="userMenu">
+        <div class="menu-item"><i class="fas fa-envelope"></i> <span id="menuEmail">user@example.com</span></div>
+        <div class="menu-item" id="menuReferralCode"><i class="fas fa-qrcode"></i> My Referral Code</div>
+        <div class="menu-item" id="menuInfo"><i class="fas fa-info-circle"></i> Platform Information</div>
+        <div class="menu-item" id="menuLogout"><i class="fas fa-sign-out-alt"></i> Logout</div>
+    </div>
+    <div class="main-content">
+        <div id="homeSection" class="content-section active">
+            <div class="balance-card"><div>Available Balance</div><div class="balance-amount" id="balanceAmount">0</div><div>PEPE</div></div>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div>Tasks Done</div></div>
+                <div class="stat-card"><div class="stat-value" id="refCount">0</div><div>Referrals</div></div>
+                <div class="stat-card"><div class="stat-value" id="refBonus">0</div><div>Commission</div></div>
+            </div>
+            <div class="rule-card"><h3><i class="fas fa-gavel"></i> Platform Regulations</h3>
+                <div class="rule-item"><i class="fas fa-ban"></i><div>No bots / scripts / VPN → permanent ban.</div></div>
+                <div class="rule-item"><i class="fas fa-dollar-sign"></i><div>Withdrawal: min 300,000 PEPE + 3 referrals, 5% fee, max 2/month.</div></div>
+                <div class="rule-item"><i class="fas fa-tasks"></i><div>5-Step Challenge: 1,200 PEPE per completion, 40s cooldown after claim, 10 claims/8h.</div></div>
+                <div class="rule-item"><i class="fas fa-clipboard-list"></i><div>Surveys: 2,000 PEPE each, 10 questions, wrong resets, 7h cooldown.</div></div>
+                <div class="rule-item"><i class="fas fa-hand-holding-usd"></i><div>Referral: 5% lifetime commission.</div></div>
+            </div>
+            <div id="homeStatusMessage" class="status-message" style="display: none;"></div>
+        </div>
+        <div id="tasksSection" class="content-section">
+            <div class="back-button" id="tasksBackBtn"><i class="fas fa-arrow-left"></i> Back</div>
+            <div id="oneTimeTasksContainer"></div>
+            <h3>Daily Challenge</h3>
+            <div class="task-card">
+                <div class="task-header"><span><i class="fas fa-crown"></i> 5-Step Challenge</span><span class="task-reward">+1,200 PEPE</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="stepProgressFill"></div></div>
+                <div class="steps-container" id="videoStepsContainer"></div>
+                <div id="videoCooldownArea" style="text-align:center; margin: 8px 0;"></div>
+                <button id="claimVideoRewardBtn" class="claim-btn">Claim Reward (1,200 PEPE)</button>
+                <div id="videoProgress" style="font-size:0.7rem;text-align:center;"></div>
+                <div class="daily-limit-text" id="videoDailyLimitText">Claims: 0/10</div>
+                <div class="reset-timer" id="videoResetTimer">Reset in: --:--:--</div>
+            </div>
+            <div class="task-card" style="border-left: 4px solid var(--gold);">
+                <div class="task-header"><span><i class="fas fa-envelope-open-text"></i> 📧 Create Gmail Account</span><span class="task-reward">+20,000 PEPE</span></div>
+                <p style="margin-bottom:12px; font-size:0.85rem;">Get professional assistance to create a new Gmail account.</p>
+                <button id="createEmailTaskBtn" class="claim-btn" style="background:linear-gradient(90deg,#0088cc,#005f8a); color:white;"><i class="fab fa-telegram"></i> Contact Support & Claim 20,000 PEPE</button>
+            </div>
+        </div>
+        <div id="surveySection" class="content-section">
+            <div class="back-button" id="surveyBackBtn"><i class="fas fa-arrow-left"></i> Back</div>
+            <div class="survey-list-card"><h3>Professional Surveys</h3><p>2,000 PEPE each</p><div id="surveysListContainer"></div></div>
+        </div>
+        <div id="referralSection" class="content-section">
+            <div class="back-button" id="referralBackBtn"><i class="fas fa-arrow-left"></i> Back</div>
+            <div class="referral-professional"><i class="fas fa-users" style="font-size:2rem;"></i><h2>5% Commission</h2>
+            <div class="referral-stats-grid"><div class="referral-stat-card"><div>Referrals</div><div class="referral-stat-value" id="refCountDetail">0</div></div>
+            <div class="referral-stat-card"><div>Earned</div><div class="referral-stat-value" id="refEarnedDetail">0</div></div></div>
+            <div class="referral-code-box"><span id="referralCodeDisplay"></span><button class="copy-btn-icon" id="copyReferralCodeBtn"><i class="fas fa-copy"></i> Copy</button></div>
+            </div>
+            <div><h3>Referral Network</h3><div id="referralsList"></div></div>
+        </div>
+        <div id="cashoutSection" class="content-section">
+            <div class="back-button" id="cashoutBackBtn"><i class="fas fa-arrow-left"></i> Back</div>
+            <div class="balance-card" style="background:linear-gradient(135deg,#1a2a3a,#0f1720);"><div>Balance</div><div class="balance-amount" id="withdrawBalance">0</div></div>
+            <div class="cashout-container"><h3>Requirements</h3>
+                <div class="requirement-check"><div class="check-icon pending" id="reqIcon1">✘</div><span>Balance ≥ 300,000 PEPE</span></div>
+                <div class="requirement-check"><div class="check-icon pending" id="reqIcon2">✘</div><span>≥ 3 referrals</span></div>
+                <div class="requirement-check"><div class="check-icon pending" id="reqIcon3">✘</div><span>Monthly limit: 2 withdrawals</span></div>
+            </div>
+            <div class="fee-calculator"><h4>Fee 5%</h4><div class="fee-row"><span>Amount</span><strong id="wdAmount">0</strong></div><div class="fee-row"><span>Fee</span><span id="wdFee">0</span></div><div class="fee-row"><span>Net</span><strong id="wdNet">0</strong></div></div>
+            <input type="text" id="binanceAccount" class="form-input" placeholder="Binance Email / UID"><input type="number" id="withdrawAmount" step="1000" min="300000" class="form-input" placeholder="Amount (min 300,000)">
+            <button id="submitWithdrawBtn" class="withdraw-btn">Request Withdrawal</button>
+            <div style="margin-top:20px;"><h3>History</h3><div id="historyList"></div></div>
+        </div>
+    </div>
+    <div class="bottom-nav">
+        <button class="nav-btn active" id="navHome"><i class="fas fa-home"></i><span>Home</span></button>
+        <button class="nav-btn" id="navTasks"><i class="fas fa-tasks"></i><span>Tasks</span></button>
+        <button class="nav-btn" id="navSurvey"><i class="fas fa-poll"></i><span>Survey</span></button>
+        <button class="nav-btn" id="navReferral"><i class="fas fa-user-friends"></i><span>Friends</span></button>
+        <button class="nav-btn" id="navCashout"><i class="fas fa-wallet"></i><span>Cashout</span></button>
+    </div>
+</div>
 
-<!-- 
-  --- FINAL UPDATE: fully converted to MAY 2026 ---
-  ✅ Target changed to 9th May 2026, 8:00 PM (20:00)
-  ✅ Days, Hours, Minutes, Seconds counter fully functional
-  ✅ All static references (title, date-highlight, footnote) updated to "May 2026"
-  ✅ Dynamic countdown refreshes every second, exact remaining time based on local timezone
-  ✅ Responsive, glassmorphic design with animated timer blocks
-  ✅ Smart status messages: shows urgency when few days/hours left, "UPDATE IS LIVE" after the date passes
-  ✅ Clean vanilla JS, no external libs (except Google Font)
--->
+<div id="authContainer" class="auth-container" style="display: none;">
+    <div class="auth-card">
+        <div class="auth-tabs"><button class="auth-tab active" data-tab="signup">Sign Up</button><button class="auth-tab" data-tab="login">Login</button></div>
+        <div id="signupForm"><div class="auth-title">Create Account</div>
+            <div class="floating-label-group"><input type="text" id="signupName" class="floating-input" placeholder=" "><label class="floating-label">Full Name</label></div>
+            <div class="floating-label-group"><input type="email" id="signupEmail" class="floating-input" placeholder=" "><label class="floating-label">Email</label></div>
+            <div class="floating-label-group"><input type="password" id="signupPassword" class="floating-input" placeholder=" "><label class="floating-label">Password (min 6)</label></div>
+            <div class="floating-label-group"><input type="text" id="signupReferral" class="floating-input" placeholder=" "><label class="floating-label">Referral Code</label></div>
+            <div id="signupError" class="error-msg"></div><button id="doSignupBtn" class="auth-btn">Sign Up</button>
+        </div>
+        <div id="loginForm" style="display: none;"><div class="auth-title">Welcome Back</div>
+            <div class="floating-label-group"><input type="email" id="loginEmail" class="floating-input" placeholder=" "><label class="floating-label">Email</label></div>
+            <div class="floating-label-group"><input type="password" id="loginPassword" class="floating-input" placeholder=" "><label class="floating-label">Password</label></div>
+            <div id="loginError" class="error-msg"></div><button id="doLoginBtn" class="auth-btn">Login</button>
+        </div>
+        <div class="info-note">All data stored locally.</div>
+    </div>
+</div>
+
+<div id="infoModal" class="modal"><div class="modal-content"><h2>Platform Info</h2><br><p>Earn PEPE by completing tasks. Withdrawal min 300,000 PEPE.</p><br><div class="copyable" onclick="copyToClipboard('@earnforearnsupport','Copied')">📱 Telegram: @earnforearnsupport</div><div class="copyable" onclick="copyToClipboard('earnforearnsuportteam@gmail.com','Copied')">✉️ Email: earnforearnsuportteam@gmail.com</div><br><button id="closeInfoModal" style="background:var(--purple); padding:10px; border-radius:40px; border:none; color:white; width:100%;">Close</button></div></div>
+<div id="surveyModal" class="survey-modal"><div class="survey-modal-header"><h2 id="modalSurveyTitle">Survey</h2><div class="survey-progress-bar"><div class="survey-progress-fill" id="surveyProgressFill"></div></div></div><div id="surveyModalContent"></div></div>
+
+<script>
+    // Helper functions
+    function copyToClipboard(text, msg) { navigator.clipboard.writeText(text).then(() => showStatus(msg, 'success')).catch(() => showStatus('Failed', 'error')); }
+    function formatNumber(num) {
+        if (num >= 1_000_000) return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+        if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, '') + 'k';
+        return num.toString();
+    }
+    function showStatus(msg, type) { let el = document.getElementById('homeStatusMessage'); if(el) { el.style.display='block'; el.className=`status-message status-${type}`; el.innerHTML=msg; setTimeout(()=>el.style.display='none',3000); } }
+    function generateReferralCode(email) { return email.split('@')[0].slice(0,3).toUpperCase() + Math.random().toString(36).substring(2,6).toUpperCase(); }
+    const STORAGE_KEY = 'pepe_5step_cooldown'; const SESSION_KEY = 'pepe_session_cooldown';
+    function loadUsers() { const data = localStorage.getItem(STORAGE_KEY); return data ? JSON.parse(data) : []; }
+    function saveUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
+    function getCurrentUser() { const session = localStorage.getItem(SESSION_KEY); return session ? JSON.parse(session) : null; }
+    function setCurrentUser(user) { localStorage.setItem(SESSION_KEY, JSON.stringify(user)); }
+    function logout() { localStorage.removeItem(SESSION_KEY); location.reload(); }
+    
+    let currentUserData = null;
+    let cooldownTimerInterval = null;
+    
+    async function addEarnings(userId, amount, source) {
+        let users = loadUsers(); const idx = users.findIndex(u => u.id === userId); if(idx === -1) return;
+        let user = users[idx];
+        user.balance = (user.balance || 0) + amount;
+        user.totalEarned = (user.totalEarned || 0) + amount;
+        if(source !== 'commission' && user.referredBy) {
+            const refIdx = users.findIndex(u => u.id === user.referredBy);
+            if(refIdx !== -1) { const commission = amount * 0.05; if(commission > 0) { users[refIdx].balance += commission; users[refIdx].totalEarned += commission; users[refIdx].referralBonus = (users[refIdx].referralBonus || 0) + commission; let refs = users[refIdx].referrals || []; let r = refs.find(r => r.userId === userId); if(r) r.commissionEarned = (r.commissionEarned || 0) + commission; else refs.push({ userId, username: user.fullName.split(' ')[0], date: Date.now(), commissionEarned: commission }); users[refIdx].referrals = refs; } }
+        }
+        if (source === 'task' || source === 'survey' || source === 'one_time') user.tasksCompleted = (user.tasksCompleted || 0) + 1;
+        saveUsers(users);
+        if(currentUserData && currentUserData.id === userId) { currentUserData = users[idx]; setCurrentUser(currentUserData); refreshUI(); }
+    }
+    async function saveUserData(updates) { if(!currentUserData) return; let users = loadUsers(); const idx = users.findIndex(u => u.id === currentUserData.id); if(idx !== -1) { users[idx] = { ...users[idx], ...updates }; saveUsers(users); currentUserData = users[idx]; setCurrentUser(currentUserData); refreshUI(); } }
+    
+    // One-time tasks (2 Telegram channels 1000 each)
+    const ONETIME_TASKS = [
+        { id: 'updateChannel', name: '📢 Join Update Channel', link: 'https://t.me/earnforearnupdate', reward: 1000, desc: 'Get latest news.' },
+        { id: 'proofChannel', name: '💰 Join Payment Proof Channel', link: 'https://t.me/earnforearnpaymentproof', reward: 1000, desc: 'View withdrawal proofs.' }
+    ];
+    function ensureOneTimeField(user) { if(!user.oneTimeCompleted) user.oneTimeCompleted = {}; ONETIME_TASKS.forEach(t => { if(user.oneTimeCompleted[t.id] === undefined) user.oneTimeCompleted[t.id] = false; }); return user; }
+    async function completeOneTimeTask(taskId, reward, link) {
+        if(currentUserData.oneTimeCompleted?.[taskId]) return showStatus('Already completed', 'error');
+        window.open(link, '_blank');
+        await saveUserData({ oneTimeCompleted: { ...currentUserData.oneTimeCompleted, [taskId]: true } });
+        await addEarnings(currentUserData.id, reward, 'one_time');
+        showStatus(`+${formatNumber(reward)} PEPE`, 'success');
+        renderOneTimeTasks();
+    }
+    function renderOneTimeTasks() {
+        const container = document.getElementById('oneTimeTasksContainer');
+        if(!container||!currentUserData) return;
+        ensureOneTimeField(currentUserData);
+        const pending = ONETIME_TASKS.filter(t => !currentUserData.oneTimeCompleted[t.id]);
+        if(pending.length===0) { container.innerHTML='<div class="info-note">✅ All one-time tasks completed!</div>'; return; }
+        container.innerHTML = '<h3>🔥 One-Time Rewards</h3>' + pending.map(t => `<div class="one-time-task-box"><div class="one-time-title">${t.name} <span class="one-time-reward-badge">+${formatNumber(t.reward)} PEPE</span></div><div class="one-time-desc">${t.desc}</div><button class="join-telegram-btn" data-id="${t.id}" data-reward="${t.reward}" data-link="${t.link}"><i class="fab fa-telegram"></i> Join & Claim</button></div>`).join('');
+        document.querySelectorAll('.join-telegram-btn').forEach(btn => btn.addEventListener('click', (e) => { const id=btn.dataset.id, reward=parseInt(btn.dataset.reward), link=btn.dataset.link; completeOneTimeTask(id, reward, link); }));
+    }
+    
+    // Gmail task (20000 PEPE)
+    async function completeGmailTask() {
+        if(currentUserData.gmailCompleted) return showStatus('Already completed', 'error');
+        window.open('https://t.me/earnforearneamilinformation?text='+encodeURIComponent("I will create a Gmail account, give me all the information."), '_blank');
+        if(confirm('Confirm you contacted support? OK to claim 20,000 PEPE.')) {
+            await saveUserData({ gmailCompleted: true });
+            await addEarnings(currentUserData.id, 20000, 'one_time');
+            showStatus('+20,000 PEPE', 'success');
+            refreshUI();
+        }
+    }
+    
+    // --- 5-Step Challenge: Ad -> open link automatically, cooldown only AFTER claim ---
+    const stepLinks = {
+        1: 'https://www.profitablecpmratenetwork.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d',
+        2: 'https://omg10.com/4/10686606',
+        3: 'https://mpanyinadiingsinsp.com?hTTVD=1246757',
+        4: 'https://earnforearnlinksads.vercel.app/',
+        5: 'https://earnforearnlinksads2.vercel.app/'
+    };
+    
+    async function showAdsgram() {
+        try {
+            if(!window.Adsgram) throw new Error();
+            const controller = window.Adsgram.init({ blockId: "int-28543" });
+            await controller.show();
+            return true;
+        } catch(e) { return confirm('Ad failed. Click OK to continue step.'); }
+    }
+    async function showMonetag() {
+        try {
+            if(typeof show_10541383 !== 'function') throw new Error();
+            await show_10541383();
+            return true;
+        } catch(e) { return confirm('Monetag ad failed. OK to proceed?'); }
+    }
+    async function showOnclicka() {
+        try {
+            if(!window.initCdTma) throw new Error();
+            const show = await window.initCdTma({ id: '438680' });
+            await show();
+            return true;
+        } catch(e) { return confirm('Onclicka ad failed. OK to continue?'); }
+    }
+    async function showGigaPub() {
+        try {
+            if(!window.showGiga) throw new Error();
+            await window.showGiga();
+            return true;
+        } catch(e) { return confirm('GigaPub ad failed. OK to proceed?'); }
+    }
+    
+    const adSequence = [showAdsgram, showMonetag, showOnclicka, showGigaPub, showAdsgram];
+    
+    async function handleStepClick(step) {
+        let stepsDone = currentUserData.videoTask?.steps || 0;
+        let cooldown = Math.max(0, (currentUserData.videoTask?.cooldownUntil || 0) - Date.now());
+        if(stepsDone >= step) return showStatus('Step already completed', 'error');
+        if(stepsDone+1 !== step) return showStatus('Complete previous step first', 'error');
+        if(cooldown > 0) return showStatus(`Cooldown active (${Math.ceil(cooldown/1000)}s). Cannot start new steps.`, 'error');
+        
+        showStatus(`Showing ad for step ${step}...`, 'info');
+        const adFunc = adSequence[step-1];
+        const adSuccess = await adFunc();
+        if(adSuccess) {
+            window.open(stepLinks[step], '_blank');
+            await saveUserData({ videoTask: { steps: step, cooldownUntil: currentUserData.videoTask?.cooldownUntil || 0 } });
+            refreshUI();
+            showStatus(`Step ${step} completed!`, 'success');
+        } else {
+            showStatus(`Step ${step} failed. Try again.`, 'error');
+        }
+    }
+    
+    // Claim reward with 40-second cooldown
+    let resetInterval = null; const PERIOD_MS = 8*3600000; const MAX_CLAIMS = 10;
+    function getCurrentPeriodStart() { return Math.floor(Date.now() / PERIOD_MS) * PERIOD_MS; }
+    function getVideoRemaining() { let p = getCurrentPeriodStart(); if(currentUserData.videoPeriodStart !== p) return MAX_CLAIMS; return Math.max(0, MAX_CLAIMS - (currentUserData.videoCountInPeriod || 0)); }
+    async function incrementVideoCount() { let p = getCurrentPeriodStart(); let cnt = (currentUserData.videoPeriodStart === p ? (currentUserData.videoCountInPeriod || 0) + 1 : 1); await saveUserData({ videoPeriodStart: p, videoCountInPeriod: cnt }); }
+    async function claimVideoReward() {
+        let stepsDone = currentUserData.videoTask?.steps || 0;
+        let cooldown = Math.max(0, (currentUserData.videoTask?.cooldownUntil || 0) - Date.now());
+        if(stepsDone < 5) return showStatus('Complete all 5 steps first', 'error');
+        if(cooldown > 0) return showStatus(`Cooldown active (${Math.ceil(cooldown/1000)}s). Wait before claiming again.`, 'error');
+        if(getVideoRemaining() <= 0) return showStatus('Daily limit reached (10 claims per 8h)', 'error');
+        await incrementVideoCount();
+        await addEarnings(currentUserData.id, 1200, 'task');
+        // Start 40-second cooldown after claim
+        await saveUserData({ videoTask: { steps: 0, cooldownUntil: Date.now() + 40000 } });
+        refreshUI();
+        showStatus('+1,200 PEPE claimed! 40-second cooldown started.', 'success');
+    }
+    
+    function startCooldownTimerUI() {
+        if(cooldownTimerInterval) clearInterval(cooldownTimerInterval);
+        cooldownTimerInterval = setInterval(() => {
+            if(!currentUserData) return;
+            const cdUntil = currentUserData.videoTask?.cooldownUntil || 0;
+            const remaining = Math.max(0, cdUntil - Date.now());
+            const cdArea = document.getElementById('videoCooldownArea');
+            const stepsDone = currentUserData.videoTask?.steps || 0;
+            if(cdArea) {
+                if(remaining > 0 && stepsDone >= 5) {
+                    const seconds = Math.ceil(remaining / 1000);
+                    cdArea.innerHTML = `<div class="live-cooldown">⏱️ Claim cooldown: ${seconds} second${seconds !== 1 ? 's' : ''}</div>`;
+                } else if(remaining > 0 && stepsDone < 5) {
+                    cdArea.innerHTML = `<div class="live-cooldown">⏱️ Cooldown active. Steps locked for ${Math.ceil(remaining/1000)}s</div>`;
+                } else {
+                    cdArea.innerHTML = '';
+                }
+            }
+            if(remaining === 0) {
+                renderVideoTaskUI(); // re-enable steps after cooldown ends
+            }
+        }, 1000);
+    }
+    
+    function renderVideoTaskUI() {
+        let stepsDone = currentUserData.videoTask?.steps || 0;
+        let cooldown = Math.max(0, (currentUserData.videoTask?.cooldownUntil || 0) - Date.now());
+        let canStart = cooldown <= 0; // steps can only be done if not in cooldown
+        let html = '';
+        for(let i=1;i<=5;i++) {
+            let cls = 'step-btn';
+            if(stepsDone >= i) cls += ' completed';
+            else if(stepsDone+1 === i && canStart) cls += ' active-step';
+            else cls += ' locked';
+            html += `<div class="${cls}" data-vstep="${i}"><i class="fas fa-play-circle"></i><span>${i}</span></div>`;
+        }
+        document.getElementById('videoStepsContainer').innerHTML = html;
+        document.getElementById('stepProgressFill').style.width = ((stepsDone/5)*100)+'%';
+        let claimBtn = document.getElementById('claimVideoRewardBtn');
+        let canClaim = (stepsDone >= 5 && cooldown <= 0 && getVideoRemaining() > 0);
+        claimBtn.style.display = canClaim ? 'block' : 'none';
+        document.getElementById('videoProgress').innerHTML = `${stepsDone}/5 steps completed`;
+        document.querySelectorAll('#videoStepsContainer .step-btn').forEach(btn => {
+            btn.onclick = () => { let step = parseInt(btn.dataset.vstep); handleStepClick(step); };
+        });
+        // update cooldown area for steps lock
+        if(cooldown > 0 && stepsDone < 5) {
+            document.getElementById('videoCooldownArea').innerHTML = `<div class="live-cooldown">⏱️ Cooldown active: ${Math.ceil(cooldown/1000)}s until next attempt</div>`;
+        }
+    }
+    
+    function updateLimitUI() { 
+        let rem = getVideoRemaining(); let used = MAX_CLAIMS - rem; 
+        document.getElementById('videoDailyLimitText').innerHTML = `Claims: ${used}/${MAX_CLAIMS}`; 
+        let nextReset = getCurrentPeriodStart() + PERIOD_MS; 
+        let updateTimer = () => { let r = Math.max(0, nextReset-Date.now()); let h=Math.floor(r/3600000), m=Math.floor((r%3600000)/60000), s=Math.floor((r%60000)/1000); document.getElementById('videoResetTimer').innerHTML = `Reset in: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; if(r<=0) location.reload(); }; 
+        updateTimer(); if(resetInterval) clearInterval(resetInterval); resetInterval = setInterval(updateTimer,1000); 
+    }
+    
+    // Surveys (simplified but fully functional)
+    const baseQuestions = [ { text:"Capital of France?", options:["Berlin","Madrid","Paris","Lisbon"], correct:"Paris"}, { text:"15+7=?", options:["21","22","23","24"], correct:"22"}, { text:"9×6=?", options:["54","56","52","58"], correct:"54"}, { text:"Largest country?", options:["Canada","USA","Russia","China"], correct:"Russia"}, { text:"100÷4=?", options:["20","25","30","35"], correct:"25"}, { text:"Longest river?", options:["Amazon","Nile","Yangtze","Mississippi"], correct:"Nile"}, { text:"7×8=?", options:["48","56","64","72"], correct:"56"}, { text:"Capital of Germany?", options:["Munich","Berlin","Hamburg","Frankfurt"], correct:"Berlin"}, { text:"25×4=?", options:["80","100","120","90"], correct:"100"}, { text:"Land of Rising Sun?", options:["China","Korea","Japan","Thailand"], correct:"Japan"} ];
+    function generateRandomQuestions(count=10) { let shuffled=[...baseQuestions]; for(let i=shuffled.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];} return shuffled.slice(0,count); }
+    let surveyState = { active: false };
+    async function renderSurveysList() { 
+        let container=document.getElementById('surveysListContainer'); if(!container) return; container.innerHTML=''; 
+        let cooldowns = currentUserData.surveyCooldowns || {}; 
+        for(let i=1;i<=5;i++){ let cd=cooldowns[i]||0, avail=cd<=Date.now(); let statusText=avail?"Available":`Reset in ${Math.ceil((cd-Date.now())/3600000)}h`; let div=document.createElement('div'); div.className='survey-item'; div.innerHTML=`<div><strong>Survey ${i}</strong><br><small>2,000 PEPE</small><div style="font-size:0.7rem">${statusText}</div></div><button class="survey-start-btn" data-id="${i}" ${!avail?'disabled':''}>Start</button>`; container.appendChild(div); } 
+        document.querySelectorAll('.survey-start-btn').forEach(btn=> btn.addEventListener('click',()=> startSurvey(parseInt(btn.dataset.id)))); 
+    }
+    function startSurvey(id) { 
+        surveyState = { active: true, surveyId: id, questions: generateRandomQuestions(10), answers: new Array(10).fill(null), step: 0, waitTimer: null, waitSeconds: 0, nextBtnDisabled: false }; 
+        document.getElementById('modalSurveyTitle').innerHTML = `Survey ${id} (2,000 PEPE)`; document.getElementById('surveyProgressFill').style.width = '0%'; document.getElementById('surveyModal').classList.add('active'); renderSurveyStep(); 
+    }
+    function handleAnswer(selected) { if(surveyState.waitTimer || surveyState.nextBtnDisabled) return false; if(selected === surveyState.questions[surveyState.step].correct) { surveyState.answers[surveyState.step] = selected; return true; } else { if(surveyState.waitTimer) clearInterval(surveyState.waitTimer); document.getElementById('surveyModal').classList.remove('active'); showStatus(`Wrong answer! Survey restarted.`, 'error'); surveyState.active = false; return false; } }
+    function startSurveyTimer() { if(surveyState.waitTimer) clearInterval(surveyState.waitTimer); surveyState.waitSeconds = 5; surveyState.nextBtnDisabled = true; surveyState.waitTimer = setInterval(() => { surveyState.waitSeconds--; if(surveyState.waitSeconds <= 0) { clearInterval(surveyState.waitTimer); surveyState.waitTimer = null; surveyState.nextBtnDisabled = false; renderSurveyStep(); } else { let timerDiv = document.getElementById('surveyTimerDisplay'); if(timerDiv) timerDiv.innerText = `⏳ Next in ${surveyState.waitSeconds}s`; let nextBtn = document.getElementById('surveyActionBtn'); if(nextBtn) nextBtn.disabled = true; } }, 1000); renderSurveyStep(); }
+    async function onNextOrSubmit() { if(surveyState.waitTimer || surveyState.nextBtnDisabled) { showStatus("Wait for timer!", "error"); return; } if(!surveyState.answers[surveyState.step]) { alert("Select answer!"); return; } if(surveyState.step < 9) { surveyState.step++; startSurveyTimer(); } else { await addEarnings(currentUserData.id, 2000, 'survey'); let newCooldowns = { ...(currentUserData.surveyCooldowns || {}) }; newCooldowns[surveyState.surveyId] = Date.now() + 7*3600000; await saveUserData({ surveyCooldowns: newCooldowns }); document.getElementById('surveyModal').classList.remove('active'); showStatus(`Survey completed! +2,000 PEPE`, 'success'); surveyState.active = false; renderSurveysList(); refreshUI(); } }
+    function renderSurveyStep() { let container = document.getElementById('surveyModalContent'); if(!container || !surveyState.active) return; let q = surveyState.questions[surveyState.step]; let selected = surveyState.answers[surveyState.step]; let progress = ((surveyState.step)/10)*100; document.getElementById('surveyProgressFill').style.width = progress+'%'; let html = `<div class="survey-question"><p><strong>${surveyState.step+1}/10</strong> • ${q.text}</p>`; q.options.forEach(opt => { let cls = 'survey-option' + (selected===opt ? ' selected' : ''); html += `<div class="${cls}" data-value="${opt}">${opt}</div>`; }); html += `</div><div class="survey-nav"><button id="surveyActionBtn" ${surveyState.nextBtnDisabled ? 'disabled' : ''}>${surveyState.step === 9 ? "Complete & Earn 2,000 PEPE" : "Next"}</button>`; if(surveyState.waitTimer && surveyState.waitSeconds > 0) html += `<div id="surveyTimerDisplay" class="timer-countdown">⏳ ${surveyState.waitSeconds}s</div>`; html += `</div>`; container.innerHTML = html; document.querySelectorAll('.survey-option').forEach(opt => { opt.addEventListener('click', () => { if(surveyState.waitTimer || surveyState.nextBtnDisabled) return; let val = opt.getAttribute('data-value'); if(handleAnswer(val)) renderSurveyStep(); }); }); let btn = document.getElementById('surveyActionBtn'); if(btn) btn.onclick = onNextOrSubmit; }
+    
+    // Referral & Cashout
+    function renderReferralsList() { let container = document.getElementById('referralsList'); if(!container) return; let refs = currentUserData.referrals || []; if(refs.length===0){ container.innerHTML='<div class="info-note">No referrals yet.</div>'; return; } container.innerHTML = refs.map(r => `<div class="friend-list-item"><div><strong>${r.username}</strong><br><small>${new Date(r.date).toLocaleDateString()}</small></div><div>+${formatNumber(r.commissionEarned||0)}</div></div>`).join(''); }
+    function getWithdrawalsThisMonth() { let now = new Date(); let cnt = 0; for(let w of (currentUserData.withdrawalHistory || [])) { let d = new Date(w.date); if(d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth()) cnt++; } return cnt; }
+    function updateWithdrawalRequirements() { let bal = currentUserData.balance || 0; let refs = (currentUserData.referrals || []).length; let monthOk = getWithdrawalsThisMonth() < 2; let balOk = bal >= 300000; let refOk = refs >= 3; ['reqIcon1','reqIcon2','reqIcon3'].forEach((id,i)=>{ let ok = i===0?balOk:i===1?refOk:monthOk; document.getElementById(id).innerHTML = ok?'✓':'✘'; document.getElementById(id).className = `check-icon ${ok?'success':'pending'}`; }); document.getElementById('submitWithdrawBtn').disabled = !(balOk && refOk && monthOk); }
+    function updateWithdrawCalc() { let amt = parseFloat(document.getElementById('withdrawAmount').value) || 0; let fee = amt * 0.05; let net = amt - fee; document.getElementById('wdAmount').innerText = formatNumber(amt); document.getElementById('wdFee').innerText = formatNumber(fee); document.getElementById('wdNet').innerText = formatNumber(net); }
+    async function submitWithdrawal() { let amt = parseFloat(document.getElementById('withdrawAmount').value); let acc = document.getElementById('binanceAccount').value.trim(); if(!acc) return showStatus('Enter Binance account','error'); if(amt<300000) return showStatus('Min 300,000','error'); if((currentUserData.balance||0)<amt) return showStatus('Insufficient','error'); if((currentUserData.referrals||[]).length<3) return showStatus('Need 3 referrals','error'); if(getWithdrawalsThisMonth()>=2) return showStatus('Monthly limit','error'); let fee = amt*0.05; let net = amt-fee; let wid = { id: Date.now(), withdrawId: 'WD-'+Date.now().toString().slice(-6), amount: amt, fee, netAmount: net, account: acc, status: 'pending', date: Date.now() }; let newHistory = [...(currentUserData.withdrawalHistory||[]), wid]; await saveUserData({ balance: (currentUserData.balance||0)-amt, withdrawalHistory: newHistory }); refreshUI(); showStatus(`Request sent! ID: ${wid.withdrawId}`, 'success'); document.getElementById('binanceAccount').value=''; document.getElementById('withdrawAmount').value=''; updateWithdrawCalc(); }
+    function displayWithdrawalHistory() { let hist = currentUserData.withdrawalHistory || []; let container = document.getElementById('historyList'); if(!container) return; if(hist.length===0){ container.innerHTML='<div class="info-note">No requests.</div>'; return; } container.innerHTML = hist.slice().reverse().map(w=>`<div class="history-card"><div><strong>${w.withdrawId}</strong><br><small>${new Date(w.date).toLocaleString()}</small></div><div><span class="status-badge">${w.status}</span><br>${formatNumber(w.netAmount)} PEPE</div></div>`).join(''); }
+    
+    function refreshUI() {
+        if(!currentUserData) return;
+        document.getElementById('balanceAmount').innerText = formatNumber(currentUserData.balance||0);
+        document.getElementById('tasksCompletedCount').innerText = currentUserData.tasksCompleted||0;
+        document.getElementById('refCount').innerText = (currentUserData.referrals||[]).length;
+        document.getElementById('refBonus').innerText = formatNumber(currentUserData.referralBonus||0);
+        document.getElementById('refCountDetail').innerText = (currentUserData.referrals||[]).length;
+        document.getElementById('refEarnedDetail').innerText = formatNumber(currentUserData.referralBonus||0);
+        document.getElementById('withdrawBalance').innerText = formatNumber(currentUserData.balance||0);
+        document.getElementById('userInitial').innerText = (currentUserData.fullName?.charAt(0)||currentUserData.email.charAt(0)).toUpperCase();
+        document.getElementById('menuEmail').innerText = currentUserData.email;
+        document.getElementById('referralCodeDisplay').innerHTML = currentUserData.referralCode||'';
+        renderVideoTaskUI(); renderReferralsList(); updateWithdrawalRequirements(); updateWithdrawCalc(); displayWithdrawalHistory(); renderSurveysList(); updateLimitUI(); renderOneTimeTasks();
+        ensureOneTimeField(currentUserData);
+        startCooldownTimerUI();
+        // additional cooldown display logic handled in setInterval
+    }
+    
+    // Auth handlers
+    async function handleSignUp() {
+        let name=document.getElementById('signupName').value, email=document.getElementById('signupEmail').value.trim(), pwd=document.getElementById('signupPassword').value, ref=document.getElementById('signupReferral').value.trim().toUpperCase();
+        if(!name||!email||!pwd) return document.getElementById('signupError').innerText='All fields required';
+        if(pwd.length<6) return document.getElementById('signupError').innerText='Min 6 chars';
+        let users=loadUsers();
+        if(users.find(u=>u.email===email)) return document.getElementById('signupError').innerText='Email exists';
+        let userId=Date.now()+Math.random().toString(36).substr(2,6);
+        let referralCode=generateReferralCode(email);
+        let newUser={ id: userId, fullName: name, email, password: btoa(pwd), balance:0, totalEarned:0, referralBonus:0, referrals:[], referralCode, referredBy:null, createdAt:Date.now(), videoTask:{ steps:0, cooldownUntil:0 }, videoPeriodStart: getCurrentPeriodStart(), videoCountInPeriod:0, surveyCooldowns:{1:0,2:0,3:0,4:0,5:0}, withdrawalHistory:[], oneTimeCompleted:{}, gmailCompleted:false, tasksCompleted:0 };
+        if(ref){ let referrer=users.find(u=>u.referralCode===ref); if(referrer && referrer.email!==email){ newUser.referredBy=referrer.id; referrer.referrals.push({ userId, username: name.split(' ')[0], date: Date.now(), commissionEarned:0 }); } }
+        users.push(newUser); saveUsers(users); setCurrentUser(newUser); afterLogin(newUser);
+    }
+    async function handleLogin() {
+        let email=document.getElementById('loginEmail').value.trim(), pwd=document.getElementById('loginPassword').value;
+        let users=loadUsers(); let user=users.find(u=>u.email===email && u.password===btoa(pwd));
+        if(!user) return document.getElementById('loginError').innerText='Invalid credentials';
+        setCurrentUser(user); afterLogin(user);
+    }
+    async function afterLogin(user) { currentUserData=user; ensureOneTimeField(currentUserData); document.getElementById('authContainer').style.display='none'; document.getElementById('mainApp').style.display='block'; refreshUI(); bindEvents(); }
+    function bindEvents() {
+        let sections = ['home','tasks','survey','referral','cashout'];
+        sections.forEach(s => document.getElementById(`nav${s.charAt(0).toUpperCase()+s.slice(1)}`).onclick = () => switchSection(`${s}Section`));
+        ['tasks','survey','referral','cashout'].forEach(s => document.getElementById(`${s}BackBtn`).onclick = () => switchSection('homeSection'));
+        document.getElementById('copyReferralCodeBtn').onclick = () => { navigator.clipboard.writeText(currentUserData.referralCode); showStatus('Copied!','success'); };
+        document.getElementById('menuReferralCode').onclick = () => { navigator.clipboard.writeText(currentUserData.referralCode); showStatus('Code copied','success'); };
+        document.getElementById('profileBtn').onclick = () => document.getElementById('userMenu').classList.toggle('active');
+        document.getElementById('menuInfo').onclick = () => { document.getElementById('userMenu').classList.remove('active'); document.getElementById('infoModal').classList.add('active'); };
+        document.getElementById('closeInfoModal').onclick = () => document.getElementById('infoModal').classList.remove('active');
+        document.getElementById('withdrawAmount').addEventListener('input', updateWithdrawCalc);
+        document.getElementById('submitWithdrawBtn').addEventListener('click', submitWithdrawal);
+        document.getElementById('claimVideoRewardBtn').addEventListener('click', claimVideoReward);
+        document.getElementById('createEmailTaskBtn').addEventListener('click', completeGmailTask);
+        document.getElementById('menuLogout').onclick = logout;
+        document.addEventListener('click',(e)=>{ if(!e.target.closest('#profileBtn')&&!e.target.closest('#userMenu')) document.getElementById('userMenu').classList.remove('active'); });
+    }
+    function switchSection(id){ document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active')); let map={homeSection:'navHome',tasksSection:'navTasks',surveySection:'navSurvey',referralSection:'navReferral',cashoutSection:'navCashout'}; if(map[id]) document.getElementById(map[id]).classList.add('active'); if(id==='surveySection') renderSurveysList(); if(id==='cashoutSection'){ displayWithdrawalHistory(); updateWithdrawalRequirements(); updateWithdrawCalc(); } if(id==='tasksSection') renderOneTimeTasks(); }
+    document.querySelectorAll('.auth-tab').forEach(tab=>{ tab.addEventListener('click',()=>{ document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active')); tab.classList.add('active'); let form=tab.dataset.tab; document.getElementById('signupForm').style.display=form==='signup'?'block':'none'; document.getElementById('loginForm').style.display=form==='login'?'block':'none'; }); });
+    document.getElementById('doSignupBtn').onclick=handleSignUp; document.getElementById('doLoginBtn').onclick=handleLogin;
+    window.onload = () => { 
+        setTimeout(()=>document.getElementById('loadingScreen').classList.add('hidden'), 500);
+        let sessionUser=getCurrentUser(); 
+        if(sessionUser){ 
+            let users=loadUsers(); 
+            let fresh=users.find(u=>u.id===sessionUser.id); 
+            if(fresh){ 
+                currentUserData=fresh; 
+                setCurrentUser(fresh); 
+                document.getElementById('authContainer').style.display='none'; 
+                document.getElementById('mainApp').style.display='block'; 
+                refreshUI(); 
+                bindEvents(); 
+            } else { 
+                document.getElementById('authContainer').style.display='flex'; 
+                document.getElementById('mainApp').style.display='none'; 
+            } 
+        } else { 
+            document.getElementById('authContainer').style.display='flex'; 
+            document.getElementById('mainApp').style.display='none'; 
+        } 
+    };
+</script>
 </body>
 </html>

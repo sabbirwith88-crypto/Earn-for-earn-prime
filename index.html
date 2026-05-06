@@ -1,127 +1,459 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Coins App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>⚡ New Update Countdown | 9th May 2026 · 8PM</title>
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- TADS Script -->
-    <script src="https://w.tads.me/widget.js"></script>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #0a0f1e 0%, #0c1222 100%);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+    }
 
-    <!-- Telegram WebApp -->
-    <script src="https://telegram.org/js/telegram-web-app.js?62"></script>
+    /* animated grid + glow effect */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 25% 40%, rgba(0, 255, 255, 0.03) 1.5px, transparent 1.5px);
+      background-size: 42px 42px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            background: #0f172a;
-            color: white;
-            padding: 20px;
-        }
-        button {
-            padding: 12px 25px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            background: #22c55e;
-            color: white;
-            cursor: pointer;
-        }
-    </style>
+    .card {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      width: 100%;
+      background: rgba(18, 25, 45, 0.65);
+      backdrop-filter: blur(12px);
+      border-radius: 3rem;
+      border: 1px solid rgba(66, 153, 225, 0.25);
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(80, 180, 255, 0.15) inset;
+      padding: 2.2rem 2rem 2.8rem;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    @media (max-width: 550px) {
+      .card {
+        padding: 1.8rem 1.2rem 2.2rem;
+        border-radius: 2rem;
+      }
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(0, 212, 255, 0.12);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1.1rem;
+      border-radius: 60px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #7bc2ff;
+      border: 0.5px solid rgba(98, 191, 255, 0.4);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #FFFFFF, #c0e0ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (max-width: 550px) {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .date-time-highlight {
+      background: rgba(0, 30, 60, 0.6);
+      border-radius: 2rem;
+      padding: 0.75rem 1rem;
+      margin: 1.2rem 0 1rem;
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      align-items: baseline;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(130, 190, 255, 0.2);
+    }
+
+    .target-date {
+      font-size: 1.35rem;
+      font-weight: 600;
+      background: linear-gradient(120deg, #f0f9ff, #b9dcff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: 0.3px;
+    }
+
+    .target-time {
+      font-family: monospace;
+      font-weight: 700;
+      background: #0a1428;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      color: #8bbfff;
+      border: 0.5px solid #2f5390;
+    }
+
+    .desc-text {
+      color: #a4bbdd;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      border-left: 2px solid #2f6eb3;
+      padding-left: 1rem;
+      text-align: center;
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 40px;
+      padding: 0.4rem 1.4rem;
+      backdrop-filter: blur(2px);
+    }
+
+    /* countdown grid */
+    .countdown-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
+      margin: 2rem 0 1.8rem;
+    }
+
+    .timer-block {
+      background: rgba(10, 20, 35, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 1.8rem;
+      padding: 1rem 0.8rem;
+      min-width: 110px;
+      flex: 1;
+      text-align: center;
+      border: 1px solid rgba(72, 187, 255, 0.25);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .timer-block:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 180, 255, 0.6);
+    }
+
+    .timer-number {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(145deg, #eef5ff, #b0dbff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      font-family: 'Inter', monospace;
+    }
+
+    .timer-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #7d9ed7;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .timer-number {
+        font-size: 2.4rem;
+      }
+      .timer-block {
+        min-width: 70px;
+        padding: 0.8rem 0.3rem;
+      }
+      .countdown-grid {
+        gap: 0.8rem;
+      }
+    }
+
+    .message-area {
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.7rem;
+      background: rgba(0, 30, 60, 0.5);
+      border-radius: 40px;
+      color: #cbe4ff;
+      backdrop-filter: blur(2px);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .launch-message {
+      background: linear-gradient(95deg, #1a3c5e, #0f2a44);
+      color: #eaf6ff;
+      font-weight: 600;
+      padding: 0.7rem 1rem;
+      border-radius: 2rem;
+      border-left: 4px solid #2bc0ff;
+    }
+
+    .footnote {
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      color: #6080aa;
+      letter-spacing: 0.3px;
+      border-top: 1px dashed rgba(100, 150, 200, 0.3);
+      padding-top: 1.2rem;
+    }
+
+    .highlight-days {
+      text-shadow: 0 0 6px rgba(0, 200, 255, 0.4);
+    }
+
+    /* small animation */
+    @keyframes gentlePulse {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+    .timer-block {
+      animation: gentlePulse 1.8s infinite alternate ease-in-out;
+    }
+    .timer-block:nth-child(1) { animation-delay: 0s; }
+    .timer-block:nth-child(2) { animation-delay: 0.1s; }
+    .timer-block:nth-child(3) { animation-delay: 0.2s; }
+    .timer-block:nth-child(4) { animation-delay: 0.3s; }
+  </style>
 </head>
 <body>
 
-    <h2>💰 Earn Coins</h2>
+<div class="card">
+  <div class="badge">
+    🚀 VERSION 3.0 · MAJOR RELEASE
+  </div>
+  <h1>✨ NEW UPDATE COMING ✨</h1>
+  
+  <!-- Updated target: 9th May 2026, 8:00 PM -->
+  <div class="date-time-highlight">
+    <span class="target-date">📅 9 May 2026</span>
+    <span class="target-time">⏰ 8:00 PM (20:00)</span>
+  </div>
+  
+  <div class="desc-text">
+    🎯 Countdown to launch — get ready for next‑gen features
+  </div>
 
-    <p>Balance: <span id="balance">0</span> coins</p>
-    <p>Today Ads Watched: <span id="adCount">0</span>/20</p>
+  <!-- COUNTDOWN TIMER DISPLAY (Days · Hours · Minutes · Seconds) -->
+  <div class="countdown-grid" id="countdownContainer">
+    <div class="timer-block">
+      <div class="timer-number" id="daysValue">--</div>
+      <div class="timer-label">DAYS</div>
+    </div>
+    <div class="timer-block">
+      <div class="timer-number" id="hoursValue">--</div>
+      <div class="timer-label">HOURS</div>
+    </div>
+    <div class="timer-block">
+      <div class="timer-number" id="minutesValue">--</div>
+      <div class="timer-label">MINUTES</div>
+    </div>
+    <div class="timer-block">
+      <div class="timer-number" id="secondsValue">--</div>
+      <div class="timer-label">SECONDS</div>
+    </div>
+  </div>
+  
+  <!-- dynamic message / status area -->
+  <div class="message-area" id="statusMessage">
+    ⏳ preparing the update environment ...
+  </div>
+  
+  <div class="footnote" id="dynamicFootnote">
+    🌍 based on your local timezone · target: <strong>May 9, 2026 at 20:00:00</strong><br>
+    📆 days countdown includes full days left until the moment arrives
+  </div>
+</div>
 
-    <button id="showAdBtn">▶ Watch Ad</button>
-
-    <!-- Ad Container -->
-    <div id="tads-container-9689"></div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const WIDGET_ID = "9689";
-            const IS_DEBUG = false;
-
-            const DAILY_LIMIT = 20;
-            const REWARD = 50;
-
-            const today = new Date().toLocaleDateString();
-
-            let balance = parseInt(localStorage.getItem("balance")) || 0;
-            let adData = JSON.parse(localStorage.getItem("adData")) || { date: today, count: 0 };
-
-            if (adData.date !== today) {
-                adData = { date: today, count: 0 };
-            }
-
-            updateUI();
-
-            function updateUI() {
-                document.getElementById("balance").innerText = balance;
-                document.getElementById("adCount").innerText = adData.count;
-            }
-
-            const onShowRewardCallback = () => {
-
-                if (adData.count >= DAILY_LIMIT) {
-                    alert("❌ Daily limit reached");
-                    return;
-                }
-
-                balance += REWARD;
-                adData.count++;
-
-                localStorage.setItem("balance", balance);
-                localStorage.setItem("adData", JSON.stringify(adData));
-
-                updateUI();
-
-                alert("✅ +" + REWARD + " coins added");
-            };
-
-            const onAdsNotFound = () => {
-                alert("❌ No ads available now");
-            };
-
-            const adController = window.tads.init({
-                widgetId: WIDGET_ID,
-                type: 'fullscreen',
-                debug: IS_DEBUG,
-                onShowReward: onShowRewardCallback,
-                onAdsNotFound: onAdsNotFound,
-            });
-
-            let lastClick = 0;
-
-            document.getElementById("showAdBtn").addEventListener('click', () => {
-
-                const now = Date.now();
-
-                if (now - lastClick < 3000) {
-                    alert("⏳ Wait 3 seconds");
-                    return;
-                }
-
-                lastClick = now;
-
-                if (adData.count >= DAILY_LIMIT) {
-                    alert("❌ Daily limit finished");
-                    return;
-                }
-
-                adController
-                    .then((controller) => controller.showAd())
-                    .catch((err) => console.log(err));
-            });
-
+<script>
+  (function() {
+    // ============================================================
+    // TARGET UPDATE DATE & TIME : 9th MAY 2026 - 8:00 PM (20:00)
+    // Month in JS is 0-index: January = 0, May = 4
+    const targetYear = 2026;
+    const targetMonth = 4;     // MAY (0=Jan, 4=May)
+    const targetDay = 9;
+    const targetHour = 20;      // 8 PM
+    const targetMinute = 0;
+    const targetSecond = 0;
+    
+    const targetDate = new Date(targetYear, targetMonth, targetDay, targetHour, targetMinute, targetSecond);
+    
+    // DOM elements
+    const daysSpan = document.getElementById('daysValue');
+    const hoursSpan = document.getElementById('hoursValue');
+    const minutesSpan = document.getElementById('minutesValue');
+    const secondsSpan = document.getElementById('secondsValue');
+    const statusDiv = document.getElementById('statusMessage');
+    const footnoteDiv = document.getElementById('dynamicFootnote');
+    
+    // Helper: format number with leading zero for hours/min/sec, but days raw integer
+    function formatTwoDigits(num) {
+      return num < 10 ? '0' + num : num;
+    }
+    
+    // Update footnote dynamically to show user's local target & correct month
+    function updateFootnote() {
+      if (footnoteDiv) {
+        const userLocalString = targetDate.toLocaleString(undefined, {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
         });
-    </script>
+        footnoteDiv.innerHTML = `🌍 your device timezone · target arrives at: <strong>${userLocalString}</strong><br>
+        📆 precise countdown: days, hours, minutes & seconds remaining until <strong>9th May 2026, 8:00 PM</strong>`;
+      }
+    }
+    
+    // Update countdown logic
+    function updateCountdown() {
+      const now = new Date(); // current local time
+      const timeDiffMs = targetDate - now;
+      
+      // Check if update time has already arrived (or passed)
+      if (timeDiffMs <= 0) {
+        // Update is LIVE or already released
+        daysSpan.innerText = '00';
+        hoursSpan.innerText = '00';
+        minutesSpan.innerText = '00';
+        secondsSpan.innerText = '00';
+        
+        statusDiv.innerHTML = '🎉🔥 UPDATE IS LIVE! 🔥🎉<br> The new version is now available — refresh and enjoy!';
+        statusDiv.classList.add('launch-message');
+        // also ensure footnote keeps correct target references but show live state
+        if (footnoteDiv && !footnoteDiv.innerHTML.includes('LIVE')) {
+          footnoteDiv.innerHTML = `✅ UPDATE RELEASED! Target was: 9th May 2026, 8:00 PM ✅<br>🎊 You're on the latest version — enjoy the features! 🎊`;
+        }
+        return;
+      }
+      
+      // Calculate positive remaining time
+      const totalSecondsRemaining = Math.floor(timeDiffMs / 1000);
+      const daysRemaining = Math.floor(totalSecondsRemaining / 86400);
+      const hoursRemaining = Math.floor((totalSecondsRemaining % 86400) / 3600);
+      const minutesRemaining = Math.floor((totalSecondsRemaining % 3600) / 60);
+      const secondsRemaining = totalSecondsRemaining % 60;
+      
+      // Update DOM with nice formatting
+      // Days shown as integer (no leading zeros, full days count)
+      daysSpan.innerText = daysRemaining;
+      hoursSpan.innerText = formatTwoDigits(hoursRemaining);
+      minutesSpan.innerText = formatTwoDigits(minutesRemaining);
+      secondsSpan.innerText = formatTwoDigits(secondsRemaining);
+      
+      // Dynamic status message changes based on remaining time (enhanced and exciting)
+      if (daysRemaining === 0 && hoursRemaining < 1) {
+        statusDiv.innerHTML = `⚡ Less than one hour left! Final preparations in progress — stay tuned ⚡`;
+      } else if (daysRemaining === 0) {
+        statusDiv.innerHTML = `🌟 Only ${hoursRemaining} hours and ${minutesRemaining} minutes left! Get ready for the big surprise 🌟`;
+      } else if (daysRemaining <= 3) {
+        statusDiv.innerHTML = `🔔 FINAL COUNTDOWN · ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} to go! Expect major upgrades 🔔`;
+      } else if (daysRemaining <= 7) {
+        statusDiv.innerHTML = `🚀 Just around the corner! ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining — hype mode activated 🚀`;
+      } else {
+        statusDiv.innerHTML = `📡 Scheduled update: ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining · full changelog drops on 9th May 2026 at 8PM 📡`;
+      }
+      
+      // Remove launch class if it was previously active but now still counting
+      if (statusDiv.classList.contains('launch-message') && timeDiffMs > 0) {
+        statusDiv.classList.remove('launch-message');
+      }
+    }
+    
+    // initial call + set interval (refresh every second)
+    updateCountdown();
+    updateFootnote();       // set accurate footnote with May 2026 time
+    const intervalId = setInterval(updateCountdown, 1000);
+    
+    // optional: clean interval if page gets unloaded (good practice)
+    window.addEventListener('beforeunload', function() {
+      if (intervalId) clearInterval(intervalId);
+    });
+    
+    // Additional check: ensure target date is correct & handle any invalid date edge case
+    if (isNaN(targetDate.getTime())) {
+      daysSpan.innerText = 'ERR';
+      hoursSpan.innerText = 'ERR';
+      minutesSpan.innerText = 'ERR';
+      secondsSpan.innerText = 'ERR';
+      statusDiv.innerHTML = '⚠️ Invalid target date configuration. Please check script.';
+      if (intervalId) clearInterval(intervalId);
+    }
+    
+    // Visual micro-interaction: update footnote every minute to reflect timezone changes if needed
+    // but not crucial, already correct. Also ensure that when the date changes, the footnote shows fresh context
+    setInterval(() => {
+      if (targetDate - new Date() > 0) {
+        updateFootnote();
+      }
+    }, 30000); // refresh footnote every 30 sec to keep timezone string precise (optional)
+    
+    // Provide extra tooltip on date display to show exact local representation
+    const targetDateElem = document.querySelector('.target-date');
+    if (targetDateElem) {
+      targetDateElem.setAttribute('title', `Exact release moment: ${targetDate.toString()}`);
+    }
+    const timeElem = document.querySelector('.target-time');
+    if (timeElem) {
+      timeElem.setAttribute('title', `Your local countdown target: ${targetDate.toLocaleTimeString()}`);
+    }
+    
+    // Double-check that the DAYS, HOURS, MINUTES, SECONDS are correctly counting down
+    // with full support for "days" as requested.
+    console.log(`Countdown active until: ${targetDate.toString()} (user local time)`);
+  })();
+</script>
 
+<!-- 
+  --- FINAL UPDATE: fully converted to MAY 2026 ---
+  ✅ Target changed to 9th May 2026, 8:00 PM (20:00)
+  ✅ Days, Hours, Minutes, Seconds counter fully functional
+  ✅ All static references (title, date-highlight, footnote) updated to "May 2026"
+  ✅ Dynamic countdown refreshes every second, exact remaining time based on local timezone
+  ✅ Responsive, glassmorphic design with animated timer blocks
+  ✅ Smart status messages: shows urgency when few days/hours left, "UPDATE IS LIVE" after the date passes
+  ✅ Clean vanilla JS, no external libs (except Google Font)
+-->
 </body>
 </html>

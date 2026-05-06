@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>⚡ New Update Countdown | 9th April 2026 · 8PM</title>
+  <title>⚡ New Update Countdown | 9th May 2026 · 8PM</title>
   <!-- Google Fonts for modern typography -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <style>
@@ -261,9 +261,9 @@
   </div>
   <h1>✨ NEW UPDATE COMING ✨</h1>
   
-  <!-- Exact Date & Time display (as requested) -->
+  <!-- Updated target: 9th May 2026, 8:00 PM -->
   <div class="date-time-highlight">
-    <span class="target-date">📅 9 April 2026</span>
+    <span class="target-date">📅 9 May 2026</span>
     <span class="target-time">⏰ 8:00 PM (20:00)</span>
   </div>
   
@@ -296,8 +296,8 @@
     ⏳ preparing the update environment ...
   </div>
   
-  <div class="footnote">
-    🌍 based on your local timezone · target: <strong>April 9, 2026 at 20:00:00</strong><br>
+  <div class="footnote" id="dynamicFootnote">
+    🌍 based on your local timezone · target: <strong>May 9, 2026 at 20:00:00</strong><br>
     📆 days countdown includes full days left until the moment arrives
   </div>
 </div>
@@ -305,12 +305,10 @@
 <script>
   (function() {
     // ============================================================
-    // TARGET UPDATE DATE & TIME : 9th April 2026 - 8:00 PM (20:00)
-    // according to user request: 9/04/26  (dd/mm/yy) + 8pm
-    // Using LOCAL time (user's device timezone)
-    // Month in JS is 0-index -> April = 3
+    // TARGET UPDATE DATE & TIME : 9th MAY 2026 - 8:00 PM (20:00)
+    // Month in JS is 0-index: January = 0, May = 4
     const targetYear = 2026;
-    const targetMonth = 3;     // April (0=Jan, 3=April)
+    const targetMonth = 4;     // MAY (0=Jan, 4=May)
     const targetDay = 9;
     const targetHour = 20;      // 8 PM
     const targetMinute = 0;
@@ -324,10 +322,28 @@
     const minutesSpan = document.getElementById('minutesValue');
     const secondsSpan = document.getElementById('secondsValue');
     const statusDiv = document.getElementById('statusMessage');
+    const footnoteDiv = document.getElementById('dynamicFootnote');
     
     // Helper: format number with leading zero for hours/min/sec, but days raw integer
     function formatTwoDigits(num) {
       return num < 10 ? '0' + num : num;
+    }
+    
+    // Update footnote dynamically to show user's local target & correct month
+    function updateFootnote() {
+      if (footnoteDiv) {
+        const userLocalString = targetDate.toLocaleString(undefined, {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        });
+        footnoteDiv.innerHTML = `🌍 your device timezone · target arrives at: <strong>${userLocalString}</strong><br>
+        📆 precise countdown: days, hours, minutes & seconds remaining until <strong>9th May 2026, 8:00 PM</strong>`;
+      }
     }
     
     // Update countdown logic
@@ -345,6 +361,10 @@
         
         statusDiv.innerHTML = '🎉🔥 UPDATE IS LIVE! 🔥🎉<br> The new version is now available — refresh and enjoy!';
         statusDiv.classList.add('launch-message');
+        // also ensure footnote keeps correct target references but show live state
+        if (footnoteDiv && !footnoteDiv.innerHTML.includes('LIVE')) {
+          footnoteDiv.innerHTML = `✅ UPDATE RELEASED! Target was: 9th May 2026, 8:00 PM ✅<br>🎊 You're on the latest version — enjoy the features! 🎊`;
+        }
         return;
       }
       
@@ -356,26 +376,34 @@
       const secondsRemaining = totalSecondsRemaining % 60;
       
       // Update DOM with nice formatting
+      // Days shown as integer (no leading zeros, full days count)
       daysSpan.innerText = daysRemaining;
       hoursSpan.innerText = formatTwoDigits(hoursRemaining);
       minutesSpan.innerText = formatTwoDigits(minutesRemaining);
       secondsSpan.innerText = formatTwoDigits(secondsRemaining);
       
-      // Additional style: emphasize days if less than 30? just keep clean
-      // Dynamic status message to show remaining days/detail
+      // Dynamic status message changes based on remaining time (enhanced and exciting)
       if (daysRemaining === 0 && hoursRemaining < 1) {
         statusDiv.innerHTML = `⚡ Less than one hour left! Final preparations in progress — stay tuned ⚡`;
       } else if (daysRemaining === 0) {
         statusDiv.innerHTML = `🌟 Only ${hoursRemaining} hours and ${minutesRemaining} minutes left! Get ready for the big surprise 🌟`;
       } else if (daysRemaining <= 3) {
         statusDiv.innerHTML = `🔔 FINAL COUNTDOWN · ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} to go! Expect major upgrades 🔔`;
+      } else if (daysRemaining <= 7) {
+        statusDiv.innerHTML = `🚀 Just around the corner! ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining — hype mode activated 🚀`;
       } else {
-        statusDiv.innerHTML = `📡 Scheduled update: ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining · full changelog drops on 9th April 8PM 📡`;
+        statusDiv.innerHTML = `📡 Scheduled update: ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining · full changelog drops on 9th May 2026 at 8PM 📡`;
+      }
+      
+      // Remove launch class if it was previously active but now still counting
+      if (statusDiv.classList.contains('launch-message') && timeDiffMs > 0) {
+        statusDiv.classList.remove('launch-message');
       }
     }
     
     // initial call + set interval (refresh every second)
     updateCountdown();
+    updateFootnote();       // set accurate footnote with May 2026 time
     const intervalId = setInterval(updateCountdown, 1000);
     
     // optional: clean interval if page gets unloaded (good practice)
@@ -383,27 +411,7 @@
       if (intervalId) clearInterval(intervalId);
     });
     
-    // Additional check: ensure that target date is correctly displayed in the footnote and badge
-    // Show a localised readable version of target date + time
-    const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
-    const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: true };
-    // We can optionally enhance the footnote, but already static hardcoded. Keep dynamic for clarity
-    const footnoteElem = document.querySelector('.footnote');
-    if (footnoteElem) {
-      const localTargetStr = targetDate.toLocaleString(undefined, { 
-        weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', 
-        hour: '2-digit', minute: '2-digit', hour12: true 
-      });
-      // Append extra info without overwriting everything? keep existing content clear
-      // But we can add readable info to avoid confusion. Ensure days count is correct.
-      // The existing footnote has "April 9, 2026 at 20:00:00". just add user local confirmation
-      const extraSpan = document.createElement('small');
-      // Avoid duplication, just set innerHTML but keep original style
-      footnoteElem.innerHTML = `🌍 your device timezone · target: <strong>${targetDate.toLocaleString()}</strong><br>
-      📆 countdown updates every second — exact days left until ${targetDate.toLocaleDateString()} at 8:00 PM`;
-    }
-    
-    // Additional visual feedback: if the target date is invalid (never happens) but edge case trap
+    // Additional check: ensure target date is correct & handle any invalid date edge case
     if (isNaN(targetDate.getTime())) {
       daysSpan.innerText = 'ERR';
       hoursSpan.innerText = 'ERR';
@@ -413,36 +421,39 @@
       if (intervalId) clearInterval(intervalId);
     }
     
-    // Show proper style and also write initial Days info
-    // Ensure the timer numbers show days in plain integer without leading zeros (days can be multi-digit)
-    // Also update setInterval handles dynamically.
+    // Visual micro-interaction: update footnote every minute to reflect timezone changes if needed
+    // but not crucial, already correct. Also ensure that when the date changes, the footnote shows fresh context
+    setInterval(() => {
+      if (targetDate - new Date() > 0) {
+        updateFootnote();
+      }
+    }, 30000); // refresh footnote every 30 sec to keep timezone string precise (optional)
     
-    // Just an extra confirmation: make sure that the day count never shows negative, but we already handle <=0 condition above
-    // Also ensure that after update is live, the message remains.
-    
-    // (Optional) if for any reason the user changes system time drastically, the countdown adapts correctly.
-    // because each request reads new Date().
-    
-    // For stronger display, we add custom tooltip to inform about exact local time representation
-    const tooltipDate = new Date(targetYear, targetMonth, targetDay, targetHour, targetMinute, targetSecond);
-    if (document.querySelector('.target-date')) {
-      // display also full datetime string in title attribute
-      const fullLocalString = tooltipDate.toString();
-      const timeElem = document.querySelector('.target-time');
-      if (timeElem) timeElem.setAttribute('title', `Exact local time: ${fullLocalString}`);
+    // Provide extra tooltip on date display to show exact local representation
+    const targetDateElem = document.querySelector('.target-date');
+    if (targetDateElem) {
+      targetDateElem.setAttribute('title', `Exact release moment: ${targetDate.toString()}`);
     }
+    const timeElem = document.querySelector('.target-time');
+    if (timeElem) {
+      timeElem.setAttribute('title', `Your local countdown target: ${targetDate.toLocaleTimeString()}`);
+    }
+    
+    // Double-check that the DAYS, HOURS, MINUTES, SECONDS are correctly counting down
+    // with full support for "days" as requested.
+    console.log(`Countdown active until: ${targetDate.toString()} (user local time)`);
   })();
 </script>
 
 <!-- 
-  --- FULL UPDATE CODE SATISFIES REQUIREMENTS ---
-  ✅ Show date: 9/04/26 (9th April 2026) & time 8PM
-  ✅ Show days (DAYS counter) as requested "othoba dayes o likhe deo"
-  ✅ Countdown includes Days, Hours, Minutes, Seconds with auto-refresh
-  ✅ Fully responsive, modern glassmorphic UI
-  ✅ Dynamic message changes when near release / after release
-  ✅ Built with vanilla JS, no external dependencies (except google font)
-  ✅ User can copy & run immediately
+  --- FINAL UPDATE: fully converted to MAY 2026 ---
+  ✅ Target changed to 9th May 2026, 8:00 PM (20:00)
+  ✅ Days, Hours, Minutes, Seconds counter fully functional
+  ✅ All static references (title, date-highlight, footnote) updated to "May 2026"
+  ✅ Dynamic countdown refreshes every second, exact remaining time based on local timezone
+  ✅ Responsive, glassmorphic design with animated timer blocks
+  ✅ Smart status messages: shows urgency when few days/hours left, "UPDATE IS LIVE" after the date passes
+  ✅ Clean vanilla JS, no external libs (except Google Font)
 -->
 </body>
 </html>

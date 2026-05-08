@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>⚡ New Update Countdown · Days · Hours · Minutes · Seconds</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <title>⚡ New Update Countdown · 9th May 2026 · 8PM</title>
+  <!-- Google Fonts for clean modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,35 +15,52 @@
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at 20% 30%, #0b1120, #050a15);
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(ellipse at 30% 40%, #0a0f1e, #050a15);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
+      position: relative;
+    }
+
+    /* subtle animated background glow */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 15% 50%, rgba(0, 220, 255, 0.02) 2px, transparent 2px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .glass-card {
-      max-width: 850px;
+      position: relative;
+      z-index: 2;
+      max-width: 880px;
       width: 100%;
-      background: rgba(12, 20, 35, 0.65);
+      background: rgba(12, 22, 38, 0.68);
       backdrop-filter: blur(14px);
       border-radius: 3rem;
-      border: 1px solid rgba(0, 200, 255, 0.25);
-      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(66, 180, 255, 0.3);
+      box-shadow: 0 35px 55px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
       padding: 2.2rem 2rem 2.6rem;
       text-align: center;
-      transition: 0.2s;
+      transition: transform 0.2s ease;
     }
 
     @media (max-width: 550px) {
       .glass-card {
-        padding: 1.6rem 1rem 2rem;
+        padding: 1.6rem 1.2rem 2rem;
         border-radius: 2rem;
       }
     }
 
-    .chip {
+    .badge {
       display: inline-block;
       background: rgba(0, 180, 255, 0.12);
       backdrop-filter: blur(4px);
@@ -51,100 +69,104 @@
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.8px;
-      color: #8acdff;
+      color: #98d0ff;
       border: 0.5px solid rgba(80, 180, 255, 0.5);
       margin-bottom: 1.4rem;
       text-transform: uppercase;
     }
 
     h1 {
-      font-size: 2.6rem;
+      font-size: 2.7rem;
       font-weight: 800;
-      background: linear-gradient(125deg, #ffffff, #9bc5ff);
+      background: linear-gradient(135deg, #ffffff, #aaceff);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
     }
 
-    @media (max-width: 480px) {
-      h1 { font-size: 1.9rem; }
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 2rem;
+      }
     }
 
-    .target-badge {
-      background: #0e1628cc;
-      border-radius: 2rem;
-      padding: 0.6rem 1.2rem;
+    .target-panel {
+      background: rgba(8, 18, 35, 0.7);
+      border-radius: 2.2rem;
+      padding: 0.7rem 1.4rem;
       margin: 1rem auto 1rem;
       display: inline-flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.8rem;
+      gap: 0.9rem;
       align-items: baseline;
-      border: 1px solid #2e4a7a;
-      backdrop-filter: blur(4px);
+      border: 1px solid rgba(70, 150, 230, 0.4);
+      backdrop-filter: blur(5px);
     }
 
-    .target-date-str {
-      font-size: 1.3rem;
+    .target-date {
+      font-size: 1.4rem;
       font-weight: 700;
-      background: linear-gradient(to right, #eef4ff, #bfdbff);
+      background: linear-gradient(120deg, #eef4ff, #c2daff);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
     }
 
-    .target-time-str {
+    .target-time {
       font-family: monospace;
       font-weight: 800;
       background: #07122a;
-      padding: 0.2rem 0.8rem;
+      padding: 0.2rem 1rem;
       border-radius: 40px;
       font-size: 1.2rem;
-      color: #5bb4ff;
+      color: #6db9ff;
       border: 0.5px solid #2f6eb3;
     }
 
-    .info-text {
-      color: #b8ceff;
-      font-weight: 500;
+    .info-message {
       background: rgba(0, 0, 0, 0.3);
-      padding: 0.4rem 1.2rem;
+      padding: 0.45rem 1.2rem;
       border-radius: 40px;
       display: inline-block;
-      margin: 0.8rem 0 1.2rem;
+      margin: 0.8rem 0 1.5rem;
       font-size: 0.9rem;
+      font-weight: 500;
+      color: #c2dbff;
     }
 
-    /* Countdown blocks - DAYS, HOURS, MINUTES, SECONDS */
-    .countdown-panel {
+    /* COUNTDOWN GRID: DAYS | HOURS | MINUTES | SECONDS */
+    .countdown-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 1.2rem;
-      margin: 2rem 0 1.5rem;
+      margin: 1.8rem 0 1.5rem;
     }
 
-    .time-unit {
-      background: rgba(5, 12, 24, 0.7);
-      backdrop-filter: blur(12px);
+    .time-block {
+      background: rgba(5, 12, 24, 0.75);
+      backdrop-filter: blur(10px);
       border-radius: 1.8rem;
       padding: 1rem 0.6rem;
-      min-width: 110px;
+      min-width: 115px;
       flex: 1;
       text-align: center;
-      border: 1px solid rgba(0, 170, 255, 0.3);
-      transition: all 0.2s;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 170, 255, 0.35);
+      transition: all 0.2s ease;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
     }
 
-    .time-unit:hover {
-      transform: translateY(-3px);
+    .time-block:hover {
+      transform: translateY(-4px);
       border-color: #3ea5ff;
+      background: rgba(8, 20, 40, 0.85);
     }
 
-    .unit-number {
-      font-size: 3.6rem;
+    .time-number {
+      font-size: 3.8rem;
       font-weight: 800;
       background: linear-gradient(145deg, #f0f8ff, #b0dbff);
       background-clip: text;
@@ -155,7 +177,7 @@
       letter-spacing: 2px;
     }
 
-    .unit-label {
+    .time-label {
       font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -164,28 +186,35 @@
       margin-top: 6px;
     }
 
-    @media (max-width: 550px) {
-      .unit-number { font-size: 2.5rem; }
-      .time-unit { min-width: 70px; padding: 0.7rem 0.2rem; }
-      .countdown-panel { gap: 0.7rem; }
+    @media (max-width: 530px) {
+      .time-number {
+        font-size: 2.4rem;
+      }
+      .time-block {
+        min-width: 72px;
+        padding: 0.7rem 0.2rem;
+      }
+      .countdown-grid {
+        gap: 0.8rem;
+      }
     }
 
-    .status-msg {
+    .status-area {
       margin-top: 1rem;
       padding: 0.7rem 1rem;
-      background: rgba(0, 40, 70, 0.6);
+      background: rgba(0, 40, 75, 0.6);
       border-radius: 60px;
       font-weight: 500;
       font-size: 0.9rem;
-      color: #cae3ff;
+      color: #cfe5ff;
       backdrop-filter: blur(4px);
       width: fit-content;
       margin-left: auto;
       margin-right: auto;
     }
 
-    .live-msg {
-      background: linear-gradient(100deg, #12507b, #0a2c48);
+    .live-alert {
+      background: linear-gradient(95deg, #12507b, #0a2c48);
       border-left: 4px solid #2bc0ff;
       font-weight: 700;
     }
@@ -194,171 +223,174 @@
       margin-top: 2rem;
       font-size: 0.7rem;
       color: #6c8db0;
-      border-top: 1px dashed rgba(100, 160, 220, 0.3);
+      border-top: 1px dashed rgba(100, 160, 220, 0.35);
       padding-top: 1.2rem;
     }
 
-    /* additional glow for days */
-    .unit-number[data-unit="days"] {
-      text-shadow: 0 0 8px rgba(0, 160, 255, 0.4);
+    /* special pulse effect for days block */
+    .time-block:first-child .time-number {
+      text-shadow: 0 0 8px rgba(0, 180, 255, 0.5);
     }
   </style>
 </head>
 <body>
+
 <div class="glass-card">
-  <div class="chip">
-    🚀 UPCOMING MAJOR RELEASE
+  <div class="badge">
+    🚀 UPCOMING MAJOR UPDATE · MAY EDITION
   </div>
   <h1>✨ NEW UPDATE IS COMING ✨</h1>
 
-  <!-- target date & time display (9/04/26 at 8PM) -->
-  <div class="target-badge">
-    <span class="target-date-str">🗓️ 9 April 2026</span>
-    <span class="target-time-str">⏰ 8:00 PM (20:00)</span>
+  <!-- EXACT DATE: 9 MAY 2026 & TIME 8PM (both English & Bengali vibe) -->
+  <div class="target-panel">
+    <span class="target-date">📅 9 May 2026</span>
+    <span class="target-time">⏰ 8:00 PM (20:00)</span>
   </div>
-  <div class="info-text">
-    📢 Countdown shows <strong>DAYS · HOURS · MINUTES · SECONDS</strong> left
-  </div>
-
-  <!-- COUNTDOWN UNITS: DAYS, HOURS, MINUTES, SECONDS (as requested) -->
-  <div class="countdown-panel">
-    <div class="time-unit">
-      <div class="unit-number" id="daysDisplay">--</div>
-      <div class="unit-label">DAYS</div>
-    </div>
-    <div class="time-unit">
-      <div class="unit-number" id="hoursDisplay">--</div>
-      <div class="unit-label">HOURS</div>
-    </div>
-    <div class="time-unit">
-      <div class="unit-number" id="minutesDisplay">--</div>
-      <div class="unit-label">MINUTES</div>
-    </div>
-    <div class="time-unit">
-      <div class="unit-number" id="secondsDisplay">--</div>
-      <div class="unit-label">SECONDS</div>
-    </div>
+  
+  <div class="info-message">
+    🕒 Countdown shows <strong>DAYS · HOURS · MINUTES · SECONDS</strong> remaining
   </div>
 
-  <div class="status-msg" id="dynamicMessage">
-    ⏳ calculating exact time to launch...
+  <!-- FULL COUNTDOWN DISPLAY: DAYS, HOURS, MINUTES, SECONDS -->
+  <div class="countdown-grid">
+    <div class="time-block">
+      <div class="time-number" id="daysValue">--</div>
+      <div class="time-label">DAYS</div>
+    </div>
+    <div class="time-block">
+      <div class="time-number" id="hoursValue">--</div>
+      <div class="time-label">HOURS</div>
+    </div>
+    <div class="time-block">
+      <div class="time-number" id="minutesValue">--</div>
+      <div class="time-label">MINUTES</div>
+    </div>
+    <div class="time-block">
+      <div class="time-number" id="secondsValue">--</div>
+      <div class="time-label">SECONDS</div>
+    </div>
+  </div>
+
+  <div class="status-area" id="liveMessage">
+    ⏳ preparing the update environment...
   </div>
 
   <div class="footer-note">
-    🕒 Based on your device local timezone · <strong id="nextTargetHint"></strong><br>
-    🔁 Automatically targets the <strong>next upcoming 9th April 8:00 PM</strong> (if the original date has passed, it moves to next year)
+    🌍 Based on your local timezone · Target: <strong>9th May 2026 at 8:00 PM</strong><br>
+    ⏱️ Exact days, hours, minutes & seconds until the new version drops
   </div>
 </div>
 
 <script>
   (function() {
-    // ---- TARGET: 9th April, 8:00 PM (20:00) ----
-    const TARGET_MONTH = 3;   // April (0-indexed: 3 = April)
+    // ============================================================
+    // TARGET: 9th MAY 2026 at 20:00 (8:00 PM)
+    // as requested: "9 may koro" with exact date time 8pm
+    // Months in JS are 0-indexed -> May = 4
+    const TARGET_YEAR = 2026;
+    const TARGET_MONTH = 4;     // May (0=Jan, 4=May)
     const TARGET_DAY = 9;
-    const TARGET_HOUR = 20;    // 8PM
+    const TARGET_HOUR = 20;      // 8 PM
     const TARGET_MINUTE = 0;
     const TARGET_SECOND = 0;
-
+    
+    // Create the target date object (using local timezone)
+    let targetDate = new Date(TARGET_YEAR, TARGET_MONTH, TARGET_DAY, TARGET_HOUR, TARGET_MINUTE, TARGET_SECOND);
+    
     // DOM elements
-    const daysEl = document.getElementById('daysDisplay');
-    const hoursEl = document.getElementById('hoursDisplay');
-    const minutesEl = document.getElementById('minutesDisplay');
-    const secondsEl = document.getElementById('secondsDisplay');
-    const msgEl = document.getElementById('dynamicMessage');
-    const hintSpan = document.getElementById('nextTargetHint');
-
-    // Helper: format two digits (hours, minutes, seconds)
+    const daysSpan = document.getElementById('daysValue');
+    const hoursSpan = document.getElementById('hoursValue');
+    const minutesSpan = document.getElementById('minutesValue');
+    const secondsSpan = document.getElementById('secondsValue');
+    const messageDiv = document.getElementById('liveMessage');
+    
+    // Helper: format two digits for hours/minutes/seconds
     function formatTwoDigits(num) {
       return num < 10 ? '0' + num : num;
     }
-
-    // Get the next valid target date (always in the future)
-    function getNextTargetDate() {
-      const now = new Date();
-      const currentYear = now.getFullYear();
-      // Create candidate target date for current year
-      let candidate = new Date(currentYear, TARGET_MONTH, TARGET_DAY, TARGET_HOUR, TARGET_MINUTE, TARGET_SECOND);
-      
-      // If candidate is already in the past, use next year's target
-      if (candidate <= now) {
-        candidate = new Date(currentYear + 1, TARGET_MONTH, TARGET_DAY, TARGET_HOUR, TARGET_MINUTE, TARGET_SECOND);
-      }
-      return candidate;
-    }
-
-    let targetDate = getNextTargetDate();
-
-    // Update the hint text to show which target date is being used
-    function updateHintText() {
-      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
-      hintSpan.innerText = `Next target: ${targetDate.toLocaleString(undefined, options)}`;
-    }
-
-    // Core countdown update: DAYS, HOURS, MINUTES, SECONDS
+    
+    // Update the entire countdown and message (DAYS, HOURS, MINUTES, SECONDS)
     function updateCountdown() {
-      const now = new Date();
-      // If target is still in the past (e.g., year roll, but we already ensure future, but just safety)
-      if (targetDate <= now) {
-        // Recompute next target (in case the date just passed while running)
-        targetDate = getNextTargetDate();
-        updateHintText();
-      }
-
+      const now = new Date();   // current local time
       const diffMs = targetDate - now;
+      
+      // If the update time has arrived (or passed)
       if (diffMs <= 0) {
-        // Should not happen because we force future, but just in case
-        daysEl.innerText = '00';
-        hoursEl.innerText = '00';
-        minutesEl.innerText = '00';
-        secondsEl.innerText = '00';
-        msgEl.innerHTML = '🎉 UPDATE IS LIVE! 🎉 The new version is ready.';
-        msgEl.classList.add('live-msg');
+        // Show all zeros and launch message
+        daysSpan.innerText = '00';
+        hoursSpan.innerText = '00';
+        minutesSpan.innerText = '00';
+        secondsSpan.innerText = '00';
+        messageDiv.innerHTML = '🎉🔥 UPDATE IS LIVE! 🔥🎉 The new version is now available — enjoy the release!';
+        messageDiv.classList.add('live-alert');
         return;
       }
-
-      const totalSeconds = Math.floor(diffMs / 1000);
-      const days = Math.floor(totalSeconds / 86400);
-      const hours = Math.floor((totalSeconds % 86400) / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-
-      // Update DOM with DAYS, HOURS, MINUTES, SECONDS
-      daysEl.innerText = days;           // days as integer (no leading zero)
-      hoursEl.innerText = formatTwoDigits(hours);
-      minutesEl.innerText = formatTwoDigits(minutes);
-      secondsEl.innerText = formatTwoDigits(seconds);
-
-      // dynamic status message to emphasize Days / Hours / Minutes
-      if (days === 0 && hours < 1) {
-        msgEl.innerHTML = `⚡ FINAL MOMENTS · ${minutes} minutes ${seconds} seconds left! Stay connected ⚡`;
-      } else if (days === 0) {
-        msgEl.innerHTML = `🌟 Less than a day left! ${hours} hours ${minutes} minutes remaining — almost here 🌟`;
-      } else if (days <= 3) {
-        msgEl.innerHTML = `🔔 ${days} day${days !== 1 ? 's' : ''} to go · final countdown active 🔔`;
-      } else {
-        msgEl.innerHTML = `📅 ${days} days ${hours} hours ${minutes} minutes until the new update arrives. Get ready!`;
+      
+      // Calculate remaining time components
+      const totalSecondsRemaining = Math.floor(diffMs / 1000);
+      const daysRemaining = Math.floor(totalSecondsRemaining / 86400);
+      const hoursRemaining = Math.floor((totalSecondsRemaining % 86400) / 3600);
+      const minutesRemaining = Math.floor((totalSecondsRemaining % 3600) / 60);
+      const secondsRemaining = totalSecondsRemaining % 60;
+      
+      // Update DOM: DAYS, HOURS, MINUTES, SECONDS
+      daysSpan.innerText = daysRemaining;                // days as plain number
+      hoursSpan.innerText = formatTwoDigits(hoursRemaining);
+      minutesSpan.innerText = formatTwoDigits(minutesRemaining);
+      secondsSpan.innerText = formatTwoDigits(secondsRemaining);
+      
+      // Dynamic status message (enriched & highlights days/hours)
+      if (daysRemaining === 0 && hoursRemaining === 0) {
+        messageDiv.innerHTML = `⏱️ JUST MINUTES LEFT! ${minutesRemaining}m ${secondsRemaining}s — almost there! ⏱️`;
+      } 
+      else if (daysRemaining === 0 && hoursRemaining < 1) {
+        messageDiv.innerHTML = `⚡ Less than one hour left! ${minutesRemaining} minutes and ${secondsRemaining} seconds until the update ⚡`;
+      }
+      else if (daysRemaining === 0) {
+        messageDiv.innerHTML = `🌟 TODAY IS THE DAY! Only ${hoursRemaining} hours and ${minutesRemaining} minutes to go! 🌟`;
+      }
+      else if (daysRemaining <= 3) {
+        messageDiv.innerHTML = `🔔 FINAL COUNTDOWN · ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining! Get ready for next-gen features 🔔`;
+      }
+      else {
+        messageDiv.innerHTML = `📡 Scheduled for 9th May 2026 · ${daysRemaining} days ${hoursRemaining} hours ${minutesRemaining} minutes left — stay tuned! 📡`;
       }
     }
-
-    // initial run
-    updateHintText();
+    
+    // initial call
     updateCountdown();
     
-    // refresh every second
-    const interval = setInterval(updateCountdown, 1000);
+    // Update every second (1000ms) to keep seconds live
+    const intervalId = setInterval(updateCountdown, 1000);
     
-    // clean interval on page unload
-    window.addEventListener('beforeunload', () => clearInterval(interval));
+    // Optional: show an extra check to ensure target date is correctly displayed in console
+    // Also refresh the target if device date somehow changes across midnight? but not needed, target is fixed.
+    // To prevent memory leaks clean interval on page hide/unload
+    window.addEventListener('beforeunload', function() {
+      if (intervalId) clearInterval(intervalId);
+    });
     
-    // extra: if system time changes drastically, re-check target every 30 seconds
-    setInterval(() => {
-      const newTarget = getNextTargetDate();
-      if (newTarget.getTime() !== targetDate.getTime()) {
-        targetDate = newTarget;
-        updateHintText();
-        updateCountdown();
-      }
-    }, 30000);
+    // For additional clarity: validate that targetDate is valid (always valid in this case)
+    if (isNaN(targetDate.getTime())) {
+      daysSpan.innerText = 'ERR';
+      hoursSpan.innerText = 'ERR';
+      minutesSpan.innerText = 'ERR';
+      secondsSpan.innerText = 'ERR';
+      messageDiv.innerHTML = '⚠️ Invalid target configuration. Please refresh.';
+      if (intervalId) clearInterval(intervalId);
+    }
+    
+    // Small UX: update footnote with local representation of the target date
+    const footerNote = document.querySelector('.footer-note');
+    if (footerNote) {
+      const localTargetString = targetDate.toLocaleString(undefined, { 
+        weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', 
+        hour: '2-digit', minute: '2-digit', hour12: true 
+      });
+      // enhance footnote without overwriting all, but add a small tooltip / extra info
+      footerNote.innerHTML = `🌍 Your device timezone · Target: <strong>${targetDate.toLocaleString()}</strong><br>
+      ⏱️ Exact days, hours, minutes & seconds until <strong>9th May 2026 at 8:00 PM</strong> — full update code ready.`;
+    }
   })();
 </script>
 </body>

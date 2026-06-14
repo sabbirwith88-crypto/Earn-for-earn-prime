@@ -2,428 +2,541 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Viu Earn - Reward Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Viu Earn - Earn Rewards Daily</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <!-- Monetag SDK -->
-    <script src='//libtl.com/sdk.js' data-zone='11031831' data-sdk='show_11031831'></script>
-    <!-- Adsgram SDK -->
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    <!-- Giga Pub SDK -->
+    <!-- Telegram Web SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Ad SDKs -->
+    <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     <script src="https://ad.gigapub.tech/script?id=6432"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
-        body { background: #ffffff; display: flex; justify-content: center; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: #f8fafc; display: flex; justify-content: center; transition: background 0.2s; }
+        body.dark-mode { background: #0f172a; color: #e2e8f0; }
         .app-container { width: 100%; max-width: 500px; margin: 0 auto; min-height: 100vh; background: #fff; position: relative; box-shadow: 0 0 30px rgba(0,0,0,0.05); }
+        body.dark-mode .app-container { background: #0f172a; }
         .loading-screen { position: fixed; inset: 0; background: #fff; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        body.dark-mode .loading-screen { background: #0f172a; }
         .loading-screen.hidden { display: none; }
-        .loading-logo { width: 95px; height: 95px; border-radius: 32px; background: #000; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; }
-        .loading-logo i { font-size: 2.6rem; color: #FFD966; }
-        .loading-title { font-size: 1.9rem; font-weight: 800; color: #000; }
-        .loading-progress { width: 260px; height: 5px; background: #eaeef2; border-radius: 6px; margin: 20px 0; overflow: hidden; }
-        .loading-progress-fill { width: 0%; height: 100%; background: #000; transition: width 0.05s linear; }
-        .loading-percent { font-size: 1.2rem; font-weight: 600; color: #000; margin-top: 8px; }
-        .balance-card { background: linear-gradient(145deg, #f8fafc, #fff); border-radius: 32px; padding: 28px; margin-bottom: 24px; margin-top: 20px; border: 1px solid #eef2f6; }
-        .balance-amount { font-size: 3rem; font-weight: 800; margin: 12px 0 4px; color: #000; }
-        .usd-equivalent { font-size: 0.9rem; color: #2c3e66; font-weight: 500; margin-top: 6px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
-        .stat-card { background: #f8fafc; border-radius: 24px; padding: 18px 8px; text-align: center; border: 1px solid #eef2f6; }
-        .stat-value { font-size: 1.6rem; font-weight: 700; color: #000; }
-        .stat-label { font-size: 0.8rem; color: #475569; margin-top: 6px; }
-        .about-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0 10px; }
-        .about-card { background: #fff; border-radius: 28px; padding: 20px 12px; text-align: center; border: 1px solid #eef2f6; transition: transform 0.2s; }
-        .about-card:hover { transform: translateY(-3px); }
-        .about-icon { font-size: 2.2rem; background: #f1f5f9; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; border-radius: 30px; color: #000; }
-        .about-title { font-weight: 700; font-size: 1rem; }
-        .about-desc { font-size: 0.7rem; color: #475569; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; display: flex; justify-content: space-around; padding: 8px 0 22px; border-top: 1px solid #eef2f6; max-width: 500px; margin: 0 auto; z-index: 100; }
-        .nav-btn { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.7rem; padding: 8px; flex: 1; border-radius: 30px; cursor: pointer; transition: 0.2s; }
-        .nav-btn i { font-size: 1.4rem; color: #64748b; }
-        .nav-btn.active { color: #000; background: #f1f5f9; }
-        .nav-btn.active i { color: #000; }
-        .content-section { display: none; padding: 20px; padding-bottom: 90px; animation: fadeIn 0.25s ease; }
+        .loading-logo { width: 95px; height: 95px; border-radius: 32px; background: linear-gradient(135deg, #000, #1e293b); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; box-shadow: 0 15px 25px rgba(0,0,0,0.1); }
+        .loading-logo i { font-size: 2.8rem; color: #FFD966; }
+        .loading-title { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #000, #334155); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .loading-progress { width: 260px; height: 5px; background: #e2e8f0; border-radius: 6px; margin: 20px 0; overflow: hidden; }
+        .loading-progress-fill { width: 0%; height: 100%; background: #000; transition: width 0.3s ease; }
+        .telegram-login-btn { background: #27a5e7; color: white; border: none; border-radius: 60px; padding: 16px; width: 100%; font-weight: 600; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; }
+        .auth-screen { position: fixed; inset: 0; background: #fff; z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        body.dark-mode .auth-screen { background: #0f172a; }
+        .auth-card { background: #fff; border-radius: 48px; padding: 32px 24px; width: 100%; max-width: 380px; box-shadow: 0 20px 35px rgba(0,0,0,0.1); text-align: center; }
+        body.dark-mode .auth-card { background: #1e293b; }
+        .auth-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 24px; }
+        .main-app-hidden { display: none; }
+        .balance-card, .task-card, .stat-card, .about-card, .withdraw-requirements-box, .payment-option, .referral-professional { background: #fff; border-radius: 32px; padding: 20px; margin-bottom: 20px; border: 1px solid #eef2f6; }
+        body.dark-mode .balance-card, body.dark-mode .task-card, body.dark-mode .stat-card, body.dark-mode .about-card,
+        body.dark-mode .withdraw-requirements-box, body.dark-mode .payment-option, body.dark-mode .referral-professional { background: #1e293b; border-color: #334155; }
+        .balance-amount { font-size: 2.8rem; font-weight: 800; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+        .stat-card { text-align: center; padding: 16px 8px; }
+        .about-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin: 20px 0; }
+        .task-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+        .task-title { font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .task-reward { background: #f1f5f9; padding: 4px 12px; border-radius: 40px; font-weight: 600; font-size: 0.8rem; }
+        .task-btn { background: #0f172a; color: white; border: none; padding: 12px; border-radius: 60px; width: 100%; font-weight: 600; margin-top: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.1s ease; }
+        body.dark-mode .task-btn { background: #3b82f6; }
+        .task-btn:active { transform: scale(0.97); }
+        .task-btn.disabled-nav, .task-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .progress-bar-bg { background: #e2e8f0; border-radius: 60px; height: 6px; margin: 8px 0; overflow: hidden; }
+        .progress-fill { background: #0f172a; height: 100%; width: 0%; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.96); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 8px 0 20px; border-top: 1px solid #eef2f6; max-width: 500px; margin: 0 auto; z-index: 100; transition: opacity 0.2s; }
+        .bottom-nav.disabled { pointer-events: none; opacity: 0.5; }
+        body.dark-mode .bottom-nav { background: #0f172a; border-top-color: #334155; }
+        .nav-btn { background: none; border: none; color: #64748b; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; flex: 1; border-radius: 30px; cursor: pointer; font-size: 0; }
+        .nav-btn i { font-size: 1.6rem; }
+        .nav-btn.active { background: #f1f5f9; }
+        .nav-btn.active i { color: #0f172a; }
+        body.dark-mode .nav-btn.active { background: #334155; }
+        .content-section { display: none; padding: 20px; padding-bottom: 90px; animation: fadeIn 0.2s; }
         .content-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .task-card { background: #fff; border-radius: 28px; padding: 22px; margin-bottom: 24px; border: 1px solid #eef2f6; }
-        .task-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-        .task-title { font-size: 1.2rem; font-weight: 700; color: #000; }
-        .task-reward { background: #f1f5f9; padding: 4px 12px; border-radius: 40px; font-size: 0.8rem; font-weight: 600; }
-        .task-desc { color: #475569; font-size: 0.85rem; margin-bottom: 16px; }
-        .progress-container { margin: 16px 0 12px; }
-        .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: #334155; margin-bottom: 6px; }
-        .progress-bar-bg { background: #e2e8f0; border-radius: 60px; height: 8px; overflow: hidden; }
-        .progress-fill { background: #000; width: 0%; height: 100%; border-radius: 60px; transition: width 0.3s; }
-        .completion-stats { font-size: 0.7rem; color: #475569; text-align: right; margin-top: 6px; }
-        .task-btn { background: #000; border: none; color: white; font-weight: 600; padding: 12px 16px; border-radius: 60px; width: 100%; font-size: 0.9rem; cursor: pointer; margin-top: 8px; transition: 0.2s; }
-        .task-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
-        .task-btn.completed { background: #22c55e; }
-        .toast-notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 60px; font-weight: 600; z-index: 4000; display: flex; align-items: center; gap: 10px; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-30px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
-        .payment-option { background: #f1f5f9; border-radius: 60px; padding: 14px 20px; margin: 12px 0; display: flex; align-items: center; gap: 14px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
-        .payment-option.selected { border-color: #000; background: #fff; }
-        .form-input { width: 100%; padding: 14px 18px; background: #fff; border: 1px solid #cbd5e1; border-radius: 60px; margin: 12px 0; font-size: 0.95rem; }
-        .withdraw-btn { background: #000; color: white; font-weight: 600; padding: 16px; border-radius: 60px; width: 100%; border: none; font-size: 1rem; margin-top: 20px; cursor: pointer; }
-        .btn-primary { background: #000; padding: 12px 18px; border-radius: 40px; border: none; color: white; font-weight: 600; cursor: pointer; }
-        .referral-professional { background: #f8fafc; border-radius: 36px; padding: 30px; text-align: center; border: 1px solid #eef2f6; }
-        .referral-code-display { background: #fff; border: 1px solid #cbd5e1; padding: 14px; border-radius: 60px; margin: 20px 0; font-weight: 600; word-break: break-all; }
-        .btn-group { display: flex; gap: 12px; justify-content: center; }
-        .back-button { display: inline-flex; align-items: center; gap: 8px; color: #334155; cursor: pointer; font-weight: 500; }
-        .modal, .referral-code-modal, .survey-modal, .claim-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(3px); z-index: 3000; align-items: center; justify-content: center; }
-        .modal.active, .referral-code-modal.active, .survey-modal.active, .claim-modal.active { display: flex; }
-        .modal-content, .referral-code-card, .survey-card, .claim-card { background: #fff; border-radius: 40px; padding: 32px; max-width: 360px; width: 90%; text-align: center; }
-        .claim-btn { background: #000; color: white; border: none; padding: 12px 20px; border-radius: 40px; font-weight: 600; margin-top: 12px; cursor: pointer; width: 100%; }
-        .skip-btn { background: #f1f5f9; color: #334155; }
-        .small-text { font-size: 0.7rem; color: #64748b; margin-top: 8px; }
-        .fee-breakdown { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eef2f6; }
-        .friend-card { background: #f8fafc; border-radius: 24px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; border: 1px solid #eef2f6; }
-        .withdrawal-history-card { background: #f8fafc; border-radius: 24px; padding: 16px; margin-bottom: 12px; border-left: 3px solid #000; }
-        .pending-card { background: #fff7ed; border-left: 3px solid #f97316; padding: 12px; border-radius: 20px; margin-bottom: 10px; }
-        .stats-box { background: #f8fafc; border-radius: 24px; padding: 16px; margin-bottom: 16px; text-align: center; border: 1px solid #eef2f6; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .support-icon { background: #000; width: 40px; height: 40px; border-radius: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .support-icon i { color: white; font-size: 1.2rem; }
-        .survey-option { display: block; margin: 10px 0; text-align: left; padding: 10px 14px; background: #f8fafc; border-radius: 60px; cursor: pointer; border: 1px solid #e2e8f0; }
-        .survey-option.selected { background: #eef2ff; border-color: #000; }
-        .survey-question-text { font-weight: 600; margin-bottom: 16px; text-align: left; }
-        .survey-nav-buttons { display: flex; gap: 12px; margin-top: 20px; }
-        .one-time-task { background: linear-gradient(135deg, #fef9e3, #fff); border-left: 4px solid #f59e0b; }
-        .gmail-step { background: #f8fafc; border-radius: 20px; padding: 16px; margin: 12px 0; border-left: 4px solid #3b82f6; }
-        .copy-text-btn { background: #e2e8f0; border: none; padding: 6px 12px; border-radius: 40px; font-size: 0.7rem; cursor: pointer; margin-left: 8px; }
-        .cooldown-text { font-size: 0.8rem; color: #f97316; margin-top: 8px; text-align: center; }
-        .withdraw-requirements-box {
-            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-            border-radius: 32px;
-            padding: 20px;
-            margin: 24px 0;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
-        }
-        .requirement-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid #eef2f6;
-        }
-        .requirement-item:last-child { border-bottom: none; }
-        .req-icon {
-            width: 48px;
-            height: 48px;
-            background: #f1f5f9;
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-        }
-        .req-icon i { color: #000; }
-        .req-details { flex: 1; }
-        .req-title { font-weight: 700; color: #0f172a; }
-        .req-value { font-size: 0.8rem; color: #475569; margin-top: 4px; }
-        .req-status {
-            width: 32px;
-            height: 32px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .status-success { background: #22c55e20; color: #22c55e; }
-        .status-failed { background: #ef444420; color: #ef4444; }
-        .requirement-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            color: #1e293b;
-            font-weight: 600;
-        }
-        .requirement-header i { font-size: 1.2rem; }
-        .pending-detail-text { font-size: 0.7rem; color: #64748b; margin-top: 4px; word-break: break-all; }
+        .back-button { background: #f1f5f9; padding: 8px 16px; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: opacity 0.2s; }
+        .back-button.disabled { pointer-events: none; opacity: 0.5; }
+        .support-icon, .dark-toggle, .settings-icon { background: #0f172a; width: 42px; height: 42px; border-radius: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-left: 8px; }
+        .support-icon i, .dark-toggle i, .settings-icon i { color: white; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(5px); z-index: 3000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #fff; border-radius: 48px; padding: 28px; max-width: 340px; width: 90%; text-align: center; max-height: 80vh; overflow-y: auto; }
+        body.dark-mode .modal-content { background: #1e293b; }
+        .survey-option { display: block; margin: 10px 0; padding: 12px; background: #f8fafc; border-radius: 60px; cursor: pointer; border: 1px solid #e2e8f0; }
+        .survey-option.selected { background: #eef2ff; border-color: #0f172a; }
+        .payment-option { background: #f8fafc; border-radius: 60px; padding: 12px 16px; margin: 8px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; border: 2px solid transparent; }
+        .payment-option.selected { border-color: #0f172a; background: #fff; }
+        .fee-breakdown { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eef2f6; }
+        .withdraw-btn { background: #0f172a; color: white; border: none; padding: 14px; border-radius: 60px; width: 100%; margin-top: 16px; cursor: pointer; }
+        .history-card { background: #f8fafc; border-radius: 24px; padding: 12px; margin-bottom: 12px; border-left: 4px solid #0f172a; }
+        .pending-status { color: #f97316; }
+        .approved-status { color: #22c55e; }
+        .rejected-status { color: #ef4444; }
+        .claim-btn, .cancel-btn { background: #0f172a; color: white; border: none; padding: 12px; border-radius: 60px; margin-top: 12px; width: 100%; cursor: pointer; }
+        .cancel-btn { background: #e2e8f0; color: #334155; }
+        .flex-btns { display: flex; gap: 10px; margin-top: 12px; }
+        .btn-sm { padding: 6px 12px; border-radius: 40px; border: none; font-weight: 600; cursor: pointer; }
+        .btn-approve { background: #22c55e; color: white; }
+        .btn-reject { background: #ef4444; color: white; }
+        .form-input { width: 100%; padding: 12px; border-radius: 60px; border: 1px solid #cbd5e1; margin: 8px 0; }
+        .small-text { font-size: 0.7rem; color: #64748b; margin-top: 6px; }
+        .timer-message { background: #e6f7ff; border-radius: 60px; padding: 8px; text-align: center; font-size: 0.75rem; margin-top: 8px; }
+        .settings-menu { position: fixed; top: 70px; right: 20px; background: white; border-radius: 28px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); z-index: 150; width: 260px; display: none; overflow: hidden; }
+        body.dark-mode .settings-menu { background: #1e293b; }
+        .settings-menu.active { display: block; }
+        .settings-menu a { display: flex; align-items: center; gap: 14px; padding: 14px 20px; text-decoration: none; color: #0f172a; border-bottom: 1px solid #eef2f6; transition: background 0.2s; }
+        body.dark-mode .settings-menu a { color: #e2e8f0; border-bottom-color: #334155; }
+        .settings-menu a:last-child { border-bottom: none; }
+        .settings-menu a:hover { background: #f1f5f9; }
+        body.dark-mode .settings-menu a:hover { background: #334155; }
+        .settings-menu i { width: 24px; text-align: center; }
+        .requirement-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eef2f6; }
+        .req-status { width: 28px; text-align: center; font-size: 1.2rem; }
+        .status-success { color: #22c55e; }
+        .status-failed { color: #ef4444; }
+        .support-profiles { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .support-profile { display: flex; align-items: center; gap: 12px; padding: 10px; background: #f1f5f9; border-radius: 60px; cursor: pointer; transition: 0.2s; }
+        body.dark-mode .support-profile { background: #334155; }
+        .support-profile i { font-size: 1.5rem; color: #0f172a; }
+        body.dark-mode .support-profile i { color: #facc15; }
+        .about-info { text-align: left; margin: 15px 0; line-height: 1.5; }
+        .task-add-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; border-radius: 60px; padding: 10px 18px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; transition: 0.2s; }
+        .task-add-btn i { font-size: 1rem; }
+        body.dark-mode .task-add-btn { background: linear-gradient(135deg, #eab308, #ca8a04); }
     </style>
 </head>
 <body>
-<div class="loading-screen" id="loadingScreen"><div class="loading-logo"><i class="fas fa-coins"></i><i class="fas fa-chart-line"></i></div><div class="loading-title"> Earn Viu</div><div class="loading-progress"><div class="loading-progress-fill" id="loadingFill"></div></div><div class="loading-percent" id="loadingPercent">0%</div></div>
-<div class="app-container" id="mainApp" style="display:none;">
-    <div id="homeSection" class="content-section active"><div class="section-header"><div></div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div><div class="balance-card"><div>YOUR BALANCE</div><div class="balance-amount" id="balanceAmount">0</div><div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div><div class="small-text">VIU COIN</div></div><div class="stats-grid"><div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label">Referrals</div></div><div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label">Tasks Done</div></div><div class="stat-card"><div class="stat-value" id="totalWithdrawalsCount">0</div><div class="stat-label">Withdrawals</div></div></div><div class="about-grid"><div class="about-card"><div class="about-icon"><i class="fas fa-coins"></i></div><div class="about-title">Earn VIU</div><div class="about-desc">Complete tasks & watch ads to earn free VIU Coin.</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-calendar-day"></i></div><div class="about-title">Daily Rewards</div><div class="about-desc">Ad limits reset every day.</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-user-friends"></i></div><div class="about-title">Referral Bonus</div><div class="about-desc">Invite friends → both get +100 VIU instantly!</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-wallet"></i></div><div class="about-title">Easy Withdraw</div><div class="about-desc">Min 1,000 VIU | Stable USD value</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-shield-alt"></i></div><div class="about-title">Secure & Safe</div><div class="about-desc">Verified platform with admin approval.</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-headset"></i></div><div class="about-title">24/7 Support</div><div class="about-desc">Click headset icon anytime.</div></div></div></div>
-    <div id="earnSection" class="content-section"><div class="section-header"><div class="back-button" id="earnBackBtn"><span>←</span> Back</div><div class="support-icon" id="supportIconEarn"><i class="fas fa-headset"></i></div></div>
-        <div class="task-card"><div class="task-header"><span class="task-title">📺 Ads 1 (Monetag)</span><span class="task-reward">+7 VIU</span></div><div class="task-desc">Watch Monetag ad → after completion, claim reward & open link. Max 20/day.</div><div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads1Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads1Fill"></div></div><div class="completion-stats" id="ads1Stats">0/20</div></div><button id="ads1Btn" class="task-btn">Watch Monetag Ad</button></div>
-        <div class="task-card"><div class="task-header"><span class="task-title">📺 Ads 2 (Adsgram)</span><span class="task-reward">+7 VIU</span></div><div class="task-desc">Watch Adsgram ad → after completion, claim reward. Max 20/day.</div><div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads2Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads2Fill"></div></div><div class="completion-stats" id="ads2Stats">0/20</div></div><button id="ads2Btn" class="task-btn">Watch Adsgram Ad</button></div>
-        <div class="task-card"><div class="task-header"><span class="task-title">🔗 Ads 3 (Link Reward)</span><span class="task-reward">+5 VIU</span></div><div class="task-desc">Click to open link & earn 5 VIU instantly. Max 20/day.</div><div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads3Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads3Fill"></div></div><div class="completion-stats" id="ads3Stats">0/20</div></div><button id="ads3Btn" class="task-btn">Claim 5 VIU & Open Link</button></div>
-        <div class="task-card"><div class="task-header"><span class="task-title">📺 Ads 4 (Giga Pub)</span><span class="task-reward">+7 VIU</span></div><div class="task-desc">Watch Giga Pub ad → after completion, claim reward & open link. Max 20/day.</div><div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads4Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads4Fill"></div></div><div class="completion-stats" id="ads4Stats">0/20</div></div><button id="ads4Btn" class="task-btn">Watch Giga Pub Ad</button></div>
-        <div class="task-card" id="surveyTaskCard"><div class="task-header"><span class="task-title">📋 Survey 1 (Earn 35 VIU)</span><span class="task-reward">+35 VIU</span></div><div class="task-desc">Answer 5 questions + watch ad → get 35 VIU. Max 20/day.</div><div class="progress-container"><div class="progress-label"><span>Today's Progress</span><span id="survey1Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="survey1Fill"></div></div><div class="completion-stats" id="survey1Stats">0 / 20</div></div><button id="startSurveyBtn" class="task-btn">📝 Start Survey & Earn 35 VIU</button></div>
-        <div class="stats-box"><div class="stats-box-title">📺 Today's Ads Watched</div><div class="stats-box-value" id="totalAdsCount">0</div></div>
-        <div class="stats-box"><div class="stats-box-title">💰 VIU Earned Today</div><div class="stats-box-value" id="totalAdsEarned">0</div></div>
-    </div>
-    <div id="earningSection" class="content-section"><div class="section-header"><div class="back-button" id="earningBackBtn"><span>←</span> Back</div><div class="support-icon" id="supportIconEarning"><i class="fas fa-headset"></i></div></div>
-        <div id="oneTimeTaskContainer"><div class="task-card one-time-task"><div class="task-header"><span class="task-title">⛏️ Join USDT Turbo Miner</span><span class="task-reward">+40 VIU</span></div><div class="task-desc">Open bot & verify to get 40 VIU one-time.</div><button id="openBotBtn" class="task-btn" style="background:#f59e0b;">🚀 Start & Open Bot</button><button id="verifyOneTimeBtn" class="task-btn" style="background:#10b981; margin-top:8px;" disabled>Verify & Claim</button></div></div>
-        <div id="youtubeTaskContainer"><div class="task-card one-time-task"><div class="task-header"><span class="task-title">📺 Subscribe Earn Viu Official</span><span class="task-reward">+40 VIU</span></div><div class="task-desc">Subscribe to our YouTube channel and get 40 VIU one-time.</div><button id="openYoutubeBtn" class="task-btn" style="background:#f59e0b;">🔔 Open Channel</button><button id="verifyYoutubeBtn" class="task-btn" style="background:#10b981; margin-top:8px;" disabled>Verify & Claim</button></div></div>
-        <div id="tgChannelTaskContainer"><div class="task-card one-time-task"><div class="task-header"><span class="task-title">📢 Join Earn Viu Official TG</span><span class="task-reward">+40 VIU</span></div><div class="task-desc">Join our Telegram channel and get 40 VIU one-time.</div><button id="openTgChannelBtn" class="task-btn" style="background:#f59e0b;">📱 Join Channel</button><button id="verifyTgChannelBtn" class="task-btn" style="background:#10b981; margin-top:8px;" disabled>Verify & Claim</button></div></div>
-        <div id="woodRushTaskContainer"><div class="task-card one-time-task"><div class="task-header"><span class="task-title">🪵 Join Wood Rush Bot</span><span class="task-reward">+40 VIU</span></div><div class="task-desc">Open Wood Rush bot & start to earn 40 VIU.</div><button id="openWoodRushBtn" class="task-btn" style="background:#f59e0b;">🌲 Open Bot</button><button id="verifyWoodRushBtn" class="task-btn" style="background:#10b981; margin-top:8px;" disabled>Verify & Claim</button></div></div>
-        <div id="ninjagame50TaskContainer"><div class="task-card one-time-task"><div class="task-header"><span class="task-title">🥷 Ninja Game</span><span class="task-reward">+50 VIU</span></div><div class="task-desc">Open Ninja Game Bot & claim extra 50 VIU one-time reward!</div><button id="openNinjagame50Btn" class="task-btn" style="background:#f59e0b;">🥷 Open Ninja Game Bot</button><button id="verifyNinjagame50Btn" class="task-btn" style="background:#10b981; margin-top:8px;" disabled>Verify & Claim 50 VIU</button></div></div>
-        <div id="specialTaskContainer1"><div class="task-card"><div class="task-header"><span class="task-title">⭐ Special 3-Step Task (Code)</span><span class="task-reward">+80 VIU (admin approval)</span><button class="howto-btn" id="howtoSpecial1Btn"><i class="fab fa-youtube"></i> How to do</button></div><div class="task-desc">Complete steps and submit your 10-digit referral ID. Reward after admin review.</div><div style="margin: 15px 0;"><strong>Step 1:</strong> Open the bot below</div><button id="openTrustBotBtn" class="task-btn" style="background:#3b82f6;">🔗 Open Trust Bot</button><div style="margin: 15px 0;"><strong>Step 2:</strong> Use this referral code</div><div style="display: flex; gap:10px;"><input type="text" id="refCodeDisplay" value="LMNxAAE5C0CA" readonly style="flex:1; padding:12px; border-radius:40px; border:1px solid #cbd5e1;"><button id="copyRefCodeBtn" class="btn-primary" style="padding:12px 20px;">Copy</button></div><div style="margin: 15px 0;"><strong>Step 3:</strong> Enter your 10-digit referral ID</div><input type="text" id="referralIdInput" class="form-input" placeholder="e.g., 1234567890" maxlength="10"><button id="submitSpecialTaskBtn" class="task-btn" style="background:#8b5cf6;">📤 Submit for Review</button><div id="specialTaskStatus1" class="small-text"></div></div></div>
-        <div id="specialTaskContainer2"><div class="task-card"><div class="task-header"><span class="task-title">🎯 Special 3-Step Task (CPM)</span><span class="task-reward">+800 VIU (admin approval)</span><button class="howto-btn" id="howtoSpecial2Btn"><i class="fab fa-youtube"></i> How to do</button></div><div class="task-desc">Complete steps, screen record, send to admin with your Telegram username. Cooldown 2 days.</div><div style="margin: 15px 0;"><strong>Step 1:</strong> Open the website</div><button id="openCpmLinkBtn" class="task-btn" style="background:#3b82f6;">🌐 Open CPM Website</button><div style="margin: 15px 0;"><strong>Step 2 & 3:</strong> Install app, create account, screen record</div><div><strong>Submit:</strong> Send recording to admin via Telegram</div><div style="display: flex; gap:10px; margin:10px 0;"><button id="contactAdminBtn" class="task-btn" style="background:#1e293b;">📩 Contact Admin</button></div><div><strong>Your Telegram Username:</strong></div><input type="text" id="cpmUsernameInput" class="form-input" placeholder="@username" value="@"><button id="submitCpmTaskBtn" class="task-btn" style="background:#8b5cf6;">📤 Submit Task</button><div id="cpmCooldown" class="cooldown-text"></div></div></div>
-        <div id="cpm2TaskContainer"><div class="task-card"><div class="task-header"><span class="task-title">🎯 Special 3-Step Task (CPM2)</span><span class="task-reward">+800 VIU (admin approval)</span><button class="howto-btn" id="howtoSpecial3Btn"><i class="fab fa-youtube"></i> How to do</button></div><div class="task-desc">Complete steps via new platform, screen record, send to admin with Telegram username. Cooldown 2 days.</div><div style="margin: 15px 0;"><strong>Step 1:</strong> Open CPM2 website</div><button id="openCpm2LinkBtn" class="task-btn" style="background:#3b82f6;">🌐 Open CPM2 Website</button><div><strong>Submit:</strong> Send recording to admin</div><div style="display: flex; gap:10px; margin:10px 0;"><button id="contactAdminCpm2Btn" class="task-btn" style="background:#1e293b;">📩 Contact Admin</button></div><div><strong>Your Telegram Username:</strong></div><input type="text" id="cpm2UsernameInput" class="form-input" placeholder="@username" value="@"><button id="submitCpm2TaskBtn" class="task-btn" style="background:#8b5cf6;">📤 Submit CPM2 Task</button><div id="cpm2Cooldown" class="cooldown-text"></div></div></div>
-        <div id="specialUsernameTaskContainer"><div class="task-card"><div class="task-header"><span class="task-title">✨ Special 3-Step Task (Username)</span><span class="task-reward">+200 VIU (admin approval)</span><button class="howto-btn" id="howtoSpecialUsernameBtn"><i class="fab fa-youtube"></i> How to do</button></div><div class="task-desc">Complete steps and submit your Telegram username for 200 VIU reward.</div><div style="margin: 15px 0;"><strong>Step 1:</strong> Open SkyReward Bot</div><button id="openSkyRewardBtn" class="task-btn" style="background:#3b82f6;">🚀 Open SkyReward Bot</button><div style="margin: 15px 0;"><strong>Step 2:</strong> Complete one Daily Task inside the bot</div><div style="margin: 15px 0;"><strong>Step 3:</strong> Submit your Telegram username below</div><input type="text" id="usernameTaskInput" class="form-input" placeholder="@yourusername" value="@"><button id="submitUsernameTaskBtn" class="task-btn" style="background:#8b5cf6;">📤 Submit Username Task</button><div id="usernameTaskStatus" class="small-text"></div></div></div>
-        <div class="bottom-task" id="gmailTaskContainer"><div class="task-card one-time-task"><div class="task-header"><span class="task-title">📧 Gmail Account Creation Task</span><span class="task-reward">+1000 VIU</span></div><div class="task-desc">Create a new Gmail account and submit details for admin approval. Earn 1000 VIU! (Cooldown 2 hours)</div><div class="gmail-step"><strong>📌 Step 1:</strong> Copy the text below and create a new Gmail account.<div style="background:#fff; border:1px solid #cbd5e1; border-radius:40px; padding:8px 12px; margin:8px 0; display:flex; justify-content:space-between; align-items:center;"><span id="gmailCopyText">I want to create a Gmail account for Viu Earn reward</span><button id="copyGmailTextBtn" class="copy-text-btn"><i class="fas fa-copy"></i> Copy</button></div></div><div class="gmail-step"><strong>📌 Step 2:</strong> Write the same message to Admin <i class="fab fa-telegram"></i><br><button id="contactAdminGmailBtn" class="task-btn" style="background:#1e293b; margin-top:5px;">📩 Send Message to Admin</button></div><div class="gmail-step"><strong>📌 Step 3:</strong> Paste your new Gmail email and password below:</div><input type="email" id="gmailEmailInput" class="form-input" placeholder="Your new Gmail address"><input type="password" id="gmailPasswordInput" class="form-input" placeholder="Gmail password"><button id="submitGmailTaskBtn" class="task-btn" style="background:#8b5cf6;">📤 Submit Gmail Task for Review</button><div id="gmailCooldownTimer" class="cooldown-text"></div></div></div>
-        <div class="earn-history-box"><h4><i class="fas fa-clock"></i> Pending History (Special Tasks)</h4><div id="pendingHistoryList"></div></div>
-        <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.4; font-size:12px;">🔧 Admin</div>
-    </div>
-    <div id="cashoutSection" class="content-section"><div class="section-header"><div class="back-button" id="cashoutBackBtn"><span>←</span> Back</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div><div class="balance-card"><div>Available Balance</div><div class="balance-amount" id="withdrawBalance">0</div><div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div></div><div class="withdraw-requirements-box"><div class="requirement-header"><i class="fas fa-clipboard-list"></i> <span>Withdrawal Requirements</span></div><div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title">Minimum Balance</div><div class="req-value">1,000 VIU needed</div></div><div class="req-status" id="reqStatusBal">○</div></div><div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title">Referrals Required</div><div class="req-value">At least 3 active referrals</div></div><div class="req-status" id="reqStatusRef">○</div></div></div><div style="background:#f8fafc; border-radius:32px; padding:22px;"><h4>Select Payment Method</h4><div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> Binance</div><div id="paymentMethodBkash" class="payment-option"><i class="fas fa-mobile-alt"></i> bKash</div><div id="paymentMethodNagad" class="payment-option"><i class="fas fa-mobile-alt"></i> Nagad</div></div><input type="text" id="paymentAccount" class="form-input" placeholder="Binance Email/UID"><input type="number" id="withdrawAmount" step="500" min="1000" class="form-input" placeholder="Amount (VIU) - Min 1,000"><div style="background:#fff; border-radius:32px; padding:20px; border:1px solid #eef2f6;"><div class="fee-breakdown"><span>Amount</span><span id="wdAmount">0 VIU</span></div><div class="fee-breakdown"><span>Fee (10%)</span><span id="wdFee">0 VIU</span></div><div class="fee-breakdown" style="border-bottom:none; font-weight:600;"><span>You Receive</span><span id="wdNet">0 VIU</span></div><div class="fee-breakdown" style="border-bottom:none;"><span>≈ USD Value</span><span id="wdUsdValue">$0.000</span></div></div><button id="submitWithdrawBtn" class="withdraw-btn">Request Withdrawal</button><div style="margin-top:35px;"><h4>Withdrawal History</h4><div id="historyList"></div></div></div>
-    <div id="referralSection" class="content-section"><div class="section-header"><div class="back-button" id="referralBackBtn"><span>←</span> Back</div><div class="support-icon" id="supportIconReferral"><i class="fas fa-headset"></i></div></div><div class="referral-professional"><i class="fas fa-user-friends" style="font-size:2.5rem;"></i><h3>Invite Friends</h3><p>Share your code → each friend gets 100 VIU, you earn 100 VIU too!</p><div class="referral-code-display" id="referralCodeDisplay"></div><div class="btn-group"><button class="btn-primary" id="copyReferralCodeBtn">Copy Code</button><button class="btn-primary" id="shareTelegramCodeBtn">Share</button></div></div><div><h4>Your Referrals</h4><div id="referralsList"></div><div style="margin-top:20px; background:#f8fafc; border-radius:28px; padding:18px;"><strong>Referral Bonus Earned:</strong> <span id="referralBonusTotal">0</span> VIU</div></div></div>
-    <div class="bottom-nav"><button class="nav-btn active" id="navHome"><i class="fas fa-home"></i><span>Home</span></button><button class="nav-btn" id="navEarn"><i class="fas fa-ad"></i><span>Earn</span></button><button class="nav-btn" id="navEarning"><i class="fas fa-tasks"></i><span>Earning</span></button><button class="nav-btn" id="navCashout"><i class="fas fa-wallet"></i><span>Cashout</span></button><button class="nav-btn" id="navReferral"><i class="fas fa-user-friends"></i><span>Referral</span></button></div>
-</div>
-<!-- Modals -->
-<div id="referralCodeModal" class="referral-code-modal"><div class="referral-code-card"><i class="fas fa-gift" style="font-size:2.5rem;"></i><h2>Welcome to Viu Earn</h2><p>Enter referral code to get 100 VIU bonus.</p><input type="text" id="referralCodeInput" class="form-input" placeholder="Referral code"><button id="submitReferralCodeBtn" class="claim-btn">Claim</button><button id="skipReferralCodeBtn" class="claim-btn skip-btn">Skip</button></div></div>
-<div id="withdrawSuccessModal" class="modal"><div class="modal-content"><i class="fas fa-check-circle" style="font-size:2rem; color:#22c55e;"></i><h3>Withdrawal Requested</h3><div id="withdrawSuccessDetails"></div><button id="closeSuccessModal" class="claim-btn">OK</button></div></div>
-<div id="adminModal" class="modal"><div class="modal-content" style="max-width:450px;"><h3>Admin Panel</h3><div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;"></div><button id="closeAdminModal" class="claim-btn skip-btn">Close</button></div></div>
-<div id="surveyModal" class="survey-modal"><div class="survey-card"><div id="surveyInner"></div></div></div>
-<div id="claimModal" class="claim-modal"><div class="claim-card"><i class="fas fa-trophy" style="font-size:2.5rem; color:#f59e0b;"></i><h2 id="claimModalTitle">🎉 Congratulations!</h2><p id="claimModalMessage">You watched the ad completely. Click Claim to get your reward.</p><button id="confirmClaimBtn" class="claim-btn">Claim Reward</button><button id="cancelClaimBtn" class="claim-btn skip-btn">Cancel</button></div></div>
+<div id="loadingScreen" class="loading-screen"><div class="loading-logo"><i class="fas fa-coins"></i><i class="fas fa-rocket"></i></div><div class="loading-title">Pedo</div><div class="loading-progress"><div class="loading-progress-fill" id="loadingFill"></div></div><div class="loading-percent" id="loadingPercent">0%</div></div>
+<div id="authScreen" class="auth-screen" style="display:none;"><div class="auth-card"><div class="auth-title"><i class="fab fa-telegram"></i> Login with Telegram</div><button id="telegramLoginBtn" class="telegram-login-btn"><i class="fab fa-telegram"></i> Sign in with Telegram</button></div></div>
+<div id="mainApp" class="main-app-hidden"><div class="app-container">
+    <div id="homeSection" class="content-section active"><div class="section-header"><div></div><div style="display: flex; gap: 10px;"><div class="settings-icon" id="settingsIcon"><i class="fas fa-cog"></i></div><div class="dark-toggle" id="darkModeToggle"><i class="fas fa-moon"></i></div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div></div><div class="settings-menu" id="settingsMenu"><a href="#" id="menuSupport"><i class="fas fa-life-ring"></i> Support Team</a><a href="#" id="menuBusiness"><i class="fas fa-briefcase"></i> Business Team</a><a href="#" id="menuAbout"><i class="fas fa-info-circle"></i> About Viu Earn</a></div><div class="balance-card"><div><i class="fas fa-wallet"></i> YOUR BALANCE</div><div class="balance-amount" id="balanceAmount">0</div><div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div></div><div class="stats-grid"><div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label"><i class="fas fa-user-friends"></i> Referrals</div></div><div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label"><i class="fas fa-check-circle"></i> Tasks Done</div></div><div class="stat-card"><div class="stat-value" id="todayEarningAmount">0</div><div class="stat-label"><i class="fas fa-sun"></i> Today Earned</div></div></div><div class="about-grid"><div class="about-card"><div class="about-icon"><i class="fas fa-tasks"></i></div><div class="about-title">Daily Tasks</div><div class="about-desc">Ads, Surveys, Visits</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-star"></i></div><div class="about-title">Mega Task</div><div class="about-desc">One-time 50 PEDO</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-code"></i></div><div class="about-title">Step Tasks</div><div class="about-desc">50 one-time tasks</div></div><div class="about-card"><div class="about-icon"><i class="fas fa-wallet"></i></div><div class="about-title">Fast Withdraw</div><div class="about-desc">Min 1000 PEDO + 3 referrals</div></div></div></div>
+    <div id="earnSection" class="content-section"><div class="section-header"><div class="back-button" id="earnBackBtn"><i class="fas fa-arrow-left"></i> Back</div><div class="support-icon" id="supportIconEarn"><i class="fas fa-headset"></i></div></div><div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-clipboard-list"></i> Daily Survey (5 Q)</span><span class="task-reward">+40 PEDO</span></div><div class="task-desc">Answer 5 questions. Each "Next" opens a link. After all correct, watch an ad, then claim your reward (link opens).</div><div class="progress-bar-bg"><div class="progress-fill" id="surveyFillCount" style="width:0%"></div></div><div class="small-text" id="surveyCountText">0/5 today</div><button id="startSurveyBtn" class="task-btn"><i class="fas fa-poll"></i> Start Survey (40 PEDO)</button></div>
+    <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-play-circle"></i> See Ads 1 (Monetag)</span><span class="task-reward">+10 PEDO</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads1Fill"></div></div><div class="small-text" id="ads1ProgressText">0/15</div><button id="watchAd1Btn" class="task-btn"><i class="fas fa-eye"></i> Watch & Earn 10 PEDO</button></div>
+    <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-video"></i> See Ads 2 (Giga Pub)</span><span class="task-reward">+10 PEDO</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads2Fill"></div></div><div class="small-text" id="ads2ProgressText">0/15</div><button id="watchAd2Btn" class="task-btn"><i class="fas fa-eye"></i> Watch & Earn 10 PEDO</button></div>
+    <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> See Ads 3 (Adsgram)</span><span class="task-reward">+10 PEDO</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads3Fill"></div></div><div class="small-text" id="ads3ProgressText">0/15</div><button id="watchAd3Btn" class="task-btn"><i class="fas fa-eye"></i> Watch & Earn 10 PEDO</button></div>
+    <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> See Ads 4 (Adexora)</span><span class="task-reward">+10 PEDO</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads4Fill"></div></div><div class="small-text" id="ads4ProgressText">0/15</div><button id="watchAd4Btn" class="task-btn"><i class="fas fa-eye"></i> Watch & Earn 10 PEDO</button></div>
+    <div id="visitTasksContainer"></div></div>
+    <div id="earningSection" class="content-section"><div class="section-header"><div class="back-button" id="earningBackBtn"><i class="fas fa-arrow-left"></i> Back</div><div class="support-icon" id="supportIconEarning"><i class="fas fa-headset"></i></div></div><button id="campaignAddBtn" class="task-add-btn"><i class="fas fa-bullhorn"></i> Add Task / Campaign</button><div id="socialTasksContainer"></div><div style="text-align:center; margin-top:30px; opacity:0.4; font-size:10px; cursor:pointer;" id="adminTrigger"><i class="fas fa-user-shield"></i> Admin Panel</div></div>
+    <div id="cashoutSection" class="content-section"><div class="section-header"><div class="back-button" id="cashoutBackBtn"><i class="fas fa-arrow-left"></i> Back</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div><div class="balance-card"><div>Available Balance</div><div class="balance-amount" id="withdrawBalance">0</div><div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div></div><div class="withdraw-requirements-box"><h4><i class="fas fa-clipboard-list"></i> Withdrawal Requirements</h4><div class="requirement-item" id="reqBalanceItem"><div class="req-status" id="reqBalanceStatus"><i class="fas fa-times-circle status-failed"></i></div><div>Minimum Balance: 1,000 PEDO</div></div><div class="requirement-item" id="reqReferralsItem"><div class="req-status" id="reqReferralsStatus"><i class="fas fa-times-circle status-failed"></i></div><div>Minimum Referrals: 3 people</div></div></div><div style="padding:20px;"><h4><i class="fas fa-credit-card"></i> Payment Method</h4><div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> Binance</div><div id="paymentMethodBkash" class="payment-option"><i class="fas fa-mobile-alt"></i> bKash</div></div><input type="text" id="paymentAccount" class="form-input" placeholder="Binance Email/UID"><input type="number" id="withdrawAmount" step="500" min="1000" class="form-input" placeholder="Amount (PEDO)"><div style="background:#f8fafc; border-radius:32px; padding:20px;"><div class="fee-breakdown"><span>Amount</span><span id="wdAmount">0 PEDO</span></div><div class="fee-breakdown"><span>Fee (10%)</span><span id="wdFee">0 PEDO</span></div><div class="fee-breakdown"><span>You Receive</span><span id="wdNet">0 PEDO</span></div><div class="fee-breakdown"><span>≈ USD</span><span id="wdUsdValue">$0.000</span></div></div><button id="submitWithdrawBtn" class="withdraw-btn" disabled><i class="fas fa-paper-plane"></i> Request Withdrawal</button><div style="margin-top:35px;"><h4><i class="fas fa-clock"></i> Withdrawal History</h4><div id="historyList"></div></div></div>
+    <div id="referralSection" class="content-section"><div class="section-header"><div class="back-button" id="referralBackBtn"><i class="fas fa-arrow-left"></i> Back</div><div class="support-icon" id="supportIconReferral"><i class="fas fa-headset"></i></div></div><div class="referral-professional"><i class="fas fa-user-friends" style="font-size:2.5rem;"></i><h3>Invite Friends</h3><p style="margin: 8px 0;">📌 When someone uses your referral code:</p><p><strong>✓ You and your friend each get +100 PEDO</strong> after your friend completes <strong>20 tasks</strong>.</p><p>Your unique code: <strong id="refCodeDisplay"></strong></p><button class="claim-btn" id="copyRefCode"><i class="fas fa-copy"></i> Copy Code</button></div><div><h4><i class="fas fa-list"></i> Your Referrals (<span id="referralCountDisplay">0</span>)</h4><div id="referralsList"></div><div style="margin-top:20px; background:#f8fafc; border-radius:28px; padding:18px;"><strong>Referral Bonus Earned:</strong> <span id="referralBonusTotal">0</span> PEDO</div></div></div>
+    <div class="bottom-nav"><button class="nav-btn active" id="navHome"><i class="fas fa-home"></i></button><button class="nav-btn" id="navEarn"><i class="fas fa-ad"></i></button><button class="nav-btn" id="navEarning"><i class="fas fa-tasks"></i></button><button class="nav-btn" id="navCashout"><i class="fas fa-wallet"></i></button><button class="nav-btn" id="navReferral"><i class="fas fa-user-friends"></i></button></div>
+</div></div>
+<div id="congratsModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:3rem; color:#facc15;"></i><h2>Congratulations!</h2><p id="congratsMessage"></p><button id="claimRewardBtn" class="claim-btn">Claim Reward</button><button id="cancelRewardBtn" class="cancel-btn">Cancel</button></div></div>
+<div id="surveyModal" class="modal"><div class="modal-content" id="surveyModalContent"></div></div>
+<div id="adminModal" class="modal"><div class="modal-content"><h3><i class="fas fa-user-shield"></i> Admin Panel</h3><div id="adminStepList"></div><button id="closeAdminModal" class="cancel-btn">Close</button></div></div>
+<div id="businessModal" class="modal"><div class="modal-content"><h3><i class="fas fa-bullhorn"></i> Publish Your Ad / Campaign</h3><p>If you want to add a task or run a campaign, please contact our Business Team:</p><div style="margin:20px 0;"><i class="fas fa-envelope"></i> <strong>pedobussinessteam@gmail.com</strong></div><div><i class="fab fa-telegram"></i> <strong>@pedobusinessteam</strong> &nbsp; <a href="https://t.me/pedobusinessteam" target="_blank">Click to message</a></div><button id="closeBusinessModal" class="cancel-btn">Close</button></div></div>
+<div id="supportModal" class="modal"><div class="modal-content"><h3><i class="fas fa-headset"></i> Support Team</h3><div class="support-profiles"><div class="support-profile" data-link="https://t.me/pedosupport03"><i class="fab fa-telegram"></i> @pedosupport03</div></div><button id="closeSupportModal" class="cancel-btn">Close</button></div></div>
+<div id="aboutModal" class="modal"><div class="modal-content"><h3><i class="fas fa-info-circle"></i> About Viu Earn</h3><div class="about-info"><p><strong>Version:</strong> 3.0 (Fully Fixed)</p><p><strong>Platform:</strong> Earn rewards by completing daily tasks, watching ads, and referring friends.</p><p><strong>Features:</strong></p><ul style="text-align:left; margin-left:20px;"><li>Daily Surveys (40 PEDO, 5x/day)</li><li>Watch Ads (10 PEDO, 15x/day each)</li><li>Website Visits (5 PEDO, 10x/day)</li><li>One‑time Social Tasks (YouTube 25, PaymentProof 20, Announcement 20)</li><li>Referral Bonus (100 PEDO each, after referred friend completes 20 tasks)</li><li>Withdrawals (Min 1000 PEDO + 3 referrals)</li></ul><p>© 2025 Viu Earn. All rights reserved.</p></div><button id="closeAboutModal" class="cancel-btn">Close</button></div></div>
 
 <script>
-    // Firebase Config
     const firebaseConfig = { apiKey: "AIzaSyAmTdb5ejQtgYxmkfLc575HcBN8pMhrBPM", authDomain: "earn-for-earn-55d3e.firebaseapp.com", databaseURL: "https://earn-for-earn-55d3e-default-rtdb.firebaseio.com", projectId: "earn-for-earn-55d3e", storageBucket: "earn-for-earn-55d3e.firebasestorage.app", messagingSenderId: "109416949734", appId: "1:109416949734:web:53f52de7899d65a04c9827" };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    let webApp = window.Telegram?.WebApp; if(webApp) webApp.expand();
-    let tgUser = webApp?.initDataUnsafe?.user;
-    let telegramId = tgUser?.id ? tgUser.id.toString() : null;
-    let telegramUsername = tgUser?.username || tgUser?.first_name || (telegramId ? "user_"+telegramId : "guest_"+Date.now());
-    if(!telegramId) { telegramId = "guest_"+Date.now(); telegramUsername = "guest_"+Date.now(); }
-    let userData = null;
+    let currentUser = null;
+    let userUnsubscribe = null;
     const EXCHANGE_RATE = 10000;
-    let pendingAd = null;
+    let pendingReward = null;
+    let navigationDisabled = false;
+    let disableTimer = null;
+    let visitTimers = {};
+    const DEVICE_ID_KEY = 'viu_device_id';
+    let deviceId = localStorage.getItem(DEVICE_ID_KEY);
+    if(!deviceId) { deviceId = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8); localStorage.setItem(DEVICE_ID_KEY, deviceId); }
 
-    async function updateUser(updates) { if(!telegramId) return; await db.ref(`users/${telegramId}`).update(updates); if(userData) Object.assign(userData,updates); refreshUI(); }
-    async function fetchUserData() { return (await db.ref(`users/${telegramId}`).once('value')).val(); }
-    function showToast(amount, task) { const toast = document.createElement('div'); toast.className = 'toast-notification'; toast.innerHTML = `<i class="fas fa-gift"></i> +${amount} VIU from ${task}`; document.body.appendChild(toast); setTimeout(()=>toast.remove(),2500); }
-    async function addEarningEntry(amount, description) { if(!userData) return; const historyArr = Array.isArray(userData.earningsHistory) ? userData.earningsHistory : []; const newEntry = { id: Date.now(), amount, description, date: Date.now() }; const updatedHistory = [newEntry, ...historyArr].slice(0,200); await updateUser({ earningsHistory: updatedHistory }); }
-    async function grantAdReward(adKey, reward, name, link = null) {
-        let prog = userData[adKey]||0;
-        if(prog >= 20) { alert(`${name} daily limit reached`); return false; }
-        let newProg = prog+1;
-        await updateUser({ [adKey]: newProg, balance: (userData.balance||0)+reward, totalEarned: (userData.totalEarned||0)+reward, tasksCompleted: (userData.tasksCompleted||0)+1 });
-        await addEarningEntry(reward, `${name} (+${reward} VIU) - ${newProg}/20`);
-        showToast(reward, name);
-        if(link) window.open(link, '_blank');
-        refreshUI();
-        return true;
+    function openExternalLink(url) { window.open(url, '_blank'); }
+    function disableNavigationForSeconds(seconds) {
+        if(disableTimer) clearTimeout(disableTimer);
+        navigationDisabled = true;
+        document.querySelectorAll('.back-button').forEach(btn => btn.classList.add('disabled'));
+        document.querySelector('.bottom-nav')?.classList.add('disabled');
+        disableTimer = setTimeout(() => {
+            navigationDisabled = false;
+            document.querySelectorAll('.back-button').forEach(btn => btn.classList.remove('disabled'));
+            document.querySelector('.bottom-nav')?.classList.remove('disabled');
+        }, seconds * 1000);
     }
-
-    function showClaimModal(adKey, reward, name, link) {
-        pendingAd = { adKey, reward, name, link };
-        document.getElementById('claimModalTitle').innerHTML = '🎉 Congratulations!';
-        document.getElementById('claimModalMessage').innerHTML = `You watched the ${name} ad completely! Click Claim to receive <strong>${reward} VIU</strong>${link ? ' and open the reward link.' : '.'}`;
-        document.getElementById('claimModal').classList.add('active');
-    }
-
-    document.getElementById('confirmClaimBtn').onclick = async () => {
-        if(pendingAd) {
-            await grantAdReward(pendingAd.adKey, pendingAd.reward, pendingAd.name, pendingAd.link);
-            pendingAd = null;
+    async function applyReward(amount, type, extra, link = null) {
+        if(!currentUser) return;
+        let ref = db.ref(`users/${currentUser}`);
+        let snap = await ref.once('value');
+        let user = snap.val();
+        if(!user) return;
+        user.balance = (user.balance || 0) + amount;
+        user.dailyEarned = (user.dailyEarned || 0) + amount;
+        user.totalTasks = (user.totalTasks || 0) + 1;
+        if(type === 'ads1') user.ads1 = (user.ads1 || 0) + 1;
+        if(type === 'ads2') user.ads2 = (user.ads2 || 0) + 1;
+        if(type === 'ads3') user.ads3 = (user.ads3 || 0) + 1;
+        if(type === 'ads4') user.ads4 = (user.ads4 || 0) + 1;
+        if(type === 'survey') user.surveyCount = (user.surveyCount || 0) + 1;
+        if(type && type.startsWith('visit')) {
+            user.visits = user.visits || {1:0,2:0,3:0,4:0,5:0};
+            let idx = type.split('_')[1];
+            user.visits[idx] = (user.visits[idx] || 0) + 1;
         }
-        document.getElementById('claimModal').classList.remove('active');
-    };
-    document.getElementById('cancelClaimBtn').onclick = () => {
-        pendingAd = null;
-        document.getElementById('claimModal').classList.remove('active');
-        alert("You cancelled the claim. No reward given.");
-    };
-
-    // Ads 1: Monetag
-    document.getElementById('ads1Btn').onclick = async () => {
-        if((userData?.ads1Progress||0) >= 20) { alert("Daily limit reached for Ads 1"); return; }
-        try {
-            if(typeof window.show_11031831 !== 'function') throw new Error("Monetag SDK not ready");
-            window.show_11031831();
-            setTimeout(() => {
-                showClaimModal('ads1Progress', 7, 'Ads 1 (Monetag)', 'https://omg10.com/4/10883007');
-            }, 3000);
-        } catch(e) { alert("Ad error: "+e.message); }
-    };
-
-    // Ads 2: Adsgram
-    document.getElementById('ads2Btn').onclick = async () => {
-        if((userData?.ads2Progress||0) >= 20) { alert("Daily limit reached for Ads 2"); return; }
-        try {
-            if(typeof window.Adsgram === 'undefined') throw new Error("Adsgram SDK not loaded");
-            const controller = window.Adsgram.init({ blockId: "30645" });
-            const result = await controller.show();
-            if(result && result.done) {
-                showClaimModal('ads2Progress', 7, 'Ads 2 (Adsgram)', null);
-            } else {
-                alert("Ad was not completed fully.");
+        if(type === 'youtube') user.youtubeSubscribed = true;
+        if(type === 'paymentProof') user.paymentProofJoined = true;
+        if(type === 'announcement') user.announceJoined = true;
+        if(extra && typeof extra === 'function') await extra(user);
+        await ref.update(user);
+        await checkReferralReward(user);
+        if(link) openExternalLink(link);
+    }
+    async function checkReferralReward(user) {
+        if(!user.referredBy) return;
+        if(user.referralBonusClaimed === true) return;
+        if(user.totalTasks >= 20) {
+            await db.ref(`users/${currentUser}`).update({ balance: (user.balance || 0) + 100, dailyEarned: (user.dailyEarned || 0) + 100, totalTasks: (user.totalTasks || 0) + 1, referralBonusEarned: (user.referralBonusEarned || 0) + 100, referralBonusClaimed: true });
+            const referrerRef = db.ref(`users/${user.referredBy}`);
+            const referrerSnap = await referrerRef.once('value');
+            const referrer = referrerSnap.val();
+            if(referrer) {
+                let newReferrals = referrer.referrals || [];
+                if(!newReferrals.find(r => r.username === currentUser)) newReferrals.push({ username: currentUser, bonus: 100 });
+                await referrerRef.update({ balance: (referrer.balance || 0) + 100, dailyEarned: (referrer.dailyEarned || 0) + 100, totalTasks: (referrer.totalTasks || 0) + 1, referralBonusEarned: (referrer.referralBonusEarned || 0) + 100, referrals: newReferrals });
             }
-        } catch(e) { console.error(e); alert("Adsgram error: "+e.message); }
+            alert("🎉 Congratulations! You completed 20 tasks and earned +100 PEDO referral bonus! Your referrer also got +100 PEDO.");
+        }
+    }
+    function showReward(amount, type, extra, link = null) {
+        pendingReward = {amount, type, extra, link};
+        document.getElementById('congratsMessage').innerHTML = `You earned +${amount} PEDO! Click Claim to open link and get reward.`;
+        document.getElementById('congratsModal').classList.add('active');
+    }
+    document.getElementById('claimRewardBtn').onclick = async () => {
+        if(pendingReward) {
+            await applyReward(pendingReward.amount, pendingReward.type, pendingReward.extra, pendingReward.link);
+            pendingReward = null;
+        }
+        document.getElementById('congratsModal').classList.remove('active');
     };
-
-    // Ads 3: Link reward
-    document.getElementById('ads3Btn').onclick = async () => {
-        if((userData?.ads3Progress||0) >= 20) { alert("Daily limit reached for Ads 3"); return; }
-        window.open('https://www.effectivecpmnetwork.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d', '_blank');
-        await grantAdReward('ads3Progress', 5, 'Ads 3 (Link)', null);
-    };
-
-    // Ads 4: Giga Pub
-    document.getElementById('ads4Btn').onclick = async () => {
-        if((userData?.ads4Progress||0) >= 20) { alert("Daily limit reached for Ads 4"); return; }
+    document.getElementById('cancelRewardBtn').onclick = () => { pendingReward = null; document.getElementById('congratsModal').classList.remove('active'); };
+    function startUserListener() {
+        if(userUnsubscribe) userUnsubscribe();
+        userUnsubscribe = db.ref(`users/${currentUser}`).on('value', (snap) => { if(snap.exists()) refreshUI(snap.val()); });
+    }
+    async function dailyReset(user) {
+        const today = new Date().toDateString();
+        if(user.lastReset !== today) {
+            user.dailyEarned = 0;
+            user.ads1 = 0; user.ads2 = 0; user.ads3 = 0; user.ads4 = 0;
+            user.surveyCount = 0;
+            user.visits = {1:0,2:0,3:0,4:0,5:0};
+            user.lastReset = today;
+            await db.ref(`users/${currentUser}`).update(user);
+            return true;
+        }
+        return false;
+    }
+    async function refreshUI(user) {
+        if(!user) return;
+        await dailyReset(user);
+        document.getElementById('balanceAmount').innerText = user.balance;
+        document.getElementById('withdrawBalance').innerText = user.balance;
+        let usd = (user.balance / EXCHANGE_RATE).toFixed(3);
+        document.getElementById('usdBalanceHome').innerHTML = `≈ $${usd} USD`;
+        document.getElementById('usdBalanceCashout').innerHTML = `≈ $${usd} USD`;
+        document.getElementById('tasksCompletedCount').innerText = user.totalTasks || 0;
+        let refCount = (user.referrals || []).length;
+        document.getElementById('refCount').innerText = refCount;
+        document.getElementById('referralCountDisplay').innerText = refCount;
+        document.getElementById('todayEarningAmount').innerHTML = `${user.dailyEarned} PEDO`;
+        document.getElementById('refCodeDisplay').innerText = user.refCode;
+        document.getElementById('referralBonusTotal').innerText = user.referralBonusEarned || 0;
+        document.getElementById('ads1ProgressText').innerText = `${user.ads1||0}/15`;
+        document.getElementById('ads2ProgressText').innerText = `${user.ads2||0}/15`;
+        document.getElementById('ads3ProgressText').innerText = `${user.ads3||0}/15`;
+        document.getElementById('ads4ProgressText').innerText = `${user.ads4||0}/15`;
+        document.getElementById('ads1Fill').style.width = ((user.ads1||0)/15)*100+'%';
+        document.getElementById('ads2Fill').style.width = ((user.ads2||0)/15)*100+'%';
+        document.getElementById('ads3Fill').style.width = ((user.ads3||0)/15)*100+'%';
+        document.getElementById('ads4Fill').style.width = ((user.ads4||0)/15)*100+'%';
+        document.getElementById('surveyCountText').innerText = `${user.surveyCount||0}/5`;
+        document.getElementById('surveyFillCount').style.width = ((user.surveyCount||0)/5)*100+'%';
+        renderVisitTasks(user);
+        renderSocialTasks(user);
+        let refDiv = document.getElementById('referralsList');
+        if(user.referrals && user.referrals.length) { refDiv.innerHTML = user.referrals.map(r => `<div class="history-card"><i class="fas fa-user-plus"></i> ${r.username} +100 PEDO</div>`).join(''); }
+        else { refDiv.innerHTML = '<div class="small-text">No referrals yet</div>'; }
+        let histDiv = document.getElementById('historyList');
+        if(user.withdrawals && user.withdrawals.length) { histDiv.innerHTML = user.withdrawals.slice().reverse().map(w => `<div class="history-card"><div><i class="fas fa-${w.method==='binance'?'bitcoin':'mobile-alt'}"></i> ${w.method} - ${w.amount} PEDO</div><div>Net: ${w.net} PEDO</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join(''); }
+        else { histDiv.innerHTML = '<div class="small-text">No withdrawals</div>'; }
+        let hasBalance = user.balance >= 1000, hasReferrals = refCount >= 3;
+        document.getElementById('reqBalanceStatus').innerHTML = hasBalance ? '<i class="fas fa-check-circle status-success"></i>' : '<i class="fas fa-times-circle status-failed"></i>';
+        document.getElementById('reqReferralsStatus').innerHTML = hasReferrals ? '<i class="fas fa-check-circle status-success"></i>' : '<i class="fas fa-times-circle status-failed"></i>';
+        document.getElementById('submitWithdrawBtn').disabled = !(hasBalance && hasReferrals);
+    }
+    function renderVisitTasks(user) {
+        let container = document.getElementById('visitTasksContainer');
+        const visitLinks = { 1: "https://bowlsharp.com/vsnyfstz?key=2645a1a9a50c52b7bd8183f83edc2fd5", 2: "https://omg10.com/4/11129454", 3: "https://ukuleqasforsalesre.com?hTTVD=1246757", 4: "https://wwp.giriubin.com/redirect-zone/31c41a18", 5: "https://link.gigapub.tech/l/9jfxp27o6m" };
+        let html = '';
+        for(let i=1;i<=5;i++) { html += `<div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-globe"></i> Visit Site ${i}</span><span class="task-reward">+5 PEDO</span></div><div class="small-text" id="visit${i}Status">${(user.visits?.[i]||0)}/10 today</div><button id="visit${i}Btn" class="task-btn" data-link="${visitLinks[i]}"><i class="fas fa-external-link-alt"></i> Visit & Stay 8s</button><div id="visit${i}Msg" class="timer-message" style="display:none"></div></div>`; }
+        container.innerHTML = html;
+        for(let i=1;i<=5;i++) attachVisitTask(i, visitLinks[i]);
+    }
+    function attachVisitTask(num, link) {
+        let btn = document.getElementById(`visit${num}Btn`);
+        let msg = document.getElementById(`visit${num}Msg`);
+        if(!btn) return;
+        btn.onclick = async () => {
+            let snap = await db.ref(`users/${currentUser}`).once('value');
+            let user = snap.val();
+            if((user.visits?.[num]||0) >= 10) { alert("Daily limit 10 reached"); return; }
+            if(visitTimers[num]) return;
+            disableNavigationForSeconds(8);
+            openExternalLink(link);
+            msg.style.display = 'block'; msg.innerHTML = 'Stay 8 seconds...'; btn.disabled = true;
+            let sec = 8;
+            let t = setInterval(() => { sec--; msg.innerHTML = `Stay ${sec}s...`; if(sec <= 0) { clearInterval(t); delete visitTimers[num]; msg.style.display = 'none'; btn.disabled = false; showReward(5, `visit_${num}`, null, null); } }, 1000);
+            visitTimers[num] = t;
+        };
+    }
+    // Ad handlers
+    async function handleAd(adType, rewardAmount, adFunction) {
+        let snap = await db.ref(`users/${currentUser}`).once('value');
+        let user = snap.val();
+        let count = user[adType] || 0;
+        if(count >= 15) { alert("Daily limit (15) reached for this ad."); return; }
         try {
-            if(typeof window.showGiga !== 'function') throw new Error("Giga Pub SDK not ready");
-            window.showGiga();
-            setTimeout(() => {
-                showClaimModal('ads4Progress', 7, 'Ads 4 (Giga Pub)', 'https://link.gigapub.tech/l/9jfxp27o6m');
-            }, 3000);
-        } catch(e) { alert("Ad error: "+e.message); }
-    };
-
-    // Survey (unchanged)
-    const SURVEY_REWARD = 35;
-    const SURVEY_LINKS = ["https://bowlsharp.com/xan60uuv?key=369dc68341066c06e3d471f3785f73fb","https://omg10.com/4/11017295","https://reatasesetitoefa.com?hTTVD=1246757","https://data527.click/05e607303a719ee84c36/4994c5e8b4/?placementName=1","https://wwp.giriubin.com/redirect-zone/31c41a18"];
-    const SURVEY_QUESTIONS = [
-        { text: "What is the main way to earn on Viu Earn?", options: ["Watching ads & tasks", "Playing games", "Inviting only"] },
-        { text: "12 + 7 = ?", options: ["18", "19", "20"] },
-        { text: "Viu Earn provides which benefit?", options: ["Daily rewards", "Referral bonuses", "Withdrawals", "All of above"] },
-        { text: "How many referrals required for withdrawal?", options: ["1", "2", "3"] },
-        { text: "Confirm to get 35 VIU reward after ad?", options: ["Yes, continue", "No"] }
+            await adFunction();
+            showReward(rewardAmount, adType, null, null);
+        } catch(e) { alert("Ad failed to load. Please try again."); console.error(e); }
+    }
+    document.getElementById('watchAd1Btn').onclick = () => handleAd('ads1', 10, async () => {
+        if(typeof show_10541383 !== 'function') throw new Error("Monetag SDK not ready");
+        await show_10541383();
+    });
+    document.getElementById('watchAd2Btn').onclick = () => handleAd('ads2', 10, async () => {
+        if(typeof window.showGiga !== 'function') throw new Error("Giga Pub SDK not ready");
+        await window.showGiga();
+    });
+    document.getElementById('watchAd3Btn').onclick = () => handleAd('ads3', 10, async () => {
+        if(typeof window.Adsgram === 'undefined') throw new Error("Adsgram SDK not ready");
+        const adController = window.Adsgram.init({ blockId: "30645" });
+        await adController.show();
+    });
+    document.getElementById('watchAd4Btn').onclick = () => handleAd('ads4', 10, async () => {
+        if(typeof window.showAdexora !== 'function') throw new Error("Adexora SDK not ready");
+        await window.showAdexora();
+    });
+    // Survey with links on each Next, then ad, then reward with link
+    const surveyQuestions = [
+        { text: "What is the main way to earn PEDO coins on Viu Earn?", options: ["Watching ads & completing tasks", "Playing games", "Inviting only"], correct: "Watching ads & completing tasks" },
+        { text: "How many PEDO do you get for completing a 'Visit Website' task?", options: ["5 PEDO", "10 PEDO", "20 PEDO"], correct: "5 PEDO" },
+        { text: "What is the minimum withdrawal amount in PEDO?", options: ["500 PEDO", "1000 PEDO", "2000 PEDO"], correct: "1000 PEDO" },
+        { text: "Which of these is a payment method on Viu Earn?", options: ["Binance", "PayPal", "Stripe"], correct: "Binance" },
+        { text: "How many times can you do the Daily Survey per day?", options: ["3 times", "5 times", "10 times"], correct: "5 times" }
     ];
-    let currentSurveyStep = 0, selectedAnswers = [], surveyActive = false;
-    async function completeSurveyTask() { if((userData?.survey1Progress||0)>=20) return false; let prog = userData.survey1Progress||0; await updateUser({ survey1Progress: prog+1, balance: (userData.balance||0)+SURVEY_REWARD, totalEarned: (userData.totalEarned||0)+SURVEY_REWARD, tasksCompleted: (userData.tasksCompleted||0)+1 }); await addEarningEntry(SURVEY_REWARD, `Survey 1 (+${SURVEY_REWARD} VIU)`); showToast(SURVEY_REWARD, "Survey 1"); refreshUI(); return true; }
-    function renderSurveyModal() { let html = `<div class="survey-question-text">${currentSurveyStep+1}. ${SURVEY_QUESTIONS[currentSurveyStep].text}</div>`; SURVEY_QUESTIONS[currentSurveyStep].options.forEach(opt => { html += `<div class="survey-option ${selectedAnswers[currentSurveyStep]===opt?'selected':''}" data-val="${opt.replace(/"/g, '&quot;')}">${opt}</div>`; }); html += `<div class="survey-nav-buttons">${currentSurveyStep>0?'<button id="surveyPrevBtn" class="claim-btn skip-btn">Previous</button>':''}<button id="surveyNextBtn" class="claim-btn">${currentSurveyStep===4?'Complete & Earn':'Next'}</button><button id="surveyCloseBtn" class="claim-btn skip-btn">Cancel</button></div>`; document.getElementById('surveyInner').innerHTML = html; attachSurveyEvents(); }
-    function attachSurveyEvents() { document.querySelectorAll('.survey-option').forEach(el => el.onclick = () => { selectedAnswers[currentSurveyStep] = el.getAttribute('data-val'); document.querySelectorAll('.survey-option').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); }); document.getElementById('surveyPrevBtn')?.addEventListener('click', () => { if(currentSurveyStep>0) { currentSurveyStep--; renderSurveyModal(); } }); document.getElementById('surveyNextBtn')?.addEventListener('click', async () => { if(!selectedAnswers[currentSurveyStep]) { alert("Select an answer"); return; } if(currentSurveyStep === 4) { window.open(SURVEY_LINKS[4], '_blank'); if(confirm("Did you complete the final step? Click OK to claim 35 VIU")) await completeSurveyTask(); document.getElementById('surveyModal').classList.remove('active'); surveyActive=false; } else { window.open(SURVEY_LINKS[currentSurveyStep], '_blank'); currentSurveyStep++; renderSurveyModal(); } }); document.getElementById('surveyCloseBtn')?.addEventListener('click', () => { document.getElementById('surveyModal').classList.remove('active'); surveyActive=false; }); }
-    document.getElementById('startSurveyBtn').onclick = () => { if((userData?.survey1Progress||0)>=20) return alert("Daily survey limit reached"); if(surveyActive) return; surveyActive=true; currentSurveyStep=0; selectedAnswers=[]; renderSurveyModal(); document.getElementById('surveyModal').classList.add('active'); };
-
-    // Payment, withdrawal, referral
-    let selectedMethod='binance'; 
-    function setPaymentMethod(method) { selectedMethod=method; document.querySelectorAll('.payment-option').forEach(opt=>opt.classList.remove('selected')); if(method==='binance') document.getElementById('paymentMethodBinance').classList.add('selected'); if(method==='bkash') document.getElementById('paymentMethodBkash').classList.add('selected'); if(method==='nagad') document.getElementById('paymentMethodNagad').classList.add('selected'); document.getElementById('paymentAccount').placeholder = method==='binance'?'Binance Email/UID':(method==='bkash'?'bKash Mobile Number':'Nagad Mobile Number'); }
-    document.getElementById('paymentMethodBinance').onclick=()=>setPaymentMethod('binance');
-    document.getElementById('paymentMethodBkash').onclick=()=>setPaymentMethod('bkash');
-    document.getElementById('paymentMethodNagad').onclick=()=>setPaymentMethod('nagad');
-    document.getElementById('submitWithdrawBtn').onclick=async()=>{ let amt=parseInt(document.getElementById('withdrawAmount').value); let acc=document.getElementById('paymentAccount').value.trim(); if(amt<1000 || amt>(userData.balance||0) || (userData.referrals?.length||0)<3) return alert("Requirements: Min 1000 VIU, 3 referrals, sufficient balance"); let fee=Math.floor(amt*0.1); let wid={ id:Date.now(), withdrawId:'WD-'+Date.now().toString().slice(-8), amount:amt, fee, netAmount:amt-fee, method:selectedMethod, account:acc, status:'pending', date:Date.now() }; await updateUser({ balance:(userData.balance||0)-amt, withdrawalHistory:[...(userData.withdrawalHistory||[]), wid] }); document.getElementById('withdrawSuccessDetails').innerHTML = `<div>ID: ${wid.withdrawId}</div><div>Amount: ${amt} VIU</div><div>Net: ${amt-fee} VIU (~$${((amt-fee)/EXCHANGE_RATE).toFixed(3)})</div>`; document.getElementById('withdrawSuccessModal').classList.add('active'); refreshUI(); };
-    document.getElementById('closeSuccessModal').onclick=()=>document.getElementById('withdrawSuccessModal').classList.remove('active');
-    document.getElementById('copyReferralCodeBtn').onclick=()=>{ navigator.clipboard.writeText(userData.referralCode); alert("Copied!"); };
-    document.getElementById('shareTelegramCodeBtn').onclick=()=>{ window.open(`https://t.me/share/url?url=Join%20Viu%20Earn%20with%20code%3A%20${userData.referralCode}`,'_blank'); };
-    function switchSection(id) { document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active')); if(id==='homeSection') document.getElementById('navHome').classList.add('active'); if(id==='earnSection') document.getElementById('navEarn').classList.add('active'); if(id==='earningSection') document.getElementById('navEarning').classList.add('active'); if(id==='cashoutSection') document.getElementById('navCashout').classList.add('active'); if(id==='referralSection') document.getElementById('navReferral').classList.add('active'); }
-    document.getElementById('navHome').onclick=()=>switchSection('homeSection'); document.getElementById('navEarn').onclick=()=>switchSection('earnSection'); document.getElementById('navEarning').onclick=()=>switchSection('earningSection'); document.getElementById('navCashout').onclick=()=>switchSection('cashoutSection'); document.getElementById('navReferral').onclick=()=>switchSection('referralSection');
-    document.getElementById('earnBackBtn').onclick=()=>switchSection('homeSection'); document.getElementById('earningBackBtn').onclick=()=>switchSection('homeSection'); document.getElementById('cashoutBackBtn').onclick=()=>switchSection('homeSection'); document.getElementById('referralBackBtn').onclick=()=>switchSection('referralSection');
-    ['supportIconHome','supportIconEarn','supportIconEarning','supportIconCashout','supportIconReferral'].forEach(id=>document.getElementById(id).onclick=()=>window.open('http://t.me/earnviusupport','_blank'));
-
-    // Pending History Display
-    function renderPendingHistory() {
-        const pendingContainer = document.getElementById('pendingHistoryList');
-        if(!pendingContainer) return;
-        let submissions = [];
-        if(userData.specialTaskSubmission1) submissions.push({ type: '⭐ Special Code Task', reward: '80 VIU', ...userData.specialTaskSubmission1, detail: `Referral ID: ${userData.specialTaskSubmission1.referralId}` });
-        if(userData.cpmSubmission) submissions.push({ type: '🎯 CPM Task', reward: '800 VIU', ...userData.cpmSubmission, detail: `Username: ${userData.cpmSubmission.username}` });
-        if(userData.cpm2Submission) submissions.push({ type: '🎯 CPM2 Task', reward: '800 VIU', ...userData.cpm2Submission, detail: `Username: ${userData.cpm2Submission.username}` });
-        if(userData.specialUsernameSubmission) submissions.push({ type: '✨ Username Task', reward: '200 VIU', ...userData.specialUsernameSubmission, detail: `Username: ${userData.specialUsernameSubmission.username}` });
-        if(userData.gmailSubmission) submissions.push({ type: '📧 Gmail Task', reward: '1000 VIU', ...userData.gmailSubmission, detail: `Email: ${userData.gmailSubmission.email}` });
-        
-        if(submissions.length === 0) {
-            pendingContainer.innerHTML = '<div class="empty-history" style="text-align:center; padding:20px; color:#64748b;">No pending submissions.</div>';
+    const surveyLinks = [
+        "https://bowlsharp.com/vsnyfstz?key=2645a1a9a50c52b7bd8183f83edc2fd5",
+        "https://omg10.com/4/11129454",
+        "https://ukuleqasforsalesre.com?hTTVD=1246757",
+        "https://wwp.giriubin.com/redirect-zone/31c41a18",
+        "https://link.gigapub.tech/l/9jfxp27o6m"
+    ];
+    let surveyStep = 0, surveyAnswers = [];
+    function renderSurveyModal() {
+        let container = document.getElementById('surveyModalContent');
+        if(surveyStep >= surveyQuestions.length) {
+            if(!surveyAnswers.every((ans,i)=>ans===surveyQuestions[i].correct)) { alert("Some answers wrong. Try again."); document.getElementById('surveyModal').classList.remove('active'); return; }
+            document.getElementById('surveyModal').classList.remove('active');
+            // Show Monetag ad before rewarding
+            if(typeof show_10541383 === 'function') {
+                show_10541383().then(() => {
+                    // After ad, show reward modal with a link (use the first survey link as the claim link)
+                    showReward(40, 'survey', null, surveyLinks[0]);
+                }).catch(e => { alert("Ad failed, but you still get reward."); showReward(40, 'survey', null, surveyLinks[0]); });
+            } else { showReward(40, 'survey', null, surveyLinks[0]); }
             return;
         }
+        let q = surveyQuestions[surveyStep];
+        let html = `<div>${surveyStep+1}. ${q.text}</div>`;
+        q.options.forEach(opt => { html += `<div class="survey-option" data-val="${opt}">${opt}</div>`; });
+        html += `<div class="flex-btns"><button id="surveyNextBtn" class="claim-btn">Next</button><button id="surveyCancelBtn" class="cancel-btn">Cancel</button></div>`;
+        container.innerHTML = html;
+        document.querySelectorAll('.survey-option').forEach(el => { el.onclick = () => { surveyAnswers[surveyStep] = el.dataset.val; document.querySelectorAll('.survey-option').forEach(o=>o.classList.remove('selected')); el.classList.add('selected'); }; });
+        document.getElementById('surveyNextBtn').onclick = () => {
+            if(!surveyAnswers[surveyStep]) return alert("Select an answer");
+            // Open the corresponding link for this step
+            openExternalLink(surveyLinks[surveyStep]);
+            surveyStep++;
+            renderSurveyModal();
+        };
+        document.getElementById('surveyCancelBtn').onclick = () => document.getElementById('surveyModal').classList.remove('active');
+    }
+    document.getElementById('startSurveyBtn').onclick = async () => {
+        let snap = await db.ref(`users/${currentUser}`).once('value');
+        let user = snap.val();
+        if(user.surveyCount >= 5) return alert("Daily limit 5");
+        surveyStep = 0; surveyAnswers = [];
+        document.getElementById('surveyModal').classList.add('active');
+        renderSurveyModal();
+    };
+    function renderSocialTasks(user) {
+        let container = document.getElementById('socialTasksContainer');
+        let html = `<h3><i class="fas fa-share-alt"></i> One-Time Social Tasks</h3>`;
+        if(!user.youtubeSubscribed) html += `<div class="task-card"><div class="task-header"><span class="task-title"><i class="fab fa-youtube"></i> Subscribe YouTube Channel</span><span class="task-reward">+25 PEDO</span></div><button id="youtubeOpenBtn" class="task-btn"><i class="fab fa-youtube"></i> Open YouTube</button><button id="youtubeVerifyBtn" class="task-btn" disabled><i class="fas fa-check-circle"></i> I have subscribed (Verify)</button></div>`;
+        else html += `<div class="task-card"><i class="fas fa-check-circle status-success"></i> YouTube Task Completed (+25 PEDO)</div>`;
+        if(!user.paymentProofJoined) html += `<div class="task-card"><div class="task-header"><span class="task-title"><i class="fab fa-telegram"></i> Join Payment Proof Channel</span><span class="task-reward">+20 PEDO</span></div><button id="paymentProofOpenBtn" class="task-btn"><i class="fab fa-telegram"></i> Join Channel</button><button id="paymentProofVerifyBtn" class="task-btn" disabled><i class="fas fa-check-circle"></i> I have joined (Verify)</button></div>`;
+        else html += `<div class="task-card"><i class="fas fa-check-circle status-success"></i> Payment Proof Task Completed (+20 PEDO)</div>`;
+        if(!user.announceJoined) html += `<div class="task-card"><div class="task-header"><span class="task-title"><i class="fab fa-telegram"></i> Join Announcement Channel</span><span class="task-reward">+20 PEDO</span></div><button id="announceOpenBtn" class="task-btn"><i class="fab fa-telegram"></i> Join Channel</button><button id="announceVerifyBtn" class="task-btn" disabled><i class="fas fa-check-circle"></i> I have joined (Verify)</button></div>`;
+        else html += `<div class="task-card"><i class="fas fa-check-circle status-success"></i> Announcement Task Completed (+20 PEDO)</div>`;
+        container.innerHTML = html;
+        if(!user.youtubeSubscribed) { document.getElementById('youtubeOpenBtn').onclick = () => openExternalLink('https://youtube.com/@earnviuofficial'); document.getElementById('youtubeVerifyBtn').onclick = async () => { await applyReward(25, 'youtube', null, null); alert("+25 PEDO earned!"); renderSocialTasks(user); }; }
+        if(!user.paymentProofJoined) { document.getElementById('paymentProofOpenBtn').onclick = () => openExternalLink('https://t.me/pedopaymentproofofficial'); document.getElementById('paymentProofVerifyBtn').onclick = async () => { await applyReward(20, 'paymentProof', null, null); alert("+20 PEDO earned!"); renderSocialTasks(user); }; }
+        if(!user.announceJoined) { document.getElementById('announceOpenBtn').onclick = () => openExternalLink('https://t.me/pedoanouncementchanel'); document.getElementById('announceVerifyBtn').onclick = async () => { await applyReward(20, 'announcement', null, null); alert("+20 PEDO earned!"); renderSocialTasks(user); }; }
+    }
+    document.getElementById('adminTrigger').onclick = async () => {
+        if(prompt("Admin password:") !== "admin123") return;
+        let withdrawSnap = await db.ref('withdrawal_requests').orderByChild('status').equalTo('pending').once('value');
+        let container = document.getElementById('adminStepList');
         let html = '';
-        submissions.forEach(sub => {
-            const statusIcon = sub.status === 'pending' ? '⏳' : (sub.status === 'approved' ? '✅' : '❌');
-            const statusText = sub.status === 'pending' ? 'Pending' : (sub.status === 'approved' ? 'Approved' : 'Rejected');
-            const statusColor = sub.status === 'pending' ? '#f97316' : (sub.status === 'approved' ? '#22c55e' : '#ef4444');
-            html += `
-                <div class="pending-card" style="border-left-color: ${statusColor};">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <strong>${sub.type}</strong>
-                        <span style="color:${statusColor};">${statusIcon} ${statusText}</span>
-                    </div>
-                    <div class="small-text" style="margin-top:6px;">💰 Reward: ${sub.reward}</div>
-                    <div class="pending-detail-text">📝 ${sub.detail}</div>
-                    <div class="small-text" style="margin-top:4px;">🕒 ${new Date(sub.id).toLocaleString()}</div>
-                </div>
-            `;
-        });
-        pendingContainer.innerHTML = html;
+        withdrawSnap.forEach(req => { let w = req.val(); html += `<div><strong>💸 Withdrawal Request</strong><br>User: ${w.userId}<br>Amount: ${w.amount} PEDO (Net: ${w.net} PEDO)<br>Method: ${w.method}, Account: ${w.account}<br><div class="flex-btns"><button class="btn-sm btn-approve-withdraw" data-id="${w.id}">✅ Approve</button><button class="btn-sm btn-reject-withdraw" data-id="${w.id}">❌ Reject</button></div></div><hr>`; });
+        if(html === "") html = '<p>No pending requests.</p>';
+        container.innerHTML = html;
+        document.querySelectorAll('.btn-approve-withdraw').forEach(btn => { btn.onclick = async () => { let id = btn.dataset.id; let reqSnap = await db.ref(`withdrawal_requests/${id}`).once('value'); let req = reqSnap.val(); if(req && req.status === 'pending') { let userRef = db.ref(`users/${req.userId}`); let userSnap = await userRef.once('value'); let user = userSnap.val(); if(user && user.balance >= req.amount) { user.balance -= req.amount; user.withdrawals = user.withdrawals || []; user.withdrawals.push({ id: req.id, amount: req.amount, fee: req.fee, net: req.net, method: req.method, account: req.account, status: 'Completed', date: req.date }); await userRef.update(user); await db.ref(`withdrawal_requests/${id}/status`).set('approved'); alert(`Withdrawal approved! ${req.net} PEDO processed.`); if(currentUser === req.userId) refreshUI(user); } else { alert("Insufficient balance or user not found"); await db.ref(`withdrawal_requests/${id}/status`).set('rejected'); } } }; });
+        document.querySelectorAll('.btn-reject-withdraw').forEach(btn => { btn.onclick = async () => { let id = btn.dataset.id; await db.ref(`withdrawal_requests/${id}/status`).set('rejected'); alert("Withdrawal rejected."); }; });
+        document.getElementById('adminModal').classList.add('active');
+    };
+    document.getElementById('closeAdminModal').onclick = () => document.getElementById('adminModal').classList.remove('active');
+    let selectedMethod = 'binance';
+    document.getElementById('paymentMethodBinance').onclick = () => { selectedMethod='binance'; document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('selected')); document.getElementById('paymentMethodBinance').classList.add('selected'); document.getElementById('paymentAccount').placeholder='Binance Email/UID'; };
+    document.getElementById('paymentMethodBkash').onclick = () => { selectedMethod='bkash'; document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('selected')); document.getElementById('paymentMethodBkash').classList.add('selected'); document.getElementById('paymentAccount').placeholder='bKash Mobile'; };
+    document.getElementById('withdrawAmount').addEventListener('input', (e) => { let a = parseInt(e.target.value) || 0; let f = Math.floor(a * 0.1); document.getElementById('wdAmount').innerText = `${a} PEDO`; document.getElementById('wdFee').innerText = `${f} PEDO`; document.getElementById('wdNet').innerText = `${a-f} PEDO`; document.getElementById('wdUsdValue').innerText = `$${((a-f)/EXCHANGE_RATE).toFixed(3)}`; });
+    document.getElementById('submitWithdrawBtn').onclick = async () => {
+        let amt = parseInt(document.getElementById('withdrawAmount').value);
+        let acc = document.getElementById('paymentAccount').value.trim();
+        let userSnap = await db.ref(`users/${currentUser}`).once('value');
+        let user = userSnap.val();
+        if(user.balance < 1000 || (user.referrals?.length||0) < 3) return alert("Requirements: 1000 PEDO + 3 referrals");
+        if(amt < 1000 || amt > user.balance) return alert("Invalid amount");
+        let fee = Math.floor(amt * 0.1); let net = amt - fee;
+        let requestId = Date.now();
+        await db.ref(`withdrawal_requests/${requestId}`).set({ id: requestId, userId: currentUser, amount: amt, fee: fee, net: net, method: selectedMethod, account: acc, status: 'pending', date: requestId });
+        alert("Withdrawal request submitted for admin approval.");
+        document.getElementById('withdrawAmount').value = ''; document.getElementById('paymentAccount').value = '';
+    };
+    document.getElementById('copyRefCode').onclick = async () => { let user = (await db.ref(`users/${currentUser}`).once('value')).val(); navigator.clipboard.writeText(user.refCode); alert("Copied!"); };
+    function switchSection(id) {
+        if(navigationDisabled) { alert("Please wait, task in progress..."); return; }
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        if(id === 'homeSection') document.getElementById('navHome').classList.add('active');
+        if(id === 'earnSection') document.getElementById('navEarn').classList.add('active');
+        if(id === 'earningSection') document.getElementById('navEarning').classList.add('active');
+        if(id === 'cashoutSection') document.getElementById('navCashout').classList.add('active');
+        if(id === 'referralSection') document.getElementById('navReferral').classList.add('active');
     }
+    document.getElementById('navHome').onclick = () => switchSection('homeSection');
+    document.getElementById('navEarn').onclick = () => switchSection('earnSection');
+    document.getElementById('navEarning').onclick = () => switchSection('earningSection');
+    document.getElementById('navCashout').onclick = () => switchSection('cashoutSection');
+    document.getElementById('navReferral').onclick = () => switchSection('referralSection');
+    document.getElementById('earnBackBtn').onclick = () => switchSection('homeSection');
+    document.getElementById('earningBackBtn').onclick = () => switchSection('homeSection');
+    document.getElementById('cashoutBackBtn').onclick = () => switchSection('homeSection');
+    document.getElementById('referralBackBtn').onclick = () => switchSection('referralSection');
+    document.querySelectorAll('.support-icon').forEach(icon => icon.onclick = () => openExternalLink('https://t.me/pedosupport03'));
+    document.getElementById('campaignAddBtn').onclick = () => document.getElementById('businessModal').classList.add('active');
+    document.getElementById('closeBusinessModal').onclick = () => document.getElementById('businessModal').classList.remove('active');
+    document.getElementById('menuSupport').onclick = () => document.getElementById('supportModal').classList.add('active');
+    document.querySelectorAll('.support-profile').forEach(p => p.onclick = () => openExternalLink(p.dataset.link));
+    document.getElementById('closeSupportModal').onclick = () => document.getElementById('supportModal').classList.remove('active');
+    document.getElementById('menuAbout').onclick = () => document.getElementById('aboutModal').classList.add('active');
+    document.getElementById('closeAboutModal').onclick = () => document.getElementById('aboutModal').classList.remove('active');
+    document.getElementById('menuBusiness').onclick = () => openExternalLink('https://t.me/pedobusinessteam');
+    let darkToggle = document.getElementById('darkModeToggle');
+    if(localStorage.getItem('darkMode') === 'enabled') { document.body.classList.add('dark-mode'); darkToggle.innerHTML = '<i class="fas fa-sun"></i>'; }
+    darkToggle.onclick = () => { document.body.classList.toggle('dark-mode'); if(document.body.classList.contains('dark-mode')) { localStorage.setItem('darkMode','enabled'); darkToggle.innerHTML='<i class="fas fa-sun"></i>'; } else { localStorage.setItem('darkMode','disabled'); darkToggle.innerHTML='<i class="fas fa-moon"></i>'; } };
+    let settingsIcon = document.getElementById('settingsIcon'), settingsMenu = document.getElementById('settingsMenu');
+    settingsIcon.onclick = (e) => { e.stopPropagation(); settingsMenu.classList.toggle('active'); };
+    document.addEventListener('click', (e) => { if(!settingsIcon.contains(e.target)) settingsMenu.classList.remove('active'); });
 
-    function refreshUI() { 
-        if(!userData) return; 
-        let bal=userData.balance||0; 
-        document.getElementById('balanceAmount').innerText=bal.toFixed(0); 
-        document.getElementById('usdBalanceHome').innerHTML=`≈ $${(bal/EXCHANGE_RATE).toFixed(3)} USD`; 
-        document.getElementById('withdrawBalance').innerText=bal.toFixed(0); 
-        document.getElementById('tasksCompletedCount').innerText=userData.tasksCompleted||0; 
-        document.getElementById('refCount').innerText=userData.referrals?.length||0; 
-        document.getElementById('totalWithdrawalsCount').innerText=userData.withdrawalHistory?.length||0; 
-        document.getElementById('referralBonusTotal').innerText=(userData.referralBonusEarned||0).toFixed(0); 
-        document.getElementById('referralCodeDisplay').innerText=userData.referralCode||''; 
-        let refs=userData.referrals||[]; 
-        document.getElementById('referralsList').innerHTML=refs.length?refs.map(r=>`<div class="friend-card"><span>${r.username}</span><span>+${r.bonus} VIU</span></div>`).join(''):'<div class="small-text">No referrals</div>'; 
-        let hist=userData.withdrawalHistory||[]; 
-        document.getElementById('historyList').innerHTML=hist.length?hist.slice().reverse().map(w=>`<div class="withdrawal-history-card"><div><strong>${w.withdrawId}</strong> <span>${w.status}</span></div><div>${w.amount} VIU (~$${((w.netAmount||w.amount)/EXCHANGE_RATE).toFixed(3)})</div><div>${w.method}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join(''):'<div>No withdrawals</div>';
-        let reqBal=bal>=1000, reqRef=(userData.referrals?.length||0)>=3;
-        document.getElementById('reqStatusBal').innerHTML = reqBal ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
-        document.getElementById('reqStatusRef').innerHTML = reqRef ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
-        document.getElementById('reqStatusBal').className = `req-status ${reqBal ? 'status-success' : 'status-failed'}`;
-        document.getElementById('reqStatusRef').className = `req-status ${reqRef ? 'status-success' : 'status-failed'}`;
-        document.getElementById('submitWithdrawBtn').disabled=!(reqBal&&reqRef);
-        let amt=parseInt(document.getElementById('withdrawAmount')?.value)||0; let fee=Math.floor(amt*0.1); 
-        document.getElementById('wdAmount').innerText=`${amt} VIU`; 
-        document.getElementById('wdFee').innerText=`${fee} VIU`; 
-        document.getElementById('wdNet').innerText=`${amt-fee} VIU`; 
-        document.getElementById('wdUsdValue').innerText=`$${((amt-fee)/EXCHANGE_RATE).toFixed(3)}`;
-        for(let k of ['ads1','ads2','ads3','ads4']) { let prog=userData[`${k}Progress`]||0; let fill=document.getElementById(`${k}Fill`); if(fill) fill.style.width=(prog/20)*100+'%'; let perc=document.getElementById(`${k}Percent`); if(perc) perc.innerText=Math.floor((prog/20)*100)+'%'; let stats=document.getElementById(`${k}Stats`); if(stats) stats.innerText=`${prog}/20`; let btn=document.getElementById(`${k}Btn`); if(btn&&prog>=20){ btn.disabled=true; btn.innerHTML='✓ Completed Today'; btn.classList.add('completed');} }
-        let totalAds=(userData.ads1Progress||0)+(userData.ads2Progress||0)+(userData.ads3Progress||0)+(userData.ads4Progress||0); 
-        let earnedAds= (userData.ads1Progress||0)*7+(userData.ads2Progress||0)*7+(userData.ads3Progress||0)*5+(userData.ads4Progress||0)*7; 
-        if(document.getElementById('totalAdsCount')) document.getElementById('totalAdsCount').innerText=totalAds; 
-        if(document.getElementById('totalAdsEarned')) document.getElementById('totalAdsEarned').innerText=earnedAds;
-        let surveyProg=userData.survey1Progress||0; let sfill=document.getElementById('survey1Fill'); if(sfill) sfill.style.width=(surveyProg/20)*100+'%'; let sPerc=document.getElementById('survey1Percent'); if(sPerc) sPerc.innerText=Math.floor((surveyProg/20)*100)+'%'; let sStats=document.getElementById('survey1Stats'); if(sStats) sStats.innerText=`${surveyProg}/20`; let sBtn=document.getElementById('startSurveyBtn'); if(sBtn&&surveyProg>=20) { sBtn.disabled=true; sBtn.innerHTML='✓ Completed Today'; sBtn.classList.add('completed'); }
-        renderPendingHistory();
+    // Telegram WebApp Login
+    async function handleTelegramUser(telegramUser) {
+        const username = telegramUser.username || `user_${telegramUser.id}`;
+        let userSnap = await db.ref(`users/${username}`).once('value');
+        if(!userSnap.exists()) {
+            let newRefCode = username.slice(0,4).toUpperCase() + Math.floor(Math.random()*10000);
+            let newUser = {
+                username, refCode: newRefCode, referredBy: null, balance: 0, totalTasks: 0, referrals: [], withdrawals: [],
+                dailyEarned: 0, lastReset: new Date().toDateString(),
+                ads1:0, ads2:0, ads3:0, ads4:0, visits: {1:0,2:0,3:0,4:0,5:0}, surveyCount: 0,
+                youtubeSubscribed: false, paymentProofJoined: false, announceJoined: false,
+                referralBonusEarned: 0, referralBonusClaimed: false
+            };
+            await db.ref(`users/${username}`).set(newUser);
+            const startParam = telegramUser.start_param;
+            if(startParam) {
+                let usersSnap = await db.ref('users').once('value');
+                let referredBy = null;
+                usersSnap.forEach(u => { if(u.val().refCode === startParam) referredBy = u.key; });
+                if(referredBy && referredBy !== username) {
+                    await db.ref(`users/${username}/referredBy`).set(referredBy);
+                    let referrerRef = db.ref(`users/${referredBy}`);
+                    let referrerSnap = await referrerRef.once('value');
+                    let referrer = referrerSnap.val();
+                    if(referrer) {
+                        let newReferrals = referrer.referrals || [];
+                        if(!newReferrals.find(r => r.username === username)) newReferrals.push({ username: username, bonus: 0 });
+                        await referrerRef.update({ referrals: newReferrals });
+                    }
+                }
+            }
+        }
+        currentUser = username;
+        localStorage.setItem('currentUser', currentUser);
+        document.getElementById('authScreen').style.display = 'none';
+        document.getElementById('mainApp').classList.remove('main-app-hidden');
+        startUserListener();
+        let user = (await db.ref(`users/${currentUser}`).once('value')).val();
+        refreshUI(user);
+        setInterval(() => refreshUI(user), 60000);
     }
-    
-    async function checkAndResetDaily() { if(!userData) return; const today=new Date().toDateString(); if(userData.lastResetDate!==today) { await updateUser({ ads1Progress:0, ads2Progress:0, ads3Progress:0, ads4Progress:0, survey1Progress:0, lastResetDate:today }); } }
-    async function initUser() { let data=await fetchUserData(); if(!data){ let refCode=telegramUsername.slice(0,4).toUpperCase()+Math.random().toString(36).substr(2,5).toUpperCase(); let newUser={ username:telegramUsername, telegramId, balance:0, totalEarned:0, referralBonusEarned:0, referrals:[], referralCode:refCode, referredBy:null, referralBonusApplied:false, tasksCompleted:0, withdrawalHistory:[], earningsHistory:[], ads1Progress:0,ads2Progress:0,ads3Progress:0,ads4Progress:0,survey1Progress:0, turboMinerClaimed:false, youtubeSubClaimed:false, tgChannelClaimed:false, woodRushClaimed:false, ninjagame50Claimed:false, specialTaskSubmission1:null, cpmSubmission:null, cpm2Submission:null, specialUsernameSubmission:null, gmailSubmission:null, lastGmailSubmissionTime:0, lastCpmSubmission:0, lastCpm2Submission:0, lastResetDate: new Date().toDateString() }; await db.ref(`users/${telegramId}`).set(newUser); data=newUser; } userData=data; if(!Array.isArray(userData.earningsHistory)) userData.earningsHistory=[]; if(!Array.isArray(userData.withdrawalHistory)) userData.withdrawalHistory=[]; if(!Array.isArray(userData.referrals)) userData.referrals=[]; await db.ref(`users/${telegramId}`).update({ earningsHistory:userData.earningsHistory, withdrawalHistory:userData.withdrawalHistory, referrals:userData.referrals }); await checkAndResetDaily(); if(!userData.referralBonusApplied) document.getElementById('referralCodeModal').style.display='flex'; else proceedToApp(); }
-    async function proceedToApp() { document.getElementById('referralCodeModal').style.display='none'; refreshUI(); db.ref(`users/${telegramId}`).on('value', snap=>{ if(snap.exists()){ userData=snap.val(); if(!Array.isArray(userData.earningsHistory)) userData.earningsHistory=[]; refreshUI(); } }); }
-    document.getElementById('submitReferralCodeBtn').onclick=async()=>{ let code=document.getElementById('referralCodeInput').value.trim().toUpperCase(); if(code){ let snap=await db.ref('users').orderByChild('referralCode').equalTo(code).once('value'); if(snap.exists()){ let refId=Object.keys(snap.val())[0]; if(refId!==telegramId){ await updateUser({ referredBy:refId, referralBonusApplied:true, balance:(userData.balance||0)+100, totalEarned:(userData.totalEarned||0)+100, referralBonusEarned:(userData.referralBonusEarned||0)+100 }); let refSnap=await db.ref(`users/${refId}`).once('value'); if(refSnap.exists()){ let refs=refSnap.val().referrals||[]; if(!refs.some(r=>r.id===telegramId)) refs.push({ id:telegramId, username:telegramUsername, bonus:100 }); await db.ref(`users/${refId}`).update({ referrals:refs, balance:(refSnap.val().balance||0)+100, referralBonusEarned:(refSnap.val().referralBonusEarned||0)+100 }); } alert("+100 VIU bonus!"); } } } proceedToApp(); };
-    document.getElementById('skipReferralCodeBtn').onclick=async()=>{ await updateUser({ referralBonusApplied:true }); proceedToApp(); };
-    let loadPercent=0; const loadInterval=setInterval(()=>{ loadPercent++; document.getElementById('loadingFill').style.width=loadPercent+'%'; document.getElementById('loadingPercent').innerText=loadPercent+'%'; if(loadPercent>=100){ clearInterval(loadInterval); initUser().catch(console.error).finally(()=>{ setTimeout(()=>{ document.getElementById('loadingScreen').classList.add('hidden'); document.getElementById('mainApp').style.display='block'; },300); }); } },50);
-    
-    // One-time tasks (abbreviated but all present)
-    let botOpened=false,youtubeOpened=false,tgChannelOpened=false,woodRushOpened=false,ninjagame50Opened=false;
-    document.getElementById('openBotBtn').onclick=()=>{ window.open('https://t.me/USDTTurboMinerBot/App?startapp=6797948163','_blank'); botOpened=true; document.getElementById('verifyOneTimeBtn').disabled=false; };
-    document.getElementById('verifyOneTimeBtn').onclick=async()=>{ if(!botOpened||userData.turboMinerClaimed) return; await updateUser({ turboMinerClaimed:true, balance:(userData.balance||0)+40, totalEarned:(userData.totalEarned||0)+40, tasksCompleted:(userData.tasksCompleted||0)+1 }); await addEarningEntry(40,'Turbo Miner'); showToast(40,"Turbo Miner"); document.getElementById('oneTimeTaskContainer')?.remove(); };
-    document.getElementById('openYoutubeBtn').onclick=()=>{ window.open('https://youtube.com/@earnviuofficial?si=BtFEDuvq2RTb7bQI','_blank'); youtubeOpened=true; document.getElementById('verifyYoutubeBtn').disabled=false; };
-    document.getElementById('verifyYoutubeBtn').onclick=async()=>{ if(!youtubeOpened||userData.youtubeSubClaimed) return; await updateUser({ youtubeSubClaimed:true, balance:(userData.balance||0)+40, totalEarned:(userData.totalEarned||0)+40, tasksCompleted:(userData.tasksCompleted||0)+1 }); await addEarningEntry(40,'YouTube Subscribe'); showToast(40,"YouTube Subscribe"); document.getElementById('youtubeTaskContainer')?.remove(); };
-    document.getElementById('openTgChannelBtn').onclick=()=>{ window.open('https://t.me/earnviuofficial','_blank'); tgChannelOpened=true; document.getElementById('verifyTgChannelBtn').disabled=false; };
-    document.getElementById('verifyTgChannelBtn').onclick=async()=>{ if(!tgChannelOpened||userData.tgChannelClaimed) return; await updateUser({ tgChannelClaimed:true, balance:(userData.balance||0)+40, totalEarned:(userData.totalEarned||0)+40, tasksCompleted:(userData.tasksCompleted||0)+1 }); await addEarningEntry(40,'TG Channel'); showToast(40,"TG Channel"); document.getElementById('tgChannelTaskContainer')?.remove(); };
-    document.getElementById('openWoodRushBtn').onclick=()=>{ window.open('https://t.me/WoodRushBot?start=ref_6797948163','_blank'); woodRushOpened=true; document.getElementById('verifyWoodRushBtn').disabled=false; };
-    document.getElementById('verifyWoodRushBtn').onclick=async()=>{ if(!woodRushOpened||userData.woodRushClaimed) return; await updateUser({ woodRushClaimed:true, balance:(userData.balance||0)+40, totalEarned:(userData.totalEarned||0)+40, tasksCompleted:(userData.tasksCompleted||0)+1 }); await addEarningEntry(40,'Wood Rush'); showToast(40,"Wood Rush"); document.getElementById('woodRushTaskContainer')?.remove(); };
-    document.getElementById('openNinjagame50Btn').onclick=()=>{ window.open('https://t.me/ninjagame_bot?start=ref_6797948163','_blank'); ninjagame50Opened=true; document.getElementById('verifyNinjagame50Btn').disabled=false; };
-    document.getElementById('verifyNinjagame50Btn').onclick=async()=>{ if(!ninjagame50Opened||userData.ninjagame50Claimed) return; await updateUser({ ninjagame50Claimed: true, balance: (userData.balance||0)+50, totalEarned: (userData.totalEarned||0)+50, tasksCompleted: (userData.tasksCompleted||0)+1 }); await addEarningEntry(50, 'Ninja Game Bonus'); showToast(50, "Ninja Game Bonus"); document.getElementById('ninjagame50TaskContainer')?.remove(); };
-    document.getElementById('submitSpecialTaskBtn').onclick=async()=>{ let id=document.getElementById('referralIdInput').value.trim(); if(!/^\d{10}$/.test(id)) return alert("10-digit ID required"); if(userData.specialTaskSubmission1) return alert("Already submitted"); let sub={ id:Date.now(), userId:telegramId, referralId:id, status:'pending', timestamp:Date.now(), type:'special1' }; await db.ref(`specialSubmissions/${sub.id}`).set(sub); await updateUser({ specialTaskSubmission1:{ id:sub.id, status:'pending', referralId:id } }); alert("Submitted! Admin will review."); document.getElementById('specialTaskContainer1')?.remove(); refreshUI(); };
-    document.getElementById('copyRefCodeBtn').onclick=()=>{ navigator.clipboard.writeText('LMNxAAE5C0CA'); alert("Copied!"); };
-    document.getElementById('openTrustBotBtn').onclick=()=>window.open('https://t.me/trustpay_rewards_bot','_blank');
-    document.getElementById('contactAdminBtn').onclick=()=>window.open('http://t.me/earnviuinformation','_blank');
-    document.getElementById('openCpmLinkBtn').onclick=()=>window.open('https://www.effectivecpmnetwork.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d','_blank');
-    document.getElementById('openCpm2LinkBtn').onclick=()=>window.open('https://omg10.com/4/10883007','_blank');
-    document.getElementById('submitCpmTaskBtn').onclick=async()=>{ let un=document.getElementById('cpmUsernameInput').value.trim(); if(!un.startsWith('@')) return alert("Valid @username"); let now=Date.now(); if(userData.lastCpmSubmission && now-userData.lastCpmSubmission<48*3600000) return alert("Cooldown 2 days"); let sub={ id:now, userId:telegramId, username:un, status:'pending', timestamp:now, type:'cpm' }; await db.ref(`specialSubmissions/${sub.id}`).set(sub); await updateUser({ cpmSubmission:{ id:sub.id, status:'pending', username:un, timestamp:now }, lastCpmSubmission:now }); alert("Submitted! Admin will review."); refreshUI(); };
-    document.getElementById('submitCpm2TaskBtn').onclick=async()=>{ let un=document.getElementById('cpm2UsernameInput').value.trim(); if(!un.startsWith('@')) return alert("Valid @username"); let now=Date.now(); if(userData.lastCpm2Submission && now-userData.lastCpm2Submission<48*3600000) return alert("Cooldown 2 days"); let sub={ id:now, userId:telegramId, username:un, status:'pending', timestamp:now, type:'cpm2' }; await db.ref(`specialSubmissions/${sub.id}`).set(sub); await updateUser({ cpm2Submission:{ id:sub.id, status:'pending', username:un, timestamp:now }, lastCpm2Submission:now }); alert("Submitted! Admin will review."); refreshUI(); };
-    document.getElementById('submitUsernameTaskBtn').onclick=async()=>{ let username=document.getElementById('usernameTaskInput').value.trim(); if(!username.startsWith('@')) return alert("Valid @username"); if(userData.specialUsernameSubmission) return alert("Already submitted"); let now=Date.now(); let sub={ id:now, userId:telegramId, username:username, status:'pending', timestamp:now, type:'specialUsername' }; await db.ref(`specialSubmissions/${sub.id}`).set(sub); await updateUser({ specialUsernameSubmission:{ id:sub.id, status:'pending', username:username, timestamp:now } }); alert("Submitted! Admin will review."); document.getElementById('specialUsernameTaskContainer')?.remove(); refreshUI(); };
-    document.getElementById('openSkyRewardBtn').onclick=()=>window.open('https://t.me/SkyRewardR_Bot/app?startapp=5904','_blank');
-    document.getElementById('copyGmailTextBtn').onclick=()=>{ navigator.clipboard.writeText(document.getElementById('gmailCopyText').innerText); alert("Copied!"); };
-    document.getElementById('contactAdminGmailBtn').onclick=()=>window.open('http://t.me/earnviuinformation','_blank');
-    document.getElementById('submitGmailTaskBtn').onclick=async()=>{ let last=userData.lastGmailSubmissionTime||0; if(last && Date.now()-last<2*3600000) return alert("Cooldown 2 hours"); let email=document.getElementById('gmailEmailInput').value.trim(); let pass=document.getElementById('gmailPasswordInput').value.trim(); if(!email||!pass) return alert("Enter email and password"); let now=Date.now(); let sub={ id:now, userId:telegramId, email, password:pass, status:'pending', timestamp:now, type:'gmail' }; await db.ref(`specialSubmissions/${sub.id}`).set(sub); await updateUser({ gmailSubmission:{ id:sub.id, status:'pending', email, timestamp:now }, lastGmailSubmissionTime:now }); alert("Submitted! Admin will grant 1000 VIU."); document.getElementById('gmailEmailInput').value=''; document.getElementById('gmailPasswordInput').value=''; refreshUI(); };
-    let isAdmin=false;
-    document.getElementById('adminTrigger').onclick=()=>{ if(!isAdmin){ let pwd=prompt("Admin password:"); if(pwd!=="admin123") return; isAdmin=true; } db.ref('specialSubmissions').once('value',snap=>{ let subs=[]; snap.forEach(c=>subs.push({id:c.key,...c.val()})); let html=subs.map(s=>`<div style="border-bottom:1px solid #eee;padding:10px;"><div><strong>User:</strong> ${s.userId}</div><div><strong>Type:</strong> ${s.type}</div>${s.referralId?`<div>ID:${s.referralId}</div>`:(s.username?`<div>User:${s.username}</div>`:'')}${s.email?`<div>Email:${s.email}</div><div>Pass:${s.password}</div>`:''}<div>Status:${s.status}</div><button onclick="window.approveSubmission('${s.id}','${s.userId}','${s.type}')" style="background:green;color:white;border:none;padding:5px 12px;border-radius:20px;">Approve</button><button onclick="window.rejectSubmission('${s.id}','${s.userId}','${s.type}')" style="background:red;color:white;border:none;padding:5px 12px;border-radius:20px;">Reject</button></div>`).join(''); document.getElementById('adminSubmissionsList').innerHTML=html; document.getElementById('adminModal').classList.add('active'); }); };
-    window.approveSubmission = async (subId, userId, type) => { let sub=(await db.ref(`specialSubmissions/${subId}`).once('value')).val(); if(!sub||sub.status!=='pending') return; await db.ref(`specialSubmissions/${subId}`).update({ status:'approved' }); let reward = (type==='special1'?80:(type==='cpm'||type==='cpm2')?800:(type==='specialUsername'?200:(type==='gmail'?1000:0))); let userRef=db.ref(`users/${userId}`); let userSnap=await userRef.once('value'); if(userSnap.exists()){ let user=userSnap.val(); let newBal=(user.balance||0)+reward; let updates={ balance:newBal, totalEarned:(user.totalEarned||0)+reward, tasksCompleted:(user.tasksCompleted||0)+1 }; if(type==='special1') updates['specialTaskSubmission1/status']='approved'; else if(type==='cpm') updates['cpmSubmission/status']='approved'; else if(type==='cpm2') updates['cpm2Submission/status']='approved'; else if(type==='specialUsername') updates['specialUsernameSubmission/status']='approved'; else if(type==='gmail') updates['gmailSubmission/status']='approved'; await userRef.update(updates); let histEntry={ id:Date.now(), amount:reward, description:`${type} Task approved (+${reward} VIU)`, date:Date.now() }; let newHist=[histEntry, ...(user.earningsHistory||[])].slice(0,200); await userRef.update({ earningsHistory:newHist }); if(userId===telegramId) refreshUI(); } alert(`Approved! +${reward} VIU`); document.getElementById('adminModal').classList.remove('active'); };
-    window.rejectSubmission = async (subId, userId, type) => { await db.ref(`specialSubmissions/${subId}`).update({ status:'rejected' }); alert("Rejected"); };
-    document.getElementById('closeAdminModal').onclick=()=>document.getElementById('adminModal').classList.remove('active');
-    document.getElementById('withdrawAmount').addEventListener('input',()=>{ let amt=parseInt(document.getElementById('withdrawAmount').value)||0; let fee=Math.floor(amt*0.1); document.getElementById('wdAmount').innerText=`${amt} VIU`; document.getElementById('wdFee').innerText=`${fee} VIU`; document.getElementById('wdNet').innerText=`${amt-fee} VIU`; document.getElementById('wdUsdValue').innerText=`$${((amt-fee)/EXCHANGE_RATE).toFixed(3)}`; });
-    document.getElementById('howtoSpecial1Btn').onclick=()=>window.open('https://youtube.com/shorts/4S-6uxftnZg?si=Bvy5t0vFv3-49zkw','_blank');
-    document.getElementById('howtoSpecial2Btn').onclick=()=>window.open('https://youtube.com/shorts/Gjo2uiLiNTs?si=BiicArKGBvCfgVvG','_blank');
-    document.getElementById('howtoSpecial3Btn').onclick=()=>window.open('https://youtube.com/shorts/Gjo2uiLiNTs?si=BiicArKGBvCfgVvG','_blank');
-    document.getElementById('howtoSpecialUsernameBtn').onclick=()=>window.open('https://youtube.com/shorts/4S-6uxftnZg','_blank');
+    document.getElementById('telegramLoginBtn').onclick = () => {
+        const tg = window.Telegram.WebApp;
+        if(tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            handleTelegramUser(tg.initDataUnsafe.user);
+        } else {
+            alert("Please open this app inside Telegram to login automatically.");
+        }
+    };
+    let loadPercent = 0;
+    const loadInterval = setInterval(() => {
+        loadPercent += Math.floor(Math.random() * 8) + 2;
+        if(loadPercent >= 100) loadPercent = 100;
+        document.getElementById('loadingFill').style.width = loadPercent + '%';
+        document.getElementById('loadingPercent').innerText = loadPercent + '%';
+        if(loadPercent >= 100) {
+            clearInterval(loadInterval);
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                let stored = localStorage.getItem('currentUser');
+                if(stored) {
+                    db.ref(`users/${stored}`).once('value').then(snap => {
+                        if(snap.exists()) {
+                            currentUser = stored;
+                            document.getElementById('authScreen').style.display = 'none';
+                            document.getElementById('mainApp').classList.remove('main-app-hidden');
+                            startUserListener();
+                            refreshUI(snap.val());
+                            setInterval(() => refreshUI(snap.val()), 60000);
+                        } else { document.getElementById('authScreen').style.display = 'flex'; }
+                    });
+                } else { document.getElementById('authScreen').style.display = 'flex'; }
+            }, 300);
+        }
+    }, 70);
 </script>
 </body>
 </html>

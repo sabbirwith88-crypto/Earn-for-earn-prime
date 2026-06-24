@@ -11,14 +11,12 @@
     </script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
     </script>
-    <!-- Monetag SDK (for Ads 1 and Survey) -->
+    <!-- Monetag SDK (for Ads 1) -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     <!-- Giga Pub SDK (for Ads 2) -->
     <script src="https://ad.gigapub.tech/script?id=6432"></script>
     <!-- Adsgram SDK (for Ads 3) -->
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    <!-- Adexora SDK (for Ads 4) -->
-    <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     <style>
         /* styles unchanged, same as previous */
         * {
@@ -432,7 +430,8 @@
         .modal,
         .referral-code-modal,
         .claim-modal,
-        .survey-modal {
+        .survey-modal,
+        .link-ad-modal {
             display: none;
             position: fixed;
             inset: 0;
@@ -445,13 +444,15 @@
         .modal.active,
         .referral-code-modal.active,
         .claim-modal.active,
-        .survey-modal.active {
+        .survey-modal.active,
+        .link-ad-modal.active {
             display: flex;
         }
         .modal-content,
         .referral-code-card,
         .claim-card,
-        .survey-card {
+        .survey-card,
+        .link-ad-card {
             background: #fff;
             border-radius: 40px;
             padding: 32px;
@@ -723,6 +724,276 @@
             font-size: 0.85rem;
             color: #475569;
         }
+        .link-ad-modal .link-ad-card .countdown-big {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #000;
+            margin: 16px 0;
+            letter-spacing: -2px;
+        }
+        .link-ad-modal .link-ad-card .try-again-box {
+            margin-top: 16px;
+            padding: 16px;
+            background: #fef2f2;
+            border-radius: 24px;
+            border: 1px solid #fecaca;
+        }
+        .link-ad-modal .link-ad-card .try-again-box p {
+            color: #dc2626;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .hidden-task {
+            display: none !important;
+        }
+
+        /* --- Daily Verification Modal Styles --- */
+        .daily-verification-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            z-index: 5000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInVerification 0.5s ease;
+        }
+        .daily-verification-modal.active {
+            display: flex;
+        }
+        @keyframes fadeInVerification {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .daily-verification-card {
+            background: linear-gradient(145deg, #1a1a2e, #16213e, #0f3460);
+            border-radius: 48px;
+            padding: 40px 32px;
+            max-width: 420px;
+            width: 92%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .daily-verification-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.08), transparent 60%);
+            pointer-events: none;
+            animation: shimmer 6s infinite alternate;
+        }
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-10%) translateY(-10%);
+            }
+            100% {
+                transform: translateX(10%) translateY(10%);
+            }
+        }
+        .daily-verification-card .shield-icon {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .daily-verification-card .verification-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.5px;
+        }
+        .daily-verification-card .verification-subtitle {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.5;
+        }
+        .daily-verification-card .verification-progress {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+        }
+        .daily-verification-card .progress-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        .daily-verification-card .progress-dot.filled {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transform: scale(1.15);
+        }
+        .daily-verification-card .progress-dot.filled::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 0.5rem;
+            font-weight: 700;
+        }
+        .daily-verification-card .click-counter {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .daily-verification-card .click-counter span {
+            color: #FFD700;
+            font-size: 1.4rem;
+        }
+        .daily-verification-card .verify-btn {
+            background: linear-gradient(135deg, #FFD700, #F59E0B);
+            border: none;
+            color: #1a1a2e;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 18px 24px;
+            border-radius: 60px;
+            width: 100%;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.25);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .daily-verification-card .verify-btn:active {
+            transform: scale(0.96);
+        }
+        .daily-verification-card .verify-btn i {
+            font-size: 1.2rem;
+        }
+        .daily-verification-card .verify-btn .btn-text {
+            transition: all 0.3s;
+        }
+        .daily-verification-card .verify-btn .click-badge {
+            background: rgba(26, 26, 46, 0.2);
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .daily-verification-card .verify-btn.completed {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            box-shadow: 0 8px 30px rgba(34, 197, 94, 0.3);
+            cursor: default;
+            pointer-events: none;
+        }
+        .daily-verification-card .verify-btn.completed i {
+            -webkit-text-fill-color: #fff;
+        }
+        .daily-verification-card .verify-status-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .daily-verification-card .verify-status-text .highlight {
+            color: #FFD700;
+            font-weight: 600;
+        }
+        .daily-verification-card .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 215, 0, 0.05);
+            animation: pulseRing 4s infinite;
+            pointer-events: none;
+        }
+        @keyframes pulseRing {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
+        .daily-verification-card .pulse-ring:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+        .daily-verification-card .pulse-ring:nth-child(3) {
+            animation-delay: 3s;
+        }
+        .daily-verification-card .brand-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .daily-verification-card .brand-logo i {
+            font-size: 2rem;
+            color: #FFD700;
+        }
+        .daily-verification-card .brand-logo span {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        @media (max-width: 400px) {
+            .daily-verification-card {
+                padding: 28px 20px;
+            }
+            .daily-verification-card .verification-title {
+                font-size: 1.3rem;
+            }
+            .daily-verification-card .verify-btn {
+                font-size: 1rem;
+                padding: 16px 20px;
+            }
+            .daily-verification-card .progress-dot {
+                width: 12px;
+                height: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -763,56 +1034,63 @@
         <div id="earnSection" class="content-section">
             <div class="section-header"><div class="back-button" id="earnBackBtn"><span>←</span> Back</div><div class="support-icon" id="supportIconEarn"><i class="fas fa-headset"></i></div></div>
 
-            <!-- Survey Task -->
+            <!-- Survey Task (6 questions) -->
             <div id="surveyTaskCard">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">Survey Task</span><span class="task-reward">+30 PEDO</span></div>
-                    <div class="task-desc">Answer 5 questions about the app, then watch a short ad to claim 30 PEDO. Daily limit: 10.</div>
+                    <div class="task-desc">Answer 6 questions, each next opens a link. Then watch a short ad to claim 30 PEDO. Daily limit: 10.</div>
                     <div class="progress-container"><div class="progress-label"><span>Today</span><span id="surveyPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="surveyFill"></div></div><div class="completion-stats" id="surveyStats">0/10</div></div>
                     <button id="startSurveyBtn" class="task-btn">Start Survey & Earn 30 PEDO</button>
                 </div>
             </div>
 
-            <!-- Ads 1-4 (watch ads with real SDKs) -->
+            <!-- Ads 1 (Monetag) - limit 20 -->
             <div id="adsTaskContainer1">
                 <div class="task-card">
-                    <div class="task-header"><span class="task-title">See Ads 1 (Monetag)</span><span class="task-reward">+7 PEDO</span></div>
-                    <div class="task-desc">Watch a Monetag ad to earn 7 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads1Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads1Fill"></div></div><div class="completion-stats" id="ads1Stats">0/15</div></div>
-                    <button id="ads1Btn" class="task-btn">Watch Ad & Earn 7 PEDO</button>
-                </div>
-            </div>
-            <div id="adsTaskContainer2">
-                <div class="task-card">
-                    <div class="task-header"><span class="task-title">See Ads 2 (Giga Pub)</span><span class="task-reward">+7 PEDO</span></div>
-                    <div class="task-desc">Watch a Giga Pub ad to earn 7 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads2Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads2Fill"></div></div><div class="completion-stats" id="ads2Stats">0/15</div></div>
-                    <button id="ads2Btn" class="task-btn">Watch Ad & Earn 7 PEDO</button>
-                </div>
-            </div>
-            <div id="adsTaskContainer3">
-                <div class="task-card">
-                    <div class="task-header"><span class="task-title">See Ads 3 (Adsgram)</span><span class="task-reward">+7 PEDO</span></div>
-                    <div class="task-desc">Watch an Adsgram ad to earn 7 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads3Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads3Fill"></div></div><div class="completion-stats" id="ads3Stats">0/15</div></div>
-                    <button id="ads3Btn" class="task-btn">Watch Ad & Earn 7 PEDO</button>
-                </div>
-            </div>
-            <div id="adsTaskContainer4">
-                <div class="task-card">
-                    <div class="task-header"><span class="task-title">See Ads 4 (Adexora)</span><span class="task-reward">+7 PEDO</span></div>
-                    <div class="task-desc">Watch an Adexora ad to earn 7 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads4Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads4Fill"></div></div><div class="completion-stats" id="ads4Stats">0/15</div></div>
-                    <button id="ads4Btn" class="task-btn">Watch Ad & Earn 7 PEDO</button>
+                    <div class="task-header"><span class="task-title">See Ads 1 (Monetag)</span><span class="task-reward">+5 PEDO</span></div>
+                    <div class="task-desc">Watch a Monetag ad to earn 5 PEDO. Daily limit: 20.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads1Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads1Fill"></div></div><div class="completion-stats" id="ads1Stats">0/20</div></div>
+                    <button id="ads1Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
                 </div>
             </div>
 
-            <!-- Ads 5-10 (link ads, reward 5, limit 15) -->
+            <!-- Ads 2 (Giga Pub) - limit 20 -->
+            <div id="adsTaskContainer2">
+                <div class="task-card">
+                    <div class="task-header"><span class="task-title">See Ads 2 (Giga Pub)</span><span class="task-reward">+5 PEDO</span></div>
+                    <div class="task-desc">Watch a Giga Pub ad to earn 5 PEDO. Daily limit: 20.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads2Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads2Fill"></div></div><div class="completion-stats" id="ads2Stats">0/20</div></div>
+                    <button id="ads2Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
+                </div>
+            </div>
+
+            <!-- Ads 3 (Adsgram) - limit 20 -->
+            <div id="adsTaskContainer3">
+                <div class="task-card">
+                    <div class="task-header"><span class="task-title">See Ads 3 (Adsgram)</span><span class="task-reward">+5 PEDO</span></div>
+                    <div class="task-desc">Watch an Adsgram ad to earn 5 PEDO. Daily limit: 20.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads3Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads3Fill"></div></div><div class="completion-stats" id="ads3Stats">0/20</div></div>
+                    <button id="ads3Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
+                </div>
+            </div>
+
+            <!-- Ads 4 (Link ad) - limit 10 -->
+            <div id="adsTaskContainer4">
+                <div class="task-card">
+                    <div class="task-header"><span class="task-title">See Ads 4</span><span class="task-reward">+5 PEDO</span></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads4Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads4Fill"></div></div><div class="completion-stats" id="ads4Stats">0/10</div></div>
+                    <button id="ads4Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
+                    <div id="ads4Timer" class="timer-text"></div>
+                </div>
+            </div>
+
+            <!-- Ads 5-10 (Link ads) - limit 10 each -->
             <div id="adsTaskContainer5">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 5</span><span class="task-reward">+5 PEDO</span></div>
-                    <div class="task-desc">Open link, stay 10s, then claim 5 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads5Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads5Fill"></div></div><div class="completion-stats" id="ads5Stats">0/15</div></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads5Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads5Fill"></div></div><div class="completion-stats" id="ads5Stats">0/10</div></div>
                     <button id="ads5Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
                     <div id="ads5Timer" class="timer-text"></div>
                 </div>
@@ -820,8 +1098,8 @@
             <div id="adsTaskContainer6">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 6</span><span class="task-reward">+5 PEDO</span></div>
-                    <div class="task-desc">Open link, stay 10s, then claim 5 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads6Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads6Fill"></div></div><div class="completion-stats" id="ads6Stats">0/15</div></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads6Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads6Fill"></div></div><div class="completion-stats" id="ads6Stats">0/10</div></div>
                     <button id="ads6Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
                     <div id="ads6Timer" class="timer-text"></div>
                 </div>
@@ -829,8 +1107,8 @@
             <div id="adsTaskContainer7">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 7</span><span class="task-reward">+5 PEDO</span></div>
-                    <div class="task-desc">Open link, stay 10s, then claim 5 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads7Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads7Fill"></div></div><div class="completion-stats" id="ads7Stats">0/15</div></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads7Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads7Fill"></div></div><div class="completion-stats" id="ads7Stats">0/10</div></div>
                     <button id="ads7Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
                     <div id="ads7Timer" class="timer-text"></div>
                 </div>
@@ -838,8 +1116,8 @@
             <div id="adsTaskContainer8">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 8</span><span class="task-reward">+5 PEDO</span></div>
-                    <div class="task-desc">Open link, stay 10s, then claim 5 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads8Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads8Fill"></div></div><div class="completion-stats" id="ads8Stats">0/15</div></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads8Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads8Fill"></div></div><div class="completion-stats" id="ads8Stats">0/10</div></div>
                     <button id="ads8Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
                     <div id="ads8Timer" class="timer-text"></div>
                 </div>
@@ -847,8 +1125,8 @@
             <div id="adsTaskContainer9">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 9</span><span class="task-reward">+5 PEDO</span></div>
-                    <div class="task-desc">Open link, stay 10s, then claim 5 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads9Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads9Fill"></div></div><div class="completion-stats" id="ads9Stats">0/15</div></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads9Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads9Fill"></div></div><div class="completion-stats" id="ads9Stats">0/10</div></div>
                     <button id="ads9Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
                     <div id="ads9Timer" class="timer-text"></div>
                 </div>
@@ -856,10 +1134,32 @@
             <div id="adsTaskContainer10">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 10</span><span class="task-reward">+5 PEDO</span></div>
-                    <div class="task-desc">Open link, stay 10s, then claim 5 PEDO. Daily limit: 15.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads10Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads10Fill"></div></div><div class="completion-stats" id="ads10Stats">0/15</div></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads10Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads10Fill"></div></div><div class="completion-stats" id="ads10Stats">0/10</div></div>
                     <button id="ads10Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
                     <div id="ads10Timer" class="timer-text"></div>
+                </div>
+            </div>
+
+            <!-- Ads 11 (Link ad) - limit 10 -->
+            <div id="adsTaskContainer11">
+                <div class="task-card">
+                    <div class="task-header"><span class="task-title">See Ads 11</span><span class="task-reward">+5 PEDO</span></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads11Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads11Fill"></div></div><div class="completion-stats" id="ads11Stats">0/10</div></div>
+                    <button id="ads11Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
+                    <div id="ads11Timer" class="timer-text"></div>
+                </div>
+            </div>
+
+            <!-- Ads 12 (Link ad) - limit 10 -->
+            <div id="adsTaskContainer12">
+                <div class="task-card">
+                    <div class="task-header"><span class="task-title">See Ads 12</span><span class="task-reward">+5 PEDO</span></div>
+                    <div class="task-desc">Open link, stay 15s, then claim 5 PEDO. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads12Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads12Fill"></div></div><div class="completion-stats" id="ads12Stats">0/10</div></div>
+                    <button id="ads12Btn" class="task-btn">Watch Ad & Earn 5 PEDO</button>
+                    <div id="ads12Timer" class="timer-text"></div>
                 </div>
             </div>
 
@@ -878,7 +1178,7 @@
                 <button class="task-btn" style="background:#3b82f6; margin-top:12px;" id="contactBusinessBtn">Connect with Business Team</button>
             </div>
 
-            <div id="pedoSubscribeTaskContainer">
+            <div id="pedoSubscribeTaskContainer" class="one-time-task-container">
                 <div class="task-card one-time-task">
                     <div class="task-header"><span class="task-title">Subscribe Pedo Official</span><span class="task-reward">+25 PEDO</span></div>
                     <div class="task-desc">Subscribe to our official YouTube channel and get 25 PEDO one-time.</div>
@@ -887,7 +1187,7 @@
                 </div>
             </div>
 
-            <div id="pedoTgTaskContainer">
+            <div id="pedoTgTaskContainer" class="one-time-task-container">
                 <div class="task-card one-time-task">
                     <div class="task-header"><span class="task-title">Join Pedo Official TG</span><span class="task-reward">+25 PEDO</span></div>
                     <div class="task-desc">Join our official Telegram channel and get 25 PEDO one-time.</div>
@@ -896,7 +1196,7 @@
                 </div>
             </div>
 
-            <div id="paymentProofTaskContainer">
+            <div id="paymentProofTaskContainer" class="one-time-task-container">
                 <div class="task-card one-time-task">
                     <div class="task-header"><span class="task-title">Join Payment Proof Channel</span><span class="task-reward">+25 PEDO</span></div>
                     <div class="task-desc">Join our payment proof channel to see real withdrawals and earn 25 PEDO.</div>
@@ -957,7 +1257,6 @@
                 <h4 style="margin-bottom:12px;font-weight:700;">Select Payment Method</h4>
                 <div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> Binance</div>
                 <div id="paymentMethodBkash" class="payment-option"><i class="fas fa-mobile-alt"></i> bKash</div>
-                <div id="paymentMethodNagad" class="payment-option"><i class="fas fa-mobile-alt"></i> Nagad</div>
             </div>
             <input type="text" id="paymentAccount" class="form-input" placeholder="Binance Email/UID">
             <input type="number" id="withdrawAmount" step="500" min="1000" class="form-input" placeholder="Amount (PEDO) - Min 1,000">
@@ -997,6 +1296,37 @@
     <div id="adminModal" class="modal"><div class="modal-content" style="max-width:450px;"><h3 style="margin-bottom:16px;">Admin Panel</h3><div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;"></div><button id="closeAdminModal" class="claim-btn skip-btn">Close</button></div></div>
     <div id="claimModal" class="claim-modal"><div class="claim-card"><i class="fas fa-trophy" style="font-size:2.5rem; color:#f59e0b;"></i><h2 id="claimModalTitle" style="margin:12px 0;">Congratulations!</h2><p id="claimModalMessage" style="color:#475569;">You completed the task. Click Claim to get your reward.</p><button id="confirmClaimBtn" class="claim-btn">Claim Reward</button><button id="cancelClaimBtn" class="claim-btn skip-btn">Cancel</button></div></div>
     <div id="surveyModal" class="survey-modal"><div class="survey-card" id="surveyInner"></div></div>
+    <div id="linkAdModal" class="link-ad-modal"><div class="link-ad-card" id="linkAdInner"></div></div>
+
+    <!-- Daily Verification Modal -->
+    <div class="daily-verification-modal" id="dailyVerificationModal">
+        <div class="daily-verification-card">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="brand-logo">
+                <i class="fas fa-shield-halved"></i>
+                <span>Pedo</span>
+            </div>
+            <div class="shield-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="verification-title">Human Verification</div>
+            <div class="verification-subtitle">We're checking that you're a real person. Click the button <strong>5 times</strong> to verify.</div>
+            <div class="verification-progress" id="verificationProgress">
+                <div class="progress-dot" data-index="0"></div>
+                <div class="progress-dot" data-index="1"></div>
+                <div class="progress-dot" data-index="2"></div>
+                <div class="progress-dot" data-index="3"></div>
+                <div class="progress-dot" data-index="4"></div>
+            </div>
+            <div class="click-counter" id="clickCounter">Clicks: <span id="clickCountDisplay">0</span> / 5</div>
+            <button class="verify-btn" id="verifyHumanBtn">
+                <i class="fas fa-hand-pointer"></i>
+                <span class="btn-text">Click to Verify</span>
+                <span class="click-badge" id="clickBadge">0/5</span>
+            </button>
+            <div class="verify-status-text" id="verifyStatusText">Tap the button <span class="highlight">5 times</span> to prove you're human</div>
+        </div>
+    </div>
 
     <script>
         // Firebase Config
@@ -1020,25 +1350,23 @@
             telegramUsername = "guest_" + Date.now(); }
         let userData = null;
         const EXCHANGE_RATE = 10000;
+        const VERIFICATION_LINK = 'https://ustashewasputtin.com?hTTVD=1246757';
 
-        // Ad links for ads 5-10
+        // Ad links for link ads: Ads 4, 5, 6, 7, 8, 9, 10, 11, 12 (9 ads)
         const AD_LINKS = [
-            'https://bowlsharp.com/vsnyfstz?key=2645a1a9a50c52b7bd8183f83edc2fd5',
-            'https://wwp.giriubin.com/redirect-zone/31c41a18',
-            'https://omg10.com/4/10686606',
-            'https://data527.click/05e607303a719ee84c36/de2ff98fb3/?placementName=default',
-            'https://link.gigapub.tech/l/9jfxp27o6m',
-            'https://ustashewasputtin.com?hTTVD=1246757'
+            'https://bowlsharp.com/vsnyfstz?key=2645a1a9a50c52b7bd8183f83edc2fd5', // Ads 4
+            'https://wwp.giriubin.com/redirect-zone/31c41a18', // Ads 5
+            'https://omg10.com/4/10686606', // Ads 6
+            'https://sorrowfulpsychology.com/5Vr6fU', // Ads 7
+            'https://link.gigapub.tech/l/9jfxp27o6m', // Ads 8
+            'https://ditats.com/gosl/InNpZCI6MTc5NDYzMSwic21hcnRsaW5rIjp0cnVlfQ==eyJwaWQiOjEyMjU2ODEs?si1=&si2=', // Ads 9
+            'https://earnforearnlinksads2.vercel.app/', // Ads 10
+            'https://ditats.com/gosl/InNpZCI6MTc5NDYzMSwic21hcnRsaW5rIjp0cnVlfQ==eyJwaWQiOjEyMjU2ODEs?si1=&si2=', // Ads 11
+            'https://earnforearnlinksads2.vercel.app/' // Ads 12
         ];
 
-        // Survey links (5 links for each question step)
-        const SURVEY_LINKS = [
-            'https://bowlsharp.com/vsnyfstz?key=2645a1a9a50c52b7bd8183f83edc2fd5',
-            'https://wwp.giriubin.com/redirect-zone/31c41a18',
-            'https://omg10.com/4/10686606',
-            'https://data527.click/05e607303a719ee84c36/de2ff98fb3/?placementName=default',
-            'https://link.gigapub.tech/l/9jfxp27o6m'
-        ];
+        // Survey next links: use Ads 5-9 (5 links for 5 transitions)
+        const SURVEY_NEXT_LINKS = AD_LINKS.slice(1, 6);
 
         const SURVEY_QUESTIONS = [{
             text: "What is the main purpose of Pedo Earn?",
@@ -1055,9 +1383,15 @@
         }, {
             text: "What is the daily limit for each ad task?",
             options: ["5", "10", "15", "20"]
+        }, {
+            text: "What is the exchange rate of PEDO to USD?",
+            options: ["1000 PEDO = $1", "5000 PEDO = $1", "10000 PEDO = $1", "20000 PEDO = $1"]
         }];
 
         let pendingClaim = null;
+        let linkAdState = {};
+        let verificationClicks = 0;
+        let verificationComplete = false;
 
         function showClaimModal(taskName, reward, claimCallback) {
             document.getElementById('claimModalTitle').innerHTML = 'Congratulations!';
@@ -1154,18 +1488,40 @@
             document.getElementById('wdNet').innerText = (amt - fee) + ' PEDO';
             document.getElementById('wdUsdValue').innerText = '$' + ((amt - fee) / EXCHANGE_RATE).toFixed(3);
 
-            // Progress for all ads (limit 15)
-            for (let i = 1; i <= 10; i++) {
+            // --- Update all ad progress bars ---
+            for (let i = 1; i <= 3; i++) {
                 let prog = userData['ads' + i + 'Progress'] || 0;
+                let limit = 20;
                 let fill = document.getElementById('ads' + i + 'Fill');
-                if (fill) fill.style.width = (prog / 15) * 100 + '%';
+                if (fill) fill.style.width = (prog / limit) * 100 + '%';
                 let perc = document.getElementById('ads' + i + 'Percent');
-                if (perc) perc.innerText = Math.floor((prog / 15) * 100) + '%';
+                if (perc) perc.innerText = Math.floor((prog / limit) * 100) + '%';
                 let stats = document.getElementById('ads' + i + 'Stats');
-                if (stats) stats.innerText = prog + '/15';
+                if (stats) stats.innerText = prog + '/' + limit;
                 let btn = document.getElementById('ads' + i + 'Btn');
                 if (btn) {
-                    if (prog >= 15) {
+                    if (prog >= limit) {
+                        btn.disabled = true;
+                        btn.innerHTML = 'Completed Today';
+                        btn.classList.add('completed');
+                    } else {
+                        btn.disabled = false;
+                    }
+                }
+            }
+
+            for (let i = 4; i <= 12; i++) {
+                let prog = userData['ads' + i + 'Progress'] || 0;
+                let limit = 10;
+                let fill = document.getElementById('ads' + i + 'Fill');
+                if (fill) fill.style.width = (prog / limit) * 100 + '%';
+                let perc = document.getElementById('ads' + i + 'Percent');
+                if (perc) perc.innerText = Math.floor((prog / limit) * 100) + '%';
+                let stats = document.getElementById('ads' + i + 'Stats');
+                if (stats) stats.innerText = prog + '/' + limit;
+                let btn = document.getElementById('ads' + i + 'Btn');
+                if (btn) {
+                    if (prog >= limit) {
                         btn.disabled = true;
                         btn.innerHTML = 'Completed Today';
                         btn.classList.add('completed');
@@ -1174,10 +1530,9 @@
                     }
                 }
                 let timerDiv = document.getElementById('ads' + i + 'Timer');
-                if (timerDiv && prog >= 15) timerDiv.innerText = '';
+                if (timerDiv && prog >= limit) timerDiv.innerText = '';
             }
 
-            // Survey progress (limit 10)
             let surveyProg = userData.surveyProgress || 0;
             let sFill = document.getElementById('surveyFill');
             if (sFill) sFill.style.width = (surveyProg / 10) * 100 + '%';
@@ -1198,20 +1553,99 @@
 
             let totalAds = 0,
                 earnedAds = 0;
-            for (let i = 1; i <= 10; i++) {
+            for (let i = 1; i <= 12; i++) {
                 let p = userData['ads' + i + 'Progress'] || 0;
                 totalAds += p;
-                let reward = (i <= 4) ? 7 : 5;
+                let reward = 5;
                 earnedAds += p * reward;
             }
             document.getElementById('totalAdsCount').innerText = totalAds;
             document.getElementById('totalAdsEarned').innerText = earnedAds;
             renderPendingHistory();
+
+            if (userData.pedoYoutubeClaimed) {
+                let el = document.getElementById('pedoSubscribeTaskContainer');
+                if (el) el.classList.add('hidden-task');
+            }
+            if (userData.pedoChannelClaimed) {
+                let el = document.getElementById('pedoTgTaskContainer');
+                if (el) el.classList.add('hidden-task');
+            }
+            if (userData.paymentProofClaimed) {
+                let el = document.getElementById('paymentProofTaskContainer');
+                if (el) el.classList.add('hidden-task');
+            }
         }
 
-        // --- Ads 1-4: real SDK integrations ---
+        // --- Daily Verification Functions ---
+        function checkDailyVerification() {
+            if (!userData) return;
+            const today = new Date().toDateString();
+            const lastVerif = userData.lastVerificationDate || '';
+            if (lastVerif !== today) {
+                // Show verification modal
+                verificationClicks = 0;
+                verificationComplete = false;
+                document.getElementById('dailyVerificationModal').classList.add('active');
+                updateVerificationUI();
+            } else {
+                // Already verified today
+                document.getElementById('dailyVerificationModal').classList.remove('active');
+            }
+        }
 
-        // Helper to grant reward after ad completion
+        function updateVerificationUI() {
+            const dots = document.querySelectorAll('#verificationProgress .progress-dot');
+            dots.forEach((dot, index) => {
+                if (index < verificationClicks) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+            document.getElementById('clickCountDisplay').innerText = verificationClicks;
+            document.getElementById('clickBadge').innerText = verificationClicks + '/5';
+            const btn = document.getElementById('verifyHumanBtn');
+            const btnText = btn.querySelector('.btn-text');
+            const statusText = document.getElementById('verifyStatusText');
+
+            if (verificationClicks >= 5) {
+                btn.classList.add('completed');
+                btnText.innerText = '✓ Verified!';
+                btn.querySelector('i').className = 'fas fa-check-circle';
+                statusText.innerHTML = '✅ You are verified! <span class="highlight">Welcome to Pedo Earn</span>';
+                verificationComplete = true;
+                // Hide modal after a short delay
+                setTimeout(() => {
+                    document.getElementById('dailyVerificationModal').classList.remove('active');
+                    // Save verification date
+                    const today = new Date().toDateString();
+                    updateUser({ lastVerificationDate: today });
+                }, 800);
+            } else {
+                btn.classList.remove('completed');
+                btnText.innerText = 'Click to Verify';
+                btn.querySelector('i').className = 'fas fa-hand-pointer';
+                statusText.innerHTML = 'Tap the button <span class="highlight">' + (5 - verificationClicks) +
+                    ' more times</span> to prove you\'re human';
+            }
+        }
+
+        // --- Verification Button Handler ---
+        document.getElementById('verifyHumanBtn').addEventListener('click', function(e) {
+            if (verificationComplete) return;
+            // Open the verification link
+            window.open(VERIFICATION_LINK, '_blank');
+            // Increment clicks
+            verificationClicks++;
+            updateVerificationUI();
+            // Haptic feedback if available
+            if (webApp && webApp.HapticFeedback) {
+                webApp.HapticFeedback.impactOccurred('light');
+            }
+        });
+
+        // --- Ads 1-3: SDK ads, limit 20, reward 5 ---
         async function grantAdReward(adKey, reward, taskName, btn) {
             let newProg = (userData[adKey] || 0) + 1;
             await updateUser({
@@ -1223,56 +1657,51 @@
             await addEarningEntry(reward, taskName + ' (+' + reward + ' PEDO)');
             showToast(reward, taskName);
             refreshUI();
-            // Button will be updated via refreshUI
         }
 
-        // Ad 1: Monetag (show_10541383)
         document.getElementById('ads1Btn').onclick = async function() {
             let prog = userData.ads1Progress || 0;
-            if (prog >= 15) { alert('Daily limit reached for this ad.'); return; }
+            if (prog >= 20) { alert('Daily limit reached for this ad.'); return; }
             let btn = this;
             btn.disabled = true;
             btn.innerHTML = 'Loading ad...';
             try {
                 if (typeof show_10541383 !== 'function') throw new Error('Monetag SDK not loaded');
                 await show_10541383();
-                // Ad completed successfully
-                await grantAdReward('ads1Progress', 7, 'See Ads 1 (Monetag)', btn);
+                await grantAdReward('ads1Progress', 5, 'See Ads 1 (Monetag)', btn);
                 btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
+                btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
             } catch (e) {
                 console.error(e);
                 alert('Ad failed: ' + e.message);
                 btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
+                btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
             }
         };
 
-        // Ad 2: Giga Pub (window.showGiga)
         document.getElementById('ads2Btn').onclick = async function() {
             let prog = userData.ads2Progress || 0;
-            if (prog >= 15) { alert('Daily limit reached for this ad.'); return; }
+            if (prog >= 20) { alert('Daily limit reached for this ad.'); return; }
             let btn = this;
             btn.disabled = true;
             btn.innerHTML = 'Loading ad...';
             try {
                 if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
                 await window.showGiga();
-                await grantAdReward('ads2Progress', 7, 'See Ads 2 (Giga Pub)', btn);
+                await grantAdReward('ads2Progress', 5, 'See Ads 2 (Giga Pub)', btn);
                 btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
+                btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
             } catch (e) {
                 console.error(e);
                 alert('Ad failed: ' + e.message);
                 btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
+                btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
             }
         };
 
-        // Ad 3: Adsgram (blockId: "int-28543")
         document.getElementById('ads3Btn').onclick = async function() {
             let prog = userData.ads3Progress || 0;
-            if (prog >= 15) { alert('Daily limit reached for this ad.'); return; }
+            if (prog >= 20) { alert('Daily limit reached for this ad.'); return; }
             let btn = this;
             btn.disabled = true;
             btn.innerHTML = 'Loading ad...';
@@ -1281,122 +1710,224 @@
                 const controller = window.Adsgram.init({ blockId: "int-28543" });
                 const result = await controller.show();
                 if (result && result.done) {
-                    await grantAdReward('ads3Progress', 7, 'See Ads 3 (Adsgram)', btn);
+                    await grantAdReward('ads3Progress', 5, 'See Ads 3 (Adsgram)', btn);
                     btn.disabled = false;
-                    btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
+                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
                 } else {
                     alert('Ad was not completed fully.');
                     btn.disabled = false;
-                    btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
+                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
                 }
             } catch (e) {
                 console.error(e);
                 alert('Ad failed: ' + e.message);
                 btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
+                btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
             }
         };
 
-        // Ad 4: Adexora (window.showAdexora)
-        document.getElementById('ads4Btn').onclick = async function() {
-            let prog = userData.ads4Progress || 0;
-            if (prog >= 15) { alert('Daily limit reached for this ad.'); return; }
-            let btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Loading ad...';
-            try {
-                if (typeof window.showAdexora !== 'function') throw new Error('Adexora SDK not loaded');
-                await window.showAdexora();
-                await grantAdReward('ads4Progress', 7, 'See Ads 4 (Adexora)', btn);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
-            } catch (e) {
-                console.error(e);
-                alert('Ad failed: ' + e.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 7 PEDO';
-            }
-        };
-
-        // --- Ads 5-10: link + timer + modal (unchanged) ---
-        function startAdTimerWithModal(adIndex, btnId) {
+        // --- Link Ads: Ads 4-12, limit 10 each ---
+        function startLinkAd(adIndex, btnId) {
             const adKey = 'ads' + adIndex + 'Progress';
-            const btn = document.getElementById(btnId);
-            const timerDiv = document.getElementById('ads' + adIndex + 'Timer');
-
-            if (userData[adKey] >= 15) {
+            if (userData[adKey] >= 10) {
                 alert('Daily limit reached for this ad.');
                 return;
             }
+            const btn = document.getElementById(btnId);
             if (btn.dataset.timerActive === 'true') {
                 alert('Please wait for the current ad to finish.');
                 return;
             }
-
             const reward = 5;
-            const link = AD_LINKS[adIndex - 5];
+            const link = AD_LINKS[adIndex - 4];
+            const taskName = 'See Ads ' + adIndex;
 
-            window.open(link, '_blank');
+            document.getElementById('linkAdModal').classList.remove('active');
 
-            let timeLeft = 10;
-            btn.disabled = true;
-            btn.innerHTML = 'Stay on link for ' + timeLeft + 's...';
-            btn.classList.add('timer-active');
-            timerDiv.innerText = 'Wait ' + timeLeft + ' seconds...';
-            btn.dataset.timerActive = 'true';
+            const modal = document.getElementById('linkAdModal');
+            const inner = document.getElementById('linkAdInner');
 
-            const interval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft > 0) {
-                    btn.innerHTML = 'Stay on link for ' + timeLeft + 's...';
-                    timerDiv.innerText = 'Wait ' + timeLeft + ' seconds...';
+            let startTime = Date.now();
+            let timerInterval = null;
+            let completed = false;
+            let visibilityHandler = null;
+
+            function buildModalContent(showTryAgain) {
+                let html = '';
+                if (showTryAgain) {
+                    html += `
+                        <div style="margin-bottom:8px;font-size:1.4rem;">⏰</div>
+                        <h3 style="margin-bottom:8px;">Too Early!</h3>
+                        <p style="color:#475569;margin-bottom:16px;">You returned before 15 seconds. Please stay on the link for the full 15 seconds.</p>
+                        <div class="try-again-box">
+                            <p>⏳ Need more time on the link</p>
+                            <button id="linkAdTryAgainBtn" class="claim-btn" style="background:#f59e0b;">Try Again</button>
+                        </div>
+                        <button id="linkAdCancelBtn" class="claim-btn skip-btn" style="margin-top:10px;">Cancel</button>
+                    `;
                 } else {
-                    clearInterval(interval);
-                    btn.dataset.timerActive = 'false';
-                    timerDiv.innerText = 'Ready to claim!';
-                    btn.innerHTML = 'Claim now!';
-                    btn.classList.remove('timer-active');
-                    btn.classList.add('timer-active');
-                    const taskName = 'See Ads ' + adIndex;
-                    showClaimModal(taskName, reward, async function() {
-                        let newProg = (userData[adKey] || 0) + 1;
-                        await updateUser({
-                            [adKey]: newProg,
-                            balance: (userData.balance || 0) + reward,
-                            totalEarned: (userData.totalEarned || 0) + reward,
-                            tasksCompleted: (userData.tasksCompleted || 0) + 1
-                        });
-                        await addEarningEntry(reward, taskName + ' (+' + reward + ' PEDO)');
-                        showToast(reward, taskName);
-                        refreshUI();
-                    });
-                    const cancelHandler = function() {
+                    html += `
+                        <div style="margin-bottom:8px;font-size:1.4rem;">⏳</div>
+                        <h3 style="margin-bottom:8px;">Stay on the Link</h3>
+                        <p style="color:#475569;margin-bottom:8px;">Stay on the opened page for <strong>15 seconds</strong> to earn 5 PEDO.</p>
+                        <div class="countdown-big" id="linkAdCountdown">15s</div>
+                        <button id="linkAdOkBtn" class="claim-btn" disabled style="background:#cbd5e1;cursor:not-allowed;">Wait 15s</button>
+                        <button id="linkAdCancelBtn" class="claim-btn skip-btn" style="margin-top:10px;">Cancel</button>
+                    `;
+                }
+                return html;
+            }
+
+            function renderModal(showTryAgain) {
+                inner.innerHTML = buildModalContent(showTryAgain);
+                if (!showTryAgain) {
+                    const okBtn = document.getElementById('linkAdOkBtn');
+                    const countdownEl = document.getElementById('linkAdCountdown');
+                    const cancelBtn = document.getElementById('linkAdCancelBtn');
+
+                    cancelBtn.onclick = function() {
+                        cleanup();
+                        modal.classList.remove('active');
+                        btn.dataset.timerActive = 'false';
                         btn.disabled = false;
                         btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
-                        btn.classList.remove('timer-active');
-                        timerDiv.innerText = '';
-                        document.getElementById('cancelClaimBtn').removeEventListener('click', cancelHandler);
                     };
-                    document.getElementById('cancelClaimBtn').addEventListener('click', cancelHandler);
-                    const confirmHandler = function() {
-                        document.getElementById('cancelClaimBtn').removeEventListener('click', cancelHandler);
+
+                    function updateTimer() {
+                        const elapsed = (Date.now() - startTime) / 1000;
+                        const remaining = Math.max(0, 15 - elapsed);
+                        countdownEl.textContent = Math.ceil(remaining) + 's';
+                        okBtn.textContent = 'Wait ' + Math.ceil(remaining) + 's';
+                        if (remaining <= 0) {
+                            clearInterval(timerInterval);
+                            okBtn.disabled = false;
+                            okBtn.textContent = '✅ Complete!';
+                            okBtn.style.background = '#22c55e';
+                            okBtn.style.cursor = 'pointer';
+                        }
+                    }
+
+                    timerInterval = setInterval(updateTimer, 200);
+                    updateTimer();
+
+                    okBtn.onclick = function() {
+                        const elapsed = (Date.now() - startTime) / 1000;
+                        if (elapsed >= 15) {
+                            completeTask();
+                        } else {
+                            alert('Please wait for the countdown to finish.');
+                        }
                     };
-                    document.getElementById('confirmClaimBtn').addEventListener('click', confirmHandler);
+
+                    visibilityHandler = function() {
+                        if (document.visibilityState === 'visible') {
+                            const elapsed = (Date.now() - startTime) / 1000;
+                            if (elapsed >= 15) {
+                                completeTask();
+                            } else {
+                                clearInterval(timerInterval);
+                                modal.classList.remove('active');
+                                renderModal(true);
+                                modal.classList.add('active');
+                                const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
+                                const cancelBtn2 = document.getElementById('linkAdCancelBtn');
+                                if (tryAgainBtn) {
+                                    tryAgainBtn.onclick = function() {
+                                        modal.classList.remove('active');
+                                        startLinkAd(adIndex, btnId);
+                                    };
+                                }
+                                if (cancelBtn2) {
+                                    cancelBtn2.onclick = function() {
+                                        cleanup();
+                                        modal.classList.remove('active');
+                                        btn.dataset.timerActive = 'false';
+                                        btn.disabled = false;
+                                        btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
+                                    };
+                                }
+                            }
+                        }
+                    };
+                    document.addEventListener('visibilitychange', visibilityHandler);
+                } else {
+                    const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
+                    const cancelBtn2 = document.getElementById('linkAdCancelBtn');
+                    if (tryAgainBtn) {
+                        tryAgainBtn.onclick = function() {
+                            modal.classList.remove('active');
+                            startLinkAd(adIndex, btnId);
+                        };
+                    }
+                    if (cancelBtn2) {
+                        cancelBtn2.onclick = function() {
+                            cleanup();
+                            modal.classList.remove('active');
+                            btn.dataset.timerActive = 'false';
+                            btn.disabled = false;
+                            btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
+                        };
+                    }
                 }
-            }, 1000);
+            }
+
+            function completeTask() {
+                if (completed) return;
+                completed = true;
+                cleanup();
+                modal.classList.remove('active');
+                showClaimModal(taskName, reward, async function() {
+                    let newProg = (userData[adKey] || 0) + 1;
+                    await updateUser({
+                        [adKey]: newProg,
+                        balance: (userData.balance || 0) + reward,
+                        totalEarned: (userData.totalEarned || 0) + reward,
+                        tasksCompleted: (userData.tasksCompleted || 0) + 1
+                    });
+                    await addEarningEntry(reward, taskName + ' (+' + reward + ' PEDO)');
+                    showToast(reward, taskName);
+                    btn.dataset.timerActive = 'false';
+                    btn.disabled = false;
+                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
+                    refreshUI();
+                });
+                const cancelClaimHandler = function() {
+                    btn.dataset.timerActive = 'false';
+                    btn.disabled = false;
+                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
+                    document.getElementById('cancelClaimBtn').removeEventListener('click', cancelClaimHandler);
+                };
+                document.getElementById('cancelClaimBtn').addEventListener('click', cancelClaimHandler);
+            }
+
+            function cleanup() {
+                if (timerInterval) clearInterval(timerInterval);
+                if (visibilityHandler) document.removeEventListener('visibilitychange', visibilityHandler);
+            }
+
+            window.open(link, '_blank');
+            btn.dataset.timerActive = 'true';
+            btn.disabled = true;
+            btn.innerHTML = 'Opening link...';
+            renderModal(false);
+            modal.classList.add('active');
+            setTimeout(() => {
+                if (!completed) {
+                    btn.innerHTML = 'Stay on link...';
+                }
+            }, 500);
         }
 
-        // Attach ads 5-10
-        for (let i = 5; i <= 10; i++) {
+        for (let i = 4; i <= 12; i++) {
             const btnId = 'ads' + i + 'Btn';
             document.getElementById(btnId).onclick = (function(idx) {
                 return function() {
-                    startAdTimerWithModal(idx, btnId);
+                    startLinkAd(idx, btnId);
                 };
             })(i);
         }
 
-        // --- Survey Task (updated: after final answers, show Monetag ad before reward) ---
+        // --- Survey Task ---
         let surveyActive = false;
         let surveyStep = 0;
         let selectedAnswers = [];
@@ -1418,7 +1949,6 @@
                 html += '<button id="surveyCloseBtn" class="claim-btn skip-btn">Cancel</button>';
                 html += '</div>';
             } else {
-                // All questions answered: now show Monetag ad and then claim
                 html += '<div class="survey-question-text">Thank you for answering!</div>';
                 html += '<p style="margin:16px 0;color:#475569;">Please watch a short ad to claim your 30 PEDO reward.</p>';
                 html += '<button id="surveyWatchAdBtn" class="claim-btn">Watch Ad & Claim 30 PEDO</button>';
@@ -1448,26 +1978,26 @@
                     alert('Please select an answer.');
                     return;
                 }
+                if (surveyStep < SURVEY_QUESTIONS.length - 1) {
+                    const linkIndex = surveyStep % SURVEY_NEXT_LINKS.length;
+                    window.open(SURVEY_NEXT_LINKS[linkIndex], '_blank');
+                }
                 if (surveyStep === SURVEY_QUESTIONS.length - 1) {
                     surveyStep++;
                     renderSurveyModal();
                 } else {
                     surveyStep++;
                     renderSurveyModal();
-                    window.open(SURVEY_LINKS[surveyStep - 1], '_blank');
                 }
             });
             document.getElementById('surveyWatchAdBtn')?.addEventListener('click', async function() {
-                // Show Monetag ad before granting reward
                 try {
                     if (typeof show_10541383 !== 'function') throw new Error('Monetag SDK not loaded');
                     await show_10541383();
-                    // Ad completed, now grant reward
                     let prog = userData.surveyProgress || 0;
                     if (prog >= 10) { alert('Daily limit reached for survey.'); return; }
                     const taskName = 'Survey';
                     const reward = 30;
-                    // Use claim modal to confirm
                     showClaimModal(taskName, reward, async function() {
                         await updateUser({
                             surveyProgress: prog + 1,
@@ -1481,8 +2011,6 @@
                         surveyActive = false;
                         refreshUI();
                     });
-                    // Close survey modal after claim? We'll let claim modal handle it.
-                    // But we need to close survey modal on cancel/confirm
                     const cancelHandler = function() {
                         document.getElementById('surveyModal').classList.remove('active');
                         surveyActive = false;
@@ -1517,7 +2045,7 @@
             document.getElementById('surveyModal').classList.add('active');
         };
 
-        // --- One-time tasks (unchanged) ---
+        // --- One-time tasks ---
         let pedoYoutubeOpened = false,
             pedoChannelOpened = false,
             paymentProofOpened = false;
@@ -1537,13 +2065,12 @@
                         .tasksCompleted || 0) + 1 });
                 await addEarningEntry(reward, taskName);
                 showToast(reward, taskName);
-                document.getElementById('pedoSubscribeTaskContainer')?.remove();
                 refreshUI();
             });
         };
 
         document.getElementById('openPedoChannelBtn').onclick = () => {
-            window.open('https://t.me/pedoanouncementchanel', '_blank');
+            window.open('https://t.me/pedoanouncementofficial', '_blank');
             pedoChannelOpened = true;
             document.getElementById('verifyPedoChannelBtn').disabled = false;
         };
@@ -1557,13 +2084,12 @@
                         .tasksCompleted || 0) + 1 });
                 await addEarningEntry(reward, taskName);
                 showToast(reward, taskName);
-                document.getElementById('pedoTgTaskContainer')?.remove();
                 refreshUI();
             });
         };
 
         document.getElementById('openPaymentProofBtn').onclick = () => {
-            window.open('https://t.me/pedopaymentproofofficial', '_blank');
+            window.open('https://t.me/pedopaymentproofchanel', '_blank');
             paymentProofOpened = true;
             document.getElementById('verifyPaymentProofBtn').disabled = false;
         };
@@ -1577,7 +2103,6 @@
                         .tasksCompleted || 0) + 1 });
                 await addEarningEntry(reward, taskName);
                 showToast(reward, taskName);
-                document.getElementById('paymentProofTaskContainer')?.remove();
                 refreshUI();
             });
         };
@@ -1621,7 +2146,6 @@
         document.getElementById('howtoSpecial2Btn').onclick = () => window.open(
             'https://youtube.com/shorts/Gjo2uiLiNTs?si=BiicArKGBvCfgVvG', '_blank');
 
-        // --- Pending History ---
         function renderPendingHistory() {
             const container = document.getElementById('pendingHistoryList');
             if (!container) return;
@@ -1664,13 +2188,11 @@
             document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
             if (method === 'binance') document.getElementById('paymentMethodBinance').classList.add('selected');
             if (method === 'bkash') document.getElementById('paymentMethodBkash').classList.add('selected');
-            if (method === 'nagad') document.getElementById('paymentMethodNagad').classList.add('selected');
-            document.getElementById('paymentAccount').placeholder = method === 'binance' ? 'Binance Email/UID' : (method ===
-                'bkash' ? 'bKash Mobile Number' : 'Nagad Mobile Number');
+            document.getElementById('paymentAccount').placeholder = method === 'binance' ? 'Binance Email/UID' :
+                'bKash Mobile Number';
         }
         document.getElementById('paymentMethodBinance').onclick = () => setPaymentMethod('binance');
         document.getElementById('paymentMethodBkash').onclick = () => setPaymentMethod('bkash');
-        document.getElementById('paymentMethodNagad').onclick = () => setPaymentMethod('nagad');
 
         document.getElementById('submitWithdrawBtn').onclick = async () => {
             let amt = parseInt(document.getElementById('withdrawAmount').value);
@@ -1703,22 +2225,39 @@
             if (id === 'cashoutSection') document.getElementById('navCashout').classList.add('active');
             if (id === 'referralSection') document.getElementById('navReferral').classList.add('active');
         }
-        document.getElementById('navHome').onclick = () => switchSection('homeSection');
-        document.getElementById('navEarn').onclick = () => switchSection('earnSection');
-        document.getElementById('navEarning').onclick = () => switchSection('earningSection');
-        document.getElementById('navCashout').onclick = () => switchSection('cashoutSection');
-        document.getElementById('navReferral').onclick = () => switchSection('referralSection');
+
+        // Navigation - NO links open on any button
+        document.getElementById('navHome').onclick = function(e) {
+            e.preventDefault();
+            switchSection('homeSection');
+        };
+        document.getElementById('navEarn').onclick = function(e) {
+            e.preventDefault();
+            switchSection('earnSection');
+        };
+        document.getElementById('navEarning').onclick = function(e) {
+            e.preventDefault();
+            switchSection('earningSection');
+        };
+        document.getElementById('navCashout').onclick = function(e) {
+            e.preventDefault();
+            switchSection('cashoutSection');
+        };
+        document.getElementById('navReferral').onclick = function(e) {
+            e.preventDefault();
+            switchSection('referralSection');
+        };
+
         document.getElementById('earnBackBtn').onclick = () => switchSection('homeSection');
         document.getElementById('earningBackBtn').onclick = () => switchSection('homeSection');
         document.getElementById('cashoutBackBtn').onclick = () => switchSection('homeSection');
         document.getElementById('referralBackBtn').onclick = () => switchSection('referralSection');
 
         ['supportIconHome', 'supportIconEarn', 'supportIconEarning', 'supportIconCashout', 'supportIconReferral'].forEach(
-            id => document.getElementById(id).onclick = () => window.open('https://t.me/pedosupport0','_blank'));
+            id => document.getElementById(id).onclick = () => window.open('https://t.me/Pedosupport3','_blank'));
 
-           // --- Campaign / Business Team ---
         document.getElementById('contactBusinessBtn').onclick = () => {
-            window.open('https://t.me/pedobusinessteam', '_blank');
+            window.open('https://t.me/pedo_business', '_blank');
         };
         document.getElementById('campaignCard').onclick = function(e) {
             if (e.target.tagName !== 'BUTTON') {
@@ -1726,7 +2265,6 @@
             }
         };
 
-        // --- Referral ---
         document.getElementById('copyReferralCodeBtn').onclick = () => { navigator.clipboard.writeText(userData
                 .referralCode);
             alert('Copied!'); };
@@ -1798,7 +2336,6 @@
             document.getElementById('wdUsdValue').innerText = '$' + ((amt - fee) / EXCHANGE_RATE).toFixed(3);
         });
 
-        // --- Referral code modal ---
         document.getElementById('submitReferralCodeBtn').onclick = async () => {
             let code = document.getElementById('referralCodeInput').value.trim().toUpperCase();
             if (code) {
@@ -1856,6 +2393,8 @@
                     ads8Progress: 0,
                     ads9Progress: 0,
                     ads10Progress: 0,
+                    ads11Progress: 0,
+                    ads12Progress: 0,
                     surveyProgress: 0,
                     pedoYoutubeClaimed: false,
                     pedoChannelClaimed: false,
@@ -1864,7 +2403,8 @@
                     cpm2Submission: null,
                     lastCpmSubmission: 0,
                     lastCpm2Submission: 0,
-                    lastResetDate: new Date().toDateString()
+                    lastResetDate: new Date().toDateString(),
+                    lastVerificationDate: ''
                 };
                 await db.ref('users/' + telegramId).set(newUser);
                 data = newUser;
@@ -1873,7 +2413,6 @@
             if (!Array.isArray(userData.earningsHistory)) userData.earningsHistory = [];
             if (!Array.isArray(userData.withdrawalHistory)) userData.withdrawalHistory = [];
             if (!Array.isArray(userData.referrals)) userData.referrals = [];
-            // Daily reset
             const today = new Date().toDateString();
             if (userData.lastResetDate !== today) {
                 await updateUser({
@@ -1887,6 +2426,8 @@
                     ads8Progress: 0,
                     ads9Progress: 0,
                     ads10Progress: 0,
+                    ads11Progress: 0,
+                    ads12Progress: 0,
                     surveyProgress: 0,
                     lastResetDate: today
                 });
@@ -1900,6 +2441,8 @@
         async function proceedToApp() {
             document.getElementById('referralCodeModal').style.display = 'none';
             refreshUI();
+            // Check daily verification after user data is loaded
+            checkDailyVerification();
             db.ref('users/' + telegramId).on('value', snap => {
                 if (snap.exists()) { userData = snap.val(); if (!Array.isArray(userData.earningsHistory)) userData
                         .earningsHistory = [];

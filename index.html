@@ -1900,7 +1900,7 @@
                 </div>
                 <div class="step-item" data-step="4">
                     <div class="step-num">5</div>
-                    <div class="step-info"><div class="step-label">Open Link (10s wait)</div><div class="step-desc">Step 5 of 5 – final step</div></div>
+                    <div class="step-info"><div class="step-label">Open Link (instant complete)</div><div class="step-desc">Step 5 of 5 – final step</div></div>
                     <div class="step-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </div>
             </div>
@@ -3185,35 +3185,25 @@
                     ], 'Step ' + (idx + 1));
                     if (!success) throw new Error('All ad fallbacks failed');
                 } else if (idx === 4) {
-                    // Step 5: Open link with 10 seconds wait - now uses the same modal as survey
+                    // Step 5: Open link and complete instantly (no timer)
                     const link =
                         'https://ditats.com/gosl/InNpZCI6MTc3OTE0NCwic21hcnRsaW5rIjp0cnVlfQ==eyJwaWQiOjEyMjU2ODEs?si1=&si2=';
-                    // Use the link wait modal
-                    return new Promise((resolve, reject) => {
-                        showLinkWaitModal(link, 10,
-                            // onComplete
-                            function() {
-                                gcStepsCompleted[idx] = true;
-                                gcStepIndex = idx + 1;
-                                renderStepsUI();
-                                showToast(0, 'Step 5 completed!');
-                                // Check if all done
-                                if (gcStepsCompleted.every(v => v === true)) {
-                                    setTimeout(() => {
-                                        document.getElementById('gameStepsModal').classList.remove(
-                                        'active');
-                                        startTicTacToe();
-                                    }, 500);
-                                }
-                                resolve();
-                            },
-                            // onCancel
-                            function() {
-                                // User cancelled, just resolve without completing
-                                resolve();
-                            }
-                        );
-                    });
+                    window.open(link, '_blank');
+
+                    // Mark step as completed immediately
+                    gcStepsCompleted[idx] = true;
+                    gcStepIndex = idx + 1;
+                    renderStepsUI();
+                    showToast(0, 'Step 5 completed!');
+
+                    // Check if all steps are done
+                    if (gcStepsCompleted.every(v => v === true)) {
+                        setTimeout(() => {
+                            document.getElementById('gameStepsModal').classList.remove('active');
+                            startTicTacToe();
+                        }, 400);
+                    }
+                    return; // exit early
                 }
 
                 // If we get here (non-link steps), mark completed
@@ -3421,7 +3411,7 @@
                 document.getElementById('tttTurn').textContent = 'You Win!';
                 setTimeout(() => {
                     document.getElementById('gameTttModal').classList.remove('active');
-                    showGameResult('win', 30); // Win reward now 30
+                    showGameResult('win', 30);
                 }, 600);
             } else if (result.winner === 'O') {
                 result.cells.forEach(i => cells[i].classList.add('win-cell'));

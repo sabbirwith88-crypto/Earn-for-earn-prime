@@ -970,7 +970,7 @@
             transform: scale(1.25);
         }
 
-        /* ── Tic Tac Toe Game ── */
+        /* ── Tic Tac Toe Game (no reset button) ── */
         .game-ttt-card {
             background: linear-gradient(145deg, #0f172a, #1e293b);
             border-radius: 40px;
@@ -1099,6 +1099,7 @@
             gap: 12px;
             position: relative;
             z-index: 1;
+            justify-content: center;
         }
         .game-ttt-card .ttt-actions .ttt-btn {
             flex: 1;
@@ -1109,6 +1110,7 @@
             font-size: 0.9rem;
             cursor: pointer;
             transition: 0.2s;
+            max-width: 160px;
         }
         .game-ttt-card .ttt-actions .ttt-btn:active {
             transform: scale(0.96);
@@ -1507,6 +1509,27 @@
             font-size: 0.85rem;
             color: #475569;
         }
+
+        /* Link wait modal countdown big */
+        .countdown-big {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #000;
+            margin: 16px 0;
+            letter-spacing: -2px;
+        }
+        .try-again-box {
+            margin-top: 16px;
+            padding: 16px;
+            background: #fef2f2;
+            border-radius: 24px;
+            border: 1px solid #fecaca;
+        }
+        .try-again-box p {
+            color: #dc2626;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -1570,7 +1593,7 @@
                 </div>
             </div>
 
-            <!-- Ads 2 (Adexora) - CHANGED from Giga Pub to Adexora -->
+            <!-- Ads 2 (Adexora) -->
             <div id="adsTaskContainer2">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 2 (Adexora)</span><span class="task-reward">+5 PEDO</span></div>
@@ -1590,7 +1613,7 @@
                 </div>
             </div>
 
-            <!-- Ads 4-12 (Link ads) -->
+            <!-- Ads 4-12 (Link ads) - using generic link wait with 15 seconds -->
             <div id="adsTaskContainer4">
                 <div class="task-card">
                     <div class="task-header"><span class="task-title">See Ads 4</span><span class="task-reward">+5 PEDO</span></div>
@@ -1699,7 +1722,7 @@
             <div class="stats-box"><div class="stats-box-title">PEDO Earned Today from Ads</div><div class="stats-box-value" id="totalAdsEarned">0</div></div>
         </div>
 
-        <!-- ─── EARNING (Tasks only, no Game Challenge) ─── -->
+        <!-- ─── EARNING (Tasks only) ─── -->
         <div id="earningSection" class="content-section">
             <div class="section-header"><div class="back-button" id="earningBackBtn"><span>←</span> Back</div><div class="support-icon" id="supportIconEarning"><i class="fas fa-headset"></i></div></div>
 
@@ -1782,16 +1805,16 @@
             </div>
             <div class="withdraw-requirements-box">
                 <div class="requirement-header"><i class="fas fa-clipboard-list"></i> <span>Withdrawal Requirements</span></div>
-                <div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title">Minimum Balance</div><div class="req-value">1,000 PEDO needed</div></div><div class="req-status" id="reqStatusBal">○</div></div>
+                <div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title">Minimum Balance</div><div class="req-value" id="minBalReq">1,000 PEDO needed</div></div><div class="req-status" id="reqStatusBal">○</div></div>
                 <div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title">Referrals Required</div><div class="req-value">At least 3 active referrals</div></div><div class="req-status" id="reqStatusRef">○</div></div>
             </div>
             <div style="background:#f8fafc; border-radius:32px; padding:22px;">
                 <h4 style="margin-bottom:12px;font-weight:700;">Select Payment Method</h4>
-                <div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> Binance</div>
-                <div id="paymentMethodBkash" class="payment-option"><i class="fas fa-mobile-alt"></i> bKash</div>
+                <div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> Binance (min 1000 PEDO)</div>
+                <div id="paymentMethodBkash" class="payment-option"><i class="fas fa-mobile-alt"></i> bKash (min 2000 PEDO)</div>
             </div>
             <input type="text" id="paymentAccount" class="form-input" placeholder="Binance Email/UID">
-            <input type="number" id="withdrawAmount" step="500" min="1000" class="form-input" placeholder="Amount (PEDO) - Min 1,000">
+            <input type="number" id="withdrawAmount" step="500" min="1000" class="form-input" placeholder="Amount (PEDO)">
             <div style="background:#fff; border-radius:32px; padding:20px; border:1px solid #eef2f6;">
                 <div class="fee-breakdown"><span>Amount</span><span id="wdAmount">0 PEDO</span></div>
                 <div class="fee-breakdown"><span>Fee (10%)</span><span id="wdFee">0 PEDO</span></div>
@@ -1836,10 +1859,10 @@
     <!-- Claim -->
     <div id="claimModal" class="claim-modal"><div class="claim-card"><i class="fas fa-trophy" style="font-size:2.5rem; color:#f59e0b;"></i><h2 id="claimModalTitle" style="margin:12px 0;">Congratulations!</h2><p id="claimModalMessage" style="color:#475569;">You completed the task. Click Claim to get your reward.</p><button id="confirmClaimBtn" class="claim-btn">Claim Reward</button><button id="cancelClaimBtn" class="claim-btn skip-btn">Cancel</button></div></div>
 
-    <!-- Survey -->
+    <!-- Survey Modal -->
     <div id="surveyModal" class="survey-modal"><div class="survey-card" id="surveyInner"></div></div>
 
-    <!-- Link Ad -->
+    <!-- Link Ad Modal - reused for all link wait tasks -->
     <div id="linkAdModal" class="link-ad-modal"><div class="link-ad-card" id="linkAdInner"></div></div>
 
     <!-- ─── GAME CHALLENGE: STEPS MODAL ─── -->
@@ -1877,7 +1900,7 @@
                 </div>
                 <div class="step-item" data-step="4">
                     <div class="step-num">5</div>
-                    <div class="step-info"><div class="step-label">Open Link</div><div class="step-desc">Step 5 of 5 – final step</div></div>
+                    <div class="step-info"><div class="step-label">Open Link (10s wait)</div><div class="step-desc">Step 5 of 5 – final step</div></div>
                     <div class="step-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </div>
             </div>
@@ -1885,7 +1908,7 @@
         </div>
     </div>
 
-    <!-- ─── TIC TAC TOE GAME MODAL ─── -->
+    <!-- ─── TIC TAC TOE GAME MODAL (Reset button removed) ─── -->
     <div id="gameTttModal" class="game-challenge-modal">
         <div class="game-ttt-card">
             <div class="ttt-header">
@@ -1908,7 +1931,7 @@
                 <div class="ttt-cell" data-i="8"></div>
             </div>
             <div class="ttt-actions">
-                <button class="ttt-btn ttt-btn-secondary" id="tttResetBtn"><i class="fas fa-redo"></i> Reset</button>
+                <!-- Reset button removed -->
                 <button class="ttt-btn ttt-btn-primary" id="tttExitBtn"><i class="fas fa-sign-out-alt"></i> Exit</button>
             </div>
         </div>
@@ -2124,17 +2147,15 @@
                 ')</div><div>' + w.method + '</div><small>' + new Date(w.date).toLocaleString() + '</small></div>'
             ).join('') : '<div style="color:#64748b;">No withdrawals</div>';
 
-            const reqBal = bal >= 1000,
-                reqRef = (userData.referrals?.length || 0) >= 3;
-            document.getElementById('reqStatusBal').innerHTML = reqBal ? '<i class="fas fa-check-circle"></i>' :
-                '<i class="fas fa-times-circle"></i>';
+            // Requirements: balance min depends on method, but we'll check later in submit
+            const reqRef = (userData.referrals?.length || 0) >= 3;
             document.getElementById('reqStatusRef').innerHTML = reqRef ? '<i class="fas fa-check-circle"></i>' :
                 '<i class="fas fa-times-circle"></i>';
-            document.getElementById('reqStatusBal').className = 'req-status ' + (reqBal ? 'status-success' :
-            'status-failed');
             document.getElementById('reqStatusRef').className = 'req-status ' + (reqRef ? 'status-success' :
             'status-failed');
-            document.getElementById('submitWithdrawBtn').disabled = !(reqBal && reqRef);
+
+            // Update min balance display based on selected method
+            updateMinBalanceRequirement();
 
             const amt = parseInt(document.getElementById('withdrawAmount')?.value) || 0;
             const fee = Math.floor(amt * 0.1);
@@ -2202,7 +2223,7 @@
                     sBtn.classList.remove('completed'); }
             }
 
-            // Total ads (including ads3)
+            // Total ads
             let totalAds = 0,
                 earnedAds = 0;
             for (let i = 1; i <= 12; i++) {
@@ -2249,6 +2270,36 @@
 
             // Check daily verification
             checkDailyVerification();
+        }
+
+        // ─── Update min balance requirement based on method ───
+        function updateMinBalanceRequirement() {
+            const method = selectedMethod || 'binance';
+            const min = method === 'bkash' ? 2000 : 1000;
+            const reqBalElem = document.getElementById('minBalReq');
+            if (reqBalElem) {
+                reqBalElem.innerText = min + ' PEDO needed';
+            }
+            // Also update the withdraw button status
+            const bal = userData?.balance || 0;
+            const reqBal = bal >= min;
+            const reqRef = (userData?.referrals?.length || 0) >= 3;
+            const statusBal = document.getElementById('reqStatusBal');
+            if (statusBal) {
+                statusBal.innerHTML = reqBal ? '<i class="fas fa-check-circle"></i>' :
+                    '<i class="fas fa-times-circle"></i>';
+                statusBal.className = 'req-status ' + (reqBal ? 'status-success' : 'status-failed');
+            }
+            const btn = document.getElementById('submitWithdrawBtn');
+            if (btn) {
+                btn.disabled = !(reqBal && reqRef);
+            }
+            // Update input min
+            const input = document.getElementById('withdrawAmount');
+            if (input) {
+                input.min = min;
+                input.placeholder = 'Amount (PEDO) - Min ' + min;
+            }
         }
 
         // ─── Daily Verification ───
@@ -2305,7 +2356,150 @@
             if (webApp && webApp.HapticFeedback) webApp.HapticFeedback.impactOccurred('light');
         });
 
-        // ─── Ads 1 (Monetag), Ads 2 (Adexora), Ads 3 (Adsgram) ───
+        // ─── Generic Link Wait Modal ───
+        function showLinkWaitModal(link, durationSeconds, onComplete, onCancel) {
+            const modal = document.getElementById('linkAdModal');
+            const inner = document.getElementById('linkAdInner');
+
+            let startTime = Date.now();
+            let timerInterval = null;
+            let completed = false;
+            let visibilityHandler = null;
+            let modalActive = true;
+
+            function cleanup() {
+                if (timerInterval) clearInterval(timerInterval);
+                if (visibilityHandler) document.removeEventListener('visibilitychange', visibilityHandler);
+                modalActive = false;
+            }
+
+            function renderModal(showTryAgain) {
+                let html = '';
+                if (showTryAgain) {
+                    html += `
+                        <div style="margin-bottom:8px;font-size:1.4rem;">⏰</div>
+                        <h3 style="margin-bottom:8px;">Too Early!</h3>
+                        <p style="color:#475569;margin-bottom:16px;">You returned before ${durationSeconds} seconds. Please stay on the link for the full ${durationSeconds} seconds.</p>
+                        <div class="try-again-box">
+                            <p>⏳ Need more time on the link</p>
+                            <button id="linkAdTryAgainBtn" class="claim-btn" style="background:#f59e0b;">Try Again</button>
+                        </div>
+                        <button id="linkAdCancelBtn" class="claim-btn skip-btn" style="margin-top:10px;">Cancel</button>
+                    `;
+                } else {
+                    html += `
+                        <div style="margin-bottom:8px;font-size:1.4rem;">⏳</div>
+                        <h3 style="margin-bottom:8px;">Stay on the Link</h3>
+                        <p style="color:#475569;margin-bottom:8px;">Stay on the opened page for <strong>${durationSeconds} seconds</strong> to continue.</p>
+                        <div class="countdown-big" id="linkAdCountdown">${durationSeconds}s</div>
+                        <button id="linkAdOkBtn" class="claim-btn" disabled style="background:#cbd5e1;cursor:not-allowed;">Wait ${durationSeconds}s</button>
+                        <button id="linkAdCancelBtn" class="claim-btn skip-btn" style="margin-top:10px;">Cancel</button>
+                    `;
+                }
+                inner.innerHTML = html;
+
+                if (!showTryAgain) {
+                    const okBtn = document.getElementById('linkAdOkBtn');
+                    const countdownEl = document.getElementById('linkAdCountdown');
+                    const cancelBtn = document.getElementById('linkAdCancelBtn');
+
+                    cancelBtn.onclick = function() {
+                        cleanup();
+                        modal.classList.remove('active');
+                        if (onCancel) onCancel();
+                    };
+
+                    function updateTimer() {
+                        const elapsed = (Date.now() - startTime) / 1000;
+                        const remaining = Math.max(0, durationSeconds - elapsed);
+                        countdownEl.textContent = Math.ceil(remaining) + 's';
+                        okBtn.textContent = 'Wait ' + Math.ceil(remaining) + 's';
+                        if (remaining <= 0) {
+                            clearInterval(timerInterval);
+                            okBtn.disabled = false;
+                            okBtn.textContent = '✅ Complete!';
+                            okBtn.style.background = '#22c55e';
+                            okBtn.style.cursor = 'pointer';
+                            okBtn.onclick = function() {
+                                if (!completed) {
+                                    completed = true;
+                                    cleanup();
+                                    modal.classList.remove('active');
+                                    if (onComplete) onComplete();
+                                }
+                            };
+                        }
+                    }
+
+                    timerInterval = setInterval(updateTimer, 200);
+                    updateTimer();
+
+                    // Visibility handler: if user comes back early, show try-again
+                    visibilityHandler = function() {
+                        if (!modalActive) return;
+                        if (document.visibilityState === 'visible') {
+                            const elapsed = (Date.now() - startTime) / 1000;
+                            if (elapsed >= durationSeconds) {
+                                // If time is up, complete
+                                if (!completed) {
+                                    completed = true;
+                                    cleanup();
+                                    modal.classList.remove('active');
+                                    if (onComplete) onComplete();
+                                }
+                            } else {
+                                // Came back too early
+                                clearInterval(timerInterval);
+                                if (visibilityHandler) document.removeEventListener('visibilitychange',
+                                visibilityHandler);
+                                renderModal(true);
+                                modal.classList.add('active');
+                                const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
+                                const cancelBtn2 = document.getElementById('linkAdCancelBtn');
+                                if (tryAgainBtn) {
+                                    tryAgainBtn.onclick = function() {
+                                        modal.classList.remove('active');
+                                        // Restart the process
+                                        showLinkWaitModal(link, durationSeconds, onComplete, onCancel);
+                                    };
+                                }
+                                if (cancelBtn2) {
+                                    cancelBtn2.onclick = function() {
+                                        cleanup();
+                                        modal.classList.remove('active');
+                                        if (onCancel) onCancel();
+                                    };
+                                }
+                            }
+                        }
+                    };
+                    document.addEventListener('visibilitychange', visibilityHandler);
+                } else {
+                    const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
+                    const cancelBtn2 = document.getElementById('linkAdCancelBtn');
+                    if (tryAgainBtn) {
+                        tryAgainBtn.onclick = function() {
+                            modal.classList.remove('active');
+                            showLinkWaitModal(link, durationSeconds, onComplete, onCancel);
+                        };
+                    }
+                    if (cancelBtn2) {
+                        cancelBtn2.onclick = function() {
+                            cleanup();
+                            modal.classList.remove('active');
+                            if (onCancel) onCancel();
+                        };
+                    }
+                }
+            }
+
+            // Open the link and show modal
+            window.open(link, '_blank');
+            renderModal(false);
+            modal.classList.add('active');
+        }
+
+        // ─── Ads 1,2,3 (SDK ads) ───
         async function grantAdReward(adKey, reward, taskName, btn) {
             const newProg = (userData[adKey] || 0) + 1;
             await updateUser({
@@ -2340,7 +2534,7 @@
             }
         };
 
-        // Ads 2 (Adexora) - CHANGED from Giga Pub to Adexora
+        // Ads 2 (Adexora)
         document.getElementById('ads2Btn').onclick = async function() {
             const prog = userData.ads2Progress || 0;
             if (prog >= 20) { alert('Daily limit reached for this ad.'); return; }
@@ -2389,7 +2583,7 @@
             }
         };
 
-        // ─── Ads 4-12: Link Ads ───
+        // ─── Ads 4-12: Link ads (15 seconds) ───
         function startLinkAd(adIndex, btnId) {
             const adKey = 'ads' + adIndex + 'Progress';
             if (userData[adKey] >= 10) { alert('Daily limit reached for this ad.'); return; }
@@ -2398,159 +2592,47 @@
             const reward = 5;
             const link = AD_LINKS[adIndex - 4];
             const taskName = 'See Ads ' + adIndex;
+            const duration = 15;
 
-            document.getElementById('linkAdModal').classList.remove('active');
-            const modal = document.getElementById('linkAdModal');
-            const inner = document.getElementById('linkAdInner');
-
-            let startTime = Date.now();
-            let timerInterval = null;
-            let completed = false;
-            let visibilityHandler = null;
-
-            function buildModalContent(showTryAgain) {
-                let html = '';
-                if (showTryAgain) {
-                    html += `
-                        <div style="margin-bottom:8px;font-size:1.4rem;">⏰</div>
-                        <h3 style="margin-bottom:8px;">Too Early!</h3>
-                        <p style="color:#475569;margin-bottom:16px;">You returned before 15 seconds. Please stay on the link for the full 15 seconds.</p>
-                        <div class="try-again-box">
-                            <p>⏳ Need more time on the link</p>
-                            <button id="linkAdTryAgainBtn" class="claim-btn" style="background:#f59e0b;">Try Again</button>
-                        </div>
-                        <button id="linkAdCancelBtn" class="claim-btn skip-btn" style="margin-top:10px;">Cancel</button>
-                    `;
-                } else {
-                    html += `
-                        <div style="margin-bottom:8px;font-size:1.4rem;">⏳</div>
-                        <h3 style="margin-bottom:8px;">Stay on the Link</h3>
-                        <p style="color:#475569;margin-bottom:8px;">Stay on the opened page for <strong>15 seconds</strong> to earn 5 PEDO.</p>
-                        <div class="countdown-big" id="linkAdCountdown">15s</div>
-                        <button id="linkAdOkBtn" class="claim-btn" disabled style="background:#cbd5e1;cursor:not-allowed;">Wait 15s</button>
-                        <button id="linkAdCancelBtn" class="claim-btn skip-btn" style="margin-top:10px;">Cancel</button>
-                    `;
-                }
-                return html;
-            }
-
-            function renderModal(showTryAgain) {
-                inner.innerHTML = buildModalContent(showTryAgain);
-                if (!showTryAgain) {
-                    const okBtn = document.getElementById('linkAdOkBtn');
-                    const countdownEl = document.getElementById('linkAdCountdown');
-                    const cancelBtn = document.getElementById('linkAdCancelBtn');
-
-                    cancelBtn.onclick = function() { cleanup();
-                        modal.classList.remove('active');
-                        btn.dataset.timerActive = 'false';
-                        btn.disabled = false;
-                        btn.innerHTML = 'Watch Ad & Earn 5 PEDO'; };
-
-                    function updateTimer() {
-                        const elapsed = (Date.now() - startTime) / 1000;
-                        const remaining = Math.max(0, 15 - elapsed);
-                        countdownEl.textContent = Math.ceil(remaining) + 's';
-                        okBtn.textContent = 'Wait ' + Math.ceil(remaining) + 's';
-                        if (remaining <= 0) {
-                            clearInterval(timerInterval);
-                            okBtn.disabled = false;
-                            okBtn.textContent = '✅ Complete!';
-                            okBtn.style.background = '#22c55e';
-                            okBtn.style.cursor = 'pointer';
-                        }
-                    }
-                    timerInterval = setInterval(updateTimer, 200);
-                    updateTimer();
-
-                    okBtn.onclick = function() {
-                        const elapsed = (Date.now() - startTime) / 1000;
-                        if (elapsed >= 15) { completeTask(); } else { alert('Please wait for the countdown to finish.'); }
-                    };
-
-                    visibilityHandler = function() {
-                        if (document.visibilityState === 'visible') {
-                            const elapsed = (Date.now() - startTime) / 1000;
-                            if (elapsed >= 15) { completeTask(); } else {
-                                clearInterval(timerInterval);
-                                modal.classList.remove('active');
-                                renderModal(true);
-                                modal.classList.add('active');
-                                const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
-                                const cancelBtn2 = document.getElementById('linkAdCancelBtn');
-                                if (tryAgainBtn) {
-                                    tryAgainBtn.onclick = function() { modal.classList.remove('active');
-                                        startLinkAd(adIndex, btnId); };
-                                }
-                                if (cancelBtn2) {
-                                    cancelBtn2.onclick = function() { cleanup();
-                                        modal.classList.remove('active');
-                                        btn.dataset.timerActive = 'false';
-                                        btn.disabled = false;
-                                        btn.innerHTML = 'Watch Ad & Earn 5 PEDO'; };
-                                }
-                            }
-                        }
-                    };
-                    document.addEventListener('visibilitychange', visibilityHandler);
-                } else {
-                    const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
-                    const cancelBtn2 = document.getElementById('linkAdCancelBtn');
-                    if (tryAgainBtn) {
-                        tryAgainBtn.onclick = function() { modal.classList.remove('active');
-                            startLinkAd(adIndex, btnId); };
-                    }
-                    if (cancelBtn2) {
-                        cancelBtn2.onclick = function() { cleanup();
-                            modal.classList.remove('active');
-                            btn.dataset.timerActive = 'false';
-                            btn.disabled = false;
-                            btn.innerHTML = 'Watch Ad & Earn 5 PEDO'; };
-                    }
-                }
-            }
-
-            function completeTask() {
-                if (completed) return;
-                completed = true;
-                cleanup();
-                modal.classList.remove('active');
-                showClaimModal(taskName, reward, async function() {
-                    const newProg = (userData[adKey] || 0) + 1;
-                    await updateUser({
-                        [adKey]: newProg,
-                        balance: (userData.balance || 0) + reward,
-                        totalEarned: (userData.totalEarned || 0) + reward,
-                        tasksCompleted: (userData.tasksCompleted || 0) + 1
-                    });
-                    await addEarningEntry(reward, taskName + ' (+' + reward + ' PEDO)');
-                    showToast(reward, taskName);
-                    btn.dataset.timerActive = 'false';
-                    btn.disabled = false;
-                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
-                    refreshUI();
-                });
-                const cancelClaimHandler = function() {
-                    btn.dataset.timerActive = 'false';
-                    btn.disabled = false;
-                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
-                    document.getElementById('cancelClaimBtn').removeEventListener('click', cancelClaimHandler);
-                };
-                document.getElementById('cancelClaimBtn').addEventListener('click', cancelClaimHandler);
-            }
-
-            function cleanup() {
-                if (timerInterval) clearInterval(timerInterval);
-                if (visibilityHandler) document.removeEventListener('visibilitychange', visibilityHandler);
-            }
-
-            window.open(link, '_blank');
             btn.dataset.timerActive = 'true';
             btn.disabled = true;
             btn.innerHTML = 'Opening link...';
-            renderModal(false);
-            modal.classList.add('active');
-            setTimeout(() => { if (!completed) btn.innerHTML = 'Stay on link...'; }, 500);
+
+            showLinkWaitModal(link, duration,
+                // onComplete
+                function() {
+                    btn.dataset.timerActive = 'false';
+                    btn.disabled = false;
+                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
+                    // Show claim modal
+                    showClaimModal(taskName, reward, async function() {
+                        const newProg = (userData[adKey] || 0) + 1;
+                        await updateUser({
+                            [adKey]: newProg,
+                            balance: (userData.balance || 0) + reward,
+                            totalEarned: (userData.totalEarned || 0) + reward,
+                            tasksCompleted: (userData.tasksCompleted || 0) + 1
+                        });
+                        await addEarningEntry(reward, taskName + ' (+' + reward + ' PEDO)');
+                        showToast(reward, taskName);
+                        refreshUI();
+                    });
+                    // Cancel handler for claim modal
+                    const cancelClaimHandler = function() {
+                        btn.dataset.timerActive = 'false';
+                        btn.disabled = false;
+                        btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
+                        document.getElementById('cancelClaimBtn').removeEventListener('click', cancelClaimHandler);
+                    };
+                    document.getElementById('cancelClaimBtn').addEventListener('click', cancelClaimHandler);
+                },
+                // onCancel
+                function() {
+                    btn.dataset.timerActive = 'false';
+                    btn.disabled = false;
+                    btn.innerHTML = 'Watch Ad & Earn 5 PEDO';
+                }
+            );
         }
 
         for (let i = 4; i <= 12; i++) {
@@ -2564,6 +2646,7 @@
         let surveyActive = false;
         let surveyStep = 0;
         let selectedAnswers = [];
+        let surveyLinkWaitInProgress = false;
 
         function renderSurveyModal() {
             let html = '';
@@ -2606,13 +2689,37 @@
             });
             document.getElementById('surveyNextBtn')?.addEventListener('click', function() {
                 if (!selectedAnswers[surveyStep]) { alert('Please select an answer.'); return; }
+                if (surveyLinkWaitInProgress) return;
                 if (surveyStep < SURVEY_QUESTIONS.length - 1) {
+                    // Open a link with 10 seconds wait
                     const linkIndex = surveyStep % SURVEY_NEXT_LINKS.length;
-                    window.open(SURVEY_NEXT_LINKS[linkIndex], '_blank');
+                    const link = SURVEY_NEXT_LINKS[linkIndex];
+                    surveyLinkWaitInProgress = true;
+                    // Disable button temporarily
+                    const btn = document.getElementById('surveyNextBtn');
+                    if (btn) btn.disabled = true;
+                    showLinkWaitModal(link, 10,
+                        // onComplete
+                        function() {
+                            surveyLinkWaitInProgress = false;
+                            if (btn) btn.disabled = false;
+                            // Move to next question
+                            surveyStep++;
+                            renderSurveyModal();
+                        },
+                        // onCancel
+                        function() {
+                            surveyLinkWaitInProgress = false;
+                            if (btn) btn.disabled = false;
+                            // Stay on same question, user can try again
+                            renderSurveyModal();
+                        }
+                    );
+                } else {
+                    // Last question: go to finish
+                    surveyStep++;
+                    renderSurveyModal();
                 }
-                if (surveyStep === SURVEY_QUESTIONS.length - 1) { surveyStep++;
-                    renderSurveyModal(); } else { surveyStep++;
-                    renderSurveyModal(); }
             });
             document.getElementById('surveyWatchAdBtn')?.addEventListener('click', async function() {
                 try {
@@ -2659,6 +2766,7 @@
             surveyActive = true;
             surveyStep = 0;
             selectedAnswers = [];
+            surveyLinkWaitInProgress = false;
             renderSurveyModal();
             document.getElementById('surveyModal').classList.add('active');
         };
@@ -2803,15 +2911,23 @@
             if (method === 'bkash') document.getElementById('paymentMethodBkash').classList.add('selected');
             document.getElementById('paymentAccount').placeholder = method === 'binance' ? 'Binance Email/UID' :
                 'bKash Mobile Number';
+            // Update min requirement
+            const min = method === 'bkash' ? 2000 : 1000;
+            document.getElementById('withdrawAmount').min = min;
+            document.getElementById('withdrawAmount').placeholder = 'Amount (PEDO) - Min ' + min;
+            updateMinBalanceRequirement();
+            refreshUI(); // update UI
         }
+
         document.getElementById('paymentMethodBinance').onclick = () => setPaymentMethod('binance');
         document.getElementById('paymentMethodBkash').onclick = () => setPaymentMethod('bkash');
 
         document.getElementById('submitWithdrawBtn').onclick = async () => {
             const amt = parseInt(document.getElementById('withdrawAmount').value);
             const acc = document.getElementById('paymentAccount').value.trim();
-            if (amt < 1000 || amt > (userData.balance || 0) || (userData.referrals?.length || 0) < 3) return alert(
-                'Requirements: Min 1000 PEDO, 3 referrals, sufficient balance');
+            const min = selectedMethod === 'bkash' ? 2000 : 1000;
+            if (amt < min || amt > (userData.balance || 0) || (userData.referrals?.length || 0) < 3) return alert(
+                'Requirements: Min ' + min + ' PEDO, 3 referrals, sufficient balance');
             const fee = Math.floor(amt * 0.1);
             const wid = { id: Date.now(), withdrawId: 'WD-' + Date.now().toString().slice(-8), amount: amt, fee,
                 netAmount: amt - fee, method: selectedMethod, account: acc, status: 'pending', date: Date
@@ -3025,8 +3141,8 @@
             if (gcStepsCompleted[idx]) return;
 
             try {
-                if (idx === 0) {
-                    // Step 1: Adsgram -> Giga Pub -> Monetag -> link (NO ADEXORA)
+                if (idx === 0 || idx === 2) {
+                    // Steps 1 & 3: Adsgram -> Giga -> Monetag -> link
                     const success = await tryAdWithFallbackGame([
                         () => {
                             if (typeof window.Adsgram === 'undefined') throw new Error('Adsgram SDK not loaded');
@@ -3047,17 +3163,13 @@
                             return show_10541383();
                         },
                         () => {
-                            window.open('https://example.com/fallback-ad1', '_blank');
+                            window.open('https://example.com/fallback-ad', '_blank');
                             return new Promise(resolve => setTimeout(resolve, 3000));
                         }
-                    ], 'Step 1');
+                    ], 'Step ' + (idx + 1));
                     if (!success) throw new Error('All ad fallbacks failed');
-                    gcStepsCompleted[idx] = true;
-                    gcStepIndex = idx + 1;
-                    renderStepsUI();
-                    showToast(0, 'Step 1 completed');
-                } else if (idx === 1) {
-                    // Step 2: Giga Pub -> Monetag -> link (NO ADEXORA)
+                } else if (idx === 1 || idx === 3) {
+                    // Steps 2 & 4: Giga -> Monetag -> link
                     const success = await tryAdWithFallbackGame([
                         () => {
                             if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
@@ -3068,86 +3180,48 @@
                             return show_10541383();
                         },
                         () => {
-                            window.open('https://example.com/fallback-ad2', '_blank');
+                            window.open('https://example.com/fallback-ad', '_blank');
                             return new Promise(resolve => setTimeout(resolve, 3000));
                         }
-                    ], 'Step 2');
+                    ], 'Step ' + (idx + 1));
                     if (!success) throw new Error('All ad fallbacks failed');
-                    gcStepsCompleted[idx] = true;
-                    gcStepIndex = idx + 1;
-                    renderStepsUI();
-                    showToast(0, 'Step 2 completed');
-                } else if (idx === 2) {
-                    // Step 3: Adsgram -> Giga Pub -> Monetag -> link (NO ADEXORA)
-                    const success = await tryAdWithFallbackGame([
-                        () => {
-                            if (typeof window.Adsgram === 'undefined') throw new Error('Adsgram SDK not loaded');
-                            return new Promise((resolve, reject) => {
-                                const controller = window.Adsgram.init({ blockId: "int-28543" });
-                                controller.show().then(result => {
-                                    if (result && result.done) resolve();
-                                    else reject(new Error('Adsgram ad not completed'));
-                                }).catch(reject);
-                            });
-                        },
-                        () => {
-                            if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
-                            return window.showGiga();
-                        },
-                        () => {
-                            if (typeof show_10541383 !== 'function') throw new Error('Monetag SDK not loaded');
-                            return show_10541383();
-                        },
-                        () => {
-                            window.open('https://example.com/fallback-ad3', '_blank');
-                            return new Promise(resolve => setTimeout(resolve, 3000));
-                        }
-                    ], 'Step 3');
-                    if (!success) throw new Error('All ad fallbacks failed');
-                    gcStepsCompleted[idx] = true;
-                    gcStepIndex = idx + 1;
-                    renderStepsUI();
-                    showToast(0, 'Step 3 completed');
-                } else if (idx === 3) {
-                    // Step 4: Giga Pub -> Monetag -> link (NO ADEXORA)
-                    const success = await tryAdWithFallbackGame([
-                        () => {
-                            if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
-                            return window.showGiga();
-                        },
-                        () => {
-                            if (typeof show_10541383 !== 'function') throw new Error('Monetag SDK not loaded');
-                            return show_10541383();
-                        },
-                        () => {
-                            window.open('https://example.com/fallback-ad4', '_blank');
-                            return new Promise(resolve => setTimeout(resolve, 3000));
-                        }
-                    ], 'Step 4');
-                    if (!success) throw new Error('All ad fallbacks failed');
-                    gcStepsCompleted[idx] = true;
-                    gcStepIndex = idx + 1;
-                    renderStepsUI();
-                    showToast(0, 'Step 4 completed');
                 } else if (idx === 4) {
-                    // Step 5: Open link
+                    // Step 5: Open link with 10 seconds wait
                     const link =
                         'https://ditats.com/gosl/InNpZCI6MTc3OTE0NCwic21hcnRsaW5rIjp0cnVlfQ==eyJwaWQiOjEyMjU2ODEs?si1=&si2=';
-                    window.open(link, '_blank');
-                    setTimeout(() => {
-                        gcStepsCompleted[idx] = true;
-                        gcStepIndex = idx + 1;
-                        renderStepsUI();
-                        showToast(0, 'Step 5 completed!');
-                        if (gcStepsCompleted.every(v => v === true)) {
-                            setTimeout(() => {
-                                document.getElementById('gameStepsModal').classList.remove('active');
-                                startTicTacToe();
-                            }, 500);
-                        }
-                    }, 1500);
-                    return;
+                    // Use the link wait modal
+                    return new Promise((resolve, reject) => {
+                        showLinkWaitModal(link, 10,
+                            // onComplete
+                            function() {
+                                gcStepsCompleted[idx] = true;
+                                gcStepIndex = idx + 1;
+                                renderStepsUI();
+                                showToast(0, 'Step 5 completed!');
+                                // Check if all done
+                                if (gcStepsCompleted.every(v => v === true)) {
+                                    setTimeout(() => {
+                                        document.getElementById('gameStepsModal').classList.remove(
+                                        'active');
+                                        startTicTacToe();
+                                    }, 500);
+                                }
+                                resolve();
+                            },
+                            // onCancel
+                            function() {
+                                // User cancelled, just resolve without completing
+                                resolve();
+                            }
+                        );
+                    });
                 }
+
+                // If we get here (non-link steps), mark completed
+                gcStepsCompleted[idx] = true;
+                gcStepIndex = idx + 1;
+                renderStepsUI();
+                showToast(0, 'Step ' + (idx + 1) + ' completed');
 
                 // Check if all steps are done
                 if (gcStepsCompleted.every(v => v === true)) {
@@ -3175,7 +3249,7 @@
             openGameSteps();
         });
 
-        // ─── TIC TAC TOE ───
+        // ─── TIC TAC TOE ─── (Reset removed)
         function startTicTacToe() {
             tttBoard = ['', '', '', '', '', '', '', '', ''];
             tttCurrentPlayer = 'X';
@@ -3379,25 +3453,8 @@
             });
         });
 
-        document.getElementById('tttResetBtn').addEventListener('click', function() {
-            if (gcGameActive) {
-                const confirmReset = confirm('Reset the game?');
-                if (!confirmReset) return;
-            }
-            tttBoard = ['', '', '', '', '', '', '', '', ''];
-            tttCurrentPlayer = 'X';
-            tttGameOver = false;
-            tttWinCells = [];
-            document.querySelectorAll('.ttt-cell').forEach(cell => {
-                cell.textContent = '';
-                cell.className = 'ttt-cell';
-                cell.disabled = false;
-            });
-            document.getElementById('tttTurn').textContent = 'Your turn';
-            document.getElementById('tttStatus').innerHTML =
-                '<span class="status-icon"><i class="fas fa-chess"></i></span><span class="status-text">You are <strong>X</strong> · AI is <strong>O</strong></span>';
-        });
-
+        // Reset button event listener removed
+        // Only Exit button handler remains
         document.getElementById('tttExitBtn').addEventListener('click', function() {
             document.getElementById('gameTttModal').classList.remove('active');
             gcGameActive = false;

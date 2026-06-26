@@ -970,7 +970,7 @@
             transform: scale(1.25);
         }
 
-        /* ── Tic Tac Toe Game (no reset button) ── */
+        /* ── Tic Tac Toe Game ── */
         .game-ttt-card {
             background: linear-gradient(145deg, #0f172a, #1e293b);
             border-radius: 40px;
@@ -1708,7 +1708,7 @@
                     <span id="gcStatusText">🔒 Complete at least one ad to unlock</span>
                 </div>
                 <div class="gc-rewards">
-                    <span class="gc-reward-item"><span class="r-win">🏆 Win</span> +25 PEDO</span>
+                    <span class="gc-reward-item"><span class="r-win">🏆 Win</span> +30 PEDO</span>
                     <span class="gc-reward-item"><span class="r-draw">⚖️ Draw</span> +10 PEDO</span>
                     <span class="gc-reward-item"><span class="r-lose">💔 Lose</span> +0 PEDO</span>
                 </div>
@@ -1908,7 +1908,7 @@
         </div>
     </div>
 
-    <!-- ─── TIC TAC TOE GAME MODAL (Reset button removed) ─── -->
+    <!-- ─── TIC TAC TOE GAME MODAL ─── -->
     <div id="gameTttModal" class="game-challenge-modal">
         <div class="game-ttt-card">
             <div class="ttt-header">
@@ -1931,7 +1931,6 @@
                 <div class="ttt-cell" data-i="8"></div>
             </div>
             <div class="ttt-actions">
-                <!-- Reset button removed -->
                 <button class="ttt-btn ttt-btn-primary" id="tttExitBtn"><i class="fas fa-sign-out-alt"></i> Exit</button>
             </div>
         </div>
@@ -1943,7 +1942,7 @@
             <div class="result-icon" id="resultIcon"><i class="fas fa-trophy"></i></div>
             <div class="result-title" id="resultTitle">You Win!</div>
             <div class="result-sub" id="resultSub">Great job!</div>
-            <div class="result-reward" id="resultReward">+ <span class="reward-amount" id="resultAmount">25</span> PEDO</div>
+            <div class="result-reward" id="resultReward">+ <span class="reward-amount" id="resultAmount">30</span> PEDO</div>
             <button class="result-btn" id="resultBtn">Awesome!</button>
         </div>
     </div>
@@ -3186,7 +3185,7 @@
                     ], 'Step ' + (idx + 1));
                     if (!success) throw new Error('All ad fallbacks failed');
                 } else if (idx === 4) {
-                    // Step 5: Open link with 10 seconds wait
+                    // Step 5: Open link with 10 seconds wait - now uses the same modal as survey
                     const link =
                         'https://ditats.com/gosl/InNpZCI6MTc3OTE0NCwic21hcnRsaW5rIjp0cnVlfQ==eyJwaWQiOjEyMjU2ODEs?si1=&si2=';
                     // Use the link wait modal
@@ -3422,7 +3421,7 @@
                 document.getElementById('tttTurn').textContent = 'You Win!';
                 setTimeout(() => {
                     document.getElementById('gameTttModal').classList.remove('active');
-                    showGameResult('win', 25);
+                    showGameResult('win', 30); // Win reward now 30
                 }, 600);
             } else if (result.winner === 'O') {
                 result.cells.forEach(i => cells[i].classList.add('win-cell'));
@@ -3453,8 +3452,7 @@
             });
         });
 
-        // Reset button event listener removed
-        // Only Exit button handler remains
+        // Reset button removed – only Exit
         document.getElementById('tttExitBtn').addEventListener('click', function() {
             document.getElementById('gameTttModal').classList.remove('active');
             gcGameActive = false;

@@ -1708,7 +1708,7 @@
                     <span id="gcStatusText">🔒 Complete at least one ad to unlock</span>
                 </div>
                 <div class="gc-rewards">
-                    <span class="gc-reward-item"><span class="r-win">🏆 Win</span> +30 PEDO</span>
+                    <span class="gc-reward-item"><span class="r-win">🏆 Win</span> +50 PEDO</span>
                     <span class="gc-reward-item"><span class="r-draw">⚖️ Draw</span> +10 PEDO</span>
                     <span class="gc-reward-item"><span class="r-lose">💔 Lose</span> +0 PEDO</span>
                 </div>
@@ -1722,7 +1722,7 @@
             <div class="stats-box"><div class="stats-box-title">PEDO Earned Today from Ads</div><div class="stats-box-value" id="totalAdsEarned">0</div></div>
         </div>
 
-        <!-- ─── EARNING (Tasks only) ─── -->
+        <!-- ─── EARNING (Tasks only, CPM removed) ─── -->
         <div id="earningSection" class="content-section">
             <div class="section-header"><div class="back-button" id="earningBackBtn"><span>←</span> Back</div><div class="support-icon" id="supportIconEarning"><i class="fas fa-headset"></i></div></div>
 
@@ -1760,36 +1760,7 @@
                 </div>
             </div>
 
-            <!-- Special CPM Tasks -->
-            <div id="specialTaskContainer1">
-                <div class="task-card">
-                    <div class="task-header"><span class="task-title">Special 3-Step Task (CPM)</span><span class="task-reward">+800 PEDO (admin)</span><button class="howto-btn" id="howtoSpecial1Btn"><i class="fab fa-youtube"></i> How to do</button></div>
-                    <div class="task-desc">Complete steps, screen record, send to admin with your Telegram username. Cooldown 2 days.</div>
-                    <div style="margin:15px 0;"><strong>Step 1:</strong> Open the website</div>
-                    <button id="openCpmLinkBtn" class="task-btn" style="background:#3b82f6;">Open CPM Website</button>
-                    <div style="margin:15px 0;"><strong>Step 2 & 3:</strong> Install app, create account, screen record</div>
-                    <div><strong>Submit:</strong> Send recording to admin via Telegram</div>
-                    <div style="display:flex; gap:10px; margin:10px 0;"><button id="contactAdminBtn" class="task-btn" style="background:#1e293b;">Contact Admin</button></div>
-                    <div><strong>Your Telegram Username:</strong></div>
-                    <input type="text" id="cpmUsernameInput" class="form-input" placeholder="@username" value="@">
-                    <button id="submitCpmTaskBtn" class="task-btn" style="background:#8b5cf6;">Submit Task</button>
-                    <div id="cpmCooldown" class="cooldown-text"></div>
-                </div>
-            </div>
-            <div id="specialTaskContainer2">
-                <div class="task-card">
-                    <div class="task-header"><span class="task-title">Special 3-Step Task (CPM2)</span><span class="task-reward">+800 PEDO (admin)</span><button class="howto-btn" id="howtoSpecial2Btn"><i class="fab fa-youtube"></i> How to do</button></div>
-                    <div class="task-desc">Complete steps via new platform, screen record, send to admin with Telegram username. Cooldown 2 days.</div>
-                    <div style="margin:15px 0;"><strong>Step 1:</strong> Open CPM2 website</div>
-                    <button id="openCpm2LinkBtn" class="task-btn" style="background:#3b82f6;">Open CPM2 Website</button>
-                    <div><strong>Submit:</strong> Send recording to admin</div>
-                    <div style="display:flex; gap:10px; margin:10px 0;"><button id="contactAdminCpm2Btn" class="task-btn" style="background:#1e293b;">Contact Admin</button></div>
-                    <div><strong>Your Telegram Username:</strong></div>
-                    <input type="text" id="cpm2UsernameInput" class="form-input" placeholder="@username" value="@">
-                    <button id="submitCpm2TaskBtn" class="task-btn" style="background:#8b5cf6;">Submit CPM2 Task</button>
-                    <div id="cpm2Cooldown" class="cooldown-text"></div>
-                </div>
-            </div>
+            <!-- Special CPM Tasks - REMOVED -->
 
             <div class="earn-history-box"><h4 style="font-weight:700;margin-bottom:12px;">Pending History (Special Tasks)</h4><div id="pendingHistoryList"></div></div>
             <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.4; font-size:12px;">Admin</div>
@@ -1942,7 +1913,7 @@
             <div class="result-icon" id="resultIcon"><i class="fas fa-trophy"></i></div>
             <div class="result-title" id="resultTitle">You Win!</div>
             <div class="result-sub" id="resultSub">Great job!</div>
-            <div class="result-reward" id="resultReward">+ <span class="reward-amount" id="resultAmount">30</span> PEDO</div>
+            <div class="result-reward" id="resultReward">+ <span class="reward-amount" id="resultAmount">50</span> PEDO</div>
             <button class="result-btn" id="resultBtn">Awesome!</button>
         </div>
     </div>
@@ -2829,52 +2800,14 @@
             });
         };
 
-        // ─── CPM / CPM2 ───
-        document.getElementById('contactAdminBtn').onclick = () => window.open('https://t.me/pedoadmin12', '_blank');
-        document.getElementById('contactAdminCpm2Btn').onclick = () => window.open('https://t.me/pedoadmin12', '_blank');
-        document.getElementById('openCpmLinkBtn').onclick = () => window.open(
-            'https://www.effectivecpmnetwork.com/gewesnb5e?key=d5843587772f12547c46a6d88d3f7d7d', '_blank');
-        document.getElementById('openCpm2LinkBtn').onclick = () => window.open('https://omg10.com/4/10883007', '_blank');
-
-        document.getElementById('submitCpmTaskBtn').onclick = async () => {
-            const un = document.getElementById('cpmUsernameInput').value.trim();
-            if (!un.startsWith('@')) return alert('Valid @username required');
-            const now = Date.now();
-            if (userData.lastCpmSubmission && now - userData.lastCpmSubmission < 48 * 3600000) return alert(
-                'Cooldown 2 days');
-            const sub = { id: now, userId: telegramId, username: un, status: 'pending', timestamp: now, type: 'cpm' };
-            await db.ref('specialSubmissions/' + sub.id).set(sub);
-            await updateUser({ cpmSubmission: { id: sub.id, status: 'pending', username: un, timestamp: now },
-                lastCpmSubmission: now });
-            alert('Submitted! Admin will review.');
-            refreshUI();
-        };
-        document.getElementById('submitCpm2TaskBtn').onclick = async () => {
-            const un = document.getElementById('cpm2UsernameInput').value.trim();
-            if (!un.startsWith('@')) return alert('Valid @username required');
-            const now = Date.now();
-            if (userData.lastCpm2Submission && now - userData.lastCpm2Submission < 48 * 3600000) return alert(
-                'Cooldown 2 days');
-            const sub = { id: now, userId: telegramId, username: un, status: 'pending', timestamp: now, type: 'cpm2' };
-            await db.ref('specialSubmissions/' + sub.id).set(sub);
-            await updateUser({ cpm2Submission: { id: sub.id, status: 'pending', username: un, timestamp: now },
-                lastCpm2Submission: now });
-            alert('Submitted! Admin will review.');
-            refreshUI();
-        };
-        document.getElementById('howtoSpecial1Btn').onclick = () => window.open(
-            'https://youtube.com/shorts/Gjo2uiLiNTs?si=BiicArKGBvCfgVvG', '_blank');
-        document.getElementById('howtoSpecial2Btn').onclick = () => window.open(
-            'https://youtube.com/shorts/Gjo2uiLiNTs?si=BiicArKGBvCfgVvG', '_blank');
+        // ─── CPM / CPM2 tasks have been removed ───
+        // No handlers needed
 
         function renderPendingHistory() {
             const container = document.getElementById('pendingHistoryList');
             if (!container) return;
             const subs = [];
-            if (userData.cpmSubmission) subs.push({ type: 'CPM Task', reward: '800 PEDO', ...userData.cpmSubmission,
-                detail: 'Username: ' + userData.cpmSubmission.username });
-            if (userData.cpm2Submission) subs.push({ type: 'CPM2 Task', reward: '800 PEDO', ...userData.cpm2Submission,
-                detail: 'Username: ' + userData.cpm2Submission.username });
+            // Since CPM tasks are removed, no pending history items
             if (subs.length === 0) {
                 container.innerHTML = '<div style="text-align:center;padding:20px;color:#64748b;">No pending submissions.</div>';
                 return;
@@ -2986,7 +2919,7 @@
                 'https://t.me/share/url?url=Join%20Pedo%20Earn%20with%20code%3A%20' + userData.referralCode,
                 '_blank'); };
 
-        // ─── Admin ───
+        // ─── Admin (submissions now empty but keep for potential future use) ───
         let isAdmin = false;
         document.getElementById('adminTrigger').onclick = () => {
             if (!isAdmin) { const pwd = prompt('Admin password:'); if (pwd !== 'admin123') return;
@@ -3010,6 +2943,7 @@
                 document.getElementById('adminModal').classList.add('active');
             });
         };
+        // Keep approve/reject functions but they may not be used now
         window.approveSubmission = async (subId, userId, type) => {
             const sub = (await db.ref('specialSubmissions/' + subId).once('value')).val();
             if (!sub || sub.status !== 'pending') return;
@@ -3411,7 +3345,7 @@
                 document.getElementById('tttTurn').textContent = 'You Win!';
                 setTimeout(() => {
                     document.getElementById('gameTttModal').classList.remove('active');
-                    showGameResult('win', 30);
+                    showGameResult('win', 50); // Win reward now 50
                 }, 600);
             } else if (result.winner === 'O') {
                 result.cells.forEach(i => cells[i].classList.add('win-cell'));
@@ -3552,10 +3486,6 @@
                     pedoYoutubeClaimed: false,
                     pedoChannelClaimed: false,
                     paymentProofClaimed: false,
-                    cpmSubmission: null,
-                    cpm2Submission: null,
-                    lastCpmSubmission: 0,
-                    lastCpm2Submission: 0,
                     lastResetDate: new Date().toDateString(),
                     lastVerificationDate: ''
                 };

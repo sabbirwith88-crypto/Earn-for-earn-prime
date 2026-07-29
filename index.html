@@ -17,6 +17,8 @@
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <!-- Adexora SDK -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
+    <!-- Giga Pub SDK -->
+    <script src="https://ad.gigapub.tech/script?id=6432"></script>
     <style>
         /* ── Reset & Base ── */
         * {
@@ -754,7 +756,7 @@
             transform: scale(0.96);
         }
 
-        /* ─── Tasks (50) ─── */
+        /* ─── Tasks (20) ─── */
         .task-item-box {
             background: #f8f8f8;
             border-radius: 20px;
@@ -1357,8 +1359,8 @@
 
     <!-- ─── LOADING ─── -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo"><i class="fas fa-crown"></i><i class="fas fa-crown"></i></div>
-        <div class="loading-title">King of king</div>
+        <div class="loading-logo"><i class="fas fa-crown"></i><i class="fas fa-coins"></i></div>
+        <div class="loading-title">King</div>
         <div class="loading-progress"><div class="loading-progress-fill" id="loadingFill"></div></div>
         <div class="loading-percent" id="loadingPercent">0%</div>
         <div class="loading-sub">Loading your rewards...</div>
@@ -1427,11 +1429,11 @@
                 </div>
             </div>
 
-            <!-- Adexora Ad -->
+            <!-- Adexora Ad (reward 3, limit 15) -->
             <div id="adsTaskContainer2">
                 <div class="task-card ad-premium-card">
                     <div class="task-header"><span class="task-title"><i class="fas fa-bolt" style="color:#f5a623;margin-right:6px;"></i>Adexora</span><span class="task-reward">+3 KING</span></div>
-                    <div class="task-desc">Watch an Adexora ad to earn 3 KING. Daily limit: 15.</div>
+                    <div class="task-desc">Watch an Adexora ad to earn 3 KING. Daily limit: 15. (Fallback: Giga Pub)</div>
                     <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads2Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads2Fill"></div></div><div class="completion-stats" id="ads2Stats">0/15</div></div>
                     <button id="ads2Btn" class="task-btn">Watch Ad & Earn 3 KING</button>
                 </div>
@@ -1444,6 +1446,16 @@
                     <div class="task-desc">Watch an Adsgram ad to earn 5 KING. Daily limit: 10.</div>
                     <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads3Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads3Fill"></div></div><div class="completion-stats" id="ads3Stats">0/10</div></div>
                     <button id="ads3Btn" class="task-btn">Watch Ad & Earn 5 KING</button>
+                </div>
+            </div>
+
+            <!-- Giga Pub Ad (explicit) -->
+            <div id="adsTaskContainerGiga">
+                <div class="task-card ad-premium-card" style="border-color:#34d39930;">
+                    <div class="task-header"><span class="task-title"><i class="fas fa-rocket" style="color:#34d399;margin-right:6px;"></i>Giga Pub</span><span class="task-reward">+5 KING</span></div>
+                    <div class="task-desc">Watch a Giga Pub ad to earn 5 KING. Daily limit: 10.</div>
+                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="adsGigaPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adsGigaFill"></div></div><div class="completion-stats" id="adsGigaStats">0/10</div></div>
+                    <button id="adsGigaBtn" class="task-btn">Watch Ad & Earn 5 KING</button>
                 </div>
             </div>
 
@@ -1494,6 +1506,8 @@
                 <p>Contact admin for any help or to follow up on your requests.</p>
                 <button class="support-btn" id="contactSupportBtn"><i class="fas fa-telegram-plane"></i> Contact Admin</button>
             </div>
+            <!-- Hidden Admin Trigger -->
+            <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px; color:rgba(0,0,0,0.1);">Admin</div>
         </div>
 
         <!-- ─── LINKADS & TASKS ─── -->
@@ -1512,10 +1526,10 @@
                 <div id="linkAdsTimer" class="timer-text"></div>
             </div>
 
-            <!-- 50 Tasks -->
+            <!-- 20 Tasks -->
             <div style="margin-top:20px;">
-                <h3 style="color:#000;font-weight:700;margin-bottom:12px;">Tasks (1–50)</h3>
-                <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">Each task: download, watch video, submit code → earn 7 KING.</p>
+                <h3 style="color:#000;font-weight:700;margin-bottom:12px;">Tasks (1–20)</h3>
+                <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">Each task: watch video, enter code → earn 7 KING.</p>
                 <div id="tasksListContainer">
                     <!-- Generated by JS -->
                 </div>
@@ -1536,7 +1550,7 @@
             <div class="withdraw-requirements-box">
                 <div class="requirement-header"><i class="fas fa-clipboard-list"></i> <span>Withdrawal Requirements</span></div>
                 <div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title">Minimum Balance</div><div class="req-value" id="minBalReq">2,000 KING needed</div></div><div class="req-status" id="reqStatusBal">○</div></div>
-                <div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title">Referrals Required</div><div class="req-value">At least 3 active referrals</div></div><div class="req-status" id="reqStatusRef">○</div></div>
+                <div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title">Referrals Required</div><div class="req-value" id="refReqLabel">At least 1 active referral</div></div><div class="req-status" id="reqStatusRef">○</div></div>
                 <div class="requirement-item" id="reqItemGmail"><div class="req-icon"><i class="fas fa-envelope"></i></div><div class="req-details"><div class="req-title">Gmail Account Sold</div><div class="req-value">One Gmail sell approved by admin</div></div><div class="req-status" id="reqStatusGmail">○</div></div>
             </div>
             <div style="background:#f8f8f8;border-radius:28px;padding:18px 16px;border:1px solid #eee;">
@@ -1573,7 +1587,7 @@
     <!-- Withdraw Success -->
     <div id="withdrawSuccessModal" class="modal"><div class="modal-content"><i class="fas fa-check-circle" style="font-size:2.4rem;color:#2e7d32;"></i><h3 style="margin:12px 0;color:#000;">Withdrawal Requested</h3><div id="withdrawSuccessDetails" style="color:#888;font-size:0.9rem;"></div><button id="closeSuccessModal" class="claim-btn" style="margin-top:16px;">OK</button></div></div>
 
-    <!-- Admin -->
+    <!-- Admin Modal -->
     <div id="adminModal" class="modal"><div class="modal-content" style="max-width:450px;"><h3 style="margin-bottom:16px;color:#000;">Admin Panel</h3><div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;color:#555;font-size:0.85rem;"></div><button id="closeAdminModal" class="claim-btn skip-btn" style="margin-top:16px;">Close</button></div></div>
 
     <!-- Claim -->
@@ -1671,39 +1685,46 @@
             'https://wwp.giriubin.com/redirect-zone/31c41a18'
         ];
 
-        // Task video links – 50 unique links with ref=king1 to king50 (edit this array to change links)
-        const TASK_VIDEO_LINKS = [];
-        for (let i = 1; i <= 50; i++) {
-            TASK_VIDEO_LINKS.push('https://terabox.com/video/' + i + '?ref=king' + i);
-        }
-        const TERABOX_DOWNLOAD_LINK = 'https://terabox.com/download?ref=king';
-
-        // ─── FIXED SECRET CODES FOR EACH TASK (1 to 50) ───
-        // These codes are hardcoded and never shown in the UI.
-        // Users must watch the video (step 2) to discover the code.
-        // You can change these codes as needed.
+        // ─── 20 TASKS DATA ───
+        // Codes and video links exactly as provided
         const TASK_CODES = [
             '106493', '118816', '131139', '143462', '155785',
             '168108', '180431', '192754', '205077', '217400',
             '228316', '240639', '252962', '265285', '277608',
-            '289931', '302254', '314577', '326900', '339223',
-            '350139', '362462', '374785', '387108', '399431',
-            '411754', '424077', '436400', '448723', '461046',
-            '471962', '484285', '496608', '508931', '521254',
-            '533577', '545900', '558223', '570546', '582869',
-            '593785', '606108', '618431', '630754', '643077',
-            '655400', '667723', '680046', '692369', '704692'
+            '289931', '302254', '314577', '326900', '339223'
         ];
+        const TASK_VIDEO_LINKS = [
+            'https://1024terabox.com/s/1xe4sEvMRrYPelSrWwjAiFw',
+            'https://1024terabox.com/s/1oIcPJvu_m1i68qeyXsH-RQ',
+            'https://1024terabox.com/s/14D25noLuXQETacO-ig_JhQ',
+            'https://1024terabox.com/s/1s-Kg2eGFiokT0DhAEPQ_Pg',
+            'https://1024terabox.com/s/1RmxrxDsbTkEHDLUtdihKkw',
+            'https://1024terabox.com/s/1KSRvZIKmcqwMVGD-HXS6Jg',
+            'https://1024terabox.com/s/1XZFgDYH4BS1hm1NipN_kNA',
+            'https://1024terabox.com/s/1ZsRB-7JePtNqqEBE9l9TMQ',
+            'https://1024terabox.com/s/1ocCQBzn83P1BP47jI0-0ig',
+            'https://1024terabox.com/s/1g1V0dFYvQizUBkXSN1h_OQ',
+            'https://1024terabox.com/s/1FtGLjFZSSNS-CkwoG3p0Vg',
+            'https://1024terabox.com/s/1O3uWcGtYoCcpGAhIyAfkAg',
+            'https://1024terabox.com/s/1-ASxR1yr0IHGvwI0_v28_Q',
+            'https://1024terabox.com/s/12oGkkrHwCW6VaVv5_n2qFA',
+            'https://1024terabox.com/s/1KeWE3tarpcXOO3x9ZLGsAQ',
+            'https://1024terabox.com/s/1A5f3eEyRZC8-ZapJz1IPOQ',
+            'https://1024terabox.com/s/1GeFU6A0yxjyVG6HAfiBuiw',
+            'https://1024terabox.com/s/1LN7wp662kQaJ-6rTH5708Q',
+            'https://1024terabox.com/s/15GQcCYoB_tg_xnruigEi5Q',
+            'https://1024terabox.com/s/1v0bCREsZ846bQHz9JjOqRw'
+        ];
+        // Ensure we have exactly 20
+        const NUM_TASKS = 20;
 
-        // Helper to get code by task index (1-based)
-        function getTaskCode(taskIndex) {
-            return TASK_CODES[taskIndex - 1] || '000000';
-        }
+        function getTaskCode(index) { return TASK_CODES[index - 1] || '000000'; }
+        function getTaskVideo(index) { return TASK_VIDEO_LINKS[index - 1] || '#'; }
 
         let pendingClaim = null;
         let verificationClicks = 0;
         let verificationComplete = false;
-        let selectedMethod = 'binance'; // only binance now
+        let selectedMethod = 'binance';
 
         // ─── Utility ───
         function showToast(amount, task) {
@@ -1801,7 +1822,7 @@
             ).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">No withdrawals</div>';
 
             // Requirements
-            const reqRef = (userData.referrals?.length || 0) >= 3;
+            const reqRef = (userData.referrals?.length || 0) >= 1;
             document.getElementById('reqStatusRef').innerHTML = reqRef ? '<i class="fas fa-check-circle"></i>' :
                 '<i class="fas fa-times-circle"></i>';
             document.getElementById('reqStatusRef').className = 'req-status ' + (reqRef ? 'status-success' :
@@ -1838,6 +1859,8 @@
             updateAdProgress('ads2Progress', 15, 'ads2Fill', 'ads2Percent', 'ads2Stats', 'ads2Btn', 3);
             // Ads 3 (Adsgram) limit 10
             updateAdProgress('ads3Progress', 10, 'ads3Fill', 'ads3Percent', 'ads3Stats', 'ads3Btn', 5);
+            // Giga Pub limit 10
+            updateAdProgress('adsGigaProgress', 10, 'adsGigaFill', 'adsGigaPercent', 'adsGigaStats', 'adsGigaBtn', 5);
 
             // Link Ads
             let linkTotal = 0;
@@ -1862,10 +1885,11 @@
                 linkBtn.classList.remove('completed');
             }
 
-            // Total ads
+            // Total ads (all ad networks)
             let totalAds = 0,
                 earnedAds = 0;
-            ['ads1Progress', 'ads2Progress', 'ads3Progress'].forEach(key => {
+            const adKeys = ['ads1Progress', 'ads2Progress', 'ads3Progress', 'adsGigaProgress'];
+            adKeys.forEach(key => {
                 const p = userData[key] || 0;
                 totalAds += p;
                 const reward = key === 'ads2Progress' ? 3 : 5;
@@ -1874,7 +1898,7 @@
             document.getElementById('totalAdsCount').innerText = totalAds;
             document.getElementById('totalAdsEarned').innerText = earnedAds;
 
-            // Tasks - only show unclaimed ones, code hidden
+            // Tasks - only show unclaimed ones
             renderTaskList();
 
             // Sell History
@@ -1913,7 +1937,6 @@
                     const val = child.val();
                     items.push({ id: child.key, ...val });
                 });
-                // Sort by date descending
                 items.sort((a, b) => (b.date || 0) - (a.date || 0));
 
                 if (items.length === 0) {
@@ -1924,26 +1947,30 @@
                             item.status === 'approved' ? 'status-approved' : 'status-rejected';
                         const statusLabel = item.status.charAt(0).toUpperCase() + item.status.slice(1);
                         const date = item.date ? new Date(item.date).toLocaleDateString() : 'N/A';
-                        html += `
-                                <div class="sell-history-item">
-                                    <div class="item-row">
-                                        <span class="label">Email</span>
-                                        <span class="value">${item.email || 'N/A'}</span>
-                                    </div>
-                                    <div class="item-row">
-                                        <span class="label">Recovery</span>
-                                        <span class="value">${item.recovery || 'N/A'}</span>
-                                    </div>
-                                    <div class="item-row">
-                                        <span class="label">Date</span>
-                                        <span class="value">${date}</span>
-                                    </div>
-                                    <div class="item-row">
-                                        <span class="label">Status</span>
-                                        <span class="status-badge ${statusClass}">${statusLabel}</span>
-                                    </div>
-                                </div>
+                        let details = '';
+                        if (item.type === 'gmail') {
+                            details = `
+                                <div class="item-row"><span class="label">Email</span><span class="value">${escapeHtml(item.email || 'N/A')}</span></div>
+                                <div class="item-row"><span class="label">Recovery</span><span class="value">${escapeHtml(item.recovery || 'N/A')}</span></div>
                             `;
+                        } else if (item.type === 'newgmail') {
+                            details = `
+                                <div class="item-row"><span class="label">Contact</span><span class="value">${escapeHtml(item.contact || 'N/A')}</span></div>
+                            `;
+                        }
+                        html += `
+                            <div class="sell-history-item">
+                                ${details}
+                                <div class="item-row">
+                                    <span class="label">Date</span>
+                                    <span class="value">${date}</span>
+                                </div>
+                                <div class="item-row">
+                                    <span class="label">Status</span>
+                                    <span class="status-badge ${statusClass}">${statusLabel}</span>
+                                </div>
+                            </div>
+                        `;
                     });
                 }
                 container.innerHTML = html;
@@ -2159,7 +2186,41 @@
             refreshUI();
         }
 
-        // ─── Ads 1 (Monetag) ───
+        // ─── Ad Fallback: try Adexora, then Giga, then Monetag, then Adsgram ───
+        async function tryAdWithFallback(rewardKey, taskName) {
+            const adFunctions = [
+                { name: 'Adexora', fn: async () => {
+                        if (typeof window.showAdexora !== 'function') throw new Error('Adexora SDK not loaded');
+                        await window.showAdexora();
+                    }},
+                { name: 'Giga Pub', fn: async () => {
+                        if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
+                        await window.showGiga();
+                    }},
+                { name: 'Monetag', fn: async () => {
+                        if (typeof show_10541383 !== 'function') throw new Error('Monetag SDK not loaded');
+                        await show_10541383();
+                    }},
+                { name: 'Adsgram', fn: async () => {
+                        if (typeof window.Adsgram === 'undefined') throw new Error('Adsgram SDK not loaded');
+                        const controller = window.Adsgram.init({ blockId: "int-28543" });
+                        const result = await controller.show();
+                        if (!result || !result.done) throw new Error('Adsgram ad not completed');
+                    }}
+            ];
+            for (const ad of adFunctions) {
+                try {
+                    await ad.fn();
+                    return ad.name;
+                } catch (e) {
+                    console.warn(`${ad.name} failed:`, e);
+                    continue;
+                }
+            }
+            throw new Error('All ad networks failed');
+        }
+
+        // ─── Ads 1 (Monetag) – regular ───
         document.getElementById('ads1Btn').onclick = async function() {
             const prog = userData.ads1Progress || 0;
             if (prog >= 10) { alert('Daily limit reached.'); return; }
@@ -2178,23 +2239,24 @@
                 btn.innerHTML = 'Watch Ad & Earn 5 KING'; }
         };
 
-        // ─── Ads 2 (Adexora) reward 3 ───
+        // ─── Ads 2 (Adexora) with fallback ───
         document.getElementById('ads2Btn').onclick = async function() {
             const prog = userData.ads2Progress || 0;
             if (prog >= 15) { alert('Daily limit reached.'); return; }
             const btn = this;
             btn.disabled = true;
-            btn.innerHTML = 'Loading...';
+            btn.innerHTML = 'Loading ad...';
             try {
-                if (typeof window.showAdexora !== 'function') throw new Error('Adexora SDK not loaded');
-                await window.showAdexora();
-                await grantAdReward('ads2Progress', 3, 'Adexora', btn);
+                const adName = await tryAdWithFallback('ads2Progress', 'Adexora');
+                await grantAdReward('ads2Progress', 3, adName, btn);
                 btn.disabled = false;
                 btn.innerHTML = 'Watch Ad & Earn 3 KING';
-            } catch (e) { console.error(e);
-                alert('Ad failed: ' + e.message);
+            } catch (e) {
+                console.error(e);
+                alert('All ad networks failed: ' + e.message);
                 btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 3 KING'; }
+                btn.innerHTML = 'Watch Ad & Earn 3 KING';
+            }
         };
 
         // ─── Ads 3 (Adsgram) ───
@@ -2215,6 +2277,25 @@
                 } else { alert('Ad not completed.');
                     btn.disabled = false;
                     btn.innerHTML = 'Watch Ad & Earn 5 KING'; }
+            } catch (e) { console.error(e);
+                alert('Ad failed: ' + e.message);
+                btn.disabled = false;
+                btn.innerHTML = 'Watch Ad & Earn 5 KING'; }
+        };
+
+        // ─── Giga Pub (standalone) ───
+        document.getElementById('adsGigaBtn').onclick = async function() {
+            const prog = userData.adsGigaProgress || 0;
+            if (prog >= 10) { alert('Daily limit reached.'); return; }
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = 'Loading...';
+            try {
+                if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
+                await window.showGiga();
+                await grantAdReward('adsGigaProgress', 5, 'Giga Pub', btn);
+                btn.disabled = false;
+                btn.innerHTML = 'Watch Ad & Earn 5 KING';
             } catch (e) { console.error(e);
                 alert('Ad failed: ' + e.message);
                 btn.disabled = false;
@@ -2274,23 +2355,18 @@
             );
         };
 
-        // ─── Tasks (50) ───
+        // ─── Tasks (20) ───
         function renderTaskList() {
             const container = document.getElementById('tasksListContainer');
             let html = '';
-            // Filter tasks: only show those not claimed
-            for (let i = 1; i <= 50; i++) {
+            for (let i = 1; i <= NUM_TASKS; i++) {
                 const taskKey = 'task' + i;
-                const taskData = userData[taskKey] || { step1: false, step2: false, claimed: false };
-                if (taskData.claimed) continue; // skip claimed tasks (removed forever)
+                const taskData = userData[taskKey] || { watched: false, claimed: false };
+                if (taskData.claimed) continue; // hide claimed tasks
 
-                const step1Done = taskData.step1 || false;
-                const step2Done = taskData.step2 || false;
-                let statusText = '⏸ Not started';
-                let statusClass = '';
-                if (step2Done) { statusText = '⏳ Submit code';
-                    statusClass = 'pending'; } else if (step1Done) { statusText = '⏳ Watch video';
-                    statusClass = 'pending'; }
+                const watched = taskData.watched || false;
+                let statusText = watched ? '⏳ Enter code' : '▶️ Watch video';
+                let statusClass = watched ? 'pending' : '';
 
                 html += `
                         <div class="task-item-box" data-task="${i}">
@@ -2299,19 +2375,15 @@
                                 <div class="task-status-badge ${statusClass}">${statusText}</div>
                             </div>
                             <div class="task-step-row">
-                                <span class="step-icon ${step1Done ? 'done' : ''}">${step1Done ? '✅' : '⏹'}</span>
-                                <span style="flex:1;">1. Download Terabox</span>
-                                <button class="step-action" data-task="${i}" data-step="1" ${step1Done ? 'disabled' : ''}>${step1Done ? 'Done' : 'Download'}</button>
+                                <span class="step-icon ${watched ? 'done' : ''}">${watched ? '✅' : '⏹'}</span>
+                                <span style="flex:1;">Watch Video</span>
+                                <button class="step-action" data-task="${i}" data-step="watch" ${watched ? 'disabled' : ''}>${watched ? 'Done' : 'Watch'}</button>
                             </div>
-                            <div class="task-step-row">
-                                <span class="step-icon ${step2Done ? 'done' : ''}">${step2Done ? '✅' : '⏹'}</span>
-                                <span style="flex:1;">2. Watch Video</span>
-                                <button class="step-action" data-task="${i}" data-step="2" ${!step1Done || step2Done ? 'disabled' : ''}>${step2Done ? 'Done' : 'Watch'}</button>
-                            </div>
+                            ${watched ? `
                             <div class="task-submit-box">
                                 <input type="text" class="task-code-input" placeholder="Enter 6-digit code" maxlength="6" pattern="[0-9]*" inputmode="numeric">
-                                <button class="task-submit-btn" data-task="${i}" ${!step2Done ? 'disabled' : ''}>Submit</button>
-                            </div>
+                                <button class="task-submit-btn" data-task="${i}">Submit</button>
+                            </div>` : ''}
                         </div>
                     `;
             }
@@ -2320,53 +2392,38 @@
             }
             container.innerHTML = html;
 
-            // Attach events for step buttons
-            container.querySelectorAll('.step-action').forEach(btn => {
+            // Watch button
+            container.querySelectorAll('.step-action[data-step="watch"]').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const taskId = parseInt(this.dataset.task);
-                    const step = parseInt(this.dataset.step);
                     const taskKey = 'task' + taskId;
-                    const taskData = userData[taskKey] || { step1: false, step2: false, claimed: false };
-                    if (step === 1) {
-                        window.open(TERABOX_DOWNLOAD_LINK, '_blank');
-                        if (!taskData.step1) {
-                            taskData.step1 = true;
-                            updateUser({ [taskKey]: taskData }).then(() => {
-                                renderTaskList();
-                                refreshUI();
-                            });
-                        }
-                    } else if (step === 2) {
-                        const videoLink = TASK_VIDEO_LINKS[taskId - 1] || '#';
-                        window.open(videoLink, '_blank');
-                        if (!taskData.step2) {
-                            taskData.step2 = true;
-                            updateUser({ [taskKey]: taskData }).then(() => {
-                                renderTaskList();
-                                refreshUI();
-                            });
-                        }
-                    }
+                    const taskData = userData[taskKey] || { watched: false, claimed: false };
+                    if (taskData.watched) return;
+                    const videoLink = getTaskVideo(taskId);
+                    window.open(videoLink, '_blank');
+                    taskData.watched = true;
+                    updateUser({ [taskKey]: taskData }).then(() => {
+                        renderTaskList();
+                        refreshUI();
+                    });
                 });
             });
 
-            // Attach submit events – code is hidden, but we compare against fixed TASK_CODES
+            // Submit buttons
             container.querySelectorAll('.task-submit-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const taskId = parseInt(this.dataset.task);
                     const taskKey = 'task' + taskId;
-                    const taskData = userData[taskKey] || { step1: false, step2: false, claimed: false };
+                    const taskData = userData[taskKey] || { watched: false, claimed: false };
                     if (taskData.claimed) { alert('Already claimed!'); return; }
-                    if (!taskData.step2) { alert('Complete step 2 (watch video) first!'); return; }
+                    if (!taskData.watched) { alert('Watch the video first!'); return; }
                     const input = this.closest('.task-item-box').querySelector('.task-code-input');
                     const entered = input.value.trim();
-                    // Get the fixed code for this task
                     const correctCode = getTaskCode(taskId);
                     if (entered !== correctCode) {
                         alert('Incorrect code. Please watch the video to get the correct code.');
                         return;
                     }
-                    // Correct code – reward!
                     const reward = 7;
                     taskData.claimed = true;
                     updateUser({
@@ -2380,7 +2437,7 @@
                         renderTaskList();
                         refreshUI();
                     }).catch(err => {
-                        alert('Error claiming reward: ' + err.message);
+                        alert('Error: ' + err.message);
                     });
                 });
             });
@@ -2413,7 +2470,7 @@
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit for Review';
                 if (webApp && webApp.HapticFeedback) webApp.HapticFeedback.notificationOccurred('success');
-                refreshUI(); // refresh to show history
+                refreshUI();
             } catch (e) {
                 console.error(e);
                 alert('Error: ' + e.message);
@@ -2454,7 +2511,7 @@
 
         // ─── Support Contact ───
         document.getElementById('contactSupportBtn').onclick = function() {
-            window.open('https://t.me/mrdinooo11', '_blank');
+            window.open('https://t.me/KingsenSupport', '_blank');
         };
 
         // ─── Payment (only Binance) ───
@@ -2462,9 +2519,9 @@
             const amt = parseInt(document.getElementById('withdrawAmount').value);
             const acc = document.getElementById('paymentAccount').value.trim();
             const min = 2000;
-            if (amt < min || amt > (userData.balance || 0) || (userData.referrals?.length || 0) < 3 || !userData
+            if (amt < min || amt > (userData.balance || 0) || (userData.referrals?.length || 0) < 1 || !userData
                 .gmailSoldApproved) {
-                alert('Requirements: Min 2000 KING, 3 referrals, Gmail sold approved');
+                alert('Requirements: Min 2000 KING, 1 referral, Gmail sold approved');
                 return;
             }
             const fee = Math.floor(amt * 0.1);
@@ -2504,7 +2561,7 @@
             switchSection('cashoutSection'); };
 
         ['supportIconHome', 'supportIconAds', 'supportIconSell', 'supportIconLinkads', 'supportIconCashout']
-        .forEach(id => document.getElementById(id).onclick = () => window.open('https://t.me/mrdinooo11',
+        .forEach(id => document.getElementById(id).onclick = () => window.open('https://t.me/KingsenSupport',
                 '_blank'));
 
         document.getElementById('copyReferralCodeBtn').onclick = () => { navigator.clipboard.writeText(userData
@@ -2523,50 +2580,42 @@
             document.getElementById('wdUsdValue').innerText = '$' + ((amt - fee) / EXCHANGE_RATE).toFixed(3);
         });
 
-        // ─── Admin ───
+        // ─── Admin ─── (simple inline)
         let isAdmin = false;
-        document.addEventListener('DOMContentLoaded', function() {
-            const trigger = document.getElementById('adminTrigger');
-            if (trigger) {
-                trigger.addEventListener('click', function() {
-                    if (!isAdmin) { const pwd = prompt('Admin password:'); if (pwd !== 'admin123') return;
-                        isAdmin = true; }
-                    db.ref('sellSubmissions').once('value', snap => {
-                        const subs = [];
-                        snap.forEach(c => subs.push({ id: c.key, ...c.val() }));
-                        let html = subs.map(s =>
-                            '<div style="border-bottom:1px solid #eee;padding:12px 0;font-size:0.8rem;">' +
-                            '<div><strong style="color:#000;">' + (s.type || 'Unknown') +
-                            '</strong> <span style="color:#888;">' + s.status + '</span></div>' +
-                            '<div style="color:#555;">' + (s.email || s.username || s.contact || '') +
-                            '</div>' +
-                            '<div style="color:#aaa;font-size:0.65rem;">' + (s.username || s.userId || '') +
-                            '</div>' +
-                            '<div style="margin-top:6px;">' +
-                            '<button onclick="window.approveSell(\'' + s.id + '\',\'' + s.type +
-                                '\')" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:4px 14px;border-radius:40px;cursor:pointer;margin-right:6px;font-size:0.7rem;">Approve</button>' +
-                            '<button onclick="window.rejectSell(\'' + s.id + '\')" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;padding:4px 14px;border-radius:40px;cursor:pointer;font-size:0.7rem;">Reject</button>' +
-                            '</div></div>'
-                        ).join('');
-                        document.getElementById('adminSubmissionsList').innerHTML = html ||
-                            '<div style="padding:20px;color:#aaa;">No submissions.</div>';
-                        document.getElementById('adminModal').classList.add('active');
-                    });
-                });
+        document.getElementById('adminTrigger').addEventListener('click', function() {
+            if (!isAdmin) {
+                const pwd = prompt('Admin password:');
+                if (pwd !== 'admin123') return;
+                isAdmin = true;
             }
+            db.ref('sellSubmissions').once('value', snap => {
+                const subs = [];
+                snap.forEach(c => subs.push({ id: c.key, ...c.val() }));
+                let html = subs.map(s =>
+                    `<div style="border-bottom:1px solid #eee;padding:12px 0;font-size:0.8rem;">
+                        <div><strong>${s.type || 'Unknown'}</strong> <span style="color:#888;">${s.status}</span></div>
+                        <div style="color:#555;">${s.email || s.contact || s.username || ''}</div>
+                        <div style="color:#aaa;font-size:0.65rem;">${s.userId || ''}</div>
+                        <div style="margin-top:6px;">
+                            <button onclick="window.approveSell('${s.id}','${s.type}','${s.userId}')" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:4px 14px;border-radius:40px;cursor:pointer;margin-right:6px;font-size:0.7rem;">Approve</button>
+                            <button onclick="window.rejectSell('${s.id}')" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;padding:4px 14px;border-radius:40px;cursor:pointer;font-size:0.7rem;">Reject</button>
+                        </div>
+                    </div>`
+                ).join('');
+                document.getElementById('adminSubmissionsList').innerHTML = html || '<div style="padding:20px;color:#aaa;">No submissions.</div>';
+                document.getElementById('adminModal').classList.add('active');
+            });
         });
+        document.getElementById('closeAdminModal').onclick = () => document.getElementById('adminModal').classList.remove('active');
 
-        window.approveSell = async (subId, type) => {
+        window.approveSell = async (subId, type, userId) => {
             const sub = (await db.ref('sellSubmissions/' + subId).once('value')).val();
             if (!sub || sub.status !== 'pending') return;
             await db.ref('sellSubmissions/' + subId).update({ status: 'approved' });
-            let reward = 0;
-            let gmailFlag = false;
-            if (type === 'gmail') { reward = 1000;
-                gmailFlag = true; } else if (type === 'newgmail') { reward = 1200;
-                gmailFlag = true; }
-            if (reward > 0 && sub.userId) {
-                const userRef = db.ref('users/' + sub.userId);
+            let reward = type === 'gmail' ? 1000 : type === 'newgmail' ? 1200 : 0;
+            let gmailFlag = type === 'gmail' || type === 'newgmail';
+            if (reward > 0 && userId) {
+                const userRef = db.ref('users/' + userId);
                 const snap = await userRef.once('value');
                 if (snap.exists()) {
                     const user = snap.val();
@@ -2575,29 +2624,29 @@
                         totalEarned: (user.totalEarned || 0) + reward,
                         tasksCompleted: (user.tasksCompleted || 0) + 1
                     };
-                    if (gmailFlag) {
-                        updates.gmailSoldApproved = true;
-                    }
+                    if (gmailFlag) updates.gmailSoldApproved = true;
                     await userRef.update(updates);
-                    const histEntry = { id: Date.now(), amount: reward, description: 'Sell ' + type +
-                            ' approved (+' + reward + ' KING)', date: Date.now() };
-                    const newHist = [histEntry, ...(user.earningsHistory || [])].slice(0, 200);
-                    await userRef.update({ earningsHistory: newHist });
-                    if (sub.userId === telegramId) refreshUI();
+                    // Sell history
+                    const sellHist = user.sellHistory || [];
+                    sellHist.push({ id: subId, type, status: 'approved', date: Date.now() });
+                    await userRef.update({ sellHistory: sellHist.slice(0, 50) });
+                    // Earnings history
+                    const entry = { id: Date.now(), amount: reward, description: `✅ Sell ${type} approved (+${reward} KING)`, date: Date.now() };
+                    const history = user.earningsHistory || [];
+                    history.unshift(entry);
+                    await userRef.update({ earningsHistory: history.slice(0, 200) });
+                    if (userId === telegramId) refreshUI();
                 }
             }
             alert('Approved! +' + reward + ' KING');
             document.getElementById('adminModal').classList.remove('active');
-            refreshUI(); // refresh history
+            loadAllData?.();
         };
         window.rejectSell = async (subId) => {
             await db.ref('sellSubmissions/' + subId).update({ status: 'rejected' });
             alert('Rejected');
             document.getElementById('adminModal').classList.remove('active');
-            refreshUI();
         };
-        document.getElementById('closeAdminModal').onclick = () => document.getElementById('adminModal').classList.remove(
-            'active');
 
         // ─── Referral Code Modal ───
         document.getElementById('submitReferralCodeBtn').onclick = async () => {
@@ -2650,28 +2699,28 @@
                     ads1Progress: 0,
                     ads2Progress: 0,
                     ads3Progress: 0,
+                    adsGigaProgress: 0,
                     linkAd1Progress: 0,
                     linkAd2Progress: 0,
                     linkAd3Progress: 0,
                     linkAd4Progress: 0,
                     gmailSoldApproved: false,
+                    sellHistory: [],
                     lastResetDate: new Date().toDateString(),
                     lastVerificationDate: ''
                 };
-                for (let i = 1; i <= 50; i++) {
-                    newUser['task' + i] = { step1: false, step2: false, claimed: false };
+                for (let i = 1; i <= NUM_TASKS; i++) {
+                    newUser['task' + i] = { watched: false, claimed: false };
                 }
                 await db.ref('users/' + telegramId).set(newUser);
                 data = newUser;
             } else {
+                // Ensure all tasks exist
                 let needUpdate = false;
-                for (let i = 1; i <= 50; i++) {
+                for (let i = 1; i <= NUM_TASKS; i++) {
                     const taskKey = 'task' + i;
                     if (!data[taskKey]) {
-                        data[taskKey] = { step1: false, step2: false, claimed: false };
-                        needUpdate = true;
-                    } else if (data[taskKey].code !== undefined) {
-                        delete data[taskKey].code;
+                        data[taskKey] = { watched: false, claimed: false };
                         needUpdate = true;
                     }
                 }
@@ -2690,6 +2739,7 @@
                     ads1Progress: 0,
                     ads2Progress: 0,
                     ads3Progress: 0,
+                    adsGigaProgress: 0,
                     linkAd1Progress: 0,
                     linkAd2Progress: 0,
                     linkAd3Progress: 0,
@@ -2719,6 +2769,8 @@
                 }
             });
         }
+
+        function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
     </script>
 
 </body>

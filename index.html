@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>King — Earn King Coin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://telegram.org/js/telegram-web-app.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js">
-    </script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <!-- Monetag SDK -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     <!-- Adsgram SDK -->
@@ -20,1344 +17,185 @@
     <!-- Giga Pub SDK -->
     <script src="https://ad.gigapub.tech/script?id=6432"></script>
     <style>
-        /* ── Reset & Base ── */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        body {
-            background: #ffffff;
-            display: flex;
-            justify-content: center;
-        }
-        .app-container {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-            min-height: 100vh;
-            background: #ffffff;
-            position: relative;
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.04);
-            overflow-x: hidden;
-            color: #000;
-        }
-
-        /* ── Loading ── */
-        .loading-screen {
-            position: fixed;
-            inset: 0;
-            background: #ffffff;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.6s ease;
-        }
-        .loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .loading-logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 36px;
-            background: #f5f5f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 30px;
-            border: 2px solid rgba(0, 0, 0, 0.06);
-            box-shadow: 0 0 60px rgba(0, 0, 0, 0.02);
-            animation: pulseLogo 2s ease-in-out infinite;
-        }
-        @keyframes pulseLogo {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.03);
-            }
-        }
-        .loading-logo i {
-            font-size: 2.8rem;
-            color: #f5a623;
-        }
-        .loading-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #000;
-            letter-spacing: -0.5px;
-        }
-        .loading-progress {
-            width: 280px;
-            height: 4px;
-            background: #eaeaea;
-            border-radius: 6px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        .loading-progress-fill {
-            width: 0%;
-            height: 100%;
-            background: #f5a623;
-            transition: width 0.15s ease;
-            border-radius: 6px;
-        }
-        .loading-percent {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #999;
-            margin-top: 6px;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 1px;
-        }
-        .loading-sub {
-            font-size: 0.7rem;
-            color: #ccc;
-            margin-top: 20px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        /* ── Balance Card ── */
-        .balance-card {
-            background: #f8f8f8;
-            border-radius: 32px;
-            padding: 28px 24px;
-            margin-bottom: 20px;
-            margin-top: 16px;
-            border: 1px solid #eee;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-            position: relative;
-            overflow: hidden;
-        }
-        .balance-card::after {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -20%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(245, 166, 35, 0.04), transparent 70%);
-            pointer-events: none;
-        }
-        .balance-label {
-            font-weight: 500;
-            color: #888;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .balance-amount {
-            font-size: 3.2rem;
-            font-weight: 800;
-            color: #000;
-            margin: 8px 0 2px;
-            letter-spacing: -1px;
-        }
-        .usd-equivalent {
-            font-size: 0.9rem;
-            color: #888;
-            font-weight: 400;
-        }
-        .small-text {
-            font-size: 0.65rem;
-            color: #aaa;
-            margin-top: 4px;
-            letter-spacing: 0.5px;
-        }
-        .balance-badge {
-            display: inline-block;
-            background: #f5a62310;
-            color: #f5a623;
-            padding: 2px 14px;
-            border-radius: 40px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            margin-top: 8px;
-            border: 1px solid #f5a62320;
-        }
-
-        /* ── Stats ── */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .stat-card {
-            background: #f8f8f8;
-            border-radius: 20px;
-            padding: 16px 8px;
-            text-align: center;
-            border: 1px solid #eee;
-        }
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #000;
-        }
-        .stat-label {
-            font-size: 0.7rem;
-            color: #888;
-            margin-top: 4px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-
-        /* ── Referral Card ── */
-        .referral-home-card {
-            background: #f8f8f8;
-            border-radius: 28px;
-            padding: 24px 20px;
-            margin-bottom: 20px;
-            border: 1px solid #eee;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-        }
-        .referral-home-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 14px;
-        }
-        .referral-home-header i {
-            font-size: 1.6rem;
-            color: #f5a623;
-        }
-        .referral-home-header h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #000;
-        }
-        .referral-home-header span {
-            margin-left: auto;
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-        .referral-code-display {
-            background: #fff;
-            border: 1px solid #ddd;
-            padding: 14px;
-            border-radius: 60px;
-            margin: 12px 0 16px;
-            font-weight: 600;
-            color: #000;
-            text-align: center;
-            letter-spacing: 2px;
-            font-size: 1.1rem;
-        }
-        .btn-group-home {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn-group-home .btn-primary {
-            background: #f5a623;
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            justify-content: center;
-            min-width: 100px;
-        }
-        .btn-group-home .btn-primary:active {
-            transform: scale(0.96);
-        }
-        .btn-group-home .btn-secondary {
-            background: #f0f0f0;
-            border: 1px solid #ddd;
-            color: #000;
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            justify-content: center;
-            min-width: 100px;
-        }
-        .btn-group-home .btn-secondary:active {
-            transform: scale(0.96);
-        }
-        .referral-stats-home {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid #eee;
-        }
-        .referral-stats-home div {
-            text-align: center;
-        }
-        .referral-stats-home .num {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #000;
-        }
-        .referral-stats-home .lbl {
-            font-size: 0.65rem;
-            color: #aaa;
-        }
-        .referral-list-home {
-            margin-top: 12px;
-            max-height: 160px;
-            overflow-y: auto;
-        }
-        .referral-list-home .friend-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 12px 14px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid #eee;
-            color: #555;
-            font-size: 0.85rem;
-        }
-        .referral-list-home .friend-card span:last-child {
-            color: #f5a623;
-            font-weight: 600;
-        }
-
-        /* ── Bottom Nav ── */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #ffffff;
-            backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-around;
-            padding: 6px 0 18px;
-            border-top: 1px solid #eee;
-            max-width: 500px;
-            margin: 0 auto;
-            z-index: 100;
-        }
-        .nav-btn {
-            background: none;
-            border: none;
-            color: #aaa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            font-size: 0.6rem;
-            padding: 6px 8px;
-            flex: 1;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: 0.25s;
-            font-weight: 500;
-            position: relative;
-        }
-        .nav-btn i {
-            font-size: 1.3rem;
-            color: #aaa;
-            transition: 0.25s;
-        }
-        .nav-btn.active {
-            color: #f5a623;
-        }
-        .nav-btn.active i {
-            color: #f5a623;
-        }
-        .nav-btn.active::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 3px;
-            background: #f5a623;
-            border-radius: 0 0 6px 6px;
-        }
-
-        /* ── Content Sections ── */
-        .content-section {
-            display: none;
-            padding: 16px 18px;
-            padding-bottom: 90px;
-            animation: fadeIn 0.3s ease;
-        }
-        .content-section.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ── Section Header ── */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-top: 4px;
-        }
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #000;
-            letter-spacing: -0.3px;
-        }
-        .support-icon {
-            background: #f0f0f0;
-            width: 38px;
-            height: 38px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid #eee;
-            transition: 0.2s;
-        }
-        .support-icon i {
-            color: #666;
-            font-size: 1.1rem;
-        }
-        .support-icon:hover {
-            background: #e8e8e8;
-        }
-
-        /* ── Task Cards ── */
-        .task-card {
-            background: #f8f8f8;
-            border-radius: 24px;
-            padding: 20px 18px;
-            margin-bottom: 18px;
-            border: 1px solid #eee;
-            transition: 0.2s;
-        }
-        .task-card:hover {
-            background: #f5f5f5;
-        }
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-        .task-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #000;
-        }
-        .task-reward {
-            background: #f5a62310;
-            padding: 2px 14px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #f5a623;
-            border: 1px solid #f5a62320;
-        }
-        .task-desc {
-            color: #666;
-            font-size: 0.8rem;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-        .progress-container {
-            margin: 12px 0 10px;
-        }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            color: #888;
-            margin-bottom: 4px;
-        }
-        .progress-bar-bg {
-            background: #eaeaea;
-            border-radius: 60px;
-            height: 5px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            background: #f5a623;
-            width: 0%;
-            height: 100%;
-            border-radius: 60px;
-            transition: width 0.4s;
-        }
-        .completion-stats {
-            font-size: 0.65rem;
-            color: #aaa;
-            text-align: right;
-            margin-top: 4px;
-        }
-        .task-btn {
-            background: #f5a623;
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            padding: 12px 16px;
-            border-radius: 60px;
-            width: 100%;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.25s;
-            box-shadow: 0 4px 20px rgba(245, 166, 35, 0.1);
-        }
-        .task-btn:active {
-            transform: scale(0.97);
-        }
-        .task-btn:disabled {
-            background: #eaeaea;
-            color: #aaa;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-        .task-btn.completed {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #a5d6a7;
-            box-shadow: none;
-        }
-        .timer-text {
-            font-size: 0.8rem;
-            color: #f57c00;
-            font-weight: 600;
-            margin-top: 8px;
-            text-align: center;
-        }
-
-        /* ── Ad Cards ── */
-        .ad-premium-card {
-            background: #fef9e7;
-            border: 1px solid #f5a62320;
-        }
-        .ad-premium-card .task-title {
-            color: #f5a623;
-        }
-        .ad-premium-card .task-reward {
-            background: #f5a62310;
-            color: #f5a623;
-        }
-
-        /* ── Link Ads Group ── */
-        .link-ads-group {
-            background: #e3f2fd;
-            border: 1px solid #64b5f620;
-        }
-        .link-ads-group .task-title {
-            color: #1a73e8;
-        }
-        .link-ads-group .task-reward {
-            background: #1a73e810;
-            color: #1a73e8;
-        }
-
-        /* ── Sell Cards ── */
-        .sell-card {
-            background: #fce4ec;
-            border: 1px solid #f0629220;
-            margin-bottom: 18px;
-        }
-        .sell-card .task-title {
-            color: #d81b60;
-        }
-        .sell-card .task-reward {
-            background: #d81b6010;
-            color: #d81b60;
-        }
-        .sell-select,
-        .sell-input {
-            width: 100%;
-            padding: 12px 16px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 60px;
-            color: #000;
-            font-size: 0.9rem;
-            margin: 8px 0;
-            outline: none;
-            transition: 0.2s;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        .sell-select:focus,
-        .sell-input:focus {
-            border-color: #f5a623;
-        }
-        .sell-select option {
-            background: #fff;
-            color: #000;
-        }
-        .sell-input::placeholder {
-            color: #aaa;
-        }
-        .sell-btn {
-            background: #d81b60;
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            padding: 12px;
-            border-radius: 60px;
-            width: 100%;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.25s;
-            box-shadow: 0 4px 20px rgba(216, 27, 96, 0.1);
-            margin-top: 4px;
-        }
-        .sell-btn:active {
-            transform: scale(0.97);
-        }
-        .sell-btn:disabled {
-            background: #eaeaea;
-            color: #aaa;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-        .sell-status {
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 8px;
-            text-align: center;
-        }
-        /* Sell History Card */
-        .sell-history-card {
-            background: #f8f8f8;
-            border-radius: 24px;
-            padding: 18px 16px;
-            margin-bottom: 18px;
-            border: 1px solid #eee;
-        }
-        .sell-history-card .history-title {
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 12px;
-            font-size: 1rem;
-        }
-        .sell-history-item {
-            background: #fff;
-            border-radius: 16px;
-            padding: 12px 14px;
-            margin-bottom: 10px;
-            border: 1px solid #eee;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .sell-history-item .item-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-        }
-        .sell-history-item .item-row .label {
-            color: #888;
-        }
-        .sell-history-item .item-row .value {
-            color: #000;
-            font-weight: 500;
-        }
-        .sell-history-item .status-badge {
-            padding: 2px 12px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-        .status-pending {
-            background: #fff3e0;
-            color: #e65100;
-        }
-        .status-approved {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .status-rejected {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        /* ── Support Card ── */
-        .support-team-card {
-            background: #e8f0fe;
-            border: 1px solid #64b5f620;
-            border-radius: 24px;
-            padding: 20px;
-            margin-bottom: 18px;
-            text-align: center;
-        }
-        .support-team-card i {
-            font-size: 2rem;
-            color: #1a73e8;
-            margin-bottom: 8px;
-        }
-        .support-team-card h3 {
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 4px;
-            font-size: 1rem;
-        }
-        .support-team-card p {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 12px;
-        }
-        .support-team-card .support-btn {
-            background: #fff;
-            border: 1px solid #ddd;
-            color: #000;
-            padding: 10px 20px;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .support-team-card .support-btn:active {
-            transform: scale(0.96);
-        }
-
-        /* ─── Tasks (20) ─── */
-        .task-item-box {
-            background: #f8f8f8;
-            border-radius: 20px;
-            padding: 16px 18px;
-            margin-bottom: 14px;
-            border: 1px solid #eee;
-        }
-        .task-item-box .task-header-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .task-item-box .task-header-box .task-num {
-            font-weight: 700;
-            color: #000;
-            font-size: 1rem;
-        }
-        .task-item-box .task-header-box .task-status-badge {
-            font-size: 0.7rem;
-            padding: 2px 12px;
-            border-radius: 40px;
-            background: #f0f0f0;
-            color: #888;
-        }
-        .task-item-box .task-header-box .task-status-badge.done {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .task-item-box .task-header-box .task-status-badge.pending {
-            background: #fff3e0;
-            color: #e65100;
-        }
-        .task-step-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 6px 0;
-            font-size: 0.85rem;
-            color: #555;
-        }
-        .task-step-row .step-icon {
-            width: 24px;
-            text-align: center;
-            font-size: 1rem;
-        }
-        .task-step-row .step-icon.done {
-            color: #2e7d32;
-        }
-        .task-step-row .step-icon.pending {
-            color: #e65100;
-        }
-        .task-step-row .step-action {
-            margin-left: auto;
-            background: #f0f0f0;
-            border: none;
-            color: #000;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .task-step-row .step-action:active {
-            transform: scale(0.95);
-        }
-        .task-step-row .step-action:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        .task-submit-box {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #eee;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .task-submit-box .task-code-input {
-            flex: 1;
-            min-width: 120px;
-            padding: 8px 14px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 60px;
-            color: #000;
-            font-size: 0.85rem;
-            outline: none;
-        }
-        .task-submit-box .task-code-input:focus {
-            border-color: #f5a623;
-        }
-        .task-submit-box .task-submit-btn {
-            background: #f5a623;
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            padding: 8px 20px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .task-submit-box .task-submit-btn:active {
-            transform: scale(0.96);
-        }
-        .task-submit-box .task-submit-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        /* ── Cashout ── */
-        .withdraw-requirements-box {
-            background: #f8f8f8;
-            border-radius: 24px;
-            padding: 18px 16px;
-            margin: 16px 0;
-            border: 1px solid #eee;
-        }
-        .requirement-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            color: #888;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-        .requirement-header i {
-            font-size: 1rem;
-        }
-        .requirement-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .requirement-item:last-child {
-            border-bottom: none;
-        }
-        .req-icon {
-            width: 40px;
-            height: 40px;
-            background: #f0f0f0;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-        .req-icon i {
-            color: #888;
-        }
-        .req-details {
-            flex: 1;
-        }
-        .req-title {
-            font-weight: 600;
-            color: #333;
-            font-size: 0.85rem;
-        }
-        .req-value {
-            font-size: 0.7rem;
-            color: #aaa;
-            margin-top: 2px;
-        }
-        .req-status {
-            width: 28px;
-            height: 28px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        .status-success {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-        .status-failed {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .payment-option {
-            background: #f8f8f8;
-            border-radius: 60px;
-            padding: 12px 16px;
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: 0.2s;
-            color: #888;
-        }
-        .payment-option.selected {
-            border-color: #f5a623;
-            background: #fff;
-            color: #000;
-        }
-        .payment-option i {
-            font-size: 1.2rem;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 60px;
-            color: #000;
-            font-size: 0.9rem;
-            margin: 8px 0;
-            outline: none;
-            transition: 0.2s;
-        }
-        .form-input:focus {
-            border-color: #f5a623;
-        }
-        .form-input::placeholder {
-            color: #aaa;
-        }
-        .withdraw-btn {
-            background: #f5a623;
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            padding: 14px;
-            border-radius: 60px;
-            width: 100%;
-            font-size: 1rem;
-            margin-top: 16px;
-            cursor: pointer;
-            transition: 0.25s;
-            box-shadow: 0 4px 20px rgba(245, 166, 35, 0.1);
-        }
-        .withdraw-btn:disabled {
-            background: #eaeaea;
-            color: #aaa;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-        .withdraw-btn:active:not(:disabled) {
-            transform: scale(0.97);
-        }
-
-        .fee-breakdown {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            font-size: 0.85rem;
-            color: #888;
-        }
-        .fee-breakdown:last-child {
-            border-bottom: none;
-        }
-        .fee-breakdown span:last-child {
-            color: #000;
-            font-weight: 500;
-        }
-
-        .withdrawal-history-card {
-            background: #f8f8f8;
-            border-radius: 18px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            border-left: 3px solid #f5a623;
-            color: #555;
-            font-size: 0.85rem;
-        }
-        .withdrawal-history-card strong {
-            color: #000;
-        }
-
-        /* ── Modals ── */
-        .modal,
-        .referral-code-modal,
-        .claim-modal,
-        .link-ad-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            z-index: 3000;
-            align-items: center;
-            justify-content: center;
-            animation: modalFade 0.25s ease;
-        }
-        .modal.active,
-        .referral-code-modal.active,
-        .claim-modal.active,
-        .link-ad-modal.active {
-            display: flex;
-        }
-        @keyframes modalFade {
-            from {
-                opacity: 0;
-                transform: scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        .modal-content,
-        .referral-code-card,
-        .claim-card,
-        .link-ad-card {
-            background: #fff;
-            border-radius: 40px;
-            padding: 28px 24px;
-            max-width: 400px;
-            width: 92%;
-            text-align: center;
-            border: 1px solid #eee;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
-            color: #000;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .claim-btn {
-            background: #f5a623;
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 60px;
-            font-weight: 700;
-            margin-top: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 0.95rem;
-            transition: 0.2s;
-        }
-        .claim-btn:active {
-            transform: scale(0.97);
-        }
-        .claim-btn.skip-btn {
-            background: #f0f0f0;
-            color: #888;
-        }
-        .link-ad-card .countdown-big {
-            font-size: 3.2rem;
-            font-weight: 800;
-            color: #f5a623;
-            margin: 12px 0;
-            letter-spacing: -2px;
-        }
-
-        /* ── Daily Verification ── */
-        .daily-verification-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            z-index: 5000;
-            align-items: center;
-            justify-content: center;
-            animation: modalFade 0.4s ease;
-        }
-        .daily-verification-modal.active {
-            display: flex;
-        }
-        .daily-verification-card {
-            background: #fff;
-            border-radius: 48px;
-            padding: 36px 28px;
-            max-width: 420px;
-            width: 92%;
-            text-align: center;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
-            border: 1px solid #eee;
-            position: relative;
-            overflow: hidden;
-        }
-        .daily-verification-card .shield-icon {
-            font-size: 3.6rem;
-            color: #f5a623;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 1;
-        }
-        .daily-verification-card .verification-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 6px;
-            position: relative;
-            z-index: 1;
-            letter-spacing: -0.3px;
-        }
-        .daily-verification-card .verification-subtitle {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-            line-height: 1.5;
-        }
-        .daily-verification-card .verification-progress {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-        }
-        .daily-verification-card .progress-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #eaeaea;
-            border: 2px solid #ddd;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-        }
-        .daily-verification-card .progress-dot.filled {
-            background: #f5a623;
-            border-color: #f5a623;
-            box-shadow: 0 0 20px rgba(245, 166, 35, 0.2);
-            transform: scale(1.2);
-        }
-        .daily-verification-card .progress-dot.filled::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #fff;
-            font-size: 0.4rem;
-            font-weight: 700;
-        }
-        .daily-verification-card .click-counter {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #888;
-            margin-bottom: 16px;
-            position: relative;
-            z-index: 1;
-        }
-        .daily-verification-card .click-counter span {
-            color: #f5a623;
-            font-size: 1.3rem;
-        }
-        .daily-verification-card .verify-btn {
-            background: #f5a623;
-            border: none;
-            color: #fff;
-            font-weight: 700;
-            font-size: 1rem;
-            padding: 16px 20px;
-            border-radius: 60px;
-            width: 100%;
-            cursor: pointer;
-            position: relative;
-            z-index: 1;
-            transition: 0.3s;
-            box-shadow: 0 8px 30px rgba(245, 166, 35, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .daily-verification-card .verify-btn:active {
-            transform: scale(0.96);
-        }
-        .daily-verification-card .verify-btn.completed {
-            background: #e8f5e9;
-            color: #2e7d32;
-            box-shadow: none;
-            cursor: default;
-            pointer-events: none;
-            border: 1px solid #a5d6a7;
-        }
-        .daily-verification-card .verify-status-text {
-            font-size: 0.8rem;
-            color: #aaa;
-            margin-top: 12px;
-            position: relative;
-            z-index: 1;
-        }
-        .daily-verification-card .verify-status-text .highlight {
-            color: #f5a623;
-            font-weight: 600;
-        }
-        .daily-verification-card .brand-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-            position: relative;
-            z-index: 1;
-        }
-        .daily-verification-card .brand-logo i {
-            font-size: 1.8rem;
-            color: #f5a623;
-        }
-        .daily-verification-card .brand-logo span {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #000;
-            letter-spacing: -0.3px;
-        }
-
-        /* ── Toast ── */
-        .toast-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ffffff;
-            backdrop-filter: blur(12px);
-            color: #000;
-            padding: 12px 24px;
-            border-radius: 60px;
-            font-weight: 600;
-            z-index: 4000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid #eee;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            animation: slideDown 0.35s ease;
-            font-size: 0.9rem;
-        }
-        .toast-notification i {
-            color: #f5a623;
-        }
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        /* ── Utility ── */
-        .hidden {
-            display: none !important;
-        }
-        .mt-8 {
-            margin-top: 8px;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 30px 16px;
-            color: #aaa;
-        }
-        .empty-state i {
-            font-size: 2.4rem;
-            color: #ddd;
-            margin-bottom: 12px;
-        }
-        .stats-box {
-            background: #f8f8f8;
-            border-radius: 20px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            text-align: center;
-            border: 1px solid #eee;
-        }
-        .stats-box-title {
-            font-weight: 500;
-            color: #888;
-            font-size: 0.75rem;
-            letter-spacing: 0.3px;
-        }
-        .stats-box-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #000;
-            margin-top: 2px;
-        }
-        @media (max-width: 400px) {
-            .balance-amount {
-                font-size: 2.6rem;
-            }
-            .stat-value {
-                font-size: 1.2rem;
-            }
-            .task-title {
-                font-size: 0.9rem;
-            }
-        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
+        body { background:#fff; display:flex; justify-content:center; }
+        .app-container { width:100%; max-width:500px; margin:0 auto; min-height:100vh; background:#fff; position:relative; box-shadow:0 0 60px rgba(0,0,0,0.04); overflow-x:hidden; color:#000; }
+        .loading-screen { position:fixed; inset:0; background:#fff; z-index:2000; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 0.6s; }
+        .loading-screen.hidden { opacity:0; pointer-events:none; }
+        .loading-logo { width:100px; height:100px; border-radius:36px; background:#f5f5f5; display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:30px; border:2px solid rgba(0,0,0,0.06); box-shadow:0 0 60px rgba(0,0,0,0.02); animation:pulseLogo 2s infinite; }
+        @keyframes pulseLogo {0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
+        .loading-logo i { font-size:2.8rem; color:#f5a623; }
+        .loading-title { font-size:2.2rem; font-weight:800; color:#000; letter-spacing:-0.5px; }
+        .loading-progress { width:280px; height:4px; background:#eaeaea; border-radius:6px; margin:20px 0; overflow:hidden; }
+        .loading-progress-fill { width:0%; height:100%; background:#f5a623; transition:width 0.15s; border-radius:6px; }
+        .loading-percent { font-size:1.1rem; font-weight:600; color:#999; margin-top:6px; letter-spacing:1px; }
+        .loading-sub { font-size:0.7rem; color:#ccc; margin-top:20px; letter-spacing:2px; text-transform:uppercase; }
+        ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1);border-radius:10px;}
+        .balance-card { background:#f8f8f8; border-radius:32px; padding:28px 24px; margin-bottom:20px; margin-top:16px; border:1px solid #eee; box-shadow:0 4px 20px rgba(0,0,0,0.02); position:relative; overflow:hidden; }
+        .balance-card::after { content:''; position:absolute; top:-40%; right:-20%; width:200px; height:200px; background:radial-gradient(circle, rgba(245,166,35,0.04), transparent 70%); pointer-events:none; }
+        .balance-label { font-weight:500; color:#888; font-size:0.8rem; letter-spacing:1px; text-transform:uppercase; }
+        .balance-amount { font-size:3.2rem; font-weight:800; color:#000; margin:8px 0 2px; letter-spacing:-1px; }
+        .usd-equivalent { font-size:0.9rem; color:#888; }
+        .small-text { font-size:0.65rem; color:#aaa; margin-top:4px; }
+        .balance-badge { display:inline-block; background:#f5a62310; color:#f5a623; padding:2px 14px; border-radius:40px; font-size:0.65rem; font-weight:600; margin-top:8px; border:1px solid #f5a62320; }
+        .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px; }
+        .stat-card { background:#f8f8f8; border-radius:20px; padding:16px 8px; text-align:center; border:1px solid #eee; }
+        .stat-value { font-size:1.5rem; font-weight:700; color:#000; }
+        .stat-label { font-size:0.7rem; color:#888; margin-top:4px; font-weight:500; letter-spacing:0.3px; }
+        .referral-home-card { background:#f8f8f8; border-radius:28px; padding:24px 20px; margin-bottom:20px; border:1px solid #eee; box-shadow:0 4px 20px rgba(0,0,0,0.02); }
+        .referral-home-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+        .referral-home-header i { font-size:1.6rem; color:#f5a623; }
+        .referral-home-header h3 { font-size:1.1rem; font-weight:700; color:#000; }
+        .referral-home-header span { margin-left:auto; font-size:0.8rem; color:#aaa; }
+        .referral-code-display { background:#fff; border:1px solid #ddd; padding:14px; border-radius:60px; margin:12px 0 16px; font-weight:600; color:#000; text-align:center; letter-spacing:2px; font-size:1.1rem; }
+        .btn-group-home { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+        .btn-group-home .btn-primary { background:#f5a623; border:none; color:#fff; font-weight:700; padding:10px 20px; border-radius:60px; font-size:0.85rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; gap:8px; flex:1; justify-content:center; min-width:100px; }
+        .btn-group-home .btn-primary:active { transform:scale(0.96); }
+        .btn-group-home .btn-secondary { background:#f0f0f0; border:1px solid #ddd; color:#000; font-weight:600; padding:10px 20px; border-radius:60px; font-size:0.85rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; gap:8px; flex:1; justify-content:center; min-width:100px; }
+        .btn-group-home .btn-secondary:active { transform:scale(0.96); }
+        .referral-stats-home { display:flex; justify-content:space-between; margin-top:16px; padding-top:16px; border-top:1px solid #eee; }
+        .referral-stats-home div { text-align:center; }
+        .referral-stats-home .num { font-size:1.3rem; font-weight:700; color:#000; }
+        .referral-stats-home .lbl { font-size:0.65rem; color:#aaa; }
+        .referral-list-home { margin-top:12px; max-height:160px; overflow-y:auto; }
+        .referral-list-home .friend-card { background:#fff; border-radius:16px; padding:12px 14px; margin-bottom:8px; display:flex; justify-content:space-between; border:1px solid #eee; color:#555; font-size:0.85rem; }
+        .referral-list-home .friend-card span:last-child { color:#f5a623; font-weight:600; }
+        .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; backdrop-filter:blur(20px); display:flex; justify-content:space-around; padding:6px 0 18px; border-top:1px solid #eee; max-width:500px; margin:0 auto; z-index:100; }
+        .nav-btn { background:none; border:none; color:#aaa; display:flex; flex-direction:column; align-items:center; gap:2px; font-size:0.6rem; padding:6px 8px; flex:1; border-radius:30px; cursor:pointer; transition:0.25s; font-weight:500; position:relative; }
+        .nav-btn i { font-size:1.3rem; color:#aaa; transition:0.25s; }
+        .nav-btn.active { color:#f5a623; } .nav-btn.active i { color:#f5a623; }
+        .nav-btn.active::before { content:''; position:absolute; top:-1px; left:50%; transform:translateX(-50%); width:20px; height:3px; background:#f5a623; border-radius:0 0 6px 6px; }
+        .content-section { display:none; padding:16px 18px; padding-bottom:90px; animation:fadeIn 0.3s; }
+        .content-section.active { display:block; }
+        @keyframes fadeIn { from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+        .section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-top:4px; }
+        .section-title { font-size:1.3rem; font-weight:700; color:#000; letter-spacing:-0.3px; }
+        .support-icon { background:#f0f0f0; width:38px; height:38px; border-radius:30px; display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid #eee; }
+        .support-icon i { color:#666; font-size:1.1rem; }
+        .support-icon:hover { background:#e8e8e8; }
+        .task-card { background:#f8f8f8; border-radius:24px; padding:20px 18px; margin-bottom:18px; border:1px solid #eee; }
+        .task-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+        .task-title { font-size:1rem; font-weight:700; color:#000; }
+        .task-reward { background:#f5a62310; padding:2px 14px; border-radius:40px; font-size:0.7rem; font-weight:600; color:#f5a623; border:1px solid #f5a62320; }
+        .task-desc { color:#666; font-size:0.8rem; margin-bottom:12px; line-height:1.4; }
+        .progress-container { margin:12px 0 10px; }
+        .progress-label { display:flex; justify-content:space-between; font-size:0.7rem; color:#888; margin-bottom:4px; }
+        .progress-bar-bg { background:#eaeaea; border-radius:60px; height:5px; overflow:hidden; }
+        .progress-fill { background:#f5a623; width:0%; height:100%; border-radius:60px; transition:width 0.4s; }
+        .completion-stats { font-size:0.65rem; color:#aaa; text-align:right; margin-top:4px; }
+        .task-btn { background:#f5a623; border:none; color:#fff; font-weight:700; padding:12px 16px; border-radius:60px; width:100%; font-size:0.85rem; cursor:pointer; transition:0.25s; box-shadow:0 4px 20px rgba(245,166,35,0.1); }
+        .task-btn:active { transform:scale(0.97); }
+        .task-btn:disabled { background:#eaeaea; color:#aaa; cursor:not-allowed; box-shadow:none; }
+        .task-btn.completed { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; box-shadow:none; }
+        .timer-text { font-size:0.8rem; color:#f57c00; font-weight:600; margin-top:8px; text-align:center; }
+        .sequence-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); z-index:3500; align-items:center; justify-content:center; animation:modalFade 0.25s; }
+        .sequence-modal.active { display:flex; }
+        @keyframes modalFade { from{ opacity:0; transform:scale(0.96); } to{ opacity:1; transform:scale(1); } }
+        .sequence-card { background:#fff; border-radius:40px; padding:28px 24px; max-width:400px; width:92%; text-align:center; border:1px solid #eee; box-shadow:0 24px 60px rgba(0,0,0,0.08); }
+        .sequence-steps { display:flex; justify-content:space-between; margin-bottom:20px; padding:0 10px; }
+        .seq-step { width:36px; height:36px; border-radius:50%; background:#eaeaea; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.9rem; color:#888; position:relative; }
+        .seq-step.done { background:#f5a623; color:#fff; }
+        .seq-step.current { border:2px solid #f5a623; color:#f5a623; background:#fff; }
+        .seq-label { font-size:0.85rem; color:#888; margin-bottom:16px; font-weight:500; }
+        .seq-btn { background:#f5a623; border:none; color:#fff; font-weight:700; padding:12px; border-radius:60px; width:100%; margin-top:12px; cursor:pointer; font-size:0.9rem; transition:0.2s; }
+        .seq-btn:disabled { background:#eaeaea; color:#aaa; cursor:not-allowed; }
+        .seq-btn.next-step { background:#4caf50; }
+        .countdown-big { font-size:2.5rem; font-weight:800; color:#f5a623; margin:12px 0; }
+        .claim-btn { background:#f5a623; color:#fff; border:none; padding:12px 20px; border-radius:60px; font-weight:700; margin-top:10px; cursor:pointer; width:100%; font-size:0.95rem; }
+        .claim-btn:active { transform:scale(0.97); } .claim-btn.skip-btn { background:#f0f0f0; color:#888; }
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px); z-index:3000; align-items:center; justify-content:center; }
+        .modal.active { display:flex; }
+        .modal-content { background:#fff; border-radius:40px; padding:28px 24px; max-width:400px; width:92%; text-align:center; border:1px solid #eee; box-shadow:0 24px 60px rgba(0,0,0,0.08); }
+        .daily-verification-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); backdrop-filter:blur(8px); z-index:5000; align-items:center; justify-content:center; }
+        .daily-verification-modal.active { display:flex; }
+        .daily-verification-card { background:#fff; border-radius:48px; padding:36px 28px; max-width:420px; width:92%; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.08); border:1px solid #eee; position:relative; overflow:hidden; }
+        .daily-verification-card .shield-icon { font-size:3.6rem; color:#f5a623; margin-bottom:8px; position:relative; z-index:1; }
+        .daily-verification-card .verification-title { font-size:1.5rem; font-weight:700; color:#000; margin-bottom:6px; position:relative; z-index:1; letter-spacing:-0.3px; }
+        .daily-verification-card .verification-subtitle { font-size:0.85rem; color:#888; margin-bottom:20px; position:relative; z-index:1; line-height:1.5; }
+        .daily-verification-card .verification-progress { display:flex; justify-content:center; gap:8px; margin-bottom:20px; position:relative; z-index:1; }
+        .daily-verification-card .progress-dot { width:12px; height:12px; border-radius:50%; background:#eaeaea; border:2px solid #ddd; transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1); position:relative; }
+        .daily-verification-card .progress-dot.filled { background:#f5a623; border-color:#f5a623; box-shadow:0 0 20px rgba(245,166,35,0.2); transform:scale(1.2); }
+        .daily-verification-card .progress-dot.filled::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff; font-size:0.4rem; font-weight:700; }
+        .daily-verification-card .click-counter { font-size:1rem; font-weight:600; color:#888; margin-bottom:16px; position:relative; z-index:1; }
+        .daily-verification-card .click-counter span { color:#f5a623; font-size:1.3rem; }
+        .daily-verification-card .verify-btn { background:#f5a623; border:none; color:#fff; font-weight:700; font-size:1rem; padding:16px 20px; border-radius:60px; width:100%; cursor:pointer; position:relative; z-index:1; transition:0.3s; box-shadow:0 8px 30px rgba(245,166,35,0.1); display:flex; align-items:center; justify-content:center; gap:10px; }
+        .daily-verification-card .verify-btn:active { transform:scale(0.96); }
+        .daily-verification-card .verify-btn.completed { background:#e8f5e9; color:#2e7d32; box-shadow:none; cursor:default; pointer-events:none; border:1px solid #a5d6a7; }
+        .daily-verification-card .verify-status-text { font-size:0.8rem; color:#aaa; margin-top:12px; position:relative; z-index:1; }
+        .daily-verification-card .verify-status-text .highlight { color:#f5a623; font-weight:600; }
+        .daily-verification-card .brand-logo { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:12px; position:relative; z-index:1; }
+        .daily-verification-card .brand-logo i { font-size:1.8rem; color:#f5a623; }
+        .daily-verification-card .brand-logo span { font-size:1.4rem; font-weight:800; color:#000; letter-spacing:-0.3px; }
+        .toast-notification { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#fff; backdrop-filter:blur(12px); color:#000; padding:12px 24px; border-radius:60px; font-weight:600; z-index:4000; display:flex; align-items:center; gap:10px; border:1px solid #eee; box-shadow:0 8px 30px rgba(0,0,0,0.08); animation:slideDown 0.35s; font-size:0.9rem; }
+        .toast-notification i { color:#f5a623; }
+        @keyframes slideDown { from{ opacity:0; transform:translateX(-50%) translateY(-30px); } to{ opacity:1; transform:translateX(-50%) translateY(0); } }
+        .hidden { display:none!important; }
+        .empty-state { text-align:center; padding:30px 16px; color:#aaa; }
+        .empty-state i { font-size:2.4rem; color:#ddd; margin-bottom:12px; }
+        .stats-box { background:#f8f8f8; border-radius:20px; padding:14px 16px; margin-bottom:12px; text-align:center; border:1px solid #eee; }
+        .stats-box-title { font-weight:500; color:#888; font-size:0.75rem; letter-spacing:0.3px; }
+        .stats-box-value { font-size:1.6rem; font-weight:700; color:#000; margin-top:2px; }
+        @media (max-width:400px) { .balance-amount { font-size:2.6rem; } .stat-value { font-size:1.2rem; } .task-title { font-size:0.9rem; } }
+        /* Task item styles (for 20 tasks) */
+        .task-item-box { background:#f8f8f8; border-radius:20px; padding:16px 18px; margin-bottom:14px; border:1px solid #eee; }
+        .task-header-box { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+        .task-num { font-weight:700; color:#000; font-size:1rem; }
+        .task-status-badge { font-size:0.7rem; padding:2px 12px; border-radius:40px; background:#f0f0f0; color:#888; }
+        .task-status-badge.pending { background:#fff3e0; color:#e65100; }
+        .task-step-row { display:flex; align-items:center; gap:12px; padding:6px 0; font-size:0.85rem; color:#555; }
+        .step-icon { width:24px; text-align:center; font-size:1rem; }
+        .step-icon.done { color:#2e7d32; }
+        .step-action { margin-left:auto; background:#f0f0f0; border:none; color:#000; padding:4px 14px; border-radius:40px; font-size:0.7rem; font-weight:600; cursor:pointer; transition:0.2s; }
+        .step-action:active { transform:scale(0.95); }
+        .step-action:disabled { opacity:0.3; cursor:not-allowed; }
+        .task-submit-box { margin-top:12px; padding-top:12px; border-top:1px solid #eee; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .task-code-input { flex:1; min-width:120px; padding:8px 14px; background:#fff; border:1px solid #ddd; border-radius:60px; color:#000; font-size:0.85rem; outline:none; }
+        .task-submit-btn { background:#f5a623; border:none; color:#fff; font-weight:700; padding:8px 20px; border-radius:60px; font-size:0.85rem; cursor:pointer; }
+        .task-submit-btn:active { transform:scale(0.96); }
+        /* Sell section etc. (keeping same as original) */
+        .sell-card { background:#fce4ec; border:1px solid #f0629220; margin-bottom:18px; }
+        .sell-card .task-title { color:#d81b60; }
+        .sell-card .task-reward { background:#d81b6010; color:#d81b60; }
+        .sell-input { width:100%; padding:12px 16px; background:#fff; border:1px solid #ddd; border-radius:60px; color:#000; font-size:0.9rem; margin:8px 0; outline:none; }
+        .sell-btn { background:#d81b60; border:none; color:#fff; font-weight:700; padding:12px; border-radius:60px; width:100%; font-size:0.9rem; cursor:pointer; margin-top:4px; }
+        .sell-btn:active { transform:scale(0.97); }
+        .sell-btn:disabled { background:#eaeaea; color:#aaa; cursor:not-allowed; }
+        .sell-status { font-size:0.75rem; color:#888; margin-top:8px; text-align:center; }
+        .sell-history-card { background:#f8f8f8; border-radius:24px; padding:18px 16px; margin-bottom:18px; border:1px solid #eee; }
+        .sell-history-card .history-title { font-weight:700; color:#000; margin-bottom:12px; }
+        .sell-history-item { background:#fff; border-radius:16px; padding:12px 14px; margin-bottom:10px; border:1px solid #eee; }
+        .sell-history-item .item-row { display:flex; justify-content:space-between; font-size:0.85rem; }
+        .sell-history-item .label { color:#888; }
+        .sell-history-item .value { color:#000; font-weight:500; }
+        .status-badge { padding:2px 12px; border-radius:40px; font-size:0.7rem; font-weight:600; display:inline-block; }
+        .status-pending { background:#fff3e0; color:#e65100; }
+        .status-approved { background:#e8f5e9; color:#2e7d32; }
+        .status-rejected { background:#ffebee; color:#c62828; }
+        .support-team-card { background:#e8f0fe; border:1px solid #64b5f620; border-radius:24px; padding:20px; margin-bottom:18px; text-align:center; }
+        .support-team-card i { font-size:2rem; color:#1a73e8; margin-bottom:8px; }
+        .support-team-card h3 { font-weight:700; color:#000; margin-bottom:4px; }
+        .support-btn { background:#fff; border:1px solid #ddd; color:#000; padding:10px 20px; border-radius:60px; font-weight:600; cursor:pointer; }
+        .withdraw-requirements-box { background:#f8f8f8; border-radius:24px; padding:18px 16px; margin:16px 0; border:1px solid #eee; }
+        .requirement-header { display:flex; align-items:center; gap:8px; margin-bottom:12px; color:#888; font-weight:600; font-size:0.85rem; }
+        .requirement-item { display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid #eee; }
+        .requirement-item:last-child { border-bottom:none; }
+        .req-icon { width:40px; height:40px; background:#f0f0f0; border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+        .req-details { flex:1; }
+        .req-title { font-weight:600; color:#333; font-size:0.85rem; }
+        .req-value { font-size:0.7rem; color:#aaa; margin-top:2px; }
+        .req-status { width:28px; height:28px; border-radius:30px; display:flex; align-items:center; justify-content:center; font-size:1rem; font-weight:bold; }
+        .status-success { background:#e8f5e9; color:#2e7d32; }
+        .status-failed { background:#ffebee; color:#c62828; }
+        .payment-option { background:#f8f8f8; border-radius:60px; padding:12px 16px; margin:8px 0; display:flex; align-items:center; gap:12px; cursor:pointer; border:2px solid transparent; transition:0.2s; color:#888; }
+        .payment-option.selected { border-color:#f5a623; background:#fff; color:#000; }
+        .form-input { width:100%; padding:12px 16px; background:#fff; border:1px solid #ddd; border-radius:60px; color:#000; font-size:0.9rem; margin:8px 0; outline:none; }
+        .withdraw-btn { background:#f5a623; border:none; color:#fff; font-weight:700; padding:14px; border-radius:60px; width:100%; font-size:1rem; margin-top:16px; cursor:pointer; }
+        .withdraw-btn:disabled { background:#eaeaea; color:#aaa; cursor:not-allowed; }
+        .fee-breakdown { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee; font-size:0.85rem; color:#888; }
+        .withdrawal-history-card { background:#f8f8f8; border-radius:18px; padding:14px 16px; margin-bottom:10px; border-left:3px solid #f5a623; color:#555; font-size:0.85rem; }
     </style>
 </head>
 <body>
-
-    <!-- ─── LOADING ─── -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo"><i class="fas fa-crown"></i><i class="fas fa-coins"></i></div>
         <div class="loading-title">King</div>
@@ -1366,16 +204,10 @@
         <div class="loading-sub">Loading your rewards...</div>
     </div>
 
-    <!-- ─── APP ─── -->
     <div class="app-container" id="mainApp" style="display:none;">
-
-        <!-- ─── HOME ─── -->
+        <!-- HOME -->
         <div id="homeSection" class="content-section active">
-            <div class="section-header">
-                <div class="section-title">Overview</div>
-                <div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div>
-            </div>
-
+            <div class="section-header"><div class="section-title">Overview</div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div>
             <div class="balance-card">
                 <div class="balance-label">Your Balance</div>
                 <div class="balance-amount" id="balanceAmount">0</div>
@@ -1383,14 +215,11 @@
                 <div class="small-text">KING COIN</div>
                 <div class="balance-badge"><i class="fas fa-bolt"></i> Ready to earn</div>
             </div>
-
             <div class="stats-grid">
                 <div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label">Referrals</div></div>
                 <div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label">Tasks Done</div></div>
                 <div class="stat-card"><div class="stat-value" id="todayEarnings">0</div><div class="stat-label">Today's Earn</div></div>
             </div>
-
-            <!-- ─── REFERRAL ─── -->
             <div class="referral-home-card">
                 <div class="referral-home-header">
                     <i class="fas fa-user-friends"></i>
@@ -1407,73 +236,35 @@
                     <div><div class="num" id="referralBonusTotalHome">0</div><div class="lbl">Bonus Earned</div></div>
                 </div>
                 <div class="referral-list-home" id="referralsListHome">
-                    <div class="empty-state" style="padding:12px 0;"><i class="fas fa-user-plus"></i><div style="font-size:0.75rem;">No referrals yet</div></div>
+                    <div class="empty-state"><i class="fas fa-user-plus"></i><div>No referrals yet</div></div>
                 </div>
             </div>
         </div>
 
-        <!-- ─── ADS SECTION ─── -->
+        <!-- ADS SECTION -->
         <div id="adsSection" class="content-section">
-            <div class="section-header">
-                <div class="section-title">Ads</div>
-                <div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div>
+            <div class="section-header"><div class="section-title">Ads</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
+            <!-- Ad Sequence Task -->
+            <div class="task-card">
+                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> Ad Task</span><span class="task-reward">+18 KING</span></div>
+                <div class="task-desc">Complete all 4 ad steps (Monetag, Adexora, Adsgram, Giga Pub) to earn 18 KING. Daily limit: 12.</div>
+                <div class="progress-container"><div class="progress-label"><span>Today</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
+                <button id="startAdSeqBtn" class="task-btn">Start Ad Sequence</button>
             </div>
-
-            <!-- Monetag Ad -->
-            <div id="adsTaskContainer1">
-                <div class="task-card ad-premium-card">
-                    <div class="task-header"><span class="task-title"><i class="fas fa-play-circle" style="color:#f5a623;margin-right:6px;"></i>Monetag</span><span class="task-reward">+5 KING</span></div>
-                    <div class="task-desc">Watch a Monetag ad to earn 5 KING. Daily limit: 10.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads1Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads1Fill"></div></div><div class="completion-stats" id="ads1Stats">0/10</div></div>
-                    <button id="ads1Btn" class="task-btn">Watch Ad & Earn 5 KING</button>
-                </div>
+            <!-- Link Ads Sequence Task -->
+            <div class="task-card">
+                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> Link Ads Task</span><span class="task-reward">+20 KING</span></div>
+                <div class="task-desc">Open 4 links (12 sec each), then claim 20 KING. Daily limit: 12.</div>
+                <div class="progress-container"><div class="progress-label"><span>Today</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
+                <button id="startLinkSeqBtn" class="task-btn">Start Link Sequence</button>
             </div>
-
-            <!-- Adexora Ad (reward 3, limit 15) -->
-            <div id="adsTaskContainer2">
-                <div class="task-card ad-premium-card">
-                    <div class="task-header"><span class="task-title"><i class="fas fa-bolt" style="color:#f5a623;margin-right:6px;"></i>Adexora</span><span class="task-reward">+3 KING</span></div>
-                    <div class="task-desc">Watch an Adexora ad to earn 3 KING. Daily limit: 15. (Fallback: Giga Pub)</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads2Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads2Fill"></div></div><div class="completion-stats" id="ads2Stats">0/15</div></div>
-                    <button id="ads2Btn" class="task-btn">Watch Ad & Earn 3 KING</button>
-                </div>
-            </div>
-
-            <!-- Adsgram Ad -->
-            <div id="adsTaskContainer3">
-                <div class="task-card ad-premium-card">
-                    <div class="task-header"><span class="task-title"><i class="fas fa-film" style="color:#f5a623;margin-right:6px;"></i>Adsgram</span><span class="task-reward">+5 KING</span></div>
-                    <div class="task-desc">Watch an Adsgram ad to earn 5 KING. Daily limit: 10.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="ads3Percent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="ads3Fill"></div></div><div class="completion-stats" id="ads3Stats">0/10</div></div>
-                    <button id="ads3Btn" class="task-btn">Watch Ad & Earn 5 KING</button>
-                </div>
-            </div>
-
-            <!-- Giga Pub Ad (explicit) -->
-            <div id="adsTaskContainerGiga">
-                <div class="task-card ad-premium-card" style="border-color:#34d39930;">
-                    <div class="task-header"><span class="task-title"><i class="fas fa-rocket" style="color:#34d399;margin-right:6px;"></i>Giga Pub</span><span class="task-reward">+5 KING</span></div>
-                    <div class="task-desc">Watch a Giga Pub ad to earn 5 KING. Daily limit: 10.</div>
-                    <div class="progress-container"><div class="progress-label"><span>Today</span><span id="adsGigaPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adsGigaFill"></div></div><div class="completion-stats" id="adsGigaStats">0/10</div></div>
-                    <button id="adsGigaBtn" class="task-btn">Watch Ad & Earn 5 KING</button>
-                </div>
-            </div>
-
-            <!-- Stats -->
-            <div class="stats-box"><div class="stats-box-title">Today's Ads Watched</div><div class="stats-box-value" id="totalAdsCount">0</div></div>
-            <div class="stats-box"><div class="stats-box-title">KING Earned Today from Ads</div><div class="stats-box-value" id="totalAdsEarned">0</div></div>
         </div>
 
-        <!-- ─── SELL SECTION ─── -->
+        <!-- SELL SECTION -->
         <div id="sellSection" class="content-section">
-            <div class="section-header">
-                <div class="section-title">Sell</div>
-                <div class="support-icon" id="supportIconSell"><i class="fas fa-headset"></i></div>
-            </div>
-
-            <!-- Sell Existing Gmail -->
+            <div class="section-header"><div class="section-title">Sell</div><div class="support-icon" id="supportIconSell"><i class="fas fa-headset"></i></div></div>
             <div class="task-card sell-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-envelope" style="color:#d81b60;margin-right:6px;"></i>Sell Existing Gmail</span><span class="task-reward">+1000 KING</span></div>
+                <div class="task-header"><span class="task-title"><i class="fas fa-envelope"></i> Sell Existing Gmail</span><span class="task-reward">+1000 KING</span></div>
                 <div class="task-desc">Submit your existing Gmail account credentials. Admin reviews and rewards 1000 KING.</div>
                 <input type="text" class="sell-input" id="gmailEmail" placeholder="Gmail address">
                 <input type="password" class="sell-input" id="gmailPassword" placeholder="Password">
@@ -1481,80 +272,49 @@
                 <button class="sell-btn" id="sellGmailBtn"><i class="fas fa-paper-plane"></i> Submit for Review</button>
                 <div class="sell-status" id="sellGmailStatus">Your offer will be reviewed within 24h.</div>
             </div>
-
-            <!-- New Gmail Account Request -->
             <div class="task-card sell-card" style="border-color:#34d39920;">
-                <div class="task-header"><span class="task-title"><i class="fas fa-plus-circle" style="color:#34d399;margin-right:6px;"></i>New Gmail Account</span><span class="task-reward">+1200 KING</span></div>
-                <div class="task-desc">Request a new Gmail account. Admin will create and deliver credentials. Reward given upon creation.</div>
-                <input type="text" class="sell-input" id="newGmailContact" placeholder="Contact (Telegram/Email) for delivery">
+                <div class="task-header"><span class="task-title"><i class="fas fa-plus-circle" style="color:#34d399;"></i> New Gmail Account</span><span class="task-reward">+1200 KING</span></div>
+                <div class="task-desc">Request a new Gmail account. Admin will create and deliver credentials.</div>
+                <input type="text" class="sell-input" id="newGmailContact" placeholder="Contact (Telegram/Email)">
                 <button class="sell-btn" id="newGmailBtn" style="background:#34d399;"><i class="fas fa-paper-plane"></i> Request New Account</button>
                 <div class="sell-status" id="newGmailStatus">Admin will contact you with the account details.</div>
             </div>
-
-            <!-- Sell History -->
             <div class="sell-history-card">
                 <div class="history-title"><i class="fas fa-clock-rotate-left"></i> Sell History</div>
-                <div id="sellHistoryContainer">
-                    <!-- Populated by JS -->
-                </div>
+                <div id="sellHistoryContainer"></div>
             </div>
-
-            <!-- Support Team Card -->
             <div class="support-team-card">
                 <i class="fas fa-headset"></i>
                 <h3>Admin Support</h3>
                 <p>Contact admin for any help or to follow up on your requests.</p>
                 <button class="support-btn" id="contactSupportBtn"><i class="fas fa-telegram-plane"></i> Contact Admin</button>
             </div>
-            <!-- Hidden Admin Trigger -->
-            <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px; color:rgba(0,0,0,0.1);">Admin</div>
+            <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">Admin</div>
         </div>
 
-        <!-- ─── LINKADS & TASKS ─── -->
+        <!-- TASKS SECTION -->
         <div id="linkadsSection" class="content-section">
-            <div class="section-header">
-                <div class="section-title">Link Ads & Tasks</div>
-                <div class="support-icon" id="supportIconLinkads"><i class="fas fa-headset"></i></div>
-            </div>
-
-            <!-- 4 Link Ads -->
-            <div class="task-card link-ads-group">
-                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;margin-right:6px;"></i>Link Ads</span><span class="task-reward">+5 KING</span></div>
-                <div class="task-desc">Open a link ad, stay <strong>12 seconds</strong>, then claim 5 KING. <span class="link-ads-sub">4 ads · 12 each daily</span></div>
-                <div class="progress-container"><div class="progress-label"><span>Total Progress</span><span id="linkAdsPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkAdsFill"></div></div><div class="completion-stats" id="linkAdsStats">0/48</div></div>
-                <button id="linkAdsMainBtn" class="task-btn">Watch Link Ad & Earn 5 KING</button>
-                <div id="linkAdsTimer" class="timer-text"></div>
-            </div>
-
-            <!-- 20 Tasks -->
-            <div style="margin-top:20px;">
-                <h3 style="color:#000;font-weight:700;margin-bottom:12px;">Tasks (1–20)</h3>
-                <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">Each task: watch video, enter code → earn 7 KING.</p>
-                <div id="tasksListContainer">
-                    <!-- Generated by JS -->
-                </div>
-            </div>
+            <div class="section-header"><div class="section-title">Tasks (1-20)</div><div class="support-icon" id="supportIconLinkads"><i class="fas fa-headset"></i></div></div>
+            <p style="color:#888;font-size:0.8rem;margin-bottom:16px;">Each task: watch video, enter code → earn 7 KING.</p>
+            <div id="tasksListContainer"></div>
         </div>
 
-        <!-- ─── CASEOUT ─── -->
+        <!-- CASHOUT SECTION -->
         <div id="cashoutSection" class="content-section">
-            <div class="section-header">
-                <div class="section-title">Cashout</div>
-                <div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div>
-            </div>
+            <div class="section-header"><div class="section-title">Cashout</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div>
             <div class="balance-card">
                 <div class="balance-label">Available Balance</div>
                 <div class="balance-amount" id="withdrawBalance">0</div>
                 <div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div>
             </div>
             <div class="withdraw-requirements-box">
-                <div class="requirement-header"><i class="fas fa-clipboard-list"></i> <span>Withdrawal Requirements</span></div>
+                <div class="requirement-header"><i class="fas fa-clipboard-list"></i> Withdrawal Requirements</div>
                 <div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title">Minimum Balance</div><div class="req-value" id="minBalReq">2,000 KING needed</div></div><div class="req-status" id="reqStatusBal">○</div></div>
                 <div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title">Referrals Required</div><div class="req-value" id="refReqLabel">At least 1 active referral</div></div><div class="req-status" id="reqStatusRef">○</div></div>
                 <div class="requirement-item" id="reqItemGmail"><div class="req-icon"><i class="fas fa-envelope"></i></div><div class="req-details"><div class="req-title">Gmail Account Sold</div><div class="req-value">One Gmail sell approved by admin</div></div><div class="req-status" id="reqStatusGmail">○</div></div>
             </div>
             <div style="background:#f8f8f8;border-radius:28px;padding:18px 16px;border:1px solid #eee;">
-                <h4 style="margin-bottom:10px;font-weight:700;color:#888;font-size:0.85rem;">Payment Method</h4>
+                <h4 style="margin-bottom:10px;font-weight:700;color:#888;">Payment Method</h4>
                 <div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> Binance (min 2000 KING)</div>
             </div>
             <input type="text" id="paymentAccount" class="form-input" placeholder="Binance Email/UID">
@@ -1562,41 +322,37 @@
             <div style="background:#f8f8f8;border-radius:28px;padding:16px;border:1px solid #eee;">
                 <div class="fee-breakdown"><span>Amount</span><span id="wdAmount">0 KING</span></div>
                 <div class="fee-breakdown"><span>Fee (10%)</span><span id="wdFee">0 KING</span></div>
-                <div class="fee-breakdown" style="border-bottom:none; font-weight:600;"><span>You Receive</span><span id="wdNet">0 KING</span></div>
+                <div class="fee-breakdown" style="border-bottom:none;font-weight:600;"><span>You Receive</span><span id="wdNet">0 KING</span></div>
                 <div class="fee-breakdown" style="border-bottom:none; border-top:1px solid #eee;"><span>~ USD Value</span><span id="wdUsdValue">$0.000</span></div>
             </div>
             <button id="submitWithdrawBtn" class="withdraw-btn">Request Withdrawal</button>
-            <div style="margin-top:32px;"><h4 style="font-weight:700;color:#888;margin-bottom:12px;font-size:0.85rem;">Withdrawal History</h4><div id="historyList"></div></div>
+            <div style="margin-top:32px;"><h4 style="font-weight:700;color:#888;margin-bottom:12px;">Withdrawal History</h4><div id="historyList"></div></div>
         </div>
 
-        <!-- ─── BOTTOM NAV ─── -->
         <div class="bottom-nav">
             <button class="nav-btn active" id="navHome"><i class="fas fa-home"></i><span>Home</span></button>
             <button class="nav-btn" id="navAds"><i class="fas fa-ad"></i><span>Ads</span></button>
             <button class="nav-btn" id="navSell"><i class="fas fa-store"></i><span>Sell</span></button>
-            <button class="nav-btn" id="navLinkads"><i class="fas fa-tasks"></i><span>Link/Tasks</span></button>
+            <button class="nav-btn" id="navLinkads"><i class="fas fa-tasks"></i><span>Tasks</span></button>
             <button class="nav-btn" id="navCashout"><i class="fas fa-wallet"></i><span>Cashout</span></button>
         </div>
     </div>
 
-    <!-- ─── MODALS ─── -->
-
-    <!-- Referral Code -->
-    <div id="referralCodeModal" class="referral-code-modal"><div class="referral-code-card"><i class="fas fa-gift" style="font-size:2.8rem;color:#f5a623;"></i><h2 style="margin:12px 0;color:#000;">Welcome to King</h2><p style="color:#888;">Enter referral code to get 100 KING bonus.</p><input type="text" id="referralCodeInput" class="form-input" placeholder="Referral code" style="margin:12px 0;"><button id="submitReferralCodeBtn" class="claim-btn">Claim</button><button id="skipReferralCodeBtn" class="claim-btn skip-btn">Skip</button></div></div>
-
-    <!-- Withdraw Success -->
-    <div id="withdrawSuccessModal" class="modal"><div class="modal-content"><i class="fas fa-check-circle" style="font-size:2.4rem;color:#2e7d32;"></i><h3 style="margin:12px 0;color:#000;">Withdrawal Requested</h3><div id="withdrawSuccessDetails" style="color:#888;font-size:0.9rem;"></div><button id="closeSuccessModal" class="claim-btn" style="margin-top:16px;">OK</button></div></div>
-
-    <!-- Admin Modal -->
-    <div id="adminModal" class="modal"><div class="modal-content" style="max-width:450px;"><h3 style="margin-bottom:16px;color:#000;">Admin Panel</h3><div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;color:#555;font-size:0.85rem;"></div><button id="closeAdminModal" class="claim-btn skip-btn" style="margin-top:16px;">Close</button></div></div>
-
-    <!-- Claim -->
-    <div id="claimModal" class="claim-modal"><div class="claim-card"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle" style="margin:12px 0;color:#000;">Congratulations!</h2><p id="claimModalMessage" style="color:#888;">You completed the task. Click Claim to get your reward.</p><button id="confirmClaimBtn" class="claim-btn">Claim Reward</button><button id="cancelClaimBtn" class="claim-btn skip-btn">Cancel</button></div></div>
-
-    <!-- Link Ad Modal -->
-    <div id="linkAdModal" class="link-ad-modal"><div class="link-ad-card" id="linkAdInner"></div></div>
-
-    <!-- Daily Verification -->
+    <!-- Sequence Modal -->
+    <div id="sequenceModal" class="sequence-modal">
+        <div class="sequence-card" id="sequenceCard"></div>
+    </div>
+    <!-- Claim Modal -->
+    <div id="claimModal" class="modal">
+        <div class="modal-content">
+            <i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i>
+            <h2 id="claimModalTitle">Congratulations!</h2>
+            <p id="claimModalMessage">You completed the task.</p>
+            <button id="confirmClaimBtn" class="claim-btn">Claim Reward</button>
+            <button id="cancelClaimBtn" class="claim-btn skip-btn">Cancel</button>
+        </div>
+    </div>
+    <!-- Daily Verification Modal -->
     <div class="daily-verification-modal" id="dailyVerificationModal">
         <div class="daily-verification-card">
             <div class="brand-logo"><i class="fas fa-shield-halved"></i><span>King</span></div>
@@ -1609,49 +365,41 @@
                 <div class="progress-dot" data-index="4"></div>
             </div>
             <div class="click-counter">Clicks: <span id="clickCountDisplay">0</span> / 5</div>
-            <button class="verify-btn" id="verifyHumanBtn">
-                <i class="fas fa-hand-pointer"></i>
-                <span class="btn-text">Click to Verify</span>
-                <span class="click-badge" id="clickBadge">0/5</span>
-            </button>
+            <button class="verify-btn" id="verifyHumanBtn"><i class="fas fa-hand-pointer"></i><span>Click to Verify</span><span id="clickBadge">0/5</span></button>
             <div class="verify-status-text" id="verifyStatusText">Tap the button <span class="highlight">5 times</span> to verify</div>
         </div>
     </div>
+    <!-- Referral Code Modal -->
+    <div id="referralCodeModal" class="modal">
+        <div class="modal-content">
+            <i class="fas fa-gift" style="font-size:2.8rem;color:#f5a623;"></i>
+            <h2>Welcome to King</h2>
+            <p style="color:#888;">Enter referral code to get 100 KING bonus.</p>
+            <input type="text" id="referralCodeInput" class="form-input" placeholder="Referral code">
+            <button id="submitReferralCodeBtn" class="claim-btn">Claim</button>
+            <button id="skipReferralCodeBtn" class="claim-btn skip-btn">Skip</button>
+        </div>
+    </div>
+    <!-- Withdraw Success Modal -->
+    <div id="withdrawSuccessModal" class="modal">
+        <div class="modal-content">
+            <i class="fas fa-check-circle" style="font-size:2.4rem;color:#2e7d32;"></i>
+            <h3>Withdrawal Requested</h3>
+            <div id="withdrawSuccessDetails" style="color:#888;font-size:0.9rem;"></div>
+            <button id="closeSuccessModal" class="claim-btn">OK</button>
+        </div>
+    </div>
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content" style="max-width:450px;">
+            <h3>Admin Panel</h3>
+            <div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;color:#555;font-size:0.85rem;"></div>
+            <button id="closeAdminModal" class="claim-btn skip-btn">Close</button>
+        </div>
+    </div>
 
-
-    <!-- ─── JAVASCRIPT ─── -->
     <script>
-        // ─── LOADING ───
-        (function startLoading() {
-            let loadPercent = 0;
-            const fill = document.getElementById('loadingFill');
-            const percent = document.getElementById('loadingPercent');
-            if (!fill || !percent) { setTimeout(startLoading, 100); return; }
-            function updateLoading() {
-                const step = Math.random() * 3 + 1.5;
-                loadPercent = Math.min(loadPercent + step, 100);
-                const rounded = Math.floor(loadPercent);
-                fill.style.width = rounded + '%';
-                percent.textContent = rounded + '%';
-                if (loadPercent < 100) {
-                    requestAnimationFrame(() => { setTimeout(updateLoading, 40 + Math.random() * 20); });
-                } else {
-                    fill.style.width = '100%';
-                    percent.textContent = '100%';
-                    setTimeout(() => {
-                        initUser().catch(console.error).finally(() => {
-                            setTimeout(() => {
-                                document.getElementById('loadingScreen').classList.add('hidden');
-                                document.getElementById('mainApp').style.display = 'block';
-                            }, 400);
-                        });
-                    }, 300);
-                }
-            }
-            setTimeout(updateLoading, 100);
-        })();
-
-        // ─── Firebase ───
+        // Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyAmTdb5ejQtgYxmkfLc575HcBN8pMhrBPM",
             authDomain: "earn-for-earn-55d3e.firebaseapp.com",
@@ -1664,34 +412,28 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let webApp = window.Telegram?.WebApp;
+        // Telegram WebApp
+        const webApp = window.Telegram?.WebApp;
         if (webApp) webApp.expand();
-        let tgUser = webApp?.initDataUnsafe?.user;
+        const tgUser = webApp?.initDataUnsafe?.user;
         let telegramId = tgUser?.id ? tgUser.id.toString() : null;
-        let telegramUsername = tgUser?.username || tgUser?.first_name || (telegramId ? "user_" + telegramId :
-        "guest_" + Date.now());
-        if (!telegramId) { telegramId = "guest_" + Date.now();
-            telegramUsername = "guest_" + Date.now(); }
-        let userData = null;
-        const EXCHANGE_RATE = 10000;
-        const VERIFICATION_LINK = 'https://ustashewasputtin.com?hTTVD=1246757';
-        const LINK_AD_DURATION = 12;
+        let telegramUsername = tgUser?.username || tgUser?.first_name || (telegramId ? "user_" + telegramId : "guest_" + Date.now());
+        if (!telegramId) { telegramId = "guest_" + Date.now(); telegramUsername = "guest_" + Date.now(); }
 
-        // Link ads – 4 links (edit these)
+        let userData = null;
+        const EXCHANGE_RATE = 10000; // 10000 KING = 1 USD
+        const VERIFICATION_LINK = 'https://ustashewasputtin.com?hTTVD=1246757';
         const AD_LINKS = [
             'https://bowlsharp.com/sberz0ps?key=6ac7a5fb182212bd58fdc8e8176bdddb',
             'https://omg10.com/4/11017295',
             'https://ythestarsarequ.com?hTTVD=1246757',
             'https://wwp.giriubin.com/redirect-zone/31c41a18'
         ];
-
-        // ─── 20 TASKS DATA ───
-        // Codes and video links exactly as provided
         const TASK_CODES = [
-            '106493', '118816', '131139', '143462', '155785',
-            '168108', '180431', '192754', '205077', '217400',
-            '228316', '240639', '252962', '265285', '277608',
-            '289931', '302254', '314577', '326900', '339223'
+            '106493','118816','131139','143462','155785',
+            '168108','180431','192754','205077','217400',
+            '228316','240639','252962','265285','277608',
+            '289931','302254','314577','326900','339223'
         ];
         const TASK_VIDEO_LINKS = [
             'https://1024terabox.com/s/1xe4sEvMRrYPelSrWwjAiFw',
@@ -1715,22 +457,12 @@
             'https://1024terabox.com/s/15GQcCYoB_tg_xnruigEi5Q',
             'https://1024terabox.com/s/1v0bCREsZ846bQHz9JjOqRw'
         ];
-        // Ensure we have exactly 20
-        const NUM_TASKS = 20;
 
-        function getTaskCode(index) { return TASK_CODES[index - 1] || '000000'; }
-        function getTaskVideo(index) { return TASK_VIDEO_LINKS[index - 1] || '#'; }
-
-        let pendingClaim = null;
-        let verificationClicks = 0;
-        let verificationComplete = false;
-        let selectedMethod = 'binance';
-
-        // ─── Utility ───
+        // Utility functions
         function showToast(amount, task) {
             const toast = document.createElement('div');
             toast.className = 'toast-notification';
-            toast.innerHTML = '<i class="fas fa-gift"></i> +' + amount + ' KING from ' + task;
+            toast.innerHTML = `<i class="fas fa-gift"></i> +${amount} KING from ${task}`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2800);
         }
@@ -1759,33 +491,309 @@
             const today = new Date().toDateString();
             let total = 0;
             userData.earningsHistory.forEach(entry => {
-                if (entry.date && new Date(entry.date).toDateString() === today) {
-                    total += (entry.amount || 0);
-                }
+                if (entry.date && new Date(entry.date).toDateString() === today) total += (entry.amount || 0);
             });
             return total;
         }
 
-        function showClaimModal(taskName, reward, claimCallback) {
-            document.getElementById('claimModalTitle').innerHTML = 'Congratulations!';
-            document.getElementById('claimModalMessage').innerHTML = 'You completed <strong>' + taskName +
-                '</strong>. Click Claim to get <strong>' + reward + ' KING</strong>.';
-            pendingClaim = claimCallback;
+        function showClaimModal(title, message, callback) {
+            document.getElementById('claimModalTitle').innerText = title;
+            document.getElementById('claimModalMessage').innerHTML = message;
             document.getElementById('claimModal').classList.add('active');
+            document.getElementById('confirmClaimBtn').onclick = () => {
+                document.getElementById('claimModal').classList.remove('active');
+                callback();
+            };
+            document.getElementById('cancelClaimBtn').onclick = () => {
+                document.getElementById('claimModal').classList.remove('active');
+                alert('You cancelled the claim.');
+            };
         }
 
-        document.getElementById('confirmClaimBtn').onclick = function() {
-            if (pendingClaim) { pendingClaim();
-                pendingClaim = null; }
-            document.getElementById('claimModal').classList.remove('active');
+        // Sequence Modal
+        let currentSequence = null;
+
+        function openSequenceModal(type) {
+            const stepsData = type === 'ad' ? [
+                { name: 'Monetag', icon: 'fa-circle-play', action: async () => { await show_10541383(); } },
+                { name: 'Adexora', icon: 'fa-bolt', action: async () => {
+                    if (typeof window.showAdexora === 'function') await window.showAdexora();
+                    else if (typeof window.showGiga === 'function') await window.showGiga();
+                    else if (typeof show_10541383 === 'function') await show_10541383();
+                    else {
+                        const ctrl = window.Adsgram?.init({blockId:"int-28543"});
+                        const res = await ctrl?.show();
+                        if (!res || !res.done) throw new Error('Adsgram failed');
+                    }
+                }},
+                { name: 'Adsgram', icon: 'fa-film', action: async () => {
+                    const ctrl = window.Adsgram.init({blockId:"int-28543"});
+                    const res = await ctrl.show();
+                    if (!res || !res.done) throw new Error('Adsgram incomplete');
+                }},
+                { name: 'Giga Pub', icon: 'fa-rocket', action: async () => { await window.showGiga(); } }
+            ] : AD_LINKS.map((link, i) => ({ name: `Link ${i+1}`, link, icon: 'fa-link' }));
+
+            currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type === 'ad' ? 18 : 20 };
+            renderSequenceStep();
+            document.getElementById('sequenceModal').classList.add('active');
+        }
+
+        function closeSequenceModal() {
+            document.getElementById('sequenceModal').classList.remove('active');
+            currentSequence = null;
+        }
+
+        function renderSequenceStep() {
+            const seq = currentSequence;
+            const card = document.getElementById('sequenceCard');
+            const step = seq.steps[seq.currentStep];
+            let html = `<div class="sequence-steps">`;
+            seq.steps.forEach((s, idx) => {
+                let cls = '';
+                if (idx < seq.currentStep) cls = 'done';
+                else if (idx === seq.currentStep && seq.stepCompleted) cls = 'done';
+                else if (idx === seq.currentStep) cls = 'current';
+                html += `<div class="seq-step ${cls}">${cls === 'done' ? '✓' : idx + 1}</div>`;
+            });
+            html += `</div><div class="seq-label">Step ${seq.currentStep + 1}/${seq.steps.length}: ${step.name}</div>`;
+
+            if (!seq.stepCompleted) {
+                if (seq.type === 'ad') {
+                    html += `<button class="seq-btn" id="seqActionBtn">Watch ${step.name} Ad</button>`;
+                } else {
+                    html += `<p style="color:#888;margin:12px 0;">Stay on the opened link for 12 seconds.</p>`;
+                    html += `<div class="countdown-big" id="linkTimer">12s</div>`;
+                    html += `<button class="seq-btn" id="seqActionBtn" disabled>Wait 12s</button>`;
+                }
+            } else {
+                if (seq.currentStep < seq.steps.length - 1) {
+                    html += `<button class="seq-btn next-step" id="seqNextBtn">Next Step</button>`;
+                } else {
+                    html += `<div style="font-size:2rem;">🎉</div><h3>Congratulations!</h3><p>You earned ${seq.reward} KING</p>`;
+                    html += `<button class="claim-btn" id="seqClaimBtn">Claim ${seq.reward} KING</button>`;
+                }
+            }
+            html += `<button class="claim-btn skip-btn" id="seqCancelBtn">Cancel</button>`;
+            card.innerHTML = html;
+
+            if (!seq.stepCompleted) {
+                const actionBtn = document.getElementById('seqActionBtn');
+                if (seq.type === 'ad') {
+                    actionBtn.onclick = async () => {
+                        actionBtn.disabled = true;
+                        actionBtn.innerText = 'Loading ad...';
+                        try {
+                            await step.action();
+                            seq.stepCompleted = true;
+                            renderSequenceStep();
+                        } catch (e) {
+                            alert('Ad failed: ' + e.message);
+                            actionBtn.disabled = false;
+                            actionBtn.innerText = `Watch ${step.name} Ad`;
+                        }
+                    };
+                } else {
+                    window.open(step.link, '_blank');
+                    let timeLeft = 12;
+                    const timerEl = document.getElementById('linkTimer');
+                    const updateTimer = () => {
+                        timerEl.innerText = timeLeft + 's';
+                        actionBtn.innerText = 'Wait ' + timeLeft + 's';
+                        if (timeLeft <= 0) {
+                            clearInterval(interval);
+                            actionBtn.disabled = false;
+                            actionBtn.innerText = 'Complete';
+                            actionBtn.style.background = '#4caf50';
+                            actionBtn.onclick = () => {
+                                seq.stepCompleted = true;
+                                renderSequenceStep();
+                            };
+                        }
+                        timeLeft--;
+                    };
+                    updateTimer();
+                    const interval = setInterval(updateTimer, 1000);
+                }
+            } else if (seq.currentStep < seq.steps.length - 1) {
+                document.getElementById('seqNextBtn').onclick = () => {
+                    seq.currentStep++;
+                    seq.stepCompleted = false;
+                    renderSequenceStep();
+                };
+            } else {
+                document.getElementById('seqClaimBtn').onclick = async () => {
+                    const key = seq.type === 'ad' ? 'adSeqCompletions' : 'linkSeqCompletions';
+                    const limit = 12;
+                    if ((userData[key] || 0) >= limit) { alert('Daily limit reached.'); return; }
+                    const newVal = (userData[key] || 0) + 1;
+                    await updateUser({
+                        [key]: newVal,
+                        balance: (userData.balance || 0) + seq.reward,
+                        totalEarned: (userData.totalEarned || 0) + seq.reward,
+                        tasksCompleted: (userData.tasksCompleted || 0) + 1
+                    });
+                    addEarningEntry(seq.reward, seq.type === 'ad' ? 'Ad Sequence' : 'Link Sequence');
+                    showToast(seq.reward, seq.type === 'ad' ? 'Ad Task' : 'Link Task');
+                    closeSequenceModal();
+                    refreshUI();
+                };
+            }
+            document.getElementById('seqCancelBtn').onclick = closeSequenceModal;
+        }
+
+        // Start buttons
+        document.getElementById('startAdSeqBtn').onclick = () => {
+            if ((userData.adSeqCompletions || 0) >= 12) { alert('Daily limit reached.'); return; }
+            openSequenceModal('ad');
         };
-        document.getElementById('cancelClaimBtn').onclick = function() {
-            pendingClaim = null;
-            document.getElementById('claimModal').classList.remove('active');
-            alert('You cancelled the claim. No reward given.');
+        document.getElementById('startLinkSeqBtn').onclick = () => {
+            if ((userData.linkSeqCompletions || 0) >= 12) { alert('Daily limit reached.'); return; }
+            openSequenceModal('link');
         };
 
-        // ─── Refresh UI ───
+        // Task randomization
+        function getDailyTaskOrder() {
+            const today = new Date().toDateString();
+            if (userData.lastTaskOrderDate !== today || !userData.taskOrder) {
+                const seed = telegramId + today;
+                let hash = 0;
+                for (let i = 0; i < seed.length; i++) { hash = ((hash << 5) - hash) + seed.charCodeAt(i); hash |= 0; }
+                const arr = Array.from({ length: 20 }, (_, i) => i + 1);
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const r = (Math.abs(Math.sin(hash++)) * (i + 1)) | 0;
+                    [arr[i], arr[r]] = [arr[r], arr[i]];
+                }
+                userData.taskOrder = arr;
+                userData.lastTaskOrderDate = today;
+                updateUser({ taskOrder: arr, lastTaskOrderDate: today });
+                return arr;
+            }
+            return userData.taskOrder;
+        }
+
+        function getTaskCode(index) { return TASK_CODES[index - 1] || '000000'; }
+        function getTaskVideo(index) { return TASK_VIDEO_LINKS[index - 1] || '#'; }
+
+        function renderTaskList() {
+            const order = getDailyTaskOrder();
+            const container = document.getElementById('tasksListContainer');
+            let html = '';
+            order.forEach(originalId => {
+                const taskKey = 'task' + originalId;
+                const taskData = userData[taskKey] || { watched: false, claimed: false };
+                if (taskData.claimed) return;
+                const watched = taskData.watched || false;
+                html += `
+                <div class="task-item-box" data-task="${originalId}">
+                    <div class="task-header-box">
+                        <div class="task-num">Task ${originalId}</div>
+                        <div class="task-status-badge ${watched ? 'pending' : ''}">${watched ? '⏳ Enter code' : '▶️ Watch video'}</div>
+                    </div>
+                    <div class="task-step-row">
+                        <span class="step-icon ${watched ? 'done' : ''}">${watched ? '✅' : '⏹'}</span>
+                        <span style="flex:1;">Watch Video</span>
+                        <button class="step-action" data-task="${originalId}" ${watched ? 'disabled' : ''}>${watched ? 'Done' : 'Watch'}</button>
+                    </div>
+                    ${watched ? `
+                    <div class="task-submit-box">
+                        <input type="text" class="task-code-input" placeholder="Enter 6-digit code" maxlength="6" pattern="[0-9]*" inputmode="numeric">
+                        <button class="task-submit-btn" data-task="${originalId}">Submit</button>
+                    </div>` : ''}
+                </div>`;
+            });
+            if (html === '') html = '<div class="empty-state"><i class="fas fa-check-circle"></i><div>All tasks completed! 🎉</div></div>';
+            container.innerHTML = html;
+
+            container.querySelectorAll('.step-action').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const taskId = parseInt(this.dataset.task);
+                    const taskKey = 'task' + taskId;
+                    const taskData = userData[taskKey] || { watched: false, claimed: false };
+                    if (taskData.watched) return;
+                    window.open(getTaskVideo(taskId), '_blank');
+                    taskData.watched = true;
+                    updateUser({ [taskKey]: taskData }).then(() => { renderTaskList(); refreshUI(); });
+                });
+            });
+            container.querySelectorAll('.task-submit-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const taskId = parseInt(this.dataset.task);
+                    const taskKey = 'task' + taskId;
+                    const taskData = userData[taskKey] || { watched: false, claimed: false };
+                    if (taskData.claimed) { alert('Already claimed!'); return; }
+                    if (!taskData.watched) { alert('Watch the video first!'); return; }
+                    const input = this.closest('.task-item-box').querySelector('.task-code-input');
+                    const entered = input.value.trim();
+                    if (entered !== getTaskCode(taskId)) { alert('Incorrect code.'); return; }
+                    const reward = 7;
+                    taskData.claimed = true;
+                    updateUser({
+                        [taskKey]: taskData,
+                        balance: (userData.balance || 0) + reward,
+                        totalEarned: (userData.totalEarned || 0) + reward,
+                        tasksCompleted: (userData.tasksCompleted || 0) + 1
+                    }).then(() => {
+                        addEarningEntry(reward, 'Task ' + taskId);
+                        showToast(reward, 'Task ' + taskId);
+                        renderTaskList();
+                        refreshUI();
+                    });
+                });
+            });
+        }
+
+        // Daily verification
+        function checkDailyVerification() {
+            const today = new Date().toDateString();
+            if (userData.lastVerificationDate !== today) {
+                verificationClicks = 0;
+                verificationComplete = false;
+                document.getElementById('dailyVerificationModal').classList.add('active');
+                updateVerificationUI();
+            } else {
+                document.getElementById('dailyVerificationModal').classList.remove('active');
+            }
+        }
+
+        let verificationClicks = 0;
+        let verificationComplete = false;
+        function updateVerificationUI() {
+            const dots = document.querySelectorAll('#verificationProgress .progress-dot');
+            dots.forEach((dot, index) => {
+                if (index < verificationClicks) dot.classList.add('filled');
+                else dot.classList.remove('filled');
+            });
+            document.getElementById('clickCountDisplay').innerText = verificationClicks;
+            document.getElementById('clickBadge').innerText = verificationClicks + '/5';
+            const btn = document.getElementById('verifyHumanBtn');
+            const statusText = document.getElementById('verifyStatusText');
+            if (verificationClicks >= 5) {
+                btn.classList.add('completed');
+                btn.querySelector('span').innerText = '✓ Verified!';
+                btn.querySelector('i').className = 'fas fa-check-circle';
+                statusText.innerHTML = '✅ Verified! <span class="highlight">Welcome to King</span>';
+                verificationComplete = true;
+                setTimeout(() => {
+                    document.getElementById('dailyVerificationModal').classList.remove('active');
+                    updateUser({ lastVerificationDate: new Date().toDateString() });
+                }, 700);
+            } else {
+                btn.classList.remove('completed');
+                btn.querySelector('span').innerText = 'Click to Verify';
+                btn.querySelector('i').className = 'fas fa-hand-pointer';
+                statusText.innerHTML = 'Tap the button <span class="highlight">' + (5 - verificationClicks) + ' more times</span> to verify';
+            }
+        }
+
+        document.getElementById('verifyHumanBtn').addEventListener('click', function () {
+            if (verificationComplete) return;
+            window.open(VERIFICATION_LINK, '_blank');
+            verificationClicks++;
+            updateVerificationUI();
+        });
+
+        // Refresh UI
         function refreshUI() {
             if (!userData) return;
             const bal = userData.balance || 0;
@@ -1802,853 +810,118 @@
 
             const refs = userData.referrals || [];
             const refList = document.getElementById('referralsListHome');
-            if (refs.length) {
-                refList.innerHTML = refs.map(r =>
-                    '<div class="friend-card"><span>' + (r.username || 'User') + '</span><span>+' + (r.bonus || 100) +
-                    ' KING</span></div>'
-                ).join('');
-            } else {
-                refList.innerHTML =
-                    '<div class="empty-state" style="padding:12px 0;"><i class="fas fa-user-plus"></i><div style="font-size:0.75rem;">No referrals yet</div></div>';
-            }
+            refList.innerHTML = refs.length ? refs.map(r => `<div class="friend-card"><span>${r.username||'User'}</span><span>+${r.bonus||100} KING</span></div>`).join('') : '<div class="empty-state"><i class="fas fa-user-plus"></i><div>No referrals yet</div></div>';
 
+            // Ad sequence progress
+            const adComp = userData.adSeqCompletions || 0;
+            document.getElementById('adSeqFill').style.width = (adComp / 12) * 100 + '%';
+            document.getElementById('adSeqPercent').innerText = Math.floor((adComp / 12) * 100) + '%';
+            document.getElementById('adSeqStats').innerText = adComp + '/12';
+            document.getElementById('startAdSeqBtn').disabled = adComp >= 12;
+
+            const linkComp = userData.linkSeqCompletions || 0;
+            document.getElementById('linkSeqFill').style.width = (linkComp / 12) * 100 + '%';
+            document.getElementById('linkSeqPercent').innerText = Math.floor((linkComp / 12) * 100) + '%';
+            document.getElementById('linkSeqStats').innerText = linkComp + '/12';
+            document.getElementById('startLinkSeqBtn').disabled = linkComp >= 12;
+
+            // Withdrawal requirements
+            document.getElementById('reqStatusRef').innerHTML = (userData.referrals?.length >= 1) ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
+            document.getElementById('reqStatusRef').className = 'req-status ' + (userData.referrals?.length >= 1 ? 'status-success' : 'status-failed');
+            document.getElementById('reqStatusBal').innerHTML = bal >= 2000 ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
+            document.getElementById('reqStatusBal').className = 'req-status ' + (bal >= 2000 ? 'status-success' : 'status-failed');
+            document.getElementById('reqStatusGmail').innerHTML = userData.gmailSoldApproved ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
+            document.getElementById('reqStatusGmail').className = 'req-status ' + (userData.gmailSoldApproved ? 'status-success' : 'status-failed');
+
+            // Withdrawal history
             const hist = userData.withdrawalHistory || [];
-            document.getElementById('historyList').innerHTML = hist.length ? hist.slice().reverse().map(w =>
-                '<div class="withdrawal-history-card"><div><strong>' + (w.withdrawId || 'WD-' + w.id) + '</strong> <span style="color:' +
-                (w.status === 'pending' ? '#e65100' : w.status === 'approved' ? '#2e7d32' : '#c62828') + ';">' + w
-                .status + '</span></div><div>' + w.amount + ' KING (~$' + ((w.netAmount || w.amount) / EXCHANGE_RATE)
-                .toFixed(3) + ')</div><div>' + (w.method || 'Binance') + '</div><small style="color:#aaa;">' + new Date(
-                    w.date).toLocaleString() + '</small></div>'
-            ).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">No withdrawals</div>';
+            document.getElementById('historyList').innerHTML = hist.length ? hist.slice().reverse().map(w => `<div class="withdrawal-history-card"><div><strong>${w.withdrawId || 'WD-'+w.id}</strong> <span style="color:${w.status==='pending'?'#e65100':w.status==='approved'?'#2e7d32':'#c62828'};">${w.status}</span></div><div>${w.amount} KING (~$${(w.netAmount||w.amount)/EXCHANGE_RATE})</div><div>${w.method||'Binance'}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">No withdrawals</div>';
 
-            // Requirements
-            const reqRef = (userData.referrals?.length || 0) >= 1;
-            document.getElementById('reqStatusRef').innerHTML = reqRef ? '<i class="fas fa-check-circle"></i>' :
-                '<i class="fas fa-times-circle"></i>';
-            document.getElementById('reqStatusRef').className = 'req-status ' + (reqRef ? 'status-success' :
-            'status-failed');
-
-            const reqBal = bal >= 2000;
-            document.getElementById('reqStatusBal').innerHTML = reqBal ? '<i class="fas fa-check-circle"></i>' :
-                '<i class="fas fa-times-circle"></i>';
-            document.getElementById('reqStatusBal').className = 'req-status ' + (reqBal ? 'status-success' :
-            'status-failed');
-
-            const reqGmail = userData.gmailSoldApproved || false;
-            document.getElementById('reqStatusGmail').innerHTML = reqGmail ? '<i class="fas fa-check-circle"></i>' :
-                '<i class="fas fa-times-circle"></i>';
-            document.getElementById('reqStatusGmail').className = 'req-status ' + (reqGmail ? 'status-success' :
-            'status-failed');
-
-            // Update withdraw button
-            const btn = document.getElementById('submitWithdrawBtn');
-            if (btn) {
-                btn.disabled = !(reqBal && reqRef && reqGmail);
-            }
-
-            const amt = parseInt(document.getElementById('withdrawAmount')?.value) || 0;
-            const fee = Math.floor(amt * 0.1);
-            document.getElementById('wdAmount').innerText = amt + ' KING';
-            document.getElementById('wdFee').innerText = fee + ' KING';
-            document.getElementById('wdNet').innerText = (amt - fee) + ' KING';
-            document.getElementById('wdUsdValue').innerText = '$' + ((amt - fee) / EXCHANGE_RATE).toFixed(3);
-
-            // Ads 1 (Monetag) limit 10
-            updateAdProgress('ads1Progress', 10, 'ads1Fill', 'ads1Percent', 'ads1Stats', 'ads1Btn', 5);
-            // Ads 2 (Adexora) limit 15, reward 3
-            updateAdProgress('ads2Progress', 15, 'ads2Fill', 'ads2Percent', 'ads2Stats', 'ads2Btn', 3);
-            // Ads 3 (Adsgram) limit 10
-            updateAdProgress('ads3Progress', 10, 'ads3Fill', 'ads3Percent', 'ads3Stats', 'ads3Btn', 5);
-            // Giga Pub limit 10
-            updateAdProgress('adsGigaProgress', 10, 'adsGigaFill', 'adsGigaPercent', 'adsGigaStats', 'adsGigaBtn', 5);
-
-            // Link Ads
-            let linkTotal = 0;
-            for (let i = 0; i < 4; i++) {
-                const key = 'linkAd' + (i + 1) + 'Progress';
-                const prog = userData[key] || 0;
-                linkTotal += prog;
-            }
-            const linkMax = 4 * 12;
-            document.getElementById('linkAdsFill').style.width = (linkTotal / linkMax) * 100 + '%';
-            document.getElementById('linkAdsPercent').innerText = Math.floor((linkTotal / linkMax) * 100) + '%';
-            document.getElementById('linkAdsStats').innerText = linkTotal + '/' + linkMax;
-
-            const linkBtn = document.getElementById('linkAdsMainBtn');
-            if (linkTotal >= linkMax) {
-                linkBtn.disabled = true;
-                linkBtn.innerHTML = '✅ All Completed';
-                linkBtn.classList.add('completed');
-            } else {
-                linkBtn.disabled = false;
-                linkBtn.innerHTML = 'Watch Link Ad & Earn 5 KING';
-                linkBtn.classList.remove('completed');
-            }
-
-            // Total ads (all ad networks)
-            let totalAds = 0,
-                earnedAds = 0;
-            const adKeys = ['ads1Progress', 'ads2Progress', 'ads3Progress', 'adsGigaProgress'];
-            adKeys.forEach(key => {
-                const p = userData[key] || 0;
-                totalAds += p;
-                const reward = key === 'ads2Progress' ? 3 : 5;
-                earnedAds += p * reward;
-            });
-            document.getElementById('totalAdsCount').innerText = totalAds;
-            document.getElementById('totalAdsEarned').innerText = earnedAds;
-
-            // Tasks - only show unclaimed ones
-            renderTaskList();
-
-            // Sell History
+            // Sell history
             renderSellHistory();
-
+            // Tasks
+            renderTaskList();
             checkDailyVerification();
         }
 
-        function updateAdProgress(key, limit, fillId, percentId, statsId, btnId, reward) {
-            const prog = userData[key] || 0;
-            const fill = document.getElementById(fillId);
-            if (fill) fill.style.width = (prog / limit) * 100 + '%';
-            const perc = document.getElementById(percentId);
-            if (perc) perc.innerText = Math.floor((prog / limit) * 100) + '%';
-            const stats = document.getElementById(statsId);
-            if (stats) stats.innerText = prog + '/' + limit;
-            const btn = document.getElementById(btnId);
-            if (btn) {
-                if (prog >= limit) { btn.disabled = true;
-                    btn.innerHTML = '✅ Completed';
-                    btn.classList.add('completed'); } else { btn.disabled = false;
-                    btn.innerHTML = 'Watch Ad & Earn ' + reward + ' KING';
-                    btn.classList.remove('completed'); }
-            }
-        }
-
-        // ─── Sell History ───
-        function renderSellHistory() {
+        async function renderSellHistory() {
             const container = document.getElementById('sellHistoryContainer');
-            if (!container) return;
-
             db.ref('sellSubmissions').orderByChild('userId').equalTo(telegramId).once('value', snap => {
-                let html = '';
-                const items = [];
-                snap.forEach(child => {
-                    const val = child.val();
-                    items.push({ id: child.key, ...val });
-                });
+                let items = [];
+                snap.forEach(c => items.push({ id: c.key, ...c.val() }));
                 items.sort((a, b) => (b.date || 0) - (a.date || 0));
-
                 if (items.length === 0) {
-                    html = '<div class="empty-state"><i class="fas fa-inbox"></i><div>No sell submissions yet.</div></div>';
-                } else {
-                    items.forEach(item => {
-                        const statusClass = item.status === 'pending' ? 'status-pending' :
-                            item.status === 'approved' ? 'status-approved' : 'status-rejected';
-                        const statusLabel = item.status.charAt(0).toUpperCase() + item.status.slice(1);
-                        const date = item.date ? new Date(item.date).toLocaleDateString() : 'N/A';
-                        let details = '';
-                        if (item.type === 'gmail') {
-                            details = `
-                                <div class="item-row"><span class="label">Email</span><span class="value">${escapeHtml(item.email || 'N/A')}</span></div>
-                                <div class="item-row"><span class="label">Recovery</span><span class="value">${escapeHtml(item.recovery || 'N/A')}</span></div>
-                            `;
-                        } else if (item.type === 'newgmail') {
-                            details = `
-                                <div class="item-row"><span class="label">Contact</span><span class="value">${escapeHtml(item.contact || 'N/A')}</span></div>
-                            `;
-                        }
-                        html += `
-                            <div class="sell-history-item">
-                                ${details}
-                                <div class="item-row">
-                                    <span class="label">Date</span>
-                                    <span class="value">${date}</span>
-                                </div>
-                                <div class="item-row">
-                                    <span class="label">Status</span>
-                                    <span class="status-badge ${statusClass}">${statusLabel}</span>
-                                </div>
-                            </div>
-                        `;
-                    });
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><div>No sell submissions yet.</div></div>';
+                    return;
                 }
-                container.innerHTML = html;
-            }).catch(err => {
-                console.error('Error fetching sell history:', err);
-                container.innerHTML = '<div class="empty-state">Error loading history.</div>';
-            });
-        }
-
-        // ─── Daily Verification ───
-        function checkDailyVerification() {
-            if (!userData) return;
-            const today = new Date().toDateString();
-            const lastVerif = userData.lastVerificationDate || '';
-            if (lastVerif !== today) {
-                verificationClicks = 0;
-                verificationComplete = false;
-                document.getElementById('dailyVerificationModal').classList.add('active');
-                updateVerificationUI();
-            } else {
-                document.getElementById('dailyVerificationModal').classList.remove('active');
-            }
-        }
-
-        function updateVerificationUI() {
-            const dots = document.querySelectorAll('#verificationProgress .progress-dot');
-            dots.forEach((dot, index) => {
-                if (index < verificationClicks) dot.classList.add('filled');
-                else dot.classList.remove('filled');
-            });
-            document.getElementById('clickCountDisplay').innerText = verificationClicks;
-            document.getElementById('clickBadge').innerText = verificationClicks + '/5';
-            const btn = document.getElementById('verifyHumanBtn');
-            const btnText = btn.querySelector('.btn-text');
-            const statusText = document.getElementById('verifyStatusText');
-
-            if (verificationClicks >= 5) {
-                btn.classList.add('completed');
-                btnText.innerText = '✓ Verified!';
-                btn.querySelector('i').className = 'fas fa-check-circle';
-                statusText.innerHTML = '✅ Verified! <span class="highlight">Welcome to King</span>';
-                verificationComplete = true;
-                setTimeout(() => {
-                    document.getElementById('dailyVerificationModal').classList.remove('active');
-                    updateUser({ lastVerificationDate: new Date().toDateString() });
-                }, 700);
-            } else {
-                btn.classList.remove('completed');
-                btnText.innerText = 'Click to Verify';
-                btn.querySelector('i').className = 'fas fa-hand-pointer';
-                statusText.innerHTML = 'Tap the button <span class="highlight">' + (5 - verificationClicks) +
-                    ' more times</span> to verify';
-            }
-        }
-
-        document.getElementById('verifyHumanBtn').addEventListener('click', function(e) {
-            if (verificationComplete) return;
-            window.open(VERIFICATION_LINK, '_blank');
-            verificationClicks++;
-            updateVerificationUI();
-            if (webApp && webApp.HapticFeedback) webApp.HapticFeedback.impactOccurred('light');
-        });
-
-        // ─── Generic Link Wait Modal ───
-        function showLinkWaitModal(link, durationSeconds, onComplete, onCancel) {
-            const modal = document.getElementById('linkAdModal');
-            const inner = document.getElementById('linkAdInner');
-            let startTime = Date.now();
-            let timerInterval = null;
-            let completed = false;
-            let visibilityHandler = null;
-            let modalActive = true;
-
-            function cleanup() {
-                if (timerInterval) clearInterval(timerInterval);
-                if (visibilityHandler) document.removeEventListener('visibilitychange', visibilityHandler);
-                modalActive = false;
-            }
-
-            function renderModal(showTryAgain) {
-                let html = '';
-                if (showTryAgain) {
-                    html += `
-                            <div style="margin-bottom:8px;font-size:1.8rem;">⏰</div>
-                            <h3 style="margin-bottom:6px;color:#000;">Too Early!</h3>
-                            <p style="color:#888;margin-bottom:16px;">Stay on the link for the full ${durationSeconds} seconds.</p>
-                            <div style="padding:14px;background:#fff3e0;border-radius:24px;border:1px solid #ffcc80;margin-bottom:12px;">
-                                <p style="color:#e65100;font-weight:600;margin-bottom:8px;">⏳ Need more time</p>
-                                <button id="linkAdTryAgainBtn" class="claim-btn" style="background:#f5a623;">Try Again</button>
-                            </div>
-                            <button id="linkAdCancelBtn" class="claim-btn skip-btn">Cancel</button>
-                        `;
-                } else {
-                    html += `
-                            <div style="margin-bottom:8px;font-size:1.8rem;">⏳</div>
-                            <h3 style="margin-bottom:4px;color:#000;">Stay on the Link</h3>
-                            <p style="color:#888;margin-bottom:8px;">Stay on the opened page for <strong style="color:#f5a623;">${durationSeconds} seconds</strong></p>
-                            <div class="countdown-big" id="linkAdCountdown">${durationSeconds}s</div>
-                            <button id="linkAdOkBtn" class="claim-btn" disabled style="background:#eaeaea;color:#aaa;cursor:not-allowed;">Wait ${durationSeconds}s</button>
-                            <button id="linkAdCancelBtn" class="claim-btn skip-btn" style="margin-top:10px;">Cancel</button>
-                        `;
-                }
-                inner.innerHTML = html;
-
-                if (!showTryAgain) {
-                    const okBtn = document.getElementById('linkAdOkBtn');
-                    const countdownEl = document.getElementById('linkAdCountdown');
-                    const cancelBtn = document.getElementById('linkAdCancelBtn');
-
-                    cancelBtn.onclick = function() {
-                        cleanup();
-                        modal.classList.remove('active');
-                        if (onCancel) onCancel();
-                    };
-
-                    function updateTimer() {
-                        const elapsed = (Date.now() - startTime) / 1000;
-                        const remaining = Math.max(0, durationSeconds - elapsed);
-                        countdownEl.textContent = Math.ceil(remaining) + 's';
-                        okBtn.textContent = 'Wait ' + Math.ceil(remaining) + 's';
-                        if (remaining <= 0) {
-                            clearInterval(timerInterval);
-                            okBtn.disabled = false;
-                            okBtn.innerHTML = '✅ Complete!';
-                            okBtn.style.background = '#2e7d32';
-                            okBtn.style.color = '#fff';
-                            okBtn.style.cursor = 'pointer';
-                            okBtn.onclick = function() {
-                                if (!completed) {
-                                    completed = true;
-                                    cleanup();
-                                    modal.classList.remove('active');
-                                    if (onComplete) onComplete();
-                                }
-                            };
-                        }
+                container.innerHTML = items.map(item => {
+                    const statusClass = item.status === 'pending' ? 'status-pending' : item.status === 'approved' ? 'status-approved' : 'status-rejected';
+                    let details = '';
+                    if (item.type === 'gmail') {
+                        details = `<div class="item-row"><span class="label">Email</span><span class="value">${item.email || 'N/A'}</span></div><div class="item-row"><span class="label">Recovery</span><span class="value">${item.recovery || 'N/A'}</span></div>`;
+                    } else if (item.type === 'newgmail') {
+                        details = `<div class="item-row"><span class="label">Contact</span><span class="value">${item.contact || 'N/A'}</span></div>`;
                     }
-
-                    timerInterval = setInterval(updateTimer, 200);
-                    updateTimer();
-
-                    visibilityHandler = function() {
-                        if (!modalActive) return;
-                        if (document.visibilityState === 'visible') {
-                            const elapsed = (Date.now() - startTime) / 1000;
-                            if (elapsed >= durationSeconds) {
-                                if (!completed) {
-                                    completed = true;
-                                    cleanup();
-                                    modal.classList.remove('active');
-                                    if (onComplete) onComplete();
-                                }
-                            } else {
-                                clearInterval(timerInterval);
-                                if (visibilityHandler) document.removeEventListener('visibilitychange',
-                                    visibilityHandler);
-                                renderModal(true);
-                                modal.classList.add('active');
-                                const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
-                                const cancelBtn2 = document.getElementById('linkAdCancelBtn');
-                                if (tryAgainBtn) {
-                                    tryAgainBtn.onclick = function() {
-                                        modal.classList.remove('active');
-                                        showLinkWaitModal(link, durationSeconds, onComplete, onCancel);
-                                    };
-                                }
-                                if (cancelBtn2) {
-                                    cancelBtn2.onclick = function() {
-                                        cleanup();
-                                        modal.classList.remove('active');
-                                        if (onCancel) onCancel();
-                                    };
-                                }
-                            }
-                        }
-                    };
-                    document.addEventListener('visibilitychange', visibilityHandler);
-                } else {
-                    const tryAgainBtn = document.getElementById('linkAdTryAgainBtn');
-                    const cancelBtn2 = document.getElementById('linkAdCancelBtn');
-                    if (tryAgainBtn) {
-                        tryAgainBtn.onclick = function() {
-                            modal.classList.remove('active');
-                            showLinkWaitModal(link, durationSeconds, onComplete, onCancel);
-                        };
-                    }
-                    if (cancelBtn2) {
-                        cancelBtn2.onclick = function() {
-                            cleanup();
-                            modal.classList.remove('active');
-                            if (onCancel) onCancel();
-                        };
-                    }
-                }
-            }
-
-            window.open(link, '_blank');
-            renderModal(false);
-            modal.classList.add('active');
-        }
-
-        // ─── Grant Ad Reward ───
-        async function grantAdReward(adKey, reward, taskName, btn) {
-            const newProg = (userData[adKey] || 0) + 1;
-            await updateUser({
-                [adKey]: newProg,
-                balance: (userData.balance || 0) + reward,
-                totalEarned: (userData.totalEarned || 0) + reward,
-                tasksCompleted: (userData.tasksCompleted || 0) + 1
-            });
-            await addEarningEntry(reward, taskName + ' (+' + reward + ' KING)');
-            showToast(reward, taskName);
-            refreshUI();
-        }
-
-        // ─── Ad Fallback: try Adexora, then Giga, then Monetag, then Adsgram ───
-        async function tryAdWithFallback(rewardKey, taskName) {
-            const adFunctions = [
-                { name: 'Adexora', fn: async () => {
-                        if (typeof window.showAdexora !== 'function') throw new Error('Adexora SDK not loaded');
-                        await window.showAdexora();
-                    }},
-                { name: 'Giga Pub', fn: async () => {
-                        if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
-                        await window.showGiga();
-                    }},
-                { name: 'Monetag', fn: async () => {
-                        if (typeof show_10541383 !== 'function') throw new Error('Monetag SDK not loaded');
-                        await show_10541383();
-                    }},
-                { name: 'Adsgram', fn: async () => {
-                        if (typeof window.Adsgram === 'undefined') throw new Error('Adsgram SDK not loaded');
-                        const controller = window.Adsgram.init({ blockId: "int-28543" });
-                        const result = await controller.show();
-                        if (!result || !result.done) throw new Error('Adsgram ad not completed');
-                    }}
-            ];
-            for (const ad of adFunctions) {
-                try {
-                    await ad.fn();
-                    return ad.name;
-                } catch (e) {
-                    console.warn(`${ad.name} failed:`, e);
-                    continue;
-                }
-            }
-            throw new Error('All ad networks failed');
-        }
-
-        // ─── Ads 1 (Monetag) – regular ───
-        document.getElementById('ads1Btn').onclick = async function() {
-            const prog = userData.ads1Progress || 0;
-            if (prog >= 10) { alert('Daily limit reached.'); return; }
-            const btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Loading...';
-            try {
-                if (typeof show_10541383 !== 'function') throw new Error('Monetag SDK not loaded');
-                await show_10541383();
-                await grantAdReward('ads1Progress', 5, 'Monetag', btn);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 5 KING';
-            } catch (e) { console.error(e);
-                alert('Ad failed: ' + e.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 5 KING'; }
-        };
-
-        // ─── Ads 2 (Adexora) with fallback ───
-        document.getElementById('ads2Btn').onclick = async function() {
-            const prog = userData.ads2Progress || 0;
-            if (prog >= 15) { alert('Daily limit reached.'); return; }
-            const btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Loading ad...';
-            try {
-                const adName = await tryAdWithFallback('ads2Progress', 'Adexora');
-                await grantAdReward('ads2Progress', 3, adName, btn);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 3 KING';
-            } catch (e) {
-                console.error(e);
-                alert('All ad networks failed: ' + e.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 3 KING';
-            }
-        };
-
-        // ─── Ads 3 (Adsgram) ───
-        document.getElementById('ads3Btn').onclick = async function() {
-            const prog = userData.ads3Progress || 0;
-            if (prog >= 10) { alert('Daily limit reached.'); return; }
-            const btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Loading...';
-            try {
-                if (typeof window.Adsgram === 'undefined') throw new Error('Adsgram SDK not loaded');
-                const controller = window.Adsgram.init({ blockId: "int-28543" });
-                const result = await controller.show();
-                if (result && result.done) {
-                    await grantAdReward('ads3Progress', 5, 'Adsgram', btn);
-                    btn.disabled = false;
-                    btn.innerHTML = 'Watch Ad & Earn 5 KING';
-                } else { alert('Ad not completed.');
-                    btn.disabled = false;
-                    btn.innerHTML = 'Watch Ad & Earn 5 KING'; }
-            } catch (e) { console.error(e);
-                alert('Ad failed: ' + e.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 5 KING'; }
-        };
-
-        // ─── Giga Pub (standalone) ───
-        document.getElementById('adsGigaBtn').onclick = async function() {
-            const prog = userData.adsGigaProgress || 0;
-            if (prog >= 10) { alert('Daily limit reached.'); return; }
-            const btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Loading...';
-            try {
-                if (typeof window.showGiga !== 'function') throw new Error('Giga Pub SDK not loaded');
-                await window.showGiga();
-                await grantAdReward('adsGigaProgress', 5, 'Giga Pub', btn);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 5 KING';
-            } catch (e) { console.error(e);
-                alert('Ad failed: ' + e.message);
-                btn.disabled = false;
-                btn.innerHTML = 'Watch Ad & Earn 5 KING'; }
-        };
-
-        // ─── Link Ads ───
-        document.getElementById('linkAdsMainBtn').onclick = function() {
-            let nextIdx = -1;
-            for (let i = 0; i < 4; i++) {
-                const key = 'linkAd' + (i + 1) + 'Progress';
-                if ((userData[key] || 0) < 12) { nextIdx = i; break; }
-            }
-            if (nextIdx === -1) { alert('All link ads completed for today!'); return; }
-            const btn = this;
-            if (btn.dataset.timerActive === 'true') { alert('Please wait for the current ad to finish.'); return; }
-            const reward = 5;
-            const link = AD_LINKS[nextIdx];
-            const taskName = 'Link Ad ' + (nextIdx + 1);
-            const duration = LINK_AD_DURATION;
-
-            btn.dataset.timerActive = 'true';
-            btn.disabled = true;
-            btn.innerHTML = 'Opening link...';
-
-            showLinkWaitModal(link, duration,
-                function() {
-                    btn.dataset.timerActive = 'false';
-                    btn.disabled = false;
-                    btn.innerHTML = 'Watch Link Ad & Earn 5 KING';
-                    const adKey = 'linkAd' + (nextIdx + 1) + 'Progress';
-                    showClaimModal(taskName, reward, async function() {
-                        const newProg = (userData[adKey] || 0) + 1;
-                        await updateUser({
-                            [adKey]: newProg,
-                            balance: (userData.balance || 0) + reward,
-                            totalEarned: (userData.totalEarned || 0) + reward,
-                            tasksCompleted: (userData.tasksCompleted || 0) + 1
-                        });
-                        await addEarningEntry(reward, taskName + ' (+' + reward + ' KING)');
-                        showToast(reward, taskName);
-                        refreshUI();
-                    });
-                    const cancelHandler = function() {
-                        btn.dataset.timerActive = 'false';
-                        btn.disabled = false;
-                        btn.innerHTML = 'Watch Link Ad & Earn 5 KING';
-                        document.getElementById('cancelClaimBtn').removeEventListener('click', cancelHandler);
-                    };
-                    document.getElementById('cancelClaimBtn').addEventListener('click', cancelHandler);
-                },
-                function() {
-                    btn.dataset.timerActive = 'false';
-                    btn.disabled = false;
-                    btn.innerHTML = 'Watch Link Ad & Earn 5 KING';
-                }
-            );
-        };
-
-        // ─── Tasks (20) ───
-        function renderTaskList() {
-            const container = document.getElementById('tasksListContainer');
-            let html = '';
-            for (let i = 1; i <= NUM_TASKS; i++) {
-                const taskKey = 'task' + i;
-                const taskData = userData[taskKey] || { watched: false, claimed: false };
-                if (taskData.claimed) continue; // hide claimed tasks
-
-                const watched = taskData.watched || false;
-                let statusText = watched ? '⏳ Enter code' : '▶️ Watch video';
-                let statusClass = watched ? 'pending' : '';
-
-                html += `
-                        <div class="task-item-box" data-task="${i}">
-                            <div class="task-header-box">
-                                <div class="task-num">Task ${i}</div>
-                                <div class="task-status-badge ${statusClass}">${statusText}</div>
-                            </div>
-                            <div class="task-step-row">
-                                <span class="step-icon ${watched ? 'done' : ''}">${watched ? '✅' : '⏹'}</span>
-                                <span style="flex:1;">Watch Video</span>
-                                <button class="step-action" data-task="${i}" data-step="watch" ${watched ? 'disabled' : ''}>${watched ? 'Done' : 'Watch'}</button>
-                            </div>
-                            ${watched ? `
-                            <div class="task-submit-box">
-                                <input type="text" class="task-code-input" placeholder="Enter 6-digit code" maxlength="6" pattern="[0-9]*" inputmode="numeric">
-                                <button class="task-submit-btn" data-task="${i}">Submit</button>
-                            </div>` : ''}
-                        </div>
-                    `;
-            }
-            if (html === '') {
-                html = '<div class="empty-state"><i class="fas fa-check-circle"></i><div>All tasks completed! 🎉</div></div>';
-            }
-            container.innerHTML = html;
-
-            // Watch button
-            container.querySelectorAll('.step-action[data-step="watch"]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const taskId = parseInt(this.dataset.task);
-                    const taskKey = 'task' + taskId;
-                    const taskData = userData[taskKey] || { watched: false, claimed: false };
-                    if (taskData.watched) return;
-                    const videoLink = getTaskVideo(taskId);
-                    window.open(videoLink, '_blank');
-                    taskData.watched = true;
-                    updateUser({ [taskKey]: taskData }).then(() => {
-                        renderTaskList();
-                        refreshUI();
-                    });
-                });
-            });
-
-            // Submit buttons
-            container.querySelectorAll('.task-submit-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const taskId = parseInt(this.dataset.task);
-                    const taskKey = 'task' + taskId;
-                    const taskData = userData[taskKey] || { watched: false, claimed: false };
-                    if (taskData.claimed) { alert('Already claimed!'); return; }
-                    if (!taskData.watched) { alert('Watch the video first!'); return; }
-                    const input = this.closest('.task-item-box').querySelector('.task-code-input');
-                    const entered = input.value.trim();
-                    const correctCode = getTaskCode(taskId);
-                    if (entered !== correctCode) {
-                        alert('Incorrect code. Please watch the video to get the correct code.');
-                        return;
-                    }
-                    const reward = 7;
-                    taskData.claimed = true;
-                    updateUser({
-                        [taskKey]: taskData,
-                        balance: (userData.balance || 0) + reward,
-                        totalEarned: (userData.totalEarned || 0) + reward,
-                        tasksCompleted: (userData.tasksCompleted || 0) + 1
-                    }).then(() => {
-                        addEarningEntry(reward, 'Task ' + taskId + ' (+' + reward + ' KING)');
-                        showToast(reward, 'Task ' + taskId);
-                        renderTaskList();
-                        refreshUI();
-                    }).catch(err => {
-                        alert('Error: ' + err.message);
-                    });
-                });
+                    return `<div class="sell-history-item">${details}<div class="item-row"><span class="label">Date</span><span class="value">${new Date(item.date).toLocaleDateString()}</span></div><div class="item-row"><span class="label">Status</span><span class="status-badge ${statusClass}">${item.status}</span></div></div>`;
+                }).join('');
             });
         }
 
-        // ─── Sell Gmail ───
-        document.getElementById('sellGmailBtn').onclick = async function() {
+        // Sell actions
+        document.getElementById('sellGmailBtn').onclick = async function () {
             const email = document.getElementById('gmailEmail').value.trim();
             const password = document.getElementById('gmailPassword').value.trim();
             const recovery = document.getElementById('gmailRecovery').value.trim();
             if (!email || !password || !recovery) { alert('Please fill all fields.'); return; }
-            const btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Submitting...';
-            try {
-                await db.ref('sellSubmissions').push({
-                    type: 'gmail',
-                    email,
-                    password,
-                    recovery,
-                    userId: telegramId,
-                    username: telegramUsername,
-                    status: 'pending',
-                    date: Date.now()
-                });
-                document.getElementById('sellGmailStatus').innerHTML = '✅ Submitted! Admin will review.';
-                document.getElementById('gmailEmail').value = '';
-                document.getElementById('gmailPassword').value = '';
-                document.getElementById('gmailRecovery').value = '';
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit for Review';
-                if (webApp && webApp.HapticFeedback) webApp.HapticFeedback.notificationOccurred('success');
-                refreshUI();
-            } catch (e) {
-                console.error(e);
-                alert('Error: ' + e.message);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit for Review';
-            }
+            await db.ref('sellSubmissions').push({ type: 'gmail', email, password, recovery, userId: telegramId, username: telegramUsername, status: 'pending', date: Date.now() });
+            document.getElementById('sellGmailStatus').innerHTML = '✅ Submitted! Admin will review.';
+            document.getElementById('gmailEmail').value = '';
+            document.getElementById('gmailPassword').value = '';
+            document.getElementById('gmailRecovery').value = '';
+            refreshUI();
         };
-
-        // ─── New Gmail Request ───
-        document.getElementById('newGmailBtn').onclick = async function() {
+        document.getElementById('newGmailBtn').onclick = async function () {
             const contact = document.getElementById('newGmailContact').value.trim();
-            if (!contact) { alert('Please provide contact information.'); return; }
-            const btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Submitting...';
-            try {
-                await db.ref('sellSubmissions').push({
-                    type: 'newgmail',
-                    contact,
-                    userId: telegramId,
-                    username: telegramUsername,
-                    status: 'pending',
-                    date: Date.now()
-                });
-                document.getElementById('newGmailStatus').innerHTML = '✅ Request sent! Admin will contact you.';
-                document.getElementById('newGmailContact').value = '';
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Request New Account';
-                if (webApp && webApp.HapticFeedback) webApp.HapticFeedback.notificationOccurred('success');
-                refreshUI();
-            } catch (e) {
-                console.error(e);
-                alert('Error: ' + e.message);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Request New Account';
-            }
+            if (!contact) { alert('Please provide contact info.'); return; }
+            await db.ref('sellSubmissions').push({ type: 'newgmail', contact, userId: telegramId, username: telegramUsername, status: 'pending', date: Date.now() });
+            document.getElementById('newGmailStatus').innerHTML = '✅ Request sent! Admin will contact you.';
+            document.getElementById('newGmailContact').value = '';
+            refreshUI();
         };
+        document.getElementById('contactSupportBtn').onclick = () => window.open('https://t.me/KingsenSupport', '_blank');
 
-        // ─── Support Contact ───
-        document.getElementById('contactSupportBtn').onclick = function() {
-            window.open('https://t.me/KingsenSupport', '_blank');
-        };
-
-        // ─── Payment (only Binance) ───
+        // Withdrawal
         document.getElementById('submitWithdrawBtn').onclick = async () => {
             const amt = parseInt(document.getElementById('withdrawAmount').value);
             const acc = document.getElementById('paymentAccount').value.trim();
-            const min = 2000;
-            if (amt < min || amt > (userData.balance || 0) || (userData.referrals?.length || 0) < 1 || !userData
-                .gmailSoldApproved) {
-                alert('Requirements: Min 2000 KING, 1 referral, Gmail sold approved');
+            if (amt < 2000 || amt > (userData.balance || 0) || !userData.gmailSoldApproved || (userData.referrals?.length || 0) < 1) {
+                alert('Requirements not met: Min 2000 KING, 1 referral, Gmail sold approved');
                 return;
             }
             const fee = Math.floor(amt * 0.1);
-            const wid = { id: Date.now(), withdrawId: 'WD-' + Date.now().toString().slice(-8), amount: amt, fee,
-                netAmount: amt - fee, method: 'Binance', account: acc, status: 'pending', date: Date.now() };
-            await updateUser({ balance: (userData.balance || 0) - amt, withdrawalHistory: [...(userData
-                    .withdrawalHistory || []), wid] });
-            document.getElementById('withdrawSuccessDetails').innerHTML =
-                '<div>ID: ' + wid.withdrawId + '</div><div>Amount: ' + amt +
-                ' KING</div><div>Net: ' + (amt - fee) + ' KING (~$' + ((amt - fee) / EXCHANGE_RATE).toFixed(3) +
-                ')</div>';
+            const wid = { id: Date.now(), withdrawId: 'WD-' + Date.now().toString().slice(-8), amount: amt, fee, netAmount: amt - fee, method: 'Binance', account: acc, status: 'pending', date: Date.now() };
+            await updateUser({ balance: userData.balance - amt, withdrawalHistory: [...(userData.withdrawalHistory || []), wid] });
+            document.getElementById('withdrawSuccessDetails').innerHTML = `<div>ID: ${wid.withdrawId}</div><div>Amount: ${amt} KING</div><div>Net: ${amt-fee} KING (~$${((amt-fee)/EXCHANGE_RATE).toFixed(3)})</div>`;
             document.getElementById('withdrawSuccessModal').classList.add('active');
             refreshUI();
         };
-        document.getElementById('closeSuccessModal').onclick = () => document.getElementById('withdrawSuccessModal')
-            .classList.remove('active');
+        document.getElementById('closeSuccessModal').onclick = () => document.getElementById('withdrawSuccessModal').classList.remove('active');
 
-        // ─── Navigation ───
+        // Navigation
         function switchSection(id) {
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            const map = { homeSection: 'navHome', adsSection: 'navAds', sellSection: 'navSell',
-                linkadsSection: 'navLinkads', cashoutSection: 'navCashout' };
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            const map = { homeSection: 'navHome', adsSection: 'navAds', sellSection: 'navSell', linkadsSection: 'navLinkads', cashoutSection: 'navCashout' };
             if (map[id]) document.getElementById(map[id]).classList.add('active');
         }
+        document.getElementById('navHome').onclick = () => switchSection('homeSection');
+        document.getElementById('navAds').onclick = () => switchSection('adsSection');
+        document.getElementById('navSell').onclick = () => switchSection('sellSection');
+        document.getElementById('navLinkads').onclick = () => switchSection('linkadsSection');
+        document.getElementById('navCashout').onclick = () => switchSection('cashoutSection');
 
-        document.getElementById('navHome').onclick = (e) => { e.preventDefault();
-            switchSection('homeSection'); };
-        document.getElementById('navAds').onclick = (e) => { e.preventDefault();
-            switchSection('adsSection'); };
-        document.getElementById('navSell').onclick = (e) => { e.preventDefault();
-            switchSection('sellSection'); };
-        document.getElementById('navLinkads').onclick = (e) => { e.preventDefault();
-            switchSection('linkadsSection'); };
-        document.getElementById('navCashout').onclick = (e) => { e.preventDefault();
-            switchSection('cashoutSection'); };
-
-        ['supportIconHome', 'supportIconAds', 'supportIconSell', 'supportIconLinkads', 'supportIconCashout']
-        .forEach(id => document.getElementById(id).onclick = () => window.open('https://t.me/KingsenSupport',
-                '_blank'));
-
-        document.getElementById('copyReferralCodeBtn').onclick = () => { navigator.clipboard.writeText(userData
-                .referralCode);
-            alert('Copied!'); };
-        document.getElementById('shareTelegramCodeBtn').onclick = () => { window.open(
-                'https://t.me/share/url?url=Join%20King%20with%20code%3A%20' + userData.referralCode,
-                '_blank'); };
-
-        document.getElementById('withdrawAmount').addEventListener('input', () => {
-            const amt = parseInt(document.getElementById('withdrawAmount').value) || 0;
-            const fee = Math.floor(amt * 0.1);
-            document.getElementById('wdAmount').innerText = amt + ' KING';
-            document.getElementById('wdFee').innerText = fee + ' KING';
-            document.getElementById('wdNet').innerText = (amt - fee) + ' KING';
-            document.getElementById('wdUsdValue').innerText = '$' + ((amt - fee) / EXCHANGE_RATE).toFixed(3);
-        });
-
-        // ─── Admin ─── (simple inline)
-        let isAdmin = false;
-        document.getElementById('adminTrigger').addEventListener('click', function() {
-            if (!isAdmin) {
-                const pwd = prompt('Admin password:');
-                if (pwd !== 'admin123') return;
-                isAdmin = true;
-            }
-            db.ref('sellSubmissions').once('value', snap => {
-                const subs = [];
-                snap.forEach(c => subs.push({ id: c.key, ...c.val() }));
-                let html = subs.map(s =>
-                    `<div style="border-bottom:1px solid #eee;padding:12px 0;font-size:0.8rem;">
-                        <div><strong>${s.type || 'Unknown'}</strong> <span style="color:#888;">${s.status}</span></div>
-                        <div style="color:#555;">${s.email || s.contact || s.username || ''}</div>
-                        <div style="color:#aaa;font-size:0.65rem;">${s.userId || ''}</div>
-                        <div style="margin-top:6px;">
-                            <button onclick="window.approveSell('${s.id}','${s.type}','${s.userId}')" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:4px 14px;border-radius:40px;cursor:pointer;margin-right:6px;font-size:0.7rem;">Approve</button>
-                            <button onclick="window.rejectSell('${s.id}')" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;padding:4px 14px;border-radius:40px;cursor:pointer;font-size:0.7rem;">Reject</button>
-                        </div>
-                    </div>`
-                ).join('');
-                document.getElementById('adminSubmissionsList').innerHTML = html || '<div style="padding:20px;color:#aaa;">No submissions.</div>';
-                document.getElementById('adminModal').classList.add('active');
-            });
-        });
-        document.getElementById('closeAdminModal').onclick = () => document.getElementById('adminModal').classList.remove('active');
-
-        window.approveSell = async (subId, type, userId) => {
-            const sub = (await db.ref('sellSubmissions/' + subId).once('value')).val();
-            if (!sub || sub.status !== 'pending') return;
-            await db.ref('sellSubmissions/' + subId).update({ status: 'approved' });
-            let reward = type === 'gmail' ? 1000 : type === 'newgmail' ? 1200 : 0;
-            let gmailFlag = type === 'gmail' || type === 'newgmail';
-            if (reward > 0 && userId) {
-                const userRef = db.ref('users/' + userId);
-                const snap = await userRef.once('value');
-                if (snap.exists()) {
-                    const user = snap.val();
-                    const updates = {
-                        balance: (user.balance || 0) + reward,
-                        totalEarned: (user.totalEarned || 0) + reward,
-                        tasksCompleted: (user.tasksCompleted || 0) + 1
-                    };
-                    if (gmailFlag) updates.gmailSoldApproved = true;
-                    await userRef.update(updates);
-                    // Sell history
-                    const sellHist = user.sellHistory || [];
-                    sellHist.push({ id: subId, type, status: 'approved', date: Date.now() });
-                    await userRef.update({ sellHistory: sellHist.slice(0, 50) });
-                    // Earnings history
-                    const entry = { id: Date.now(), amount: reward, description: `✅ Sell ${type} approved (+${reward} KING)`, date: Date.now() };
-                    const history = user.earningsHistory || [];
-                    history.unshift(entry);
-                    await userRef.update({ earningsHistory: history.slice(0, 200) });
-                    if (userId === telegramId) refreshUI();
-                }
-            }
-            alert('Approved! +' + reward + ' KING');
-            document.getElementById('adminModal').classList.remove('active');
-            loadAllData?.();
-        };
-        window.rejectSell = async (subId) => {
-            await db.ref('sellSubmissions/' + subId).update({ status: 'rejected' });
-            alert('Rejected');
-            document.getElementById('adminModal').classList.remove('active');
-        };
-
-        // ─── Referral Code Modal ───
+        // Referral code modal
         document.getElementById('submitReferralCodeBtn').onclick = async () => {
             const code = document.getElementById('referralCodeInput').value.trim().toUpperCase();
             if (code) {
@@ -2656,17 +929,12 @@
                 if (snap.exists()) {
                     const refId = Object.keys(snap.val())[0];
                     if (refId !== telegramId) {
-                        await updateUser({ referredBy: refId, referralBonusApplied: true, balance: (userData
-                                .balance || 0) + 100, totalEarned: (userData.totalEarned || 0) + 100,
-                            referralBonusEarned: (userData.referralBonusEarned || 0) + 100 });
-                        const refSnap = await db.ref('users/' + refId).once('value');
+                        await updateUser({ referredBy: refId, referralBonusApplied: true, balance: (userData.balance||0)+100, totalEarned: (userData.totalEarned||0)+100, referralBonusEarned: (userData.referralBonusEarned||0)+100 });
+                        const refSnap = await db.ref('users/'+refId).once('value');
                         if (refSnap.exists()) {
                             const refs = refSnap.val().referrals || [];
-                            if (!refs.some(r => r.id === telegramId)) refs.push({ id: telegramId, username: telegramUsername,
-                                bonus: 100 });
-                            await db.ref('users/' + refId).update({ referrals: refs, balance: (refSnap.val()
-                                    .balance || 0) + 100, referralBonusEarned: (refSnap.val()
-                                    .referralBonusEarned || 0) + 100 });
+                            if (!refs.some(r => r.id === telegramId)) refs.push({ id: telegramId, username: telegramUsername, bonus: 100 });
+                            await db.ref('users/'+refId).update({ referrals: refs, balance: (refSnap.val().balance||0)+100, referralBonusEarned: (refSnap.val().referralBonusEarned||0)+100 });
                         }
                         alert('+100 KING bonus!');
                     }
@@ -2674,104 +942,114 @@
             }
             proceedToApp();
         };
-        document.getElementById('skipReferralCodeBtn').onclick = async () => { await updateUser({ referralBonusApplied: true });
-            proceedToApp(); };
+        document.getElementById('skipReferralCodeBtn').onclick = async () => { await updateUser({ referralBonusApplied: true }); proceedToApp(); };
 
-        // ─── Init User ───
+        // Init user
         async function initUser() {
             let data = await fetchUserData();
             if (!data) {
-                const refCode = telegramUsername.slice(0, 4).toUpperCase() + Math.random().toString(36).substr(2, 5)
-                    .toUpperCase();
+                const refCode = telegramUsername.slice(0,4).toUpperCase() + Math.random().toString(36).substr(2,5).toUpperCase();
                 const newUser = {
-                    username: telegramUsername,
-                    telegramId: telegramId,
-                    balance: 0,
-                    totalEarned: 0,
-                    referralBonusEarned: 0,
-                    referrals: [],
-                    referralCode: refCode,
-                    referredBy: null,
-                    referralBonusApplied: false,
-                    tasksCompleted: 0,
-                    withdrawalHistory: [],
-                    earningsHistory: [],
-                    ads1Progress: 0,
-                    ads2Progress: 0,
-                    ads3Progress: 0,
-                    adsGigaProgress: 0,
-                    linkAd1Progress: 0,
-                    linkAd2Progress: 0,
-                    linkAd3Progress: 0,
-                    linkAd4Progress: 0,
-                    gmailSoldApproved: false,
-                    sellHistory: [],
+                    username: telegramUsername, telegramId, balance:0, totalEarned:0, referralBonusEarned:0,
+                    referrals:[], referralCode: refCode, referredBy:null, referralBonusApplied:false,
+                    tasksCompleted:0, withdrawalHistory:[], earningsHistory:[],
+                    adSeqCompletions:0, linkSeqCompletions:0,
+                    gmailSoldApproved:false, sellHistory:[],
                     lastResetDate: new Date().toDateString(),
-                    lastVerificationDate: ''
+                    lastVerificationDate:''
                 };
-                for (let i = 1; i <= NUM_TASKS; i++) {
-                    newUser['task' + i] = { watched: false, claimed: false };
-                }
-                await db.ref('users/' + telegramId).set(newUser);
+                for (let i=1;i<=20;i++) newUser['task'+i] = {watched:false,claimed:false};
+                await db.ref('users/'+telegramId).set(newUser);
                 data = newUser;
             } else {
-                // Ensure all tasks exist
-                let needUpdate = false;
-                for (let i = 1; i <= NUM_TASKS; i++) {
-                    const taskKey = 'task' + i;
-                    if (!data[taskKey]) {
-                        data[taskKey] = { watched: false, claimed: false };
-                        needUpdate = true;
-                    }
-                }
-                if (needUpdate) {
-                    await db.ref('users/' + telegramId).update(data);
-                }
+                if (data.adSeqCompletions === undefined) data.adSeqCompletions = 0;
+                if (data.linkSeqCompletions === undefined) data.linkSeqCompletions = 0;
+                for (let i=1;i<=20;i++) if (!data['task'+i]) data['task'+i] = {watched:false,claimed:false};
+                await db.ref('users/'+telegramId).update(data);
             }
             userData = data;
-            if (!Array.isArray(userData.earningsHistory)) userData.earningsHistory = [];
-            if (!Array.isArray(userData.withdrawalHistory)) userData.withdrawalHistory = [];
-            if (!Array.isArray(userData.referrals)) userData.referrals = [];
-
             const today = new Date().toDateString();
             if (userData.lastResetDate !== today) {
                 await updateUser({
-                    ads1Progress: 0,
-                    ads2Progress: 0,
-                    ads3Progress: 0,
-                    adsGigaProgress: 0,
-                    linkAd1Progress: 0,
-                    linkAd2Progress: 0,
-                    linkAd3Progress: 0,
-                    linkAd4Progress: 0,
-                    lastResetDate: today
+                    adSeqCompletions:0, linkSeqCompletions:0,
+                    lastResetDate: today,
+                    taskOrder: null, lastTaskOrderDate: '' // force new order
                 });
             }
-            await db.ref('users/' + telegramId).update({
-                earningsHistory: userData.earningsHistory,
-                withdrawalHistory: userData.withdrawalHistory,
-                referrals: userData.referrals
-            });
-
-            if (!userData.referralBonusApplied) document.getElementById('referralCodeModal').style.display = 'flex';
+            if (!userData.referralBonusApplied) document.getElementById('referralCodeModal').classList.add('active');
             else proceedToApp();
         }
 
         async function proceedToApp() {
-            document.getElementById('referralCodeModal').style.display = 'none';
+            document.getElementById('referralCodeModal').classList.remove('active');
             refreshUI();
-            checkDailyVerification();
-            db.ref('users/' + telegramId).on('value', snap => {
-                if (snap.exists()) {
-                    userData = snap.val();
-                    if (!Array.isArray(userData.earningsHistory)) userData.earningsHistory = [];
-                    refreshUI();
-                }
-            });
+            db.ref('users/'+telegramId).on('value', snap => { if (snap.exists()) { userData = snap.val(); refreshUI(); } });
         }
 
-        function escapeHtml(str) { if (!str) return ''; return String(str).replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
-    </script>
+        // Admin
+        let isAdmin = false;
+        document.getElementById('adminTrigger').onclick = function () {
+            if (!isAdmin) { const pwd = prompt('Admin password:'); if (pwd !== 'admin123') return; isAdmin = true; }
+            db.ref('sellSubmissions').once('value', snap => {
+                const subs = [];
+                snap.forEach(c => subs.push({ id: c.key, ...c.val() }));
+                document.getElementById('adminSubmissionsList').innerHTML = subs.map(s => `<div style="border-bottom:1px solid #eee;padding:12px 0;"><div><strong>${s.type}</strong> ${s.status}</div><div>${s.email||s.contact||''}</div><div style="font-size:0.65rem;">${s.userId}</div><button onclick="window.approveSell('${s.id}','${s.type}','${s.userId}')" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:4px 14px;border-radius:40px;cursor:pointer;margin-right:6px;">Approve</button><button onclick="window.rejectSell('${s.id}')" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;padding:4px 14px;border-radius:40px;cursor:pointer;">Reject</button></div>`).join('') || '<div>No submissions</div>';
+                document.getElementById('adminModal').classList.add('active');
+            });
+        };
+        document.getElementById('closeAdminModal').onclick = () => document.getElementById('adminModal').classList.remove('active');
 
+        window.approveSell = async (subId, type, userId) => {
+            const sub = (await db.ref('sellSubmissions/'+subId).once('value')).val();
+            if (!sub || sub.status !== 'pending') return;
+            await db.ref('sellSubmissions/'+subId).update({ status: 'approved' });
+            let reward = type === 'gmail' ? 1000 : 1200;
+            if (reward > 0 && userId) {
+                const userRef = db.ref('users/'+userId);
+                const snap = await userRef.once('value');
+                if (snap.exists()) {
+                    const user = snap.val();
+                    const updates = { balance: (user.balance||0)+reward, totalEarned: (user.totalEarned||0)+reward, tasksCompleted: (user.tasksCompleted||0)+1 };
+                    if (type === 'gmail' || type === 'newgmail') updates.gmailSoldApproved = true;
+                    await userRef.update(updates);
+                    if (userId === telegramId) refreshUI();
+                }
+            }
+            alert('Approved!');
+            document.getElementById('adminModal').classList.remove('active');
+        };
+        window.rejectSell = async (subId) => {
+            await db.ref('sellSubmissions/'+subId).update({ status: 'rejected' });
+            alert('Rejected');
+            document.getElementById('adminModal').classList.remove('active');
+        };
+
+        // Loading screen
+        (function startLoading() {
+            let loadPercent = 0;
+            const fill = document.getElementById('loadingFill');
+            const percent = document.getElementById('loadingPercent');
+            function updateLoading() {
+                const step = Math.random() * 3 + 1.5;
+                loadPercent = Math.min(loadPercent + step, 100);
+                fill.style.width = Math.floor(loadPercent) + '%';
+                percent.textContent = Math.floor(loadPercent) + '%';
+                if (loadPercent < 100) setTimeout(updateLoading, 40 + Math.random() * 20);
+                else {
+                    fill.style.width = '100%';
+                    percent.textContent = '100%';
+                    setTimeout(() => {
+                        initUser().catch(console.error).finally(() => {
+                            setTimeout(() => {
+                                document.getElementById('loadingScreen').classList.add('hidden');
+                                document.getElementById('mainApp').style.display = 'block';
+                            }, 400);
+                        });
+                    }, 300);
+                }
+            }
+            setTimeout(updateLoading, 100);
+        })();
+    </script>
 </body>
 </html>

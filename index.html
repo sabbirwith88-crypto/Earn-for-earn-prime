@@ -14,8 +14,8 @@
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <!-- Adexora SDK -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
-    <!-- Giga Pub SDK -->
-    <script src="https://ad.gigapub.tech/script?id=6432"></script>
+    <!-- Giga Pub SDK (updated) -->
+    <script src="https://ad.gigapub.tech/script?id=7572"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Noto Sans Bengali', 'Inter', -apple-system, sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
         body { background:#fff; display:flex; justify-content:center; }
@@ -176,13 +176,7 @@
         <!-- HOME SECTION -->
         <div id="homeSection" class="content-section active">
             <div class="section-header"><div class="section-title">সারসংক্ষেপ</div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div>
-            <div class="balance-card">
-                <div class="balance-label">আপনার ব্যালেন্স</div>
-                <div class="balance-amount" id="balanceAmount">0</div>
-                <div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div>
-                <div class="small-text">কিং কয়েন</div>
-                <div class="balance-badge"><i class="fas fa-bolt"></i> আয় করতে প্রস্তুত</div>
-            </div>
+            <div class="balance-card"><div class="balance-label">আপনার ব্যালেন্স</div><div class="balance-amount" id="balanceAmount">0</div><div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div><div class="small-text">কিং কয়েন</div><div class="balance-badge"><i class="fas fa-bolt"></i> আয় করতে প্রস্তুত</div></div>
             <div class="stats-grid">
                 <div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label">রেফারেল</div></div>
                 <div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label">কাজ সম্পন্ন</div></div>
@@ -191,71 +185,37 @@
             <div class="referral-home-card">
                 <div class="referral-home-header"><i class="fas fa-user-friends"></i><h3>রেফার করে আয় করুন</h3><span>+১০০ কিং</span></div>
                 <div class="referral-code-display" id="referralCodeDisplay">------</div>
-                <div class="btn-group-home">
-                    <button class="btn-primary" id="copyReferralCodeBtn"><i class="fas fa-copy"></i> কপি</button>
-                    <button class="btn-secondary" id="shareTelegramCodeBtn"><i class="fas fa-share-alt"></i> শেয়ার</button>
-                </div>
-                <div class="referral-stats-home">
-                    <div><div class="num" id="refCountHome">0</div><div class="lbl">মোট রেফারেল</div></div>
-                    <div><div class="num" id="referralBonusTotalHome">0</div><div class="lbl">বোনাস অর্জিত</div></div>
-                </div>
-                <div class="referral-list-home" id="referralsListHome">
-                    <div class="empty-state"><i class="fas fa-user-plus"></i><div>এখনো কোনো রেফারেল নেই</div></div>
-                </div>
+                <div class="btn-group-home"><button class="btn-primary" id="copyReferralCodeBtn"><i class="fas fa-copy"></i> কপি</button><button class="btn-secondary" id="shareTelegramCodeBtn"><i class="fas fa-share-alt"></i> শেয়ার</button></div>
+                <div class="referral-stats-home"><div><div class="num" id="refCountHome">0</div><div class="lbl">মোট রেফারেল</div></div><div><div class="num" id="referralBonusTotalHome">0</div><div class="lbl">বোনাস অর্জিত</div></div></div>
+                <div class="referral-list-home" id="referralsListHome"><div class="empty-state"><i class="fas fa-user-plus"></i><div>এখনো কোনো রেফারেল নেই</div></div></div>
             </div>
         </div>
 
         <!-- ADS SECTION -->
         <div id="adsSection" class="content-section">
             <div class="section-header"><div class="section-title">বিজ্ঞাপন</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
-            <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+১৮ কিং</span></div>
-                <div class="task-desc">৪টি বিজ্ঞাপন ধাপ শেষ করে ১৮ কিং আয় করুন। দৈনিক সীমা: ১২</div>
-                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
-                <button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button>
-            </div>
-            <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
-                <div class="task-desc">৪টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
-                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
-                <button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button>
-            </div>
+            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+১৮ কিং</span></div><div class="task-desc">৪টি বিজ্ঞাপন ধাপ শেষ করে ১৮ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div><button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button></div>
+            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div><button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button></div>
         </div>
 
-        <!-- SELL SECTION -->
+        <!-- SELL SECTION (only Gmail sell) -->
         <div id="sellSection" class="content-section">
             <div class="section-header"><div class="section-title">বিক্রয়</div><div class="support-icon" id="supportIconSell"><i class="fas fa-headset"></i></div></div>
             <div class="task-card sell-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-envelope"></i> জিমেইল বিক্রি</span><span class="task-reward">+১০০০ কিং</span></div>
-                <div class="task-desc">আপনার জিমেইল তথ্য দিন, অ্যাডমিন রিভিউ করবে।</div>
+                <div class="task-header"><span class="task-title"><i class="fas fa-envelope"></i> জিমেইল বিক্রি</span><span class="task-reward">+১২০০ কিং</span></div>
+                <div class="task-desc">আপনার জিমেইল তথ্য দিন, অ্যাডমিন ৩ দিনের মধ্যে রিভিউ করবে।</div>
                 <input type="text" class="sell-input" id="gmailEmail" placeholder="জিমেইল ঠিকানা">
                 <input type="password" class="sell-input" id="gmailPassword" placeholder="পাসওয়ার্ড">
                 <input type="text" class="sell-input" id="gmailRecovery" placeholder="রিকভারি ইমেইল">
                 <button class="sell-btn" id="sellGmailBtn"><i class="fas fa-paper-plane"></i> জমা দিন</button>
-                <div class="sell-status" id="sellGmailStatus">২৪ ঘণ্টার মধ্যে রিভিউ হবে।</div>
-            </div>
-            <div class="task-card sell-card" style="border-color:#34d39920;">
-                <div class="task-header"><span class="task-title"><i class="fas fa-plus-circle" style="color:#34d399;"></i> নতুন জিমেইল</span><span class="task-reward">+১২০০ কিং</span></div>
-                <div class="task-desc">নতুন জিমেইল অ্যাকাউন্টের জন্য অনুরোধ করুন।</div>
-                <input type="text" class="sell-input" id="newGmailContact" placeholder="টেলিগ্রাম/ইমেইল">
-                <button class="sell-btn" id="newGmailBtn" style="background:#34d399;"><i class="fas fa-paper-plane"></i> অনুরোধ করুন</button>
-                <div class="sell-status" id="newGmailStatus">অ্যাডমিন যোগাযোগ করবে।</div>
-            </div>
-            <div class="task-card sell-card" style="border-color:#e040fb20;">
-                <div class="task-header"><span class="task-title"><i class="fab fa-instagram" style="color:#e040fb;"></i> ইনস্টাগ্রাম অ্যাকাউন্ট</span><span class="task-reward">+২০০ কিং</span></div>
-                <div class="task-desc">ইনস্টাগ্রাম অ্যাকাউন্ট বিক্রির অনুরোধ করুন। অ্যাডমিন রিভিউ করবে।</div>
-                <input type="text" class="sell-input" id="instaContact" placeholder="টেলিগ্রাম/ইমেইল (যোগাযোগ)">
-                <button class="sell-btn" id="instaSellBtn" style="background:#e040fb;"><i class="fas fa-paper-plane"></i> অনুরোধ পাঠান</button>
-                <div class="sell-status" id="instaSellStatus">অ্যাডমিন ব্যক্তিগতভাবে যোগাযোগ করবে।</div>
+                <div class="sell-status" id="sellGmailStatus">আজকের জমা: ০/৩</div>
             </div>
             <div class="sell-history-card">
                 <div class="history-title"><i class="fas fa-clock-rotate-left"></i> বিক্রয়ের ইতিহাস</div>
                 <div id="sellHistoryContainer"></div>
             </div>
             <div class="support-team-card">
-                <i class="fas fa-headset"></i>
-                <h3>অ্যাডমিন সাপোর্ট</h3>
-                <p>যেকোনো সাহায্যের জন্য যোগাযোগ করুন।</p>
+                <i class="fas fa-headset"></i><h3>অ্যাডমিন সাপোর্ট</h3><p>যেকোনো সাহায্যের জন্য যোগাযোগ করুন।</p>
                 <button class="support-btn" id="contactSupportBtn"><i class="fas fa-telegram-plane"></i> অ্যাডমিনের সাথে যোগাযোগ</button>
             </div>
             <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">অ্যাডমিন</div>
@@ -283,21 +243,14 @@
         <!-- CASHOUT SECTION -->
         <div id="cashoutSection" class="content-section">
             <div class="section-header"><div class="section-title">ক্যাশআউট</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div>
-            <div class="balance-card">
-                <div class="balance-label">উপলব্ধ ব্যালেন্স</div>
-                <div class="balance-amount" id="withdrawBalance">0</div>
-                <div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div>
-            </div>
+            <div class="balance-card"><div class="balance-label">উপলব্ধ ব্যালেন্স</div><div class="balance-amount" id="withdrawBalance">0</div><div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div></div>
             <div class="withdraw-requirements-box">
                 <div class="requirement-header"><i class="fas fa-clipboard-list"></i> উত্তোলনের শর্তাবলী</div>
                 <div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title">ন্যূনতম ব্যালেন্স</div><div class="req-value" id="minBalReq">১০০ কিং প্রয়োজন</div></div><div class="req-status" id="reqStatusBal">○</div></div>
                 <div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title">রেফারেল প্রয়োজন</div><div class="req-value" id="refReqLabel">অন্তত ১টি সক্রিয় রেফারেল</div></div><div class="req-status" id="reqStatusRef">○</div></div>
-                <div class="requirement-item" id="reqItemGmail"><div class="req-icon"><i class="fas fa-envelope"></i></div><div class="req-details"><div class="req-title">জিমেইল বিক্রি অনুমোদিত</div><div class="req-value">একটি জিমেইল বিক্রি অ্যাডমিন কর্তৃক অনুমোদিত</div></div><div class="req-status" id="reqStatusGmail">○</div></div>
+                <div class="requirement-item" id="reqItemGmail"><div class="req-icon"><i class="fas fa-envelope"></i></div><div class="req-details"><div class="req-title">জিমেইল বিক্রি অনুমোদিত</div><div class="req-value">প্রতি উত্তোলনের জন্য নতুন জিমেইল অনুমোদিত হতে হবে</div></div><div class="req-status" id="reqStatusGmail">○</div></div>
             </div>
-            <div style="background:#f8f8f8;border-radius:28px;padding:18px 16px;border:1px solid #eee;">
-                <h4 style="margin-bottom:10px;font-weight:700;color:#888;">পেমেন্ট পদ্ধতি</h4>
-                <div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> বাইন্যান্স (সর্বনিম্ন ১০০ কিং)</div>
-            </div>
+            <div style="background:#f8f8f8;border-radius:28px;padding:18px 16px;border:1px solid #eee;"><h4>পেমেন্ট পদ্ধতি</h4><div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> বাইন্যান্স (সর্বনিম্ন ১০০ কিং)</div></div>
             <input type="text" id="paymentAccount" class="form-input" placeholder="বাইন্যান্স ইমেইল/UID">
             <input type="number" id="withdrawAmount" step="100" min="100" class="form-input" placeholder="পরিমাণ (কিং) - ন্যূনতম ১০০">
             <div style="background:#f8f8f8;border-radius:28px;padding:16px;border:1px solid #eee;">
@@ -307,7 +260,7 @@
                 <div class="fee-breakdown"><span>~ USD মূল্য</span><span id="wdUsdValue">$0.000</span></div>
             </div>
             <button id="submitWithdrawBtn" class="withdraw-btn">উত্তোলনের অনুরোধ</button>
-            <div style="margin-top:32px;"><h4 style="font-weight:700;color:#888;margin-bottom:12px;">উত্তোলনের ইতিহাস</h4><div id="historyList"></div></div>
+            <div style="margin-top:32px;"><h4>উত্তোলনের ইতিহাস</h4><div id="historyList"></div></div>
         </div>
 
         <div class="bottom-nav">
@@ -369,11 +322,13 @@
         let userData = null;
         const EXCHANGE_RATE = 10000;
         const VERIFICATION_LINK = 'https://ustashewasputtin.com?hTTVD=1246757';
+        // Updated links: 5 total, last one new
         const AD_LINKS = [
             'https://bowlsharp.com/sberz0ps?key=6ac7a5fb182212bd58fdc8e8176bdddb',
             'https://omg10.com/4/11017295',
             'https://ythestarsarequ.com?hTTVD=1246757',
-            'https://wwp.giriubin.com/redirect-zone/31c41a18'
+            'https://wwp.giriubin.com/redirect-zone/31c41a18',
+            'https://link.gigapub.tech/l/u45v2rckr'
         ];
 
         // Utility
@@ -404,13 +359,11 @@
             if (!userData || !Array.isArray(userData.earningsHistory)) return 0;
             const today = new Date().toDateString();
             let total = 0;
-            userData.earningsHistory.forEach(e => {
-                if (e.date && new Date(e.date).toDateString() === today) total += (e.amount||0);
-            });
+            userData.earningsHistory.forEach(e => { if (e.date && new Date(e.date).toDateString() === today) total += (e.amount||0); });
             return total;
         }
 
-        // Sequence modal (ad/link)
+        // Sequence modal (ad/link) – Adsgram step now falls back to Monetag
         let currentSequence = null;
         function openSequenceModal(type) {
             const stepsData = type === 'ad' ? [
@@ -420,15 +373,20 @@
                     else if (typeof window.showGiga === 'function') await window.showGiga();
                     else if (typeof show_10541383 === 'function') await show_10541383();
                     else {
-                        const ctrl = window.Adsgram?.init({blockId:"int-28543"});
-                        const res = await ctrl?.show();
+                        const ctrl = window.Adsgram?.init({blockId:"int-28543"}); const res = await ctrl?.show();
                         if (!res || !res.done) throw new Error('Adsgram ব্যর্থ');
                     }
                 }},
                 { name: 'Adsgram', icon: 'fa-film', action: async () => {
-                    const ctrl = window.Adsgram.init({blockId:"int-28543"});
-                    const res = await ctrl.show();
-                    if (!res || !res.done) throw new Error('Adsgram সম্পন্ন হয়নি');
+                    try {
+                        const ctrl = window.Adsgram.init({blockId:"int-28543"});
+                        const res = await ctrl.show();
+                        if (!res || !res.done) throw new Error('Adsgram সম্পন্ন হয়নি');
+                    } catch(e) {
+                        // Fallback to Monetag
+                        console.log('Adsgram failed, trying Monetag...');
+                        await show_10541383();
+                    }
                 }},
                 { name: 'Giga Pub', icon: 'fa-rocket', action: async () => { await window.showGiga(); } }
             ] : AD_LINKS.map((link,i) => ({ name: `লিংক ${i+1}`, link, icon: 'fa-link' }));
@@ -437,29 +395,20 @@
             renderSequenceStep();
             document.getElementById('sequenceModal').classList.add('active');
         }
-        function closeSequenceModal() {
-            document.getElementById('sequenceModal').classList.remove('active');
-            currentSequence = null;
-        }
+        function closeSequenceModal() { document.getElementById('sequenceModal').classList.remove('active'); currentSequence = null; }
         function renderSequenceStep() {
-            const seq = currentSequence;
-            const card = document.getElementById('sequenceCard');
+            const seq = currentSequence; const card = document.getElementById('sequenceCard');
             const step = seq.steps[seq.currentStep];
             let html = `<div class="sequence-steps">`;
             seq.steps.forEach((s,idx) => {
-                let cls = '';
-                if (idx < seq.currentStep) cls = 'done';
-                else if (idx === seq.currentStep && seq.stepCompleted) cls = 'done';
-                else if (idx === seq.currentStep) cls = 'current';
+                let cls = ''; if(idx<seq.currentStep) cls='done'; else if(idx===seq.currentStep && seq.stepCompleted) cls='done'; else if(idx===seq.currentStep) cls='current';
                 html += `<div class="seq-step ${cls}">${cls==='done'?'✓':idx+1}</div>`;
             });
             html += `</div><div class="seq-label">ধাপ ${seq.currentStep+1}/${seq.steps.length}: ${step.name}</div>`;
             if (!seq.stepCompleted) {
                 if (seq.type === 'ad') html += `<button class="seq-btn" id="seqActionBtn">${step.name} বিজ্ঞাপন দেখুন</button>`;
                 else {
-                    html += `<p style="color:#888;">লিংকটি ১২ সেকেন্ড খোলা রাখুন</p>`;
-                    html += `<div class="countdown-big" id="linkTimer">12s</div>`;
-                    html += `<button class="seq-btn" id="seqActionBtn" disabled>১২ সেকেন্ড অপেক্ষা</button>`;
+                    html += `<p style="color:#888;">লিংকটি ১২ সেকেন্ড খোলা রাখুন</p><div class="countdown-big" id="linkTimer">12s</div><button class="seq-btn" id="seqActionBtn" disabled>১২ সেকেন্ড অপেক্ষা</button>`;
                 }
             } else {
                 if (seq.currentStep < seq.steps.length-1) html += `<button class="seq-btn next-step" id="seqNextBtn">পরবর্তী ধাপ</button>`;
@@ -485,50 +434,31 @@
                     };
                 } else {
                     window.open(step.link, '_blank');
-                    let timeLeft = 12;
-                    const timerEl = document.getElementById('linkTimer');
-                    const updateTimer = () => {
-                        timerEl.innerText = timeLeft + 's';
-                        actionBtn.innerText = timeLeft + ' সেকেন্ড অপেক্ষা';
-                        if (timeLeft <= 0) {
-                            clearInterval(interval);
-                            actionBtn.disabled = false;
-                            actionBtn.innerText = 'সম্পন্ন';
-                            actionBtn.style.background = '#4caf50';
-                            actionBtn.onclick = () => { seq.stepCompleted = true; renderSequenceStep(); };
-                        }
+                    let timeLeft=12; const timerEl=document.getElementById('linkTimer');
+                    const updateTimer=()=>{
+                        timerEl.innerText = timeLeft+'s'; actionBtn.innerText = timeLeft+' সেকেন্ড অপেক্ষা';
+                        if (timeLeft<=0) { clearInterval(interval); actionBtn.disabled=false; actionBtn.innerText='সম্পন্ন'; actionBtn.style.background='#4caf50'; actionBtn.onclick=()=>{ seq.stepCompleted=true; renderSequenceStep(); }; }
                         timeLeft--;
                     };
-                    updateTimer();
-                    const interval = setInterval(updateTimer, 1000);
+                    updateTimer(); const interval=setInterval(updateTimer,1000);
                 }
             } else if (seq.currentStep < seq.steps.length-1) {
-                document.getElementById('seqNextBtn').onclick = () => {
-                    seq.currentStep++;
-                    seq.stepCompleted = false;
-                    renderSequenceStep();
-                };
+                document.getElementById('seqNextBtn').onclick = () => { seq.currentStep++; seq.stepCompleted=false; renderSequenceStep(); };
             } else {
                 document.getElementById('seqClaimBtn').onclick = async () => {
                     const key = seq.type==='ad'?'adSeqCompletions':'linkSeqCompletions';
                     if ((userData[key]||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
-                    const newVal = (userData[key]||0) + 1;
-                    await updateUser({
-                        [key]: newVal,
-                        balance: (userData.balance||0) + seq.reward,
-                        totalEarned: (userData.totalEarned||0) + seq.reward,
-                        tasksCompleted: (userData.tasksCompleted||0) + 1
-                    });
+                    const newVal = (userData[key]||0)+1;
+                    await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1 });
                     addEarningEntry(seq.reward, seq.type==='ad'?'অ্যাড সিকোয়েন্স':'লিংক সিকোয়েন্স');
                     showToast(seq.reward, seq.type==='ad'?'অ্যাড টাস্ক':'লিংক টাস্ক');
-                    closeSequenceModal();
-                    refreshUI();
+                    closeSequenceModal(); refreshUI();
                 };
             }
             document.getElementById('seqCancelBtn').onclick = closeSequenceModal;
         }
 
-        // Start Ad/Link sequence buttons
+        // Start buttons
         document.getElementById('startAdSeqBtn').onclick = () => {
             if ((userData.adSeqCompletions||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
             openSequenceModal('ad');
@@ -538,148 +468,69 @@
             openSequenceModal('link');
         };
 
-        // ─── GAME: Tic Tac Toe (অত্যন্ত কঠিন AI) ───
+        // ─── GAME: Tic Tac Toe ───
         const cells = document.querySelectorAll('#gameBoard .cell');
         const gameStatus = document.getElementById('gameStatus');
         const playGameBtn = document.getElementById('playGameBtn');
-        let gameActive = false;
-        let currentPlayer = 'X';
-        let gameState = ['','','','','','','','',''];
-        let gameOver = false;
+        let gameActive = false, currentPlayer = 'X', gameState = ['','','','','','','','',''], gameOver = false;
         const winPatterns = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
         function resetGameBoard() {
-            gameState = ['','','','','','','','',''];
-            currentPlayer = 'X';
-            gameActive = true;
-            gameOver = false;
-            cells.forEach(c => { c.textContent = ''; c.className = 'cell'; });
-            gameStatus.textContent = 'আপনার পালা (X)';
+            gameState = ['','','','','','','','','']; currentPlayer='X'; gameActive=true; gameOver=false;
+            cells.forEach(c => { c.textContent=''; c.className='cell'; });
+            gameStatus.textContent='আপনার পালা (X)';
         }
-
         function checkWinner(board = gameState) {
-            for (const p of winPatterns) {
-                const [a,b,c] = p;
-                if (board[a] && board[a] === board[b] && board[a] === board[c]) return board[a];
-            }
-            if (board.every(v => v !== '')) return 'draw';
-            return null;
+            for (const p of winPatterns) { const [a,b,c]=p; if(board[a]&&board[a]===board[b]&&board[a]===board[c]) return board[a]; }
+            if (board.every(v=>v!=='')) return 'draw'; return null;
         }
-
         function endGame(winner) {
-            gameActive = false;
-            gameOver = true;
-            let reward = 0, msg = '';
-            if (winner === 'X') { msg = 'আপনি জিতেছেন! (অসম্ভব ব্যাপার!)'; reward = 10; }
-            else if (winner === 'O') { msg = 'আপনি হেরেছেন।'; reward = 2; }
-            else if (winner === 'draw') { msg = 'ড্র!'; reward = 5; }
+            gameActive=false; gameOver=true;
+            let reward=0, msg='';
+            if (winner==='X') { msg='আপনি জিতেছেন! (অসম্ভব ব্যাপার!)'; reward=10; }
+            else if (winner==='O') { msg='আপনি হেরেছেন।'; reward=2; }
+            else if (winner==='draw') { msg='ড্র!'; reward=5; }
             gameStatus.textContent = msg + ` (+${reward} কিং)`;
-            if (reward > 0) {
-                updateUser({
-                    balance: (userData.balance||0) + reward,
-                    totalEarned: (userData.totalEarned||0) + reward,
-                    tasksCompleted: (userData.tasksCompleted||0) + 1
-                });
+            if (reward>0) {
+                updateUser({ balance:(userData.balance||0)+reward, totalEarned:(userData.totalEarned||0)+reward, tasksCompleted:(userData.tasksCompleted||0)+1 });
                 addEarningEntry(reward, winner==='X'?'টিক ট্যাক টো জয়':(winner==='draw'?'টিক ট্যাক টো ড্র':'টিক ট্যাক টো পরাজয়'));
-                showToast(reward, 'টিক ট্যাক টো');
-                refreshUI();
+                showToast(reward, 'টিক ট্যাক টো'); refreshUI();
             }
-            playGameBtn.textContent = 'আবার খেলুন';
-            playGameBtn.disabled = false;
+            playGameBtn.textContent='আবার খেলুন'; playGameBtn.disabled=false;
         }
-
         function handleCellClick(e) {
-            if (!gameActive || gameOver || currentPlayer !== 'X') return;
-            const cell = e.target;
-            const index = parseInt(cell.dataset.index);
-            if (gameState[index] !== '') return;
-            gameState[index] = 'X';
-            cell.textContent = 'X';
-            cell.classList.add('X');
-            const winner = checkWinner();
-            if (winner) { endGame(winner); return; }
-            currentPlayer = 'O';
-            gameStatus.textContent = 'এআই চিন্তা করছে...';
-            setTimeout(aiMove, 300);
+            if (!gameActive||gameOver||currentPlayer!=='X') return;
+            const index = parseInt(e.target.dataset.index);
+            if (gameState[index]!=='') return;
+            gameState[index]='X'; e.target.textContent='X'; e.target.classList.add('X');
+            const winner = checkWinner(); if (winner) { endGame(winner); return; }
+            currentPlayer='O'; gameStatus.textContent='এআই চিন্তা করছে...'; setTimeout(aiMove,300);
         }
-
-        // Extremely hard AI: perfect minimax with 1% chance of a random move
         function getBestMove() {
-            // 1% chance to make a random move (gives human 0.01% win chance)
-            if (Math.random() < 0.01) {
-                const empty = gameState.map((v,i) => v===''?i:null).filter(v=>v!==null);
-                if (empty.length) return empty[Math.floor(Math.random()*empty.length)];
-            }
-            // Perfect minimax
-            let bestScore = -Infinity, move = -1;
-            for (let i=0; i<9; i++) {
-                if (gameState[i] === '') {
-                    gameState[i] = 'O';
-                    const score = minimax(gameState, 0, false, -Infinity, Infinity);
-                    gameState[i] = '';
-                    if (score > bestScore) { bestScore = score; move = i; }
-                }
-            }
+            if (Math.random()<0.01) { const empty=gameState.map((v,i)=>v===''?i:null).filter(v=>v!==null); if(empty.length) return empty[Math.floor(Math.random()*empty.length)]; }
+            let bestScore=-Infinity, move=-1;
+            for (let i=0;i<9;i++) { if(gameState[i]==='') { gameState[i]='O'; const score=minimax(gameState,0,false,-Infinity,Infinity); gameState[i]=''; if(score>bestScore){ bestScore=score; move=i; } } }
             return move;
         }
-
-        function minimax(board, depth, isMaximizing, alpha, beta) {
-            const winner = checkWinner(board);
-            if (winner === 'O') return 10 - depth;
-            if (winner === 'X') return depth - 10;
-            if (board.every(v=>v!=='')) return 0;
-            if (isMaximizing) {
-                let best = -Infinity;
-                for (let i=0; i<9; i++) {
-                    if (board[i]==='') {
-                        board[i]='O';
-                        best = Math.max(best, minimax(board, depth+1, false, alpha, beta));
-                        board[i]='';
-                        alpha = Math.max(alpha, best);
-                        if (beta <= alpha) break;
-                    }
-                }
-                return best;
-            } else {
-                let best = Infinity;
-                for (let i=0; i<9; i++) {
-                    if (board[i]==='') {
-                        board[i]='X';
-                        best = Math.min(best, minimax(board, depth+1, true, alpha, beta));
-                        board[i]='';
-                        beta = Math.min(beta, best);
-                        if (beta <= alpha) break;
-                    }
-                }
-                return best;
-            }
+        function minimax(board,depth,isMaximizing,alpha,beta) {
+            const winner=checkWinner(board); if(winner==='O') return 10-depth; if(winner==='X') return depth-10; if(board.every(v=>v!=='')) return 0;
+            if(isMaximizing){ let best=-Infinity; for(let i=0;i<9;i++){ if(board[i]===''){ board[i]='O'; best=Math.max(best,minimax(board,depth+1,false,alpha,beta)); board[i]=''; alpha=Math.max(alpha,best); if(beta<=alpha) break; } } return best; }
+            else { let best=Infinity; for(let i=0;i<9;i++){ if(board[i]===''){ board[i]='X'; best=Math.min(best,minimax(board,depth+1,true,alpha,beta)); board[i]=''; beta=Math.min(beta,best); if(beta<=alpha) break; } } return best; }
         }
-
         function aiMove() {
-            if (!gameActive || gameOver) return;
-            const bestMove = getBestMove();
-            if (bestMove !== -1) {
-                gameState[bestMove] = 'O';
-                cells[bestMove].textContent = 'O';
-                cells[bestMove].classList.add('O');
-            }
-            const winner = checkWinner();
-            if (winner) { endGame(winner); return; }
-            currentPlayer = 'X';
-            gameStatus.textContent = 'আপনার পালা (X)';
+            if (!gameActive||gameOver) return;
+            const bestMove = getBestMove(); if(bestMove!==-1){ gameState[bestMove]='O'; cells[bestMove].textContent='O'; cells[bestMove].classList.add('O'); }
+            const winner=checkWinner(); if(winner){ endGame(winner); return; }
+            currentPlayer='X'; gameStatus.textContent='আপনার পালা (X)';
         }
-
         async function startGameWithAd() {
-            playGameBtn.disabled = true;
-            playGameBtn.textContent = 'বিজ্ঞাপন লোড হচ্ছে...';
+            playGameBtn.disabled=true; playGameBtn.textContent='বিজ্ঞাপন লোড হচ্ছে...';
             try {
                 if (typeof window.Adsgram !== 'undefined') {
-                    const controller = window.Adsgram.init({blockId:"int-28543"});
-                    const result = await controller.show();
-                    if (!result || !result.done) throw new Error('Adsgram সম্পন্ন হয়নি');
-                } else {
-                    throw new Error('Adsgram নেই');
-                }
+                    const ctrl = window.Adsgram.init({blockId:"int-28543"});
+                    const res = await ctrl.show();
+                    if (!res || !res.done) throw new Error('Adsgram সম্পন্ন হয়নি');
+                } else throw new Error('Adsgram নেই');
             } catch(e) {
                 console.log('Adsgram ব্যর্থ, Giga চেষ্টা করা হচ্ছে');
                 try {
@@ -687,17 +538,12 @@
                     else throw new Error('Giga নেই');
                 } catch(e2) {
                     alert('বিজ্ঞাপন দেখানো সম্ভব হয়নি। আবার চেষ্টা করুন।');
-                    playGameBtn.disabled = false;
-                    playGameBtn.textContent = 'খেলা শুরু';
-                    return;
+                    playGameBtn.disabled=false; playGameBtn.textContent='খেলা শুরু'; return;
                 }
             }
-            playGameBtn.disabled = true;
-            playGameBtn.textContent = 'খেলা চলছে...';
-            resetGameBoard();
-            cells.forEach(c => c.addEventListener('click', handleCellClick));
+            playGameBtn.disabled=true; playGameBtn.textContent='খেলা চলছে...';
+            resetGameBoard(); cells.forEach(c => c.addEventListener('click', handleCellClick));
         }
-
         playGameBtn.addEventListener('click', startGameWithAd);
 
         // Navigation
@@ -714,18 +560,18 @@
         document.getElementById('navGames').onclick = () => switchSection('gamesSection');
         document.getElementById('navCashout').onclick = () => switchSection('cashoutSection');
 
-        // Withdraw (min 100 KING)
+        // Withdraw (min 100 KING, gmail reset after withdraw)
         document.getElementById('submitWithdrawBtn').onclick = async () => {
             const amt = parseInt(document.getElementById('withdrawAmount').value);
             const acc = document.getElementById('paymentAccount').value.trim();
             if (amt < 100 || amt > (userData.balance||0) || !userData.gmailSoldApproved || (userData.referrals?.length||0) < 1) {
-                alert('শর্ত পূরণ হয়নি: ন্যূনতম ১০০ কিং, ১ রেফারেল, জিমেইল অনুমোদিত');
+                alert('শর্ত পূরণ হয়নি: ন্যূনতম ১০০ কিং, ১ রেফারেল, নতুন জিমেইল অনুমোদিত');
                 return;
             }
             const fee = Math.floor(amt * 0.1);
             const wid = { id: Date.now(), withdrawId: 'WD-'+Date.now().toString().slice(-8), amount: amt, fee, netAmount: amt-fee, method: 'বাইন্যান্স', account: acc, status: 'pending', date: Date.now() };
-            await updateUser({ balance: userData.balance - amt, withdrawalHistory: [...(userData.withdrawalHistory||[]), wid] });
-            document.getElementById('withdrawSuccessDetails').innerHTML = `<div>আইডি: ${wid.withdrawId}</div><div>পরিমাণ: ${amt} কিং</div><div>নিট: ${amt-fee} কিং (~$${((amt-fee)/EXCHANGE_RATE).toFixed(3)})</div>`;
+            await updateUser({ balance: userData.balance - amt, withdrawalHistory: [...(userData.withdrawalHistory||[]), wid], gmailSoldApproved: false });
+            document.getElementById('withdrawSuccessDetails').innerHTML = `<div>আইডি: ${wid.withdrawId}</div><div>পরিমাণ: ${amt} কিং</div><div>নিট: ${amt-fee} কিং (~$${((amt-fee)/EXCHANGE_RATE).toFixed(3)})</div><div style="color:#e65100;margin-top:8px;">পরবর্তী উত্তোলনের জন্য আবার জিমেইল বিক্রি করতে হবে।</div>`;
             document.getElementById('withdrawSuccessModal').classList.add('active');
             refreshUI();
         };
@@ -755,20 +601,18 @@
             document.getElementById('referralCodeDisplay').innerText = userData.referralCode || '';
 
             const refs = userData.referrals || [];
-            document.getElementById('referralsListHome').innerHTML = refs.length ?
-                refs.map(r => `<div class="friend-card"><span>${r.username||'User'}</span><span>+${r.bonus||100} কিং</span></div>`).join('')
-                : '<div class="empty-state"><i class="fas fa-user-plus"></i><div>এখনো কোনো রেফারেল নেই</div></div>';
+            document.getElementById('referralsListHome').innerHTML = refs.length ? refs.map(r => `<div class="friend-card"><span>${r.username||'User'}</span><span>+${r.bonus||100} কিং</span></div>`).join('') : '<div class="empty-state"><i class="fas fa-user-plus"></i><div>এখনো কোনো রেফারেল নেই</div></div>';
 
             const adComp = userData.adSeqCompletions || 0;
-            document.getElementById('adSeqFill').style.width = (adComp/12)*100 + '%';
-            document.getElementById('adSeqPercent').innerText = Math.floor((adComp/12)*100) + '%';
-            document.getElementById('adSeqStats').innerText = adComp + '/12';
+            document.getElementById('adSeqFill').style.width = (adComp/12)*100+'%';
+            document.getElementById('adSeqPercent').innerText = Math.floor((adComp/12)*100)+'%';
+            document.getElementById('adSeqStats').innerText = adComp+'/12';
             document.getElementById('startAdSeqBtn').disabled = adComp >= 12;
 
             const linkComp = userData.linkSeqCompletions || 0;
-            document.getElementById('linkSeqFill').style.width = (linkComp/12)*100 + '%';
-            document.getElementById('linkSeqPercent').innerText = Math.floor((linkComp/12)*100) + '%';
-            document.getElementById('linkSeqStats').innerText = linkComp + '/12';
+            document.getElementById('linkSeqFill').style.width = (linkComp/12)*100+'%';
+            document.getElementById('linkSeqPercent').innerText = Math.floor((linkComp/12)*100)+'%';
+            document.getElementById('linkSeqStats').innerText = linkComp+'/12';
             document.getElementById('startLinkSeqBtn').disabled = linkComp >= 12;
 
             document.getElementById('reqStatusRef').innerHTML = (userData.referrals?.length>=1) ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
@@ -777,7 +621,6 @@
             document.getElementById('reqStatusBal').className = 'req-status ' + (bal>=100?'status-success':'status-failed');
             document.getElementById('reqStatusGmail').innerHTML = userData.gmailSoldApproved ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
             document.getElementById('reqStatusGmail').className = 'req-status ' + (userData.gmailSoldApproved?'status-success':'status-failed');
-
             document.getElementById('submitWithdrawBtn').disabled = !(bal>=100 && userData.referrals?.length>=1 && userData.gmailSoldApproved);
 
             const amt = parseInt(document.getElementById('withdrawAmount').value) || 0;
@@ -788,9 +631,14 @@
             document.getElementById('wdUsdValue').innerText = '$' + ((amt-fee)/EXCHANGE_RATE).toFixed(3);
 
             const hist = userData.withdrawalHistory || [];
-            document.getElementById('historyList').innerHTML = hist.length ?
-                hist.slice().reverse().map(w => `<div class="withdrawal-history-card"><div><strong>${w.withdrawId||'WD-'+w.id}</strong> <span style="color:${w.status==='pending'?'#e65100':w.status==='approved'?'#2e7d32':'#c62828'};">${w.status}</span></div><div>${w.amount} কিং (~$${(w.netAmount||w.amount)/EXCHANGE_RATE})</div><div>${w.method||'বাইন্যান্স'}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join('')
-                : '<div style="color:#aaa; text-align:center; padding:20px;">কোনো উত্তোলন নেই</div>';
+            document.getElementById('historyList').innerHTML = hist.length ? hist.slice().reverse().map(w => `<div class="withdrawal-history-card"><div><strong>${w.withdrawId||'WD-'+w.id}</strong> <span style="color:${w.status==='pending'?'#e65100':w.status==='approved'?'#2e7d32':'#c62828'};">${w.status}</span></div><div>${w.amount} কিং (~$${(w.netAmount||w.amount)/EXCHANGE_RATE})</div><div>${w.method||'বাইন্যান্স'}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">কোনো উত্তোলন নেই</div>';
+
+            // Sell daily limit display
+            const today = new Date().toDateString();
+            if (!userData.dailySellCounts) userData.dailySellCounts = { gmail:0 };
+            if (userData.lastSellResetDate !== today) { userData.dailySellCounts = { gmail:0 }; userData.lastSellResetDate = today; updateUser({ dailySellCounts:userData.dailySellCounts, lastSellResetDate:today }); }
+            document.getElementById('sellGmailStatus').innerText = `আজকের জমা: ${userData.dailySellCounts.gmail||0}/৩`;
+            document.getElementById('sellGmailBtn').disabled = (userData.dailySellCounts.gmail||0) >= 3;
             renderSellHistory();
             checkDailyVerification();
         }
@@ -808,52 +656,29 @@
                 container.innerHTML = items.map(item => {
                     const statusClass = item.status==='pending'?'status-pending':item.status==='approved'?'status-approved':'status-rejected';
                     let details = '';
-                    if (item.type === 'gmail') {
-                        details = `<div class="item-row"><span class="label">ইমেইল</span><span class="value">${item.email||'N/A'}</span></div><div class="item-row"><span class="label">রিকভারি</span><span class="value">${item.recovery||'N/A'}</span></div>`;
-                    } else if (item.type === 'newgmail') {
-                        details = `<div class="item-row"><span class="label">যোগাযোগ</span><span class="value">${item.contact||'N/A'}</span></div>`;
-                    } else if (item.type === 'instagram') {
-                        details = `<div class="item-row"><span class="label">যোগাযোগ</span><span class="value">${item.contact||'N/A'}</span></div>`;
-                    }
-                    return `<div class="sell-history-item">${details}<div class="item-row"><span class="label">তারিখ</span><span class="value">${new Date(item.date).toLocaleDateString()}</span></div><div class="item-row"><span class="label">স্ট্যাটাস</span><span class="status-badge ${statusClass}">${item.status}</span></div></div>`;
+                    if (item.type === 'gmail') details = `<div class="item-row"><span class="label">ইমেইল</span><span class="value">${item.email||'N/A'}</span></div><div class="item-row"><span class="label">রিকভারি</span><span class="value">${item.recovery||'N/A'}</span></div>`;
+                    else details = `<div class="item-row"><span class="label">তথ্য</span><span class="value">${item.contact||'N/A'}</span></div>`;
+                    return `<div class="sell-history-item">${details}<div class="item-row"><span class="label">তারিখ</span><span class="value">${new Date(item.date).toLocaleDateString()}</span></div><div class="item-row"><span class="label">স্ট্যাটাস</span><span class="status-badge ${statusClass}">${item.status==='pending'?'বিচারাধীন':item.status==='approved'?'অনুমোদিত':'প্রত্যাখ্যাত'}</span></div></div>`;
                 }).join('');
-            }).catch(() => container.innerHTML = '<div class="empty-state">ইতিহাস লোড করতে সমস্যা হয়েছে।</div>');
+            });
         }
 
-        // Sell buttons (including Instagram)
+        // Sell button (only gmail)
         document.getElementById('sellGmailBtn').onclick = async function() {
+            const today = new Date().toDateString();
+            if ((userData.dailySellCounts?.gmail||0) >= 3) { alert('আজ জিমেইল বিক্রির সীমা শেষ!'); return; }
             const email = document.getElementById('gmailEmail').value.trim();
             const password = document.getElementById('gmailPassword').value.trim();
             const recovery = document.getElementById('gmailRecovery').value.trim();
             if (!email || !password || !recovery) { alert('সব ঘর পূরণ করুন।'); return; }
-            await db.ref('sellSubmissions').push({
-                type: 'gmail', email, password, recovery, userId: telegramId, username: telegramUsername, status: 'pending', date: Date.now()
-            });
-            document.getElementById('sellGmailStatus').innerHTML = '✅ জমা পড়েছে! অ্যাডমিন রিভিউ করবে।';
-            document.getElementById('gmailEmail').value = ''; document.getElementById('gmailPassword').value = ''; document.getElementById('gmailRecovery').value = '';
+            await db.ref('sellSubmissions').push({ type:'gmail', email, password, recovery, userId:telegramId, username:telegramUsername, status:'pending', date:Date.now() });
+            const counts = userData.dailySellCounts || { gmail:0 };
+            counts.gmail = (counts.gmail||0)+1;
+            await updateUser({ dailySellCounts: counts, lastSellResetDate: today });
+            document.getElementById('gmailEmail').value=''; document.getElementById('gmailPassword').value=''; document.getElementById('gmailRecovery').value='';
             refreshUI();
         };
-        document.getElementById('newGmailBtn').onclick = async function() {
-            const contact = document.getElementById('newGmailContact').value.trim();
-            if (!contact) { alert('যোগাযোগের তথ্য দিন।'); return; }
-            await db.ref('sellSubmissions').push({
-                type: 'newgmail', contact, userId: telegramId, username: telegramUsername, status: 'pending', date: Date.now()
-            });
-            document.getElementById('newGmailStatus').innerHTML = '✅ অনুরোধ পাঠানো হয়েছে! অ্যাডমিন যোগাযোগ করবে।';
-            document.getElementById('newGmailContact').value = '';
-            refreshUI();
-        };
-        document.getElementById('instaSellBtn').onclick = async function() {
-            const contact = document.getElementById('instaContact').value.trim();
-            if (!contact) { alert('যোগাযোগের তথ্য দিন।'); return; }
-            await db.ref('sellSubmissions').push({
-                type: 'instagram', contact, userId: telegramId, username: telegramUsername, status: 'pending', date: Date.now()
-            });
-            document.getElementById('instaSellStatus').innerHTML = '✅ অনুরোধ পাঠানো হয়েছে! অ্যাডমিন ব্যক্তিগতভাবে যোগাযোগ করবে।';
-            document.getElementById('instaContact').value = '';
-            refreshUI();
-        };
-        document.getElementById('contactSupportBtn').onclick = () => window.open('https://t.me/KingsenSupport', '_blank');
+        document.getElementById('contactSupportBtn').onclick = () => window.open('https://t.me/mrdinooo11', '_blank');
 
         // Daily verification
         let verificationClicks = 0;
@@ -861,8 +686,7 @@
         function checkDailyVerification() {
             const today = new Date().toDateString();
             if (userData.lastVerificationDate !== today) {
-                verificationClicks = 0;
-                verificationComplete = false;
+                verificationClicks = 0; verificationComplete = false;
                 document.getElementById('dailyVerificationModal').classList.add('active');
                 updateVerificationUI();
             } else {
@@ -873,30 +697,22 @@
             const dots = document.querySelectorAll('#verificationProgress .progress-dot');
             dots.forEach((dot, idx) => dot.classList.toggle('filled', idx < verificationClicks));
             document.getElementById('clickCountDisplay').innerText = verificationClicks;
-            document.getElementById('clickBadge').innerText = verificationClicks + '/5';
+            document.getElementById('clickBadge').innerText = verificationClicks+'/5';
             const btn = document.getElementById('verifyHumanBtn');
             if (verificationClicks >= 5) {
-                btn.classList.add('completed');
-                btn.querySelector('span').innerText = '✓ যাচাইকৃত!';
-                btn.querySelector('i').className = 'fas fa-check-circle';
-                document.getElementById('verifyStatusText').innerHTML = '✅ যাচাই সম্পন্ন! <span class="highlight">King-এ স্বাগতম</span>';
+                btn.classList.add('completed'); btn.querySelector('span').innerText='✓ যাচাইকৃত!'; btn.querySelector('i').className='fas fa-check-circle';
+                document.getElementById('verifyStatusText').innerHTML='✅ যাচাই সম্পন্ন! <span class="highlight">King-এ স্বাগতম</span>';
                 verificationComplete = true;
-                setTimeout(() => {
-                    document.getElementById('dailyVerificationModal').classList.remove('active');
-                    updateUser({ lastVerificationDate: new Date().toDateString() });
-                }, 700);
+                setTimeout(() => { document.getElementById('dailyVerificationModal').classList.remove('active'); updateUser({ lastVerificationDate: new Date().toDateString() }); }, 700);
             } else {
-                btn.classList.remove('completed');
-                btn.querySelector('span').innerText = 'যাচাই করতে ক্লিক করুন';
-                btn.querySelector('i').className = 'fas fa-hand-pointer';
-                document.getElementById('verifyStatusText').innerHTML = 'বাটনে <span class="highlight">' + (5-verificationClicks) + ' বার</span> ট্যাপ করুন';
+                btn.classList.remove('completed'); btn.querySelector('span').innerText='যাচাই করতে ক্লিক করুন'; btn.querySelector('i').className='fas fa-hand-pointer';
+                document.getElementById('verifyStatusText').innerHTML='বাটনে <span class="highlight">'+(5-verificationClicks)+' বার</span> ট্যাপ করুন';
             }
         }
         document.getElementById('verifyHumanBtn').addEventListener('click', () => {
             if (verificationComplete) return;
             window.open(VERIFICATION_LINK, '_blank');
-            verificationClicks++;
-            updateVerificationUI();
+            verificationClicks++; updateVerificationUI();
         });
 
         // Referral code
@@ -927,6 +743,7 @@
         // Init user
         async function initUser() {
             let data = await fetchUserData();
+            const today = new Date().toDateString();
             if (!data) {
                 const refCode = telegramUsername.slice(0,4).toUpperCase() + Math.random().toString(36).substr(2,5).toUpperCase();
                 const newUser = {
@@ -934,22 +751,21 @@
                     referrals:[], referralCode: refCode, referredBy:null, referralBonusApplied:false,
                     tasksCompleted:0, withdrawalHistory:[], earningsHistory:[],
                     adSeqCompletions:0, linkSeqCompletions:0,
-                    gmailSoldApproved:false, sellHistory:[],
-                    lastResetDate: new Date().toDateString(),
-                    lastVerificationDate:''
+                    gmailSoldApproved:false,
+                    dailySellCounts: { gmail:0 }, lastSellResetDate: today,
+                    lastResetDate: today, lastVerificationDate:''
                 };
                 await db.ref('users/'+telegramId).set(newUser);
                 data = newUser;
             } else {
                 if (data.adSeqCompletions === undefined) data.adSeqCompletions = 0;
                 if (data.linkSeqCompletions === undefined) data.linkSeqCompletions = 0;
+                if (!data.dailySellCounts) data.dailySellCounts = { gmail:0 };
+                if (data.lastSellResetDate !== today) { data.dailySellCounts = { gmail:0 }; data.lastSellResetDate = today; }
                 await db.ref('users/'+telegramId).update(data);
             }
             userData = data;
-            const today = new Date().toDateString();
-            if (userData.lastResetDate !== today) {
-                await updateUser({ adSeqCompletions:0, linkSeqCompletions:0, lastResetDate: today });
-            }
+            if (userData.lastResetDate !== today) { await updateUser({ adSeqCompletions:0, linkSeqCompletions:0, lastResetDate: today }); }
             if (!userData.referralBonusApplied) document.getElementById('referralCodeModal').classList.add('active');
             else proceedToApp();
         }
@@ -987,18 +803,13 @@
             const sub = (await db.ref('sellSubmissions/'+subId).once('value')).val();
             if (!sub || sub.status !== 'pending') return;
             await db.ref('sellSubmissions/'+subId).update({ status: 'approved' });
-            let reward = 0;
-            if (type === 'gmail') reward = 1000;
-            else if (type === 'newgmail') reward = 1200;
-            else if (type === 'instagram') reward = 200;
+            let reward = type === 'gmail' ? 1200 : 0; // only gmail reward
             if (reward > 0 && userId) {
-                const userRef = db.ref('users/'+userId);
-                const snap = await userRef.once('value');
+                const userRef = db.ref('users/'+userId); const snap = await userRef.once('value');
                 if (snap.exists()) {
                     const user = snap.val();
                     const updates = { balance:(user.balance||0)+reward, totalEarned:(user.totalEarned||0)+reward, tasksCompleted:(user.tasksCompleted||0)+1 };
-                    if (type === 'gmail' || type === 'newgmail') updates.gmailSoldApproved = true;
-                    // Instagram does NOT set gmailSoldApproved
+                    if (type === 'gmail') updates.gmailSoldApproved = true;
                     await userRef.update(updates);
                     if (userId === telegramId) refreshUI();
                 }
@@ -1023,8 +834,7 @@
                 percent.textContent = Math.floor(loadPercent) + '%';
                 if (loadPercent < 100) setTimeout(updateLoading, 40+Math.random()*20);
                 else {
-                    fill.style.width = '100%';
-                    percent.textContent = '100%';
+                    fill.style.width = '100%'; percent.textContent = '100%';
                     setTimeout(() => {
                         initUser().catch(console.error).finally(() => {
                             setTimeout(() => {
@@ -1040,7 +850,7 @@
 
         // Support icons
         ['supportIconHome','supportIconAds','supportIconSell','supportIconGames','supportIconCashout'].forEach(id => {
-            document.getElementById(id).onclick = () => window.open('https://t.me/KingsenSupport', '_blank');
+            document.getElementById(id).onclick = () => window.open('https://t.me/mrdinooo11', '_blank');
         });
     </script>
 </body>

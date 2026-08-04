@@ -14,8 +14,10 @@
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <!-- Adexora SDK -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
-    <!-- Giga Pub SDK (updated ID 7571) -->
+    <!-- Giga Pub SDK (ID 7571) -->
     <script src="https://ad.gigapub.tech/script?id=7571"></script>
+    <!-- adsbitvex SDK -->
+    <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Noto Sans Bengali', 'Inter', -apple-system, sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
         body { background:#fff; display:flex; justify-content:center; }
@@ -90,7 +92,7 @@
         .sequence-modal.active { display:flex; }
         .sequence-card { background:#fff; border-radius:40px; padding:28px 24px; max-width:400px; width:92%; text-align:center; border:1px solid #eee; box-shadow:0 24px 60px rgba(0,0,0,0.08); }
         .sequence-steps { display:flex; justify-content:space-between; margin-bottom:20px; padding:0 10px; }
-        .seq-step { width:36px; height:36px; border-radius:50%; background:#eaeaea; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.9rem; color:#888; }
+        .seq-step { width:30px; height:30px; border-radius:50%; background:#eaeaea; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.8rem; color:#888; }
         .seq-step.done { background:#f5a623; color:#fff; }
         .seq-step.current { border:2px solid #f5a623; color:#f5a623; background:#fff; }
         .seq-label { font-size:0.85rem; color:#888; margin-bottom:16px; font-weight:500; }
@@ -173,7 +175,7 @@
     </div>
 
     <div class="app-container" id="mainApp" style="display:none;">
-        <!-- HOME -->
+        <!-- HOME SECTION -->
         <div id="homeSection" class="content-section active">
             <div class="section-header"><div class="section-title">সারসংক্ষেপ</div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div>
             <div class="balance-card"><div class="balance-label">আপনার ব্যালেন্স</div><div class="balance-amount" id="balanceAmount">0</div><div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div><div class="small-text">কিং কয়েন</div><div class="balance-badge"><i class="fas fa-bolt"></i> আয় করতে প্রস্তুত</div></div>
@@ -187,14 +189,24 @@
             </div>
         </div>
 
-        <!-- ADS -->
+        <!-- ADS SECTION -->
         <div id="adsSection" class="content-section">
             <div class="section-header"><div class="section-title">বিজ্ঞাপন</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
-            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+১৮ কিং</span></div><div class="task-desc">৪টি বিজ্ঞাপন ধাপ শেষ করে ১৮ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div><button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button></div>
-            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div><button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button></div>
+            <div class="task-card">
+                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
+                <div class="task-desc">৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
+                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
+                <button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button>
+            </div>
+            <div class="task-card">
+                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
+                <div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
+                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
+                <button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button>
+            </div>
         </div>
 
-        <!-- SELL (only Gmail) -->
+        <!-- SELL SECTION -->
         <div id="sellSection" class="content-section">
             <div class="section-header"><div class="section-title">বিক্রয়</div><div class="support-icon" id="supportIconSell"><i class="fas fa-headset"></i></div></div>
             <div class="task-card sell-card">
@@ -217,7 +229,7 @@
             <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">অ্যাডমিন</div>
         </div>
 
-        <!-- GAMES -->
+        <!-- GAMES SECTION -->
         <div id="gamesSection" class="content-section">
             <div class="section-header"><div class="section-title">গেমস</div><div class="support-icon" id="supportIconGames"><i class="fas fa-headset"></i></div></div>
             <div class="task-card" style="text-align:center;">
@@ -236,7 +248,7 @@
             </div>
         </div>
 
-        <!-- CASHOUT -->
+        <!-- CASHOUT SECTION -->
         <div id="cashoutSection" class="content-section">
             <div class="section-header"><div class="section-title">ক্যাশআউট</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div>
             <div class="balance-card"><div class="balance-label">উপলব্ধ ব্যালেন্স</div><div class="balance-amount" id="withdrawBalance">0</div><div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div></div>
@@ -273,7 +285,7 @@
     <div id="claimModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle">অভিনন্দন!</h2><p id="claimModalMessage">আপনি কাজটি সম্পন্ন করেছেন।</p><button id="confirmClaimBtn" class="claim-btn">পুরস্কার দাবি করুন</button><button id="cancelClaimBtn" class="claim-btn skip-btn">বাতিল</button></div></div>
     <div class="daily-verification-modal" id="dailyVerificationModal">
         <div class="daily-verification-card">
-            <div class="brand-logo" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;"><i class="fas fa-shield-halved" style="font-size:1.8rem;color:#f5a623;"></i><span style="font-size:1.4rem;font-weight:800;">King</span></div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;"><i class="fas fa-shield-halved" style="font-size:1.8rem;color:#f5a623;"></i><span style="font-size:1.4rem;font-weight:800;">King</span></div>
             <div class="shield-icon"><i class="fas fa-shield-alt"></i></div>
             <div class="verification-title">মানব যাচাইকরণ</div>
             <div class="verification-subtitle">প্রমাণ করতে <strong>৫ বার</strong> বাটনে ক্লিক করুন যে আপনি মানুষ।</div>
@@ -353,7 +365,7 @@
             return total;
         }
 
-        // Sequence modal (ad/link)
+        // Sequence modal (ad/link) - now 5 ad steps
         let currentSequence = null;
         function openSequenceModal(type) {
             const stepsData = type === 'ad' ? [
@@ -377,10 +389,17 @@
                         await show_10541383();
                     }
                 }},
-                { name: 'Giga Pub', icon: 'fa-rocket', action: async () => { await window.showGiga(); } }
+                { name: 'Giga Pub', icon: 'fa-rocket', action: async () => { await window.showGiga(); } },
+                { name: 'adsbitvex', icon: 'fa-ad', action: async () => {
+                    if (typeof window.showadsbitvex === 'function') {
+                        await window.showadsbitvex();
+                    } else {
+                        throw new Error('adsbitvex SDK not loaded');
+                    }
+                }}
             ] : AD_LINKS.map((link,i) => ({ name: `লিংক ${i+1}`, link, icon: 'fa-link' }));
 
-            currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type==='ad'?18:20 };
+            currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type==='ad'?20:20 };
             renderSequenceStep();
             document.getElementById('sequenceModal').classList.add('active');
         }
@@ -597,7 +616,6 @@
             const hist = userData.withdrawalHistory || [];
             document.getElementById('historyList').innerHTML = hist.length ? hist.slice().reverse().map(w => `<div class="withdrawal-history-card"><div><strong>${w.withdrawId||'WD-'+w.id}</strong> <span style="color:${w.status==='pending'?'#e65100':w.status==='approved'?'#2e7d32':'#c62828'};">${w.status}</span></div><div>${w.amount} কিং (~$${(w.netAmount||w.amount)/EXCHANGE_RATE})</div><div>${w.method||'বাইন্যান্স'}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">কোনো উত্তোলন নেই</div>';
 
-            // Sell daily limit & history
             const today = new Date().toDateString();
             if (!userData.dailySellCounts) userData.dailySellCounts = { gmail:0 };
             if (userData.lastSellResetDate !== today) { userData.dailySellCounts = { gmail:0 }; userData.lastSellResetDate = today; updateUser({ dailySellCounts:userData.dailySellCounts, lastSellResetDate:today }); }
@@ -810,7 +828,6 @@
             setTimeout(updateLoading, 100);
         })();
 
-        // Support icons
         ['supportIconHome','supportIconAds','supportIconSell','supportIconGames','supportIconCashout'].forEach(id => {
             document.getElementById(id).onclick = () => window.open('https://t.me/mrdinooo11', '_blank');
         });

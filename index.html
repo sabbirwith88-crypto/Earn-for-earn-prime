@@ -16,7 +16,7 @@
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     <!-- Giga Pub SDK (ID 7571) -->
     <script src="https://ad.gigapub.tech/script?id=7571"></script>
-    <!-- adsbitvex SDK -->
+    <!-- adsbitvex SDK (app id 000274) -->
     <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Noto Sans Bengali', 'Inter', -apple-system, sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
@@ -163,6 +163,14 @@
         .withdraw-btn:disabled { background:#eaeaea; color:#aaa; cursor:not-allowed; }
         .fee-breakdown { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee; font-size:0.85rem; color:#888; }
         .withdrawal-history-card { background:#f8f8f8; border-radius:18px; padding:14px 16px; margin-bottom:10px; border-left:3px solid #f5a623; color:#555; font-size:0.85rem; }
+        /* Quiz specific */
+        .quiz-container { text-align:center; }
+        .quiz-question { font-size:1.6rem; font-weight:700; margin:12px 0; }
+        .quiz-timer { font-size:1.2rem; font-weight:600; color:#f57c00; margin:8px 0; }
+        .quiz-input { width:80%; max-width:200px; padding:12px 16px; border:2px solid #ddd; border-radius:60px; font-size:1.2rem; text-align:center; margin:10px 0; outline:none; }
+        .quiz-submit-btn, .quiz-start-btn { background:#f5a623; border:none; color:#fff; font-weight:700; padding:12px 30px; border-radius:60px; font-size:1rem; cursor:pointer; transition:0.2s; }
+        .quiz-submit-btn:disabled, .quiz-start-btn:disabled { background:#eaeaea; color:#aaa; }
+        .quiz-result { margin-top:15px; font-weight:600; font-size:1rem; }
     </style>
 </head>
 <body>
@@ -192,18 +200,8 @@
         <!-- ADS SECTION -->
         <div id="adsSection" class="content-section">
             <div class="section-header"><div class="section-title">বিজ্ঞাপন</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
-            <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
-                <div class="task-desc">৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
-                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
-                <button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button>
-            </div>
-            <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
-                <div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
-                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
-                <button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button>
-            </div>
+            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div><button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button></div>
+            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div><button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button></div>
         </div>
 
         <!-- SELL SECTION -->
@@ -229,12 +227,13 @@
             <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">অ্যাডমিন</div>
         </div>
 
-        <!-- GAMES SECTION -->
+        <!-- GAMES SECTION (Tic Tac Toe + Quiz) -->
         <div id="gamesSection" class="content-section">
             <div class="section-header"><div class="section-title">গেমস</div><div class="support-icon" id="supportIconGames"><i class="fas fa-headset"></i></div></div>
+            <!-- Tic Tac Toe -->
             <div class="task-card" style="text-align:center;">
                 <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">টিক ট্যাক টো</div>
-                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;">play to Earn</p>
+                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;">⚠️ অত্যন্ত কঠিন! জেতা প্রায় অসম্ভব</p>
                 <div class="game-board" id="gameBoard">
                     <div class="cell" data-index="0"></div><div class="cell" data-index="1"></div><div class="cell" data-index="2"></div>
                     <div class="cell" data-index="3"></div><div class="cell" data-index="4"></div><div class="cell" data-index="5"></div>
@@ -245,6 +244,18 @@
                     <span>🟢 জয়: ১০ কিং</span> <span>🟡 ড্র: ৫ কিং</span> <span>🔴 হার: ২ কিং</span>
                 </div>
                 <div class="game-controls"><button class="play-btn" id="playGameBtn">খেলা শুরু</button></div>
+            </div>
+            <!-- Quiz Game -->
+            <div class="task-card quiz-container">
+                <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">গণিত কুইজ</div>
+                <p style="color:#888; font-size:0.8rem; margin-bottom:8px;">১৩ সেকেন্ডের মধ্যে উত্তর দিন</p>
+                <div class="quiz-question" id="quizQuestion">--</div>
+                <div class="quiz-timer" id="quizTimer" style="display:none;">⏱ ১৩s</div>
+                <input type="number" class="quiz-input" id="quizAnswerInput" placeholder="আপনার উত্তর" style="display:none;">
+                <br>
+                <button class="quiz-submit-btn" id="quizSubmitBtn" style="display:none;">জমা দিন</button>
+                <button class="quiz-start-btn" id="quizStartBtn">খেলা শুরু</button>
+                <div class="quiz-result" id="quizResult"></div>
             </div>
         </div>
 
@@ -280,7 +291,7 @@
         </div>
     </div>
 
-    <!-- Modals -->
+    <!-- Modals (unchanged) -->
     <div id="sequenceModal" class="sequence-modal"><div class="sequence-card" id="sequenceCard"></div></div>
     <div id="claimModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle">অভিনন্দন!</h2><p id="claimModalMessage">আপনি কাজটি সম্পন্ন করেছেন।</p><button id="confirmClaimBtn" class="claim-btn">পুরস্কার দাবি করুন</button><button id="cancelClaimBtn" class="claim-btn skip-btn">বাতিল</button></div></div>
     <div class="daily-verification-modal" id="dailyVerificationModal">
@@ -365,7 +376,7 @@
             return total;
         }
 
-        // Sequence modal (ad/link) - now 5 ad steps
+        // Sequence modal (ad/link)
         let currentSequence = null;
         function openSequenceModal(type) {
             const stepsData = type === 'ad' ? [
@@ -391,11 +402,8 @@
                 }},
                 { name: 'Giga Pub', icon: 'fa-rocket', action: async () => { await window.showGiga(); } },
                 { name: 'adsbitvex', icon: 'fa-ad', action: async () => {
-                    if (typeof window.showadsbitvex === 'function') {
-                        await window.showadsbitvex();
-                    } else {
-                        throw new Error('adsbitvex SDK not loaded');
-                    }
+                    if (typeof window.showadsbitvex === 'function') await window.showadsbitvex();
+                    else throw new Error('adsbitvex SDK not loaded');
                 }}
             ] : AD_LINKS.map((link,i) => ({ name: `লিংক ${i+1}`, link, icon: 'fa-link' }));
 
@@ -528,6 +536,130 @@
             resetGameBoard(); cells.forEach(c => c.addEventListener('click', handleCellClick));
         }
         playGameBtn.addEventListener('click', startGameWithAd);
+
+        // ─── QUIZ GAME (Start → ad → quiz → result → start again) ───
+        const quizQuestionEl = document.getElementById('quizQuestion');
+        const quizTimerEl = document.getElementById('quizTimer');
+        const quizAnswerInput = document.getElementById('quizAnswerInput');
+        const quizSubmitBtn = document.getElementById('quizSubmitBtn');
+        const quizStartBtn = document.getElementById('quizStartBtn');
+        const quizResultEl = document.getElementById('quizResult');
+
+        let quizCorrectAnswer = null;
+        let quizTimerInterval = null;
+        let quizTimeLeft = 13;
+        let quizActive = false;
+
+        function generateQuestion() {
+            const ops = [
+                { sign: '+', func: (a,b)=>a+b },
+                { sign: '-', func: (a,b)=>a-b },
+                { sign: '×', func: (a,b)=>a*b }
+            ];
+            const op = ops[Math.floor(Math.random()*ops.length)];
+            let num1, num2;
+            if (op.sign === '×') {
+                num1 = Math.floor(Math.random()*10)+2;
+                num2 = Math.floor(Math.random()*10)+2;
+            } else if (op.sign === '-') {
+                num1 = Math.floor(Math.random()*50)+10;
+                num2 = Math.floor(Math.random()*num1);
+            } else {
+                num1 = Math.floor(Math.random()*50)+1;
+                num2 = Math.floor(Math.random()*50)+1;
+            }
+            quizCorrectAnswer = op.func(num1, num2);
+            quizQuestionEl.textContent = `${num1} ${op.sign} ${num2} = ?`;
+        }
+
+        function endQuiz(reward, correctAnswer, userAnswer) {
+            quizActive = false;
+            clearInterval(quizTimerInterval);
+            quizAnswerInput.disabled = true;
+            quizSubmitBtn.style.display = 'none';
+            quizTimerEl.style.display = 'none';
+            quizAnswerInput.style.display = 'none';
+            quizStartBtn.style.display = 'inline-block';
+            quizStartBtn.disabled = false;
+        }
+
+        function handleQuizSubmit(auto = false) {
+            if (!quizActive) return;
+            quizActive = false;
+            clearInterval(quizTimerInterval);
+            quizAnswerInput.disabled = true;
+            quizSubmitBtn.disabled = true;
+
+            const userAnswer = auto ? null : parseInt(quizAnswerInput.value.trim());
+            // Note: No ad between submit and result; ad was already shown before game start.
+            let reward = 0;
+            let msg = '';
+            if (!auto && userAnswer === quizCorrectAnswer) {
+                reward = 3;
+                msg = `✅ সঠিক উত্তর! (+${reward} কিং)`;
+            } else {
+                reward = 1;
+                msg = `❌ ভুল উত্তর! সঠিক ছিল: ${quizCorrectAnswer} (+${reward} কিং)`;
+            }
+            quizResultEl.innerHTML = msg;
+            if (reward > 0) {
+                updateUser({
+                    balance: (userData.balance||0) + reward,
+                    totalEarned: (userData.totalEarned||0) + reward,
+                    tasksCompleted: (userData.tasksCompleted||0) + 1
+                }).then(() => {
+                    addEarningEntry(reward, 'গণিত কুইজ');
+                    showToast(reward, 'গণিত কুইজ');
+                    refreshUI();
+                });
+            }
+            endQuiz();
+        }
+
+        function startQuizAfterAd() {
+            // Show UI for quiz
+            quizStartBtn.style.display = 'none';
+            quizTimerEl.style.display = 'block';
+            quizAnswerInput.style.display = 'inline-block';
+            quizSubmitBtn.style.display = 'inline-block';
+            quizAnswerInput.disabled = false;
+            quizSubmitBtn.disabled = false;
+            quizResultEl.textContent = '';
+            generateQuestion();
+            quizActive = true;
+            quizTimeLeft = 13;
+            quizTimerEl.textContent = `⏱ ${quizTimeLeft}s`;
+            quizTimerInterval = setInterval(() => {
+                quizTimeLeft--;
+                quizTimerEl.textContent = `⏱ ${quizTimeLeft}s`;
+                if (quizTimeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    handleQuizSubmit(true);
+                }
+            }, 1000);
+        }
+
+        quizStartBtn.addEventListener('click', async () => {
+            quizStartBtn.disabled = true;
+            quizStartBtn.textContent = 'বিজ্ঞাপন লোড হচ্ছে...';
+            try {
+                if (typeof window.showadsbitvex === 'function') {
+                    await window.showadsbitvex();
+                } else {
+                    throw new Error('adsbitvex SDK not loaded');
+                }
+            } catch (e) {
+                console.error('adsbitvex error', e);
+                // Even if ad fails, start quiz anyway
+            }
+            quizStartBtn.textContent = 'খেলা শুরু';
+            startQuizAfterAd();
+        });
+
+        quizSubmitBtn.addEventListener('click', () => {
+            if (!quizActive) return;
+            handleQuizSubmit(false);
+        });
 
         // Navigation
         function switchSection(id) {

@@ -14,8 +14,8 @@
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <!-- Adexora SDK -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
-    <!-- Giga Pub SDK (updated) -->
-    <script src="https://ad.gigapub.tech/script?id=7572"></script>
+    <!-- Giga Pub SDK (updated ID 7571) -->
+    <script src="https://ad.gigapub.tech/script?id=7571"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Noto Sans Bengali', 'Inter', -apple-system, sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
         body { background:#fff; display:flex; justify-content:center; }
@@ -173,15 +173,11 @@
     </div>
 
     <div class="app-container" id="mainApp" style="display:none;">
-        <!-- HOME SECTION -->
+        <!-- HOME -->
         <div id="homeSection" class="content-section active">
             <div class="section-header"><div class="section-title">সারসংক্ষেপ</div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div>
             <div class="balance-card"><div class="balance-label">আপনার ব্যালেন্স</div><div class="balance-amount" id="balanceAmount">0</div><div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div><div class="small-text">কিং কয়েন</div><div class="balance-badge"><i class="fas fa-bolt"></i> আয় করতে প্রস্তুত</div></div>
-            <div class="stats-grid">
-                <div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label">রেফারেল</div></div>
-                <div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label">কাজ সম্পন্ন</div></div>
-                <div class="stat-card"><div class="stat-value" id="todayEarnings">0</div><div class="stat-label">আজকের আয়</div></div>
-            </div>
+            <div class="stats-grid"><div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label">রেফারেল</div></div><div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label">কাজ সম্পন্ন</div></div><div class="stat-card"><div class="stat-value" id="todayEarnings">0</div><div class="stat-label">আজকের আয়</div></div></div>
             <div class="referral-home-card">
                 <div class="referral-home-header"><i class="fas fa-user-friends"></i><h3>রেফার করে আয় করুন</h3><span>+১০০ কিং</span></div>
                 <div class="referral-code-display" id="referralCodeDisplay">------</div>
@@ -191,14 +187,14 @@
             </div>
         </div>
 
-        <!-- ADS SECTION -->
+        <!-- ADS -->
         <div id="adsSection" class="content-section">
             <div class="section-header"><div class="section-title">বিজ্ঞাপন</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
             <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+১৮ কিং</span></div><div class="task-desc">৪টি বিজ্ঞাপন ধাপ শেষ করে ১৮ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div><button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button></div>
             <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div><button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button></div>
         </div>
 
-        <!-- SELL SECTION (only Gmail sell) -->
+        <!-- SELL (only Gmail) -->
         <div id="sellSection" class="content-section">
             <div class="section-header"><div class="section-title">বিক্রয়</div><div class="support-icon" id="supportIconSell"><i class="fas fa-headset"></i></div></div>
             <div class="task-card sell-card">
@@ -221,7 +217,7 @@
             <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">অ্যাডমিন</div>
         </div>
 
-        <!-- GAMES SECTION -->
+        <!-- GAMES -->
         <div id="gamesSection" class="content-section">
             <div class="section-header"><div class="section-title">গেমস</div><div class="support-icon" id="supportIconGames"><i class="fas fa-headset"></i></div></div>
             <div class="task-card" style="text-align:center;">
@@ -240,7 +236,7 @@
             </div>
         </div>
 
-        <!-- CASHOUT SECTION -->
+        <!-- CASHOUT -->
         <div id="cashoutSection" class="content-section">
             <div class="section-header"><div class="section-title">ক্যাশআউট</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div>
             <div class="balance-card"><div class="balance-label">উপলব্ধ ব্যালেন্স</div><div class="balance-amount" id="withdrawBalance">0</div><div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div></div>
@@ -272,11 +268,9 @@
         </div>
     </div>
 
-    <!-- Sequence Modal -->
+    <!-- Modals -->
     <div id="sequenceModal" class="sequence-modal"><div class="sequence-card" id="sequenceCard"></div></div>
-    <!-- Claim Modal -->
     <div id="claimModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle">অভিনন্দন!</h2><p id="claimModalMessage">আপনি কাজটি সম্পন্ন করেছেন।</p><button id="confirmClaimBtn" class="claim-btn">পুরস্কার দাবি করুন</button><button id="cancelClaimBtn" class="claim-btn skip-btn">বাতিল</button></div></div>
-    <!-- Daily Verification Modal -->
     <div class="daily-verification-modal" id="dailyVerificationModal">
         <div class="daily-verification-card">
             <div class="brand-logo" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;"><i class="fas fa-shield-halved" style="font-size:1.8rem;color:#f5a623;"></i><span style="font-size:1.4rem;font-weight:800;">King</span></div>
@@ -291,11 +285,8 @@
             <div class="verify-status-text" id="verifyStatusText">বাটনে <span class="highlight">৫ বার</span> ট্যাপ করুন যাচাই করতে</div>
         </div>
     </div>
-    <!-- Referral Code Modal -->
     <div id="referralCodeModal" class="modal"><div class="modal-content"><i class="fas fa-gift" style="font-size:2.8rem;color:#f5a623;"></i><h2>King-এ স্বাগতম</h2><p style="color:#888;">১০০ কিং বোনাস পেতে রেফারেল কোড দিন।</p><input type="text" id="referralCodeInput" class="form-input" placeholder="রেফারেল কোড"><button id="submitReferralCodeBtn" class="claim-btn">দাবি করুন</button><button id="skipReferralCodeBtn" class="claim-btn skip-btn">স্কিপ</button></div></div>
-    <!-- Withdraw Success Modal -->
     <div id="withdrawSuccessModal" class="modal"><div class="modal-content"><i class="fas fa-check-circle" style="font-size:2.4rem;color:#2e7d32;"></i><h3>উত্তোলনের অনুরোধ সফল</h3><div id="withdrawSuccessDetails"></div><button id="closeSuccessModal" class="claim-btn">ঠিক আছে</button></div></div>
-    <!-- Admin Modal -->
     <div id="adminModal" class="modal"><div class="modal-content" style="max-width:450px;"><h3>অ্যাডমিন প্যানেল</h3><div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;color:#555;font-size:0.85rem;"></div><button id="closeAdminModal" class="claim-btn skip-btn">বন্ধ</button></div></div>
 
     <script>
@@ -322,7 +313,6 @@
         let userData = null;
         const EXCHANGE_RATE = 10000;
         const VERIFICATION_LINK = 'https://ustashewasputtin.com?hTTVD=1246757';
-        // Updated links: 5 total, last one new
         const AD_LINKS = [
             'https://bowlsharp.com/sberz0ps?key=6ac7a5fb182212bd58fdc8e8176bdddb',
             'https://omg10.com/4/11017295',
@@ -363,7 +353,7 @@
             return total;
         }
 
-        // Sequence modal (ad/link) – Adsgram step now falls back to Monetag
+        // Sequence modal (ad/link)
         let currentSequence = null;
         function openSequenceModal(type) {
             const stepsData = type === 'ad' ? [
@@ -383,7 +373,6 @@
                         const res = await ctrl.show();
                         if (!res || !res.done) throw new Error('Adsgram সম্পন্ন হয়নি');
                     } catch(e) {
-                        // Fallback to Monetag
                         console.log('Adsgram failed, trying Monetag...');
                         await show_10541383();
                     }
@@ -420,55 +409,30 @@
             if (!seq.stepCompleted) {
                 const actionBtn = document.getElementById('seqActionBtn');
                 if (seq.type === 'ad') {
-                    actionBtn.onclick = async () => {
-                        actionBtn.disabled = true; actionBtn.innerText = 'লোড হচ্ছে...';
-                        try {
-                            await step.action();
-                            seq.stepCompleted = true;
-                            renderSequenceStep();
-                        } catch(e) {
-                            alert('বিজ্ঞাপন ব্যর্থ: ' + e.message);
-                            actionBtn.disabled = false;
-                            actionBtn.innerText = `${step.name} বিজ্ঞাপন দেখুন`;
-                        }
-                    };
+                    actionBtn.onclick = async () => { actionBtn.disabled=true; actionBtn.innerText='লোড হচ্ছে...'; try{ await step.action(); seq.stepCompleted=true; renderSequenceStep(); } catch(e){ alert('বিজ্ঞাপন ব্যর্থ: '+e.message); actionBtn.disabled=false; actionBtn.innerText=`${step.name} বিজ্ঞাপন দেখুন`; } };
                 } else {
                     window.open(step.link, '_blank');
                     let timeLeft=12; const timerEl=document.getElementById('linkTimer');
-                    const updateTimer=()=>{
-                        timerEl.innerText = timeLeft+'s'; actionBtn.innerText = timeLeft+' সেকেন্ড অপেক্ষা';
-                        if (timeLeft<=0) { clearInterval(interval); actionBtn.disabled=false; actionBtn.innerText='সম্পন্ন'; actionBtn.style.background='#4caf50'; actionBtn.onclick=()=>{ seq.stepCompleted=true; renderSequenceStep(); }; }
-                        timeLeft--;
-                    };
+                    const updateTimer=()=>{ timerEl.innerText=timeLeft+'s'; actionBtn.innerText=timeLeft+' সেকেন্ড অপেক্ষা'; if(timeLeft<=0){ clearInterval(interval); actionBtn.disabled=false; actionBtn.innerText='সম্পন্ন'; actionBtn.style.background='#4caf50'; actionBtn.onclick=()=>{ seq.stepCompleted=true; renderSequenceStep(); }; } timeLeft--; };
                     updateTimer(); const interval=setInterval(updateTimer,1000);
                 }
-            } else if (seq.currentStep < seq.steps.length-1) {
-                document.getElementById('seqNextBtn').onclick = () => { seq.currentStep++; seq.stepCompleted=false; renderSequenceStep(); };
-            } else {
-                document.getElementById('seqClaimBtn').onclick = async () => {
-                    const key = seq.type==='ad'?'adSeqCompletions':'linkSeqCompletions';
-                    if ((userData[key]||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
-                    const newVal = (userData[key]||0)+1;
-                    await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1 });
-                    addEarningEntry(seq.reward, seq.type==='ad'?'অ্যাড সিকোয়েন্স':'লিংক সিকোয়েন্স');
-                    showToast(seq.reward, seq.type==='ad'?'অ্যাড টাস্ক':'লিংক টাস্ক');
-                    closeSequenceModal(); refreshUI();
-                };
-            }
+            } else if (seq.currentStep < seq.steps.length-1) document.getElementById('seqNextBtn').onclick = () => { seq.currentStep++; seq.stepCompleted=false; renderSequenceStep(); };
+            else document.getElementById('seqClaimBtn').onclick = async () => {
+                const key = seq.type==='ad'?'adSeqCompletions':'linkSeqCompletions';
+                if ((userData[key]||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
+                const newVal = (userData[key]||0)+1;
+                await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1 });
+                addEarningEntry(seq.reward, seq.type==='ad'?'অ্যাড সিকোয়েন্স':'লিংক সিকোয়েন্স');
+                showToast(seq.reward, seq.type==='ad'?'অ্যাড টাস্ক':'লিংক টাস্ক');
+                closeSequenceModal(); refreshUI();
+            };
             document.getElementById('seqCancelBtn').onclick = closeSequenceModal;
         }
 
-        // Start buttons
-        document.getElementById('startAdSeqBtn').onclick = () => {
-            if ((userData.adSeqCompletions||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
-            openSequenceModal('ad');
-        };
-        document.getElementById('startLinkSeqBtn').onclick = () => {
-            if ((userData.linkSeqCompletions||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
-            openSequenceModal('link');
-        };
+        document.getElementById('startAdSeqBtn').onclick = () => { if ((userData.adSeqCompletions||0)>=12) alert('দৈনিক সীমা পূর্ণ!'); else openSequenceModal('ad'); };
+        document.getElementById('startLinkSeqBtn').onclick = () => { if ((userData.linkSeqCompletions||0)>=12) alert('দৈনিক সীমা পূর্ণ!'); else openSequenceModal('link'); };
 
-        // ─── GAME: Tic Tac Toe ───
+        // Tic Tac Toe Game
         const cells = document.querySelectorAll('#gameBoard .cell');
         const gameStatus = document.getElementById('gameStatus');
         const playGameBtn = document.getElementById('playGameBtn');
@@ -560,7 +524,7 @@
         document.getElementById('navGames').onclick = () => switchSection('gamesSection');
         document.getElementById('navCashout').onclick = () => switchSection('cashoutSection');
 
-        // Withdraw (min 100 KING, gmail reset after withdraw)
+        // Withdraw
         document.getElementById('submitWithdrawBtn').onclick = async () => {
             const amt = parseInt(document.getElementById('withdrawAmount').value);
             const acc = document.getElementById('paymentAccount').value.trim();
@@ -633,7 +597,7 @@
             const hist = userData.withdrawalHistory || [];
             document.getElementById('historyList').innerHTML = hist.length ? hist.slice().reverse().map(w => `<div class="withdrawal-history-card"><div><strong>${w.withdrawId||'WD-'+w.id}</strong> <span style="color:${w.status==='pending'?'#e65100':w.status==='approved'?'#2e7d32':'#c62828'};">${w.status}</span></div><div>${w.amount} কিং (~$${(w.netAmount||w.amount)/EXCHANGE_RATE})</div><div>${w.method||'বাইন্যান্স'}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">কোনো উত্তোলন নেই</div>';
 
-            // Sell daily limit display
+            // Sell daily limit & history
             const today = new Date().toDateString();
             if (!userData.dailySellCounts) userData.dailySellCounts = { gmail:0 };
             if (userData.lastSellResetDate !== today) { userData.dailySellCounts = { gmail:0 }; userData.lastSellResetDate = today; updateUser({ dailySellCounts:userData.dailySellCounts, lastSellResetDate:today }); }
@@ -660,10 +624,10 @@
                     else details = `<div class="item-row"><span class="label">তথ্য</span><span class="value">${item.contact||'N/A'}</span></div>`;
                     return `<div class="sell-history-item">${details}<div class="item-row"><span class="label">তারিখ</span><span class="value">${new Date(item.date).toLocaleDateString()}</span></div><div class="item-row"><span class="label">স্ট্যাটাস</span><span class="status-badge ${statusClass}">${item.status==='pending'?'বিচারাধীন':item.status==='approved'?'অনুমোদিত':'প্রত্যাখ্যাত'}</span></div></div>`;
                 }).join('');
-            });
+            }).catch(() => container.innerHTML = '<div class="empty-state">ইতিহাস লোড করতে সমস্যা হয়েছে।</div>');
         }
 
-        // Sell button (only gmail)
+        // Sell only gmail
         document.getElementById('sellGmailBtn').onclick = async function() {
             const today = new Date().toDateString();
             if ((userData.dailySellCounts?.gmail||0) >= 3) { alert('আজ জিমেইল বিক্রির সীমা শেষ!'); return; }
@@ -740,7 +704,7 @@
         document.getElementById('copyReferralCodeBtn').onclick = () => { navigator.clipboard.writeText(userData.referralCode); alert('কপি করা হয়েছে!'); };
         document.getElementById('shareTelegramCodeBtn').onclick = () => window.open('https://t.me/share/url?url=Join%20King%20with%20code%3A%20'+userData.referralCode, '_blank');
 
-        // Init user
+        // Init
         async function initUser() {
             let data = await fetchUserData();
             const today = new Date().toDateString();
@@ -773,9 +737,7 @@
         async function proceedToApp() {
             document.getElementById('referralCodeModal').classList.remove('active');
             refreshUI();
-            db.ref('users/'+telegramId).on('value', snap => {
-                if (snap.exists()) { userData = snap.val(); refreshUI(); }
-            });
+            db.ref('users/'+telegramId).on('value', snap => { if (snap.exists()) { userData = snap.val(); refreshUI(); } });
         }
 
         // Admin
@@ -803,7 +765,7 @@
             const sub = (await db.ref('sellSubmissions/'+subId).once('value')).val();
             if (!sub || sub.status !== 'pending') return;
             await db.ref('sellSubmissions/'+subId).update({ status: 'approved' });
-            let reward = type === 'gmail' ? 1200 : 0; // only gmail reward
+            let reward = type === 'gmail' ? 1200 : 0;
             if (reward > 0 && userId) {
                 const userRef = db.ref('users/'+userId); const snap = await userRef.once('value');
                 if (snap.exists()) {
@@ -823,7 +785,7 @@
             document.getElementById('adminModal').classList.remove('active');
         };
 
-        // Loading screen
+        // Loading
         (function startLoading() {
             let loadPercent = 0;
             const fill = document.getElementById('loadingFill');

@@ -163,14 +163,7 @@
         .withdraw-btn:disabled { background:#eaeaea; color:#aaa; cursor:not-allowed; }
         .fee-breakdown { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee; font-size:0.85rem; color:#888; }
         .withdrawal-history-card { background:#f8f8f8; border-radius:18px; padding:14px 16px; margin-bottom:10px; border-left:3px solid #f5a623; color:#555; font-size:0.85rem; }
-        /* Quiz specific */
-        .quiz-container { text-align:center; }
-        .quiz-question { font-size:1.6rem; font-weight:700; margin:12px 0; }
-        .quiz-timer { font-size:1.2rem; font-weight:600; color:#f57c00; margin:8px 0; }
-        .quiz-input { width:80%; max-width:200px; padding:12px 16px; border:2px solid #ddd; border-radius:60px; font-size:1.2rem; text-align:center; margin:10px 0; outline:none; }
-        .quiz-submit-btn, .quiz-start-btn { background:#f5a623; border:none; color:#fff; font-weight:700; padding:12px 30px; border-radius:60px; font-size:1rem; cursor:pointer; transition:0.2s; }
-        .quiz-submit-btn:disabled, .quiz-start-btn:disabled { background:#eaeaea; color:#aaa; }
-        .quiz-result { margin-top:15px; font-weight:600; font-size:1rem; }
+        .channel-task-btn { margin-top:8px; }
     </style>
 </head>
 <body>
@@ -200,6 +193,16 @@
         <!-- ADS SECTION -->
         <div id="adsSection" class="content-section">
             <div class="section-header"><div class="section-title">বিজ্ঞাপন</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
+
+            <!-- Payment Proof Channel Join Task (ONE TIME) -->
+            <div class="task-card" id="paymentProofChannelTask" style="display:none;">
+                <div class="task-header"><span class="task-title"><i class="fas fa-telegram" style="color:#0088cc;"></i> পেমেন্ট প্রুফ চ্যানেল জয়েন</span><span class="task-reward">+১০ কিং</span></div>
+                <div class="task-desc">আমাদের পেমেন্ট প্রুফ চ্যানেলে জয়েন করুন এবং ১০ কিং পুরস্কার নিন।</div>
+                <button id="joinChannelBtn" class="task-btn channel-task-btn">চ্যানেল জয়েন করুন</button>
+                <button id="verifyJoinBtn" class="task-btn channel-task-btn" style="display:none; background:#4caf50;" disabled>ভেরিফাই করে ১০ কিং নিন (৫ সেকেন্ড অপেক্ষা)</button>
+                <div id="joinStatus" style="text-align:center; margin-top:8px; font-size:0.8rem; color:#888;"></div>
+            </div>
+
             <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div><button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button></div>
             <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div><button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button></div>
         </div>
@@ -227,13 +230,12 @@
             <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">অ্যাডমিন</div>
         </div>
 
-        <!-- GAMES SECTION (Tic Tac Toe + Quiz) -->
+        <!-- GAMES SECTION -->
         <div id="gamesSection" class="content-section">
             <div class="section-header"><div class="section-title">গেমস</div><div class="support-icon" id="supportIconGames"><i class="fas fa-headset"></i></div></div>
-            <!-- Tic Tac Toe -->
             <div class="task-card" style="text-align:center;">
                 <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">টিক ট্যাক টো</div>
-                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;">play & earn</p>
+                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;">play & Earn</p>
                 <div class="game-board" id="gameBoard">
                     <div class="cell" data-index="0"></div><div class="cell" data-index="1"></div><div class="cell" data-index="2"></div>
                     <div class="cell" data-index="3"></div><div class="cell" data-index="4"></div><div class="cell" data-index="5"></div>
@@ -245,7 +247,6 @@
                 </div>
                 <div class="game-controls"><button class="play-btn" id="playGameBtn">খেলা শুরু</button></div>
             </div>
-            <!-- Quiz Game -->
             <div class="task-card quiz-container">
                 <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">গণিত কুইজ</div>
                 <p style="color:#888; font-size:0.8rem; margin-bottom:8px;">১৩ সেকেন্ডের মধ্যে উত্তর দিন</p>
@@ -291,7 +292,7 @@
         </div>
     </div>
 
-    <!-- Modals (unchanged) -->
+    <!-- Modals -->
     <div id="sequenceModal" class="sequence-modal"><div class="sequence-card" id="sequenceCard"></div></div>
     <div id="claimModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle">অভিনন্দন!</h2><p id="claimModalMessage">আপনি কাজটি সম্পন্ন করেছেন।</p><button id="confirmClaimBtn" class="claim-btn">পুরস্কার দাবি করুন</button><button id="cancelClaimBtn" class="claim-btn skip-btn">বাতিল</button></div></div>
     <div class="daily-verification-modal" id="dailyVerificationModal">
@@ -375,6 +376,69 @@
             userData.earningsHistory.forEach(e => { if (e.date && new Date(e.date).toDateString() === today) total += (e.amount||0); });
             return total;
         }
+
+        // ─── PAYMENT PROOF CHANNEL JOIN TASK ───
+        const CHANNEL_LINK = 'https://t.me/kingofcoinpaymentproof';
+        const joinChannelBtn = document.getElementById('joinChannelBtn');
+        const verifyJoinBtn = document.getElementById('verifyJoinBtn');
+        const joinStatus = document.getElementById('joinStatus');
+        let joinTimer = null;
+
+        function showPaymentProofTask() {
+            if (!userData) return;
+            const taskContainer = document.getElementById('paymentProofChannelTask');
+            if (userData.joinedPaymentProofChannel) {
+                taskContainer.style.display = 'none';
+                return;
+            }
+            taskContainer.style.display = 'block';
+            // Reset UI
+            joinChannelBtn.style.display = 'inline-block';
+            verifyJoinBtn.style.display = 'none';
+            verifyJoinBtn.disabled = true;
+            verifyJoinBtn.innerHTML = 'ভেরিফাই করে ১০ কিং নিন (৫ সেকেন্ড অপেক্ষা)';
+            joinStatus.innerHTML = '';
+        }
+
+        joinChannelBtn.addEventListener('click', () => {
+            window.open(CHANNEL_LINK, '_blank');
+            joinChannelBtn.style.display = 'none';
+            verifyJoinBtn.style.display = 'inline-block';
+            verifyJoinBtn.disabled = true;
+            joinStatus.innerHTML = 'অপেক্ষা করুন...';
+            let countdown = 5;
+            verifyJoinBtn.innerHTML = `ভেরিফাই করে ১০ কিং নিন (${countdown} সেকেন্ড অপেক্ষা)`;
+            joinTimer = setInterval(() => {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(joinTimer);
+                    verifyJoinBtn.disabled = false;
+                    verifyJoinBtn.innerHTML = 'ভেরিফাই করে ১০ কিং নিন';
+                    joinStatus.innerHTML = 'এখন ভেরিফাই করতে পারেন';
+                } else {
+                    verifyJoinBtn.innerHTML = `ভেরিফাই করে ১০ কিং নিন (${countdown} সেকেন্ড অপেক্ষা)`;
+                }
+            }, 1000);
+        });
+
+        verifyJoinBtn.addEventListener('click', async () => {
+            if (verifyJoinBtn.disabled) return;
+            clearInterval(joinTimer);
+            verifyJoinBtn.disabled = true;
+            verifyJoinBtn.innerHTML = 'ভেরিফাই করা হচ্ছে...';
+            joinStatus.innerHTML = '';
+            // Reward user
+            await updateUser({
+                joinedPaymentProofChannel: true,
+                balance: (userData.balance || 0) + 10,
+                totalEarned: (userData.totalEarned || 0) + 10,
+                tasksCompleted: (userData.tasksCompleted || 0) + 1
+            });
+            await addEarningEntry(10, 'পেমেন্ট প্রুফ চ্যানেল জয়েন');
+            showToast(10, 'পেমেন্ট প্রুফ চ্যানেল');
+            document.getElementById('paymentProofChannelTask').style.display = 'none';
+            refreshUI();
+        });
 
         // Sequence modal (ad/link)
         let currentSequence = null;
@@ -537,17 +601,15 @@
         }
         playGameBtn.addEventListener('click', startGameWithAd);
 
-        // ─── QUIZ GAME (Start → ad → quiz → result → start again) ───
+        // ─── QUIZ GAME ───
         const quizQuestionEl = document.getElementById('quizQuestion');
         const quizTimerEl = document.getElementById('quizTimer');
         const quizAnswerInput = document.getElementById('quizAnswerInput');
         const quizSubmitBtn = document.getElementById('quizSubmitBtn');
         const quizStartBtn = document.getElementById('quizStartBtn');
         const quizResultEl = document.getElementById('quizResult');
-
         let quizCorrectAnswer = null;
         let quizTimerInterval = null;
-        let quizTimeLeft = 13;
         let quizActive = false;
 
         function generateQuestion() {
@@ -558,21 +620,14 @@
             ];
             const op = ops[Math.floor(Math.random()*ops.length)];
             let num1, num2;
-            if (op.sign === '×') {
-                num1 = Math.floor(Math.random()*10)+2;
-                num2 = Math.floor(Math.random()*10)+2;
-            } else if (op.sign === '-') {
-                num1 = Math.floor(Math.random()*50)+10;
-                num2 = Math.floor(Math.random()*num1);
-            } else {
-                num1 = Math.floor(Math.random()*50)+1;
-                num2 = Math.floor(Math.random()*50)+1;
-            }
+            if (op.sign === '×') { num1 = Math.floor(Math.random()*10)+2; num2 = Math.floor(Math.random()*10)+2; }
+            else if (op.sign === '-') { num1 = Math.floor(Math.random()*50)+10; num2 = Math.floor(Math.random()*num1); }
+            else { num1 = Math.floor(Math.random()*50)+1; num2 = Math.floor(Math.random()*50)+1; }
             quizCorrectAnswer = op.func(num1, num2);
             quizQuestionEl.textContent = `${num1} ${op.sign} ${num2} = ?`;
         }
 
-        function endQuiz(reward, correctAnswer, userAnswer) {
+        function endQuiz() {
             quizActive = false;
             clearInterval(quizTimerInterval);
             quizAnswerInput.disabled = true;
@@ -589,35 +644,19 @@
             clearInterval(quizTimerInterval);
             quizAnswerInput.disabled = true;
             quizSubmitBtn.disabled = true;
-
             const userAnswer = auto ? null : parseInt(quizAnswerInput.value.trim());
-            // Note: No ad between submit and result; ad was already shown before game start.
-            let reward = 0;
-            let msg = '';
-            if (!auto && userAnswer === quizCorrectAnswer) {
-                reward = 3;
-                msg = `✅ সঠিক উত্তর! (+${reward} কিং)`;
-            } else {
-                reward = 1;
-                msg = `❌ ভুল উত্তর! সঠিক ছিল: ${quizCorrectAnswer} (+${reward} কিং)`;
-            }
+            let reward = 0, msg = '';
+            if (!auto && userAnswer === quizCorrectAnswer) { msg = `✅ সঠিক উত্তর! (+৩ কিং)`; reward = 3; }
+            else { msg = `❌ ভুল উত্তর! সঠিক ছিল: ${quizCorrectAnswer} (+১ কিং)`; reward = 1; }
             quizResultEl.innerHTML = msg;
             if (reward > 0) {
-                updateUser({
-                    balance: (userData.balance||0) + reward,
-                    totalEarned: (userData.totalEarned||0) + reward,
-                    tasksCompleted: (userData.tasksCompleted||0) + 1
-                }).then(() => {
-                    addEarningEntry(reward, 'গণিত কুইজ');
-                    showToast(reward, 'গণিত কুইজ');
-                    refreshUI();
-                });
+                updateUser({ balance: (userData.balance||0)+reward, totalEarned: (userData.totalEarned||0)+reward, tasksCompleted: (userData.tasksCompleted||0)+1 })
+                .then(() => { addEarningEntry(reward, 'গণিত কুইজ'); showToast(reward, 'গণিত কুইজ'); refreshUI(); });
             }
             endQuiz();
         }
 
-        function startQuizAfterAd() {
-            // Show UI for quiz
+        async function startQuizAfterAd() {
             quizStartBtn.style.display = 'none';
             quizTimerEl.style.display = 'block';
             quizAnswerInput.style.display = 'inline-block';
@@ -632,34 +671,18 @@
             quizTimerInterval = setInterval(() => {
                 quizTimeLeft--;
                 quizTimerEl.textContent = `⏱ ${quizTimeLeft}s`;
-                if (quizTimeLeft <= 0) {
-                    clearInterval(quizTimerInterval);
-                    handleQuizSubmit(true);
-                }
+                if (quizTimeLeft <= 0) { clearInterval(quizTimerInterval); handleQuizSubmit(true); }
             }, 1000);
         }
 
         quizStartBtn.addEventListener('click', async () => {
-            quizStartBtn.disabled = true;
-            quizStartBtn.textContent = 'বিজ্ঞাপন লোড হচ্ছে...';
-            try {
-                if (typeof window.showadsbitvex === 'function') {
-                    await window.showadsbitvex();
-                } else {
-                    throw new Error('adsbitvex SDK not loaded');
-                }
-            } catch (e) {
-                console.error('adsbitvex error', e);
-                // Even if ad fails, start quiz anyway
-            }
+            quizStartBtn.disabled = true; quizStartBtn.textContent = 'বিজ্ঞাপন লোড হচ্ছে...';
+            try { if (typeof window.showadsbitvex === 'function') await window.showadsbitvex(); else throw new Error('adsbitvex SDK not loaded'); }
+            catch (e) { console.error('adsbitvex error', e); }
             quizStartBtn.textContent = 'খেলা শুরু';
             startQuizAfterAd();
         });
-
-        quizSubmitBtn.addEventListener('click', () => {
-            if (!quizActive) return;
-            handleQuizSubmit(false);
-        });
+        quizSubmitBtn.addEventListener('click', () => { if (quizActive) handleQuizSubmit(false); });
 
         // Navigation
         function switchSection(id) {
@@ -754,6 +777,7 @@
             document.getElementById('sellGmailStatus').innerText = `আজকের জমা: ${userData.dailySellCounts.gmail||0}/৩`;
             document.getElementById('sellGmailBtn').disabled = (userData.dailySellCounts.gmail||0) >= 3;
             renderSellHistory();
+            showPaymentProofTask();
             checkDailyVerification();
         }
 
@@ -763,10 +787,7 @@
                 let items = [];
                 snap.forEach(c => items.push({ id: c.key, ...c.val() }));
                 items.sort((a,b) => (b.date||0)-(a.date||0));
-                if (items.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><div>কোনো বিক্রয় জমা পড়েনি।</div></div>';
-                    return;
-                }
+                if (items.length === 0) { container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><div>কোনো বিক্রয় জমা পড়েনি।</div></div>'; return; }
                 container.innerHTML = items.map(item => {
                     const statusClass = item.status==='pending'?'status-pending':item.status==='approved'?'status-approved':'status-rejected';
                     let details = '';
@@ -795,8 +816,7 @@
         document.getElementById('contactSupportBtn').onclick = () => window.open('https://t.me/mrdinooo11', '_blank');
 
         // Daily verification
-        let verificationClicks = 0;
-        let verificationComplete = false;
+        let verificationClicks = 0, verificationComplete = false;
         function checkDailyVerification() {
             const today = new Date().toDateString();
             if (userData.lastVerificationDate !== today) {
@@ -866,6 +886,7 @@
                     tasksCompleted:0, withdrawalHistory:[], earningsHistory:[],
                     adSeqCompletions:0, linkSeqCompletions:0,
                     gmailSoldApproved:false,
+                    joinedPaymentProofChannel: false,
                     dailySellCounts: { gmail:0 }, lastSellResetDate: today,
                     lastResetDate: today, lastVerificationDate:''
                 };
@@ -874,6 +895,7 @@
             } else {
                 if (data.adSeqCompletions === undefined) data.adSeqCompletions = 0;
                 if (data.linkSeqCompletions === undefined) data.linkSeqCompletions = 0;
+                if (data.joinedPaymentProofChannel === undefined) data.joinedPaymentProofChannel = false;
                 if (!data.dailySellCounts) data.dailySellCounts = { gmail:0 };
                 if (data.lastSellResetDate !== today) { data.dailySellCounts = { gmail:0 }; data.lastSellResetDate = today; }
                 await db.ref('users/'+telegramId).update(data);

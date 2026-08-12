@@ -8,15 +8,10 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-    <!-- Monetag SDK -->
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
-    <!-- Adsgram SDK -->
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    <!-- Adexora SDK -->
     <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
-    <!-- Giga Pub SDK (ID 7571) -->
     <script src="https://ad.gigapub.tech/script?id=7571"></script>
-    <!-- adsbitvex SDK (app id 000274) -->
     <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Noto Sans Bengali', 'Inter', -apple-system, sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
@@ -164,6 +159,26 @@
         .fee-breakdown { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee; font-size:0.85rem; color:#888; }
         .withdrawal-history-card { background:#f8f8f8; border-radius:18px; padding:14px 16px; margin-bottom:10px; border-left:3px solid #f5a623; color:#555; font-size:0.85rem; }
         .channel-task-btn { margin-top:8px; }
+
+        /* Professional Quiz Styles */
+        .quiz-card-professional { background: linear-gradient(135deg, #f9f9f9, #f0f0f0); border-radius: 28px; padding: 24px 20px; text-align: center; border: 1px solid #eee; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+        .quiz-prof-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 4px; color: #222; }
+        .quiz-prof-sub { font-size: 0.85rem; color: #888; margin-bottom: 18px; }
+        .quiz-prof-question { font-size: 2.2rem; font-weight: 700; margin: 16px 0; color: #000; letter-spacing: 1px; }
+        .quiz-prof-timer { font-size: 1.3rem; font-weight: 600; color: #f57c00; margin: 10px 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .quiz-prof-input { width: 70%; max-width: 220px; padding: 14px 18px; border: 2px solid #ddd; border-radius: 60px; font-size: 1.3rem; text-align: center; margin: 12px 0; outline: none; transition: border 0.2s; }
+        .quiz-prof-input:focus { border-color: #f5a623; }
+        .quiz-prof-submit-btn { background: linear-gradient(135deg, #f5a623, #e59400); border: none; color: #fff; font-weight: 700; padding: 14px 40px; border-radius: 60px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(245,166,35,0.3); }
+        .quiz-prof-submit-btn:active { transform: scale(0.97); }
+        .quiz-prof-submit-btn:disabled { background: #e0e0e0; color: #aaa; box-shadow: none; }
+        .quiz-prof-start-btn { background: linear-gradient(135deg, #f5a623, #e59400); border: none; color: #fff; font-weight: 800; padding: 18px 50px; border-radius: 60px; font-size: 1.4rem; cursor: pointer; transition: 0.2s; box-shadow: 0 6px 25px rgba(245,166,35,0.4); display: inline-flex; align-items: center; gap: 10px; }
+        .quiz-prof-start-btn:active { transform: scale(0.96); }
+        .quiz-prof-start-btn:disabled { background: #e0e0e0; color: #aaa; box-shadow: none; }
+        .quiz-prof-result { margin-top: 16px; font-weight: 600; font-size: 1.1rem; min-height: 24px; }
+        .quiz-prof-play-again { background: #f0f0f0; border: none; color: #333; font-weight: 600; padding: 10px 24px; border-radius: 60px; margin-top: 10px; cursor: pointer; }
+
+        /* Cooldown label on start buttons */
+        .cooldown-label { font-size: 0.8rem; color: #f57c00; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -203,8 +218,22 @@
                 <div id="joinStatus" style="text-align:center; margin-top:8px; font-size:0.8rem; color:#888;"></div>
             </div>
 
-            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div><button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button></div>
-            <div class="task-card"><div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div><div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div><div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div><button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button></div>
+            <!-- Ad Task with cooldown -->
+            <div class="task-card">
+                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
+                <div class="task-desc">৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
+                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
+                <button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button>
+                <div class="cooldown-label" id="adCooldownLabel"></div>
+            </div>
+            <!-- Link Task with cooldown -->
+            <div class="task-card">
+                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
+                <div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
+                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
+                <button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button>
+                <div class="cooldown-label" id="linkCooldownLabel"></div>
+            </div>
         </div>
 
         <!-- SELL SECTION -->
@@ -233,9 +262,10 @@
         <!-- GAMES SECTION -->
         <div id="gamesSection" class="content-section">
             <div class="section-header"><div class="section-title">গেমস</div><div class="support-icon" id="supportIconGames"><i class="fas fa-headset"></i></div></div>
+            <!-- Tic Tac Toe -->
             <div class="task-card" style="text-align:center;">
                 <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">টিক ট্যাক টো</div>
-                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;">play & Earn</p>
+                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;">⚠️ অত্যন্ত কঠিন! জেতা প্রায় অসম্ভব</p>
                 <div class="game-board" id="gameBoard">
                     <div class="cell" data-index="0"></div><div class="cell" data-index="1"></div><div class="cell" data-index="2"></div>
                     <div class="cell" data-index="3"></div><div class="cell" data-index="4"></div><div class="cell" data-index="5"></div>
@@ -247,16 +277,19 @@
                 </div>
                 <div class="game-controls"><button class="play-btn" id="playGameBtn">খেলা শুরু</button></div>
             </div>
-            <div class="task-card quiz-container">
-                <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">গণিত কুইজ</div>
-                <p style="color:#888; font-size:0.8rem; margin-bottom:8px;">১৩ সেকেন্ডের মধ্যে উত্তর দিন</p>
-                <div class="quiz-question" id="quizQuestion">--</div>
-                <div class="quiz-timer" id="quizTimer" style="display:none;">⏱ ১৩s</div>
-                <input type="number" class="quiz-input" id="quizAnswerInput" placeholder="আপনার উত্তর" style="display:none;">
+
+            <!-- Professional Math Quiz -->
+            <div class="quiz-card-professional">
+                <div class="quiz-prof-title">🧮 গণিত কুইজ</div>
+                <div class="quiz-prof-sub">১৩ সেকেন্ডের মধ্যে সঠিক উত্তর দিন</div>
+                <div class="quiz-prof-question" id="quizQuestion">--</div>
+                <div class="quiz-prof-timer" id="quizTimer" style="display:none;"><i class="far fa-clock"></i> <span id="quizTimerText">১৩s</span></div>
+                <input type="number" class="quiz-prof-input" id="quizAnswerInput" placeholder="উত্তর লিখুন" style="display:none;" inputmode="numeric">
                 <br>
-                <button class="quiz-submit-btn" id="quizSubmitBtn" style="display:none;">জমা দিন</button>
-                <button class="quiz-start-btn" id="quizStartBtn">খেলা শুরু</button>
-                <div class="quiz-result" id="quizResult"></div>
+                <button class="quiz-prof-submit-btn" id="quizSubmitBtn" style="display:none;">উত্তর জমা দিন</button>
+                <button class="quiz-prof-start-btn" id="quizStartBtn"><i class="fas fa-play-circle"></i> খেলা শুরু</button>
+                <div class="quiz-prof-result" id="quizResult"></div>
+                <button class="quiz-prof-play-again" id="quizPlayAgainBtn" style="display:none;">আবার খেলুন</button>
             </div>
         </div>
 
@@ -292,9 +325,19 @@
         </div>
     </div>
 
-    <!-- Modals -->
+    <!-- Sequence Modal -->
     <div id="sequenceModal" class="sequence-modal"><div class="sequence-card" id="sequenceCard"></div></div>
+    <!-- Claim Modal -->
     <div id="claimModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle">অভিনন্দন!</h2><p id="claimModalMessage">আপনি কাজটি সম্পন্ন করেছেন।</p><button id="confirmClaimBtn" class="claim-btn">পুরস্কার দাবি করুন</button><button id="cancelClaimBtn" class="claim-btn skip-btn">বাতিল</button></div></div>
+    <!-- Tic Tac Toe Start Popup -->
+    <div id="ticStartModal" class="modal" style="z-index:3600;">
+        <div class="modal-content">
+            <i class="fas fa-gamepad" style="font-size:3rem; color:#f5a623;"></i>
+            <h3 style="margin:16px 0;">এখন খেলা শুরু করুন</h3>
+            <button id="ticStartOkBtn" class="claim-btn" style="background:#4caf50;">ঠিক আছে</button>
+        </div>
+    </div>
+    <!-- Daily Verification Modal -->
     <div class="daily-verification-modal" id="dailyVerificationModal">
         <div class="daily-verification-card">
             <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;"><i class="fas fa-shield-halved" style="font-size:1.8rem;color:#f5a623;"></i><span style="font-size:1.4rem;font-weight:800;">King</span></div>
@@ -392,7 +435,6 @@
                 return;
             }
             taskContainer.style.display = 'block';
-            // Reset UI
             joinChannelBtn.style.display = 'inline-block';
             verifyJoinBtn.style.display = 'none';
             verifyJoinBtn.disabled = true;
@@ -427,7 +469,6 @@
             verifyJoinBtn.disabled = true;
             verifyJoinBtn.innerHTML = 'ভেরিফাই করা হচ্ছে...';
             joinStatus.innerHTML = '';
-            // Reward user
             await updateUser({
                 joinedPaymentProofChannel: true,
                 balance: (userData.balance || 0) + 10,
@@ -512,7 +553,10 @@
                 const key = seq.type==='ad'?'adSeqCompletions':'linkSeqCompletions';
                 if ((userData[key]||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
                 const newVal = (userData[key]||0)+1;
-                await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1 });
+                // Set last completion timestamp for cooldown
+                const now = Date.now();
+                const cooldownKey = seq.type==='ad'?'lastAdSeqCompletion':'lastLinkSeqCompletion';
+                await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1, [cooldownKey]: now });
                 addEarningEntry(seq.reward, seq.type==='ad'?'অ্যাড সিকোয়েন্স':'লিংক সিকোয়েন্স');
                 showToast(seq.reward, seq.type==='ad'?'অ্যাড টাস্ক':'লিংক টাস্ক');
                 closeSequenceModal(); refreshUI();
@@ -520,8 +564,46 @@
             document.getElementById('seqCancelBtn').onclick = closeSequenceModal;
         }
 
-        document.getElementById('startAdSeqBtn').onclick = () => { if ((userData.adSeqCompletions||0)>=12) alert('দৈনিক সীমা পূর্ণ!'); else openSequenceModal('ad'); };
-        document.getElementById('startLinkSeqBtn').onclick = () => { if ((userData.linkSeqCompletions||0)>=12) alert('দৈনিক সীমা পূর্ণ!'); else openSequenceModal('link'); };
+        document.getElementById('startAdSeqBtn').onclick = () => {
+            if (userData.adSeqCompletions >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
+            if (isInCooldown('ad')) return;
+            openSequenceModal('ad');
+        };
+        document.getElementById('startLinkSeqBtn').onclick = () => {
+            if (userData.linkSeqCompletions >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
+            if (isInCooldown('link')) return;
+            openSequenceModal('link');
+        };
+
+        // Cooldown helpers
+        function isInCooldown(type) {
+            const key = type==='ad'?'lastAdSeqCompletion':'lastLinkSeqCompletion';
+            const last = userData[key] || 0;
+            const elapsed = Date.now() - last;
+            return elapsed < 20000; // 20 seconds
+        }
+        function updateCooldownDisplay() {
+            const adLabel = document.getElementById('adCooldownLabel');
+            const linkLabel = document.getElementById('linkCooldownLabel');
+            const adBtn = document.getElementById('startAdSeqBtn');
+            const linkBtn = document.getElementById('startLinkSeqBtn');
+            const now = Date.now();
+
+            function setCooldown(btn, label, lastTime) {
+                const remaining = 20000 - (now - lastTime);
+                if (remaining > 0) {
+                    btn.disabled = true;
+                    const sec = Math.ceil(remaining/1000);
+                    label.textContent = `⏳ পরবর্তী: ${sec} সেকেন্ড`;
+                } else {
+                    btn.disabled = false;
+                    label.textContent = '';
+                }
+            }
+
+            setCooldown(adBtn, adLabel, userData.lastAdSeqCompletion || 0);
+            setCooldown(linkBtn, linkLabel, userData.lastLinkSeqCompletion || 0);
+        }
 
         // Tic Tac Toe Game
         const cells = document.querySelectorAll('#gameBoard .cell');
@@ -588,26 +670,28 @@
                 } else throw new Error('Adsgram নেই');
             } catch(e) {
                 console.log('Adsgram ব্যর্থ, Giga চেষ্টা করা হচ্ছে');
-                try {
-                    if (typeof window.showGiga === 'function') await window.showGiga();
-                    else throw new Error('Giga নেই');
-                } catch(e2) {
-                    alert('বিজ্ঞাপন দেখানো সম্ভব হয়নি। আবার চেষ্টা করুন।');
-                    playGameBtn.disabled=false; playGameBtn.textContent='খেলা শুরু'; return;
-                }
+                try { if (typeof window.showGiga === 'function') await window.showGiga(); else throw new Error('Giga নেই'); }
+                catch(e2) { alert('বিজ্ঞাপন দেখানো সম্ভব হয়নি। আবার চেষ্টা করুন।'); playGameBtn.disabled=false; playGameBtn.textContent='খেলা শুরু'; return; }
             }
+            // Show popup "এখন খেলা শুরু করুন"
+            document.getElementById('ticStartModal').classList.add('active');
+        }
+        document.getElementById('ticStartOkBtn').addEventListener('click', () => {
+            document.getElementById('ticStartModal').classList.remove('active');
             playGameBtn.disabled=true; playGameBtn.textContent='খেলা চলছে...';
             resetGameBoard(); cells.forEach(c => c.addEventListener('click', handleCellClick));
-        }
+        });
         playGameBtn.addEventListener('click', startGameWithAd);
 
-        // ─── QUIZ GAME ───
+        // ─── PROFESSIONAL MATH QUIZ ───
         const quizQuestionEl = document.getElementById('quizQuestion');
         const quizTimerEl = document.getElementById('quizTimer');
+        const quizTimerText = document.getElementById('quizTimerText');
         const quizAnswerInput = document.getElementById('quizAnswerInput');
         const quizSubmitBtn = document.getElementById('quizSubmitBtn');
         const quizStartBtn = document.getElementById('quizStartBtn');
         const quizResultEl = document.getElementById('quizResult');
+        const quizPlayAgainBtn = document.getElementById('quizPlayAgainBtn');
         let quizCorrectAnswer = null;
         let quizTimerInterval = null;
         let quizActive = false;
@@ -630,12 +714,13 @@
         function endQuiz() {
             quizActive = false;
             clearInterval(quizTimerInterval);
-            quizAnswerInput.disabled = true;
+            quizAnswerInput.style.display = 'none';
             quizSubmitBtn.style.display = 'none';
             quizTimerEl.style.display = 'none';
-            quizAnswerInput.style.display = 'none';
-            quizStartBtn.style.display = 'inline-block';
+            quizStartBtn.style.display = 'inline-flex';
             quizStartBtn.disabled = false;
+            quizPlayAgainBtn.style.display = 'none';
+            quizQuestionEl.textContent = '--';
         }
 
         function handleQuizSubmit(auto = false) {
@@ -653,36 +738,47 @@
                 updateUser({ balance: (userData.balance||0)+reward, totalEarned: (userData.totalEarned||0)+reward, tasksCompleted: (userData.tasksCompleted||0)+1 })
                 .then(() => { addEarningEntry(reward, 'গণিত কুইজ'); showToast(reward, 'গণিত কুইজ'); refreshUI(); });
             }
-            endQuiz();
+            quizTimerEl.style.display = 'none';
+            quizPlayAgainBtn.style.display = 'inline-block';
+            quizSubmitBtn.style.display = 'none';
+            quizAnswerInput.style.display = 'none';
         }
 
         async function startQuizAfterAd() {
             quizStartBtn.style.display = 'none';
-            quizTimerEl.style.display = 'block';
+            quizTimerEl.style.display = 'flex';
             quizAnswerInput.style.display = 'inline-block';
             quizSubmitBtn.style.display = 'inline-block';
             quizAnswerInput.disabled = false;
             quizSubmitBtn.disabled = false;
-            quizResultEl.textContent = '';
+            quizResultEl.innerHTML = '';
+            quizPlayAgainBtn.style.display = 'none';
             generateQuestion();
             quizActive = true;
             quizTimeLeft = 13;
-            quizTimerEl.textContent = `⏱ ${quizTimeLeft}s`;
+            quizTimerText.textContent = `${quizTimeLeft}s`;
             quizTimerInterval = setInterval(() => {
                 quizTimeLeft--;
-                quizTimerEl.textContent = `⏱ ${quizTimeLeft}s`;
+                quizTimerText.textContent = `${quizTimeLeft}s`;
                 if (quizTimeLeft <= 0) { clearInterval(quizTimerInterval); handleQuizSubmit(true); }
             }, 1000);
         }
 
         quizStartBtn.addEventListener('click', async () => {
-            quizStartBtn.disabled = true; quizStartBtn.textContent = 'বিজ্ঞাপন লোড হচ্ছে...';
+            quizStartBtn.disabled = true; quizStartBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> বিজ্ঞাপন লোড হচ্ছে...';
             try { if (typeof window.showadsbitvex === 'function') await window.showadsbitvex(); else throw new Error('adsbitvex SDK not loaded'); }
             catch (e) { console.error('adsbitvex error', e); }
-            quizStartBtn.textContent = 'খেলা শুরু';
+            quizStartBtn.innerHTML = '<i class="fas fa-play-circle"></i> খেলা শুরু';
             startQuizAfterAd();
         });
+
         quizSubmitBtn.addEventListener('click', () => { if (quizActive) handleQuizSubmit(false); });
+
+        quizPlayAgainBtn.addEventListener('click', () => {
+            quizResultEl.innerHTML = '';
+            quizPlayAgainBtn.style.display = 'none';
+            startQuizAfterAd();
+        });
 
         // Navigation
         function switchSection(id) {
@@ -698,7 +794,7 @@
         document.getElementById('navGames').onclick = () => switchSection('gamesSection');
         document.getElementById('navCashout').onclick = () => switchSection('cashoutSection');
 
-        // Withdraw
+        // Withdraw (unchanged)
         document.getElementById('submitWithdrawBtn').onclick = async () => {
             const amt = parseInt(document.getElementById('withdrawAmount').value);
             const acc = document.getElementById('paymentAccount').value.trim();
@@ -745,13 +841,13 @@
             document.getElementById('adSeqFill').style.width = (adComp/12)*100+'%';
             document.getElementById('adSeqPercent').innerText = Math.floor((adComp/12)*100)+'%';
             document.getElementById('adSeqStats').innerText = adComp+'/12';
-            document.getElementById('startAdSeqBtn').disabled = adComp >= 12;
 
             const linkComp = userData.linkSeqCompletions || 0;
             document.getElementById('linkSeqFill').style.width = (linkComp/12)*100+'%';
             document.getElementById('linkSeqPercent').innerText = Math.floor((linkComp/12)*100)+'%';
             document.getElementById('linkSeqStats').innerText = linkComp+'/12';
-            document.getElementById('startLinkSeqBtn').disabled = linkComp >= 12;
+
+            updateCooldownDisplay();
 
             document.getElementById('reqStatusRef').innerHTML = (userData.referrals?.length>=1) ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
             document.getElementById('reqStatusRef').className = 'req-status ' + (userData.referrals?.length>=1?'status-success':'status-failed');
@@ -779,6 +875,11 @@
             renderSellHistory();
             showPaymentProofTask();
             checkDailyVerification();
+
+            // Cooldown countdown intervals
+            if (!window._cooldownInterval) {
+                window._cooldownInterval = setInterval(updateCooldownDisplay, 1000);
+            }
         }
 
         async function renderSellHistory() {
@@ -885,6 +986,7 @@
                     referrals:[], referralCode: refCode, referredBy:null, referralBonusApplied:false,
                     tasksCompleted:0, withdrawalHistory:[], earningsHistory:[],
                     adSeqCompletions:0, linkSeqCompletions:0,
+                    lastAdSeqCompletion:0, lastLinkSeqCompletion:0,
                     gmailSoldApproved:false,
                     joinedPaymentProofChannel: false,
                     dailySellCounts: { gmail:0 }, lastSellResetDate: today,
@@ -895,6 +997,8 @@
             } else {
                 if (data.adSeqCompletions === undefined) data.adSeqCompletions = 0;
                 if (data.linkSeqCompletions === undefined) data.linkSeqCompletions = 0;
+                if (data.lastAdSeqCompletion === undefined) data.lastAdSeqCompletion = 0;
+                if (data.lastLinkSeqCompletion === undefined) data.lastLinkSeqCompletion = 0;
                 if (data.joinedPaymentProofChannel === undefined) data.joinedPaymentProofChannel = false;
                 if (!data.dailySellCounts) data.dailySellCounts = { gmail:0 };
                 if (data.lastSellResetDate !== today) { data.dailySellCounts = { gmail:0 }; data.lastSellResetDate = today; }

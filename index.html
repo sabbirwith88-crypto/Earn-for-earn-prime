@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>King — King Coin আয় করুন</title>
+    <title id="pageTitle">King — Earn King Coin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
     <script src="https://ad.gigapub.tech/script?id=7571"></script>
     <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
     <style>
+        /* All existing styles remain unchanged */
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Noto Sans Bengali', 'Inter', -apple-system, sans-serif; user-select:none; -webkit-tap-highlight-color:transparent; }
         body { background:#fff; display:flex; justify-content:center; }
         .app-container { width:100%; max-width:500px; margin:0 auto; min-height:100vh; background:#fff; position:relative; box-shadow:0 0 60px rgba(0,0,0,0.04); overflow-x:hidden; color:#000; }
@@ -186,179 +186,500 @@
 <body>
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo"><i class="fas fa-crown"></i><i class="fas fa-coins"></i></div>
-        <div class="loading-title">King</div>
+        <div class="loading-title" id="loadingTitle">King</div>
         <div class="loading-progress"><div class="loading-progress-fill" id="loadingFill"></div></div>
         <div class="loading-percent" id="loadingPercent">0%</div>
-        <div class="loading-sub">আপনার পুরস্কার লোড হচ্ছে...</div>
+        <div class="loading-sub" id="loadingSub">Loading your rewards...</div>
     </div>
 
     <div class="app-container" id="mainApp" style="display:none;">
         <!-- HOME SECTION -->
         <div id="homeSection" class="content-section active">
-            <div class="section-header"><div class="section-title">সারসংক্ষেপ</div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div>
-            <div class="balance-card"><div class="balance-label">আপনার ব্যালেন্স</div><div class="balance-amount" id="balanceAmount">0</div><div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div><div class="small-text">কিং কয়েন</div><div class="balance-badge"><i class="fas fa-bolt"></i> আয় করতে প্রস্তুত</div></div>
-            <div class="stats-grid"><div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label">রেফারেল</div></div><div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label">কাজ সম্পন্ন</div></div><div class="stat-card"><div class="stat-value" id="todayEarnings">0</div><div class="stat-label">আজকের আয়</div></div></div>
+            <div class="section-header"><div class="section-title" id="homeTitle">Summary</div><div class="support-icon" id="supportIconHome"><i class="fas fa-headset"></i></div></div>
+            <div class="balance-card"><div class="balance-label" id="balanceLabel">Your Balance</div><div class="balance-amount" id="balanceAmount">0</div><div class="usd-equivalent" id="usdBalanceHome">≈ $0.000 USD</div><div class="small-text" id="coinName">King Coins</div><div class="balance-badge" id="balanceBadge"><i class="fas fa-bolt"></i> <span id="readyToEarn">Ready to earn</span></div></div>
+            <div class="stats-grid"><div class="stat-card"><div class="stat-value" id="refCount">0</div><div class="stat-label" id="statRef">Referrals</div></div><div class="stat-card"><div class="stat-value" id="tasksCompletedCount">0</div><div class="stat-label" id="statTasks">Tasks Done</div></div><div class="stat-card"><div class="stat-value" id="todayEarnings">0</div><div class="stat-label" id="statToday">Today's Earnings</div></div></div>
             <div class="referral-home-card">
-                <div class="referral-home-header"><i class="fas fa-user-friends"></i><h3>রেফার করে আয় করুন</h3><span>+১০০ কিং</span></div>
+                <div class="referral-home-header"><i class="fas fa-user-friends"></i><h3 id="refEarnTitle">Earn by Referring</h3><span id="refBonusLabel">+100 King</span></div>
                 <div class="referral-code-display" id="referralCodeDisplay">------</div>
-                <div class="btn-group-home"><button class="btn-primary" id="copyReferralCodeBtn"><i class="fas fa-copy"></i> কপি</button><button class="btn-secondary" id="shareTelegramCodeBtn"><i class="fas fa-share-alt"></i> শেয়ার</button></div>
-                <div class="referral-stats-home"><div><div class="num" id="refCountHome">0</div><div class="lbl">মোট রেফারেল</div></div><div><div class="num" id="referralBonusTotalHome">0</div><div class="lbl">বোনাস অর্জিত</div></div></div>
-                <div class="referral-list-home" id="referralsListHome"><div class="empty-state"><i class="fas fa-user-plus"></i><div>এখনো কোনো রেফারেল নেই</div></div></div>
+                <div class="btn-group-home"><button class="btn-primary" id="copyReferralCodeBtn"><i class="fas fa-copy"></i> <span id="copyBtnText">Copy</span></button><button class="btn-secondary" id="shareTelegramCodeBtn"><i class="fas fa-share-alt"></i> <span id="shareBtnText">Share</span></button></div>
+                <div class="referral-stats-home"><div><div class="num" id="refCountHome">0</div><div class="lbl" id="totalRefLabel">Total Referrals</div></div><div><div class="num" id="referralBonusTotalHome">0</div><div class="lbl" id="bonusEarnedLabel">Bonus Earned</div></div></div>
+                <div class="referral-list-home" id="referralsListHome"><div class="empty-state"><i class="fas fa-user-plus"></i><div id="noRefMsg">No referrals yet</div></div></div>
             </div>
         </div>
 
         <!-- ADS SECTION -->
         <div id="adsSection" class="content-section">
-            <div class="section-header"><div class="section-title">বিজ্ঞাপন</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
+            <div class="section-header"><div class="section-title" id="adsTitle">Ads</div><div class="support-icon" id="supportIconAds"><i class="fas fa-headset"></i></div></div>
 
             <!-- Payment Proof Channel Join Task (ONE TIME) -->
             <div class="task-card" id="paymentProofChannelTask" style="display:none;">
-                <div class="task-header"><span class="task-title"><i class="fas fa-telegram" style="color:#0088cc;"></i> পেমেন্ট প্রুফ চ্যানেল জয়েন</span><span class="task-reward">+১০ কিং</span></div>
-                <div class="task-desc">আমাদের পেমেন্ট প্রুফ চ্যানেলে জয়েন করুন এবং ১০ কিং পুরস্কার নিন।</div>
-                <button id="joinChannelBtn" class="task-btn channel-task-btn">চ্যানেল জয়েন করুন</button>
-                <button id="verifyJoinBtn" class="task-btn channel-task-btn" style="display:none; background:#4caf50;" disabled>ভেরিফাই করে ১০ কিং নিন (৫ সেকেন্ড অপেক্ষা)</button>
+                <div class="task-header"><span class="task-title"><i class="fas fa-telegram" style="color:#0088cc;"></i> <span id="channelTaskTitle">Join Payment Proof Channel</span></span><span class="task-reward">+10 King</span></div>
+                <div class="task-desc" id="channelTaskDesc">Join our payment proof channel and get 10 King reward.</div>
+                <button id="joinChannelBtn" class="task-btn channel-task-btn"><span id="joinChannelBtnText">Join Channel</span></button>
+                <button id="verifyJoinBtn" class="task-btn channel-task-btn" style="display:none; background:#4caf50;" disabled><span id="verifyJoinBtnText">Verify & get 10 King (wait 5s)</span></button>
                 <div id="joinStatus" style="text-align:center; margin-top:8px; font-size:0.8rem; color:#888;"></div>
             </div>
 
             <!-- Ad Task with cooldown -->
             <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> অ্যাড টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
-                <div class="task-desc">৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
-                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
-                <button id="startAdSeqBtn" class="task-btn">অ্যাড সিকোয়েন্স শুরু</button>
+                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> <span id="adTaskTitle">Ad Task</span></span><span class="task-reward">+20 King</span></div>
+                <div class="task-desc" id="adTaskDesc">Complete 5 ad steps to earn 20 King. Daily limit: 12</div>
+                <div class="progress-container"><div class="progress-label"><span id="todayLabel">Today</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
+                <button id="startAdSeqBtn" class="task-btn"><span id="startAdBtn">Start Ad Sequence</span></button>
                 <div class="cooldown-label" id="adCooldownLabel"></div>
             </div>
             <!-- Link Task with cooldown -->
             <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> লিংক টাস্ক</span><span class="task-reward">+২০ কিং</span></div>
-                <div class="task-desc">৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২</div>
-                <div class="progress-container"><div class="progress-label"><span>আজ</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
-                <button id="startLinkSeqBtn" class="task-btn">লিংক সিকোয়েন্স শুরু</button>
+                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> <span id="linkTaskTitle">Link Task</span></span><span class="task-reward">+20 King</span></div>
+                <div class="task-desc" id="linkTaskDesc">Open 5 links to earn 20 King. Daily limit: 12</div>
+                <div class="progress-container"><div class="progress-label"><span id="todayLabel2">Today</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
+                <button id="startLinkSeqBtn" class="task-btn"><span id="startLinkBtn">Start Link Sequence</span></button>
                 <div class="cooldown-label" id="linkCooldownLabel"></div>
             </div>
         </div>
 
         <!-- SELL SECTION -->
         <div id="sellSection" class="content-section">
-            <div class="section-header"><div class="section-title">বিক্রয়</div><div class="support-icon" id="supportIconSell"><i class="fas fa-headset"></i></div></div>
+            <div class="section-header"><div class="section-title" id="sellTitle">Sell</div><div class="support-icon" id="supportIconSell"><i class="fas fa-headset"></i></div></div>
             <div class="task-card sell-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-envelope"></i> জিমেইল বিক্রি</span><span class="task-reward">+১২০০ কিং</span></div>
-                <div class="task-desc">আপনার জিমেইল তথ্য দিন, অ্যাডমিন ৩ দিনের মধ্যে রিভিউ করবে।</div>
-                <input type="text" class="sell-input" id="gmailEmail" placeholder="জিমেইল ঠিকানা">
-                <input type="password" class="sell-input" id="gmailPassword" placeholder="পাসওয়ার্ড">
-                <input type="text" class="sell-input" id="gmailRecovery" placeholder="রিকভারি ইমেইল">
-                <button class="sell-btn" id="sellGmailBtn"><i class="fas fa-paper-plane"></i> জমা দিন</button>
-                <div class="sell-status" id="sellGmailStatus">আজকের জমা: ০/৩</div>
+                <div class="task-header"><span class="task-title"><i class="fas fa-envelope"></i> <span id="sellGmailTitle">Sell Gmail</span></span><span class="task-reward">+1200 King</span></div>
+                <div class="task-desc" id="sellGmailDesc">Provide your Gmail details, admin will review within 3 days.</div>
+                <input type="text" class="sell-input" id="gmailEmail" placeholder="Gmail address">
+                <input type="password" class="sell-input" id="gmailPassword" placeholder="Password">
+                <input type="text" class="sell-input" id="gmailRecovery" placeholder="Recovery email">
+                <button class="sell-btn" id="sellGmailBtn"><i class="fas fa-paper-plane"></i> <span id="sellSubmitBtn">Submit</span></button>
+                <div class="sell-status" id="sellGmailStatus">Today's submissions: 0/3</div>
             </div>
             <div class="sell-history-card">
-                <div class="history-title"><i class="fas fa-clock-rotate-left"></i> বিক্রয়ের ইতিহাস</div>
+                <div class="history-title"><i class="fas fa-clock-rotate-left"></i> <span id="sellHistoryTitle">Sell History</span></div>
                 <div id="sellHistoryContainer"></div>
             </div>
             <div class="support-team-card">
-                <i class="fas fa-headset"></i><h3>অ্যাডমিন সাপোর্ট</h3><p>যেকোনো সাহায্যের জন্য যোগাযোগ করুন।</p>
-                <button class="support-btn" id="contactSupportBtn"><i class="fas fa-telegram-plane"></i> অ্যাডমিনের সাথে যোগাযোগ</button>
+                <i class="fas fa-headset"></i><h3 id="supportTitle">Admin Support</h3><p id="supportDesc">Contact for any help.</p>
+                <button class="support-btn" id="contactSupportBtn"><i class="fas fa-telegram-plane"></i> <span id="contactSupportText">Contact Admin</span></button>
             </div>
-            <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">অ্যাডমিন</div>
+            <div id="adminTrigger" style="text-align:center; margin-top:20px; cursor:pointer; opacity:0.2; font-size:11px;">Admin</div>
         </div>
 
         <!-- GAMES SECTION -->
         <div id="gamesSection" class="content-section">
-            <div class="section-header"><div class="section-title">গেমস</div><div class="support-icon" id="supportIconGames"><i class="fas fa-headset"></i></div></div>
+            <div class="section-header"><div class="section-title" id="gamesTitle">Games</div><div class="support-icon" id="supportIconGames"><i class="fas fa-headset"></i></div></div>
             <!-- Tic Tac Toe -->
             <div class="task-card" style="text-align:center;">
-                <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;">টিক ট্যাক টো</div>
-                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;">play & Earn</p>
+                <div style="font-size:1.4rem; font-weight:700; margin-bottom:4px;" id="tttTitle">Tic Tac Toe</div>
+                <p style="color:#e65100; font-size:0.8rem; margin-bottom:8px;" id="tttSub">play & Earn</p>
                 <div class="game-board" id="gameBoard">
                     <div class="cell" data-index="0"></div><div class="cell" data-index="1"></div><div class="cell" data-index="2"></div>
                     <div class="cell" data-index="3"></div><div class="cell" data-index="4"></div><div class="cell" data-index="5"></div>
                     <div class="cell" data-index="6"></div><div class="cell" data-index="7"></div><div class="cell" data-index="8"></div>
                 </div>
-                <div class="game-status" id="gameStatus">খেলা শুরু করতে বাটনে ক্লিক করুন</div>
+                <div class="game-status" id="gameStatus">Click start to play</div>
                 <div style="display:flex; justify-content:center; gap:20px; margin:10px 0; font-size:0.8rem; color:#888;">
-                    <span>🟢 জয়: ১০ কিং</span> <span>🟡 ড্র: ৫ কিং</span> <span>🔴 হার: ২ কিং</span>
+                    <span id="tttWin">🟢 Win: 10 King</span> <span id="tttDraw">🟡 Draw: 5 King</span> <span id="tttLose">🔴 Loss: 2 King</span>
                 </div>
-                <div class="game-controls"><button class="play-btn" id="playGameBtn">খেলা শুরু</button></div>
+                <div class="game-controls"><button class="play-btn" id="playGameBtn"><span id="playBtnText">Start Game</span></button></div>
             </div>
 
             <!-- Professional Math Quiz -->
             <div class="quiz-card-professional">
-                <div class="quiz-prof-title">🧮 গণিত কুইজ</div>
-                <div class="quiz-prof-sub">১৩ সেকেন্ডের মধ্যে সঠিক উত্তর দিন</div>
+                <div class="quiz-prof-title" id="quizTitle">🧮 Math Quiz</div>
+                <div class="quiz-prof-sub" id="quizSub">Answer correctly within 13 seconds</div>
                 <div class="quiz-prof-question" id="quizQuestion">--</div>
-                <div class="quiz-prof-timer" id="quizTimer" style="display:none;"><i class="far fa-clock"></i> <span id="quizTimerText">১৩s</span></div>
-                <input type="number" class="quiz-prof-input" id="quizAnswerInput" placeholder="উত্তর লিখুন" style="display:none;" inputmode="numeric">
+                <div class="quiz-prof-timer" id="quizTimer" style="display:none;"><i class="far fa-clock"></i> <span id="quizTimerText">13s</span></div>
+                <input type="number" class="quiz-prof-input" id="quizAnswerInput" placeholder="Type answer" style="display:none;" inputmode="numeric">
                 <br>
-                <button class="quiz-prof-submit-btn" id="quizSubmitBtn" style="display:none;">উত্তর জমা দিন</button>
-                <button class="quiz-prof-start-btn" id="quizStartBtn"><i class="fas fa-play-circle"></i> খেলা শুরু</button>
+                <button class="quiz-prof-submit-btn" id="quizSubmitBtn" style="display:none;"><span id="quizSubmitText">Submit Answer</span></button>
+                <button class="quiz-prof-start-btn" id="quizStartBtn"><i class="fas fa-play-circle"></i> <span id="quizStartText">Start Game</span></button>
                 <div class="quiz-prof-result" id="quizResult"></div>
-                <button class="quiz-prof-play-again" id="quizPlayAgainBtn" style="display:none;">আবার খেলুন</button>
+                <button class="quiz-prof-play-again" id="quizPlayAgainBtn" style="display:none;"><span id="quizPlayAgainText">Play Again</span></button>
             </div>
         </div>
 
         <!-- CASHOUT SECTION -->
         <div id="cashoutSection" class="content-section">
-            <div class="section-header"><div class="section-title">ক্যাশআউট</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div>
-            <div class="balance-card"><div class="balance-label">উপলব্ধ ব্যালেন্স</div><div class="balance-amount" id="withdrawBalance">0</div><div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div></div>
+            <div class="section-header"><div class="section-title" id="cashoutTitle">Cash Out</div><div class="support-icon" id="supportIconCashout"><i class="fas fa-headset"></i></div></div>
+            <div class="balance-card"><div class="balance-label" id="availableBalanceLabel">Available Balance</div><div class="balance-amount" id="withdrawBalance">0</div><div class="usd-equivalent" id="usdBalanceCashout">≈ $0.000 USD</div></div>
             <div class="withdraw-requirements-box">
-                <div class="requirement-header"><i class="fas fa-clipboard-list"></i> উত্তোলনের শর্তাবলী</div>
-                <div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title">ন্যূনতম ব্যালেন্স</div><div class="req-value" id="minBalReq">১০০ কিং প্রয়োজন</div></div><div class="req-status" id="reqStatusBal">○</div></div>
-                <div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title">রেফারেল প্রয়োজন</div><div class="req-value" id="refReqLabel">অন্তত ১টি সক্রিয় রেফারেল</div></div><div class="req-status" id="reqStatusRef">○</div></div>
-                <div class="requirement-item" id="reqItemGmail"><div class="req-icon"><i class="fas fa-envelope"></i></div><div class="req-details"><div class="req-title">জিমেইল বিক্রি অনুমোদিত</div><div class="req-value">প্রতি উত্তোলনের জন্য নতুন জিমেইল অনুমোদিত হতে হবে</div></div><div class="req-status" id="reqStatusGmail">○</div></div>
+                <div class="requirement-header"><i class="fas fa-clipboard-list"></i> <span id="withdrawReqTitle">Withdrawal Requirements</span></div>
+                <div class="requirement-item" id="reqItemBal"><div class="req-icon"><i class="fas fa-coins"></i></div><div class="req-details"><div class="req-title" id="minBalTitle">Minimum Balance</div><div class="req-value" id="minBalReq">100 King required</div></div><div class="req-status" id="reqStatusBal">○</div></div>
+                <div class="requirement-item" id="reqItemRef"><div class="req-icon"><i class="fas fa-user-friends"></i></div><div class="req-details"><div class="req-title" id="refReqTitle">Referral Required</div><div class="req-value" id="refReqLabel">At least 1 active referral</div></div><div class="req-status" id="reqStatusRef">○</div></div>
+                <div class="requirement-item" id="reqItemGmail"><div class="req-icon"><i class="fas fa-envelope"></i></div><div class="req-details"><div class="req-title" id="gmailReqTitle">Gmail Sale Approved</div><div class="req-value" id="gmailReqDesc">A new Gmail must be approved for each withdrawal</div></div><div class="req-status" id="reqStatusGmail">○</div></div>
             </div>
-            <div style="background:#f8f8f8;border-radius:28px;padding:18px 16px;border:1px solid #eee;"><h4>পেমেন্ট পদ্ধতি</h4><div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> বাইন্যান্স (সর্বনিম্ন ১০০ কিং)</div></div>
-            <input type="text" id="paymentAccount" class="form-input" placeholder="বাইন্যান্স ইমেইল/UID">
-            <input type="number" id="withdrawAmount" step="100" min="100" class="form-input" placeholder="পরিমাণ (কিং) - ন্যূনতম ১০০">
+            <div style="background:#f8f8f8;border-radius:28px;padding:18px 16px;border:1px solid #eee;"><h4 id="paymentMethodTitle">Payment Method</h4><div id="paymentMethodBinance" class="payment-option selected"><i class="fab fa-bitcoin"></i> Binance (minimum 100 King)</div></div>
+            <input type="text" id="paymentAccount" class="form-input" placeholder="Binance email/UID">
+            <input type="number" id="withdrawAmount" step="100" min="100" class="form-input" placeholder="Amount (King) - min 100">
             <div style="background:#f8f8f8;border-radius:28px;padding:16px;border:1px solid #eee;">
-                <div class="fee-breakdown"><span>পরিমাণ</span><span id="wdAmount">0 কিং</span></div>
-                <div class="fee-breakdown"><span>ফি (১০%)</span><span id="wdFee">0 কিং</span></div>
-                <div class="fee-breakdown" style="font-weight:600;"><span>আপনি পাবেন</span><span id="wdNet">0 কিং</span></div>
-                <div class="fee-breakdown"><span>~ USD মূল্য</span><span id="wdUsdValue">$0.000</span></div>
+                <div class="fee-breakdown"><span id="feeAmountLabel">Amount</span><span id="wdAmount">0 King</span></div>
+                <div class="fee-breakdown"><span id="feeLabel">Fee (10%)</span><span id="wdFee">0 King</span></div>
+                <div class="fee-breakdown" style="font-weight:600;"><span id="netLabel">You Receive</span><span id="wdNet">0 King</span></div>
+                <div class="fee-breakdown"><span id="usdValueLabel">~ USD Value</span><span id="wdUsdValue">$0.000</span></div>
             </div>
-            <button id="submitWithdrawBtn" class="withdraw-btn">উত্তোলনের অনুরোধ</button>
-            <div style="margin-top:32px;"><h4>উত্তোলনের ইতিহাস</h4><div id="historyList"></div></div>
+            <button id="submitWithdrawBtn" class="withdraw-btn"><span id="withdrawRequestBtn">Request Withdrawal</span></button>
+            <div style="margin-top:32px;"><h4 id="historyTitle">Withdrawal History</h4><div id="historyList"></div></div>
         </div>
 
         <div class="bottom-nav">
-            <button class="nav-btn active" id="navHome"><i class="fas fa-home"></i><span>হোম</span></button>
-            <button class="nav-btn" id="navAds"><i class="fas fa-ad"></i><span>বিজ্ঞাপন</span></button>
-            <button class="nav-btn" id="navSell"><i class="fas fa-store"></i><span>বিক্রয়</span></button>
-            <button class="nav-btn" id="navGames"><i class="fas fa-gamepad"></i><span>গেমস</span></button>
-            <button class="nav-btn" id="navCashout"><i class="fas fa-wallet"></i><span>ক্যাশআউট</span></button>
+            <button class="nav-btn active" id="navHome"><i class="fas fa-home"></i><span id="navHomeLabel">Home</span></button>
+            <button class="nav-btn" id="navAds"><i class="fas fa-ad"></i><span id="navAdsLabel">Ads</span></button>
+            <button class="nav-btn" id="navSell"><i class="fas fa-store"></i><span id="navSellLabel">Sell</span></button>
+            <button class="nav-btn" id="navGames"><i class="fas fa-gamepad"></i><span id="navGamesLabel">Games</span></button>
+            <button class="nav-btn" id="navCashout"><i class="fas fa-wallet"></i><span id="navCashoutLabel">Cash Out</span></button>
         </div>
     </div>
 
-    <!-- Sequence Modal -->
+    <!-- Modals remain unchanged (text inside will be translated dynamically) -->
     <div id="sequenceModal" class="sequence-modal"><div class="sequence-card" id="sequenceCard"></div></div>
-    <!-- Claim Modal -->
-    <div id="claimModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle">অভিনন্দন!</h2><p id="claimModalMessage">আপনি কাজটি সম্পন্ন করেছেন।</p><button id="confirmClaimBtn" class="claim-btn">পুরস্কার দাবি করুন</button><button id="cancelClaimBtn" class="claim-btn skip-btn">বাতিল</button></div></div>
-    <!-- Tic Tac Toe Start Popup -->
+    <div id="claimModal" class="modal"><div class="modal-content"><i class="fas fa-trophy" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="claimModalTitle">Congratulations!</h2><p id="claimModalMessage">You have completed the task.</p><button id="confirmClaimBtn" class="claim-btn"><span id="claimBtnText">Claim Reward</span></button><button id="cancelClaimBtn" class="claim-btn skip-btn"><span id="cancelBtnText">Cancel</span></button></div></div>
     <div id="ticStartModal" class="modal" style="z-index:3600;">
         <div class="modal-content">
             <i class="fas fa-gamepad" style="font-size:3rem; color:#f5a623;"></i>
-            <h3 style="margin:16px 0;">এখন খেলা শুরু করুন</h3>
-            <button id="ticStartOkBtn" class="claim-btn" style="background:#4caf50;">ঠিক আছে</button>
+            <h3 style="margin:16px 0;" id="ticStartMsg">Start the game now</h3>
+            <button id="ticStartOkBtn" class="claim-btn" style="background:#4caf50;"><span id="ticOkBtn">OK</span></button>
         </div>
     </div>
-    <!-- Daily Verification Modal -->
     <div class="daily-verification-modal" id="dailyVerificationModal">
         <div class="daily-verification-card">
             <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;"><i class="fas fa-shield-halved" style="font-size:1.8rem;color:#f5a623;"></i><span style="font-size:1.4rem;font-weight:800;">King</span></div>
             <div class="shield-icon"><i class="fas fa-shield-alt"></i></div>
-            <div class="verification-title">মানব যাচাইকরণ</div>
-            <div class="verification-subtitle">প্রমাণ করতে <strong>৫ বার</strong> বাটনে ক্লিক করুন যে আপনি মানুষ।</div>
+            <div class="verification-title" id="verifyTitle">Human Verification</div>
+            <div class="verification-subtitle" id="verifySub">Click the button <strong>5 times</strong> to prove you are human.</div>
             <div class="verification-progress" id="verificationProgress">
                 <div class="progress-dot" data-index="0"></div><div class="progress-dot" data-index="1"></div><div class="progress-dot" data-index="2"></div><div class="progress-dot" data-index="3"></div><div class="progress-dot" data-index="4"></div>
             </div>
-            <div class="click-counter">ক্লিক: <span id="clickCountDisplay">0</span> / 5</div>
-            <button class="verify-btn" id="verifyHumanBtn"><i class="fas fa-hand-pointer"></i><span>যাচাই করতে ক্লিক করুন</span><span id="clickBadge">0/5</span></button>
-            <div class="verify-status-text" id="verifyStatusText">বাটনে <span class="highlight">৫ বার</span> ট্যাপ করুন যাচাই করতে</div>
+            <div class="click-counter"><span id="clickCounterLabel">Clicks</span>: <span id="clickCountDisplay">0</span> / 5</div>
+            <button class="verify-btn" id="verifyHumanBtn"><i class="fas fa-hand-pointer"></i><span id="verifyBtnText">Click to verify</span><span id="clickBadge">0/5</span></button>
+            <div class="verify-status-text" id="verifyStatusText">Tap the button <span class="highlight">5 times</span> to verify</div>
         </div>
     </div>
-    <div id="referralCodeModal" class="modal"><div class="modal-content"><i class="fas fa-gift" style="font-size:2.8rem;color:#f5a623;"></i><h2>King-এ স্বাগতম</h2><p style="color:#888;">১০০ কিং বোনাস পেতে রেফারেল কোড দিন।</p><input type="text" id="referralCodeInput" class="form-input" placeholder="রেফারেল কোড"><button id="submitReferralCodeBtn" class="claim-btn">দাবি করুন</button><button id="skipReferralCodeBtn" class="claim-btn skip-btn">স্কিপ</button></div></div>
-    <div id="withdrawSuccessModal" class="modal"><div class="modal-content"><i class="fas fa-check-circle" style="font-size:2.4rem;color:#2e7d32;"></i><h3>উত্তোলনের অনুরোধ সফল</h3><div id="withdrawSuccessDetails"></div><button id="closeSuccessModal" class="claim-btn">ঠিক আছে</button></div></div>
-    <div id="adminModal" class="modal"><div class="modal-content" style="max-width:450px;"><h3>অ্যাডমিন প্যানেল</h3><div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;color:#555;font-size:0.85rem;"></div><button id="closeAdminModal" class="claim-btn skip-btn">বন্ধ</button></div></div>
+    <div id="referralCodeModal" class="modal"><div class="modal-content"><i class="fas fa-gift" style="font-size:2.8rem;color:#f5a623;"></i><h2 id="welcomeTitle">Welcome to King</h2><p style="color:#888;" id="welcomeSub">Enter referral code to get 100 King bonus.</p><input type="text" id="referralCodeInput" class="form-input" placeholder="Referral code"><button id="submitReferralCodeBtn" class="claim-btn"><span id="claimBonusBtn">Claim</span></button><button id="skipReferralCodeBtn" class="claim-btn skip-btn"><span id="skipBtnText">Skip</span></button></div></div>
+    <div id="withdrawSuccessModal" class="modal"><div class="modal-content"><i class="fas fa-check-circle" style="font-size:2.4rem;color:#2e7d32;"></i><h3 id="successTitle">Withdrawal Request Successful</h3><div id="withdrawSuccessDetails"></div><button id="closeSuccessModal" class="claim-btn"><span id="okBtnText">OK</span></button></div></div>
+    <div id="adminModal" class="modal"><div class="modal-content" style="max-width:450px;"><h3 id="adminPanelTitle">Admin Panel</h3><div id="adminSubmissionsList" style="max-height:400px; overflow-y:auto;color:#555;font-size:0.85rem;"></div><button id="closeAdminModal" class="claim-btn skip-btn"><span id="closeAdminBtn">Close</span></button></div></div>
 
     <script>
+        // ============ TRANSLATIONS ============
+        const translations = {
+            bn: {
+                // General
+                pageTitle: 'King — King Coin আয় করুন',
+                loadingTitle: 'King',
+                loadingSub: 'আপনার পুরস্কার লোড হচ্ছে...',
+                balanceLabel: 'আপনার ব্যালেন্স',
+                coinName: 'কিং কয়েন',
+                readyToEarn: 'আয় করতে প্রস্তুত',
+                statRef: 'রেফারেল',
+                statTasks: 'কাজ সম্পন্ন',
+                statToday: 'আজকের আয়',
+                refEarnTitle: 'রেফার করে আয় করুন',
+                refBonusLabel: '+১০০ কিং',
+                copyBtnText: 'কপি',
+                shareBtnText: 'শেয়ার',
+                totalRefLabel: 'মোট রেফারেল',
+                bonusEarnedLabel: 'বোনাস অর্জিত',
+                noRefMsg: 'এখনো কোনো রেফারেল নেই',
+                homeTitle: 'সারসংক্ষেপ',
+                adsTitle: 'বিজ্ঞাপন',
+                sellTitle: 'বিক্রয়',
+                gamesTitle: 'গেমস',
+                cashoutTitle: 'ক্যাশআউট',
+                navHomeLabel: 'হোম',
+                navAdsLabel: 'বিজ্ঞাপন',
+                navSellLabel: 'বিক্রয়',
+                navGamesLabel: 'গেমস',
+                navCashoutLabel: 'ক্যাশআউট',
+                // Payment channel
+                channelTaskTitle: 'পেমেন্ট প্রুফ চ্যানেল জয়েন',
+                channelTaskDesc: 'আমাদের পেমেন্ট প্রুফ চ্যানেলে জয়েন করুন এবং ১০ কিং পুরস্কার নিন।',
+                joinChannelBtnText: 'চ্যানেল জয়েন করুন',
+                verifyJoinBtnText: 'ভেরিফাই করে ১০ কিং নিন (৫ সেকেন্ড অপেক্ষা)',
+                // Ad task
+                adTaskTitle: 'অ্যাড টাস্ক',
+                adTaskDesc: '৫টি বিজ্ঞাপন ধাপ শেষ করে ২০ কিং আয় করুন। দৈনিক সীমা: ১২',
+                todayLabel: 'আজ',
+                startAdBtn: 'অ্যাড সিকোয়েন্স শুরু',
+                // Link task
+                linkTaskTitle: 'লিংক টাস্ক',
+                linkTaskDesc: '৫টি লিংক খুলে ২০ কিং আয় করুন। দৈনিক সীমা: ১২',
+                startLinkBtn: 'লিংক সিকোয়েন্স শুরু',
+                // Sell
+                sellGmailTitle: 'জিমেইল বিক্রি',
+                sellGmailDesc: 'আপনার জিমেইল তথ্য দিন, অ্যাডমিন ৩ দিনের মধ্যে রিভিউ করবে।',
+                sellSubmitBtn: 'জমা দিন',
+                sellHistoryTitle: 'বিক্রয়ের ইতিহাস',
+                supportTitle: 'অ্যাডমিন সাপোর্ট',
+                supportDesc: 'যেকোনো সাহায্যের জন্য যোগাযোগ করুন।',
+                contactSupportText: 'অ্যাডমিনের সাথে যোগাযোগ',
+                // Games
+                tttTitle: 'টিক ট্যাক টো',
+                tttSub: 'play & Earn',
+                tttWin: '🟢 জয়: ১০ কিং',
+                tttDraw: '🟡 ড্র: ৫ কিং',
+                tttLose: '🔴 হার: ২ কিং',
+                playBtnText: 'খেলা শুরু',
+                quizTitle: '🧮 গণিত কুইজ',
+                quizSub: '১৩ সেকেন্ডের মধ্যে সঠিক উত্তর দিন',
+                quizSubmitText: 'উত্তর জমা দিন',
+                quizStartText: 'খেলা শুরু',
+                quizPlayAgainText: 'আবার খেলুন',
+                // Cashout
+                availableBalanceLabel: 'উপলব্ধ ব্যালেন্স',
+                withdrawReqTitle: 'উত্তোলনের শর্তাবলী',
+                minBalTitle: 'ন্যূনতম ব্যালেন্স',
+                minBalReq: '১০০ কিং প্রয়োজন',
+                refReqTitle: 'রেফারেল প্রয়োজন',
+                refReqLabel: 'অন্তত ১টি সক্রিয় রেফারেল',
+                gmailReqTitle: 'জিমেইল বিক্রি অনুমোদিত',
+                gmailReqDesc: 'প্রতি উত্তোলনের জন্য নতুন জিমেইল অনুমোদিত হতে হবে',
+                paymentMethodTitle: 'পেমেন্ট পদ্ধতি',
+                feeAmountLabel: 'পরিমাণ',
+                feeLabel: 'ফি (১০%)',
+                netLabel: 'আপনি পাবেন',
+                usdValueLabel: '~ USD মূল্য',
+                withdrawRequestBtn: 'উত্তোলনের অনুরোধ',
+                historyTitle: 'উত্তোলনের ইতিহাস',
+                // Modals
+                claimModalTitle: 'অভিনন্দন!',
+                claimModalMessage: 'আপনি কাজটি সম্পন্ন করেছেন।',
+                claimBtnText: 'পুরস্কার দাবি করুন',
+                cancelBtnText: 'বাতিল',
+                ticStartMsg: 'এখন খেলা শুরু করুন',
+                ticOkBtn: 'ঠিক আছে',
+                verifyTitle: 'মানব যাচাইকরণ',
+                verifySub: 'প্রমাণ করতে <strong>৫ বার</strong> বাটনে ক্লিক করুন যে আপনি মানুষ।',
+                clickCounterLabel: 'ক্লিক',
+                verifyBtnText: 'যাচাই করতে ক্লিক করুন',
+                verifyStatusText: 'বাটনে <span class="highlight">৫ বার</span> ট্যাপ করুন যাচাই করতে',
+                welcomeTitle: 'King-এ স্বাগতম',
+                welcomeSub: '১০০ কিং বোনাস পেতে রেফারেল কোড দিন।',
+                claimBonusBtn: 'দাবি করুন',
+                skipBtnText: 'স্কিপ',
+                successTitle: 'উত্তোলনের অনুরোধ সফল',
+                okBtnText: 'ঠিক আছে',
+                adminPanelTitle: 'অ্যাডমিন প্যানেল',
+                closeAdminBtn: 'বন্ধ'
+            },
+            en: {
+                pageTitle: 'King — Earn King Coin',
+                loadingTitle: 'King',
+                loadingSub: 'Loading your rewards...',
+                balanceLabel: 'Your Balance',
+                coinName: 'King Coins',
+                readyToEarn: 'Ready to earn',
+                statRef: 'Referrals',
+                statTasks: 'Tasks Done',
+                statToday: "Today's Earnings",
+                refEarnTitle: 'Earn by Referring',
+                refBonusLabel: '+100 King',
+                copyBtnText: 'Copy',
+                shareBtnText: 'Share',
+                totalRefLabel: 'Total Referrals',
+                bonusEarnedLabel: 'Bonus Earned',
+                noRefMsg: 'No referrals yet',
+                homeTitle: 'Summary',
+                adsTitle: 'Ads',
+                sellTitle: 'Sell',
+                gamesTitle: 'Games',
+                cashoutTitle: 'Cash Out',
+                navHomeLabel: 'Home',
+                navAdsLabel: 'Ads',
+                navSellLabel: 'Sell',
+                navGamesLabel: 'Games',
+                navCashoutLabel: 'Cash Out',
+                channelTaskTitle: 'Join Payment Proof Channel',
+                channelTaskDesc: 'Join our payment proof channel and get 10 King reward.',
+                joinChannelBtnText: 'Join Channel',
+                verifyJoinBtnText: 'Verify & get 10 King (wait 5s)',
+                adTaskTitle: 'Ad Task',
+                adTaskDesc: 'Complete 5 ad steps to earn 20 King. Daily limit: 12',
+                todayLabel: 'Today',
+                startAdBtn: 'Start Ad Sequence',
+                linkTaskTitle: 'Link Task',
+                linkTaskDesc: 'Open 5 links to earn 20 King. Daily limit: 12',
+                startLinkBtn: 'Start Link Sequence',
+                sellGmailTitle: 'Sell Gmail',
+                sellGmailDesc: 'Provide your Gmail details, admin will review within 3 days.',
+                sellSubmitBtn: 'Submit',
+                sellHistoryTitle: 'Sell History',
+                supportTitle: 'Admin Support',
+                supportDesc: 'Contact for any help.',
+                contactSupportText: 'Contact Admin',
+                tttTitle: 'Tic Tac Toe',
+                tttSub: 'play & Earn',
+                tttWin: '🟢 Win: 10 King',
+                tttDraw: '🟡 Draw: 5 King',
+                tttLose: '🔴 Loss: 2 King',
+                playBtnText: 'Start Game',
+                quizTitle: '🧮 Math Quiz',
+                quizSub: 'Answer correctly within 13 seconds',
+                quizSubmitText: 'Submit Answer',
+                quizStartText: 'Start Game',
+                quizPlayAgainText: 'Play Again',
+                availableBalanceLabel: 'Available Balance',
+                withdrawReqTitle: 'Withdrawal Requirements',
+                minBalTitle: 'Minimum Balance',
+                minBalReq: '100 King required',
+                refReqTitle: 'Referral Required',
+                refReqLabel: 'At least 1 active referral',
+                gmailReqTitle: 'Gmail Sale Approved',
+                gmailReqDesc: 'A new Gmail must be approved for each withdrawal',
+                paymentMethodTitle: 'Payment Method',
+                feeAmountLabel: 'Amount',
+                feeLabel: 'Fee (10%)',
+                netLabel: 'You Receive',
+                usdValueLabel: '~ USD Value',
+                withdrawRequestBtn: 'Request Withdrawal',
+                historyTitle: 'Withdrawal History',
+                claimModalTitle: 'Congratulations!',
+                claimModalMessage: 'You have completed the task.',
+                claimBtnText: 'Claim Reward',
+                cancelBtnText: 'Cancel',
+                ticStartMsg: 'Start the game now',
+                ticOkBtn: 'OK',
+                verifyTitle: 'Human Verification',
+                verifySub: 'Click the button <strong>5 times</strong> to prove you are human.',
+                clickCounterLabel: 'Clicks',
+                verifyBtnText: 'Click to verify',
+                verifyStatusText: 'Tap the button <span class="highlight">5 times</span> to verify',
+                welcomeTitle: 'Welcome to King',
+                welcomeSub: 'Enter referral code to get 100 King bonus.',
+                claimBonusBtn: 'Claim',
+                skipBtnText: 'Skip',
+                successTitle: 'Withdrawal Request Successful',
+                okBtnText: 'OK',
+                adminPanelTitle: 'Admin Panel',
+                closeAdminBtn: 'Close'
+            }
+        };
+
+        let currentLang = 'en'; // default
+
+        // Function to apply translations
+        function applyTranslations(lang) {
+            const t = translations[lang] || translations.en;
+            document.title = t.pageTitle;
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('loadingTitle').textContent = t.loadingTitle;
+            document.getElementById('loadingSub').textContent = t.loadingSub;
+            document.getElementById('homeTitle').textContent = t.homeTitle;
+            document.getElementById('balanceLabel').textContent = t.balanceLabel;
+            document.getElementById('coinName').textContent = t.coinName;
+            document.getElementById('readyToEarn').textContent = t.readyToEarn;
+            document.getElementById('statRef').textContent = t.statRef;
+            document.getElementById('statTasks').textContent = t.statTasks;
+            document.getElementById('statToday').textContent = t.statToday;
+            document.getElementById('refEarnTitle').textContent = t.refEarnTitle;
+            document.getElementById('refBonusLabel').textContent = t.refBonusLabel;
+            document.getElementById('copyBtnText').textContent = t.copyBtnText;
+            document.getElementById('shareBtnText').textContent = t.shareBtnText;
+            document.getElementById('totalRefLabel').textContent = t.totalRefLabel;
+            document.getElementById('bonusEarnedLabel').textContent = t.bonusEarnedLabel;
+            document.getElementById('noRefMsg').textContent = t.noRefMsg;
+            document.getElementById('adsTitle').textContent = t.adsTitle;
+            document.getElementById('sellTitle').textContent = t.sellTitle;
+            document.getElementById('gamesTitle').textContent = t.gamesTitle;
+            document.getElementById('cashoutTitle').textContent = t.cashoutTitle;
+            document.getElementById('navHomeLabel').textContent = t.navHomeLabel;
+            document.getElementById('navAdsLabel').textContent = t.navAdsLabel;
+            document.getElementById('navSellLabel').textContent = t.navSellLabel;
+            document.getElementById('navGamesLabel').textContent = t.navGamesLabel;
+            document.getElementById('navCashoutLabel').textContent = t.navCashoutLabel;
+            document.getElementById('channelTaskTitle').textContent = t.channelTaskTitle;
+            document.getElementById('channelTaskDesc').textContent = t.channelTaskDesc;
+            document.getElementById('joinChannelBtnText').textContent = t.joinChannelBtnText;
+            document.getElementById('verifyJoinBtnText').textContent = t.verifyJoinBtnText;
+            document.getElementById('adTaskTitle').textContent = t.adTaskTitle;
+            document.getElementById('adTaskDesc').textContent = t.adTaskDesc;
+            document.getElementById('todayLabel').textContent = t.todayLabel;
+            document.getElementById('startAdBtn').textContent = t.startAdBtn;
+            document.getElementById('linkTaskTitle').textContent = t.linkTaskTitle;
+            document.getElementById('linkTaskDesc').textContent = t.linkTaskDesc;
+            document.getElementById('startLinkBtn').textContent = t.startLinkBtn;
+            document.getElementById('todayLabel2').textContent = t.todayLabel;
+            document.getElementById('sellGmailTitle').textContent = t.sellGmailTitle;
+            document.getElementById('sellGmailDesc').textContent = t.sellGmailDesc;
+            document.getElementById('sellSubmitBtn').textContent = t.sellSubmitBtn;
+            document.getElementById('sellHistoryTitle').textContent = t.sellHistoryTitle;
+            document.getElementById('supportTitle').textContent = t.supportTitle;
+            document.getElementById('supportDesc').textContent = t.supportDesc;
+            document.getElementById('contactSupportText').textContent = t.contactSupportText;
+            document.getElementById('tttTitle').textContent = t.tttTitle;
+            document.getElementById('tttSub').textContent = t.tttSub;
+            document.getElementById('tttWin').textContent = t.tttWin;
+            document.getElementById('tttDraw').textContent = t.tttDraw;
+            document.getElementById('tttLose').textContent = t.tttLose;
+            document.getElementById('playBtnText').textContent = t.playBtnText;
+            document.getElementById('quizTitle').textContent = t.quizTitle;
+            document.getElementById('quizSub').textContent = t.quizSub;
+            document.getElementById('quizSubmitText').textContent = t.quizSubmitText;
+            document.getElementById('quizStartText').textContent = t.quizStartText;
+            document.getElementById('quizPlayAgainText').textContent = t.quizPlayAgainText;
+            document.getElementById('availableBalanceLabel').textContent = t.availableBalanceLabel;
+            document.getElementById('withdrawReqTitle').textContent = t.withdrawReqTitle;
+            document.getElementById('minBalTitle').textContent = t.minBalTitle;
+            document.getElementById('minBalReq').textContent = t.minBalReq;
+            document.getElementById('refReqTitle').textContent = t.refReqTitle;
+            document.getElementById('refReqLabel').textContent = t.refReqLabel;
+            document.getElementById('gmailReqTitle').textContent = t.gmailReqTitle;
+            document.getElementById('gmailReqDesc').textContent = t.gmailReqDesc;
+            document.getElementById('paymentMethodTitle').textContent = t.paymentMethodTitle;
+            document.getElementById('feeAmountLabel').textContent = t.feeAmountLabel;
+            document.getElementById('feeLabel').textContent = t.feeLabel;
+            document.getElementById('netLabel').textContent = t.netLabel;
+            document.getElementById('usdValueLabel').textContent = t.usdValueLabel;
+            document.getElementById('withdrawRequestBtn').textContent = t.withdrawRequestBtn;
+            document.getElementById('historyTitle').textContent = t.historyTitle;
+            document.getElementById('claimModalTitle').textContent = t.claimModalTitle;
+            document.getElementById('claimModalMessage').textContent = t.claimModalMessage;
+            document.getElementById('claimBtnText').textContent = t.claimBtnText;
+            document.getElementById('cancelBtnText').textContent = t.cancelBtnText;
+            document.getElementById('ticStartMsg').textContent = t.ticStartMsg;
+            document.getElementById('ticOkBtn').textContent = t.ticOkBtn;
+            document.getElementById('verifyTitle').textContent = t.verifyTitle;
+            document.getElementById('verifySub').innerHTML = t.verifySub;
+            document.getElementById('clickCounterLabel').textContent = t.clickCounterLabel;
+            document.getElementById('verifyBtnText').textContent = t.verifyBtnText;
+            document.getElementById('verifyStatusText').innerHTML = t.verifyStatusText;
+            document.getElementById('welcomeTitle').textContent = t.welcomeTitle;
+            document.getElementById('welcomeSub').textContent = t.welcomeSub;
+            document.getElementById('claimBonusBtn').textContent = t.claimBonusBtn;
+            document.getElementById('skipBtnText').textContent = t.skipBtnText;
+            document.getElementById('successTitle').textContent = t.successTitle;
+            document.getElementById('okBtnText').textContent = t.okBtnText;
+            document.getElementById('adminPanelTitle').textContent = t.adminPanelTitle;
+            document.getElementById('closeAdminBtn').textContent = t.closeAdminBtn;
+            // Placeholder updates
+            document.getElementById('gmailEmail').placeholder = t.sellGmailDesc.split('.')[0] + ' address'; // rough
+            document.getElementById('gmailPassword').placeholder = 'Password';
+            document.getElementById('gmailRecovery').placeholder = 'Recovery email';
+            document.getElementById('paymentAccount').placeholder = 'Binance email/UID';
+            document.getElementById('withdrawAmount').placeholder = 'Amount (King) - min 100';
+            document.getElementById('referralCodeInput').placeholder = 'Referral code';
+            document.getElementById('quizAnswerInput').placeholder = t.quizSubmitText;
+            // Update game status if not active
+            if (!gameActive && !gameOver) {
+                document.getElementById('gameStatus').textContent = t.playBtnText;
+            }
+            // Update nav active label (already set)
+        }
+
+        // Determine language based on IP
+        async function detectLanguage() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                const country = data.country_code;
+                if (country === 'BD') {
+                    currentLang = 'bn';
+                } else {
+                    currentLang = 'en';
+                }
+            } catch (e) {
+                console.warn('IP detection failed, defaulting to English');
+                currentLang = 'en';
+            }
+            applyTranslations(currentLang);
+        }
+
+        // ============ EXISTING APP CODE (unchanged except minor tweaks) ============
         // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyAmTdb5ejQtgYxmkfLc575HcBN8pMhrBPM",
@@ -390,11 +711,11 @@
             'https://link.gigapub.tech/l/u45v2rckr'
         ];
 
-        // Utility
+        // Utility functions (unchanged)
         function showToast(amount, task) {
             const toast = document.createElement('div');
             toast.className = 'toast-notification';
-            toast.innerHTML = `<i class="fas fa-gift"></i> +${amount} কিং ${task} থেকে`;
+            toast.innerHTML = `<i class="fas fa-gift"></i> +${amount} King ${task}`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2800);
         }
@@ -440,7 +761,7 @@
             joinChannelBtn.style.display = 'inline-block';
             verifyJoinBtn.style.display = 'none';
             verifyJoinBtn.disabled = true;
-            verifyJoinBtn.innerHTML = 'ভেরিফাই করে ১০ কিং নিন (৫ সেকেন্ড অপেক্ষা)';
+            verifyJoinBtn.innerHTML = document.getElementById('verifyJoinBtnText').textContent;
             joinStatus.innerHTML = '';
         }
 
@@ -449,18 +770,18 @@
             joinChannelBtn.style.display = 'none';
             verifyJoinBtn.style.display = 'inline-block';
             verifyJoinBtn.disabled = true;
-            joinStatus.innerHTML = 'অপেক্ষা করুন...';
+            joinStatus.innerHTML = 'Waiting...';
             let countdown = 5;
-            verifyJoinBtn.innerHTML = `ভেরিফাই করে ১০ কিং নিন (${countdown} সেকেন্ড অপেক্ষা)`;
+            verifyJoinBtn.innerHTML = `Verify & get 10 King (${countdown}s wait)`;
             joinTimer = setInterval(() => {
                 countdown--;
                 if (countdown <= 0) {
                     clearInterval(joinTimer);
                     verifyJoinBtn.disabled = false;
-                    verifyJoinBtn.innerHTML = 'ভেরিফাই করে ১০ কিং নিন';
-                    joinStatus.innerHTML = 'এখন ভেরিফাই করতে পারেন';
+                    verifyJoinBtn.innerHTML = 'Verify & get 10 King';
+                    joinStatus.innerHTML = 'You can verify now';
                 } else {
-                    verifyJoinBtn.innerHTML = `ভেরিফাই করে ১০ কিং নিন (${countdown} সেকেন্ড অপেক্ষা)`;
+                    verifyJoinBtn.innerHTML = `Verify & get 10 King (${countdown}s wait)`;
                 }
             }, 1000);
         });
@@ -469,7 +790,7 @@
             if (verifyJoinBtn.disabled) return;
             clearInterval(joinTimer);
             verifyJoinBtn.disabled = true;
-            verifyJoinBtn.innerHTML = 'ভেরিফাই করা হচ্ছে...';
+            verifyJoinBtn.innerHTML = 'Verifying...';
             joinStatus.innerHTML = '';
             await updateUser({
                 joinedPaymentProofChannel: true,
@@ -477,46 +798,40 @@
                 totalEarned: (userData.totalEarned || 0) + 10,
                 tasksCompleted: (userData.tasksCompleted || 0) + 1
             });
-            await addEarningEntry(10, 'পেমেন্ট প্রুফ চ্যানেল জয়েন');
-            showToast(10, 'পেমেন্ট প্রুফ চ্যানেল');
+            await addEarningEntry(10, 'Payment Proof Channel');
+            showToast(10, 'Payment Proof Channel');
             document.getElementById('paymentProofChannelTask').style.display = 'none';
             refreshUI();
         });
 
         // Sequence modal (ad/link)
         let currentSequence = null;
-        // For link steps: track visibility and time
         let linkStepListener = null;
         let linkStepCheckInterval = null;
 
         function openSequenceModal(type) {
             const stepsData = type === 'ad' ? [
                 { name: 'Monetag', icon: 'fa-circle-play', action: async () => { await show_10541383(); } },
-                { name: 'Adexora', icon: 'fa-bolt', action: async () => {
-                    if (typeof window.showAdexora === 'function') await window.showAdexora();
-                    else if (typeof window.showGiga === 'function') await window.showGiga();
-                    else if (typeof show_10541383 === 'function') await show_10541383();
-                    else {
-                        const ctrl = window.Adsgram?.init({blockId:"int-28543"}); const res = await ctrl?.show();
-                        if (!res || !res.done) throw new Error('Adsgram ব্যর্থ');
-                    }
+                { name: 'Adsbitvex', icon: 'fa-ad', action: async () => {
+                    if (typeof window.showadsbitvex === 'function') await window.showadsbitvex();
+                    else throw new Error('adsbitvex SDK not loaded');
                 }},
                 { name: 'Adsgram', icon: 'fa-film', action: async () => {
                     try {
                         const ctrl = window.Adsgram.init({blockId:"int-28543"});
                         const res = await ctrl.show();
-                        if (!res || !res.done) throw new Error('Adsgram সম্পন্ন হয়নি');
+                        if (!res || !res.done) throw new Error('Adsgram failed');
                     } catch(e) {
                         console.log('Adsgram failed, trying Monetag...');
                         await show_10541383();
                     }
                 }},
                 { name: 'Giga Pub', icon: 'fa-rocket', action: async () => { await window.showGiga(); } },
-                { name: 'adsbitvex', icon: 'fa-ad', action: async () => {
+                { name: 'Adsbitvex', icon: 'fa-ad', action: async () => {
                     if (typeof window.showadsbitvex === 'function') await window.showadsbitvex();
                     else throw new Error('adsbitvex SDK not loaded');
                 }}
-            ] : AD_LINKS.map((link,i) => ({ name: `লিংক ${i+1}`, link, icon: 'fa-link' }));
+            ] : AD_LINKS.map((link,i) => ({ name: `Link ${i+1}`, link, icon: 'fa-link' }));
 
             currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type==='ad'?20:20, linkOpenTime: 0, linkStepActive: false };
             renderSequenceStep();
@@ -524,7 +839,6 @@
         }
         function closeSequenceModal() {
             document.getElementById('sequenceModal').classList.remove('active');
-            // Clean up any link step timer/listener
             if (currentSequence && currentSequence.linkStepActive) {
                 clearInterval(linkStepCheckInterval);
                 linkStepCheckInterval = null;
@@ -537,77 +851,69 @@
         function renderSequenceStep() {
             const seq = currentSequence; const card = document.getElementById('sequenceCard');
             const step = seq.steps[seq.currentStep];
+            const t = translations[currentLang];
             let html = `<div class="sequence-steps">`;
             seq.steps.forEach((s,idx) => {
                 let cls = ''; if(idx<seq.currentStep) cls='done'; else if(idx===seq.currentStep && seq.stepCompleted) cls='done'; else if(idx===seq.currentStep) cls='current';
                 html += `<div class="seq-step ${cls}">${cls==='done'?'✓':idx+1}</div>`;
             });
-            html += `</div><div class="seq-label">ধাপ ${seq.currentStep+1}/${seq.steps.length}: ${step.name}</div>`;
+            html += `</div><div class="seq-label">Step ${seq.currentStep+1}/${seq.steps.length}: ${step.name}</div>`;
             if (!seq.stepCompleted) {
                 if (seq.type === 'ad') {
-                    html += `<button class="seq-btn" id="seqActionBtn">${step.name} বিজ্ঞাপন দেখুন</button>`;
+                    html += `<button class="seq-btn" id="seqActionBtn">Show ${step.name} Ad</button>`;
                 } else {
-                    // Link step: show link open button and status
                     if (!seq.linkStepActive) {
-                        html += `<p class="link-status-msg">লিংকটি খুলতে নিচের বাটনে ক্লিক করুন</p>
-                                 <button class="seq-btn" id="seqLinkOpenBtn">লিংক খুলুন</button>`;
+                        html += `<p class="link-status-msg">Click the button below to open the link</p>
+                                 <button class="seq-btn" id="seqLinkOpenBtn">Open Link</button>`;
                     } else {
-                        // Link is opened, waiting for user to come back after 12s
                         const elapsed = Date.now() - seq.linkOpenTime;
                         if (elapsed >= 12000) {
-                            // Already enough time passed, but we might have not processed yet
-                            html += `<p class="link-status-msg">✅ ১২ সেকেন্ড পূর্ণ! পুরস্কার দাবি করুন</p>
-                                     <button class="seq-btn next-step" id="seqLinkCompleteBtn">সম্পন্ন</button>`;
+                            html += `<p class="link-status-msg">✅ 12 seconds passed! Claim reward</p>
+                                     <button class="seq-btn next-step" id="seqLinkCompleteBtn">Complete</button>`;
                         } else {
                             const remaining = Math.ceil((12000 - elapsed) / 1000);
-                            html += `<p class="link-status-msg">⏳ লিংকটি খোলা হয়েছে। ${remaining} সেকেন্ড অপেক্ষা করুন...</p>
+                            html += `<p class="link-status-msg">⏳ Link opened. Wait ${remaining}s...</p>
                                      <div class="countdown-big" id="linkTimerDisplay">${remaining}s</div>
-                                     <button class="seq-btn" id="seqLinkCancelBtn" style="background:#f0f0f0;color:#888;">বাতিল</button>`;
+                                     <button class="seq-btn" id="seqLinkCancelBtn" style="background:#f0f0f0;color:#888;">Cancel</button>`;
                         }
                     }
                 }
             } else {
-                if (seq.currentStep < seq.steps.length-1) html += `<button class="seq-btn next-step" id="seqNextBtn">পরবর্তী ধাপ</button>`;
-                else html += `<div style="font-size:2rem;">🎉</div><h3>অভিনন্দন!</h3><p>আপনি ${seq.reward} কিং অর্জন করেছেন</p><button class="claim-btn" id="seqClaimBtn">${seq.reward} কিং দাবি করুন</button>`;
+                if (seq.currentStep < seq.steps.length-1) html += `<button class="seq-btn next-step" id="seqNextBtn">Next Step</button>`;
+                else html += `<div style="font-size:2rem;">🎉</div><h3>Congratulations!</h3><p>You earned ${seq.reward} King</p><button class="claim-btn" id="seqClaimBtn">Claim ${seq.reward} King</button>`;
             }
-            html += `<button class="claim-btn skip-btn" id="seqCancelBtn">বাতিল</button>`;
+            html += `<button class="claim-btn skip-btn" id="seqCancelBtn">${t.cancelBtnText}</button>`;
             card.innerHTML = html;
 
-            // Attach events
             if (!seq.stepCompleted) {
                 if (seq.type === 'ad') {
                     const actionBtn = document.getElementById('seqActionBtn');
-                    actionBtn.onclick = async () => { actionBtn.disabled=true; actionBtn.innerText='লোড হচ্ছে...'; try{ await step.action(); seq.stepCompleted=true; renderSequenceStep(); } catch(e){ alert('বিজ্ঞাপন ব্যর্থ: '+e.message); actionBtn.disabled=false; actionBtn.innerText=`${step.name} বিজ্ঞাপন দেখুন`; } };
+                    actionBtn.onclick = async () => { actionBtn.disabled=true; actionBtn.innerText='Loading...'; try{ await step.action(); seq.stepCompleted=true; renderSequenceStep(); } catch(e){ alert('Ad failed: '+e.message); actionBtn.disabled=false; actionBtn.innerText=`Show ${step.name} Ad`; } };
                 } else {
-                    // Link step
                     const openBtn = document.getElementById('seqLinkOpenBtn');
                     if (openBtn) {
                         openBtn.onclick = () => {
-                            // Open link
                             window.open(step.link, '_blank');
                             seq.linkOpenTime = Date.now();
                             seq.linkStepActive = true;
-                            // Setup visibility listener and timer
                             setupLinkStepListener(seq);
-                            renderSequenceStep(); // re-render with waiting UI
+                            renderSequenceStep();
                         };
                     }
                     const cancelBtn = document.getElementById('seqLinkCancelBtn');
                     if (cancelBtn) {
                         cancelBtn.onclick = () => {
-                            // User manually cancels
                             seq.linkStepActive = false;
                             clearInterval(linkStepCheckInterval);
                             linkStepCheckInterval = null;
                             document.removeEventListener('visibilitychange', linkStepListener);
                             linkStepListener = null;
-                            renderSequenceStep(); // go back to initial state
+                            renderSequenceStep();
                         };
                     }
                     const completeBtn = document.getElementById('seqLinkCompleteBtn');
                     if (completeBtn) {
                         completeBtn.onclick = () => {
-                            // User clicks complete after 12s (or we auto-complete)
                             seq.stepCompleted = true;
                             seq.linkStepActive = false;
                             clearInterval(linkStepCheckInterval);
@@ -617,9 +923,7 @@
                             renderSequenceStep();
                         };
                     }
-                    // If we already have an active link step, show timer updates
                     if (seq.linkStepActive) {
-                        // update timer every second
                         if (linkStepCheckInterval) clearInterval(linkStepCheckInterval);
                         linkStepCheckInterval = setInterval(() => {
                             if (!seq.linkStepActive) { clearInterval(linkStepCheckInterval); return; }
@@ -629,7 +933,6 @@
                             if (timerDisplay) {
                                 if (remaining <= 0) {
                                     timerDisplay.innerText = '0s';
-                                    // Auto-complete if not already
                                     if (seq.linkStepActive) {
                                         seq.stepCompleted = true;
                                         seq.linkStepActive = false;
@@ -649,43 +952,39 @@
             } else {
                 document.getElementById('seqClaimBtn').onclick = async () => {
                     const key = seq.type==='ad'?'adSeqCompletions':'linkSeqCompletions';
-                    if ((userData[key]||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
+                    if ((userData[key]||0) >= 12) { alert('Daily limit reached!'); return; }
                     const newVal = (userData[key]||0)+1;
                     const now = Date.now();
                     const cooldownKey = seq.type==='ad'?'lastAdSeqCompletion':'lastLinkSeqCompletion';
                     await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1, [cooldownKey]: now });
-                    addEarningEntry(seq.reward, seq.type==='ad'?'অ্যাড সিকোয়েন্স':'লিংক সিকোয়েন্স');
-                    showToast(seq.reward, seq.type==='ad'?'অ্যাড টাস্ক':'লিংক টাস্ক');
+                    addEarningEntry(seq.reward, seq.type==='ad'?'Ad Sequence':'Link Sequence');
+                    showToast(seq.reward, seq.type==='ad'?'Ad Task':'Link Task');
                     closeSequenceModal(); refreshUI();
                 };
             }
             document.getElementById('seqCancelBtn').onclick = closeSequenceModal;
         }
 
-        // Setup visibility listener for link steps
         function setupLinkStepListener(seq) {
             if (linkStepListener) {
                 document.removeEventListener('visibilitychange', linkStepListener);
             }
             linkStepListener = () => {
                 if (document.hidden) {
-                    // page hidden: nothing to do, timer will count
+                    // do nothing
                 } else {
-                    // page visible again: check elapsed time
                     if (!seq.linkStepActive) return;
                     const elapsed = Date.now() - seq.linkOpenTime;
                     if (elapsed >= 12000) {
-                        // Auto-complete
                         seq.stepCompleted = true;
                         seq.linkStepActive = false;
                         clearInterval(linkStepCheckInterval);
                         renderSequenceStep();
                     } else {
-                        // Not enough time, cancel the step
                         seq.linkStepActive = false;
                         clearInterval(linkStepCheckInterval);
-                        alert('আপনি খুব তাড়াতাড়ি ফিরে এসেছেন! ১২ সেকেন্ড অপেক্ষা করুন এবং আবার চেষ্টা করুন।');
-                        renderSequenceStep(); // reset to initial state
+                        alert('You returned too early! Wait 12 seconds and try again.');
+                        renderSequenceStep();
                     }
                 }
             };
@@ -693,22 +992,21 @@
         }
 
         document.getElementById('startAdSeqBtn').onclick = () => {
-            if (userData.adSeqCompletions >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
+            if (userData.adSeqCompletions >= 12) { alert('Daily limit reached!'); return; }
             if (isInCooldown('ad')) return;
             openSequenceModal('ad');
         };
         document.getElementById('startLinkSeqBtn').onclick = () => {
-            if (userData.linkSeqCompletions >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
+            if (userData.linkSeqCompletions >= 12) { alert('Daily limit reached!'); return; }
             if (isInCooldown('link')) return;
             openSequenceModal('link');
         };
 
-        // Cooldown helpers
         function isInCooldown(type) {
             const key = type==='ad'?'lastAdSeqCompletion':'lastLinkSeqCompletion';
             const last = userData[key] || 0;
             const elapsed = Date.now() - last;
-            return elapsed < 20000; // 20 seconds
+            return elapsed < 20000;
         }
         function updateCooldownDisplay() {
             const adLabel = document.getElementById('adCooldownLabel');
@@ -722,7 +1020,7 @@
                 if (remaining > 0) {
                     btn.disabled = true;
                     const sec = Math.ceil(remaining/1000);
-                    label.textContent = `⏳ পরবর্তী: ${sec} সেকেন্ড`;
+                    label.textContent = `⏳ Next in: ${sec}s`;
                 } else {
                     btn.disabled = false;
                     label.textContent = '';
@@ -733,7 +1031,7 @@
             setCooldown(linkBtn, linkLabel, userData.lastLinkSeqCompletion || 0);
         }
 
-        // Tic Tac Toe Game
+        // Tic Tac Toe Game (unchanged)
         const cells = document.querySelectorAll('#gameBoard .cell');
         const gameStatus = document.getElementById('gameStatus');
         const playGameBtn = document.getElementById('playGameBtn');
@@ -743,7 +1041,7 @@
         function resetGameBoard() {
             gameState = ['','','','','','','','','']; currentPlayer='X'; gameActive=true; gameOver=false;
             cells.forEach(c => { c.textContent=''; c.className='cell'; });
-            gameStatus.textContent='আপনার পালা (X)';
+            gameStatus.textContent = translations[currentLang].playBtnText;
         }
         function checkWinner(board = gameState) {
             for (const p of winPatterns) { const [a,b,c]=p; if(board[a]&&board[a]===board[b]&&board[a]===board[c]) return board[a]; }
@@ -752,16 +1050,17 @@
         function endGame(winner) {
             gameActive=false; gameOver=true;
             let reward=0, msg='';
-            if (winner==='X') { msg='আপনি জিতেছেন! (অসম্ভব ব্যাপার!)'; reward=10; }
-            else if (winner==='O') { msg='আপনি হেরেছেন।'; reward=2; }
-            else if (winner==='draw') { msg='ড্র!'; reward=5; }
-            gameStatus.textContent = msg + ` (+${reward} কিং)`;
+            if (winner==='X') { msg='You won! (Impossible!)'; reward=10; }
+            else if (winner==='O') { msg='You lost.'; reward=2; }
+            else if (winner==='draw') { msg='Draw!'; reward=5; }
+            gameStatus.textContent = msg + ` (+${reward} King)`;
             if (reward>0) {
                 updateUser({ balance:(userData.balance||0)+reward, totalEarned:(userData.totalEarned||0)+reward, tasksCompleted:(userData.tasksCompleted||0)+1 });
-                addEarningEntry(reward, winner==='X'?'টিক ট্যাক টো জয়':(winner==='draw'?'টিক ট্যাক টো ড্র':'টিক ট্যাক টো পরাজয়'));
-                showToast(reward, 'টিক ট্যাক টো'); refreshUI();
+                addEarningEntry(reward, winner==='X'?'Tic Tac Toe Win':(winner==='draw'?'Tic Tac Toe Draw':'Tic Tac Toe Loss'));
+                showToast(reward, 'Tic Tac Toe'); refreshUI();
             }
-            playGameBtn.textContent='আবার খেলুন'; playGameBtn.disabled=false;
+            playGameBtn.textContent = translations[currentLang].playBtnText;
+            playGameBtn.disabled=false;
         }
         function handleCellClick(e) {
             if (!gameActive||gameOver||currentPlayer!=='X') return;
@@ -769,7 +1068,7 @@
             if (gameState[index]!=='') return;
             gameState[index]='X'; e.target.textContent='X'; e.target.classList.add('X');
             const winner = checkWinner(); if (winner) { endGame(winner); return; }
-            currentPlayer='O'; gameStatus.textContent='এআই চিন্তা করছে...'; setTimeout(aiMove,300);
+            currentPlayer='O'; gameStatus.textContent='AI thinking...'; setTimeout(aiMove,300);
         }
         function getBestMove() {
             if (Math.random()<0.01) { const empty=gameState.map((v,i)=>v===''?i:null).filter(v=>v!==null); if(empty.length) return empty[Math.floor(Math.random()*empty.length)]; }
@@ -786,27 +1085,26 @@
             if (!gameActive||gameOver) return;
             const bestMove = getBestMove(); if(bestMove!==-1){ gameState[bestMove]='O'; cells[bestMove].textContent='O'; cells[bestMove].classList.add('O'); }
             const winner=checkWinner(); if(winner){ endGame(winner); return; }
-            currentPlayer='X'; gameStatus.textContent='আপনার পালা (X)';
+            currentPlayer='X'; gameStatus.textContent='Your turn (X)';
         }
         async function startGameWithAd() {
-            playGameBtn.disabled=true; playGameBtn.textContent='বিজ্ঞাপন লোড হচ্ছে...';
+            playGameBtn.disabled=true; playGameBtn.textContent='Loading ad...';
             try {
                 if (typeof window.Adsgram !== 'undefined') {
                     const ctrl = window.Adsgram.init({blockId:"int-28543"});
                     const res = await ctrl.show();
-                    if (!res || !res.done) throw new Error('Adsgram সম্পন্ন হয়নি');
-                } else throw new Error('Adsgram নেই');
+                    if (!res || !res.done) throw new Error('Adsgram failed');
+                } else throw new Error('Adsgram not found');
             } catch(e) {
-                console.log('Adsgram ব্যর্থ, Giga চেষ্টা করা হচ্ছে');
-                try { if (typeof window.showGiga === 'function') await window.showGiga(); else throw new Error('Giga নেই'); }
-                catch(e2) { alert('বিজ্ঞাপন দেখানো সম্ভব হয়নি। আবার চেষ্টা করুন।'); playGameBtn.disabled=false; playGameBtn.textContent='খেলা শুরু'; return; }
+                console.log('Adsgram failed, trying Giga');
+                try { if (typeof window.showGiga === 'function') await window.showGiga(); else throw new Error('Giga not found'); }
+                catch(e2) { alert('Ad could not be shown. Try again.'); playGameBtn.disabled=false; playGameBtn.textContent=translations[currentLang].playBtnText; return; }
             }
-            // Show popup "এখন খেলা শুরু করুন"
             document.getElementById('ticStartModal').classList.add('active');
         }
         document.getElementById('ticStartOkBtn').addEventListener('click', () => {
             document.getElementById('ticStartModal').classList.remove('active');
-            playGameBtn.disabled=true; playGameBtn.textContent='খেলা চলছে...';
+            playGameBtn.disabled=true; playGameBtn.textContent='Game in progress...';
             resetGameBoard(); cells.forEach(c => c.addEventListener('click', handleCellClick));
         });
         playGameBtn.addEventListener('click', startGameWithAd);
@@ -859,12 +1157,12 @@
             quizSubmitBtn.disabled = true;
             const userAnswer = auto ? null : parseInt(quizAnswerInput.value.trim());
             let reward = 0, msg = '';
-            if (!auto && userAnswer === quizCorrectAnswer) { msg = `✅ সঠিক উত্তর! (+৩ কিং)`; reward = 3; }
-            else { msg = `❌ ভুল উত্তর! সঠিক ছিল: ${quizCorrectAnswer} (+১ কিং)`; reward = 1; }
+            if (!auto && userAnswer === quizCorrectAnswer) { msg = `✅ Correct! (+3 King)`; reward = 3; }
+            else { msg = `❌ Wrong! Answer was: ${quizCorrectAnswer} (+1 King)`; reward = 1; }
             quizResultEl.innerHTML = msg;
             if (reward > 0) {
                 updateUser({ balance: (userData.balance||0)+reward, totalEarned: (userData.totalEarned||0)+reward, tasksCompleted: (userData.tasksCompleted||0)+1 })
-                .then(() => { addEarningEntry(reward, 'গণিত কুইজ'); showToast(reward, 'গণিত কুইজ'); refreshUI(); });
+                .then(() => { addEarningEntry(reward, 'Math Quiz'); showToast(reward, 'Math Quiz'); refreshUI(); });
             }
             quizTimerEl.style.display = 'none';
             quizPlayAgainBtn.style.display = 'inline-block';
@@ -893,22 +1191,21 @@
         }
 
         quizStartBtn.addEventListener('click', async () => {
-            quizStartBtn.disabled = true; quizStartBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> বিজ্ঞাপন লোড হচ্ছে...';
+            quizStartBtn.disabled = true; quizStartBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Loading ad...';
             try { if (typeof window.showadsbitvex === 'function') await window.showadsbitvex(); else throw new Error('adsbitvex SDK not loaded'); }
             catch (e) { console.error('adsbitvex error', e); }
-            quizStartBtn.innerHTML = '<i class="fas fa-play-circle"></i> খেলা শুরু';
+            quizStartBtn.innerHTML = '<i class="fas fa-play-circle"></i> ' + translations[currentLang].quizStartText;
             startQuizAfterAd();
         });
 
         quizSubmitBtn.addEventListener('click', () => { if (quizActive) handleQuizSubmit(false); });
 
-        // Play again: show adsbitvex ad then start quiz
         quizPlayAgainBtn.addEventListener('click', async () => {
             quizPlayAgainBtn.disabled = true;
-            quizPlayAgainBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> বিজ্ঞাপন লোড হচ্ছে...';
+            quizPlayAgainBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Loading ad...';
             try { if (typeof window.showadsbitvex === 'function') await window.showadsbitvex(); else throw new Error('adsbitvex SDK not loaded'); }
             catch (e) { console.error('adsbitvex error', e); }
-            quizPlayAgainBtn.innerHTML = 'আবার খেলুন';
+            quizPlayAgainBtn.innerHTML = translations[currentLang].quizPlayAgainText;
             quizPlayAgainBtn.disabled = false;
             startQuizAfterAd();
         });
@@ -927,18 +1224,18 @@
         document.getElementById('navGames').onclick = () => switchSection('gamesSection');
         document.getElementById('navCashout').onclick = () => switchSection('cashoutSection');
 
-        // Withdraw (unchanged)
+        // Withdraw
         document.getElementById('submitWithdrawBtn').onclick = async () => {
             const amt = parseInt(document.getElementById('withdrawAmount').value);
             const acc = document.getElementById('paymentAccount').value.trim();
             if (amt < 100 || amt > (userData.balance||0) || !userData.gmailSoldApproved || (userData.referrals?.length||0) < 1) {
-                alert('শর্ত পূরণ হয়নি: ন্যূনতম ১০০ কিং, ১ রেফারেল, নতুন জিমেইল অনুমোদিত');
+                alert('Conditions not met: min 100 King, 1 referral, new Gmail approved');
                 return;
             }
             const fee = Math.floor(amt * 0.1);
-            const wid = { id: Date.now(), withdrawId: 'WD-'+Date.now().toString().slice(-8), amount: amt, fee, netAmount: amt-fee, method: 'বাইন্যান্স', account: acc, status: 'pending', date: Date.now() };
+            const wid = { id: Date.now(), withdrawId: 'WD-'+Date.now().toString().slice(-8), amount: amt, fee, netAmount: amt-fee, method: 'Binance', account: acc, status: 'pending', date: Date.now() };
             await updateUser({ balance: userData.balance - amt, withdrawalHistory: [...(userData.withdrawalHistory||[]), wid], gmailSoldApproved: false });
-            document.getElementById('withdrawSuccessDetails').innerHTML = `<div>আইডি: ${wid.withdrawId}</div><div>পরিমাণ: ${amt} কিং</div><div>নিট: ${amt-fee} কিং (~$${((amt-fee)/EXCHANGE_RATE).toFixed(3)})</div><div style="color:#e65100;margin-top:8px;">পরবর্তী উত্তোলনের জন্য আবার জিমেইল বিক্রি করতে হবে।</div>`;
+            document.getElementById('withdrawSuccessDetails').innerHTML = `<div>ID: ${wid.withdrawId}</div><div>Amount: ${amt} King</div><div>Net: ${amt-fee} King (~$${((amt-fee)/EXCHANGE_RATE).toFixed(3)})</div><div style="color:#e65100;margin-top:8px;">You need to sell a new Gmail for next withdrawal.</div>`;
             document.getElementById('withdrawSuccessModal').classList.add('active');
             refreshUI();
         };
@@ -946,9 +1243,9 @@
         document.getElementById('withdrawAmount').addEventListener('input', () => {
             const amt = parseInt(document.getElementById('withdrawAmount').value) || 0;
             const fee = Math.floor(amt*0.1);
-            document.getElementById('wdAmount').innerText = amt + ' কিং';
-            document.getElementById('wdFee').innerText = fee + ' কিং';
-            document.getElementById('wdNet').innerText = (amt-fee) + ' কিং';
+            document.getElementById('wdAmount').innerText = amt + ' King';
+            document.getElementById('wdFee').innerText = fee + ' King';
+            document.getElementById('wdNet').innerText = (amt-fee) + ' King';
             document.getElementById('wdUsdValue').innerText = '$' + ((amt-fee)/EXCHANGE_RATE).toFixed(3);
         });
 
@@ -968,7 +1265,7 @@
             document.getElementById('referralCodeDisplay').innerText = userData.referralCode || '';
 
             const refs = userData.referrals || [];
-            document.getElementById('referralsListHome').innerHTML = refs.length ? refs.map(r => `<div class="friend-card"><span>${r.username||'User'}</span><span>+${r.bonus||100} কিং</span></div>`).join('') : '<div class="empty-state"><i class="fas fa-user-plus"></i><div>এখনো কোনো রেফারেল নেই</div></div>';
+            document.getElementById('referralsListHome').innerHTML = refs.length ? refs.map(r => `<div class="friend-card"><span>${r.username||'User'}</span><span>+${r.bonus||100} King</span></div>`).join('') : '<div class="empty-state"><i class="fas fa-user-plus"></i><div>' + translations[currentLang].noRefMsg + '</div></div>';
 
             const adComp = userData.adSeqCompletions || 0;
             document.getElementById('adSeqFill').style.width = (adComp/12)*100+'%';
@@ -992,24 +1289,23 @@
 
             const amt = parseInt(document.getElementById('withdrawAmount').value) || 0;
             const fee = Math.floor(amt*0.1);
-            document.getElementById('wdAmount').innerText = amt + ' কিং';
-            document.getElementById('wdFee').innerText = fee + ' কিং';
-            document.getElementById('wdNet').innerText = (amt-fee) + ' কিং';
+            document.getElementById('wdAmount').innerText = amt + ' King';
+            document.getElementById('wdFee').innerText = fee + ' King';
+            document.getElementById('wdNet').innerText = (amt-fee) + ' King';
             document.getElementById('wdUsdValue').innerText = '$' + ((amt-fee)/EXCHANGE_RATE).toFixed(3);
 
             const hist = userData.withdrawalHistory || [];
-            document.getElementById('historyList').innerHTML = hist.length ? hist.slice().reverse().map(w => `<div class="withdrawal-history-card"><div><strong>${w.withdrawId||'WD-'+w.id}</strong> <span style="color:${w.status==='pending'?'#e65100':w.status==='approved'?'#2e7d32':'#c62828'};">${w.status}</span></div><div>${w.amount} কিং (~$${(w.netAmount||w.amount)/EXCHANGE_RATE})</div><div>${w.method||'বাইন্যান্স'}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">কোনো উত্তোলন নেই</div>';
+            document.getElementById('historyList').innerHTML = hist.length ? hist.slice().reverse().map(w => `<div class="withdrawal-history-card"><div><strong>${w.withdrawId||'WD-'+w.id}</strong> <span style="color:${w.status==='pending'?'#e65100':w.status==='approved'?'#2e7d32':'#c62828'};">${w.status}</span></div><div>${w.amount} King (~$${(w.netAmount||w.amount)/EXCHANGE_RATE})</div><div>${w.method||'Binance'}</div><small>${new Date(w.date).toLocaleString()}</small></div>`).join('') : '<div style="color:#aaa;text-align:center;padding:20px;">No withdrawals</div>';
 
             const today = new Date().toDateString();
             if (!userData.dailySellCounts) userData.dailySellCounts = { gmail:0 };
             if (userData.lastSellResetDate !== today) { userData.dailySellCounts = { gmail:0 }; userData.lastSellResetDate = today; updateUser({ dailySellCounts:userData.dailySellCounts, lastSellResetDate:today }); }
-            document.getElementById('sellGmailStatus').innerText = `আজকের জমা: ${userData.dailySellCounts.gmail||0}/৩`;
+            document.getElementById('sellGmailStatus').innerText = `Today's submissions: ${userData.dailySellCounts.gmail||0}/3`;
             document.getElementById('sellGmailBtn').disabled = (userData.dailySellCounts.gmail||0) >= 3;
             renderSellHistory();
             showPaymentProofTask();
             checkDailyVerification();
 
-            // Cooldown countdown intervals
             if (!window._cooldownInterval) {
                 window._cooldownInterval = setInterval(updateCooldownDisplay, 1000);
             }
@@ -1021,25 +1317,25 @@
                 let items = [];
                 snap.forEach(c => items.push({ id: c.key, ...c.val() }));
                 items.sort((a,b) => (b.date||0)-(a.date||0));
-                if (items.length === 0) { container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><div>কোনো বিক্রয় জমা পড়েনি।</div></div>'; return; }
+                if (items.length === 0) { container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><div>No submissions yet.</div></div>'; return; }
                 container.innerHTML = items.map(item => {
                     const statusClass = item.status==='pending'?'status-pending':item.status==='approved'?'status-approved':'status-rejected';
                     let details = '';
-                    if (item.type === 'gmail') details = `<div class="item-row"><span class="label">ইমেইল</span><span class="value">${item.email||'N/A'}</span></div><div class="item-row"><span class="label">রিকভারি</span><span class="value">${item.recovery||'N/A'}</span></div>`;
-                    else details = `<div class="item-row"><span class="label">তথ্য</span><span class="value">${item.contact||'N/A'}</span></div>`;
-                    return `<div class="sell-history-item">${details}<div class="item-row"><span class="label">তারিখ</span><span class="value">${new Date(item.date).toLocaleDateString()}</span></div><div class="item-row"><span class="label">স্ট্যাটাস</span><span class="status-badge ${statusClass}">${item.status==='pending'?'বিচারাধীন':item.status==='approved'?'অনুমোদিত':'প্রত্যাখ্যাত'}</span></div></div>`;
+                    if (item.type === 'gmail') details = `<div class="item-row"><span class="label">Email</span><span class="value">${item.email||'N/A'}</span></div><div class="item-row"><span class="label">Recovery</span><span class="value">${item.recovery||'N/A'}</span></div>`;
+                    else details = `<div class="item-row"><span class="label">Info</span><span class="value">${item.contact||'N/A'}</span></div>`;
+                    return `<div class="sell-history-item">${details}<div class="item-row"><span class="label">Date</span><span class="value">${new Date(item.date).toLocaleDateString()}</span></div><div class="item-row"><span class="label">Status</span><span class="status-badge ${statusClass}">${item.status==='pending'?'Pending':item.status==='approved'?'Approved':'Rejected'}</span></div></div>`;
                 }).join('');
-            }).catch(() => container.innerHTML = '<div class="empty-state">ইতিহাস লোড করতে সমস্যা হয়েছে।</div>');
+            }).catch(() => container.innerHTML = '<div class="empty-state">Failed to load history.</div>');
         }
 
         // Sell only gmail
         document.getElementById('sellGmailBtn').onclick = async function() {
             const today = new Date().toDateString();
-            if ((userData.dailySellCounts?.gmail||0) >= 3) { alert('আজ জিমেইল বিক্রির সীমা শেষ!'); return; }
+            if ((userData.dailySellCounts?.gmail||0) >= 3) { alert('Daily Gmail sell limit reached!'); return; }
             const email = document.getElementById('gmailEmail').value.trim();
             const password = document.getElementById('gmailPassword').value.trim();
             const recovery = document.getElementById('gmailRecovery').value.trim();
-            if (!email || !password || !recovery) { alert('সব ঘর পূরণ করুন।'); return; }
+            if (!email || !password || !recovery) { alert('Fill all fields.'); return; }
             await db.ref('sellSubmissions').push({ type:'gmail', email, password, recovery, userId:telegramId, username:telegramUsername, status:'pending', date:Date.now() });
             const counts = userData.dailySellCounts || { gmail:0 };
             counts.gmail = (counts.gmail||0)+1;
@@ -1068,13 +1364,13 @@
             document.getElementById('clickBadge').innerText = verificationClicks+'/5';
             const btn = document.getElementById('verifyHumanBtn');
             if (verificationClicks >= 5) {
-                btn.classList.add('completed'); btn.querySelector('span').innerText='✓ যাচাইকৃত!'; btn.querySelector('i').className='fas fa-check-circle';
-                document.getElementById('verifyStatusText').innerHTML='✅ যাচাই সম্পন্ন! <span class="highlight">King-এ স্বাগতম</span>';
+                btn.classList.add('completed'); btn.querySelector('span').innerText='✓ Verified!'; btn.querySelector('i').className='fas fa-check-circle';
+                document.getElementById('verifyStatusText').innerHTML='✅ Verification complete! <span class="highlight">Welcome to King</span>';
                 verificationComplete = true;
                 setTimeout(() => { document.getElementById('dailyVerificationModal').classList.remove('active'); updateUser({ lastVerificationDate: new Date().toDateString() }); }, 700);
             } else {
-                btn.classList.remove('completed'); btn.querySelector('span').innerText='যাচাই করতে ক্লিক করুন'; btn.querySelector('i').className='fas fa-hand-pointer';
-                document.getElementById('verifyStatusText').innerHTML='বাটনে <span class="highlight">'+(5-verificationClicks)+' বার</span> ট্যাপ করুন';
+                btn.classList.remove('completed'); btn.querySelector('span').innerText=translations[currentLang].verifyBtnText; btn.querySelector('i').className='fas fa-hand-pointer';
+                document.getElementById('verifyStatusText').innerHTML = translations[currentLang].verifyStatusText.replace('৫ বার', (5-verificationClicks)+' বার');
             }
         }
         document.getElementById('verifyHumanBtn').addEventListener('click', () => {
@@ -1098,14 +1394,14 @@
                             if (!refs.some(r => r.id === telegramId)) refs.push({ id: telegramId, username: telegramUsername, bonus: 100 });
                             await db.ref('users/'+refId).update({ referrals: refs, balance: (refSnap.val().balance||0)+100, referralBonusEarned: (refSnap.val().referralBonusEarned||0)+100 });
                         }
-                        alert('+১০০ কিং বোনাস!');
+                        alert('+100 King bonus!');
                     }
                 }
             }
             proceedToApp();
         };
         document.getElementById('skipReferralCodeBtn').onclick = async () => { await updateUser({ referralBonusApplied: true }); proceedToApp(); };
-        document.getElementById('copyReferralCodeBtn').onclick = () => { navigator.clipboard.writeText(userData.referralCode); alert('কপি করা হয়েছে!'); };
+        document.getElementById('copyReferralCodeBtn').onclick = () => { navigator.clipboard.writeText(userData.referralCode); alert('Copied!'); };
         document.getElementById('shareTelegramCodeBtn').onclick = () => window.open('https://t.me/share/url?url=Join%20King%20with%20code%3A%20'+userData.referralCode, '_blank');
 
         // Init
@@ -1152,7 +1448,7 @@
         // Admin
         let isAdmin = false;
         document.getElementById('adminTrigger').onclick = function() {
-            if (!isAdmin) { const pwd = prompt('অ্যাডমিন পাসওয়ার্ড:'); if (pwd !== 'admin123') return; isAdmin = true; }
+            if (!isAdmin) { const pwd = prompt('Admin password:'); if (pwd !== 'admin123') return; isAdmin = true; }
             db.ref('sellSubmissions').once('value', snap => {
                 const subs = [];
                 snap.forEach(c => subs.push({ id: c.key, ...c.val() }));
@@ -1161,10 +1457,10 @@
                         <div><strong>${s.type}</strong> ${s.status}</div>
                         <div>${s.email||s.contact||''}</div>
                         <div style="font-size:0.65rem;">${s.userId}</div>
-                        <button onclick="window.approveSell('${s.id}','${s.type}','${s.userId}')" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:4px 14px;border-radius:40px;cursor:pointer;margin-right:6px;">অনুমোদন</button>
-                        <button onclick="window.rejectSell('${s.id}')" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;padding:4px 14px;border-radius:40px;cursor:pointer;">প্রত্যাখ্যান</button>
+                        <button onclick="window.approveSell('${s.id}','${s.type}','${s.userId}')" style="background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;padding:4px 14px;border-radius:40px;cursor:pointer;margin-right:6px;">Approve</button>
+                        <button onclick="window.rejectSell('${s.id}')" style="background:#ffebee;color:#c62828;border:1px solid #ef9a9a;padding:4px 14px;border-radius:40px;cursor:pointer;">Reject</button>
                     </div>
-                `).join('') || '<div>কোনো জমা নেই</div>';
+                `).join('') || '<div>No submissions</div>';
                 document.getElementById('adminModal').classList.add('active');
             });
         };
@@ -1185,12 +1481,12 @@
                     if (userId === telegramId) refreshUI();
                 }
             }
-            alert('অনুমোদিত! +'+reward+' কিং');
+            alert('Approved! +'+reward+' King');
             document.getElementById('adminModal').classList.remove('active');
         };
         window.rejectSell = async (subId) => {
             await db.ref('sellSubmissions/'+subId).update({ status: 'rejected' });
-            alert('প্রত্যাখ্যান করা হয়েছে');
+            alert('Rejected');
             document.getElementById('adminModal').classList.remove('active');
         };
 
@@ -1207,11 +1503,14 @@
                 else {
                     fill.style.width = '100%'; percent.textContent = '100%';
                     setTimeout(() => {
-                        initUser().catch(console.error).finally(() => {
-                            setTimeout(() => {
-                                document.getElementById('loadingScreen').classList.add('hidden');
-                                document.getElementById('mainApp').style.display = 'block';
-                            }, 400);
+                        // First detect language, then init app
+                        detectLanguage().then(() => {
+                            initUser().catch(console.error).finally(() => {
+                                setTimeout(() => {
+                                    document.getElementById('loadingScreen').classList.add('hidden');
+                                    document.getElementById('mainApp').style.display = 'block';
+                                }, 400);
+                            });
                         });
                     }, 300);
                 }

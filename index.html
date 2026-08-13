@@ -179,6 +179,8 @@
 
         /* Cooldown label on start buttons */
         .cooldown-label { font-size: 0.8rem; color: #f57c00; margin-top: 4px; }
+        .link-status-msg { font-size: 0.9rem; color: #888; margin: 10px 0; }
+        .link-retry-btn { background: #f5a623; border: none; color: #fff; font-weight: 700; padding: 10px 20px; border-radius: 60px; cursor: pointer; margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -483,6 +485,10 @@
 
         // Sequence modal (ad/link)
         let currentSequence = null;
+        // For link steps: track visibility and time
+        let linkStepListener = null;
+        let linkStepCheckInterval = null;
+
         function openSequenceModal(type) {
             const stepsData = type === 'ad' ? [
                 { name: 'Monetag', icon: 'fa-circle-play', action: async () => { await show_10541383(); } },
@@ -512,11 +518,22 @@
                 }}
             ] : AD_LINKS.map((link,i) => ({ name: `লিংক ${i+1}`, link, icon: 'fa-link' }));
 
-            currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type==='ad'?20:20 };
+            currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type==='ad'?20:20, linkOpenTime: 0, linkStepActive: false };
             renderSequenceStep();
             document.getElementById('sequenceModal').classList.add('active');
         }
-        function closeSequenceModal() { document.getElementById('sequenceModal').classList.remove('active'); currentSequence = null; }
+        function closeSequenceModal() {
+            document.getElementById('sequenceModal').classList.remove('active');
+            // Clean up any link step timer/listener
+            if (currentSequence && currentSequence.linkStepActive) {
+                clearInterval(linkStepCheckInterval);
+                linkStepCheckInterval = null;
+                document.removeEventListener('visibilitychange', linkStepListener);
+                linkStepListener = null;
+                currentSequence.linkStepActive = false;
+            }
+            currentSequence = null;
+        }
         function renderSequenceStep() {
             const seq = currentSequence; const card = document.getElementById('sequenceCard');
             const step = seq.steps[seq.currentStep];
@@ -527,9 +544,27 @@
             });
             html += `</div><div class="seq-label">ধাপ ${seq.currentStep+1}/${seq.steps.length}: ${step.name}</div>`;
             if (!seq.stepCompleted) {
-                if (seq.type === 'ad') html += `<button class="seq-btn" id="seqActionBtn">${step.name} বিজ্ঞাপন দেখুন</button>`;
-                else {
-                    html += `<p style="color:#888;">লিংকটি ১২ সেকেন্ড খোলা রাখুন</p><div class="countdown-big" id="linkTimer">12s</div><button class="seq-btn" id="seqActionBtn" disabled>১২ সেকেন্ড অপেক্ষা</button>`;
+                if (seq.type === 'ad') {
+                    html += `<button class="seq-btn" id="seqActionBtn">${step.name} বিজ্ঞাপন দেখুন</button>`;
+                } else {
+                    // Link step: show link open button and status
+                    if (!seq.linkStepActive) {
+                        html += `<p class="link-status-msg">লিংকটি খুলতে নিচের বাটনে ক্লিক করুন</p>
+                                 <button class="seq-btn" id="seqLinkOpenBtn">লিংক খুলুন</button>`;
+                    } else {
+                        // Link is opened, waiting for user to come back after 12s
+                        const elapsed = Date.now() - seq.linkOpenTime;
+                        if (elapsed >= 12000) {
+                            // Already enough time passed, but we might have not processed yet
+                            html += `<p class="link-status-msg">✅ ১২ সেকেন্ড পূর্ণ! পুরস্কার দাবি করুন</p>
+                                     <button class="seq-btn next-step" id="seqLinkCompleteBtn">সম্পন্ন</button>`;
+                        } else {
+                            const remaining = Math.ceil((12000 - elapsed) / 1000);
+                            html += `<p class="link-status-msg">⏳ লিংকটি খোলা হয়েছে। ${remaining} সেকেন্ড অপেক্ষা করুন...</p>
+                                     <div class="countdown-big" id="linkTimerDisplay">${remaining}s</div>
+                                     <button class="seq-btn" id="seqLinkCancelBtn" style="background:#f0f0f0;color:#888;">বাতিল</button>`;
+                        }
+                    }
                 }
             } else {
                 if (seq.currentStep < seq.steps.length-1) html += `<button class="seq-btn next-step" id="seqNextBtn">পরবর্তী ধাপ</button>`;
@@ -538,30 +573,123 @@
             html += `<button class="claim-btn skip-btn" id="seqCancelBtn">বাতিল</button>`;
             card.innerHTML = html;
 
+            // Attach events
             if (!seq.stepCompleted) {
-                const actionBtn = document.getElementById('seqActionBtn');
                 if (seq.type === 'ad') {
+                    const actionBtn = document.getElementById('seqActionBtn');
                     actionBtn.onclick = async () => { actionBtn.disabled=true; actionBtn.innerText='লোড হচ্ছে...'; try{ await step.action(); seq.stepCompleted=true; renderSequenceStep(); } catch(e){ alert('বিজ্ঞাপন ব্যর্থ: '+e.message); actionBtn.disabled=false; actionBtn.innerText=`${step.name} বিজ্ঞাপন দেখুন`; } };
                 } else {
-                    window.open(step.link, '_blank');
-                    let timeLeft=12; const timerEl=document.getElementById('linkTimer');
-                    const updateTimer=()=>{ timerEl.innerText=timeLeft+'s'; actionBtn.innerText=timeLeft+' সেকেন্ড অপেক্ষা'; if(timeLeft<=0){ clearInterval(interval); actionBtn.disabled=false; actionBtn.innerText='সম্পন্ন'; actionBtn.style.background='#4caf50'; actionBtn.onclick=()=>{ seq.stepCompleted=true; renderSequenceStep(); }; } timeLeft--; };
-                    updateTimer(); const interval=setInterval(updateTimer,1000);
+                    // Link step
+                    const openBtn = document.getElementById('seqLinkOpenBtn');
+                    if (openBtn) {
+                        openBtn.onclick = () => {
+                            // Open link
+                            window.open(step.link, '_blank');
+                            seq.linkOpenTime = Date.now();
+                            seq.linkStepActive = true;
+                            // Setup visibility listener and timer
+                            setupLinkStepListener(seq);
+                            renderSequenceStep(); // re-render with waiting UI
+                        };
+                    }
+                    const cancelBtn = document.getElementById('seqLinkCancelBtn');
+                    if (cancelBtn) {
+                        cancelBtn.onclick = () => {
+                            // User manually cancels
+                            seq.linkStepActive = false;
+                            clearInterval(linkStepCheckInterval);
+                            linkStepCheckInterval = null;
+                            document.removeEventListener('visibilitychange', linkStepListener);
+                            linkStepListener = null;
+                            renderSequenceStep(); // go back to initial state
+                        };
+                    }
+                    const completeBtn = document.getElementById('seqLinkCompleteBtn');
+                    if (completeBtn) {
+                        completeBtn.onclick = () => {
+                            // User clicks complete after 12s (or we auto-complete)
+                            seq.stepCompleted = true;
+                            seq.linkStepActive = false;
+                            clearInterval(linkStepCheckInterval);
+                            linkStepCheckInterval = null;
+                            document.removeEventListener('visibilitychange', linkStepListener);
+                            linkStepListener = null;
+                            renderSequenceStep();
+                        };
+                    }
+                    // If we already have an active link step, show timer updates
+                    if (seq.linkStepActive) {
+                        // update timer every second
+                        if (linkStepCheckInterval) clearInterval(linkStepCheckInterval);
+                        linkStepCheckInterval = setInterval(() => {
+                            if (!seq.linkStepActive) { clearInterval(linkStepCheckInterval); return; }
+                            const elapsed = Date.now() - seq.linkOpenTime;
+                            const remaining = Math.ceil((12000 - elapsed) / 1000);
+                            const timerDisplay = document.getElementById('linkTimerDisplay');
+                            if (timerDisplay) {
+                                if (remaining <= 0) {
+                                    timerDisplay.innerText = '0s';
+                                    // Auto-complete if not already
+                                    if (seq.linkStepActive) {
+                                        seq.stepCompleted = true;
+                                        seq.linkStepActive = false;
+                                        clearInterval(linkStepCheckInterval);
+                                        document.removeEventListener('visibilitychange', linkStepListener);
+                                        renderSequenceStep();
+                                    }
+                                } else {
+                                    timerDisplay.innerText = remaining + 's';
+                                }
+                            }
+                        }, 1000);
+                    }
                 }
-            } else if (seq.currentStep < seq.steps.length-1) document.getElementById('seqNextBtn').onclick = () => { seq.currentStep++; seq.stepCompleted=false; renderSequenceStep(); };
-            else document.getElementById('seqClaimBtn').onclick = async () => {
-                const key = seq.type==='ad'?'adSeqCompletions':'linkSeqCompletions';
-                if ((userData[key]||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
-                const newVal = (userData[key]||0)+1;
-                // Set last completion timestamp for cooldown
-                const now = Date.now();
-                const cooldownKey = seq.type==='ad'?'lastAdSeqCompletion':'lastLinkSeqCompletion';
-                await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1, [cooldownKey]: now });
-                addEarningEntry(seq.reward, seq.type==='ad'?'অ্যাড সিকোয়েন্স':'লিংক সিকোয়েন্স');
-                showToast(seq.reward, seq.type==='ad'?'অ্যাড টাস্ক':'লিংক টাস্ক');
-                closeSequenceModal(); refreshUI();
-            };
+            } else if (seq.currentStep < seq.steps.length-1) {
+                document.getElementById('seqNextBtn').onclick = () => { seq.currentStep++; seq.stepCompleted=false; renderSequenceStep(); };
+            } else {
+                document.getElementById('seqClaimBtn').onclick = async () => {
+                    const key = seq.type==='ad'?'adSeqCompletions':'linkSeqCompletions';
+                    if ((userData[key]||0) >= 12) { alert('দৈনিক সীমা পূর্ণ!'); return; }
+                    const newVal = (userData[key]||0)+1;
+                    const now = Date.now();
+                    const cooldownKey = seq.type==='ad'?'lastAdSeqCompletion':'lastLinkSeqCompletion';
+                    await updateUser({ [key]:newVal, balance:(userData.balance||0)+seq.reward, totalEarned:(userData.totalEarned||0)+seq.reward, tasksCompleted:(userData.tasksCompleted||0)+1, [cooldownKey]: now });
+                    addEarningEntry(seq.reward, seq.type==='ad'?'অ্যাড সিকোয়েন্স':'লিংক সিকোয়েন্স');
+                    showToast(seq.reward, seq.type==='ad'?'অ্যাড টাস্ক':'লিংক টাস্ক');
+                    closeSequenceModal(); refreshUI();
+                };
+            }
             document.getElementById('seqCancelBtn').onclick = closeSequenceModal;
+        }
+
+        // Setup visibility listener for link steps
+        function setupLinkStepListener(seq) {
+            if (linkStepListener) {
+                document.removeEventListener('visibilitychange', linkStepListener);
+            }
+            linkStepListener = () => {
+                if (document.hidden) {
+                    // page hidden: nothing to do, timer will count
+                } else {
+                    // page visible again: check elapsed time
+                    if (!seq.linkStepActive) return;
+                    const elapsed = Date.now() - seq.linkOpenTime;
+                    if (elapsed >= 12000) {
+                        // Auto-complete
+                        seq.stepCompleted = true;
+                        seq.linkStepActive = false;
+                        clearInterval(linkStepCheckInterval);
+                        renderSequenceStep();
+                    } else {
+                        // Not enough time, cancel the step
+                        seq.linkStepActive = false;
+                        clearInterval(linkStepCheckInterval);
+                        alert('আপনি খুব তাড়াতাড়ি ফিরে এসেছেন! ১২ সেকেন্ড অপেক্ষা করুন এবং আবার চেষ্টা করুন।');
+                        renderSequenceStep(); // reset to initial state
+                    }
+                }
+            };
+            document.addEventListener('visibilitychange', linkStepListener);
         }
 
         document.getElementById('startAdSeqBtn').onclick = () => {
@@ -774,9 +902,14 @@
 
         quizSubmitBtn.addEventListener('click', () => { if (quizActive) handleQuizSubmit(false); });
 
-        quizPlayAgainBtn.addEventListener('click', () => {
-            quizResultEl.innerHTML = '';
-            quizPlayAgainBtn.style.display = 'none';
+        // Play again: show adsbitvex ad then start quiz
+        quizPlayAgainBtn.addEventListener('click', async () => {
+            quizPlayAgainBtn.disabled = true;
+            quizPlayAgainBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> বিজ্ঞাপন লোড হচ্ছে...';
+            try { if (typeof window.showadsbitvex === 'function') await window.showadsbitvex(); else throw new Error('adsbitvex SDK not loaded'); }
+            catch (e) { console.error('adsbitvex error', e); }
+            quizPlayAgainBtn.innerHTML = 'আবার খেলুন';
+            quizPlayAgainBtn.disabled = false;
             startQuizAfterAd();
         });
 

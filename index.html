@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Gamil.com</title>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js">
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -426,39 +435,6 @@
             color: var(--red);
         }
 
-        /* ---- DAILY PROGRESS ---- */
-        .daily-progress {
-            background: var(--bg-card);
-            border-radius: var(--radius-sm);
-            padding: 14px 18px;
-            border: 1px solid var(--border-glass);
-            margin-bottom: 20px;
-        }
-        .daily-progress .row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-        .daily-progress .row .count {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        .daily-progress .track {
-            height: 4px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.06);
-            overflow: hidden;
-        }
-        .daily-progress .track .fill {
-            height: 100%;
-            border-radius: 4px;
-            background: var(--accent-gradient);
-            transition: width 0.4s ease;
-            width: 0%;
-        }
-
         /* ---- STATS ROW ---- */
         .stats-row {
             display: grid;
@@ -492,6 +468,39 @@
             text-transform: uppercase;
             letter-spacing: 0.4px;
             margin-top: 2px;
+        }
+
+        /* ---- DAILY PROGRESS ---- */
+        .daily-progress {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            border: 1px solid var(--border-glass);
+            margin-bottom: 20px;
+        }
+        .daily-progress .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        .daily-progress .row .count {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .daily-progress .track {
+            height: 4px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+        }
+        .daily-progress .track .fill {
+            height: 100%;
+            border-radius: 4px;
+            background: var(--accent-gradient);
+            transition: width 0.4s ease;
+            width: 0%;
         }
 
         /* ---- FORM ---- */
@@ -1009,6 +1018,86 @@
             display: none !important;
         }
 
+        /* ---- Admin User Card ---- */
+        .admin-user-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            transition: background var(--transition);
+        }
+        .admin-user-card .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .admin-user-card .user-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+        .admin-user-card .user-type {
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: rgba(108, 140, 255, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(108, 140, 255, 0.10);
+        }
+        .admin-user-card .user-details {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 14px;
+        }
+        .admin-user-card .user-details span {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .admin-user-card .user-details .bal {
+            color: var(--green);
+            font-weight: 600;
+        }
+        .admin-user-card .sub-list {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-glass);
+        }
+        .admin-user-card .sub-item {
+            font-size: 12px;
+            color: var(--text-muted);
+            padding: 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .admin-user-card .sub-item .sub-email {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .admin-user-card .sub-item .sub-status {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .admin-user-card .sub-item .sub-status.pending {
+            background: rgba(251, 146, 60, 0.15);
+            color: var(--orange);
+        }
+        .admin-user-card .sub-item .sub-status.approved {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--green);
+        }
+        .admin-user-card .sub-item .sub-status.rejected {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--red);
+        }
+
         @media (max-width: 380px) {
             .balance-card .amount {
                 font-size: 28px;
@@ -1118,21 +1207,36 @@
     </div>
 
     <script>
+        // ============================================================
+        // FIREBASE CONFIG & INIT
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAlQL5txzjUagN9A5L0Idki9sjAezOczk",
+            authDomain: "earn-for-earn.firebaseapp.com",
+            databaseURL: "https://earn-for-earn-default-rtdb.firebaseio.com",
+            projectId: "earn-for-earn",
+            storageBucket: "earn-for-earn.firebasestorage.app",
+            messagingSenderId: "730217056305",
+            appId: "1:730217056305:web:d1ab3c775b1ed097742d10",
+            measurementId: "G-N8PP006EGK"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // ============================================================
+        // APP CODE
+        // ============================================================
         (function() {
             'use strict';
 
-            // ============================================================
-            // CONFIG
-            // ============================================================
             const CONFIG = {
                 SUPPORT_BOT_URL: 'https://t.me/GamilSupport',
                 MIN_WITHDRAWAL: 0.11,
                 REWARD_AMOUNT: 0.11,
             };
 
-            // ============================================================
-            // STATE
-            // ============================================================
+            // ---- STATE ----
             const state = {
                 user: null,
                 userType: null,
@@ -1144,20 +1248,19 @@
                 dailyLimit: 5,
                 selectedType: null,
                 _currentTab: 'home',
+                allUsers: [],
+                isAdmin: false,
+                isRegistered: false,
             };
 
-            // ============================================================
-            // TELEGRAM WEBAPP
-            // ============================================================
+            // ---- TELEGRAM ----
             const tg = window.Telegram?.WebApp;
             if (tg) {
                 tg.expand();
                 tg.enableClosingConfirmation();
             }
 
-            // ============================================================
-            // DOM REFS
-            // ============================================================
+            // ---- DOM REFS ----
             const $ = (sel) => document.querySelector(sel);
             const loadingScreen = $('#loading-screen');
             const typeScreen = $('#type-screen');
@@ -1175,9 +1278,7 @@
             const modalConfirm = $('#modalConfirm');
             const toastContainer = $('#toastContainer');
 
-            // ============================================================
-            // UTILITIES
-            // ============================================================
+            // ---- UTILITIES ----
             function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
             function formatCurrency(val) { return '$' + Number(val).toFixed(2); }
@@ -1290,55 +1391,42 @@
                 });
             }
 
-            // ============================================================
-            // MOCK BACKEND
-            // ============================================================
-            const MOCK = {
-                getUser() {
-                    const raw = localStorage.getItem('gamil_user');
-                    return raw ? JSON.parse(raw) : null;
-                },
-                saveUser(user) {
-                    localStorage.setItem('gamil_user', JSON.stringify(user));
-                },
-                getSubmissions() {
-                    const raw = localStorage.getItem('gamil_subs');
-                    return raw ? JSON.parse(raw) : [];
-                },
-                saveSubmissions(subs) {
-                    localStorage.setItem('gamil_subs', JSON.stringify(subs));
-                },
-                getWithdrawals() {
-                    const raw = localStorage.getItem('gamil_wds');
-                    return raw ? JSON.parse(raw) : [];
-                },
-                saveWithdrawals(wds) {
-                    localStorage.setItem('gamil_wds', JSON.stringify(wds));
-                },
-                getBalance() {
-                    const raw = localStorage.getItem('gamil_balance');
-                    return raw ? JSON.parse(raw) : { available: 0, totalEarned: 0, pendingRewards: 0, approvedCount: 0,
-                        rejectedCount: 0 };
-                },
-                saveBalance(b) {
-                    localStorage.setItem('gamil_balance', JSON.stringify(b));
-                },
-                getDailyCount() {
-                    const today = new Date().toDateString();
-                    const raw = localStorage.getItem('gamil_daily');
-                    if (!raw) return { date: today, count: 0 };
-                    const data = JSON.parse(raw);
-                    if (data.date !== today) return { date: today, count: 0 };
-                    return data;
-                },
-                saveDailyCount(data) {
-                    localStorage.setItem('gamil_daily', JSON.stringify(data));
-                },
-            };
+            // ---- FIREBASE HELPERS ----
+            function getTelegramId() {
+                const user = tg?.initDataUnsafe?.user;
+                return user?.id ? String(user.id) : 'user_' + Date.now();
+            }
 
-            // ============================================================
-            // LOADING
-            // ============================================================
+            function getTelegramName() {
+                const user = tg?.initDataUnsafe?.user;
+                return user ? (user.first_name || 'User') + ' ' + (user.last_name || '') : 'Telegram User';
+            }
+
+            function getTelegramUsername() {
+                const user = tg?.initDataUnsafe?.user;
+                return user?.username || 't_user';
+            }
+
+            async function firebaseGet(path) {
+                const snap = await db.ref(path).once('value');
+                return snap.val();
+            }
+
+            async function firebaseSet(path, data) {
+                await db.ref(path).set(data);
+            }
+
+            async function firebaseUpdate(path, data) {
+                await db.ref(path).update(data);
+            }
+
+            async function firebasePush(path, data) {
+                const ref = db.ref(path).push();
+                await ref.set(data);
+                return ref.key;
+            }
+
+            // ---- LOADING ----
             async function runLoading() {
                 const container = document.getElementById('particles');
                 for (let i = 0; i < 28; i++) {
@@ -1364,10 +1452,15 @@
                 loaderFill.style.width = '100%';
                 await sleep(400);
 
-                const user = MOCK.getUser();
-                if (user) {
-                    state.user = user;
-                    state.userType = user.type;
+                // Check if user exists in Firebase
+                const userId = getTelegramId();
+                const userData = await firebaseGet('users/' + userId);
+
+                if (userData) {
+                    state.user = { id: userId, ...userData };
+                    state.userType = userData.type;
+                    state.isAdmin = userData.type === 'ADMIN';
+                    state.isRegistered = true;
                     transitionTo('main');
                     renderMain();
                 } else {
@@ -1393,9 +1486,7 @@
                 state.currentScreen = screen;
             }
 
-            // ============================================================
-            // TYPE SELECTION
-            // ============================================================
+            // ---- TYPE SELECTION ----
             let selectedType = null;
 
             function handleTypeSelect(type) {
@@ -1418,40 +1509,74 @@
                 this.disabled = true;
                 this.textContent = 'Saving...';
 
-                await sleep(400);
+                const userId = getTelegramId();
+                const userName = getTelegramName();
+                const userUsername = getTelegramUsername();
 
-                const user = {
-                    id: 'user_' + Date.now(),
-                    first_name: 'Telegram',
-                    last_name: 'User',
-                    username: 't_user',
+                // Check if user already exists (just in case)
+                const existing = await firebaseGet('users/' + userId);
+                if (existing) {
+                    showToast('Account already exists. Redirecting...', 'info');
+                    state.user = { id: userId, ...existing };
+                    state.userType = existing.type;
+                    state.isAdmin = existing.type === 'ADMIN';
+                    state.isRegistered = true;
+                    transitionTo('main');
+                    renderMain();
+                    this.disabled = false;
+                    this.textContent = 'Continue';
+                    return;
+                }
+
+                const userData = {
+                    id: userId,
+                    name: userName,
+                    username: userUsername,
                     type: selectedType,
+                    balance: 0,
+                    totalEarned: 0,
+                    pendingRewards: 0,
+                    approvedCount: 0,
+                    rejectedCount: 0,
+                    createdAt: new Date().toISOString(),
+                    dailyCount: 0,
+                    dailyDate: new Date().toDateString(),
                 };
-                MOCK.saveUser(user);
-                state.user = user;
-                state.userType = selectedType;
 
-                MOCK.saveBalance({ available: 0, totalEarned: 0, pendingRewards: 0, approvedCount: 0, rejectedCount: 0 });
-                MOCK.saveDailyCount({ date: new Date().toDateString(), count: 0 });
-
-                showToast('Account created! Welcome to Gamil.com.', 'success');
-                transitionTo('main');
-                renderMain();
-                this.disabled = false;
-                this.textContent = 'Continue';
+                try {
+                    await firebaseSet('users/' + userId, userData);
+                    state.user = { id: userId, ...userData };
+                    state.userType = selectedType;
+                    state.isAdmin = selectedType === 'ADMIN';
+                    state.isRegistered = true;
+                    showToast('Account created! Welcome to Gamil.com.', 'success');
+                    transitionTo('main');
+                    renderMain();
+                } catch (err) {
+                    showToast('Error creating account. Please try again.', 'error');
+                    console.error(err);
+                } finally {
+                    this.disabled = false;
+                    this.textContent = 'Continue';
+                }
             });
 
-            // ============================================================
-            // MAIN RENDER
-            // ============================================================
+            // ---- MAIN RENDER ----
             async function renderMain() {
-                const user = MOCK.getUser();
-                if (!user) {
+                const userId = getTelegramId();
+                let userData = state.user ? state.user : await firebaseGet('users/' + userId);
+                if (!userData) {
+                    // If somehow user not found, go back to type selection
                     transitionTo('type');
                     return;
                 }
-                state.user = user;
-                state.userType = user.type;
+                // Ensure we have the full user object
+                if (typeof userData === 'object' && !userData.id) {
+                    userData.id = userId;
+                }
+                state.user = userData;
+                state.userType = userData.type;
+                state.isAdmin = userData.type === 'ADMIN';
                 await refreshUserData();
                 const currentTab = state._currentTab || 'home';
                 renderTab(currentTab);
@@ -1459,24 +1584,56 @@
             }
 
             async function refreshUserData() {
-                state.balance = MOCK.getBalance();
-                state.submissions = MOCK.getSubmissions();
-                state.withdrawals = MOCK.getWithdrawals();
-                const daily = MOCK.getDailyCount();
-                state.dailyCount = daily.count;
-                state.dailyLimit = state.userType === 'REAL_USER' ? 5 : 10;
+                const userId = getTelegramId();
+                const userData = await firebaseGet('users/' + userId);
+                if (userData) {
+                    state.user = { id: userId, ...userData };
+                    state.userType = userData.type;
+                    state.isAdmin = userData.type === 'ADMIN';
 
-                // Recalculate pending rewards
-                const pending = state.submissions.filter(s => s.status === 'pending').length;
-                const bal = MOCK.getBalance();
-                bal.pendingRewards = pending * CONFIG.REWARD_AMOUNT;
-                MOCK.saveBalance(bal);
-                state.balance = bal;
+                    // Get submissions
+                    const subs = await firebaseGet('users/' + userId + '/submissions');
+                    state.submissions = subs ? Object.values(subs) : [];
+
+                    // Get withdrawals
+                    const wds = await firebaseGet('users/' + userId + '/withdrawals');
+                    state.withdrawals = wds ? Object.values(wds) : [];
+
+                    // Balance
+                    state.balance = {
+                        available: userData.balance || 0,
+                        totalEarned: userData.totalEarned || 0,
+                        pendingRewards: userData.pendingRewards || 0,
+                        approvedCount: userData.approvedCount || 0,
+                        rejectedCount: userData.rejectedCount || 0,
+                    };
+
+                    // Daily count
+                    const today = new Date().toDateString();
+                    if (userData.dailyDate === today) {
+                        state.dailyCount = userData.dailyCount || 0;
+                    } else {
+                        state.dailyCount = 0;
+                        await firebaseUpdate('users/' + userId, {
+                            dailyCount: 0,
+                            dailyDate: today,
+                        });
+                    }
+                    state.dailyLimit = userData.type === 'REAL_USER' ? 5 : 10;
+
+                    // If admin, load all users
+                    if (state.isAdmin) {
+                        const allUsers = await firebaseGet('users');
+                        if (allUsers) {
+                            state.allUsers = Object.values(allUsers);
+                        }
+                    }
+                }
             }
 
             function renderNav(active) {
                 const isReal = state.userType === 'REAL_USER';
-                const isAdmin = state.userType === 'ADMIN';
+                const isAdmin = state.isAdmin;
                 const items = [
                     { id: 'home', icon: '⌂', label: 'Home', show: true },
                     { id: 'submit', icon: '↑', label: 'Submit', show: true },
@@ -1524,16 +1681,13 @@
                 }
             }
 
-            // ============================================================
-            // HOME
-            // ============================================================
+            // ---- HOME ----
             function renderHome() {
                 const isReal = state.userType === 'REAL_USER';
-                const isAdmin = state.userType === 'ADMIN';
+                const isAdmin = state.isAdmin;
                 const b = state.balance;
                 let html = '';
 
-                // Stats row - show counts
                 const total = state.submissions.length;
                 const approved = state.submissions.filter(s => s.status === 'approved').length;
                 const rejected = state.submissions.filter(s => s.status === 'rejected').length;
@@ -1611,9 +1765,7 @@
                 mainContent.innerHTML = html;
             }
 
-            // ============================================================
-            // SUBMIT
-            // ============================================================
+            // ---- SUBMIT ----
             function renderSubmit() {
                 const isReal = state.userType === 'REAL_USER';
                 const limit = state.dailyLimit || (isReal ? 5 : 10);
@@ -1680,7 +1832,7 @@
                 const recoveryInput = document.getElementById('submitRecovery');
                 const submitBtn = document.getElementById('submitBtn');
 
-                form.addEventListener('submit', function(e) {
+                form.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     const email = emailInput.value.trim();
                     const password = passwordInput.value.trim();
@@ -1702,49 +1854,53 @@
                     submitBtn.disabled = true;
                     submitBtn.textContent = 'Submitting...';
 
-                    setTimeout(async () => {
-                        const subs = MOCK.getSubmissions();
-                        const newSub = {
-                            id: 'SUB-' + String(1000 + subs.length + 1),
-                            submission_id: 'SUB-' + String(1000 + subs.length + 1),
-                            email: email,
-                            password: password,
-                            recovery: recovery,
-                            status: 'pending',
-                            created_at: new Date().toISOString(),
-                            updated_at: new Date().toISOString(),
-                        };
-                        subs.push(newSub);
-                        MOCK.saveSubmissions(subs);
+                    const userId = getTelegramId();
+                    const subId = 'SUB-' + String(1000 + Date.now()).slice(-6);
 
-                        const daily = MOCK.getDailyCount();
-                        daily.count += 1;
-                        MOCK.saveDailyCount(daily);
-                        state.dailyCount = daily.count;
+                    const newSub = {
+                        id: subId,
+                        submission_id: subId,
+                        email: email,
+                        password: password,
+                        recovery: recovery,
+                        status: 'pending',
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString(),
+                    };
 
-                        // Show success modal
-                        await showSuccessModal(
-                            'You successfully submitted an email.<br><br>If there are no issues, you will receive <span class="highlight">approval within 1 day</span>.',
-                            '🎉 Congratulations!'
-                        );
+                    await firebasePush('users/' + userId + '/submissions', newSub);
 
-                        showToast('Submission successful! Pending review.', 'success');
-                        emailInput.value = '';
-                        passwordInput.value = '';
-                        recoveryInput.value = '';
-                        await refreshUserData();
-                        renderTab('history');
-                        state._currentTab = 'history';
-                        renderNav('history');
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = '✉ Submit Email';
-                    }, 600);
+                    // Update daily count
+                    const today = new Date().toDateString();
+                    const userData = await firebaseGet('users/' + userId);
+                    const newDailyCount = (userData.dailyDate === today ? (userData.dailyCount || 0) : 0) + 1;
+                    await firebaseUpdate('users/' + userId, {
+                        dailyCount: newDailyCount,
+                        dailyDate: today,
+                        pendingRewards: (userData.pendingRewards || 0) + CONFIG.REWARD_AMOUNT,
+                    });
+
+                    state.dailyCount = newDailyCount;
+
+                    await showSuccessModal(
+                        'You successfully submitted an email.<br><br>If there are no issues, you will receive <span class="highlight">approval within 1 day</span>.',
+                        '🎉 Congratulations!'
+                    );
+
+                    showToast('Submission successful! Pending review.', 'success');
+                    emailInput.value = '';
+                    passwordInput.value = '';
+                    recoveryInput.value = '';
+                    await refreshUserData();
+                    renderTab('history');
+                    state._currentTab = 'history';
+                    renderNav('history');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '✉ Submit Email';
                 });
             }
 
-            // ============================================================
-            // HISTORY
-            // ============================================================
+            // ---- HISTORY ----
             function renderHistory() {
                 const subs = state.submissions || [];
                 let html =
@@ -1791,12 +1947,10 @@
                 mainContent.innerHTML = html;
             }
 
-            // ============================================================
-            // WITHDRAW
-            // ============================================================
+            // ---- WITHDRAW ----
             function renderWithdraw() {
                 const isReal = state.userType === 'REAL_USER';
-                const isAdmin = state.userType === 'ADMIN';
+                const isAdmin = state.isAdmin;
 
                 if (!isReal && !isAdmin) {
                     mainContent.innerHTML = `
@@ -1900,33 +2054,34 @@
                     withdrawBtn.disabled = true;
                     withdrawBtn.textContent = 'Processing...';
 
-                    setTimeout(() => {
-                        const wds = MOCK.getWithdrawals();
-                        const newWd = {
-                            id: 'WD-' + String(1000 + wds.length + 1),
-                            withdrawal_id: 'WD-' + String(1000 + wds.length + 1),
-                            binance_uid: uid,
-                            amount: amount,
-                            status: 'pending',
-                            created_at: new Date().toISOString(),
-                            updated_at: new Date().toISOString(),
-                        };
-                        wds.push(newWd);
-                        MOCK.saveWithdrawals(wds);
+                    const userId = getTelegramId();
+                    const wdId = 'WD-' + String(1000 + Date.now()).slice(-6);
 
-                        const bal = MOCK.getBalance();
-                        bal.available -= amount;
-                        MOCK.saveBalance(bal);
-                        state.balance = bal;
+                    const newWd = {
+                        id: wdId,
+                        withdrawal_id: wdId,
+                        binance_uid: uid,
+                        amount: amount,
+                        status: 'pending',
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString(),
+                    };
 
-                        showToast('Withdrawal request submitted! Pending approval.', 'success');
-                        uidInput.value = '';
-                        amountInput.value = '';
-                        refreshUserData();
-                        renderWithdraw();
-                        withdrawBtn.disabled = false;
-                        withdrawBtn.textContent = '◊ Withdraw via Binance';
-                    }, 600);
+                    await firebasePush('users/' + userId + '/withdrawals', newWd);
+
+                    // Deduct balance
+                    const userData = await firebaseGet('users/' + userId);
+                    await firebaseUpdate('users/' + userId, {
+                        balance: (userData.balance || 0) - amount,
+                    });
+
+                    showToast('Withdrawal request submitted! Pending approval.', 'success');
+                    uidInput.value = '';
+                    amountInput.value = '';
+                    await refreshUserData();
+                    renderWithdraw();
+                    withdrawBtn.disabled = false;
+                    withdrawBtn.textContent = '◊ Withdraw via Binance';
                 });
             }
 
@@ -1969,11 +2124,9 @@
                 return html;
             }
 
-            // ============================================================
-            // ADMIN
-            // ============================================================
+            // ---- ADMIN ----
             function renderAdmin() {
-                if (state.userType !== 'ADMIN') {
+                if (!state.isAdmin) {
                     mainContent.innerHTML = `
                             <div class="empty-state">
                                 <div class="icon">⚙</div>
@@ -1986,7 +2139,7 @@
 
                 let html = `
                         <h2 class="section-title">⚙ Admin Dashboard</h2>
-                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Manage submissions, withdrawals, and system settings.</p>
+                        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Manage users, submissions, and withdrawals.</p>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
                             <div class="card-item" style="text-align:center;padding:12px;cursor:pointer;" id="adminSubmissions">
                                 <div style="font-size:28px;">✉</div>
@@ -1997,6 +2150,11 @@
                                 <div style="font-size:28px;">◊</div>
                                 <div style="font-weight:600;font-size:14px;">Withdrawals</div>
                                 <div style="font-size:11px;color:var(--text-muted);">Process requests</div>
+                            </div>
+                            <div class="card-item" style="text-align:center;padding:12px;cursor:pointer;" id="adminUsers">
+                                <div style="font-size:28px;">◉</div>
+                                <div style="font-weight:600;font-size:14px;">All Users</div>
+                                <div style="font-size:11px;color:var(--text-muted);">View all users & details</div>
                             </div>
                             <div class="card-item" style="text-align:center;padding:12px;cursor:pointer;" id="adminSettings">
                                 <div style="font-size:28px;">⚙</div>
@@ -2013,181 +2171,320 @@
 
                 document.getElementById('adminSubmissions')?.addEventListener('click', () => renderAdminSubmissions());
                 document.getElementById('adminWithdrawals')?.addEventListener('click', () => renderAdminWithdrawals());
+                document.getElementById('adminUsers')?.addEventListener('click', () => renderAdminUsers());
                 document.getElementById('adminSettings')?.addEventListener('click', () => renderAdminSettings());
             }
 
-            function renderAdminSubmissions() {
+            async function renderAdminSubmissions() {
                 const panel = document.getElementById('adminPanelContent');
                 if (!panel) return;
-                const subs = state.submissions || [];
 
-                if (subs.length === 0) {
+                const allUsers = await firebaseGet('users');
+                if (!allUsers) {
                     panel.innerHTML =
-                        `<div class="empty-state" style="padding:16px;"><div class="icon" style="font-size:28px;">✓</div><p style="font-size:13px;">No submissions to review.</p></div>`;
+                        `<div class="empty-state" style="padding:16px;"><p style="font-size:13px;">No users found.</p></div>`;
                     return;
                 }
 
                 let html = `<div style="margin-top:8px;">`;
-                const pendingSubs = subs.filter(s => s.status === 'pending');
-                if (pendingSubs.length === 0) {
-                    html +=
-                        `<p style="color:var(--text-muted);text-align:center;padding:12px;">All submissions have been reviewed.</p>`;
-                } else {
-                    pendingSubs.forEach(s => {
-                        const status = s.status || 'pending';
-                        const badge = getStatusBadge(status);
-                        html += `
-                                <div class="card-item">
-                                    <div class="top">
-                                        <div class="left">
-                                            <div class="email">${s.email}</div>
-                                            <div class="meta">
-                                                <span class="id">${s.submission_id || s.id}</span>
-                                                <span>${formatDate(s.created_at)}</span>
-                                            </div>
-                                            <div class="meta" style="margin-top:4px;flex-direction:column;gap:3px;">
-                                                <span><span class="field-label">Password:</span> <span class="field-value">${maskPassword(s.password)}</span></span>
-                                                <span><span class="field-label">Recovery:</span> <span class="field-value">${s.recovery || '—'}</span></span>
-                                            </div>
-                                        </div>
-                                        <span class="status-badge ${badge}">${status}</span>
-                                    </div>
-                                    <div style="display:flex;gap:8px;margin-top:10px;">
-                                        <button class="btn btn-success btn-sm admin-approve" data-id="${s.id}" style="flex:1;">✓ Approve</button>
-                                        <button class="btn btn-danger btn-sm admin-reject" data-id="${s.id}" style="flex:1;">✗ Reject</button>
-                                    </div>
+                let hasPending = false;
+
+                for (const [userId, userData] of Object.entries(allUsers)) {
+                    const subs = await firebaseGet('users/' + userId + '/submissions');
+                    if (!subs) continue;
+                    const subList = Object.values(subs);
+                    const pendingSubs = subList.filter(s => s.status === 'pending');
+
+                    if (pendingSubs.length === 0) continue;
+                    hasPending = true;
+
+                    html += `
+                            <div class="admin-user-card">
+                                <div class="user-header">
+                                    <span class="user-name">${userData.name || 'User'}</span>
+                                    <span class="user-type">${userData.type || 'FREELANCER'}</span>
                                 </div>
-                            `;
-                    });
+                                <div class="user-details">
+                                    <span>ID: ${userId.slice(0,12)}...</span>
+                                    <span>Balance: <span class="bal">${formatCurrency(userData.balance || 0)}</span></span>
+                                    <span>Total Earned: ${formatCurrency(userData.totalEarned || 0)}</span>
+                                </div>
+                                <div class="sub-list">
+                                    ${pendingSubs.map(s => `
+                                        <div class="sub-item">
+                                            <span><span class="sub-email">${s.email}</span> <span style="color:var(--text-muted);font-size:11px;">${formatDate(s.created_at)}</span></span>
+                                            <span>
+                                                <span class="sub-status pending">pending</span>
+                                                <button class="btn btn-success btn-sm admin-approve-sub" data-user="${userId}" data-subid="${s.id}" style="padding:3px 10px;font-size:11px;width:auto;margin-left:6px;">✓</button>
+                                                <button class="btn btn-danger btn-sm admin-reject-sub" data-user="${userId}" data-subid="${s.id}" style="padding:3px 10px;font-size:11px;width:auto;margin-left:4px;">✗</button>
+                                            </span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                }
+
+                if (!hasPending) {
+                    html += `<p style="color:var(--text-muted);text-align:center;padding:12px;">No pending submissions.</p>`;
                 }
                 html += `</div>`;
                 panel.innerHTML = html;
 
-                panel.querySelectorAll('.admin-approve').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.dataset.id;
-                        const subs = MOCK.getSubmissions();
-                        const idx = subs.findIndex(s => s.id === id || s.submission_id === id);
-                        if (idx !== -1) {
-                            subs[idx].status = 'approved';
-                            subs[idx].updated_at = new Date().toISOString();
-                            MOCK.saveSubmissions(subs);
-                            const bal = MOCK.getBalance();
-                            bal.available += CONFIG.REWARD_AMOUNT;
-                            bal.totalEarned += CONFIG.REWARD_AMOUNT;
-                            bal.approvedCount += 1;
-                            const pendingCount = subs.filter(s => s.status === 'pending').length;
-                            bal.pendingRewards = pendingCount * CONFIG.REWARD_AMOUNT;
-                            MOCK.saveBalance(bal);
-                            state.balance = bal;
-                            showToast(`Submission approved! $${CONFIG.REWARD_AMOUNT.toFixed(2)} credited.`, 'success');
-                            refreshUserData();
-                            renderAdminSubmissions();
-                        }
+                // Approve handlers
+                panel.querySelectorAll('.admin-approve-sub').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const userId = this.dataset.user;
+                        const subId = this.dataset.subid;
+
+                        const confirmed = await showModal('Approve Submission',
+                            'This will credit $0.11 to the user.', '', 'Approve', 'Cancel');
+                        if (!confirmed) return;
+
+                        const subData = await firebaseGet('users/' + userId + '/submissions');
+                        if (!subData) return;
+                        const subList = Object.values(subData);
+                        const subIndex = subList.findIndex(s => s.id === subId);
+                        if (subIndex === -1) return;
+
+                        const subKey = Object.keys(subData)[subIndex];
+                        await firebaseUpdate('users/' + userId + '/submissions/' + subKey, {
+                            status: 'approved',
+                            updated_at: new Date().toISOString(),
+                        });
+
+                        const userData = await firebaseGet('users/' + userId);
+                        const newBalance = (userData.balance || 0) + CONFIG.REWARD_AMOUNT;
+                        const newTotalEarned = (userData.totalEarned || 0) + CONFIG.REWARD_AMOUNT;
+                        const newApprovedCount = (userData.approvedCount || 0) + 1;
+                        const pendingCount = subList.filter(s => s.status === 'pending' && s.id !== subId).length;
+                        const newPendingRewards = pendingCount * CONFIG.REWARD_AMOUNT;
+
+                        await firebaseUpdate('users/' + userId, {
+                            balance: newBalance,
+                            totalEarned: newTotalEarned,
+                            approvedCount: newApprovedCount,
+                            pendingRewards: newPendingRewards,
+                        });
+
+                        showToast(`Submission approved! $${CONFIG.REWARD_AMOUNT.toFixed(2)} credited.`, 'success');
+                        await refreshUserData();
+                        renderAdminSubmissions();
                     });
                 });
-                panel.querySelectorAll('.admin-reject').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.dataset.id;
-                        const subs = MOCK.getSubmissions();
-                        const idx = subs.findIndex(s => s.id === id || s.submission_id === id);
-                        if (idx !== -1) {
-                            subs[idx].status = 'rejected';
-                            subs[idx].updated_at = new Date().toISOString();
-                            MOCK.saveSubmissions(subs);
-                            const bal = MOCK.getBalance();
-                            bal.rejectedCount += 1;
-                            const pendingCount = subs.filter(s => s.status === 'pending').length;
-                            bal.pendingRewards = pendingCount * CONFIG.REWARD_AMOUNT;
-                            MOCK.saveBalance(bal);
-                            state.balance = bal;
-                            showToast('Submission rejected.', 'warning');
-                            refreshUserData();
-                            renderAdminSubmissions();
-                        }
+
+                panel.querySelectorAll('.admin-reject-sub').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const userId = this.dataset.user;
+                        const subId = this.dataset.subid;
+
+                        const confirmed = await showModal('Reject Submission',
+                            'This submission will be rejected.', '', 'Reject', 'Cancel');
+                        if (!confirmed) return;
+
+                        const subData = await firebaseGet('users/' + userId + '/submissions');
+                        if (!subData) return;
+                        const subList = Object.values(subData);
+                        const subIndex = subList.findIndex(s => s.id === subId);
+                        if (subIndex === -1) return;
+
+                        const subKey = Object.keys(subData)[subIndex];
+                        await firebaseUpdate('users/' + userId + '/submissions/' + subKey, {
+                            status: 'rejected',
+                            updated_at: new Date().toISOString(),
+                        });
+
+                        const userData = await firebaseGet('users/' + userId);
+                        const pendingCount = subList.filter(s => s.status === 'pending' && s.id !== subId).length;
+                        const newPendingRewards = pendingCount * CONFIG.REWARD_AMOUNT;
+                        await firebaseUpdate('users/' + userId, {
+                            rejectedCount: (userData.rejectedCount || 0) + 1,
+                            pendingRewards: newPendingRewards,
+                        });
+
+                        showToast('Submission rejected.', 'warning');
+                        await refreshUserData();
+                        renderAdminSubmissions();
                     });
                 });
             }
 
-            function renderAdminWithdrawals() {
+            async function renderAdminWithdrawals() {
                 const panel = document.getElementById('adminPanelContent');
                 if (!panel) return;
-                const wds = state.withdrawals || [];
 
-                if (wds.length === 0) {
+                const allUsers = await firebaseGet('users');
+                if (!allUsers) {
                     panel.innerHTML =
-                        `<div class="empty-state" style="padding:16px;"><div class="icon" style="font-size:28px;">⌛</div><p style="font-size:13px;">No withdrawal requests.</p></div>`;
+                        `<div class="empty-state" style="padding:16px;"><p style="font-size:13px;">No users found.</p></div>`;
                     return;
                 }
 
                 let html = `<div style="margin-top:8px;">`;
-                const pendingWds = wds.filter(w => w.status === 'pending');
-                if (pendingWds.length === 0) {
-                    html +=
-                        `<p style="color:var(--text-muted);text-align:center;padding:12px;">All withdrawals have been processed.</p>`;
-                } else {
-                    pendingWds.forEach(w => {
-                        const status = w.status || 'pending';
-                        const badge = getStatusBadge(status);
-                        html += `
-                                <div class="card-item">
-                                    <div class="top">
-                                        <div class="left">
-                                            <div style="font-weight:500;font-size:14px;">${formatCurrency(w.amount)}</div>
-                                            <div class="meta">
-                                                <span class="id">${w.withdrawal_id || w.id}</span>
-                                                <span>Binance: ${maskBinance(w.binance_uid)}</span>
-                                                <span>${formatDate(w.created_at)}</span>
-                                            </div>
-                                        </div>
-                                        <span class="status-badge ${badge}">${status}</span>
-                                    </div>
-                                    <div style="display:flex;gap:8px;margin-top:10px;">
-                                        <button class="btn btn-success btn-sm admin-wd-approve" data-id="${w.id}" style="flex:1;">✓ Approve</button>
-                                        <button class="btn btn-danger btn-sm admin-wd-reject" data-id="${w.id}" style="flex:1;">✗ Reject</button>
-                                    </div>
+                let hasPending = false;
+
+                for (const [userId, userData] of Object.entries(allUsers)) {
+                    const wds = await firebaseGet('users/' + userId + '/withdrawals');
+                    if (!wds) continue;
+                    const wdList = Object.values(wds);
+                    const pendingWds = wdList.filter(w => w.status === 'pending');
+
+                    if (pendingWds.length === 0) continue;
+                    hasPending = true;
+
+                    html += `
+                            <div class="admin-user-card">
+                                <div class="user-header">
+                                    <span class="user-name">${userData.name || 'User'}</span>
+                                    <span class="user-type">${userData.type || 'FREELANCER'}</span>
                                 </div>
-                            `;
-                    });
+                                <div class="user-details">
+                                    <span>Balance: <span class="bal">${formatCurrency(userData.balance || 0)}</span></span>
+                                </div>
+                                <div class="sub-list">
+                                    ${pendingWds.map(w => `
+                                        <div class="sub-item">
+                                            <span>${formatCurrency(w.amount)} <span style="color:var(--text-muted);font-size:11px;">Binance: ${maskBinance(w.binance_uid)}</span></span>
+                                            <span>
+                                                <span class="sub-status pending">pending</span>
+                                                <button class="btn btn-success btn-sm admin-wd-approve" data-user="${userId}" data-wdid="${w.id}" style="padding:3px 10px;font-size:11px;width:auto;margin-left:6px;">✓</button>
+                                                <button class="btn btn-danger btn-sm admin-wd-reject" data-user="${userId}" data-wdid="${w.id}" style="padding:3px 10px;font-size:11px;width:auto;margin-left:4px;">✗</button>
+                                            </span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                }
+
+                if (!hasPending) {
+                    html += `<p style="color:var(--text-muted);text-align:center;padding:12px;">No pending withdrawals.</p>`;
                 }
                 html += `</div>`;
                 panel.innerHTML = html;
 
                 panel.querySelectorAll('.admin-wd-approve').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.dataset.id;
-                        const wds = MOCK.getWithdrawals();
-                        const idx = wds.findIndex(w => w.id === id || w.withdrawal_id === id);
-                        if (idx !== -1) {
-                            wds[idx].status = 'completed';
-                            wds[idx].updated_at = new Date().toISOString();
-                            MOCK.saveWithdrawals(wds);
-                            showToast('Withdrawal approved. ✅', 'success');
-                            refreshUserData();
-                            renderAdminWithdrawals();
-                        }
+                    btn.addEventListener('click', async function() {
+                        const userId = this.dataset.user;
+                        const wdId = this.dataset.wdid;
+
+                        const confirmed = await showModal('Approve Withdrawal',
+                            'Mark this withdrawal as completed.', '', 'Approve', 'Cancel');
+                        if (!confirmed) return;
+
+                        const wdData = await firebaseGet('users/' + userId + '/withdrawals');
+                        if (!wdData) return;
+                        const wdList = Object.values(wdData);
+                        const wdIndex = wdList.findIndex(w => w.id === wdId);
+                        if (wdIndex === -1) return;
+
+                        const wdKey = Object.keys(wdData)[wdIndex];
+                        await firebaseUpdate('users/' + userId + '/withdrawals/' + wdKey, {
+                            status: 'completed',
+                            updated_at: new Date().toISOString(),
+                        });
+
+                        showToast('Withdrawal approved. ✅', 'success');
+                        await refreshUserData();
+                        renderAdminWithdrawals();
                     });
                 });
+
                 panel.querySelectorAll('.admin-wd-reject').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.dataset.id;
-                        const wds = MOCK.getWithdrawals();
-                        const idx = wds.findIndex(w => w.id === id || w.withdrawal_id === id);
-                        if (idx !== -1) {
-                            const amount = wds[idx].amount;
-                            wds[idx].status = 'rejected';
-                            wds[idx].updated_at = new Date().toISOString();
-                            MOCK.saveWithdrawals(wds);
-                            const bal = MOCK.getBalance();
-                            bal.available += amount;
-                            MOCK.saveBalance(bal);
-                            state.balance = bal;
-                            showToast('Withdrawal rejected. Amount refunded.', 'warning');
-                            refreshUserData();
-                            renderAdminWithdrawals();
-                        }
+                    btn.addEventListener('click', async function() {
+                        const userId = this.dataset.user;
+                        const wdId = this.dataset.wdid;
+
+                        const confirmed = await showModal('Reject Withdrawal',
+                            'This withdrawal will be rejected. Amount will be refunded.', '', 'Reject', 'Cancel');
+                        if (!confirmed) return;
+
+                        const wdData = await firebaseGet('users/' + userId + '/withdrawals');
+                        if (!wdData) return;
+                        const wdList = Object.values(wdData);
+                        const wdIndex = wdList.findIndex(w => w.id === wdId);
+                        if (wdIndex === -1) return;
+
+                        const wdKey = Object.keys(wdData)[wdIndex];
+                        const amount = wdList[wdIndex].amount;
+
+                        await firebaseUpdate('users/' + userId + '/withdrawals/' + wdKey, {
+                            status: 'rejected',
+                            updated_at: new Date().toISOString(),
+                        });
+
+                        const userData = await firebaseGet('users/' + userId);
+                        await firebaseUpdate('users/' + userId, {
+                            balance: (userData.balance || 0) + amount,
+                        });
+
+                        showToast('Withdrawal rejected. Amount refunded.', 'warning');
+                        await refreshUserData();
+                        renderAdminWithdrawals();
                     });
                 });
+            }
+
+            async function renderAdminUsers() {
+                const panel = document.getElementById('adminPanelContent');
+                if (!panel) return;
+
+                const allUsers = await firebaseGet('users');
+                if (!allUsers) {
+                    panel.innerHTML =
+                        `<div class="empty-state" style="padding:16px;"><p style="font-size:13px;">No users found.</p></div>`;
+                    return;
+                }
+
+                let html = `<div style="margin-top:8px;">`;
+
+                for (const [userId, userData] of Object.entries(allUsers)) {
+                    const subs = await firebaseGet('users/' + userId + '/submissions');
+                    const subList = subs ? Object.values(subs) : [];
+                    const approved = subList.filter(s => s.status === 'approved').length;
+                    const pending = subList.filter(s => s.status === 'pending').length;
+                    const rejected = subList.filter(s => s.status === 'rejected').length;
+
+                    const wds = await firebaseGet('users/' + userId + '/withdrawals');
+                    const wdList = wds ? Object.values(wds) : [];
+                    const totalWithdrawn = wdList.filter(w => w.status === 'completed')
+                        .reduce((sum, w) => sum + (w.amount || 0), 0);
+
+                    html += `
+                            <div class="admin-user-card">
+                                <div class="user-header">
+                                    <span class="user-name">${userData.name || 'User'}</span>
+                                    <span class="user-type">${userData.type || 'FREELANCER'}</span>
+                                </div>
+                                <div class="user-details">
+                                    <span>ID: ${userId.slice(0,10)}...</span>
+                                    <span>Balance: <span class="bal">${formatCurrency(userData.balance || 0)}</span></span>
+                                    <span>Total Earned: ${formatCurrency(userData.totalEarned || 0)}</span>
+                                    <span>Withdrawn: ${formatCurrency(totalWithdrawn)}</span>
+                                </div>
+                                <div class="user-details" style="margin-top:4px;">
+                                    <span>✅ Approved: ${approved}</span>
+                                    <span>⏳ Pending: ${pending}</span>
+                                    <span>❌ Rejected: ${rejected}</span>
+                                    <span>📅 Daily: ${userData.dailyCount || 0}</span>
+                                </div>
+                                ${subList.length > 0 ? `
+                                    <div class="sub-list" style="max-height:120px;overflow-y:auto;">
+                                        ${subList.slice().reverse().slice(0,5).map(s => `
+                                            <div class="sub-item" style="font-size:11px;">
+                                                <span>${s.email}</span>
+                                                <span class="sub-status ${s.status || 'pending'}">${s.status || 'pending'}</span>
+                                            </div>
+                                        `).join('')}
+                                        ${subList.length > 5 ? `<div style="font-size:11px;color:var(--text-muted);text-align:center;padding-top:4px;">+ ${subList.length - 5} more</div>` : ''}
+                                    </div>
+                                ` : `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;">No submissions yet</div>`}
+                            </div>
+                        `;
+                }
+
+                html += `</div>`;
+                panel.innerHTML = html;
             }
 
             function renderAdminSettings() {
@@ -2254,25 +2551,19 @@
                 });
             }
 
-            // ============================================================
-            // SUPPORT
-            // ============================================================
+            // ---- SUPPORT ----
             supportBtn.addEventListener('click', function() {
                 window.open(CONFIG.SUPPORT_BOT_URL || 'https://t.me/GamilSupport', '_blank');
             });
 
-            // ============================================================
-            // NAV HELPER
-            // ============================================================
+            // ---- NAV HELPER ----
             window._navigate = function(tab) {
                 state._currentTab = tab;
                 renderTab(tab);
                 renderNav(tab);
             };
 
-            // ============================================================
-            // INIT
-            // ============================================================
+            // ---- INIT ----
             (async function init() {
                 await runLoading();
             })();
@@ -2297,7 +2588,7 @@
                 }
             }, 30000);
 
-            console.log('Gamil.com App initialized.');
+            console.log('Gamil.com with Firebase initialized.');
         })();
     </script>
 

@@ -19,7 +19,6 @@
     <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
 
     <style>
-        /* same styles as before, no changes */
         * {
             margin: 0;
             padding: 0;
@@ -27,6 +26,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Light mode variables (default dark) */
         :root {
             --bg-primary: #0b0e14;
             --bg-secondary: #131a24;
@@ -51,6 +51,25 @@
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
+        /* Light theme */
+        body.light {
+            --bg-primary: #f5f7fc;
+            --bg-secondary: #e8ecf3;
+            --bg-card: rgba(0, 0, 0, 0.04);
+            --bg-card-hover: rgba(0, 0, 0, 0.08);
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.10);
+            --accent: #4f7aff;
+            --accent-glow: rgba(79, 122, 255, 0.20);
+            --green: #22a65e;
+            --green-glow: rgba(34, 166, 94, 0.15);
+            --orange: #d97706;
+            --red: #dc2626;
+        }
+
         html,
         body {
             height: 100%;
@@ -61,6 +80,7 @@
             touch-action: manipulation;
             user-select: none;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         ::-webkit-scrollbar {
@@ -322,6 +342,11 @@
             position: sticky;
             top: 0;
             z-index: 50;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        body.light .app-header {
+            background: rgba(245, 247, 252, 0.85);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
         .app-header .title {
             font-size: 18px;
@@ -346,7 +371,7 @@
             color: var(--text-secondary);
             font-size: 18px;
             cursor: pointer;
-            transition: background var(--transition), transform var(--transition);
+            transition: background var(--transition), transform var(--transition), color var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -363,7 +388,11 @@
             color: var(--accent);
             font-size: 20px;
         }
+        .header-btn.theme-btn {
+            font-size: 18px;
+        }
 
+        /* (rest of styles unchanged) */
         /* ---- BALANCE CARD ---- */
         .balance-card {
             background: var(--bg-card);
@@ -863,6 +892,11 @@
             padding: 6px 8px calc(6px + var(--safe-bottom));
             z-index: 100;
             flex-shrink: 0;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        body.light .bottom-nav {
+            background: rgba(245, 247, 252, 0.92);
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
         }
         .bottom-nav .nav-item {
             display: flex;
@@ -1189,6 +1223,7 @@
             <div class="app-header" id="appHeader">
                 <div class="title">Gamil.com</div>
                 <div class="actions">
+                    <button class="header-btn theme-btn" id="themeToggleBtn" title="Toggle theme">🌙</button>
                     <button class="header-btn support-btn" id="supportBtn" title="Support">🎧</button>
                 </div>
             </div>
@@ -1235,11 +1270,11 @@
         (function() {
             'use strict';
 
-            // Updated config: reward 0.18, min withdrawal 0.18
+            // Updated config: reward 0.20, min withdrawal 0.20
             const CONFIG = {
-                SUPPORT_BOT_URL: 'https://t.me/GamilSupport',
-                MIN_WITHDRAWAL: 0.18,
-                REWARD_AMOUNT: 0.18,
+                SUPPORT_BOT_URL: 'https://t.me/gmailzccsupport',
+                MIN_WITHDRAWAL: 0.20,
+                REWARD_AMOUNT: 0.20,
                 REFERRAL_REWARD: 0.01,
                 ADSGRAM_BLOCK_ID: '30645',
             };
@@ -1284,6 +1319,7 @@
             const loaderFill = $('#loaderFill');
             const confirmTypeBtn = $('#confirmTypeBtn');
             const supportBtn = $('#supportBtn');
+            const themeToggleBtn = $('#themeToggleBtn');
             const modalOverlay = $('#modalOverlay');
             const modalTitle = $('#modalTitle');
             const modalSub = $('#modalSub');
@@ -1291,6 +1327,20 @@
             const modalCancel = $('#modalCancel');
             const modalConfirm = $('#modalConfirm');
             const toastContainer = $('#toastContainer');
+
+            // ---- THEME TOGGLE ----
+            let currentTheme = 'dark'; // 'dark' or 'light'
+            themeToggleBtn.addEventListener('click', function() {
+                if (document.body.classList.contains('light')) {
+                    document.body.classList.remove('light');
+                    currentTheme = 'dark';
+                    themeToggleBtn.textContent = '🌙';
+                } else {
+                    document.body.classList.add('light');
+                    currentTheme = 'light';
+                    themeToggleBtn.textContent = '☀️';
+                }
+            });
 
             // ---- UTILITIES ----
             function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
@@ -1636,13 +1686,10 @@
                 // Generate referral code based on telegram username
                 let referralCode = null;
                 if (selectedType === 'REAL_USER') {
-                    // Use username if available, else fallback to userId
                     let base = userUsername ? userUsername.toUpperCase() : userId.slice(-6).toUpperCase();
-                    // Remove special characters, keep alphanumeric
                     base = base.replace(/[^A-Z0-9]/g, '');
                     if (base.length < 4) base = userId.slice(-6).toUpperCase();
                     referralCode = 'REF' + base;
-                    // Ensure uniqueness
                     let existingCode = await firebaseGet('referralCodes/' + referralCode);
                     let counter = 0;
                     while (existingCode) {
@@ -1785,7 +1832,6 @@
                 bottomNav.querySelectorAll('.nav-item').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const tab = this.dataset.tab;
-                        // No ad trigger on navigation (only on submit/withdraw)
                         state._currentTab = tab;
                         renderTab(tab);
                         renderNav(tab);
@@ -2066,14 +2112,12 @@
                 subs.slice().reverse().forEach(s => {
                     const status = s.status || 'pending';
                     const badge = getStatusBadge(status);
-                    // Show reward only for Real Users (and only if approved)
                     let rewardHtml = '';
                     if (isReal && status === 'approved') {
                         rewardHtml = `<span style="color:var(--green);font-weight:600;">+$${CONFIG.REWARD_AMOUNT.toFixed(2)}</span>`;
                     } else if (isReal && status === 'pending') {
                         rewardHtml = `<span style="color:var(--orange);">—</span>`;
                     } else {
-                        // Freelancer: no reward displayed
                         rewardHtml = '';
                     }
                     html += `
@@ -2380,7 +2424,7 @@
                         const shareData = {
                             title: 'Join Gamil.com',
                             text: `Join Gamil.com and earn rewards! Use my referral code: ${code}`,
-                            url: 'https://t.me/GamilSupport'
+                            url: 'https://t.me/gmailzccsupport'
                         };
                         if (navigator.share) {
                             navigator.share(shareData).catch(() => {});
@@ -2842,7 +2886,7 @@
                                     <input type="number" id="adminReward" value="${CONFIG.REWARD_AMOUNT}" step="0.01" min="0" style="flex:1;padding:10px 14px;border-radius:8px;border:1px solid var(--border-glass);background:var(--bg-card);color:var(--text-primary);font-size:14px;width:100%;" />
                                     <button class="btn btn-primary btn-sm" id="adminSaveReward" style="width:auto;padding:10px 20px;">Save</button>
                                 </div>
-                                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Default: $0.18 per approved submission</div>
+                                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Default: $0.20 per approved submission</div>
                             </div>
                             <div class="card-item">
                                 <div style="font-weight:500;margin-bottom:4px;">Min. Withdrawal Amount</div>
@@ -2897,7 +2941,7 @@
 
             // ---- SUPPORT ----
             supportBtn.addEventListener('click', function() {
-                window.open(CONFIG.SUPPORT_BOT_URL || 'https://t.me/GamilSupport', '_blank');
+                window.open(CONFIG.SUPPORT_BOT_URL, '_blank');
             });
 
             // ---- NAV HELPER ----

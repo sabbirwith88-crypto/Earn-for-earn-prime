@@ -19,7 +19,7 @@
     <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
 
     <style>
-        /* (same styles as before, no changes needed) */
+        /* same styles as before, no changes */
         * {
             margin: 0;
             padding: 0;
@@ -1241,6 +1241,7 @@
                 MIN_WITHDRAWAL: 0.18,
                 REWARD_AMOUNT: 0.18,
                 REFERRAL_REWARD: 0.01,
+                ADSGRAM_BLOCK_ID: '30645',
             };
 
             // ---- STATE ----
@@ -1263,7 +1264,6 @@
                 referralCode: null,
                 referredBy: null,
                 referralEarnings: 0,
-                // Ad click counter
                 adClickCounter: 0,
             };
 
@@ -1406,10 +1406,11 @@
             }
 
             // ---- AD INTEGRATION ----
+            // Adsgram with blockId 30645
             let adsgramController = null;
             try {
                 if (window.Adsgram) {
-                    adsgramController = window.Adsgram.init({ blockId: "int-28543" });
+                    adsgramController = window.Adsgram.init({ blockId: CONFIG.ADSGRAM_BLOCK_ID });
                 } else {
                     console.warn("Adsgram SDK not loaded");
                 }
@@ -1434,8 +1435,8 @@
                 });
             }
 
-            // Main ad with fallback: Adsgram first, then AdsBitVex
-            function showAdWithFallback() {
+            // For submit/withdraw: try Adsgram first, fallback to AdsBitVex
+            function showRewardAd() {
                 return new Promise((resolve) => {
                     if (adsgramController) {
                         adsgramController.showAd()
@@ -1443,7 +1444,7 @@
                                 resolve();
                             })
                             .catch((err) => {
-                                console.warn("Adsgram failed:", err);
+                                console.warn("Adsgram reward ad failed:", err);
                                 showAdsBitVexOnly().then(resolve);
                             });
                     } else {
@@ -1452,45 +1453,21 @@
                 });
             }
 
-            // ---- AD TRIGGER ON NAVIGATION ----
-            function triggerAdOnAction() {
-                // Increment counter
-                state.adClickCounter++;
-                // Show ad on every click (navigation) or every 4th click?
-                // We'll show ad on every click, but to avoid too many, we'll check condition:
-                // For now, we show ad on every navigation click (since they asked "click korle adsgram ads dekhabe")
-                // and also we show on every 4th click (proti 4 click por)
-                // So we show ad if counter % 4 === 0 OR we can show on every click.
-                // We'll show on every click, but that might be too much. Let's combine: show ad on every click but with a minimum interval? 
-                // Actually they said "proti 4 click por hoar adsgram ads dekhabe" meaning every 4 clicks, show ad.
-                // And "click korle adsgram ads dekhabe" might mean each click triggers an ad, but that would be excessive.
-                // To satisfy both, we'll show ad every 4 clicks, but also we show ad on specific actions (submit, withdraw) already.
-                // So we'll only show ad on navigation every 4th click.
-                // However, the user may click multiple tabs quickly, so we'll implement: show ad if counter % 4 === 0.
-                // Also we keep the existing ads on submit/withdraw.
-                // And initial ad on load.
-                // We'll also show ad on every navigation if they want, but we'll use the counter.
-                // I'll implement: on each navigation, we increment counter, and if counter % 4 === 0, show ad.
-                // This matches "proti 4 click por".
-                if (state.adClickCounter % 4 === 0) {
-                    showAdWithFallback().catch(() => {});
-                }
-            }
-
-            // ---- TRIGGER ADS TIMERS ----
+            // ---- TRIGGER ADS ----
             let adInterval = null;
 
             function startAdTimers() {
-                // Show initial ad after load (already handled separately)
+                // First entry: after 10 seconds show AdsBitVex only
                 if (!state.initialAdShown) {
                     state.initialAdShown = true;
                     setTimeout(() => {
                         if (state.currentScreen === 'main') {
-                            showAdWithFallback().catch(() => {});
+                            showAdsBitVexOnly().catch(() => {});
                         }
-                    }, 100);
+                    }, 10000);
                 }
-                // Every 5 minutes show AdsBitVex only (as before)
+
+                // Every 5 minutes show AdsBitVex only
                 if (adInterval) clearInterval(adInterval);
                 adInterval = setInterval(() => {
                     if (state.currentScreen === 'main') {
@@ -1656,12 +1633,21 @@
                     return;
                 }
 
+                // Generate referral code based on telegram username
                 let referralCode = null;
                 if (selectedType === 'REAL_USER') {
-                    referralCode = 'REF' + userId.slice(-8).toUpperCase();
+                    // Use username if available, else fallback to userId
+                    let base = userUsername ? userUsername.toUpperCase() : userId.slice(-6).toUpperCase();
+                    // Remove special characters, keep alphanumeric
+                    base = base.replace(/[^A-Z0-9]/g, '');
+                    if (base.length < 4) base = userId.slice(-6).toUpperCase();
+                    referralCode = 'REF' + base;
+                    // Ensure uniqueness
                     let existingCode = await firebaseGet('referralCodes/' + referralCode);
+                    let counter = 0;
                     while (existingCode) {
-                        referralCode = referralCode + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                        counter++;
+                        referralCode = 'REF' + base + (counter > 0 ? counter : '');
                         existingCode = await firebaseGet('referralCodes/' + referralCode);
                     }
                 }
@@ -1799,8 +1785,7 @@
                 bottomNav.querySelectorAll('.nav-item').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const tab = this.dataset.tab;
-                        // Trigger ad on navigation (every 4th click)
-                        triggerAdOnAction();
+                        // No ad trigger on navigation (only on submit/withdraw)
                         state._currentTab = tab;
                         renderTab(tab);
                         renderNav(tab);
@@ -2003,11 +1988,11 @@
                         return;
                     }
 
-                    // Show ad before submission (AdsBitVex only as per requirement)
+                    // Show reward ad (Adsgram first, fallback to AdsBitVex)
                     try {
-                        await showAdsBitVexOnly();
+                        await showRewardAd();
                     } catch (err) {
-                        console.warn('Ad failed, proceeding anyway', err);
+                        console.warn('Reward ad failed, proceeding anyway', err);
                     }
 
                     submitBtn.disabled = true;
@@ -2061,6 +2046,7 @@
             // ---- HISTORY ----
             function renderHistory() {
                 const subs = state.submissions || [];
+                const isReal = state.userType === 'REAL_USER';
                 let html =
                     `<h2 class="section-title">≡ Submission History <span class="sub">${subs.length} total</span></h2>`;
 
@@ -2080,7 +2066,16 @@
                 subs.slice().reverse().forEach(s => {
                     const status = s.status || 'pending';
                     const badge = getStatusBadge(status);
-                    const reward = status === 'approved' ? `+$${CONFIG.REWARD_AMOUNT.toFixed(2)}` : status === 'pending' ? '—' : '—';
+                    // Show reward only for Real Users (and only if approved)
+                    let rewardHtml = '';
+                    if (isReal && status === 'approved') {
+                        rewardHtml = `<span style="color:var(--green);font-weight:600;">+$${CONFIG.REWARD_AMOUNT.toFixed(2)}</span>`;
+                    } else if (isReal && status === 'pending') {
+                        rewardHtml = `<span style="color:var(--orange);">—</span>`;
+                    } else {
+                        // Freelancer: no reward displayed
+                        rewardHtml = '';
+                    }
                     html += `
                             <div class="card-item">
                                 <div class="top">
@@ -2089,7 +2084,7 @@
                                         <div class="meta">
                                             <span class="id">${s.submission_id || s.id}</span>
                                             <span>${formatDate(s.created_at)}</span>
-                                            ${reward !== '—' ? `<span style="color:var(--green);font-weight:600;">${reward}</span>` : ''}
+                                            ${rewardHtml ? `<span>${rewardHtml}</span>` : ''}
                                         </div>
                                         <div class="meta" style="margin-top:4px;flex-direction:column;gap:3px;">
                                             <span><span class="field-label">Password:</span> <span class="field-value">${maskPassword(s.password)}</span></span>
@@ -2209,10 +2204,11 @@
 
                     if (!confirmed) return;
 
+                    // Show reward ad (Adsgram first, fallback to AdsBitVex)
                     try {
-                        await showAdsBitVexOnly();
+                        await showRewardAd();
                     } catch (err) {
-                        console.warn('Ad failed, proceeding anyway', err);
+                        console.warn('Reward ad failed, proceeding anyway', err);
                     }
 
                     withdrawBtn.disabled = true;
@@ -2357,7 +2353,6 @@
                             navigator.clipboard.writeText(code).then(() => {
                                 showToast('Referral code copied to clipboard!', 'success');
                             }).catch(() => {
-                                // Fallback
                                 const textArea = document.createElement('textarea');
                                 textArea.value = code;
                                 document.body.appendChild(textArea);
@@ -2385,12 +2380,11 @@
                         const shareData = {
                             title: 'Join Gamil.com',
                             text: `Join Gamil.com and earn rewards! Use my referral code: ${code}`,
-                            url: 'https://t.me/GamilSupport' // or app link
+                            url: 'https://t.me/GamilSupport'
                         };
                         if (navigator.share) {
                             navigator.share(shareData).catch(() => {});
                         } else {
-                            // Fallback: copy to clipboard
                             if (navigator.clipboard && navigator.clipboard.writeText) {
                                 navigator.clipboard.writeText(`Join Gamil.com and earn rewards! Use my referral code: ${code}`)
                                     .then(() => {

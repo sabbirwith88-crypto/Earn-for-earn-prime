@@ -14,7 +14,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js">
     </script>
 
+    <!-- Ad SDKs -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
+
     <style>
+        /* (same styles as before, no changes needed) */
         * {
             margin: 0;
             padding: 0;
@@ -1230,10 +1235,12 @@
         (function() {
             'use strict';
 
+            // Updated config: reward 0.18, min withdrawal 0.18
             const CONFIG = {
                 SUPPORT_BOT_URL: 'https://t.me/GamilSupport',
-                MIN_WITHDRAWAL: 0.11,
-                REWARD_AMOUNT: 0.11,
+                MIN_WITHDRAWAL: 0.18,
+                REWARD_AMOUNT: 0.18,
+                REFERRAL_REWARD: 0.01,
             };
 
             // ---- STATE ----
@@ -1251,6 +1258,13 @@
                 allUsers: [],
                 isAdmin: false,
                 isRegistered: false,
+                mainScreenActive: false,
+                initialAdShown: false,
+                referralCode: null,
+                referredBy: null,
+                referralEarnings: 0,
+                // Ad click counter
+                adClickCounter: 0,
             };
 
             // ---- TELEGRAM ----
@@ -1391,6 +1405,107 @@
                 });
             }
 
+            // ---- AD INTEGRATION ----
+            let adsgramController = null;
+            try {
+                if (window.Adsgram) {
+                    adsgramController = window.Adsgram.init({ blockId: "int-28543" });
+                } else {
+                    console.warn("Adsgram SDK not loaded");
+                }
+            } catch (e) {
+                console.warn("Adsgram init error:", e);
+            }
+
+            function showAdsBitVexOnly() {
+                return new Promise((resolve) => {
+                    if (window.showadsbitvex) {
+                        window.showadsbitvex()
+                            .then(() => {
+                                resolve();
+                            })
+                            .catch((err) => {
+                                console.warn("AdsBitVex error:", err);
+                                resolve();
+                            });
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+
+            // Main ad with fallback: Adsgram first, then AdsBitVex
+            function showAdWithFallback() {
+                return new Promise((resolve) => {
+                    if (adsgramController) {
+                        adsgramController.showAd()
+                            .then(() => {
+                                resolve();
+                            })
+                            .catch((err) => {
+                                console.warn("Adsgram failed:", err);
+                                showAdsBitVexOnly().then(resolve);
+                            });
+                    } else {
+                        showAdsBitVexOnly().then(resolve);
+                    }
+                });
+            }
+
+            // ---- AD TRIGGER ON NAVIGATION ----
+            function triggerAdOnAction() {
+                // Increment counter
+                state.adClickCounter++;
+                // Show ad on every click (navigation) or every 4th click?
+                // We'll show ad on every click, but to avoid too many, we'll check condition:
+                // For now, we show ad on every navigation click (since they asked "click korle adsgram ads dekhabe")
+                // and also we show on every 4th click (proti 4 click por)
+                // So we show ad if counter % 4 === 0 OR we can show on every click.
+                // We'll show on every click, but that might be too much. Let's combine: show ad on every click but with a minimum interval? 
+                // Actually they said "proti 4 click por hoar adsgram ads dekhabe" meaning every 4 clicks, show ad.
+                // And "click korle adsgram ads dekhabe" might mean each click triggers an ad, but that would be excessive.
+                // To satisfy both, we'll show ad every 4 clicks, but also we show ad on specific actions (submit, withdraw) already.
+                // So we'll only show ad on navigation every 4th click.
+                // However, the user may click multiple tabs quickly, so we'll implement: show ad if counter % 4 === 0.
+                // Also we keep the existing ads on submit/withdraw.
+                // And initial ad on load.
+                // We'll also show ad on every navigation if they want, but we'll use the counter.
+                // I'll implement: on each navigation, we increment counter, and if counter % 4 === 0, show ad.
+                // This matches "proti 4 click por".
+                if (state.adClickCounter % 4 === 0) {
+                    showAdWithFallback().catch(() => {});
+                }
+            }
+
+            // ---- TRIGGER ADS TIMERS ----
+            let adInterval = null;
+
+            function startAdTimers() {
+                // Show initial ad after load (already handled separately)
+                if (!state.initialAdShown) {
+                    state.initialAdShown = true;
+                    setTimeout(() => {
+                        if (state.currentScreen === 'main') {
+                            showAdWithFallback().catch(() => {});
+                        }
+                    }, 100);
+                }
+                // Every 5 minutes show AdsBitVex only (as before)
+                if (adInterval) clearInterval(adInterval);
+                adInterval = setInterval(() => {
+                    if (state.currentScreen === 'main') {
+                        showAdsBitVexOnly().catch(() => {});
+                    }
+                }, 5 * 60 * 1000);
+            }
+
+            function stopAdTimers() {
+                if (adInterval) {
+                    clearInterval(adInterval);
+                    adInterval = null;
+                }
+            }
+
             // ---- FIREBASE HELPERS ----
             function getTelegramId() {
                 const user = tg?.initDataUnsafe?.user;
@@ -1452,7 +1567,6 @@
                 loaderFill.style.width = '100%';
                 await sleep(400);
 
-                // Check if user exists in Firebase
                 const userId = getTelegramId();
                 const userData = await firebaseGet('users/' + userId);
 
@@ -1461,6 +1575,9 @@
                     state.userType = userData.type;
                     state.isAdmin = userData.type === 'ADMIN';
                     state.isRegistered = true;
+                    state.referralCode = userData.referralCode || null;
+                    state.referredBy = userData.referredBy || null;
+                    state.referralEarnings = userData.referralEarnings || 0;
                     transitionTo('main');
                     renderMain();
                 } else {
@@ -1484,6 +1601,15 @@
                     }
                 });
                 state.currentScreen = screen;
+                if (screen === 'main') {
+                    state.mainScreenActive = true;
+                    if (!state.initialAdShown) {
+                        startAdTimers();
+                    }
+                } else {
+                    state.mainScreenActive = false;
+                    stopAdTimers();
+                }
             }
 
             // ---- TYPE SELECTION ----
@@ -1513,7 +1639,6 @@
                 const userName = getTelegramName();
                 const userUsername = getTelegramUsername();
 
-                // Check if user already exists (just in case)
                 const existing = await firebaseGet('users/' + userId);
                 if (existing) {
                     showToast('Account already exists. Redirecting...', 'info');
@@ -1521,11 +1646,24 @@
                     state.userType = existing.type;
                     state.isAdmin = existing.type === 'ADMIN';
                     state.isRegistered = true;
+                    state.referralCode = existing.referralCode || null;
+                    state.referredBy = existing.referredBy || null;
+                    state.referralEarnings = existing.referralEarnings || 0;
                     transitionTo('main');
                     renderMain();
                     this.disabled = false;
                     this.textContent = 'Continue';
                     return;
+                }
+
+                let referralCode = null;
+                if (selectedType === 'REAL_USER') {
+                    referralCode = 'REF' + userId.slice(-8).toUpperCase();
+                    let existingCode = await firebaseGet('referralCodes/' + referralCode);
+                    while (existingCode) {
+                        referralCode = referralCode + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                        existingCode = await firebaseGet('referralCodes/' + referralCode);
+                    }
                 }
 
                 const userData = {
@@ -1541,14 +1679,23 @@
                     createdAt: new Date().toISOString(),
                     dailyCount: 0,
                     dailyDate: new Date().toDateString(),
+                    referralCode: referralCode,
+                    referredBy: null,
+                    referralEarnings: 0,
                 };
 
                 try {
                     await firebaseSet('users/' + userId, userData);
+                    if (referralCode) {
+                        await firebaseSet('referralCodes/' + referralCode, userId);
+                    }
                     state.user = { id: userId, ...userData };
                     state.userType = selectedType;
                     state.isAdmin = selectedType === 'ADMIN';
                     state.isRegistered = true;
+                    state.referralCode = referralCode;
+                    state.referredBy = null;
+                    state.referralEarnings = 0;
                     showToast('Account created! Welcome to Gamil.com.', 'success');
                     transitionTo('main');
                     renderMain();
@@ -1566,17 +1713,18 @@
                 const userId = getTelegramId();
                 let userData = state.user ? state.user : await firebaseGet('users/' + userId);
                 if (!userData) {
-                    // If somehow user not found, go back to type selection
                     transitionTo('type');
                     return;
                 }
-                // Ensure we have the full user object
                 if (typeof userData === 'object' && !userData.id) {
                     userData.id = userId;
                 }
                 state.user = userData;
                 state.userType = userData.type;
                 state.isAdmin = userData.type === 'ADMIN';
+                state.referralCode = userData.referralCode || null;
+                state.referredBy = userData.referredBy || null;
+                state.referralEarnings = userData.referralEarnings || 0;
                 await refreshUserData();
                 const currentTab = state._currentTab || 'home';
                 renderTab(currentTab);
@@ -1590,16 +1738,16 @@
                     state.user = { id: userId, ...userData };
                     state.userType = userData.type;
                     state.isAdmin = userData.type === 'ADMIN';
+                    state.referralCode = userData.referralCode || null;
+                    state.referredBy = userData.referredBy || null;
+                    state.referralEarnings = userData.referralEarnings || 0;
 
-                    // Get submissions
                     const subs = await firebaseGet('users/' + userId + '/submissions');
                     state.submissions = subs ? Object.values(subs) : [];
 
-                    // Get withdrawals
                     const wds = await firebaseGet('users/' + userId + '/withdrawals');
                     state.withdrawals = wds ? Object.values(wds) : [];
 
-                    // Balance
                     state.balance = {
                         available: userData.balance || 0,
                         totalEarned: userData.totalEarned || 0,
@@ -1608,7 +1756,6 @@
                         rejectedCount: userData.rejectedCount || 0,
                     };
 
-                    // Daily count
                     const today = new Date().toDateString();
                     if (userData.dailyDate === today) {
                         state.dailyCount = userData.dailyCount || 0;
@@ -1621,7 +1768,6 @@
                     }
                     state.dailyLimit = userData.type === 'REAL_USER' ? 5 : 10;
 
-                    // If admin, load all users
                     if (state.isAdmin) {
                         const allUsers = await firebaseGet('users');
                         if (allUsers) {
@@ -1639,6 +1785,7 @@
                     { id: 'submit', icon: '↑', label: 'Submit', show: true },
                     { id: 'history', icon: '≡', label: 'History', show: true },
                     { id: 'withdraw', icon: '◊', label: 'Withdraw', show: isReal || isAdmin },
+                    { id: 'referral', icon: '♻', label: 'Referral', show: isReal },
                 ];
                 if (isAdmin) items.push({ id: 'admin', icon: '⚙', label: 'Admin', show: true });
 
@@ -1652,6 +1799,8 @@
                 bottomNav.querySelectorAll('.nav-item').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const tab = this.dataset.tab;
+                        // Trigger ad on navigation (every 4th click)
+                        triggerAdOnAction();
                         state._currentTab = tab;
                         renderTab(tab);
                         renderNav(tab);
@@ -1672,6 +1821,9 @@
                         break;
                     case 'withdraw':
                         renderWithdraw();
+                        break;
+                    case 'referral':
+                        renderReferral();
                         break;
                     case 'admin':
                         renderAdmin();
@@ -1820,7 +1972,7 @@
                             <button type="submit" class="btn btn-primary" id="submitBtn">✉ Submit Email</button>
                         </form>
                         <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;">
-                            ${isReal ? 'Reward: $0.11 per approved submission' : 'Submissions are reviewed by admins.'}
+                            ${isReal ? `Reward: $${CONFIG.REWARD_AMOUNT.toFixed(2)} per approved submission` : 'Submissions are reviewed by admins.'}
                         </p>
                     `;
 
@@ -1851,6 +2003,13 @@
                         return;
                     }
 
+                    // Show ad before submission (AdsBitVex only as per requirement)
+                    try {
+                        await showAdsBitVexOnly();
+                    } catch (err) {
+                        console.warn('Ad failed, proceeding anyway', err);
+                    }
+
                     submitBtn.disabled = true;
                     submitBtn.textContent = 'Submitting...';
 
@@ -1870,7 +2029,6 @@
 
                     await firebasePush('users/' + userId + '/submissions', newSub);
 
-                    // Update daily count
                     const today = new Date().toDateString();
                     const userData = await firebaseGet('users/' + userId);
                     const newDailyCount = (userData.dailyDate === today ? (userData.dailyCount || 0) : 0) + 1;
@@ -1922,7 +2080,7 @@
                 subs.slice().reverse().forEach(s => {
                     const status = s.status || 'pending';
                     const badge = getStatusBadge(status);
-                    const reward = status === 'approved' ? '+$0.11' : status === 'pending' ? '—' : '—';
+                    const reward = status === 'approved' ? `+$${CONFIG.REWARD_AMOUNT.toFixed(2)}` : status === 'pending' ? '—' : '—';
                     html += `
                             <div class="card-item">
                                 <div class="top">
@@ -2051,6 +2209,12 @@
 
                     if (!confirmed) return;
 
+                    try {
+                        await showAdsBitVexOnly();
+                    } catch (err) {
+                        console.warn('Ad failed, proceeding anyway', err);
+                    }
+
                     withdrawBtn.disabled = true;
                     withdrawBtn.textContent = 'Processing...';
 
@@ -2069,7 +2233,6 @@
 
                     await firebasePush('users/' + userId + '/withdrawals', newWd);
 
-                    // Deduct balance
                     const userData = await firebaseGet('users/' + userId);
                     await firebaseUpdate('users/' + userId, {
                         balance: (userData.balance || 0) - amount,
@@ -2122,6 +2285,194 @@
                 });
                 html += `</div>`;
                 return html;
+            }
+
+            // ---- REFERRAL ----
+            function renderReferral() {
+                const isReal = state.userType === 'REAL_USER';
+                if (!isReal) {
+                    mainContent.innerHTML = `
+                            <div class="empty-state">
+                                <div class="icon">♻</div>
+                                <h4>Referral Unavailable</h4>
+                                <p>This feature is only for Real Users.</p>
+                            </div>
+                        `;
+                    return;
+                }
+
+                const code = state.referralCode || 'N/A';
+                const referredBy = state.referredBy || 'None';
+                const earnings = state.referralEarnings || 0;
+
+                let html = `
+                        <h2 class="section-title">♻ Referral Program</h2>
+                        <div class="balance-card" style="margin-bottom:16px;">
+                            <div class="label">Your Referral Code</div>
+                            <div style="font-size:24px;font-weight:700;letter-spacing:1px;color:var(--accent);">${code}</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Share this code with friends and earn $0.01 per referral.</div>
+                            <div style="display:flex;gap:8px;margin-top:10px;">
+                                <button class="btn btn-primary btn-sm" id="copyReferralBtn" style="flex:1;padding:8px;">📋 Copy</button>
+                                <button class="btn btn-success btn-sm" id="shareReferralBtn" style="flex:1;padding:8px;">📤 Share</button>
+                            </div>
+                        </div>
+                        <div class="withdraw-info">
+                            <div class="row"><span class="lbl">Referral Earnings</span><span class="val">${formatCurrency(earnings)}</span></div>
+                            <div class="row"><span class="lbl">Referred By</span><span class="val">${referredBy}</span></div>
+                        </div>
+                    `;
+
+                if (!state.referredBy) {
+                    html += `
+                            <div class="card-item" style="border-color:var(--accent);">
+                                <h4 style="font-size:14px;margin-bottom:10px;">Enter a Referral Code</h4>
+                                <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;">If you were invited by someone, enter their referral code here to get $0.01 bonus.</p>
+                                <form id="referralForm" autocomplete="off">
+                                    <div class="form-group" style="margin-bottom:12px;">
+                                        <input type="text" id="referralCodeInput" placeholder="Enter referral code" required style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid var(--border-glass);background:var(--bg-card);color:var(--text-primary);font-size:14px;" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="referralSubmitBtn">Submit Referral Code</button>
+                                </form>
+                            </div>
+                        `;
+                } else {
+                    html += `
+                            <div class="card-item" style="border-color:var(--green);">
+                                <div style="text-align:center;padding:8px;">
+                                    <span style="font-size:28px;">✅</span>
+                                    <div style="font-weight:500;margin-top:4px;">Referral already used</div>
+                                    <div style="font-size:12px;color:var(--text-muted);">You have already been referred by ${referredBy}.</div>
+                                </div>
+                            </div>
+                        `;
+                }
+
+                mainContent.innerHTML = html;
+
+                // Copy referral code
+                const copyBtn = document.getElementById('copyReferralBtn');
+                if (copyBtn) {
+                    copyBtn.addEventListener('click', function() {
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(code).then(() => {
+                                showToast('Referral code copied to clipboard!', 'success');
+                            }).catch(() => {
+                                // Fallback
+                                const textArea = document.createElement('textarea');
+                                textArea.value = code;
+                                document.body.appendChild(textArea);
+                                textArea.select();
+                                document.execCommand('copy');
+                                textArea.remove();
+                                showToast('Referral code copied!', 'success');
+                            });
+                        } else {
+                            const textArea = document.createElement('textarea');
+                            textArea.value = code;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            textArea.remove();
+                            showToast('Referral code copied!', 'success');
+                        }
+                    });
+                }
+
+                // Share referral code
+                const shareBtn = document.getElementById('shareReferralBtn');
+                if (shareBtn) {
+                    shareBtn.addEventListener('click', function() {
+                        const shareData = {
+                            title: 'Join Gamil.com',
+                            text: `Join Gamil.com and earn rewards! Use my referral code: ${code}`,
+                            url: 'https://t.me/GamilSupport' // or app link
+                        };
+                        if (navigator.share) {
+                            navigator.share(shareData).catch(() => {});
+                        } else {
+                            // Fallback: copy to clipboard
+                            if (navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(`Join Gamil.com and earn rewards! Use my referral code: ${code}`)
+                                    .then(() => {
+                                        showToast('Referral message copied to clipboard!', 'success');
+                                    }).catch(() => {
+                                        showToast('Unable to share. Copy the code manually.', 'warning');
+                                    });
+                            } else {
+                                showToast('Share not supported. Copy the code manually.', 'warning');
+                            }
+                        }
+                    });
+                }
+
+                // Referral form
+                const form = document.getElementById('referralForm');
+                if (form) {
+                    form.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        const input = document.getElementById('referralCodeInput');
+                        const refCode = input.value.trim().toUpperCase();
+                        if (!refCode) {
+                            showToast('Please enter a referral code.', 'error');
+                            return;
+                        }
+
+                        const userId = getTelegramId();
+                        const referrerId = await firebaseGet('referralCodes/' + refCode);
+                        if (!referrerId) {
+                            showToast('Invalid referral code.', 'error');
+                            return;
+                        }
+                        if (referrerId === userId) {
+                            showToast('You cannot refer yourself.', 'error');
+                            return;
+                        }
+                        const userData = await firebaseGet('users/' + userId);
+                        if (userData.referredBy) {
+                            showToast('You have already used a referral code.', 'error');
+                            return;
+                        }
+
+                        const confirmed = await showModal(
+                            'Confirm Referral',
+                            `You will receive $0.01 and the referrer will also get $0.01.`,
+                            `<div class="detail-row"><span class="lbl">Referral Code</span><span class="val">${refCode}</span></div>`,
+                            'Confirm', 'Cancel'
+                        );
+                        if (!confirmed) return;
+
+                        const referrerData = await firebaseGet('users/' + referrerId);
+                        if (!referrerData) {
+                            showToast('Referrer account not found.', 'error');
+                            return;
+                        }
+
+                        const reward = CONFIG.REFERRAL_REWARD;
+
+                        await firebaseUpdate('users/' + referrerId, {
+                            balance: (referrerData.balance || 0) + reward,
+                            totalEarned: (referrerData.totalEarned || 0) + reward,
+                            referralEarnings: (referrerData.referralEarnings || 0) + reward,
+                        });
+
+                        await firebaseUpdate('users/' + userId, {
+                            referredBy: refCode,
+                            referralEarnings: (userData.referralEarnings || 0) + reward,
+                            balance: (userData.balance || 0) + reward,
+                            totalEarned: (userData.totalEarned || 0) + reward,
+                        });
+
+                        state.referredBy = refCode;
+                        state.referralEarnings = (userData.referralEarnings || 0) + reward;
+                        state.balance.available = (userData.balance || 0) + reward;
+                        state.balance.totalEarned = (userData.totalEarned || 0) + reward;
+
+                        showToast('Referral code applied! Both you and the referrer got $0.01.', 'success');
+                        input.value = '';
+                        await refreshUserData();
+                        renderReferral();
+                    });
+                }
             }
 
             // ---- ADMIN ----
@@ -2231,14 +2582,13 @@
                 html += `</div>`;
                 panel.innerHTML = html;
 
-                // Approve handlers
                 panel.querySelectorAll('.admin-approve-sub').forEach(btn => {
                     btn.addEventListener('click', async function() {
                         const userId = this.dataset.user;
                         const subId = this.dataset.subid;
 
                         const confirmed = await showModal('Approve Submission',
-                            'This will credit $0.11 to the user.', '', 'Approve', 'Cancel');
+                            `This will credit $${CONFIG.REWARD_AMOUNT.toFixed(2)} to the user.`, '', 'Approve', 'Cancel');
                         if (!confirmed) return;
 
                         const subData = await firebaseGet('users/' + userId + '/submissions');
@@ -2498,7 +2848,7 @@
                                     <input type="number" id="adminReward" value="${CONFIG.REWARD_AMOUNT}" step="0.01" min="0" style="flex:1;padding:10px 14px;border-radius:8px;border:1px solid var(--border-glass);background:var(--bg-card);color:var(--text-primary);font-size:14px;width:100%;" />
                                     <button class="btn btn-primary btn-sm" id="adminSaveReward" style="width:auto;padding:10px 20px;">Save</button>
                                 </div>
-                                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Default: $0.11 per approved submission</div>
+                                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Default: $0.18 per approved submission</div>
                             </div>
                             <div class="card-item">
                                 <div style="font-weight:500;margin-bottom:4px;">Min. Withdrawal Amount</div>
@@ -2578,7 +2928,6 @@
                 });
             }
 
-            // Auto-refresh every 30s
             setInterval(async () => {
                 if (state.currentScreen === 'main' && state.user) {
                     await refreshUserData();

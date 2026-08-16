@@ -26,7 +26,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Light mode variables (default dark) */
         :root {
             --bg-primary: #0b0e14;
             --bg-secondary: #131a24;
@@ -51,7 +50,6 @@
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        /* Light theme */
         body.light {
             --bg-primary: #f5f7fc;
             --bg-secondary: #e8ecf3;
@@ -249,85 +247,6 @@
             }
         }
 
-        /* ---- TYPE SELECTION ---- */
-        .type-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 20px;
-        }
-        .type-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
-            border-radius: var(--radius);
-            padding: 20px 20px 20px 24px;
-            cursor: pointer;
-            transition: background var(--transition), transform var(--transition),
-                border-color var(--transition), box-shadow var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: relative;
-            overflow: hidden;
-            touch-action: manipulation;
-            pointer-events: auto;
-        }
-        .type-card:active {
-            transform: scale(0.97);
-        }
-        .type-card .icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
-            color: #fff;
-            font-weight: 400;
-        }
-        .type-card .info {
-            flex: 1;
-            position: relative;
-            z-index: 1;
-            min-width: 0;
-        }
-        .type-card .info h3 {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 2px;
-            color: var(--text-primary);
-        }
-        .type-card .info p {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-        .type-card .badge {
-            position: relative;
-            z-index: 1;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            background: rgba(108, 140, 255, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(108, 140, 255, 0.15);
-            flex-shrink: 0;
-            white-space: nowrap;
-        }
-        .type-card.selected {
-            border-color: var(--accent);
-            background: rgba(108, 140, 255, 0.08);
-            box-shadow: 0 0 30px var(--accent-glow);
-        }
-
         /* ---- HEADER ---- */
         .app-header {
             display: flex;
@@ -392,7 +311,6 @@
             font-size: 18px;
         }
 
-        /* (rest of styles unchanged) */
         /* ---- BALANCE CARD ---- */
         .balance-card {
             background: var(--bg-card);
@@ -504,7 +422,7 @@
             margin-top: 2px;
         }
 
-        /* ---- DAILY PROGRESS ---- */
+        /* ---- DAILY PROGRESS (for submissions) ---- */
         .daily-progress {
             background: var(--bg-card);
             border-radius: var(--radius-sm);
@@ -535,6 +453,122 @@
             background: var(--accent-gradient);
             transition: width 0.4s ease;
             width: 0%;
+        }
+
+        /* ---- PAYMENT PROOF BOX ---- */
+        .payment-proof-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background var(--transition), transform var(--transition);
+        }
+        .payment-proof-box:active {
+            transform: scale(0.98);
+        }
+        .payment-proof-box .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .payment-proof-box .left .icon {
+            font-size: 28px;
+        }
+        .payment-proof-box .left .text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .payment-proof-box .left .sub {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .payment-proof-box .arrow {
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+
+        /* ---- VERIFICATION OVERLAY ---- */
+        .verify-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .verify-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .verify-box {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            padding: 36px 28px;
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-glass);
+        }
+        .verify-box .shield {
+            font-size: 56px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .verify-box h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+        .verify-box p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .verify-box .btn-verify {
+            background: var(--accent-gradient);
+            color: #fff;
+            border: none;
+            padding: 14px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity var(--transition), transform var(--transition);
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+        .verify-box .btn-verify:active {
+            transform: scale(0.97);
+        }
+        .verify-box .btn-verify:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .verify-box .btn-cancel-verify {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            margin-top: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px;
+            width: 100%;
         }
 
         /* ---- FORM ---- */
@@ -1141,21 +1175,6 @@
             .balance-card .amount {
                 font-size: 28px;
             }
-            .type-card {
-                padding: 16px 16px 16px 18px;
-            }
-            .type-card .icon {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
-            .stats-row {
-                grid-template-columns: 1fr 1fr 1fr;
-                gap: 6px;
-            }
-            .stats-row .stat-item .num {
-                font-size: 16px;
-            }
         }
         @media (min-width: 480px) {
             #app {
@@ -1187,37 +1206,6 @@
             </div>
         </div>
 
-        <!-- TYPE SELECTION -->
-        <div class="screen" id="type-screen">
-            <div class="screen-content" style="display:flex;flex-direction:column;justify-content:center;padding-top:40px;">
-                <div style="text-align:center;margin-bottom:12px;">
-                    <h2 style="font-size:22px;font-weight:700;">Choose Your Account Type</h2>
-                    <p style="color:var(--text-secondary);font-size:14px;margin-top:2px;">Select how you want to use the platform</p>
-                </div>
-                <div class="type-grid">
-                    <div class="type-card" data-type="FREELANCER" id="typeFreelancer">
-                        <div class="icon">◈</div>
-                        <div class="info">
-                            <h3>Freelancer</h3>
-                            <p>Submit eligible existing emails without accessing the reward and withdrawal system.</p>
-                        </div>
-                        <div class="badge">Limited</div>
-                    </div>
-                    <div class="type-card" data-type="REAL_USER" id="typeRealUser">
-                        <div class="icon">★</div>
-                        <div class="info">
-                            <h3>Real User</h3>
-                            <p>Submit your own existing email and receive rewards after admin approval.</p>
-                        </div>
-                        <div class="badge">Full Access</div>
-                    </div>
-                </div>
-                <button class="btn btn-primary mt-16" id="confirmTypeBtn" disabled style="max-width:300px;margin:20px auto 0;">
-                    Continue
-                </button>
-            </div>
-        </div>
-
         <!-- MAIN APP -->
         <div class="screen" id="main-screen">
             <div class="app-header" id="appHeader">
@@ -1241,6 +1229,17 @@
                     <button class="btn btn-outline" id="modalCancel">Cancel</button>
                     <button class="btn btn-primary" id="modalConfirm">Confirm</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- VERIFICATION OVERLAY -->
+        <div class="verify-overlay" id="verifyOverlay">
+            <div class="verify-box">
+                <span class="shield">🛡️</span>
+                <h3>Verify You Are Human</h3>
+                <p>Please complete the verification to proceed with the ad. This helps us ensure a fair experience.</p>
+                <button class="btn-verify" id="verifyBtn">Verify</button>
+                <button class="btn-cancel-verify" id="verifyCancel">Cancel</button>
             </div>
         </div>
 
@@ -1270,26 +1269,27 @@
         (function() {
             'use strict';
 
-            // Updated config: reward 0.20, min withdrawal 0.20
             const CONFIG = {
                 SUPPORT_BOT_URL: 'https://t.me/gmailzccsupport',
+                PAYMENT_PROOF_URL: 'https://t.me/gmailzccpaymentproof',
                 MIN_WITHDRAWAL: 0.20,
                 REWARD_AMOUNT: 0.20,
                 REFERRAL_REWARD: 0.01,
-                ADSGRAM_BLOCK_ID: '30645',
+                ADSGRAM_BLOCK_ID: 'int-28543',
+                EXTRA_REWARD: 0.01, // kept for reference but not used
+                EXTRA_DAILY_LIMIT: 20,
             };
 
             // ---- STATE ----
             const state = {
                 user: null,
-                userType: null,
+                userType: 'REAL_USER',
                 currentScreen: 'loading',
                 submissions: [],
                 withdrawals: [],
                 balance: { available: 0, totalEarned: 0, pendingRewards: 0, approvedCount: 0, rejectedCount: 0 },
                 dailyCount: 0,
                 dailyLimit: 5,
-                selectedType: null,
                 _currentTab: 'home',
                 allUsers: [],
                 isAdmin: false,
@@ -1299,7 +1299,10 @@
                 referralCode: null,
                 referredBy: null,
                 referralEarnings: 0,
-                adClickCounter: 0,
+                // extra earnings not used in UI but stored
+                extraDailyCount: 0,
+                extraDailyDate: '',
+                extraEarningsTotal: 0,
             };
 
             // ---- TELEGRAM ----
@@ -1312,12 +1315,10 @@
             // ---- DOM REFS ----
             const $ = (sel) => document.querySelector(sel);
             const loadingScreen = $('#loading-screen');
-            const typeScreen = $('#type-screen');
             const mainScreen = $('#main-screen');
             const mainContent = $('#mainContent');
             const bottomNav = $('#bottomNav');
             const loaderFill = $('#loaderFill');
-            const confirmTypeBtn = $('#confirmTypeBtn');
             const supportBtn = $('#supportBtn');
             const themeToggleBtn = $('#themeToggleBtn');
             const modalOverlay = $('#modalOverlay');
@@ -1327,9 +1328,12 @@
             const modalCancel = $('#modalCancel');
             const modalConfirm = $('#modalConfirm');
             const toastContainer = $('#toastContainer');
+            const verifyOverlay = $('#verifyOverlay');
+            const verifyBtn = $('#verifyBtn');
+            const verifyCancel = $('#verifyCancel');
 
             // ---- THEME TOGGLE ----
-            let currentTheme = 'dark'; // 'dark' or 'light'
+            let currentTheme = 'dark';
             themeToggleBtn.addEventListener('click', function() {
                 if (document.body.classList.contains('light')) {
                     document.body.classList.remove('light');
@@ -1456,11 +1460,11 @@
             }
 
             // ---- AD INTEGRATION ----
-            // Adsgram with blockId 30645
             let adsgramController = null;
             try {
                 if (window.Adsgram) {
                     adsgramController = window.Adsgram.init({ blockId: CONFIG.ADSGRAM_BLOCK_ID });
+                    console.log('Adsgram initialized with blockId:', CONFIG.ADSGRAM_BLOCK_ID);
                 } else {
                     console.warn("Adsgram SDK not loaded");
                 }
@@ -1468,24 +1472,93 @@
                 console.warn("Adsgram init error:", e);
             }
 
-            function showAdsBitVexOnly() {
-                return new Promise((resolve) => {
-                    if (window.showadsbitvex) {
-                        window.showadsbitvex()
-                            .then(() => {
-                                resolve();
-                            })
-                            .catch((err) => {
-                                console.warn("AdsBitVex error:", err);
-                                resolve();
-                            });
-                    } else {
-                        resolve();
+            // Verification overlay
+            let verifyResolve = null;
+            let verifyReject = null;
+            let verifyActive = false;
+
+            function showVerification() {
+                return new Promise((resolve, reject) => {
+                    if (verifyActive) {
+                        reject('Verification already in progress');
+                        return;
                     }
+                    verifyActive = true;
+                    verifyOverlay.classList.add('open');
+                    verifyResolve = resolve;
+                    verifyReject = reject;
+
+                    // Reset button state
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Verify';
                 });
             }
 
-            // For submit/withdraw: try Adsgram first, fallback to AdsBitVex
+            verifyBtn.addEventListener('click', function() {
+                // User clicked Verify
+                verifyBtn.disabled = true;
+                verifyBtn.textContent = 'Verifying...';
+                // Resolve the promise
+                if (verifyResolve) {
+                    verifyResolve();
+                }
+                verifyOverlay.classList.remove('open');
+                verifyActive = false;
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = 'Verify';
+            });
+
+            verifyCancel.addEventListener('click', function() {
+                if (verifyReject) {
+                    verifyReject('User canceled verification');
+                }
+                verifyOverlay.classList.remove('open');
+                verifyActive = false;
+            });
+
+            // Also close on overlay click?
+            verifyOverlay.addEventListener('click', function(e) {
+                if (e.target === verifyOverlay) {
+                    if (verifyReject) {
+                        verifyReject('User canceled verification');
+                    }
+                    verifyOverlay.classList.remove('open');
+                    verifyActive = false;
+                }
+            });
+
+            // Wrapped AdsBitVex with verification
+            function showAdsBitVexWithVerify() {
+                return new Promise((resolve, reject) => {
+                    showVerification()
+                        .then(() => {
+                            // Now show the ad
+                            if (window.showadsbitvex) {
+                                window.showadsbitvex()
+                                    .then(() => {
+                                        resolve();
+                                    })
+                                    .catch((err) => {
+                                        console.warn("AdsBitVex error:", err);
+                                        reject(err);
+                                    });
+                            } else {
+                                reject('AdsBitVex not available');
+                            }
+                        })
+                        .catch((err) => {
+                            reject(err);
+                        });
+                });
+            }
+
+            // For automatic timers, we also want verification
+            function showAdsBitVexWithVerifyAuto() {
+                // We'll show verification only if user interacts? But for timers we still show.
+                return showAdsBitVexWithVerify();
+            }
+
+            // Original fallback for reward ads (submit/withdraw) - try Adsgram first, fallback to AdsBitVex with verification
             function showRewardAd() {
                 return new Promise((resolve) => {
                     if (adsgramController) {
@@ -1495,41 +1568,35 @@
                             })
                             .catch((err) => {
                                 console.warn("Adsgram reward ad failed:", err);
-                                showAdsBitVexOnly().then(resolve);
+                                // Fallback to AdsBitVex with verification
+                                showAdsBitVexWithVerify()
+                                    .then(resolve)
+                                    .catch(() => resolve()); // still resolve to continue
                             });
                     } else {
-                        showAdsBitVexOnly().then(resolve);
+                        showAdsBitVexWithVerify()
+                            .then(resolve)
+                            .catch(() => resolve());
                     }
                 });
             }
 
-            // ---- TRIGGER ADS ----
+            // ---- TIMERS ----
             let adInterval = null;
 
             function startAdTimers() {
-                // First entry: after 10 seconds show AdsBitVex only
                 if (!state.initialAdShown) {
                     state.initialAdShown = true;
                     setTimeout(() => {
                         if (state.currentScreen === 'main') {
-                            showAdsBitVexOnly().catch(() => {});
+                            showAdsBitVexWithVerifyAuto().catch(() => {});
                         }
                     }, 10000);
-                }
-
-                // Every 5 minutes show AdsBitVex only
-                if (adInterval) clearInterval(adInterval);
-                adInterval = setInterval(() => {
-                    if (state.currentScreen === 'main') {
-                        showAdsBitVexOnly().catch(() => {});
-                    }
-                }, 5 * 60 * 1000);
-            }
-
-            function stopAdTimers() {
-                if (adInterval) {
-                    clearInterval(adInterval);
-                    adInterval = null;
+                    setInterval(() => {
+                        if (state.currentScreen === 'main') {
+                            showAdsBitVexWithVerifyAuto().catch(() => {});
+                        }
+                    }, 5 * 60 * 1000);
                 }
             }
 
@@ -1595,25 +1662,90 @@
                 await sleep(400);
 
                 const userId = getTelegramId();
-                const userData = await firebaseGet('users/' + userId);
+                let userData = await firebaseGet('users/' + userId);
 
                 if (userData) {
                     state.user = { id: userId, ...userData };
-                    state.userType = userData.type;
+                    state.userType = userData.type || 'REAL_USER';
                     state.isAdmin = userData.type === 'ADMIN';
                     state.isRegistered = true;
                     state.referralCode = userData.referralCode || null;
                     state.referredBy = userData.referredBy || null;
                     state.referralEarnings = userData.referralEarnings || 0;
+                    state.extraDailyCount = userData.extraDailyCount || 0;
+                    state.extraDailyDate = userData.extraDailyDate || '';
+                    state.extraEarningsTotal = userData.extraEarningsTotal || 0;
                     transitionTo('main');
                     renderMain();
                 } else {
-                    transitionTo('type');
+                    await createUser();
+                }
+            }
+
+            async function createUser() {
+                const userId = getTelegramId();
+                const userName = getTelegramName();
+                const userUsername = getTelegramUsername();
+
+                let base = userUsername ? userUsername.toUpperCase() : userId.slice(-6).toUpperCase();
+                base = base.replace(/[^A-Z0-9]/g, '');
+                if (base.length < 4) base = userId.slice(-6).toUpperCase();
+                let referralCode = 'REF' + base;
+                let existingCode = await firebaseGet('referralCodes/' + referralCode);
+                let counter = 0;
+                while (existingCode) {
+                    counter++;
+                    referralCode = 'REF' + base + (counter > 0 ? counter : '');
+                    existingCode = await firebaseGet('referralCodes/' + referralCode);
+                }
+
+                const userData = {
+                    id: userId,
+                    name: userName,
+                    username: userUsername,
+                    type: 'REAL_USER',
+                    balance: 0,
+                    totalEarned: 0,
+                    pendingRewards: 0,
+                    approvedCount: 0,
+                    rejectedCount: 0,
+                    createdAt: new Date().toISOString(),
+                    dailyCount: 0,
+                    dailyDate: new Date().toDateString(),
+                    referralCode: referralCode,
+                    referredBy: null,
+                    referralEarnings: 0,
+                    extraDailyCount: 0,
+                    extraDailyDate: new Date().toDateString(),
+                    extraEarningsTotal: 0,
+                };
+
+                try {
+                    await firebaseSet('users/' + userId, userData);
+                    if (referralCode) {
+                        await firebaseSet('referralCodes/' + referralCode, userId);
+                    }
+                    state.user = { id: userId, ...userData };
+                    state.userType = 'REAL_USER';
+                    state.isAdmin = false;
+                    state.isRegistered = true;
+                    state.referralCode = referralCode;
+                    state.referredBy = null;
+                    state.referralEarnings = 0;
+                    state.extraDailyCount = 0;
+                    state.extraDailyDate = new Date().toDateString();
+                    state.extraEarningsTotal = 0;
+                    showToast('Account created! Welcome to Gamil.com.', 'success');
+                    transitionTo('main');
+                    renderMain();
+                } catch (err) {
+                    showToast('Error creating account. Please try again.', 'error');
+                    console.error(err);
                 }
             }
 
             function transitionTo(screen) {
-                const screens = { loading: loadingScreen, type: typeScreen, main: mainScreen };
+                const screens = { loading: loadingScreen, main: mainScreen };
                 Object.keys(screens).forEach(key => {
                     const el = screens[key];
                     if (key === screen) {
@@ -1633,131 +1765,23 @@
                     if (!state.initialAdShown) {
                         startAdTimers();
                     }
-                } else {
-                    state.mainScreenActive = false;
-                    stopAdTimers();
                 }
             }
-
-            // ---- TYPE SELECTION ----
-            let selectedType = null;
-
-            function handleTypeSelect(type) {
-                document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
-                const card = document.querySelector(`.type-card[data-type="${type}"]`);
-                if (card) card.classList.add('selected');
-                selectedType = type;
-                confirmTypeBtn.disabled = false;
-            }
-
-            document.querySelectorAll('.type-card').forEach(card => {
-                card.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    handleTypeSelect(this.dataset.type);
-                });
-            });
-
-            confirmTypeBtn.addEventListener('click', async function() {
-                if (!selectedType) return;
-                this.disabled = true;
-                this.textContent = 'Saving...';
-
-                const userId = getTelegramId();
-                const userName = getTelegramName();
-                const userUsername = getTelegramUsername();
-
-                const existing = await firebaseGet('users/' + userId);
-                if (existing) {
-                    showToast('Account already exists. Redirecting...', 'info');
-                    state.user = { id: userId, ...existing };
-                    state.userType = existing.type;
-                    state.isAdmin = existing.type === 'ADMIN';
-                    state.isRegistered = true;
-                    state.referralCode = existing.referralCode || null;
-                    state.referredBy = existing.referredBy || null;
-                    state.referralEarnings = existing.referralEarnings || 0;
-                    transitionTo('main');
-                    renderMain();
-                    this.disabled = false;
-                    this.textContent = 'Continue';
-                    return;
-                }
-
-                // Generate referral code based on telegram username
-                let referralCode = null;
-                if (selectedType === 'REAL_USER') {
-                    let base = userUsername ? userUsername.toUpperCase() : userId.slice(-6).toUpperCase();
-                    base = base.replace(/[^A-Z0-9]/g, '');
-                    if (base.length < 4) base = userId.slice(-6).toUpperCase();
-                    referralCode = 'REF' + base;
-                    let existingCode = await firebaseGet('referralCodes/' + referralCode);
-                    let counter = 0;
-                    while (existingCode) {
-                        counter++;
-                        referralCode = 'REF' + base + (counter > 0 ? counter : '');
-                        existingCode = await firebaseGet('referralCodes/' + referralCode);
-                    }
-                }
-
-                const userData = {
-                    id: userId,
-                    name: userName,
-                    username: userUsername,
-                    type: selectedType,
-                    balance: 0,
-                    totalEarned: 0,
-                    pendingRewards: 0,
-                    approvedCount: 0,
-                    rejectedCount: 0,
-                    createdAt: new Date().toISOString(),
-                    dailyCount: 0,
-                    dailyDate: new Date().toDateString(),
-                    referralCode: referralCode,
-                    referredBy: null,
-                    referralEarnings: 0,
-                };
-
-                try {
-                    await firebaseSet('users/' + userId, userData);
-                    if (referralCode) {
-                        await firebaseSet('referralCodes/' + referralCode, userId);
-                    }
-                    state.user = { id: userId, ...userData };
-                    state.userType = selectedType;
-                    state.isAdmin = selectedType === 'ADMIN';
-                    state.isRegistered = true;
-                    state.referralCode = referralCode;
-                    state.referredBy = null;
-                    state.referralEarnings = 0;
-                    showToast('Account created! Welcome to Gamil.com.', 'success');
-                    transitionTo('main');
-                    renderMain();
-                } catch (err) {
-                    showToast('Error creating account. Please try again.', 'error');
-                    console.error(err);
-                } finally {
-                    this.disabled = false;
-                    this.textContent = 'Continue';
-                }
-            });
 
             // ---- MAIN RENDER ----
             async function renderMain() {
                 const userId = getTelegramId();
                 let userData = state.user ? state.user : await firebaseGet('users/' + userId);
-                if (!userData) {
-                    transitionTo('type');
-                    return;
-                }
-                if (typeof userData === 'object' && !userData.id) {
-                    userData.id = userId;
-                }
+                if (!userData) return;
                 state.user = userData;
-                state.userType = userData.type;
+                state.userType = userData.type || 'REAL_USER';
                 state.isAdmin = userData.type === 'ADMIN';
                 state.referralCode = userData.referralCode || null;
                 state.referredBy = userData.referredBy || null;
                 state.referralEarnings = userData.referralEarnings || 0;
+                state.extraDailyCount = userData.extraDailyCount || 0;
+                state.extraDailyDate = userData.extraDailyDate || '';
+                state.extraEarningsTotal = userData.extraEarningsTotal || 0;
                 await refreshUserData();
                 const currentTab = state._currentTab || 'home';
                 renderTab(currentTab);
@@ -1769,11 +1793,14 @@
                 const userData = await firebaseGet('users/' + userId);
                 if (userData) {
                     state.user = { id: userId, ...userData };
-                    state.userType = userData.type;
+                    state.userType = userData.type || 'REAL_USER';
                     state.isAdmin = userData.type === 'ADMIN';
                     state.referralCode = userData.referralCode || null;
                     state.referredBy = userData.referredBy || null;
                     state.referralEarnings = userData.referralEarnings || 0;
+                    state.extraDailyCount = userData.extraDailyCount || 0;
+                    state.extraDailyDate = userData.extraDailyDate || '';
+                    state.extraEarningsTotal = userData.extraEarningsTotal || 0;
 
                     const subs = await firebaseGet('users/' + userId + '/submissions');
                     state.submissions = subs ? Object.values(subs) : [];
@@ -1799,7 +1826,7 @@
                             dailyDate: today,
                         });
                     }
-                    state.dailyLimit = userData.type === 'REAL_USER' ? 5 : 10;
+                    state.dailyLimit = 5;
 
                     if (state.isAdmin) {
                         const allUsers = await firebaseGet('users');
@@ -1811,14 +1838,13 @@
             }
 
             function renderNav(active) {
-                const isReal = state.userType === 'REAL_USER';
                 const isAdmin = state.isAdmin;
                 const items = [
                     { id: 'home', icon: '⌂', label: 'Home', show: true },
                     { id: 'submit', icon: '↑', label: 'Submit', show: true },
                     { id: 'history', icon: '≡', label: 'History', show: true },
-                    { id: 'withdraw', icon: '◊', label: 'Withdraw', show: isReal || isAdmin },
-                    { id: 'referral', icon: '♻', label: 'Referral', show: isReal },
+                    { id: 'withdraw', icon: '◊', label: 'Withdraw', show: true },
+                    { id: 'referral', icon: '♻', label: 'Referral', show: true },
                 ];
                 if (isAdmin) items.push({ id: 'admin', icon: '⚙', label: 'Admin', show: true });
 
@@ -1866,8 +1892,6 @@
 
             // ---- HOME ----
             function renderHome() {
-                const isReal = state.userType === 'REAL_USER';
-                const isAdmin = state.isAdmin;
                 const b = state.balance;
                 let html = '';
 
@@ -1893,21 +1917,34 @@
                         </div>
                     `;
 
-                if (isReal) {
-                    html += `
-                            <div class="balance-card">
-                                <div class="label">Available Balance</div>
-                                <div class="amount"><span class="currency">$</span>${b.available.toFixed(2)}</div>
-                                <div class="balance-row">
-                                    <div class="item"><div class="val green">$${b.totalEarned.toFixed(2)}</div><div class="lbl">Total Earned</div></div>
-                                    <div class="item"><div class="val orange">$${b.pendingRewards.toFixed(2)}</div><div class="lbl">Pending Rewards</div></div>
-                                    <div class="item"><div class="val">${b.approvedCount}</div><div class="lbl">Approved</div></div>
+                html += `
+                        <div class="balance-card">
+                            <div class="label">Available Balance</div>
+                            <div class="amount"><span class="currency">$</span>${b.available.toFixed(2)}</div>
+                            <div class="balance-row">
+                                <div class="item"><div class="val green">$${b.totalEarned.toFixed(2)}</div><div class="lbl">Total Earned</div></div>
+                                <div class="item"><div class="val orange">$${b.pendingRewards.toFixed(2)}</div><div class="lbl">Pending Rewards</div></div>
+                                <div class="item"><div class="val">${b.approvedCount}</div><div class="lbl">Approved</div></div>
+                            </div>
+                        </div>
+                    `;
+
+                // Payment Proof Box
+                html += `
+                        <div class="payment-proof-box" id="paymentProofBtn">
+                            <div class="left">
+                                <span class="icon">📷</span>
+                                <div>
+                                    <div class="text">Payment Proof</div>
+                                    <div class="sub">View recent payment proofs</div>
                                 </div>
                             </div>
-                        `;
-                }
+                            <span class="arrow">➜</span>
+                        </div>
+                    `;
 
-                const limit = state.dailyLimit || (isReal ? 5 : 10);
+                // Daily submissions progress
+                const limit = state.dailyLimit || 5;
                 const used = state.dailyCount || 0;
                 const pct = Math.min(100, (used / limit) * 100);
                 html += `
@@ -1918,22 +1955,10 @@
                     `;
 
                 html += `
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;">
-                            <div class="card-item" style="text-align:center;padding:14px;">
-                                <div style="font-size:24px;">✉</div>
-                                <div style="font-weight:600;font-size:15px;margin-top:2px;">${total}</div>
-                                <div style="font-size:11px;color:var(--text-muted);">Total Submissions</div>
-                            </div>
-                            <div class="card-item" style="text-align:center;padding:14px;">
-                                <div style="font-size:24px;">${isReal ? '◈' : '◈'}</div>
-                                <div style="font-weight:600;font-size:15px;margin-top:2px;">${isReal ? formatCurrency(b.available) : '—'}</div>
-                                <div style="font-size:11px;color:var(--text-muted);">${isReal ? 'Balance' : 'Freelancer'}</div>
-                            </div>
-                        </div>
                         <button class="btn btn-primary mt-16" onclick="window._navigate('submit')" style="max-width:300px;margin:16px auto 0;">✉ Submit Email</button>
                     `;
 
-                if (isAdmin) {
+                if (state.isAdmin) {
                     html += `
                             <div style="margin-top:20px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border-glass);">
                                 <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary);">
@@ -1946,12 +1971,19 @@
                 }
 
                 mainContent.innerHTML = html;
+
+                // Payment proof click
+                const proofBtn = document.getElementById('paymentProofBtn');
+                if (proofBtn) {
+                    proofBtn.addEventListener('click', function() {
+                        window.open(CONFIG.PAYMENT_PROOF_URL, '_blank');
+                    });
+                }
             }
 
             // ---- SUBMIT ----
             function renderSubmit() {
-                const isReal = state.userType === 'REAL_USER';
-                const limit = state.dailyLimit || (isReal ? 5 : 10);
+                const limit = 5;
                 const used = state.dailyCount || 0;
                 const canSubmit = used < limit;
 
@@ -2003,7 +2035,7 @@
                             <button type="submit" class="btn btn-primary" id="submitBtn">✉ Submit Email</button>
                         </form>
                         <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;">
-                            ${isReal ? `Reward: $${CONFIG.REWARD_AMOUNT.toFixed(2)} per approved submission` : 'Submissions are reviewed by admins.'}
+                            Reward: $${CONFIG.REWARD_AMOUNT.toFixed(2)} per approved submission
                         </p>
                     `;
 
@@ -2034,7 +2066,6 @@
                         return;
                     }
 
-                    // Show reward ad (Adsgram first, fallback to AdsBitVex)
                     try {
                         await showRewardAd();
                     } catch (err) {
@@ -2092,7 +2123,6 @@
             // ---- HISTORY ----
             function renderHistory() {
                 const subs = state.submissions || [];
-                const isReal = state.userType === 'REAL_USER';
                 let html =
                     `<h2 class="section-title">≡ Submission History <span class="sub">${subs.length} total</span></h2>`;
 
@@ -2113,12 +2143,10 @@
                     const status = s.status || 'pending';
                     const badge = getStatusBadge(status);
                     let rewardHtml = '';
-                    if (isReal && status === 'approved') {
+                    if (status === 'approved') {
                         rewardHtml = `<span style="color:var(--green);font-weight:600;">+$${CONFIG.REWARD_AMOUNT.toFixed(2)}</span>`;
-                    } else if (isReal && status === 'pending') {
+                    } else if (status === 'pending') {
                         rewardHtml = `<span style="color:var(--orange);">—</span>`;
-                    } else {
-                        rewardHtml = '';
                     }
                     html += `
                             <div class="card-item">
@@ -2146,20 +2174,6 @@
 
             // ---- WITHDRAW ----
             function renderWithdraw() {
-                const isReal = state.userType === 'REAL_USER';
-                const isAdmin = state.isAdmin;
-
-                if (!isReal && !isAdmin) {
-                    mainContent.innerHTML = `
-                            <div class="empty-state">
-                                <div class="icon">◊</div>
-                                <h4>Withdrawals Unavailable</h4>
-                                <p>This feature is only available for Real Users.</p>
-                            </div>
-                        `;
-                    return;
-                }
-
                 const b = state.balance;
                 const minWithdraw = CONFIG.MIN_WITHDRAWAL;
                 const canWithdraw = b.available >= minWithdraw;
@@ -2248,7 +2262,6 @@
 
                     if (!confirmed) return;
 
-                    // Show reward ad (Adsgram first, fallback to AdsBitVex)
                     try {
                         await showRewardAd();
                     } catch (err) {
@@ -2329,18 +2342,6 @@
 
             // ---- REFERRAL ----
             function renderReferral() {
-                const isReal = state.userType === 'REAL_USER';
-                if (!isReal) {
-                    mainContent.innerHTML = `
-                            <div class="empty-state">
-                                <div class="icon">♻</div>
-                                <h4>Referral Unavailable</h4>
-                                <p>This feature is only for Real Users.</p>
-                            </div>
-                        `;
-                    return;
-                }
-
                 const code = state.referralCode || 'N/A';
                 const referredBy = state.referredBy || 'None';
                 const earnings = state.referralEarnings || 0;
@@ -2389,7 +2390,6 @@
 
                 mainContent.innerHTML = html;
 
-                // Copy referral code
                 const copyBtn = document.getElementById('copyReferralBtn');
                 if (copyBtn) {
                     copyBtn.addEventListener('click', function() {
@@ -2417,7 +2417,6 @@
                     });
                 }
 
-                // Share referral code
                 const shareBtn = document.getElementById('shareReferralBtn');
                 if (shareBtn) {
                     shareBtn.addEventListener('click', function() {
@@ -2443,7 +2442,6 @@
                     });
                 }
 
-                // Referral form
                 const form = document.getElementById('referralForm');
                 if (form) {
                     form.addEventListener('submit', async function(e) {
@@ -2591,7 +2589,7 @@
                             <div class="admin-user-card">
                                 <div class="user-header">
                                     <span class="user-name">${userData.name || 'User'}</span>
-                                    <span class="user-type">${userData.type || 'FREELANCER'}</span>
+                                    <span class="user-type">${userData.type || 'REAL_USER'}</span>
                                 </div>
                                 <div class="user-details">
                                     <span>ID: ${userId.slice(0,12)}...</span>
@@ -2724,7 +2722,7 @@
                             <div class="admin-user-card">
                                 <div class="user-header">
                                     <span class="user-name">${userData.name || 'User'}</span>
-                                    <span class="user-type">${userData.type || 'FREELANCER'}</span>
+                                    <span class="user-type">${userData.type || 'REAL_USER'}</span>
                                 </div>
                                 <div class="user-details">
                                     <span>Balance: <span class="bal">${formatCurrency(userData.balance || 0)}</span></span>
@@ -2842,7 +2840,7 @@
                             <div class="admin-user-card">
                                 <div class="user-header">
                                     <span class="user-name">${userData.name || 'User'}</span>
-                                    <span class="user-type">${userData.type || 'FREELANCER'}</span>
+                                    <span class="user-type">${userData.type || 'REAL_USER'}</span>
                                 </div>
                                 <div class="user-details">
                                     <span>ID: ${userId.slice(0,10)}...</span>

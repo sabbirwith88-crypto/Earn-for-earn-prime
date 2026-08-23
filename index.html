@@ -260,7 +260,7 @@
         }
 
         /* ──────────────────────────────────────────────
-           BOTTOM NAV
+           BOTTOM NAV — LARGER
            ────────────────────────────────────────────── */
         .app-nav {
             display: flex;
@@ -271,7 +271,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-top: 1px solid var(--border);
-            padding: 4px 0 var(--safe-bottom);
+            padding: 8px 0 var(--safe-bottom);
             z-index: 10;
             transition: background var(--transition), border-color var(--transition);
         }
@@ -279,35 +279,37 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1px;
+            gap: 2px;
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 0.5rem;
-            padding: 4px 14px;
+            font-size: 0.65rem;
+            padding: 6px 18px;
             cursor: pointer;
             transition: var(--transition);
             position: relative;
             font-family: var(--font);
             letter-spacing: 0.3px;
-            font-weight: 500;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
         }
         .app-nav .nav-item .icon {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             line-height: 1.2;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .app-nav .nav-item .icon svg {
-            width: 20px;
-            height: 20px;
+            width: 28px;
+            height: 28px;
             fill: currentColor;
             stroke: currentColor;
             stroke-width: 0;
         }
         .app-nav .nav-item.active {
             color: var(--accent-cyan);
+            background: rgba(14, 165, 233, 0.08);
         }
         .app-nav .nav-item.active .icon {
             filter: drop-shadow(0 0 12px rgba(14, 165, 233, 0.3));
@@ -338,7 +340,7 @@
         }
 
         /* ──────────────────────────────────────────────
-           TASK CARD
+           TASK CARD (no reward)
            ────────────────────────────────────────────── */
         .task-card {
             background: var(--bg-card);
@@ -375,14 +377,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-        .task-card .task-right .task-reward {
-            background: rgba(14, 165, 233, 0.10);
-            color: var(--accent-cyan);
-            font-weight: 600;
-            font-size: 0.7rem;
-            padding: 4px 12px;
-            border-radius: 20px;
         }
         .task-card .task-right .task-btn {
             padding: 6px 16px;
@@ -778,6 +772,14 @@
             border-radius: var(--radius-sm);
             margin-bottom: 6px;
             border: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .withdraw-history .wh-item .wh-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
         }
         .withdraw-history .wh-item .wh-left .wh-amount {
             font-weight: 600;
@@ -787,27 +789,42 @@
             font-size: 0.55rem;
             color: var(--text-muted);
         }
+        .withdraw-history .wh-item .wh-left .wh-detail {
+            font-size: 0.55rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
         .withdraw-history .wh-item .wh-status {
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
-            padding: 2px 12px;
-            border-radius: 12px;
+            padding: 4px 14px;
+            border-radius: 20px;
             background: var(--bg-card);
             color: var(--text-muted);
             border: 1px solid var(--border);
-            font-weight: 600;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
         }
         .withdraw-history .wh-item .wh-status.completed {
             color: var(--success);
             border-color: var(--success);
+            background: rgba(16, 185, 129, 0.10);
         }
         .withdraw-history .wh-item .wh-status.pending {
             color: var(--warning);
             border-color: var(--warning);
+            background: rgba(245, 158, 11, 0.10);
         }
         .withdraw-history .wh-item .wh-status.rejected {
             color: var(--danger);
             border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.10);
+        }
+        .withdraw-history .wh-item .wh-status .status-icon {
+            font-size: 0.8rem;
         }
 
         /* ──────────────────────────────────────────────
@@ -919,7 +936,7 @@
            ────────────────────────────────────────────── */
         #toast {
             position: fixed;
-            bottom: 80px;
+            bottom: 90px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--bg-card);
@@ -1152,12 +1169,12 @@
                 font-size: 1rem;
             }
             .app-nav .nav-item {
-                font-size: 0.45rem;
-                padding: 2px 8px;
+                font-size: 0.55rem;
+                padding: 4px 10px;
             }
             .app-nav .nav-item .icon svg {
-                width: 16px;
-                height: 16px;
+                width: 22px;
+                height: 22px;
             }
             .task-card {
                 flex-direction: column;
@@ -1169,6 +1186,14 @@
             }
             .task-card .task-right {
                 justify-content: center;
+            }
+            .withdraw-history .wh-item {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .withdraw-history .wh-item .wh-status {
+                align-self: center;
             }
         }
         @media (min-width: 481px) {
@@ -1653,7 +1678,7 @@
         }
 
         /* ──────────────────────────────────────────────
-           ADS OVERLAY (shared for both)
+           ADS OVERLAY
            ────────────────────────────────────────────── */
         .ads-overlay {
             position: fixed;
@@ -1708,7 +1733,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* AdsGram container (iframe) */
         .adsgram-container {
             position: fixed;
             inset: 0;
@@ -1772,7 +1796,7 @@
         <div class="loader"></div>
     </div>
 
-    <!-- ─── ADS OVERLAY (fallback) ─── -->
+    <!-- ─── ADS OVERLAY ─── -->
     <div class="ads-overlay" id="adsOverlay">
         <button class="ads-close-btn" id="adsOverlayClose">✕ Close</button>
         <div class="ads-loader"></div>
@@ -1824,7 +1848,7 @@
                     <span style="font-size:0.6rem;color:var(--text-muted);">1 RUT = $0.0005</span>
                 </div>
 
-                <!-- TASK: Channel Join -->
+                <!-- TASK: Channel Join (no reward) -->
                 <div id="taskChannelContainer"></div>
 
                 <div class="game-grid" id="gameGrid"></div>
@@ -1895,7 +1919,7 @@
 
         </main>
 
-        <!-- BOTTOM NAV -->
+        <!-- BOTTOM NAV — LARGER -->
         <nav class="app-nav">
             <button class="nav-item active" data-screen="screenHome">
                 <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12L12 3L21 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1928,7 +1952,7 @@
             <button class="modal-close" id="settingsClose">✕</button>
             <div class="modal-title">⚙️ Settings</div>
             <div class="modal-body">
-                <div class="info-row"><span class="label">App</span><span>Ruttore Game Hub v6.3</span></div>
+                <div class="info-row"><span class="label">App</span><span>Ruttore Game Hub v6.4</span></div>
                 <div class="info-row"><span class="label">Telegram ID</span><span id="settingsTgId">—</span></div>
                 <div class="info-row"><span class="label">Username</span><span id="settingsTgUser">—</span></div>
                 <div class="info-row"><span class="label">RUT Rate</span><span>1 RUT = $0.0005</span></div>
@@ -1980,7 +2004,6 @@
                 ADSGRAM_BLOCK_ID: 'int-28543',
                 ADSBITVEX_APPID: '000274',
                 ADSBITVEX_REDIRECT: 'https://wwp.giriubin.com/redirect-zone/31c41a18',
-                CHANNEL_TASK_REWARD: 2,
             };
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1998,13 +2021,13 @@
                 theme: 'dark',
                 _loading: false,
                 _listeners: [],
-                _adShown: false,
                 _pendingPopupAction: null,
                 _adsGramInitialized: false,
                 _adsGramController: null,
                 _rewardLock: false,
                 _taskChannelCompleted: false,
                 _taskChannelPending: false,
+                _withdrawalListeners: [],
             };
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2033,7 +2056,7 @@
             const taskChannelContainer = $('taskChannelContainer');
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // OPEN LINK (works in Telegram & browser)
+            // OPEN LINK
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function openLink(url) {
                 try {
@@ -2051,7 +2074,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // ADSGRAM INTEGRATION (primary)
+            // ADSGRAM INTEGRATION
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function initAdsGram() {
                 try {
@@ -2101,7 +2124,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // ADSBITVEX (fallback)
+            // ADSBITVEX FALLBACK
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function showAdsBitVexFallback() {
                 console.log('[AdsBitVex] Starting fallback ad...');
@@ -2115,7 +2138,6 @@
                             console.log('[AdsBitVex] Ad completed — redirecting...');
                             adsOverlayText.textContent = 'Redirecting…';
                             setTimeout(() => {
-                                // Use openLink for redirect as well
                                 openLink(CONFIG.ADSBITVEX_REDIRECT);
                             }, 500);
                             setTimeout(() => {
@@ -2395,12 +2417,19 @@
                     current.totalWithdrawn = (current.totalWithdrawn || 0) + data.amountRUT;
                     current.updatedAt = Date.now();
                     const hist = current.withdrawalHistory || [];
-                    hist.unshift(wd);
+                    // Add the withdrawal with pending status
+                    const newWd = { ...wd };
+                    // Remove any existing entry with same ID (shouldn't happen)
+                    const existingIdx = hist.findIndex(h => h.withdrawalId === wd.withdrawalId);
+                    if (existingIdx > -1) hist.splice(existingIdx, 1);
+                    hist.unshift(newWd);
                     if (hist.length > 100) hist.length = 100;
                     current.withdrawalHistory = hist;
                     updatedUser = { ...current };
                     return current;
                 });
+                // Also set up a listener for this specific withdrawal to track status changes
+                setupWithdrawalListener(uid, wd.withdrawalId);
                 return { withdrawal: wd, user: updatedUser };
             }
 
@@ -2411,48 +2440,81 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // TASK: CHANNEL JOIN
+            // WITHDRAWAL STATUS LISTENER (real-time)
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            async function markChannelTaskCompleted() {
+            function setupWithdrawalListener(uid, withdrawalId) {
+                const ref = fbRef('withdrawals/' + uid + '/' + withdrawalId);
+                const listener = ref.on('value', async (snap) => {
+                    const data = snap.val();
+                    if (!data) return;
+                    // Update the status in user's withdrawalHistory array
+                    const userRef = fbRef('users/' + uid);
+                    userRef.transaction((current) => {
+                        if (!current) return current;
+                        const hist = current.withdrawalHistory || [];
+                        const idx = hist.findIndex(w => w.withdrawalId === withdrawalId);
+                        if (idx > -1 && hist[idx].status !== data.status) {
+                            hist[idx].status = data.status;
+                            hist[idx].processedAt = data.processedAt || hist[idx].processedAt;
+                            hist[idx].adminNote = data.adminNote || hist[idx].adminNote;
+                            current.withdrawalHistory = hist;
+                            current.updatedAt = Date.now();
+                            // If status is completed, update totals
+                            if (data.status === 'completed' || data.status === 'approved') {
+                                // Already deducted when requested, but we can track approval
+                            }
+                            if (data.status === 'rejected') {
+                                // Refund the balance
+                                const amount = hist[idx].amountRUT || 0;
+                                current.balance = (current.balance || 0) + amount;
+                                current.pendingAmount = (current.pendingAmount || 0) - amount;
+                                current.totalWithdrawn = (current.totalWithdrawn || 0) - amount;
+                            }
+                            return current;
+                        }
+                        return current;
+                    });
+                    // Refresh UI
+                    loadUserFromFirebase();
+                    showToast('📊 Withdrawal status updated: ' + data.status.toUpperCase());
+                }, (err) => {
+                    console.warn('Withdrawal listener error:', err);
+                });
+                state._withdrawalListeners.push({ ref, listener });
+            }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // TASK: CHANNEL JOIN (no reward)
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            function markChannelTaskCompleted() {
                 if (state._taskChannelCompleted || state._taskChannelPending) return;
                 state._taskChannelPending = true;
 
                 try {
-                    let updatedUser = null;
-                    await fbTransaction('users/' + state.user.id, (current) => {
+                    fbTransaction('users/' + state.user.id, (current) => {
                         if (!current) return current;
                         if (current.tasks?.channelJoin === true) return current;
                         const tasks = current.tasks || {};
                         tasks.channelJoin = true;
                         current.tasks = tasks;
-                        current.balance = (current.balance || 0) + CONFIG.CHANNEL_TASK_REWARD;
-                        current.totalEarned = (current.totalEarned || 0) + CONFIG.CHANNEL_TASK_REWARD;
                         current.updatedAt = Date.now();
-                        updatedUser = { ...current };
                         return current;
-                    });
-
-                    if (updatedUser) {
-                        await addTransaction(state.user.id, {
-                            type: 'task_reward',
-                            amount: CONFIG.CHANNEL_TASK_REWARD,
-                            balanceBefore: (updatedUser.balance || 0) - CONFIG.CHANNEL_TASK_REWARD,
-                            balanceAfter: updatedUser.balance || 0,
-                            status: 'completed',
-                            description: '🎯 Joined Telegram Channel',
-                        });
-                        state.user.balance = updatedUser.balance || 0;
-                        state.user.totalEarned = updatedUser.totalEarned || 0;
-                        state.user.tasks = updatedUser.tasks || { channelJoin: true };
+                    }).then(() => {
                         state._taskChannelCompleted = true;
-                        updateUI();
+                        if (state.user) {
+                            if (!state.user.tasks) state.user.tasks = {};
+                            state.user.tasks.channelJoin = true;
+                        }
                         renderChannelTask();
-                        showToast('✅ +' + CONFIG.CHANNEL_TASK_REWARD + ' RUT for joining the channel!');
-                    }
+                        showToast('✅ Thanks for joining our channel!');
+                    }).catch((e) => {
+                        console.error('Channel task error:', e);
+                        showToast('⚠️ Error updating task', true);
+                    }).finally(() => {
+                        state._taskChannelPending = false;
+                    });
                 } catch (e) {
                     console.error('Channel task error:', e);
-                    showToast('⚠️ Error claiming reward', true);
-                } finally {
                     state._taskChannelPending = false;
                 }
             }
@@ -2474,8 +2536,7 @@
                             </div>
                         </div>
                         <div class="task-right">
-                            <span class="task-reward">+${CONFIG.CHANNEL_TASK_REWARD} RUT</span>
-                            <button class="task-btn" id="taskChannelBtn">Join</button>
+                            <button class="task-btn" id="taskChannelBtn">Join Channel</button>
                         </div>
                     </div>
                 `;
@@ -2483,27 +2544,16 @@
                 const btn = $('taskChannelBtn');
                 if (btn) {
                     btn.addEventListener('click', function() {
-                        // Open channel link
                         openLink(CONFIG.CHANNEL_LINK);
-                        // Show a confirmation button after a moment
-                        const parent = this.closest('.task-card');
-                        if (parent) {
-                            const right = parent.querySelector('.task-right');
-                            // Replace button with confirmation
-                            this.textContent = '✅ Joined?';
-                            this.classList.add('secondary');
-                            this.removeEventListener('click', arguments.callee);
-                            this.addEventListener('click', function(e) {
-                                e.stopPropagation();
-                                markChannelTaskCompleted();
-                            });
-                            // Also add a small note
-                            const note = document.createElement('span');
-                            note.style.cssText =
-                                'font-size:0.55rem;color:var(--text-muted);margin-left:4px;';
-                            note.textContent = 'Tap to claim';
-                            right.appendChild(note);
-                        }
+                        // After opening, show a confirmation button
+                        this.textContent = '✅ Joined?';
+                        this.classList.add('secondary');
+                        // Replace click to mark complete
+                        this.removeEventListener('click', arguments.callee);
+                        this.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            markChannelTaskCompleted();
+                        });
                     });
                 }
             }
@@ -2530,6 +2580,32 @@
                         state.transactions = data.transactions || [];
                         state.withdrawals = data.withdrawalHistory || [];
                         state._taskChannelCompleted = data.tasks?.channelJoin === true;
+
+                        // Also fetch the latest withdrawals from the withdrawals node for status updates
+                        const wdData = await fbGet('withdrawals/' + uid);
+                        if (wdData) {
+                            const wdList = Object.values(wdData);
+                            // Update the withdrawalHistory with latest statuses
+                            const hist = data.withdrawalHistory || [];
+                            for (const w of wdList) {
+                                const existing = hist.find(h => h.withdrawalId === w.withdrawalId);
+                                if (existing) {
+                                    existing.status = w.status || existing.status;
+                                    existing.processedAt = w.processedAt || existing.processedAt;
+                                    existing.adminNote = w.adminNote || existing.adminNote;
+                                } else {
+                                    hist.unshift(w);
+                                }
+                            }
+                            // Sort by date
+                            hist.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                            if (hist.length > 100) hist.length = 100;
+                            state.withdrawals = hist;
+                            state.user.withdrawalHistory = hist;
+                            // Update in Firebase
+                            await fbUpdate('users/' + uid, { withdrawalHistory: hist });
+                        }
+
                         updateUI();
                         renderChannelTask();
                     }
@@ -2542,10 +2618,26 @@
 
                 Promise.all([getTransactions(uid), getWithdrawals(uid)]).then(([txs, wds]) => {
                     if (txs && txs.length > 0) state.transactions = txs;
-                    if (wds && wds.length > 0) state.withdrawals = wds;
+                    if (wds && wds.length > 0) {
+                        state.withdrawals = wds;
+                        // Also update user.withdrawalHistory
+                        if (state.user) {
+                            state.user.withdrawalHistory = wds;
+                        }
+                    }
                     updateUI();
                     renderChannelTask();
                 }).catch(e => console.warn('Fallback load error:', e));
+
+                // Setup listeners for all withdrawals
+                fbGet('withdrawals/' + uid).then((data) => {
+                    if (data) {
+                        const keys = Object.keys(data);
+                        for (const key of keys) {
+                            setupWithdrawalListener(uid, key);
+                        }
+                    }
+                }).catch(e => console.warn('Error setting up withdrawal listeners:', e));
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2608,13 +2700,34 @@
                         `<div class="empty-state"><span class="empty-icon">📭</span><div class="empty-text">No withdrawal requests</div></div>`;
                     return;
                 }
-                wdHistoryList.innerHTML = list.slice(0, 10).map(w => {
+                wdHistoryList.innerHTML = list.slice(0, 20).map(w => {
                     const statusCls = w.status || 'pending';
-                    const label = statusCls.charAt(0).toUpperCase() + statusCls.slice(1);
+                    let statusLabel = statusCls.charAt(0).toUpperCase() + statusCls.slice(1);
+                    let icon = '⏳';
+                    if (statusCls === 'completed' || statusCls === 'approved') {
+                        icon = '✅';
+                        statusLabel = 'Approved';
+                    } else if (statusCls === 'rejected') {
+                        icon = '❌';
+                        statusLabel = 'Rejected';
+                    } else {
+                        icon = '⏳';
+                        statusLabel = 'Pending';
+                    }
                     const date = w.createdAt ? new Date(w.createdAt).toLocaleString() : '';
+                    const binanceId = w.binanceIdentifier || '—';
+                    const amount = formatNumber(w.amountRUT) + ' RUT';
+                    const usd = (w.amountRUT || 0) * CONFIG.RUT_TO_USD;
+                    const usdStr = '$' + usd.toFixed(2);
                     return `<div class="wh-item">
-                        <div class="wh-left"><div class="wh-amount">${formatNumber(w.amountRUT)} RUT</div><div class="wh-meta">${w.method || 'Binance'} • ${date}</div></div>
-                        <span class="wh-status ${statusCls}">${label}</span>
+                        <div class="wh-left">
+                            <div class="wh-amount">${amount} <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(${usdStr})</span></div>
+                            <div class="wh-detail">🔑 Binance ID: ${binanceId}</div>
+                            <div class="wh-meta">📅 ${date}</div>
+                        </div>
+                        <span class="wh-status ${statusCls}">
+                            <span class="status-icon">${icon}</span> ${statusLabel}
+                        </span>
                     </div>`;
                 }).join('');
             }
@@ -2674,7 +2787,7 @@
                     if (result && result.withdrawal) {
                         $('wdAmount').value = '';
                         $('wdBinanceId').value = '';
-                        showToast('✅ Withdrawal request submitted!');
+                        showToast('✅ Withdrawal request submitted! Status: Pending ⏳');
                         navigateTo('screenWallet');
                         loadUserFromFirebase();
                     } else {
@@ -2758,7 +2871,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // GAME COMPONENTS (abbreviated for brevity, all games included)
+            // GAME COMPONENTS (abbreviated, all games included)
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             const gameComponents = {
                 slidePuzzle: () => `
@@ -2818,7 +2931,7 @@
             };
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // GAME LOGIC INIT (abbreviated — all games included)
+            // GAME LOGIC INIT
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function initGameLogic(gameId) {
                 const fns = {
@@ -3908,7 +4021,7 @@
                     return;
                 }
 
-                // Fallback: if reward > 0 but not claimed
+                // Fallback
                 if (reward > 0 && !state.rewardClaimed) {
                     state.user.balance = (state.user.balance || 0) + reward;
                     state.user.totalEarned = (state.user.totalEarned || 0) + reward;
@@ -3922,7 +4035,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // REWARD POPUP with AdsGram + AdsBitVex fallback
+            // REWARD POPUP
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function showRewardPopup(reward, title, balance, isLoss) {
                 const popup = $('rewardPopup');
@@ -4008,7 +4121,6 @@
                     if (e.target === e.currentTarget) $('settingsModal').classList.remove('open');
                 });
 
-                // Support button: 🎧 opens support chat
                 $('supportBtn').addEventListener('click', () => {
                     openLink(CONFIG.SUPPORT_LINK);
                 });
@@ -4074,7 +4186,7 @@
                 await loadUserFromFirebase();
                 $('app').classList.add('visible');
                 setTimeout(() => splash.classList.add('hide'), 500);
-                console.log('🚀 Ruttore Game Hub v6.3 with Channel Task & Dual Ads');
+                console.log('🚀 Ruttore Game Hub v6.4 — Channel Task (no reward), Withdrawal Status Fix, Stats Fix');
                 console.log('👤 User:', state.user);
                 console.log('🎮 Games:', GAMES.length);
                 console.log('📢 AdsGram blockId:', CONFIG.ADSGRAM_BLOCK_ID);

@@ -756,25 +756,30 @@
             align-items: center;
             gap: 6px;
             white-space: nowrap;
-        }
-        .withdraw-history .wh-item .wh-status.approved,
-        .withdraw-history .wh-item .wh-status.completed {
-            color: var(--success);
-            border-color: var(--success);
-            background: rgba(16, 185, 129, 0.10);
+            flex-shrink: 0;
         }
         .withdraw-history .wh-item .wh-status.pending {
+            background: rgba(245, 158, 11, 0.12);
             color: var(--warning);
             border-color: var(--warning);
-            background: rgba(245, 158, 11, 0.10);
+        }
+        .withdraw-history .wh-item .wh-status.approved {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--success);
+            border-color: var(--success);
         }
         .withdraw-history .wh-item .wh-status.rejected {
+            background: rgba(239, 68, 68, 0.12);
             color: var(--danger);
             border-color: var(--danger);
-            background: rgba(239, 68, 68, 0.10);
         }
-        .withdraw-history .wh-item .wh-status .status-icon {
-            font-size: 0.9rem;
+        .withdraw-history .wh-item .wh-message {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-weight: 500;
+            white-space: normal;
+            line-height: 1.4;
         }
 
         /* ─── REWARD POPUP ─── */
@@ -877,6 +882,82 @@
         }
         #rewardPopup .popup-box .popup-btn:active {
             transform: scale(0.94);
+        }
+
+        /* ─── WITHDRAW SUCCESS POPUP ─── */
+        #wdSuccessPopup {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: var(--modal-overlay);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            animation: fadeIn 0.25s ease;
+        }
+        #wdSuccessPopup.open {
+            display: flex;
+        }
+        #wdSuccessPopup .popup-box {
+            background: var(--popup-bg);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            width: 88%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--card-border);
+        }
+        .wd-check-circle {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .wd-check-circle svg {
+            width: 40px;
+            height: 40px;
+        }
+        .wd-check-circle svg path,
+        .wd-check-circle svg circle {
+            stroke: var(--success);
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .wd-check-circle svg circle {
+            stroke-dasharray: 76;
+            stroke-dashoffset: 76;
+            animation: wdCircleDraw 0.5s ease forwards;
+        }
+        .wd-check-circle svg path {
+            stroke-dasharray: 24;
+            stroke-dashoffset: 24;
+            animation: wdCheckDraw 0.3s ease 0.45s forwards;
+        }
+        @keyframes wdCircleDraw {
+            to { stroke-dashoffset: 0; }
+        }
+        @keyframes wdCheckDraw {
+            to { stroke-dashoffset: 0; }
+        }
+        #wdSuccessPopup .popup-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        #wdSuccessPopup .popup-sub {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
         /* ─── TOAST ─── */
@@ -1147,6 +1228,9 @@
                 text-align: center;
             }
             .withdraw-history .wh-item .wh-status {
+                align-self: center;
+            }
+            .withdraw-history .wh-item .wh-message {
                 align-self: center;
             }
         }
@@ -1776,6 +1860,21 @@
         </div>
     </div>
 
+    <!-- ─── WITHDRAW SUCCESS POPUP ─── -->
+    <div id="wdSuccessPopup">
+        <div class="popup-box">
+            <div class="wd-check-circle">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M7 12.5L10.5 16L17 9"/>
+                </svg>
+            </div>
+            <div class="popup-title">Request Submitted!</div>
+            <div class="popup-sub">You have successfully submitted your withdrawal request.<br>Admin will contact you personally for confirmation.</div>
+            <button class="popup-btn" id="wdSuccessBtn">Got it!</button>
+        </div>
+    </div>
+
     <!-- ─── APP ─── -->
     <div id="app">
 
@@ -1906,7 +2005,7 @@
             <button class="modal-close" id="settingsClose">✕</button>
             <div class="modal-title">⚙️ Settings</div>
             <div class="modal-body">
-                <div class="info-row"><span class="label">App</span><span>Ruttore Game Hub v7.2</span></div>
+                <div class="info-row"><span class="label">App</span><span>Ruttore Game Hub v7.3</span></div>
                 <div class="info-row"><span class="label">Telegram ID</span><span id="settingsTgId">—</span></div>
                 <div class="info-row"><span class="label">Username</span><span id="settingsTgUser">—</span></div>
                 <div class="info-row"><span class="label">RUT Rate</span><span>1 RUT = $0.0005</span></div>
@@ -1916,7 +2015,6 @@
                     <div class="theme-selector">
                         <button data-theme="light" id="themeLight">☀️ Light</button>
                         <button data-theme="dark" id="themeDark">🌙 Dark</button>
-                        <button data-theme="auto" id="themeAuto">🔄 Auto</button>
                     </div>
                 </div>
                 <div style="margin-top:16px;font-size:0.65rem;color:var(--text-muted);text-align:center;border-top:1px solid var(--border);padding-top:12px;">
@@ -1944,8 +2042,43 @@
                 appId: "1:730217056305:web:d1ab3c775b1ed097742d10",
                 measurementId: "G-N8PP006EGK"
             };
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.database();
+
+            // If the Firebase SDK failed to load (blocked network, offline preview,
+            // restricted sandbox, etc.) this whole inline script would previously
+            // crash immediately — freezing the splash screen forever. We now fall
+            // back to a harmless no-op "db" so the rest of the app (UI, games) can
+            // still boot; only Firebase-backed features (save/load) won't work.
+            let db;
+            let firebaseAvailable = true;
+            function makeNoopDbRef() {
+                const chain = () => noopRef;
+                const noopRef = {
+                    once: () => Promise.resolve({ val: () => null }),
+                    set: () => Promise.resolve(),
+                    update: () => Promise.resolve(),
+                    remove: () => Promise.resolve(),
+                    push: () => ({ key: 'local_' + Date.now(), set: () => Promise.resolve() }),
+                    on: () => {},
+                    off: () => {},
+                    transaction: (fn) => {
+                        try { fn(null); } catch (e) {}
+                        return Promise.resolve({ committed: false, snapshot: { val: () => null } });
+                    },
+                    child: chain,
+                };
+                return noopRef;
+            }
+            try {
+                if (typeof firebase === 'undefined' || !firebase.initializeApp) {
+                    throw new Error('Firebase SDK not loaded');
+                }
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.database();
+            } catch (e) {
+                console.error('[Firebase] init failed, running in offline/local mode:', e);
+                firebaseAvailable = false;
+                db = { ref: () => makeNoopDbRef() };
+            }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             // CONFIG
@@ -2036,7 +2169,6 @@
                 loadingOverlay.classList.add('active');
                 state._loading = true;
                 clearTimeout(loadingOverlay._timeout);
-                // Force hide after 5 seconds max
                 loadingOverlay._timeout = setTimeout(() => {
                     if (state._loading) {
                         hideLoading();
@@ -2215,32 +2347,47 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // SAFE STORAGE (falls back to in-memory if localStorage is blocked —
+            // some sandboxed webviews/preview tools throw on access)
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            const _memStorage = {};
+            const safeStorage = {
+                getItem(key) {
+                    try { return localStorage.getItem(key); } catch (e) { return _memStorage[key] ?? null; }
+                },
+                setItem(key, value) {
+                    try { localStorage.setItem(key, value); } catch (e) { _memStorage[key] = value; }
+                }
+            };
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             // THEME
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function getPreferredTheme() {
-                const saved = localStorage.getItem('ruttore_theme');
+                const saved = safeStorage.getItem('ruttore_theme');
                 if (saved === 'light' || saved === 'dark') return saved;
-                if (saved === 'auto' || !saved) return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' :
-                    'light';
+                if (saved === 'auto' || !saved) {
+                    try {
+                        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    } catch (e) { return 'dark'; }
+                }
                 return 'dark';
             }
 
             function applyTheme(theme) {
-                state.theme = theme;
-                const actual = theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' :
-                    'light') : theme;
+                const actual = theme === 'dark' ? 'dark' : 'light';
+                state.theme = actual;
                 document.documentElement.setAttribute('data-theme', actual);
-                $('themeIcon').textContent = actual === 'dark' ? '🌙' : '☀️';
-                localStorage.setItem('ruttore_theme', theme);
+                const icon = $('themeIcon');
+                if (icon) icon.textContent = actual === 'dark' ? '🌙' : '☀️';
+                safeStorage.setItem('ruttore_theme', actual);
                 document.querySelectorAll('.theme-selector button').forEach(b => {
-                    b.classList.toggle('active', b.dataset.theme === theme);
+                    b.classList.toggle('active', b.dataset.theme === actual);
                 });
             }
 
             function toggleTheme() {
-                const themes = ['dark', 'light', 'auto'];
-                const idx = themes.indexOf(state.theme);
-                applyTheme(themes[(idx + 1) % themes.length]);
+                applyTheme(state.theme === 'dark' ? 'light' : 'dark');
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2383,7 +2530,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // WITHDRAWAL SYSTEM (FIXED - no loading hang)
+            // WITHDRAWAL SYSTEM
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             async function requestWithdrawal(uid, data) {
                 const wd = {
@@ -2393,18 +2540,16 @@
                     usdValue: data.usdValue,
                     method: data.method || 'Binance',
                     binanceIdentifier: data.binanceIdentifier,
-                    status: 'pending',
+                    status: 'pending', // keep for internal logic
                     createdAt: Date.now(),
                     processedAt: null,
                     adminNote: '',
                     externalReference: '',
                 };
 
-                // 1. Save withdrawal to its own node first
                 const wdRef = fbRef('withdrawals/' + uid + '/' + wd.withdrawalId);
                 await wdRef.set(wd);
 
-                // 2. Update user balance using transaction
                 let updatedUser = null;
                 try {
                     const result = await fbTransaction('users/' + uid, (current) => {
@@ -2431,9 +2576,7 @@
                     throw txErr;
                 }
 
-                // 3. Setup listener for status updates
                 setupWithdrawalListener(uid, wd.withdrawalId);
-
                 return { withdrawal: wd, user: updatedUser };
             }
 
@@ -2444,7 +2587,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // WITHDRAWAL STATUS LISTENER (real-time)
+            // WITHDRAWAL STATUS LISTENER (internal logic only)
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function setupWithdrawalListener(uid, withdrawalId) {
                 const ref = fbRef('withdrawals/' + uid + '/' + withdrawalId);
@@ -2463,6 +2606,7 @@
                                 hist[idx].processedAt = data.processedAt || hist[idx].processedAt;
                                 hist[idx].adminNote = data.adminNote || hist[idx].adminNote;
 
+                                // If rejected, refund the balance (internal)
                                 if (data.status === 'rejected') {
                                     const amount = hist[idx].amountRUT || 0;
                                     current.balance = (current.balance || 0) + amount;
@@ -2476,7 +2620,14 @@
                             return current;
                         });
                         await refreshUserData();
-                        showToast('📊 Withdrawal ' + data.status.toUpperCase(), 'success');
+                        renderWithdrawals();
+                        if (data.status === 'approved' || data.status === 'completed') {
+                            showToast('✅ Your withdrawal was approved!', 'success');
+                        } else if (data.status === 'rejected') {
+                            showToast('❌ Your withdrawal was rejected. Balance refunded.', 'error');
+                        } else {
+                            showToast('📩 Withdrawal status updated', 'success');
+                        }
                     } catch (e) {
                         console.warn('Withdrawal listener update error:', e);
                     }
@@ -2487,7 +2638,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // REFRESH USER DATA (fast, no loading overlay)
+            // REFRESH USER DATA
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             async function refreshUserData() {
                 try {
@@ -2600,26 +2751,22 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // LOAD USER FROM FIREBASE (with guaranteed completion)
+            // LOAD USER FROM FIREBASE
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function loadUserFromFirebase() {
                 const uid = state.user.id;
 
-                // Clean up old listener
                 if (state._userListener) {
                     try { state._userListener.off && state._userListener.off(); } catch (e) {}
                     state._userListener = null;
                 }
 
-                // Force hide loading after 4 seconds max, even if Firebase is slow
                 const forceHideTimer = setTimeout(() => {
                     if (!state._initialLoadDone) {
                         hideLoading();
                         state._initialLoadDone = true;
                         $('app').classList.add('visible');
                         splash.classList.add('hide');
-                        showToast('⚡ App loaded (offline mode)', 'warning');
-                        // Create default user data if needed
                         if (!state.user.balance && state.user.balance !== 0) {
                             state.user.balance = 0;
                             state.user.totalEarned = 0;
@@ -2682,7 +2829,6 @@
                             showToast('✅ Welcome back, ' + (state.user.firstName || 'User') + '!', 'success');
                         }
                     } else {
-                        // No user data, create new user
                         try {
                             const newUser = await createOrUpdateUser(uid, {
                                 firstName: state.user.firstName || 'User',
@@ -2710,7 +2856,6 @@
                         $('app').classList.add('visible');
                         splash.classList.add('hide');
                         showToast('⚠️ Using offline mode', 'warning');
-                        // Initialize with default values
                         if (!state.user.balance && state.user.balance !== 0) {
                             state.user.balance = 0;
                             state.user.totalEarned = 0;
@@ -2729,7 +2874,6 @@
                     }
                 });
 
-                // Also load transactions and withdrawals initially
                 Promise.all([getTransactions(uid), getWithdrawals(uid)]).then(([txs, wds]) => {
                     if (txs && txs.length > 0) state.transactions = txs;
                     if (wds && wds.length > 0) {
@@ -2740,7 +2884,6 @@
                     renderChannelTask();
                 }).catch(e => console.warn('Fallback load error:', e));
 
-                // Setup listeners for all withdrawals
                 fbGet('withdrawals/' + uid).then((data) => {
                     if (data) {
                         const keys = Object.keys(data);
@@ -2802,6 +2945,9 @@
                 }).join('');
             }
 
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // RENDER WITHDRAWALS — shows live status: pending / approved / rejected
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function renderWithdrawals() {
                 const list = state.withdrawals || [];
                 if (!list.length) {
@@ -2810,33 +2956,31 @@
                     return;
                 }
                 wdHistoryList.innerHTML = list.slice(0, 20).map(w => {
-                    const status = w.status || 'pending';
-                    let icon = '⏳',
-                        label = 'Pending';
-                    if (status === 'approved' || status === 'completed') {
-                        icon = '✅';
-                        label = 'Approved';
-                    } else if (status === 'rejected') {
-                        icon = '❌';
-                        label = 'Rejected';
-                    } else {
-                        icon = '⏳';
-                        label = 'Pending';
-                    }
                     const date = w.createdAt ? new Date(w.createdAt).toLocaleString() : '';
                     const binanceId = w.binanceIdentifier || '—';
                     const amount = formatNumber(w.amountRUT) + ' RUT';
                     const usd = (w.amountRUT || 0) * CONFIG.RUT_TO_USD;
                     const usdStr = '$' + usd.toFixed(2);
+                    const status = (w.status || 'pending').toLowerCase();
+                    let statusClass = 'pending', statusIcon = '⏳', statusLabel = 'Pending';
+                    let message = '📩 Admin will contact you personally for confirmation.';
+                    if (status === 'approved' || status === 'completed') {
+                        statusClass = 'approved'; statusIcon = '✅'; statusLabel = 'Approved';
+                        message = '✅ Your withdrawal has been approved and sent.';
+                    } else if (status === 'rejected') {
+                        statusClass = 'rejected'; statusIcon = '❌'; statusLabel = 'Rejected';
+                        message = w.adminNote ?
+                            `❌ Rejected: ${w.adminNote}` :
+                            '❌ Rejected. The amount has been refunded to your balance.';
+                    }
                     return `<div class="wh-item">
                         <div class="wh-left">
                             <div class="wh-amount">${amount} <span style="font-weight:400;color:var(--text-muted);font-size:0.7rem;">(${usdStr})</span></div>
                             <div class="wh-detail">🔑 Binance ID: ${binanceId}</div>
                             <div class="wh-meta">📅 ${date}</div>
+                            <div class="wh-message">${message}</div>
                         </div>
-                        <span class="wh-status ${status}">
-                            <span class="status-icon">${icon}</span> ${label}
-                        </span>
+                        <div class="wh-status ${statusClass}">${statusIcon} ${statusLabel}</div>
                     </div>`;
                 }).join('');
             }
@@ -2854,7 +2998,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // WITHDRAWAL SUBMIT (FIXED - no loading hang)
+            // WITHDRAWAL SUBMIT
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             async function submitWithdrawal() {
                 const amount = parseInt($('wdAmount').value);
@@ -2890,9 +3034,9 @@
                     if (result && result.withdrawal) {
                         $('wdAmount').value = '';
                         $('wdBinanceId').value = '';
-                        showToast('✅ Withdrawal submitted! Status: Pending ⏳', 'success');
                         await refreshUserData();
                         navigateTo('screenWallet');
+                        showWithdrawSuccessPopup();
                     } else {
                         errorEl.textContent = 'Withdrawal failed. Please try again.';
                         showToast('❌ Withdrawal failed', 'error');
@@ -2980,7 +3124,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // GAME COMPONENTS (abbreviated)
+            // GAME COMPONENTS (abbreviated - full logic below)
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             const gameComponents = {
                 slidePuzzle: () => `
@@ -3040,7 +3184,7 @@
             };
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // GAME LOGIC INIT (stubs - full logic included)
+            // GAME LOGIC INIT (full implementations included)
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function initGameLogic(gameId) {
                 const fns = {
@@ -4078,6 +4222,8 @@
                             current.balance = (current.balance || 0) + reward;
                             current.totalEarned = (current.totalEarned || 0) + reward;
                             current.completedGames = (current.completedGames || 0) + 1;
+                            if (resultType === 'win') current.wins = (current.wins || 0) + 1;
+                            else if (resultType === 'draw') current.draws = (current.draws || 0) + 1;
                             current.updatedAt = Date.now();
                             updatedUser = { ...current };
                             return current;
@@ -4096,6 +4242,8 @@
                             state.user.balance = updatedUser.balance || 0;
                             state.user.totalEarned = updatedUser.totalEarned || 0;
                             state.user.completedGames = updatedUser.completedGames || 0;
+                            state.user.wins = updatedUser.wins || 0;
+                            state.user.draws = updatedUser.draws || 0;
                             state.rewardClaimed = true;
                             state._rewardLock = false;
                             updateUI();
@@ -4206,6 +4354,26 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            // WITHDRAW SUCCESS POPUP
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            function showWithdrawSuccessPopup() {
+                const popup = $('wdSuccessPopup');
+                // restart the checkmark draw animation each time it opens
+                const svg = popup.querySelector('.wd-check-circle svg');
+                svg.style.animation = 'none';
+                svg.querySelectorAll('circle, path').forEach(el => {
+                    el.style.animation = 'none';
+                    void el.offsetWidth;
+                    el.style.animation = '';
+                });
+                popup.classList.add('open');
+                clearTimeout(popup._autoTimer);
+                popup._autoTimer = setTimeout(() => {
+                    popup.classList.remove('open');
+                }, 4000);
+            }
+
+            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             // EVENT BINDING
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function bindEvents() {
@@ -4233,7 +4401,6 @@
 
                 $('themeLight').addEventListener('click', () => applyTheme('light'));
                 $('themeDark').addEventListener('click', () => applyTheme('dark'));
-                $('themeAuto').addEventListener('click', () => applyTheme('auto'));
                 $('themeToggle').addEventListener('click', toggleTheme);
 
                 $('gpClose').addEventListener('click', () => {
@@ -4252,6 +4419,9 @@
                 });
                 $('withdrawBackBtn').addEventListener('click', () => navigateTo('screenWallet'));
                 $('wdSubmitBtn').addEventListener('click', submitWithdrawal);
+                $('wdSuccessBtn').addEventListener('click', () => {
+                    $('wdSuccessPopup').classList.remove('open');
+                });
 
                 $('wdAmount').addEventListener('input', function() {
                     const val = parseInt(this.value);
@@ -4283,26 +4453,35 @@
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             // INIT
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            function safeCall(fn) {
+                try { return fn(); } catch (e) { console.error('[safeCall] error:', e); }
+            }
+            window.addEventListener('error', function(e) {
+                console.error('[Global error]', e.message, e.filename, e.lineno);
+                if (!state._initialLoadDone) {
+                    state._initialLoadDone = true;
+                    hideLoading();
+                    $('app').classList.add('visible');
+                    splash.classList.add('hide');
+                }
+            });
             async function init() {
-                initAdsGram();
-                initTelegram();
-                const savedTheme = localStorage.getItem('ruttore_theme') || 'dark';
-                applyTheme(savedTheme);
-                renderGameGrid();
-                bindEvents();
+                safeCall(initAdsGram);
+                safeCall(initTelegram);
+                const savedTheme = safeStorage.getItem('ruttore_theme') || 'dark';
+                safeCall(() => applyTheme(savedTheme));
+                safeCall(renderGameGrid);
+                safeCall(bindEvents);
 
-                // Show loading while initializing
                 showLoading();
-                loadUserFromFirebase();
+                safeCall(loadUserFromFirebase);
 
-                // Fallback: if loading hasn't completed after 5s, force show
                 setTimeout(() => {
                     if (!state._initialLoadDone) {
                         hideLoading();
                         state._initialLoadDone = true;
                         $('app').classList.add('visible');
                         splash.classList.add('hide');
-                        // Ensure user has default values
                         if (state.user && !state.user.balance && state.user.balance !== 0) {
                             state.user.balance = 0;
                             state.user.totalEarned = 0;
@@ -4322,13 +4501,9 @@
                     }
                 }, 5000);
 
-                console.log('🚀 Ruttore Game Hub v7.2 — Fast Loading, Withdrawal Fix, Status Tracking');
+                console.log('🚀 Ruttore Game Hub v7.3 — Withdrawal admin contact message');
                 console.log('👤 User:', state.user);
                 console.log('🎮 Games:', GAMES.length);
-                console.log('📢 AdsGram blockId:', CONFIG.ADSGRAM_BLOCK_ID);
-                console.log('📢 AdsBitVex appId:', CONFIG.ADSBITVEX_APPID);
-                console.log('📢 Support:', CONFIG.SUPPORT_LINK);
-                console.log('📢 Channel:', CONFIG.CHANNEL_LINK);
             }
 
             document.addEventListener('DOMContentLoaded', init);

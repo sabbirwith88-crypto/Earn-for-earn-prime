@@ -18,7 +18,7 @@
     </script>
     <style>
         /* ──────────────────────────────────────────────
-           ROOT VARIABLES — DARK FIRST
+           ROOT VARIABLES
            ────────────────────────────────────────────── */
         *,
         *::before,
@@ -28,7 +28,36 @@
             padding: 0;
         }
         :root {
-            /* Dark (default) */
+            --bg: #f0f2f8;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.92);
+            --bg-input: #f0f2f8;
+            --border: #e2e6ee;
+            --text: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --text-muted: #8a8aaa;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.10);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --accent: #6c3bdb;
+            --accent-cyan: #0ea5e9;
+            --gradient: linear-gradient(135deg, #6c3bdb, #0ea5e9);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --safe-top: env(safe-area-inset-top, 12px);
+            --safe-bottom: env(safe-area-inset-bottom, 12px);
+            --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            --header-blur: rgba(255, 255, 255, 0.85);
+            --modal-overlay: rgba(0, 0, 0, 0.5);
+            --popup-bg: #ffffff;
+            --cell-bg: #6c3bdb;
+            --cell-text: #ffffff;
+            --card-border: #e2e6ee;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] {
             --bg: #0b0b1a;
             --bg-card: #161630;
             --bg-nav: rgba(22, 22, 48, 0.94);
@@ -43,36 +72,6 @@
             --modal-overlay: rgba(0, 0, 0, 0.7);
             --popup-bg: #161630;
             --card-border: #2a2a55;
-            --cell-bg: #6c3bdb;
-            --cell-text: #ffffff;
-            --safe-top: env(safe-area-inset-top, 12px);
-            --safe-bottom: env(safe-area-inset-bottom, 12px);
-            --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            --radius: 20px;
-            --radius-sm: 12px;
-            --accent: #6c3bdb;
-            --accent-cyan: #0ea5e9;
-            --gradient: linear-gradient(135deg, #6c3bdb, #0ea5e9);
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        [data-theme="light"] {
-            --bg: #f0f2f8;
-            --bg-card: #ffffff;
-            --bg-nav: rgba(255, 255, 255, 0.92);
-            --bg-input: #f0f2f8;
-            --border: #e2e6ee;
-            --text: #1a1a2e;
-            --text-secondary: #4a4a6a;
-            --text-muted: #8a8aaa;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.10);
-            --header-blur: rgba(255, 255, 255, 0.85);
-            --modal-overlay: rgba(0, 0, 0, 0.5);
-            --popup-bg: #ffffff;
-            --card-border: #e2e6ee;
             --cell-bg: #6c3bdb;
             --cell-text: #ffffff;
         }
@@ -678,7 +677,6 @@
         .tx-item .tx-left .tx-desc {
             font-size: 0.8rem;
             font-weight: 500;
-            color: var(--text);
         }
         .tx-item .tx-left .tx-meta {
             font-size: 0.55rem;
@@ -786,7 +784,6 @@
         .withdraw-history .wh-item .wh-left .wh-amount {
             font-weight: 600;
             font-size: 0.85rem;
-            color: var(--text);
         }
         .withdraw-history .wh-item .wh-left .wh-meta {
             font-size: 0.55rem;
@@ -1266,9 +1263,7 @@
             border: 1px solid var(--border);
         }
 
-        /* ──────────────────────────────────────────────
-           SLIDE PUZZLE
-           ────────────────────────────────────────────── */
+        /* Slide Puzzle */
         .slide-grid {
             display: grid;
             gap: 4px;
@@ -1305,9 +1300,7 @@
             transform: scale(0.92);
         }
 
-        /* ──────────────────────────────────────────────
-           MEMORY MATCH
-           ────────────────────────────────────────────── */
+        /* Memory Match */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1329,7 +1322,6 @@
             border: 2px solid var(--border);
             user-select: none;
             box-shadow: var(--shadow);
-            color: var(--text);
         }
         .memory-grid .mem-card.flipped {
             background: var(--bg);
@@ -1346,9 +1338,7 @@
             transform: scale(0.94);
         }
 
-        /* ──────────────────────────────────────────────
-           WORD SEARCH
-           ────────────────────────────────────────────── */
+        /* Word Search */
         .word-grid {
             display: grid;
             gap: 4px;
@@ -1387,9 +1377,7 @@
             border-color: var(--success);
         }
 
-        /* ──────────────────────────────────────────────
-           MATH PUZZLE
-           ────────────────────────────────────────────── */
+        /* Math Puzzle */
         .math-puzzle {
             background: var(--bg);
             border-radius: var(--radius);
@@ -1436,9 +1424,7 @@
             background: rgba(239, 68, 68, 0.12);
         }
 
-        /* ──────────────────────────────────────────────
-           SEQUENCE PUZZLE
-           ────────────────────────────────────────────── */
+        /* Sequence Puzzle */
         .seq-puzzle {
             background: var(--bg);
             border-radius: var(--radius);
@@ -1502,9 +1488,7 @@
             background: rgba(239, 68, 68, 0.12);
         }
 
-        /* ──────────────────────────────────────────────
-           TIC-TAC-TOE
-           ────────────────────────────────────────────── */
+        /* Tic-Tac-Toe */
         .ttt-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1541,9 +1525,7 @@
             pointer-events: none;
         }
 
-        /* ──────────────────────────────────────────────
-           CONNECT FOUR
-           ────────────────────────────────────────────── */
+        /* Connect Four */
         .c4-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -1596,9 +1578,7 @@
             }
         }
 
-        /* ──────────────────────────────────────────────
-           TRIVIA
-           ────────────────────────────────────────────── */
+        /* Trivia */
         .trivia-box {
             background: var(--bg);
             border-radius: var(--radius);
@@ -1647,9 +1627,7 @@
             color: var(--text-secondary);
         }
 
-        /* ──────────────────────────────────────────────
-           SIMON SAYS
-           ────────────────────────────────────────────── */
+        /* Simon Says */
         .simon-box {
             background: var(--bg);
             border-radius: var(--radius);
@@ -1912,9 +1890,9 @@
             <div class="screen" id="screenWithdraw">
                 <button class="btn btn-secondary" style="margin-bottom:12px;padding:6px 16px;font-size:0.75rem;" id="withdrawBackBtn">← Back</button>
                 <div class="withdraw-form">
-                    <h3 style="margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:1.1rem;color:var(--text);">💸 Withdraw RUT</h3>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:0.8rem;color:var(--text-secondary);">
-                        <span>Available: <strong id="wdAvailable" style="color:var(--text);">0</strong> RUT</span>
+                    <h3 style="margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:1.1rem;">💸 Withdraw RUT</h3>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:0.8rem;">
+                        <span>Available: <strong id="wdAvailable">0</strong> RUT</span>
                         <span style="color:var(--text-muted);">Min: 200 RUT</span>
                     </div>
                     <div class="form-group">
@@ -1974,7 +1952,7 @@
             <button class="modal-close" id="settingsClose">✕</button>
             <div class="modal-title">⚙️ Settings</div>
             <div class="modal-body">
-                <div class="info-row"><span class="label">App</span><span>Ruttore Game Hub v6.5</span></div>
+                <div class="info-row"><span class="label">App</span><span>Ruttore Game Hub v6.4</span></div>
                 <div class="info-row"><span class="label">Telegram ID</span><span id="settingsTgId">—</span></div>
                 <div class="info-row"><span class="label">Username</span><span id="settingsTgUser">—</span></div>
                 <div class="info-row"><span class="label">RUT Rate</span><span>1 RUT = $0.0005</span></div>
@@ -2042,14 +2020,14 @@
                 rewardClaimed: false,
                 theme: 'dark',
                 _loading: false,
+                _listeners: [],
                 _pendingPopupAction: null,
                 _adsGramInitialized: false,
                 _adsGramController: null,
                 _rewardLock: false,
                 _taskChannelCompleted: false,
                 _taskChannelPending: false,
-                _splashHidden: false,
-                _appReady: false,
+                _withdrawalListeners: [],
             };
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2076,21 +2054,6 @@
             const adsgramContainer = $('adsgramContainer');
             const adsgramCloseBtn = $('adsgramCloseBtn');
             const taskChannelContainer = $('taskChannelContainer');
-            const splash = $('splash');
-            const app = $('app');
-
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // SPLASH — FORCE HIDE AFTER TIMEOUT
-            // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            function hideSplash() {
-                if (state._splashHidden) return;
-                state._splashHidden = true;
-                splash.classList.add('hide');
-                app.classList.add('visible');
-            }
-
-            // Force hide splash after 2.5s max
-            setTimeout(hideSplash, 2500);
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             // OPEN LINK
@@ -2454,7 +2417,9 @@
                     current.totalWithdrawn = (current.totalWithdrawn || 0) + data.amountRUT;
                     current.updatedAt = Date.now();
                     const hist = current.withdrawalHistory || [];
+                    // Add the withdrawal with pending status
                     const newWd = { ...wd };
+                    // Remove any existing entry with same ID (shouldn't happen)
                     const existingIdx = hist.findIndex(h => h.withdrawalId === wd.withdrawalId);
                     if (existingIdx > -1) hist.splice(existingIdx, 1);
                     hist.unshift(newWd);
@@ -2463,6 +2428,7 @@
                     updatedUser = { ...current };
                     return current;
                 });
+                // Also set up a listener for this specific withdrawal to track status changes
                 setupWithdrawalListener(uid, wd.withdrawalId);
                 return { withdrawal: wd, user: updatedUser };
             }
@@ -2474,13 +2440,14 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // WITHDRAWAL STATUS LISTENER
+            // WITHDRAWAL STATUS LISTENER (real-time)
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             function setupWithdrawalListener(uid, withdrawalId) {
                 const ref = fbRef('withdrawals/' + uid + '/' + withdrawalId);
                 const listener = ref.on('value', async (snap) => {
                     const data = snap.val();
                     if (!data) return;
+                    // Update the status in user's withdrawalHistory array
                     const userRef = fbRef('users/' + uid);
                     userRef.transaction((current) => {
                         if (!current) return current;
@@ -2492,7 +2459,12 @@
                             hist[idx].adminNote = data.adminNote || hist[idx].adminNote;
                             current.withdrawalHistory = hist;
                             current.updatedAt = Date.now();
+                            // If status is completed, update totals
+                            if (data.status === 'completed' || data.status === 'approved') {
+                                // Already deducted when requested, but we can track approval
+                            }
                             if (data.status === 'rejected') {
+                                // Refund the balance
                                 const amount = hist[idx].amountRUT || 0;
                                 current.balance = (current.balance || 0) + amount;
                                 current.pendingAmount = (current.pendingAmount || 0) - amount;
@@ -2502,9 +2474,13 @@
                         }
                         return current;
                     });
+                    // Refresh UI
                     loadUserFromFirebase();
                     showToast('📊 Withdrawal status updated: ' + data.status.toUpperCase());
-                }, (err) => { console.warn('Withdrawal listener error:', err); });
+                }, (err) => {
+                    console.warn('Withdrawal listener error:', err);
+                });
+                state._withdrawalListeners.push({ ref, listener });
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2569,8 +2545,10 @@
                 if (btn) {
                     btn.addEventListener('click', function() {
                         openLink(CONFIG.CHANNEL_LINK);
+                        // After opening, show a confirmation button
                         this.textContent = '✅ Joined?';
                         this.classList.add('secondary');
+                        // Replace click to mark complete
                         this.removeEventListener('click', arguments.callee);
                         this.addEventListener('click', function(e) {
                             e.stopPropagation();
@@ -2602,16 +2580,39 @@
                         state.transactions = data.transactions || [];
                         state.withdrawals = data.withdrawalHistory || [];
                         state._taskChannelCompleted = data.tasks?.channelJoin === true;
+
+                        // Also fetch the latest withdrawals from the withdrawals node for status updates
+                        const wdData = await fbGet('withdrawals/' + uid);
+                        if (wdData) {
+                            const wdList = Object.values(wdData);
+                            // Update the withdrawalHistory with latest statuses
+                            const hist = data.withdrawalHistory || [];
+                            for (const w of wdList) {
+                                const existing = hist.find(h => h.withdrawalId === w.withdrawalId);
+                                if (existing) {
+                                    existing.status = w.status || existing.status;
+                                    existing.processedAt = w.processedAt || existing.processedAt;
+                                    existing.adminNote = w.adminNote || existing.adminNote;
+                                } else {
+                                    hist.unshift(w);
+                                }
+                            }
+                            // Sort by date
+                            hist.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                            if (hist.length > 100) hist.length = 100;
+                            state.withdrawals = hist;
+                            state.user.withdrawalHistory = hist;
+                            // Update in Firebase
+                            await fbUpdate('users/' + uid, { withdrawalHistory: hist });
+                        }
+
                         updateUI();
                         renderChannelTask();
                     }
                     hideLoading();
-                    // Ensure splash is hidden once data loads
-                    hideSplash();
                 }, (err) => {
                     console.error('User listener error:', err);
                     hideLoading();
-                    hideSplash();
                     showToast('⚠️ Error loading data', true);
                 });
 
@@ -2619,12 +2620,16 @@
                     if (txs && txs.length > 0) state.transactions = txs;
                     if (wds && wds.length > 0) {
                         state.withdrawals = wds;
-                        if (state.user) state.user.withdrawalHistory = wds;
+                        // Also update user.withdrawalHistory
+                        if (state.user) {
+                            state.user.withdrawalHistory = wds;
+                        }
                     }
                     updateUI();
                     renderChannelTask();
                 }).catch(e => console.warn('Fallback load error:', e));
 
+                // Setup listeners for all withdrawals
                 fbGet('withdrawals/' + uid).then((data) => {
                     if (data) {
                         const keys = Object.keys(data);
@@ -2866,7 +2871,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // GAME COMPONENTS
+            // GAME COMPONENTS (abbreviated, all games included)
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             const gameComponents = {
                 slidePuzzle: () => `
@@ -3922,7 +3927,7 @@
             }
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // COMPLETE GAME
+            // COMPLETE GAME — WIN/DRAW = RUT, LOSS = no RUT
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             async function completeGame(gameId, result, score, time) {
                 if (state._rewardLock || state.rewardClaimed || !state.isGameRunning) {
@@ -3956,6 +3961,7 @@
                     await completeGameSession(state.user.id, sessionId, { result: resultType, reward, completionId });
                 } catch (e) { console.warn('Session update failed:', e); }
 
+                // Handle reward if win/draw
                 if (reward > 0 && !state.rewardClaimed) {
                     try {
                         let updatedUser = null;
@@ -3993,6 +3999,7 @@
                         state._rewardLock = false; }
                 }
 
+                // Loss or draw (no reward) — update stats
                 if (reward === 0) {
                     try {
                         await fbTransaction('users/' + state.user.id, (current) => {
@@ -4014,6 +4021,7 @@
                     return;
                 }
 
+                // Fallback
                 if (reward > 0 && !state.rewardClaimed) {
                     state.user.balance = (state.user.balance || 0) + reward;
                     state.user.totalEarned = (state.user.totalEarned || 0) + reward;
@@ -4168,23 +4176,26 @@
             // INIT
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             async function init() {
+                const splash = $('splash');
                 initAdsGram();
                 initTelegram();
                 const savedTheme = localStorage.getItem('ruttore_theme') || 'dark';
                 applyTheme(savedTheme);
                 renderGameGrid();
                 bindEvents();
-                // Force splash hide after a maximum of 2.5s (already handled)
-                // Ensure app is visible
-                setTimeout(() => {
-                    hideSplash();
-                }, 500);
-                console.log('🚀 Ruttore Game Hub v6.5 — Fast & Dark');
+                await loadUserFromFirebase();
+                $('app').classList.add('visible');
+                setTimeout(() => splash.classList.add('hide'), 500);
+                console.log('🚀 Ruttore Game Hub v6.4 — Channel Task (no reward), Withdrawal Status Fix, Stats Fix');
                 console.log('👤 User:', state.user);
                 console.log('🎮 Games:', GAMES.length);
+                console.log('📢 AdsGram blockId:', CONFIG.ADSGRAM_BLOCK_ID);
+                console.log('📢 AdsBitVex appId:', CONFIG.ADSBITVEX_APPID);
+                console.log('🔗 Redirect on fallback:', CONFIG.ADSBITVEX_REDIRECT);
+                console.log('📢 Support:', CONFIG.SUPPORT_LINK);
+                console.log('📢 Channel:', CONFIG.CHANNEL_LINK);
             }
 
-            // Start the app
             document.addEventListener('DOMContentLoaded', init);
 
         })();

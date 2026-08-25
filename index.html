@@ -416,16 +416,16 @@
 
             <!-- Ad Task: 3 steps → Monetag, Adsgram, Adsvitbex -->
             <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> <span id="adTaskTitle">Ad Task</span></span><span class="task-reward">+8 Rut</span></div>
-                <div class="task-desc" id="adTaskDesc">Complete 3 ad steps to earn 8 Rut. Daily limit: 12</div>
+                <div class="task-header"><span class="task-title"><i class="fas fa-ad"></i> <span id="adTaskTitle">Ad Task</span></span><span class="task-reward">+17 Rut</span></div>
+                <div class="task-desc" id="adTaskDesc">Complete 3 ad steps to earn 17 Rut. Daily limit: 12</div>
                 <div class="progress-container"><div class="progress-label"><span id="todayLabel">Today</span><span id="adSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="adSeqFill"></div></div><div class="completion-stats" id="adSeqStats">0/12</div></div>
                 <button id="startAdSeqBtn" class="task-btn"><span id="startAdBtn">Start Ad Sequence</span></button>
                 <div class="cooldown-label" id="adCooldownLabel"></div>
             </div>
 
             <div class="task-card">
-                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> <span id="linkTaskTitle">Link Task</span></span><span class="task-reward">+20 Rut</span></div>
-                <div class="task-desc" id="linkTaskDesc">Open 5 links to earn 20 Rut. Daily limit: 12</div>
+                <div class="task-header"><span class="task-title"><i class="fas fa-link" style="color:#1a73e8;"></i> <span id="linkTaskTitle">Link Task</span></span><span class="task-reward">+27 Rut</span></div>
+                <div class="task-desc" id="linkTaskDesc">Open 5 links to earn 27 Rut. Daily limit: 12</div>
                 <div class="progress-container"><div class="progress-label"><span id="todayLabel2">Today</span><span id="linkSeqPercent">0%</span></div><div class="progress-bar-bg"><div class="progress-fill" id="linkSeqFill"></div></div><div class="completion-stats" id="linkSeqStats">0/12</div></div>
                 <button id="startLinkSeqBtn" class="task-btn"><span id="startLinkBtn">Start Link Sequence</span></button>
                 <div class="cooldown-label" id="linkCooldownLabel"></div>
@@ -604,11 +604,11 @@
                 joinChannelBtnText: 'চ্যানেল জয়েন করুন',
                 verifyJoinBtnText: 'ভেরিফাই করে ১০ Rut নিন (৫ সেকেন্ড অপেক্ষা)',
                 adTaskTitle: 'অ্যাড টাস্ক',
-                adTaskDesc: '৩টি বিজ্ঞাপন ধাপ শেষ করে ৮ Rut আয় করুন। দৈনিক সীমা: ১২',
+                adTaskDesc: '৩টি বিজ্ঞাপন ধাপ শেষ করে ১৭ Rut আয় করুন। দৈনিক সীমা: ১২',
                 todayLabel: 'আজ',
                 startAdBtn: 'অ্যাড সিকোয়েন্স শুরু',
                 linkTaskTitle: 'লিংক টাস্ক',
-                linkTaskDesc: '৫টি লিংক খুলে ২০ Rut আয় করুন। দৈনিক সীমা: ১২',
+                linkTaskDesc: '৫টি লিংক খুলে ২৭ Rut আয় করুন। দৈনিক সীমা: ১২',
                 startLinkBtn: 'লিংক সিকোয়েন্স শুরু',
                 sellGmailTitle: 'জিমেইল বিক্রি',
                 sellGmailDesc: 'আপনার জিমেইল তথ্য দিন, অ্যাডমিন ৩ দিনের মধ্যে রিভিউ করবে।',
@@ -694,11 +694,11 @@
                 joinChannelBtnText: 'Join Channel',
                 verifyJoinBtnText: 'Verify & get 10 Rut (wait 5s)',
                 adTaskTitle: 'Ad Task',
-                adTaskDesc: 'Complete 3 ad steps to earn 8 Rut. Daily limit: 12',
+                adTaskDesc: 'Complete 3 ad steps to earn 17 Rut. Daily limit: 12',
                 todayLabel: 'Today',
                 startAdBtn: 'Start Ad Sequence',
                 linkTaskTitle: 'Link Task',
-                linkTaskDesc: 'Open 5 links to earn 20 Rut. Daily limit: 12',
+                linkTaskDesc: 'Open 5 links to earn 27 Rut. Daily limit: 12',
                 startLinkBtn: 'Start Link Sequence',
                 sellGmailTitle: 'Sell Gmail',
                 sellGmailDesc: 'Provide your Gmail details, admin will review within 3 days.',
@@ -1071,7 +1071,7 @@
                 { name: 'Adsvitbex', icon: 'fa-ad', action: showAdsvitbex }
             ] : AD_LINKS.map((link,i) => ({ name: `Link ${i+1}`, link, icon: 'fa-link' }));
 
-            currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type==='ad' ? 8 : 20, linkOpenTime: 0, linkStepActive: false };
+            currentSequence = { type, steps: stepsData, currentStep: 0, stepCompleted: false, reward: type==='ad' ? 17 : 27, linkOpenTime: 0, linkStepActive: false };
             renderSequenceStep();
             document.getElementById('sequenceModal').classList.add('active');
         }
@@ -1510,7 +1510,7 @@
             quizSubmitBtn.disabled = true;
             const userAnswer = auto ? null : parseInt(quizAnswerInput.value.trim());
             let reward = 0, msg = '';
-            if (!auto && userAnswer === quizCorrectAnswer) { msg = `✅ Correct! (+3 Rut)`; reward = 3; }
+            if (!auto && userAnswer === quizCorrectAnswer) { msg = `✅ Correct! (+4 Rut)`; reward = 4; }
             else { msg = `❌ Wrong! Answer was: ${quizCorrectAnswer} (+1 Rut)`; reward = 1; }
             quizResultEl.innerHTML = msg;
             if (reward > 0) {

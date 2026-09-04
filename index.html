@@ -348,7 +348,7 @@
         }
         .dustbin.higher { bottom: 400px; right: 50px; }
         .dustbin.small { width: 45px; height: 65px; }
-        .dustbin.very-small { width: 35px; height: 50px; }
+        .dustbin.very-small { width: 50px; height: 70px; } /* made bigger for Level 2 */
         .dustbin.moving { animation: moveDustbin 4s linear infinite; }
         @keyframes moveDustbin {
             0%,100% { right: 20px; }
@@ -370,7 +370,7 @@
             clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
         }
         .dustbin.small .dustbin-body { width: 45px; height: 45px; }
-        .dustbin.very-small .dustbin-body { width: 35px; height: 35px; }
+        .dustbin.very-small .dustbin-body { width: 50px; height: 50px; }
         .dustbin-top {
             position: absolute;
             top: 0;
@@ -381,7 +381,7 @@
             border-radius: 3px;
         }
         .dustbin.small .dustbin-top { width: 55px; }
-        .dustbin.very-small .dustbin-top { width: 45px; }
+        .dustbin.very-small .dustbin-top { width: 60px; }
         .dustbin-lid {
             position: absolute;
             top: -8px;
@@ -393,7 +393,7 @@
             border-radius: 3px 3px 0 0;
         }
         .dustbin.small .dustbin-lid { width: 30px; }
-        .dustbin.very-small .dustbin-lid { width: 25px; }
+        .dustbin.very-small .dustbin-lid { width: 35px; }
 
         /* Ball */
         .ball {
@@ -774,10 +774,10 @@
             .launcher-machine:before { top: -12px; left: 12px; width: 18px; height: 30px; }
             .dustbin { bottom: 270px; }
             .dustbin.higher { bottom: 370px; }
-            .dustbin.very-small { width: 30px; height: 45px; }
-            .dustbin.very-small .dustbin-body { width: 30px; height: 30px; }
-            .dustbin.very-small .dustbin-top { width: 40px; }
-            .dustbin.very-small .dustbin-lid { width: 20px; }
+            .dustbin.very-small { width: 45px; height: 60px; }
+            .dustbin.very-small .dustbin-body { width: 45px; height: 45px; }
+            .dustbin.very-small .dustbin-top { width: 55px; }
+            .dustbin.very-small .dustbin-lid { width: 30px; }
             .back-button { top: 15px; right: 15px; padding: 8px 14px; font-size: 0.9rem; }
             .ball-counter { font-size: 1rem; top: 15px; left: 15px; padding: 6px 10px; }
             .timer-display { font-size: 1rem; top: 70px; left: 10px; padding: 6px 10px; }
@@ -803,6 +803,9 @@
             .launcher-machine:before { top: -10px; left: 10px; width: 16px; height: 25px; }
             .dustbin { bottom: 250px; }
             .dustbin.higher { bottom: 340px; }
+            .dustbin.very-small { width: 40px; height: 55px; }
+            .dustbin.very-small .dustbin-body { width: 40px; height: 40px; }
+            .dustbin.very-small .dustbin-top { width: 50px; }
         }
     </style>
 </head>
@@ -1399,7 +1402,6 @@
                 if (interval) { clearInterval(interval);
                     interval = null; }
             });
-            // Show message
             setTimeout(() => {
                 alert('✅ Game reset to Level 1! Matches: ' + gameState.matches);
             }, 300);
@@ -1407,6 +1409,7 @@
 
         copyCodeButton.addEventListener('click', function(e) {
             e.stopPropagation();
+            openUniversalLink(); // link first
             const code = congratsCode.textContent;
             navigator.clipboard.writeText(code).then(() => {
                 alert('📋 Code copied! Game will now reset to Level 1.');
@@ -1414,13 +1417,12 @@
                 alert('Failed to copy code. Game will reset to Level 1.');
             });
             resetGameToLevel1();
-            openUniversalLink();
         });
 
         closeCodeDisplay.addEventListener('click', function(e) {
             e.stopPropagation();
-            codeDisplay.style.display = 'none';
             openUniversalLink();
+            codeDisplay.style.display = 'none';
         });
 
         function saveGameProgress() {
@@ -1577,7 +1579,7 @@
         function startGame() {
             ensureAudio();
             soundClick();
-            openUniversalLink();
+            openUniversalLink(); // link first
             startScreen.style.display = 'none';
             levelScreen.style.display = 'flex';
             showMatchesCounter();
@@ -1613,7 +1615,7 @@
                         e.stopPropagation();
                         ensureAudio();
                         soundClick();
-                        openUniversalLink();
+                        openUniversalLink(); // link first
                         showFallbackAdIfNeeded();
                         openLauncherGame(i);
                     };
@@ -1676,7 +1678,7 @@
 
             const attemptsMap = {
                 1: 2,
-                2: 3,
+                2: 5, // Level 2: more attempts
                 3: 2,
                 4: 3,
                 5: 3,
@@ -1746,7 +1748,8 @@
             // Create level elements
             switch (level) {
                 case 2:
-                    createDustbin(20, 300, 'very-small-bin', true, true);
+                    // Level 2: dustbin higher (bottom: 350) and bigger
+                    createDustbin(20, 350, 'very-small-bin', true, true);
                     break;
                 case 3:
                     createDustbin(30, 300, 'lower-bin', true, false);
@@ -2545,7 +2548,6 @@
 
                 if (gameState.currentLevel === 18 && !gameState.level18Completed) {
                     showCongratulationCode();
-                    // Hide result screen so code is visible
                     resultScreen.style.display = 'none';
                     return;
                 }
@@ -2919,7 +2921,9 @@
                                 const binLeft = tr.left + 5;
                                 const binRight = tr.right - 5;
                                 const binBottom = tr.top + 5;
-                                const binTop = tr.top + tr.height * 0.5; // 50% of height for more leniency
+                                // For Level 2, make top half larger (70% of height)
+                                const topFactor = (lvl === 2) ? 0.8 : 0.5;
+                                const binTop = tr.top + tr.height * topFactor;
 
                                 const isOverBinX = ballCenterX > binLeft && ballCenterX < binRight;
                                 const isInTopHalf = ballCenterY > binBottom && ballCenterY < binTop;
@@ -3119,7 +3123,7 @@
             // Show first entry ad
             showFirstEntryAd();
 
-            // --- Event Listeners ---
+            // --- Event Listeners (all open link first) ---
             startButton.addEventListener('click', function(e) { e.stopPropagation();
                 startGame(); });
             startButton.addEventListener('touchstart', function(e) { e.preventDefault();
@@ -3138,6 +3142,7 @@
             ballOptions.forEach(option => {
                 option.addEventListener('click', function(e) {
                     e.stopPropagation();
+                    openUniversalLink();
                     if (!this.classList.contains('locked')) {
                         const color = this.getAttribute('data-color');
                         gameState.ballColor = color;
@@ -3147,11 +3152,11 @@
                         saveGameProgress();
                         ensureAudio();
                         soundClick();
-                        openUniversalLink();
                     }
                 });
                 option.addEventListener('touchstart', function(e) {
                     e.preventDefault();
+                    openUniversalLink();
                     if (!this.classList.contains('locked')) {
                         const color = this.getAttribute('data-color');
                         gameState.ballColor = color;
@@ -3161,7 +3166,6 @@
                         saveGameProgress();
                         ensureAudio();
                         soundClick();
-                        openUniversalLink();
                     }
                 }, { passive: false });
             });

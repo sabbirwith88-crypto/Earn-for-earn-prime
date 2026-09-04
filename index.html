@@ -20,6 +20,7 @@
         /* Common Styles */
         * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
             font-family: 'Arial', sans-serif;
@@ -31,6 +32,8 @@
             overflow: hidden;
             touch-action: manipulation;
             background: linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d);
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         /* Start Screen */
@@ -45,43 +48,46 @@
             position: absolute;
         }
         .welcome {
-            font-size: 3rem;
+            font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: bold;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
             text-align: center;
-            padding: 0 20px;
+            padding: 0 15px;
         }
         .start-button {
-            font-size: 2rem;
-            padding: 20px 60px;
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            padding: 15px 40px;
             background-color: white;
             color: black;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             z-index: 2;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            min-width: 200px;
+            touch-action: manipulation;
         }
         .start-button:active {
             transform: scale(0.95);
             background-color: #f0f0f0;
         }
         .settings-button {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            padding: 15px 30px;
+            margin-top: 15px;
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            padding: 12px 25px;
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
             border: 2px solid white;
             border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             z-index: 2;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
         }
         .settings-button:active {
             transform: scale(0.95);
@@ -100,8 +106,8 @@
             position: absolute;
             top: 15%;
             right: 15%;
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             background: radial-gradient(circle, #ffde00, #ff8c00);
             border-radius: 50%;
             box-shadow: 0 0 50px #ff8c00;
@@ -109,12 +115,8 @@
             animation: pulse 3s infinite alternate;
         }
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.05);
-            }
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
 
         /* Level Screen */
@@ -130,34 +132,35 @@
             top: 0;
             left: 0;
             background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
         }
         .level-container {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 20px;
             width: 100%;
             max-width: 500px;
         }
         .level-row {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
         }
         .level {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             position: relative;
+            touch-action: manipulation;
         }
         .level.unlocked {
             background-color: rgba(255, 255, 255, 0.1);
@@ -169,14 +172,14 @@
             cursor: not-allowed;
         }
         .level.unlocked:active {
-            transform: scale(0.95);
+            transform: scale(0.93);
             background-color: rgba(255, 255, 255, 0.2);
         }
         .back-button-levels {
             position: absolute;
-            top: 30px;
-            right: 30px;
-            padding: 15px 25px;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
             background: linear-gradient(to bottom, #f44336, #d32f2f);
             color: white;
             border: none;
@@ -184,12 +187,12 @@
             cursor: pointer;
             z-index: 30;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
         }
         .back-button-levels:active {
             transform: scale(0.95);
-            background: linear-gradient(to bottom, #e53935, #c62828);
         }
 
         /* Settings Modal */
@@ -206,47 +209,48 @@
             align-items: center;
         }
         .settings-content {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             color: #333;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 450px;
             width: 90%;
             text-align: center;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
         }
         .settings-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             color: #2c3e50;
         }
         .ball-options {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 25px;
         }
         .ball-option {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             cursor: pointer;
             border: 3px solid transparent;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
         }
         .ball-option.selected {
             border-color: gold;
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 3px 8px rgba(0, 0, 0, 0.3);
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
         .ball-option:active {
-            transform: scale(1.05);
+            transform: scale(0.95);
         }
         .close-settings {
-            padding: 15px 30px;
-            font-size: 1.5rem;
+            padding: 12px 30px;
+            font-size: 1.3rem;
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             border: none;
@@ -254,10 +258,10 @@
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
         }
         .close-settings:active {
             transform: scale(0.95);
-            background: linear-gradient(to bottom, #2980b9, #2471a3);
         }
 
         /* Launcher Game */
@@ -276,37 +280,31 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 250px;
+            height: 200px;
             background: linear-gradient(to top, #3a5268, #2c3e50);
             clip-path: polygon(0% 100%, 10% 70%, 20% 80%, 30% 60%, 40% 90%, 50% 65%, 60% 75%, 70% 55%, 80% 85%, 90% 60%, 100% 100%);
             z-index: 21;
         }
         .game-sun {
             position: absolute;
-            top: 12%;
-            right: 12%;
-            width: 70px;
-            height: 70px;
+            top: 10%;
+            right: 10%;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             z-index: 22;
             animation: sunsetGlow 4s infinite alternate;
         }
         @keyframes sunsetGlow {
-            0% {
-                opacity: 0.9;
-                box-shadow: 0 0 60px #FF8C00;
-            }
-            100% {
-                opacity: 1;
-                box-shadow: 0 0 80px #FF4500;
-            }
+            0% { opacity: 0.9; box-shadow: 0 0 60px #FF8C00; }
+            100% { opacity: 1; box-shadow: 0 0 80px #FF4500; }
         }
         .moon {
             position: absolute;
-            top: 12%;
-            right: 12%;
-            width: 70px;
-            height: 70px;
+            top: 10%;
+            right: 10%;
+            width: 60px;
+            height: 60px;
             background: radial-gradient(circle, #f0f0f0, #ccc);
             border-radius: 50%;
             box-shadow: 0 0 60px rgba(255, 255, 255, 0.5);
@@ -314,21 +312,15 @@
             animation: moonGlow 4s infinite alternate;
         }
         @keyframes moonGlow {
-            0% {
-                opacity: 0.8;
-                box-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
-            }
-            100% {
-                opacity: 1;
-                box-shadow: 0 0 70px rgba(255, 255, 255, 0.8);
-            }
+            0% { opacity: 0.8; box-shadow: 0 0 40px rgba(255, 255, 255, 0.5); }
+            100% { opacity: 1; box-shadow: 0 0 70px rgba(255, 255, 255, 0.8); }
         }
         .launcher-machine {
             position: absolute;
-            left: 20px;
-            bottom: 350px;
-            width: 60px;
-            height: 90px;
+            left: 15px;
+            bottom: 300px;
+            width: 50px;
+            height: 75px;
             background-color: #555;
             border-radius: 10px;
             z-index: 23;
@@ -336,10 +328,10 @@
         .launcher-machine:before {
             content: '';
             position: absolute;
-            top: -20px;
-            left: 20px;
+            top: -15px;
+            left: 15px;
             width: 20px;
-            height: 40px;
+            height: 35px;
             background-color: #777;
             transform: rotate(45deg);
             border-radius: 5px;
@@ -349,46 +341,23 @@
         .dustbin {
             position: absolute;
             right: 20px;
-            bottom: 350px;
+            bottom: 300px;
             width: 60px;
             height: 80px;
             z-index: 23;
         }
-        .dustbin.higher {
-            bottom: 450px;
-            right: 50px;
-        }
-        .dustbin.small {
-            width: 40px;
-            height: 60px;
-        }
-        .dustbin.very-small {
-            width: 30px;
-            height: 45px;
-        }
-        .dustbin.moving {
-            animation: moveDustbin 4s linear infinite;
-        }
+        .dustbin.higher { bottom: 400px; right: 50px; }
+        .dustbin.small { width: 45px; height: 65px; }
+        .dustbin.very-small { width: 35px; height: 50px; }
+        .dustbin.moving { animation: moveDustbin 4s linear infinite; }
         @keyframes moveDustbin {
-            0%,
-            100% {
-                right: 20px;
-            }
-            50% {
-                right: 200px;
-            }
+            0%,100% { right: 20px; }
+            50% { right: 200px; }
         }
-        .dustbin.moving-2 {
-            animation: moveDustbin2 5s linear infinite;
-        }
+        .dustbin.moving-2 { animation: moveDustbin2 5s linear infinite; }
         @keyframes moveDustbin2 {
-            0%,
-            100% {
-                right: 200px;
-            }
-            50% {
-                right: 20px;
-            }
+            0%,100% { right: 200px; }
+            50% { right: 20px; }
         }
         .dustbin-body {
             position: absolute;
@@ -400,14 +369,8 @@
             border-radius: 0 0 5px 5px;
             clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
         }
-        .dustbin.small .dustbin-body {
-            width: 40px;
-            height: 40px;
-        }
-        .dustbin.very-small .dustbin-body {
-            width: 30px;
-            height: 30px;
-        }
+        .dustbin.small .dustbin-body { width: 45px; height: 45px; }
+        .dustbin.very-small .dustbin-body { width: 35px; height: 35px; }
         .dustbin-top {
             position: absolute;
             top: 0;
@@ -417,12 +380,8 @@
             background-color: #A0522D;
             border-radius: 3px;
         }
-        .dustbin.small .dustbin-top {
-            width: 50px;
-        }
-        .dustbin.very-small .dustbin-top {
-            width: 40px;
-        }
+        .dustbin.small .dustbin-top { width: 55px; }
+        .dustbin.very-small .dustbin-top { width: 45px; }
         .dustbin-lid {
             position: absolute;
             top: -8px;
@@ -433,12 +392,8 @@
             transform: rotate(10deg);
             border-radius: 3px 3px 0 0;
         }
-        .dustbin.small .dustbin-lid {
-            width: 30px;
-        }
-        .dustbin.very-small .dustbin-lid {
-            width: 20px;
-        }
+        .dustbin.small .dustbin-lid { width: 30px; }
+        .dustbin.very-small .dustbin-lid { width: 25px; }
 
         /* Ball */
         .ball {
@@ -447,62 +402,44 @@
             height: 20px;
             border-radius: 50%;
             z-index: 24;
-            left: 70px;
-            bottom: 380px;
+            left: 60px;
+            bottom: 330px;
             display: block;
         }
-        .ball-white {
-            background: radial-gradient(circle at 30% 30%, #fff, #ccc);
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-        }
-        .ball-blue {
-            background: radial-gradient(circle at 30% 30%, #6eb1ff, #0066cc);
-            box-shadow: 0 0 5px rgba(0, 102, 204, 0.7);
-        }
-        .ball-red {
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000);
-            box-shadow: 0 0 5px rgba(204, 0, 0, 0.7);
-        }
-        .ball-purple {
-            background: radial-gradient(circle at 30% 30%, #c47cff, #6600cc);
-            box-shadow: 0 0 5px rgba(102, 0, 204, 0.7);
-        }
-        .ball-gray {
-            background: radial-gradient(circle at 30% 30%, #e6e6e6, #808080);
-            box-shadow: 0 0 5px rgba(128, 128, 128, 0.7);
-        }
-        .ball-black {
-            background: radial-gradient(circle at 30% 30%, #4d4d4d, #000);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-        }
+        .ball-white { background: radial-gradient(circle at 30% 30%, #fff, #ccc); box-shadow: 0 0 5px rgba(255,255,255,0.7); }
+        .ball-blue { background: radial-gradient(circle at 30% 30%, #6eb1ff, #0066cc); box-shadow: 0 0 5px rgba(0,102,204,0.7); }
+        .ball-red { background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000); box-shadow: 0 0 5px rgba(204,0,0,0.7); }
+        .ball-purple { background: radial-gradient(circle at 30% 30%, #c47cff, #6600cc); box-shadow: 0 0 5px rgba(102,0,204,0.7); }
+        .ball-gray { background: radial-gradient(circle at 30% 30%, #e6e6e6, #808080); box-shadow: 0 0 5px rgba(128,128,128,0.7); }
+        .ball-black { background: radial-gradient(circle at 30% 30%, #4d4d4d, #000); box-shadow: 0 0 5px rgba(0,0,0,0.7); }
 
         /* Power Control */
         .power-control {
             position: absolute;
-            bottom: 100px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            width: 180px;
+            width: 160px;
             z-index: 26;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             padding: 8px;
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: center;
             color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.15);
         }
         .power-control h3 {
-            margin: 0 0 8px 0;
-            font-size: 1rem;
+            margin: 0 0 6px 0;
+            font-size: 0.9rem;
             color: #FFD700;
         }
         .power-drag-area {
             width: 100%;
-            height: 100px;
+            height: 80px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            margin: 8px 0;
+            margin: 6px 0;
             position: relative;
             overflow: hidden;
             touch-action: none;
@@ -514,20 +451,17 @@
             width: 100%;
             height: 0%;
             background: linear-gradient(to top, #4CAF50, #8BC34A);
-            transition: height 0.1s;
+            transition: height 0.05s;
             pointer-events: none;
         }
-        .power-text {
-            display: none;
-        }
         .drag-instructions {
-            font-size: 0.8rem;
-            margin: 5px 0;
+            font-size: 0.7rem;
+            margin: 4px 0;
             color: #ccc;
         }
         .attempts-counter {
-            margin-top: 8px;
-            font-size: 0.9rem;
+            margin-top: 6px;
+            font-size: 0.85rem;
             font-weight: bold;
             color: #FFD700;
         }
@@ -535,14 +469,14 @@
         /* Ball Counter */
         .ball-counter {
             position: absolute;
-            top: 30px;
-            left: 30px;
-            font-size: 1.5rem;
+            top: 20px;
+            left: 20px;
+            font-size: 1.2rem;
             font-weight: bold;
             color: white;
             z-index: 25;
             background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
+            padding: 8px 12px;
             border-radius: 10px;
         }
 
@@ -567,7 +501,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 30;
             flex-direction: column;
             justify-content: center;
@@ -576,51 +510,41 @@
             box-sizing: border-box;
         }
         .result-message {
-            font-size: 3rem;
-            margin-bottom: 40px;
+            font-size: clamp(2rem, 7vw, 3.5rem);
+            margin-bottom: 30px;
             text-align: center;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
         .result-buttons {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             width: 100%;
-            max-width: 400px;
+            max-width: 350px;
             align-items: center;
         }
         .result-button {
-            padding: 20px;
-            font-size: 1.8rem;
+            padding: 15px;
+            font-size: 1.5rem;
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
         }
-        .result-button:active {
-            transform: scale(0.95);
-        }
-        .try-again {
-            background-color: #FFA500;
-            color: white;
-        }
-        .next-level {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .back-to-levels {
-            background-color: #f44336;
-            color: white;
-        }
+        .result-button:active { transform: scale(0.95); }
+        .try-again { background-color: #FFA500; color: white; }
+        .next-level { background-color: #4CAF50; color: white; }
+        .back-to-levels { background-color: #f44336; color: white; }
 
         .back-button {
             position: absolute;
-            top: 30px;
-            right: 30px;
-            padding: 15px 25px;
+            top: 20px;
+            right: 20px;
+            padding: 10px 18px;
             background: linear-gradient(to bottom, #f44336, #d32f2f);
             color: white;
             border: none;
@@ -628,13 +552,11 @@
             cursor: pointer;
             z-index: 30;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
         }
-        .back-button:active {
-            transform: scale(0.95);
-            background: linear-gradient(to bottom, #e53935, #c62828);
-        }
+        .back-button:active { transform: scale(0.95); }
 
         /* Tutorial */
         .tutorial-overlay {
@@ -643,41 +565,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 40;
-            display: flex;
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            box-sizing: border-box;
         }
         .tutorial-content {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             color: #333;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
             text-align: center;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
         }
         .tutorial-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             color: #2c3e50;
         }
         .tutorial-text {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
             line-height: 1.5;
         }
-        .tutorial-highlight {
-            color: #e74c3c;
-            font-weight: bold;
-        }
+        .tutorial-highlight { color: #e74c3c; font-weight: bold; }
         .tutorial-button {
-            padding: 15px 30px;
-            font-size: 1.5rem;
+            padding: 12px 25px;
+            font-size: 1.3rem;
             background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             border: none;
@@ -685,816 +604,153 @@
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
         }
-        .tutorial-button:active {
-            transform: scale(0.95);
-            background: linear-gradient(to bottom, #2980b9, #2471a3);
-        }
+        .tutorial-button:active { transform: scale(0.95); }
 
-        /* Level specific styles (shortened) */
-        .hoop {
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            z-index: 23;
-        }
-        .hoop-backboard {
-            position: absolute;
-            width: 40px;
-            height: 50px;
-            background: linear-gradient(to right, #e0e0e0, #f5f5f5);
-            border: 3px solid #b0b0b0;
-            border-radius: 5px;
-            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-            transform: perspective(100px) rotateY(-10deg);
-        }
-        .hoop-rim {
-            position: absolute;
-            top: 25px;
-            left: 40px;
-            width: 30px;
-            height: 30px;
-            border: 4px solid #FF5722;
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(255, 87, 34, 0.7);
-        }
-        .hoop-net {
-            position: absolute;
-            top: 35px;
-            left: 42px;
-            width: 26px;
-            height: 30px;
-            background: linear-gradient(90deg, transparent 49%, rgba(255, 255, 255, 0.5) 49%, rgba(255, 255, 255, 0.5) 51%, transparent 51%),
-                linear-gradient(transparent 49%, rgba(255, 255, 255, 0.5) 49%, rgba(255, 255, 255, 0.5) 51%, transparent 51%);
-            background-size: 5px 5px;
-            clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 20% 100%);
-        }
-        .hoop.moving-up-down {
-            animation: moveHoopUpDown 3s ease-in-out infinite;
-        }
-        @keyframes moveHoopUpDown {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        /* Level specific styles (kept minimal) */
+        .hoop { position: absolute; width: 60px; height: 60px; z-index: 23; }
+        .hoop-backboard { position: absolute; width: 35px; height: 45px; background: linear-gradient(to right, #e0e0e0, #f5f5f5); border: 3px solid #b0b0b0; border-radius: 5px; box-shadow: 3px 3px 5px rgba(0,0,0,0.3); transform: perspective(100px) rotateY(-10deg); }
+        .hoop-rim { position: absolute; top: 20px; left: 35px; width: 25px; height: 25px; border: 4px solid #FF5722; border-radius: 50%; box-shadow: 0 0 8px rgba(255,87,34,0.7); }
+        .hoop-net { position: absolute; top: 30px; left: 37px; width: 21px; height: 25px; background: linear-gradient(90deg, transparent 49%, rgba(255,255,255,0.5) 49%, rgba(255,255,255,0.5) 51%, transparent 51%), linear-gradient(transparent 49%, rgba(255,255,255,0.5) 49%, rgba(255,255,255,0.5) 51%, transparent 51%); background-size: 5px 5px; clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 20% 100%); }
+        .hoop.moving-up-down { animation: moveHoopUpDown 3s ease-in-out infinite; }
+        @keyframes moveHoopUpDown { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .level8-ball {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            z-index: 24;
-            background: radial-gradient(circle at 30% 30%, #fff, #ccc);
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-            display: block;
-        }
-        .level8-ball.moving-up-down {
-            animation: moveBallUpDown 2.5s ease-in-out infinite;
-        }
-        @keyframes moveBallUpDown {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        .level8-ball { position: absolute; width: 18px; height: 18px; border-radius: 50%; z-index: 24; background: radial-gradient(circle at 30% 30%, #fff, #ccc); box-shadow: 0 0 5px rgba(255,255,255,0.7); display: block; }
+        .level8-ball.moving-up-down { animation: moveBallUpDown 2.5s ease-in-out infinite; }
+        @keyframes moveBallUpDown { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .black-hole {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #000, #333);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), inset 0 0 5px rgba(255, 255, 255, 0.1);
-            z-index: 23;
-            animation: rotateBlackHole 5s linear infinite;
-        }
-        @keyframes rotateBlackHole {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        .black-hole.moving-snake-fast {
-            animation: moveSnakeFast 4s linear infinite, rotateBlackHole 5s linear infinite;
-        }
-        @keyframes moveSnakeFast {
-            0%,
-            100% {
-                right: 20px;
-                bottom: 350px;
-            }
-            25% {
-                right: 200px;
-                bottom: 350px;
-            }
-            50% {
-                right: 200px;
-                bottom: 450px;
-            }
-            75% {
-                right: 20px;
-                bottom: 450px;
-            }
-        }
-        .black-hole.moving-left-right {
-            animation: moveLeftRight 3s linear infinite, rotateBlackHole 5s linear infinite;
-        }
-        @keyframes moveLeftRight {
-            0%,
-            100% {
-                right: 20px;
-            }
-            50% {
-                right: 200px;
-            }
-        }
-        .black-hole.moving-up-down {
-            animation: moveUpDown 4s linear infinite, rotateBlackHole 5s linear infinite;
-        }
-        @keyframes moveUpDown {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        .black-hole { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle, #000, #333); box-shadow: 0 0 10px rgba(0,0,0,0.8), inset 0 0 5px rgba(255,255,255,0.1); z-index: 23; animation: rotateBlackHole 5s linear infinite; }
+        @keyframes rotateBlackHole { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .black-hole.moving-snake-fast { animation: moveSnakeFast 4s linear infinite, rotateBlackHole 5s linear infinite; }
+        @keyframes moveSnakeFast { 0%,100% { right: 20px; bottom: 300px; } 25% { right: 200px; bottom: 300px; } 50% { right: 200px; bottom: 400px; } 75% { right: 20px; bottom: 400px; } }
+        .black-hole.moving-left-right { animation: moveLeftRight 3s linear infinite, rotateBlackHole 5s linear infinite; }
+        @keyframes moveLeftRight { 0%,100% { right: 20px; } 50% { right: 200px; } }
+        .black-hole.moving-up-down { animation: moveUpDown 4s linear infinite, rotateBlackHole 5s linear infinite; }
+        @keyframes moveUpDown { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .light-bulb {
-            position: absolute;
-            width: 20px;
-            height: 30px;
-            z-index: 23;
-        }
-        .bulb-body {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 235, 59, 0.8);
-        }
-        .bulb-base {
-            position: absolute;
-            top: 20px;
-            left: 5px;
-            width: 10px;
-            height: 10px;
-            background: #8d6e63;
-            border-radius: 0 0 5px 5px;
-        }
-        .light-bulb.moving-diagonal {
-            animation: moveDiagonal 5s linear infinite;
-        }
-        @keyframes moveDiagonal {
-            0%,
-            100% {
-                right: 20px;
-                bottom: 350px;
-            }
-            25% {
-                right: 150px;
-                bottom: 450px;
-            }
-            50% {
-                right: 250px;
-                bottom: 350px;
-            }
-            75% {
-                right: 150px;
-                bottom: 250px;
-            }
-        }
-        .light-bulb.moving-left-right {
-            animation: moveLeftRightBulb 4s linear infinite;
-        }
-        @keyframes moveLeftRightBulb {
-            0%,
-            100% {
-                right: 20px;
-            }
-            50% {
-                right: 250px;
-            }
-        }
-        .light-bulb.moving-up-down {
-            animation: moveUpDownBulb 3s linear infinite;
-        }
-        @keyframes moveUpDownBulb {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        .light-bulb { position: absolute; width: 20px; height: 30px; z-index: 23; }
+        .bulb-body { position: absolute; width: 20px; height: 20px; background: radial-gradient(circle at 30% 30%, #fff, #ffeb3b); border-radius: 50%; box-shadow: 0 0 10px rgba(255,235,59,0.8); }
+        .bulb-base { position: absolute; top: 20px; left: 5px; width: 10px; height: 10px; background: #8d6e63; border-radius: 0 0 5px 5px; }
+        .light-bulb.moving-diagonal { animation: moveDiagonal 5s linear infinite; }
+        @keyframes moveDiagonal { 0%,100% { right: 20px; bottom: 300px; } 25% { right: 150px; bottom: 400px; } 50% { right: 250px; bottom: 300px; } 75% { right: 150px; bottom: 200px; } }
+        .light-bulb.moving-left-right { animation: moveLeftRightBulb 4s linear infinite; }
+        @keyframes moveLeftRightBulb { 0%,100% { right: 20px; } 50% { right: 250px; } }
+        .light-bulb.moving-up-down { animation: moveUpDownBulb 3s linear infinite; }
+        @keyframes moveUpDownBulb { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .clock {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #f8f8f8, #d0d0d0);
-            border: 3px solid #333;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 23;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .clock-center {
-            width: 6px;
-            height: 6px;
-            background: #333;
-            border-radius: 50%;
-            position: absolute;
-            z-index: 24;
-        }
-        .clock-hour-hand {
-            position: absolute;
-            width: 3px;
-            height: 15px;
-            background: #333;
-            top: 50%;
-            left: 50%;
-            transform-origin: bottom center;
-            transform: translate(-50%, -100%) rotate(30deg);
-            border-radius: 2px;
-        }
-        .clock-minute-hand {
-            position: absolute;
-            width: 2px;
-            height: 20px;
-            background: #333;
-            top: 50%;
-            left: 50%;
-            transform-origin: bottom center;
-            transform: translate(-50%, -100%) rotate(60deg);
-            border-radius: 2px;
-        }
-        .clock-second-hand {
-            position: absolute;
-            width: 1px;
-            height: 22px;
-            background: #ff0000;
-            top: 50%;
-            left: 50%;
-            transform-origin: bottom center;
-            transform: translate(-50%, -100%) rotate(90deg);
-            border-radius: 1px;
-        }
-        .clock-numbers {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-        .clock-number {
-            position: absolute;
-            font-size: 8px;
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-            width: 12px;
-            height: 12px;
-        }
-        .clock.moving-clock {
-            animation: moveClock 7s linear infinite;
-        }
-        @keyframes moveClock {
-            0% {
-                right: 20px;
-                bottom: 350px;
-            }
-            25% {
-                right: 250px;
-                bottom: 350px;
-            }
-            50% {
-                right: 250px;
-                bottom: 450px;
-            }
-            75% {
-                right: 20px;
-                bottom: 450px;
-            }
-            100% {
-                right: 20px;
-                bottom: 350px;
-            }
-        }
-        .clock.moving-left-right {
-            animation: moveLeftRightClock 4s linear infinite;
-        }
-        @keyframes moveLeftRightClock {
-            0%,
-            100% {
-                right: 20px;
-            }
-            50% {
-                right: 250px;
-            }
-        }
-        .clock.moving-up-down {
-            animation: moveUpDownClock 3s linear infinite;
-        }
-        @keyframes moveUpDownClock {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        .clock { position: absolute; width: 45px; height: 45px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #f8f8f8, #d0d0d0); border: 3px solid #333; box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 23; display: flex; justify-content: center; align-items: center; }
+        .clock-center { width: 5px; height: 5px; background: #333; border-radius: 50%; position: absolute; z-index: 24; }
+        .clock-hour-hand { position: absolute; width: 3px; height: 13px; background: #333; top: 50%; left: 50%; transform-origin: bottom center; transform: translate(-50%, -100%) rotate(30deg); border-radius: 2px; }
+        .clock-minute-hand { position: absolute; width: 2px; height: 18px; background: #333; top: 50%; left: 50%; transform-origin: bottom center; transform: translate(-50%, -100%) rotate(60deg); border-radius: 2px; }
+        .clock-second-hand { position: absolute; width: 1px; height: 20px; background: #ff0000; top: 50%; left: 50%; transform-origin: bottom center; transform: translate(-50%, -100%) rotate(90deg); border-radius: 1px; }
+        .clock-numbers { position: absolute; width: 100%; height: 100%; border-radius: 50%; }
+        .clock-number { position: absolute; font-size: 7px; font-weight: bold; color: #333; text-align: center; width: 12px; height: 12px; }
+        .clock.moving-clock { animation: moveClock 7s linear infinite; }
+        @keyframes moveClock { 0% { right: 20px; bottom: 300px; } 25% { right: 250px; bottom: 300px; } 50% { right: 250px; bottom: 400px; } 75% { right: 20px; bottom: 400px; } 100% { right: 20px; bottom: 300px; } }
+        .clock.moving-left-right { animation: moveLeftRightClock 4s linear infinite; }
+        @keyframes moveLeftRightClock { 0%,100% { right: 20px; } 50% { right: 250px; } }
+        .clock.moving-up-down { animation: moveUpDownClock 3s linear infinite; }
+        @keyframes moveUpDownClock { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .timer-display {
-            position: absolute;
-            top: 100px;
-            left: 30px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            z-index: 25;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 10px;
-            display: none;
-        }
+        .timer-display { position: absolute; top: 80px; left: 15px; font-size: 1.2rem; font-weight: bold; color: white; z-index: 25; background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 10px; display: none; }
 
-        .level-complete-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 100;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 3rem;
-            text-align: center;
-            animation: fadeIn 1s ease-in;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        .level-complete-text {
-            animation: pulseText 1.5s infinite alternate;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-        }
-        @keyframes pulseText {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.1);
-            }
-        }
-        .wink-image {
-            width: 80px;
-            height: 80px;
-            margin-top: 20px;
-            animation: pulseText 1.5s infinite alternate;
-        }
+        .level-complete-animation { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 2.5rem; text-align: center; animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+        .level-complete-text { animation: pulseText 1.5s infinite alternate; text-shadow: 0 0 10px rgba(255,255,255,0.7); }
+        @keyframes pulseText { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+        .wink-image { width: 70px; height: 70px; margin-top: 15px; animation: pulseText 1.5s infinite alternate; }
 
-        .season-navigation {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .season-button {
-            padding: 12px 24px;
-            font-size: 1.2rem;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .season-button.active {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: #FFD700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        .season-button:active {
-            transform: scale(0.95);
-        }
+        .season-navigation { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .season-button { padding: 10px 20px; font-size: 1.1rem; background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; cursor: pointer; transition: all 0.2s; touch-action: manipulation; }
+        .season-button.active { background: rgba(255,255,255,0.3); border-color: #FFD700; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+        .season-button:active { transform: scale(0.95); }
 
         /* Fire Ring */
-        .fire-ring {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            z-index: 23;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotateFireRing 8s linear infinite;
-        }
-        .fire-ring-inner {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 40%, rgba(255, 69, 0, 0.3) 70%);
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.7), 0 0 40px rgba(255, 69, 0, 0.5), 0 0 60px rgba(255, 69, 0, 0.3), inset 0 0 20px rgba(255, 69, 0, 0.4);
-            filter: blur(1px);
-        }
-        .fire-ring-outer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 30%, rgba(255, 140, 0, 0.2) 60%);
-            box-shadow: 0 0 30px rgba(255, 140, 0, 0.6), 0 0 50px rgba(255, 140, 0, 0.4), 0 0 70px rgba(255, 140, 0, 0.2);
-            filter: blur(2px);
-            animation: pulseFireRing 3s ease-in-out infinite alternate;
-        }
-        @keyframes rotateFireRing {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-        @keyframes pulseFireRing {
-            0% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-        }
+        .fire-ring { position: absolute; width: 100px; height: 100px; border-radius: 50%; z-index: 23; left: 50%; top: 50%; transform: translate(-50%, -50%); animation: rotateFireRing 8s linear infinite; }
+        .fire-ring-inner { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, transparent 40%, rgba(255,69,0,0.3) 70%); box-shadow: 0 0 20px rgba(255,69,0,0.7), 0 0 40px rgba(255,69,0,0.5), 0 0 60px rgba(255,69,0,0.3), inset 0 0 20px rgba(255,69,0,0.4); filter: blur(1px); }
+        .fire-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, transparent 30%, rgba(255,140,0,0.2) 60%); box-shadow: 0 0 30px rgba(255,140,0,0.6), 0 0 50px rgba(255,140,0,0.4), 0 0 70px rgba(255,140,0,0.2); filter: blur(2px); animation: pulseFireRing 3s ease-in-out infinite alternate; }
+        @keyframes rotateFireRing { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes pulseFireRing { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
 
-        .level15-target-ball {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            z-index: 24;
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000);
-            box-shadow: 0 0 5px rgba(204, 0, 0, 0.7);
-            animation: moveTargetBallUpDown 3s ease-in-out infinite;
-        }
-        @keyframes moveTargetBallUpDown {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        .level15-target-ball { position: absolute; width: 18px; height: 18px; border-radius: 50%; z-index: 24; background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000); box-shadow: 0 0 5px rgba(204,0,0,0.7); animation: moveTargetBallUpDown 3s ease-in-out infinite; }
+        @keyframes moveTargetBallUpDown { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .level16-ball {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            z-index: 24;
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000);
-            box-shadow: 0 0 5px rgba(204, 0, 0, 0.7);
-            display: block;
-        }
-        .level16-ball.moving-up-down {
-            animation: moveBallUpDown16 3s ease-in-out infinite;
-        }
-        @keyframes moveBallUpDown16 {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        .level16-ball { position: absolute; width: 18px; height: 18px; border-radius: 50%; z-index: 24; background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000); box-shadow: 0 0 5px rgba(204,0,0,0.7); display: block; }
+        .level16-ball.moving-up-down { animation: moveBallUpDown16 3s ease-in-out infinite; }
+        @keyframes moveBallUpDown16 { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .level16-ring {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            z-index: 23;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            animation: rotateLevel16Ring 6s linear infinite;
-        }
-        .level16-ring-inner {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 40%, rgba(0, 150, 255, 0.3) 70%);
-            box-shadow: 0 0 15px rgba(0, 150, 255, 0.7), 0 0 30px rgba(0, 150, 255, 0.5), 0 0 45px rgba(0, 150, 255, 0.3), inset 0 0 15px rgba(0, 150, 255, 0.4);
-            filter: blur(1px);
-        }
-        .level16-ring-outer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 30%, rgba(0, 100, 200, 0.2) 60%);
-            box-shadow: 0 0 20px rgba(0, 100, 200, 0.6), 0 0 35px rgba(0, 100, 200, 0.4), 0 0 50px rgba(0, 100, 200, 0.2);
-            filter: blur(1.5px);
-            animation: pulseLevel16Ring 2s ease-in-out infinite alternate;
-        }
-        @keyframes rotateLevel16Ring {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-        @keyframes pulseLevel16Ring {
-            0% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-        }
+        .level16-ring { position: absolute; width: 70px; height: 70px; border-radius: 50%; z-index: 23; left: 50%; top: 50%; transform: translate(-50%, -50%); animation: rotateLevel16Ring 6s linear infinite; }
+        .level16-ring-inner { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, transparent 40%, rgba(0,150,255,0.3) 70%); box-shadow: 0 0 15px rgba(0,150,255,0.7), 0 0 30px rgba(0,150,255,0.5), 0 0 45px rgba(0,150,255,0.3), inset 0 0 15px rgba(0,150,255,0.4); filter: blur(1px); }
+        .level16-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, transparent 30%, rgba(0,100,200,0.2) 60%); box-shadow: 0 0 20px rgba(0,100,200,0.6), 0 0 35px rgba(0,100,200,0.4), 0 0 50px rgba(0,100,200,0.2); filter: blur(1.5px); animation: pulseLevel16Ring 2s ease-in-out infinite alternate; }
+        @keyframes rotateLevel16Ring { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes pulseLevel16Ring { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
 
-        .electric-line {
-            position: absolute;
-            height: 8px;
-            background: linear-gradient(90deg, transparent, #00ffff, #00aaff, #00ffff, transparent);
-            border-radius: 4px;
-            z-index: 23;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 30px rgba(0, 170, 255, 0.6);
-            filter: blur(0.5px);
-        }
-        .electric-line.slow {
-            animation: moveElectricLineSlow 6s linear infinite;
-        }
-        .electric-line.medium {
-            animation: moveElectricLineMedium 4s linear infinite;
-        }
-        .electric-line.fast {
-            animation: moveElectricLineFast 2.5s linear infinite;
-        }
-        @keyframes moveElectricLineSlow {
-            0% {
-                left: -100px;
-            }
-            100% {
-                left: calc(100% + 100px);
-            }
-        }
-        @keyframes moveElectricLineMedium {
-            0% {
-                left: -100px;
-            }
-            100% {
-                left: calc(100% + 100px);
-            }
-        }
-        @keyframes moveElectricLineFast {
-            0% {
-                left: -100px;
-            }
-            100% {
-                left: calc(100% + 100px);
-            }
-        }
+        .electric-line { position: absolute; height: 6px; background: linear-gradient(90deg, transparent, #00ffff, #00aaff, #00ffff, transparent); border-radius: 4px; z-index: 23; box-shadow: 0 0 15px rgba(0,255,255,0.8), 0 0 30px rgba(0,170,255,0.6); filter: blur(0.5px); }
+        .electric-line.slow { animation: moveElectricLineSlow 6s linear infinite; }
+        .electric-line.medium { animation: moveElectricLineMedium 4s linear infinite; }
+        .electric-line.fast { animation: moveElectricLineFast 2.5s linear infinite; }
+        @keyframes moveElectricLineSlow { 0% { left: -100px; } 100% { left: calc(100% + 100px); } }
+        @keyframes moveElectricLineMedium { 0% { left: -100px; } 100% { left: calc(100% + 100px); } }
+        @keyframes moveElectricLineFast { 0% { left: -100px; } 100% { left: calc(100% + 100px); } }
 
-        .electric-spark {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, transparent 30%, rgba(0, 255, 255, 0.3) 70%);
-            border-radius: 50%;
-            z-index: 24;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .electric-spark.active {
-            animation: electricSpark 0.5s ease-out;
-        }
-        @keyframes electricSpark {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1.5);
-            }
-        }
+        .electric-spark { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, transparent 30%, rgba(0,255,255,0.3) 70%); border-radius: 50%; z-index: 24; opacity: 0; pointer-events: none; }
+        .electric-spark.active { animation: electricSpark 0.5s ease-out; }
+        @keyframes electricSpark { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0; transform: scale(1.5); } }
 
-        .level17-ring {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            z-index: 23;
-            right: 100px;
-            bottom: 350px;
-            animation: pulseLevel17Ring 2s ease-in-out infinite alternate;
-        }
-        .level17-ring-inner {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 40%, rgba(0, 255, 255, 0.3) 70%);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 200, 255, 0.6), 0 0 60px rgba(0, 150, 255, 0.4), inset 0 0 20px rgba(0, 255, 255, 0.4);
-            filter: blur(1px);
-        }
-        .level17-ring-outer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 30%, rgba(0, 200, 255, 0.2) 60%);
-            box-shadow: 0 0 25px rgba(0, 200, 255, 0.7), 0 0 45px rgba(0, 150, 255, 0.5), 0 0 65px rgba(0, 100, 255, 0.3);
-            filter: blur(1.5px);
-        }
-        @keyframes pulseLevel17Ring {
-            0% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-        }
+        .level17-ring { position: absolute; width: 70px; height: 70px; border-radius: 50%; z-index: 23; right: 80px; bottom: 300px; animation: pulseLevel17Ring 2s ease-in-out infinite alternate; }
+        .level17-ring-inner { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, transparent 40%, rgba(0,255,255,0.3) 70%); box-shadow: 0 0 20px rgba(0,255,255,0.8), 0 0 40px rgba(0,200,255,0.6), 0 0 60px rgba(0,150,255,0.4), inset 0 0 20px rgba(0,255,255,0.4); filter: blur(1px); }
+        .level17-ring-outer { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle, transparent 30%, rgba(0,200,255,0.2) 60%); box-shadow: 0 0 25px rgba(0,200,255,0.7), 0 0 45px rgba(0,150,255,0.5), 0 0 65px rgba(0,100,255,0.3); filter: blur(1.5px); }
+        @keyframes pulseLevel17Ring { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
 
-        .level18-ball {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            z-index: 24;
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000);
-            box-shadow: 0 0 5px rgba(204, 0, 0, 0.7);
-            display: block;
-        }
-        .level18-ball.moving-up-down {
-            animation: moveBallUpDown18 3s ease-in-out infinite;
-        }
-        @keyframes moveBallUpDown18 {
-            0%,
-            100% {
-                bottom: 350px;
-            }
-            50% {
-                bottom: 450px;
-            }
-        }
+        .level18-ball { position: absolute; width: 18px; height: 18px; border-radius: 50%; z-index: 24; background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000); box-shadow: 0 0 5px rgba(204,0,0,0.7); display: block; }
+        .level18-ball.moving-up-down { animation: moveBallUpDown18 3s ease-in-out infinite; }
+        @keyframes moveBallUpDown18 { 0%,100% { bottom: 300px; } 50% { bottom: 400px; } }
 
-        .level18-electric-line {
-            position: absolute;
-            height: 8px;
-            background: linear-gradient(90deg, transparent, #ff00ff, #ff00aa, #ff00ff, transparent);
-            border-radius: 4px;
-            z-index: 23;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.8), 0 0 30px rgba(255, 0, 170, 0.6);
-            filter: blur(0.5px);
-        }
-        .level18-electric-line.slow {
-            animation: moveLevel18ElectricLineSlow 5s linear infinite;
-        }
-        .level18-electric-line.medium {
-            animation: moveLevel18ElectricLineMedium 3.5s linear infinite;
-        }
-        .level18-electric-line.fast {
-            animation: moveLevel18ElectricLineFast 2s linear infinite;
-        }
-        @keyframes moveLevel18ElectricLineSlow {
-            0% {
-                left: -100px;
-            }
-            100% {
-                left: calc(100% + 100px);
-            }
-        }
-        @keyframes moveLevel18ElectricLineMedium {
-            0% {
-                left: -100px;
-            }
-            100% {
-                left: calc(100% + 100px);
-            }
-        }
-        @keyframes moveLevel18ElectricLineFast {
-            0% {
-                left: -100px;
-            }
-            100% {
-                left: calc(100% + 100px);
-            }
-        }
+        .level18-electric-line { position: absolute; height: 6px; background: linear-gradient(90deg, transparent, #ff00ff, #ff00aa, #ff00ff, transparent); border-radius: 4px; z-index: 23; box-shadow: 0 0 15px rgba(255,0,255,0.8), 0 0 30px rgba(255,0,170,0.6); filter: blur(0.5px); }
+        .level18-electric-line.slow { animation: moveLevel18ElectricLineSlow 5s linear infinite; }
+        .level18-electric-line.medium { animation: moveLevel18ElectricLineMedium 3.5s linear infinite; }
+        .level18-electric-line.fast { animation: moveLevel18ElectricLineFast 2s linear infinite; }
+        @keyframes moveLevel18ElectricLineSlow { 0% { left: -100px; } 100% { left: calc(100% + 100px); } }
+        @keyframes moveLevel18ElectricLineMedium { 0% { left: -100px; } 100% { left: calc(100% + 100px); } }
+        @keyframes moveLevel18ElectricLineFast { 0% { left: -100px; } 100% { left: calc(100% + 100px); } }
 
-        /* Code Display */
         .code-display {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 30px;
+            padding: 25px;
             border-radius: 20px;
             z-index: 200;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             border: 3px solid gold;
             max-width: 90%;
-            width: 400px;
+            width: 380px;
         }
-        .code-display h2 {
-            color: white;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .code-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid gold;
-        }
-        .code-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #333;
-            letter-spacing: 8px;
-            word-break: break-all;
-        }
-        .copy-button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 10px;
-            transition: all 0.3s ease;
-        }
-        .copy-button:hover {
-            transform: scale(1.05);
-            background: #45a049;
-        }
-        .close-code {
-            background: #f44336;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
+        .code-display h2 { color: white; font-size: 1.8rem; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .code-box { background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px; margin: 15px 0; border: 2px solid gold; }
+        .code-number { font-size: 2.2rem; font-weight: bold; color: #333; letter-spacing: 6px; word-break: break-all; }
+        .copy-button { background: #4CAF50; color: white; border: none; padding: 12px 25px; font-size: 1.1rem; border-radius: 10px; cursor: pointer; margin: 8px; transition: all 0.2s; touch-action: manipulation; }
+        .copy-button:active { transform: scale(0.95); }
+        .close-code { background: #f44336; color: white; border: none; padding: 8px 18px; font-size: 1rem; border-radius: 5px; cursor: pointer; margin: 5px; touch-action: manipulation; }
+        .close-code:active { transform: scale(0.95); }
 
-        /* Matches Counter */
+        /* Matches Counter - only on level screen and game screen */
         .matches-counter {
             position: absolute;
             top: 15px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 50;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 8px 20px;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 6px 18px;
             border-radius: 30px;
             border: 2px solid #FFD700;
             color: #FFD700;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             display: none;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
@@ -1502,180 +758,51 @@
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
             pointer-events: none;
         }
-        .matches-counter .match-icon {
-            margin-right: 8px;
-        }
-        .matches-counter .match-count {
-            color: white;
-            font-size: 1.4rem;
-        }
+        .matches-counter .match-icon { margin-right: 6px; }
+        .matches-counter .match-count { color: white; font-size: 1.2rem; }
 
+        /* Mobile adjustments */
         @media (max-width: 600px) {
-            .welcome {
-                font-size: 2.5rem;
-            }
-            .start-button {
-                font-size: 1.8rem;
-                padding: 15px 40px;
-            }
-            .settings-button {
-                font-size: 1.2rem;
-                padding: 12px 25px;
-            }
-            .level {
-                width: 80px;
-                height: 80px;
-                font-size: 2.5rem;
-            }
-            .result-message {
-                font-size: 2.5rem;
-            }
-            .result-button {
-                font-size: 1.5rem;
-                padding: 15px;
-            }
-            .power-control {
-                width: 160px;
-                padding: 6px;
-            }
-            .power-control h3 {
-                font-size: 0.9rem;
-            }
-            .power-drag-area {
-                height: 90px;
-            }
-            .attempts-counter {
-                font-size: 0.9rem;
-            }
-            .ball-counter {
-                font-size: 1.2rem;
-                top: 20px;
-                left: 20px;
-            }
-            .tutorial-content {
-                padding: 20px;
-            }
-            .tutorial-title {
-                font-size: 1.8rem;
-            }
-            .tutorial-text {
-                font-size: 1rem;
-            }
-            .tutorial-button {
-                font-size: 1.2rem;
-                padding: 12px 25px;
-            }
-            .ball-option {
-                width: 50px;
-                height: 50px;
-            }
-            .settings-content {
-                padding: 20px;
-            }
-            .settings-title {
-                font-size: 1.8rem;
-            }
-            .hoop {
-                width: 60px;
-                height: 60px;
-            }
-            .hoop-backboard {
-                width: 35px;
-                height: 45px;
-            }
-            .hoop-rim {
-                top: 20px;
-                left: 35px;
-                width: 25px;
-                height: 25px;
-            }
-            .hoop-net {
-                top: 30px;
-                left: 37px;
-                width: 21px;
-                height: 25px;
-            }
-            .level-complete-animation {
-                font-size: 2.5rem;
-            }
-            .wink-image {
-                width: 60px;
-                height: 60px;
-            }
-            .season-navigation {
-                gap: 10px;
-            }
-            .season-button {
-                padding: 10px 16px;
-                font-size: 1rem;
-            }
-            .clock {
-                width: 40px;
-                height: 40px;
-            }
-            .clock-hour-hand {
-                height: 12px;
-            }
-            .clock-minute-hand {
-                height: 16px;
-            }
-            .clock-second-hand {
-                height: 18px;
-            }
-            .clock-number {
-                font-size: 6px;
-            }
-            .timer-display {
-                font-size: 1.2rem;
-                top: 80px;
-                left: 20px;
-            }
-            .fire-ring {
-                width: 100px;
-                height: 100px;
-            }
-            .level15-target-ball {
-                width: 18px;
-                height: 18px;
-            }
-            .level16-ball {
-                width: 18px;
-                height: 18px;
-            }
-            .level16-ring {
-                width: 60px;
-                height: 60px;
-            }
-            .electric-line {
-                height: 6px;
-            }
-            .level17-ring {
-                width: 60px;
-                height: 60px;
-                right: 50px;
-            }
-            .level18-ball {
-                width: 18px;
-                height: 18px;
-            }
-            .level18-electric-line {
-                height: 6px;
-            }
-            .code-display {
-                padding: 20px;
-            }
-            .code-number {
-                font-size: 1.8rem;
-                letter-spacing: 4px;
-            }
-            .matches-counter {
-                font-size: 1rem;
-                padding: 6px 16px;
-                top: 10px;
-            }
-            .matches-counter .match-count {
-                font-size: 1.2rem;
-            }
+            .level { width: 70px; height: 70px; font-size: 2rem; }
+            .level-row { gap: 15px; }
+            .power-control { width: 150px; bottom: 70px; }
+            .power-control h3 { font-size: 0.8rem; }
+            .power-drag-area { height: 70px; }
+            .attempts-counter { font-size: 0.75rem; }
+            .ball { width: 18px; height: 18px; left: 50px; bottom: 300px; }
+            .launcher-machine { left: 10px; bottom: 270px; width: 45px; height: 65px; }
+            .launcher-machine:before { top: -12px; left: 12px; width: 18px; height: 30px; }
+            .dustbin { bottom: 270px; }
+            .dustbin.higher { bottom: 370px; }
+            .dustbin.very-small { width: 30px; height: 45px; }
+            .dustbin.very-small .dustbin-body { width: 30px; height: 30px; }
+            .dustbin.very-small .dustbin-top { width: 40px; }
+            .dustbin.very-small .dustbin-lid { width: 20px; }
+            .back-button { top: 15px; right: 15px; padding: 8px 14px; font-size: 0.9rem; }
+            .ball-counter { font-size: 1rem; top: 15px; left: 15px; padding: 6px 10px; }
+            .timer-display { font-size: 1rem; top: 70px; left: 10px; padding: 6px 10px; }
+            .result-message { font-size: 2rem; }
+            .result-button { font-size: 1.2rem; padding: 12px; }
+            .tutorial-content { padding: 20px; }
+            .tutorial-title { font-size: 1.5rem; }
+            .tutorial-text { font-size: 1rem; }
+            .tutorial-button { font-size: 1.1rem; padding: 10px 20px; }
+            .code-display { padding: 20px; width: 90%; }
+            .code-number { font-size: 1.8rem; letter-spacing: 4px; }
+            .season-button { padding: 8px 14px; font-size: 1rem; }
+            .matches-counter { font-size: 0.9rem; padding: 4px 14px; top: 10px; }
+            .matches-counter .match-count { font-size: 1rem; }
+        }
+        @media (max-width: 400px) {
+            .level { width: 60px; height: 60px; font-size: 1.6rem; }
+            .level-row { gap: 10px; }
+            .power-control { width: 130px; }
+            .power-drag-area { height: 60px; }
+            .ball { width: 16px; height: 16px; left: 40px; bottom: 280px; }
+            .launcher-machine { left: 8px; bottom: 250px; width: 40px; height: 55px; }
+            .launcher-machine:before { top: -10px; left: 10px; width: 16px; height: 25px; }
+            .dustbin { bottom: 250px; }
+            .dustbin.higher { bottom: 340px; }
         }
     </style>
 </head>
@@ -1684,7 +811,7 @@
     <div id="start-screen">
         <div class="welcome">WELCOME TO BALL LAUNCHER</div>
         <button class="start-button" id="startButton">START</button>
-        <button class="settings-button" id="settingsButton">SETTINGS</button>
+        <button class="settings-button" id="settingsButton">⚙️ SETTINGS</button>
         <div class="mountain"></div>
         <div class="sun"></div>
     </div>
@@ -1696,20 +823,20 @@
             <button class="season-button" id="season2Button">SEASON 2</button>
         </div>
         <div class="level-container" id="levelContainer"></div>
-        <button class="back-button-levels" id="backButtonLevels">BACK</button>
+        <button class="back-button-levels" id="backButtonLevels">⬅ BACK</button>
     </div>
 
     <!-- Settings Modal -->
     <div class="settings-modal" id="settingsModal">
         <div class="settings-content">
-            <div class="settings-title">CHOOSE BALL</div>
+            <div class="settings-title">🎨 CHOOSE BALL</div>
             <div class="ball-options">
-                <div class="ball-option selected" id="ball-white" data-color="white" style="background: radial-gradient(circle at 30% 30%, #fff, #ccc); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);"></div>
-                <div class="ball-option" id="ball-blue" data-color="blue" style="background: radial-gradient(circle at 30% 30%, #6eb1ff, #0066cc); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);"></div>
-                <div class="ball-option" id="ball-red" data-color="red" style="background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);"></div>
-                <div class="ball-option" id="ball-purple" data-color="purple" style="background: radial-gradient(circle at 30% 30%, #c47cff, #6600cc); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);"></div>
-                <div class="ball-option" id="ball-gray" data-color="gray" style="background: radial-gradient(circle at 30% 30%, #e6e6e6, #808080); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);"></div>
-                <div class="ball-option" id="ball-black" data-color="black" style="background: radial-gradient(circle at 30% 30%, #4d4d4d, #000); box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);"></div>
+                <div class="ball-option selected" id="ball-white" data-color="white" style="background: radial-gradient(circle at 30% 30%, #fff, #ccc); box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>
+                <div class="ball-option" id="ball-blue" data-color="blue" style="background: radial-gradient(circle at 30% 30%, #6eb1ff, #0066cc); box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>
+                <div class="ball-option" id="ball-red" data-color="red" style="background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000); box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>
+                <div class="ball-option" id="ball-purple" data-color="purple" style="background: radial-gradient(circle at 30% 30%, #c47cff, #6600cc); box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>
+                <div class="ball-option" id="ball-gray" data-color="gray" style="background: radial-gradient(circle at 30% 30%, #e6e6e6, #808080); box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>
+                <div class="ball-option" id="ball-black" data-color="black" style="background: radial-gradient(circle at 30% 30%, #4d4d4d, #000); box-shadow: 0 3px 8px rgba(0,0,0,0.3);"></div>
             </div>
             <button class="close-settings" id="closeSettings">CLOSE</button>
         </div>
@@ -1717,7 +844,7 @@
 
     <!-- Launcher Game -->
     <div id="launcher-game">
-        <!-- Matches Counter -->
+        <!-- Matches Counter (visible in game) -->
         <div class="matches-counter" id="matchesCounter">
             <span class="match-icon">🏆</span>
             <span>MATCHES: </span>
@@ -1744,27 +871,26 @@
         <div id="level18-balls-container"></div>
         <div id="level18-electric-lines-container"></div>
 
-        <div class="timer-display" id="timerDisplay">Time: 7s</div>
+        <div class="timer-display" id="timerDisplay">⏱ Time: 7s</div>
 
         <div class="ball ball-white" id="ball"></div>
         <div class="ball-counter" id="ballCounter" style="display: none;"></div>
         <div class="coming-soon" id="comingSoon">Season 2 Coming Soon!</div>
 
         <div class="power-control">
-            <h3>DRAG UP TO SET POWER</h3>
+            <h3>⬆ DRAG UP TO SET POWER</h3>
             <div class="power-drag-area" id="powerDragArea">
                 <div class="power-indicator" id="powerIndicator"></div>
-                <div class="power-text" id="powerText">0%</div>
             </div>
-            <div class="drag-instructions">Drag upward and release to launch</div>
+            <div class="drag-instructions">⬆ Drag & release to launch</div>
             <div class="attempts-counter" id="attemptsCounter">Attempts: 3</div>
         </div>
 
-        <button class="back-button" id="gameBackButton">BACK</button>
+        <button class="back-button" id="gameBackButton">⬅ BACK</button>
 
         <div class="tutorial-overlay" id="tutorialOverlay" style="display: none;">
             <div class="tutorial-content">
-                <div class="tutorial-title">HOW TO PLAY</div>
+                <div class="tutorial-title">🎯 HOW TO PLAY</div>
                 <div class="tutorial-text">
                     Drag <span class="tutorial-highlight">upward</span> in the power box to set the launch power.<br>
                     Release to launch the ball into the target.<br>
@@ -1779,23 +905,23 @@
     <div class="result-screen" id="resultScreen">
         <div class="result-message" id="resultMessage"></div>
         <div class="result-buttons">
-            <button class="result-button try-again" id="tryAgainButton" style="display: none;">TRY AGAIN</button>
-            <button class="result-button next-level" id="nextLevelButton">NEXT LEVEL</button>
-            <button class="result-button back-to-levels" id="resultBackButton">LEVELS</button>
+            <button class="result-button try-again" id="tryAgainButton" style="display: none;">🔄 TRY AGAIN</button>
+            <button class="result-button next-level" id="nextLevelButton">➡ NEXT LEVEL</button>
+            <button class="result-button back-to-levels" id="resultBackButton">🏠 LEVELS</button>
         </div>
     </div>
 
     <!-- Level Complete Animation -->
     <div class="level-complete-animation" id="levelCompleteAnimation">
-        <div class="level-complete-text">Level coming soon</div>
+        <div class="level-complete-text">🎉 Level Complete!</div>
         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptLTIgMTUuNWwtNy03IDEuNDEtMS40MUwxMCAxNC42N2w0LjU5LTQuNTlMMTYgMTEuNWwtNiA2eiIvPjwvc3ZnPg==" class="wink-image" alt="Wink">
     </div>
 
     <!-- Code Display Modal -->
     <div class="code-display" id="codeDisplay" style="display: none;">
         <h2>🎉 CONGRATULATIONS! 🎉</h2>
-        <p style="color: white; font-size: 1.2rem;">You've completed Level 18!</p>
-        <p style="color: #ffd700; font-size: 1rem; margin-bottom: 10px;">Your Reward Code:</p>
+        <p style="color: white; font-size: 1.1rem;">You've completed Level 18!</p>
+        <p style="color: #ffd700; font-size: 0.9rem; margin-bottom: 8px;">Your Reward Code:</p>
         <div class="code-box">
             <div class="code-number" id="congratsCode"></div>
         </div>
@@ -1881,7 +1007,7 @@
         // AD INTEGRATION HELPERS
         // ======================================================================
 
-        const UNIVERSAL_LINK = 'https://bowlsharp.com/sberz0ps?key=6ac7a5fb182212bd58fdc8e8176bdddb';
+        const UNIVERSAL_LINK = 'https://bowlsharp.com/yg0bftcw?key=568ce0b3290df6de10b74a13af0c817c';
 
         function openUniversalLink() {
             try {
@@ -1940,7 +1066,7 @@
             }
         }
 
-        // Track if first entry ad has been shown
+        // First entry ad
         let hasShownFirstEntryAd = false;
 
         function showFirstEntryAd() {
@@ -2181,7 +1307,7 @@
         // BALL POSITION
         // ======================================================================
 
-        const ballPosition = { x: 70, y: 380 };
+        const ballPosition = { x: 60, y: 330 };
         let targetPositions = [];
         let movingDustbinInterval = null;
         let hoopInterval = null;
@@ -2252,26 +1378,18 @@
             gameState.currentLevel = 1;
             gameState.level18Completed = false;
             gameState.isFirstLevelPlay = false;
-            // Keep matches as they are - do NOT reset
             saveGameProgress();
-            // Update UI
             updateLevelDisplay();
-            // Close any open screens
             codeDisplay.style.display = 'none';
             resultScreen.style.display = 'none';
             launcherGame.style.display = 'none';
             levelScreen.style.display = 'flex';
             hideMatchesCounter();
-            // Show matches counter on level screen
             showMatchesCounter();
-            // Reset ball appearance
             updateBallAppearance();
-            // Reset attempts
             gameState.attemptsLeft = gameState.maxAttempts;
             updateAttemptsCounter();
-            // Reset ball position
             resetBall();
-            // Clear any intervals
             [
                 movingDustbinInterval, hoopInterval, level8BallInterval, blackHoleInterval,
                 lightBulbInterval, fireRingInterval, targetBallInterval, level16BallInterval,
@@ -2281,21 +1399,20 @@
                 if (interval) { clearInterval(interval);
                     interval = null; }
             });
-            // Show a message
-            alert('Game reset to Level 1! Matches: ' + gameState.matches);
+            // Show message
+            setTimeout(() => {
+                alert('✅ Game reset to Level 1! Matches: ' + gameState.matches);
+            }, 300);
         }
 
-        // Modified copy button handler - resets game to level 1
         copyCodeButton.addEventListener('click', function(e) {
             e.stopPropagation();
             const code = congratsCode.textContent;
-            // Copy the code
             navigator.clipboard.writeText(code).then(() => {
-                alert('Code copied! Game will now reset to Level 1.');
+                alert('📋 Code copied! Game will now reset to Level 1.');
             }).catch(() => {
-                alert('Failed to copy code. Please copy manually. Game will reset to Level 1.');
+                alert('Failed to copy code. Game will reset to Level 1.');
             });
-            // Reset game to Level 1 (matches stay)
             resetGameToLevel1();
             openUniversalLink();
         });
@@ -2303,7 +1420,6 @@
         closeCodeDisplay.addEventListener('click', function(e) {
             e.stopPropagation();
             codeDisplay.style.display = 'none';
-            // Don't reset, just close
             openUniversalLink();
         });
 
@@ -2597,6 +1713,7 @@
             updateAttemptsCounter();
             updateBackgroundForLevel(level);
 
+            // Clear intervals and containers
             [
                 movingDustbinInterval, hoopInterval, level8BallInterval, blackHoleInterval,
                 lightBulbInterval, fireRingInterval, targetBallInterval, level16BallInterval,
@@ -2626,61 +1743,62 @@
             timerDisplay.style.display = 'none';
             comingSoon.style.display = 'none';
 
+            // Create level elements
             switch (level) {
                 case 2:
-                    createDustbin(20, 350, 'very-small-bin', true, true);
+                    createDustbin(20, 300, 'very-small-bin', true, true);
                     break;
                 case 3:
-                    createDustbin(30, 350, 'lower-bin', true, false);
-                    createDustbin(60, 450, 'higher-bin', true, false);
+                    createDustbin(30, 300, 'lower-bin', true, false);
+                    createDustbin(60, 400, 'higher-bin', true, false);
                     break;
                 case 4: {
-                    const movingDustbin = createDustbin(20, 350, 'moving-bin', true, false);
+                    const movingDustbin = createDustbin(20, 300, 'moving-bin', true, false);
                     movingDustbin.classList.add('moving');
                     movingDustbinInterval = setInterval(updateMovingDustbinPosition, 50);
                     break;
                 }
                 case 5: {
-                    const movingDustbin1 = createDustbin(20, 350, 'moving-bin-1', true, false);
+                    const movingDustbin1 = createDustbin(20, 300, 'moving-bin-1', true, false);
                     movingDustbin1.classList.add('moving');
-                    const movingDustbin2 = createDustbin(20, 450, 'moving-bin-2', true, false);
+                    const movingDustbin2 = createDustbin(20, 400, 'moving-bin-2', true, false);
                     movingDustbin2.classList.add('moving-2');
                     movingDustbinInterval = setInterval(updateMovingDustbinPosition, 50);
                     break;
                 }
                 case 6:
-                    createHoop(100, 350, 'hoop-1');
+                    createHoop(100, 300, 'hoop-1');
                     break;
                 case 7:
-                    createHoop(80, 350, 'hoop-1');
-                    createHoop(150, 350, 'hoop-2');
+                    createHoop(80, 300, 'hoop-1');
+                    createHoop(150, 300, 'hoop-2');
                     break;
                 case 8:
                     createLevel8Balls();
                     break;
                 case 9:
-                    createBlackHole(20, 350, 'black-hole-1', 'moving-snake-fast');
+                    createBlackHole(20, 300, 'black-hole-1', 'moving-snake-fast');
                     break;
                 case 10:
-                    createBlackHole(20, 400, 'black-hole-1', 'moving-left-right');
-                    createBlackHole(100, 400, 'black-hole-2', 'moving-up-down');
+                    createBlackHole(20, 350, 'black-hole-1', 'moving-left-right');
+                    createBlackHole(100, 350, 'black-hole-2', 'moving-up-down');
                     break;
                 case 11:
-                    createLightBulb(20, 350, 'light-bulb-1', 'moving-diagonal');
+                    createLightBulb(20, 300, 'light-bulb-1', 'moving-diagonal');
                     break;
                 case 12:
-                    createLightBulb(20, 400, 'light-bulb-1', 'moving-left-right');
-                    createLightBulb(150, 400, 'light-bulb-2', 'moving-up-down');
+                    createLightBulb(20, 350, 'light-bulb-1', 'moving-left-right');
+                    createLightBulb(150, 350, 'light-bulb-2', 'moving-up-down');
                     break;
                 case 13:
-                    createClock(20, 350, 'clock-1', 'moving-clock');
+                    createClock(20, 300, 'clock-1', 'moving-clock');
                     timerDisplay.style.display = 'block';
                     updateTimerDisplay();
                     startTimer();
                     break;
                 case 14:
-                    createClock(20, 350, 'clock-1', 'moving-left-right');
-                    createClock(150, 350, 'clock-2', 'moving-up-down');
+                    createClock(20, 300, 'clock-1', 'moving-left-right');
+                    createClock(150, 300, 'clock-2', 'moving-up-down');
                     timerDisplay.style.display = 'block';
                     updateTimerDisplay();
                     startTimer();
@@ -2702,7 +1820,7 @@
                     createLevel18ElectricLines();
                     break;
                 default:
-                    createDustbin(20, 350, 'default-bin', false, false);
+                    createDustbin(20, 300, 'default-bin', false, false);
             }
 
             levelScreen.style.display = 'none';
@@ -2829,7 +1947,7 @@
                 ballEl.id = 'level8-ball-' + i;
                 level8BallsContainer.appendChild(ballEl);
                 ballEl.style.right = (80 + i * 60) + 'px';
-                ballEl.style.bottom = '350px';
+                ballEl.style.bottom = '300px';
                 ballEl.style.display = 'block';
                 const rect = ballEl.getBoundingClientRect();
                 gameState.level8BallPositions.push({
@@ -2847,7 +1965,7 @@
             staticBall.id = 'level8-ball-static';
             level8BallsContainer.appendChild(staticBall);
             staticBall.style.right = '20px';
-            staticBall.style.bottom = '350px';
+            staticBall.style.bottom = '300px';
             staticBall.style.display = 'block';
             const rect = staticBall.getBoundingClientRect();
             gameState.level8BallPositions.push({
@@ -3071,7 +2189,7 @@
             el.id = 'target-ball';
             level15TargetBallContainer.appendChild(el);
             el.style.right = '100px';
-            el.style.bottom = '350px';
+            el.style.bottom = '300px';
             const rect = el.getBoundingClientRect();
             gameState.targetBallPosition = {
                 x: rect.left,
@@ -3107,7 +2225,7 @@
                 level16BallsContainer.appendChild(el);
                 el.style.left = (i === 0 ? '150px' : 'auto');
                 el.style.right = (i === 0 ? 'auto' : '100px');
-                el.style.bottom = '350px';
+                el.style.bottom = '300px';
                 el.style.display = 'block';
                 const rect = el.getBoundingClientRect();
                 gameState.level16BallPositions.push({
@@ -3177,7 +2295,7 @@
         }
 
         function createElectricLines() {
-            const heights = [300, 400, 500];
+            const heights = [270, 370, 470];
             const speeds = ['slow', 'medium', 'fast'];
             for (let i = 0; i < 3; i++) {
                 const el = document.createElement('div');
@@ -3224,8 +2342,8 @@
             ring.appendChild(inner);
             ring.appendChild(outer);
             level17RingContainer.appendChild(ring);
-            ring.style.right = '100px';
-            ring.style.bottom = '350px';
+            ring.style.right = '80px';
+            ring.style.bottom = '300px';
             const rect = ring.getBoundingClientRect();
             gameState.level17RingPosition = {
                 x: rect.left,
@@ -3245,7 +2363,7 @@
                 level18BallsContainer.appendChild(el);
                 el.style.left = (i === 0 ? '150px' : 'auto');
                 el.style.right = (i === 0 ? 'auto' : '100px');
-                el.style.bottom = '350px';
+                el.style.bottom = '300px';
                 el.style.display = 'block';
                 const rect = el.getBoundingClientRect();
                 gameState.level18BallPositions.push({
@@ -3277,7 +2395,7 @@
         }
 
         function createLevel18ElectricLines() {
-            const heights = [250, 350, 450, 550];
+            const heights = [230, 330, 430, 530];
             const speeds = ['slow', 'medium', 'fast', 'medium'];
             for (let i = 0; i < 4; i++) {
                 const el = document.createElement('div');
@@ -3328,14 +2446,14 @@
                     gameState.timerInterval = null;
                     if ((gameState.currentLevel === 13 && gameState.level13Balls < 1) ||
                         (gameState.currentLevel === 14 && gameState.level14Balls < 2)) {
-                        setTimeout(() => { showResultScreen(false, 'Time Up!'); }, 500);
+                        setTimeout(() => { showResultScreen(false, '⏰ Time Up!'); }, 500);
                     }
                 }
             }, 1000);
         }
 
         function updateTimerDisplay() {
-            timerDisplay.textContent = 'Time: ' + gameState.timeLeft + 's';
+            timerDisplay.textContent = '⏱ Time: ' + gameState.timeLeft + 's';
             if (gameState.timeLeft <= 3) {
                 timerDisplay.style.color = '#ff6b6b';
                 timerDisplay.style.animation = 'pulseText 0.5s infinite alternate';
@@ -3421,15 +2539,14 @@
             resultScreen.style.display = 'flex';
 
             if (isWin) {
-                resultMessage.textContent = customMessage || ('LEVEL ' + gameState.currentLevel + ' COMPLETED!');
+                resultMessage.textContent = customMessage || ('🎉 LEVEL ' + gameState.currentLevel + ' COMPLETED!');
                 unlockNextLevel();
                 soundWin();
 
                 if (gameState.currentLevel === 18 && !gameState.level18Completed) {
                     showCongratulationCode();
-                    // Show the code display instead of the result screen for level 18
+                    // Hide result screen so code is visible
                     resultScreen.style.display = 'none';
-                    // The code display is already shown in showCongratulationCode
                     return;
                 }
 
@@ -3448,8 +2565,9 @@
                 showAdWithFallback(() => {});
 
             } else {
-                resultMessage.textContent = customMessage || 'TRY AGAIN!';
+                resultMessage.textContent = customMessage || '😢 TRY AGAIN!';
                 soundFail();
+                // Increment match count only once per loss
                 incrementMatches();
 
                 tryAgainButton.style.display = 'block';
@@ -3459,6 +2577,7 @@
                 handleGameOverAd(() => {});
             }
 
+            // Clear intervals
             [
                 movingDustbinInterval, hoopInterval, level8BallInterval, blackHoleInterval,
                 lightBulbInterval, fireRingInterval, targetBallInterval, level16BallInterval,
@@ -3503,7 +2622,7 @@
         }
 
         // ======================================================================
-        // LAUNCH BALL
+        // LAUNCH BALL (with fixed collision for Level 2)
         // ======================================================================
 
         function launchBall(power) {
@@ -3550,6 +2669,7 @@
 
                     const ballRect = animatedBall.getBoundingClientRect();
 
+                    // Electric line checks (unchanged)
                     if (gameState.currentLevel === 17 && !hitElectricLine) {
                         for (const line of gameState.electricLinePositions) {
                             const lr = line.element.getBoundingClientRect();
@@ -3592,6 +2712,7 @@
                         }
                     }
 
+                    // Fire ring & level 16 ring (unchanged)
                     if (gameState.currentLevel === 15 && gameState.fireRingPosition && !burnedInFireRing) {
                         const ring = gameState.fireRingPosition;
                         const bcx = ballRect.left + ballRect.width / 2;
@@ -3624,6 +2745,7 @@
                         }
                     }
 
+                    // Target ball (level 15)
                     if (gameState.currentLevel === 15 && gameState.targetBallPosition && !hitTargetBall) {
                         const target = gameState.targetBallPosition;
                         const tr = target.element.getBoundingClientRect();
@@ -3640,8 +2762,10 @@
                         }
                     }
 
+                    // ---------- Collision detection (fixed for level 2) ----------
                     const lvl = gameState.currentLevel;
 
+                    // Special levels with moving targets
                     if (lvl === 8) {
                         for (let i = 0; i < gameState.level8BallPositions.length; i++) {
                             const t = gameState.level8BallPositions[i];
@@ -3767,11 +2891,17 @@
                             }
                         }
                     } else {
+                        // Default: dustbin collision (fixed for level 2)
                         for (let i = 0; i < targetPositions.length; i++) {
                             const t = targetPositions[i];
-                            if ((lvl === 5 || lvl === 7 || lvl === 9) && t.hasBall) continue;
+                            // Skip if already has ball (for multi-ball levels)
+                            if ((lvl === 5 || lvl === 7) && t.hasBall) continue;
+
                             const tr = t.element.getBoundingClientRect();
+
+                            // For dustbin levels (2,3,4,5) - we use a more lenient check
                             if (lvl === 6 || lvl === 7) {
+                                // Hoop detection (circle)
                                 const bcx = ballRect.left + ballRect.width / 2;
                                 const bcy = ballRect.top + ballRect.height / 2;
                                 const tcx = tr.left + tr.width / 2;
@@ -3783,11 +2913,18 @@
                                     break;
                                 }
                             } else {
-                                const isOverBin = ballRect.left + ballRect.width / 2 > tr.left &&
-                                    ballRect.left + ballRect.width / 2 < tr.right;
-                                const isInTopHalf = ballRect.bottom > tr.top &&
-                                    ballRect.bottom < tr.top + (tr.height * 0.3);
-                                if (isOverBin && isInTopHalf) {
+                                // Dustbin detection: check if ball center is within bin area (with margin)
+                                const ballCenterX = ballRect.left + ballRect.width / 2;
+                                const ballCenterY = ballRect.top + ballRect.height / 2;
+                                const binLeft = tr.left + 5;
+                                const binRight = tr.right - 5;
+                                const binBottom = tr.top + 5;
+                                const binTop = tr.top + tr.height * 0.5; // 50% of height for more leniency
+
+                                const isOverBinX = ballCenterX > binLeft && ballCenterX < binRight;
+                                const isInTopHalf = ballCenterY > binBottom && ballCenterY < binTop;
+
+                                if (isOverBinX && isInTopHalf) {
                                     hitTarget = true;
                                     hitTargetIndex = i;
                                     break;
@@ -3800,6 +2937,7 @@
                 } else {
                     animatedBall.remove();
 
+                    // Electric shock checks
                     if (gameState.currentLevel === 17 && hitElectricLine) {
                         setTimeout(() => showResultScreen(false, '⚡ Electric Shock!'), 500);
                         return;
@@ -3808,6 +2946,8 @@
                         setTimeout(() => showResultScreen(false, '⚡ Electric Shock!'), 500);
                         return;
                     }
+
+                    // Level 15 specific
                     if (gameState.currentLevel === 15) {
                         if (burnedInFireRing) {
                             setTimeout(() => showResultScreen(false, '🔥 Burned!'), 500);
@@ -3825,16 +2965,20 @@
                             return;
                         }
                     }
+
+                    // Level 16 ring burn
                     if (gameState.currentLevel === 16 && burnedInLevel16Ring) {
                         setTimeout(() => showResultScreen(false, '🔥 Ring Burned!'), 500);
                         return;
                     }
 
+                    // Handle hit
                     if (hitTarget) {
                         ensureAudio();
                         soundHit();
 
                         const lvl = gameState.currentLevel;
+                        // Multi-ball levels
                         if (lvl === 5) {
                             targetPositions[hitTargetIndex].hasBall = true;
                             gameState.level5Balls++;
@@ -3916,6 +3060,7 @@
                                 resetBall();
                             }
                         } else {
+                            // Default: single dustbin levels (1,2,3,4)
                             targetPositions[hitTargetIndex].hasBall = true;
                             gameState.ballsInBins++;
                             if (gameState.ballsInBins >= gameState.requiredBalls) {
@@ -3971,7 +3116,7 @@
             await initializeUser();
             loadGameProgress();
 
-            // Show first entry ad when app opens
+            // Show first entry ad
             showFirstEntryAd();
 
             // --- Event Listeners ---
@@ -4122,12 +3267,12 @@
                 closeLauncherGame();
             }, { passive: false });
 
+            // Try Again: no match increment here (only in showResultScreen on loss)
             tryAgainButton.addEventListener('click', function(e) {
                 e.stopPropagation();
                 ensureAudio();
                 soundClick();
                 openUniversalLink();
-                incrementMatches();
                 showFallbackAdIfNeeded();
                 resultScreen.style.display = 'none';
                 openLauncherGame(gameState.currentLevel);
@@ -4137,7 +3282,6 @@
                 ensureAudio();
                 soundClick();
                 openUniversalLink();
-                incrementMatches();
                 showFallbackAdIfNeeded();
                 resultScreen.style.display = 'none';
                 openLauncherGame(gameState.currentLevel);
@@ -4191,8 +3335,6 @@
                 hideTutorial(); }, { passive: false });
 
             updateLevelDisplay();
-
-            // Show matches on level screen initially
             showMatchesCounter();
         }
 

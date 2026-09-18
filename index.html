@@ -33,28 +33,19 @@
   html,body{margin:0;padding:0;height:100%}
   body{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-    background:var(--bg);
-    color:var(--txt);
-    min-height:100vh;
-    overflow-x:hidden;
-    position:relative;
+    background:var(--bg); color:var(--txt);
+    min-height:100vh; overflow-x:hidden; position:relative;
     -webkit-font-smoothing:antialiased;
   }
   body::before{
-    content:'';
-    position:fixed;inset:0;z-index:0;pointer-events:none;
+    content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
     background:
       radial-gradient(60% 40% at 12% 0%, rgba(124,92,255,.32), transparent 70%),
       radial-gradient(50% 38% at 92% 8%, rgba(34,211,238,.18), transparent 70%),
       radial-gradient(70% 45% at 50% 112%, rgba(124,92,255,.20), transparent 70%);
   }
-  .app{
-    position:relative;z-index:1;
-    max-width:520px;margin:0 auto;
-    padding:0 16px 40px;
-  }
+  .app{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:0 16px 40px}
 
-  /* ---------- Header ---------- */
   .topbar{display:flex;align-items:center;gap:13px;padding:22px 2px 16px}
   .logo{
     width:50px;height:50px;flex:0 0 50px;border-radius:16px;
@@ -70,22 +61,18 @@
   .topbar h1{margin:0;font-size:19px;font-weight:800;letter-spacing:.2px}
   .topbar p{margin:4px 0 0;font-size:12px;color:var(--muted);font-weight:500}
 
-  /* ---------- Overall progress ---------- */
   .progress-card{
     position:relative;overflow:hidden;
     background:linear-gradient(160deg,rgba(124,92,255,.20),rgba(34,211,238,.07));
-    border:1px solid rgba(255,255,255,.11);
-    border-radius:20px;
-    padding:16px 16px 15px;
-    margin-bottom:20px;
+    border:1px solid rgba(255,255,255,.11);border-radius:20px;
+    padding:16px 16px 15px;margin-bottom:20px;
     box-shadow:0 14px 34px rgba(0,0,0,.40);
     animation:rise .6s cubic-bezier(.2,.8,.2,1) both;
   }
   .progress-card::after{
     content:'';position:absolute;top:0;left:-60%;width:55%;height:100%;
     background:linear-gradient(100deg,transparent,rgba(255,255,255,.10),transparent);
-    animation:sheen 4.5s ease-in-out infinite;
-    pointer-events:none;
+    animation:sheen 4.5s ease-in-out infinite;pointer-events:none;
   }
   @keyframes sheen{0%{left:-60%}55%{left:130%}100%{left:130%}}
   .p-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
@@ -104,16 +91,11 @@
   }
   .p-sub{margin-top:9px;font-size:11.5px;color:var(--muted);font-weight:500}
 
-  /* ---------- Mission card ---------- */
   .mission{
-    position:relative;
-    background:var(--card);
-    border:1px solid var(--stroke);
-    border-radius:20px;
-    padding:14px;
-    margin-bottom:14px;
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
+    position:relative;background:var(--card);
+    border:1px solid var(--stroke);border-radius:20px;
+    padding:14px;margin-bottom:14px;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
     animation:rise .55s cubic-bezier(.2,.8,.2,1) both;
     transition:border-color .35s, box-shadow .35s, background .35s;
   }
@@ -134,10 +116,7 @@
   }
   .mission.completed .m-icon{transform:scale(1.05)}
   .m-text{flex:1;min-width:0}
-  .m-text h3{
-    margin:2px 0 0;font-size:14.5px;font-weight:700;line-height:1.32;
-    letter-spacing:.1px;
-  }
+  .m-text h3{margin:2px 0 0;font-size:14.5px;font-weight:700;line-height:1.32;letter-spacing:.1px}
   .m-text p{margin:5px 0 0;font-size:11.5px;color:var(--muted);line-height:1.4;font-weight:500}
   .m-badge{
     flex:0 0 auto;display:flex;align-items:baseline;
@@ -175,13 +154,11 @@
   .m-btn:disabled{cursor:default}
   .m-btn.loading{filter:saturate(.55) brightness(.92)}
   .m-btn.counting{
-    background:rgba(255,255,255,.06);
-    color:#cfd6ff;box-shadow:none;
+    background:rgba(255,255,255,.06);color:#cfd6ff;box-shadow:none;
     border-color:rgba(255,255,255,.15);
   }
   .m-btn.done{
-    background:rgba(34,197,94,.14);
-    color:#5ee89b;box-shadow:none;
+    background:rgba(34,197,94,.14);color:#5ee89b;box-shadow:none;
     border-color:rgba(34,197,94,.36);
   }
   .cd-fill{
@@ -197,7 +174,6 @@
   .m-btn.loading .spinner{display:inline-block}
   @keyframes spin{to{transform:rotate(360deg)}}
 
-  /* ---------- Toast ---------- */
   .toast{
     position:fixed;left:50%;bottom:28px;z-index:70;
     transform:translate(-50%,22px);opacity:0;
@@ -208,12 +184,10 @@
     font-size:13px;font-weight:700;color:#fff;
     backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     transition:opacity .35s, transform .35s cubic-bezier(.2,.8,.2,1);
-    pointer-events:none;
-    max-width:90vw;text-align:center;
+    pointer-events:none;max-width:90vw;text-align:center;
   }
   .toast.show{opacity:1;transform:translate(-50%,0)}
 
-  /* ---------- Congratulations ---------- */
   .congrats{
     position:fixed;inset:0;z-index:65;
     display:none;place-items:center;padding:26px;
@@ -237,8 +211,7 @@
   }
   .cg-trophy{
     position:relative;width:104px;height:104px;margin:0 auto 18px;
-    display:grid;place-items:center;font-size:52px;
-    border-radius:50%;
+    display:grid;place-items:center;font-size:52px;border-radius:50%;
     background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.20),rgba(124,92,255,.28));
     border:1px solid rgba(255,255,255,.20);
     animation:trophyFloat 2.6s ease-in-out infinite;
@@ -307,10 +280,7 @@
     100%{opacity:0;transform:translateY(110vh) rotate(760deg)}
   }
 
-  .footer{
-    text-align:center;margin-top:26px;
-    font-size:11px;color:rgba(139,147,171,.6);font-weight:600;letter-spacing:.5px;
-  }
+  .footer{text-align:center;margin-top:26px;font-size:11px;color:rgba(139,147,171,.6);font-weight:600;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -380,8 +350,7 @@
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) {
   try {
-    tg.ready();
-    tg.expand();
+    tg.ready(); tg.expand();
     if (tg.setHeaderColor) tg.setHeaderColor('#080b14');
     if (tg.setBackgroundColor) tg.setBackgroundColor('#080b14');
     if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
@@ -389,7 +358,7 @@ if (tg) {
 }
 
 /* =========================================================
-   2) Ad network config
+   2) Ad config
    ========================================================= */
 const ADSGRAM_BLOCK_ID = '30645';
 const ADSBITVEX_APP_ID = '000274';
@@ -399,57 +368,38 @@ const MONETAG_ZONE     = '10541383';
    3) Mission list
    ========================================================= */
 const MISSIONS = [
-  {
-    id: 1, kind: 'ad', provider: 'adsgram',
-    icon: '📺',
-    title: 'Watch Adsgram Ads',
-    desc: 'Watch a full Adsgram ad to earn 1 point',
-    button: 'Watch Adsgram Ads',
-    limit: 6
-  },
-  {
-    id: 2, kind: 'link',
-    icon: '🔗',
-    title: 'Click The Link & Stay 5 Seconds',
-    desc: 'Open the link and stay there for 5 seconds',
-    button: 'Click The Link',
-    limit: 6,
-    url: 'https://bowlsharp.com/yg0bftcw?key=568ce0b3290df6de10b74a13af0c817c'
-  },
-  {
-    id: 3, kind: 'ad', provider: 'adsbitvex',
-    icon: '🎬',
-    title: 'Watch Adsbitbex Ads',
-    desc: 'Watch a full Adsbitbex ad to earn 1 point',
-    button: 'Watch Adsbitbex Ads',
-    limit: 6
-  },
-  {
-    id: 4, kind: 'link',
-    icon: '🌐',
-    title: 'Click The Link & Stay 5 Seconds',
-    desc: 'Open the link and stay there for 5 seconds',
-    button: 'Click The Link',
-    limit: 6,
-    url: 'https://omg10.com/4/10686606'
-  },
-  {
-    id: 5, kind: 'ad', provider: 'monetag',
-    icon: '💎',
-    title: 'Watch Monetag Ads',
-    desc: 'Watch a full Monetag ad to earn 1 point',
-    button: 'Watch Monetag Ads',
-    limit: 6
-  },
-  {
-    id: 6, kind: 'link',
-    icon: '🚀',
-    title: 'Click The Link & Stay 5 Seconds',
-    desc: 'Open the link and stay there for 5 seconds',
-    button: 'Click The Link',
-    limit: 6,
-    url: 'https://wwp.giriubin.com/redirect-zone/31c41a18'
-  }
+  { id:1, kind:'ad', provider:'adsgram',
+    icon:'📺', title:'Watch Adsgram Ads',
+    desc:'Watch a full Adsgram ad to earn 1 point',
+    button:'Watch Adsgram Ads', limit:6 },
+
+  { id:2, kind:'link', icon:'🔗',
+    title:'Click The Link & Stay 5 Seconds',
+    desc:'Open the link and stay there for 5 seconds',
+    button:'Click The Link', limit:6,
+    url:'https://bowlsharp.com/yg0bftcw?key=568ce0b3290df6de10b74a13af0c817c' },
+
+  { id:3, kind:'ad', provider:'adsbitvex',
+    icon:'🎬', title:'Watch Adsbitbex Ads',
+    desc:'Watch a full Adsbitbex ad to earn 1 point',
+    button:'Watch Adsbitbex Ads', limit:6 },
+
+  { id:4, kind:'link', icon:'🌐',
+    title:'Click The Link & Stay 5 Seconds',
+    desc:'Open the link and stay there for 5 seconds',
+    button:'Click The Link', limit:6,
+    url:'https://wwp.giriubin.com/redirect-zone/31c41a18' },
+
+  { id:5, kind:'ad', provider:'monetag',
+    icon:'💎', title:'Watch Monetag Ads',
+    desc:'Watch a full Monetag ad to earn 1 point',
+    button:'Watch Monetag Ads', limit:6 },
+
+  { id:6, kind:'link', icon:'🚀',
+    title:'Click The Link & Stay 5 Seconds',
+    desc:'Open the link and stay there for 5 seconds',
+    button:'Click The Link', limit:6,
+    url:'https://wwp.giriubin.com/redirect-zone/31c41a18' }
 ];
 
 const LINK_STAY_SECONDS = 5;
@@ -457,7 +407,7 @@ const LINK_STAY_SECONDS = 5;
 /* =========================================================
    4) State
    ========================================================= */
-const state = MISSIONS.map(() => ({ count: 0, busy: false }));
+const state = MISSIONS.map(() => ({ count:0, busy:false }));
 const refs = [];
 let congratsShown = false;
 let congratsAt = null;
@@ -470,27 +420,25 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 function haptic(type) {
   if (!tg || !tg.HapticFeedback) return;
   try {
-    if (type === 'light') tg.HapticFeedback.impactOccurred('light');
+    if (type === 'light')   tg.HapticFeedback.impactOccurred('light');
     else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
-    else if (type === 'heavy') tg.HapticFeedback.impactOccurred('heavy');
+    else if (type === 'heavy')  tg.HapticFeedback.impactOccurred('heavy');
     else if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
-    else if (type === 'error') tg.HapticFeedback.notificationOccurred('error');
+    else if (type === 'error')   tg.HapticFeedback.notificationOccurred('error');
   } catch (e) {}
 }
 
 function openLink(url) {
   if (!url) return;
   try {
-    if (tg && tg.openLink) tg.openLink(url, { try_instant_view: false });
+    if (tg && tg.openLink) tg.openLink(url, { try_instant_view:false });
     else window.open(url, '_blank');
   } catch (e) {
     try { window.open(url, '_blank'); } catch (e2) {}
   }
 }
 
-async function waitFor(checkFn, tries, delay) {
-  tries = tries || 20;
-  delay = delay || 200;
+async function waitFor(checkFn, tries = 20, delay = 200) {
   for (let i = 0; i < tries; i++) {
     try { if (checkFn()) return true; } catch (e) {}
     await sleep(delay);
@@ -504,11 +452,11 @@ function toast(msg) {
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 1900);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
 }
 
 /* =========================================================
-   6) ADSGRAM init
+   6) Adsgram init
    ========================================================= */
 let adsgramController = null;
 
@@ -517,9 +465,7 @@ function initAdsgram() {
   if (window.Adsgram && typeof window.Adsgram.init === 'function') {
     try {
       adsgramController = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID });
-    } catch (e) {
-      adsgramController = null;
-    }
+    } catch (e) { adsgramController = null; }
   }
   return adsgramController;
 }
@@ -528,22 +474,33 @@ window.addEventListener('load', () => initAdsgram());
 setTimeout(() => initAdsgram(), 1500);
 
 /* =========================================================
-   7) UNIFIED AD RUNNER
+   7) 🔒 STRICT AD RUNNER
    ---------------------------------------------------------
-   এই function টা অনেক বেশি forgiving:
-   - SDK promise resolve/reject —দুটোই handle করে
-   - visibility change (hidden → visible) track করে
-   - window blur/focus track করে
-   - Trust timeout (25s) — এর মধ্যে ad চালু হলেই point দেয়
-   - Ad না খুললে 5s এ fail দেয় → fallback এর সুযোগ দেয়
+   Point counts ONLY when one of these is TRUE:
+
+   ▶ For Adsbitvex & Monetag:
+       • page was hidden (ad tab opened) for >= MIN_HIDDEN_MS
+       • user came back to the page
+       (Promise resolve alone NEVER counts.)
+
+   ▶ For Adsgram:
+       • onReward event fires (SDK confirms ad watched), OR
+       • promise resolves with { done: true }
+       AND at least MIN_TIME_MS has passed since click.
    ========================================================= */
-function runAd(provider) {
+const MIN_HIDDEN_MS   = 5000;    // page must be hidden >= 5s (real ad watch)
+const MIN_TIME_MS     = 5000;    // absolute min before any point (anti-instant)
+const FAIL_OPEN_MS    = 12000;   // ad didn't open in 12s → fail (fallback)
+const HARD_CAP_MS     = 150000;  // absolute cap 2.5min
+
+function runAd(provider, onProgress) {
   return new Promise((resolve) => {
+    const startTime = Date.now();
     let settled = false;
-    let adOpened = false;         // ad খুলেছে কিনা (hidden/blur detected)
-    let hiddenAt = 0;
-    let blurAt = 0;
-    let pollTimer = null;
+    let hiddenStart = 0;
+    let totalHidden = 0;
+    let everHidden = false;
+    let rewardSignal = false;
 
     const cleanup = () => {
       document.removeEventListener('visibilitychange', onVis);
@@ -551,10 +508,9 @@ function runAd(provider) {
       window.removeEventListener('focus', onFocus);
       window.removeEventListener('pagehide', onPageHide);
       window.removeEventListener('pageshow', onPageShow);
-      if (pollTimer) clearInterval(pollTimer);
+      clearInterval(poller);
       clearTimeout(failTimer);
-      clearTimeout(trustTimer);
-      clearTimeout(absTimer);
+      clearTimeout(capTimer);
     };
 
     const finish = (v) => {
@@ -564,99 +520,158 @@ function runAd(provider) {
       resolve(v);
     };
 
-    const markOpened = () => {
-      if (!adOpened) {
-        adOpened = true;
-        hiddenAt = Date.now();
+    const updateHidden = () => {
+      if (document.hidden || document.visibilityState === 'hidden') {
+        if (!hiddenStart) hiddenStart = Date.now();
+        everHidden = true;
+      } else {
+        if (hiddenStart) {
+          totalHidden += Date.now() - hiddenStart;
+          hiddenStart = 0;
+        }
       }
     };
 
-    /* ---- visibility change ---- */
-    const onVis = () => {
-      if (document.visibilityState === 'hidden') {
-        markOpened();
-      } else if (adOpened && Date.now() - hiddenAt >= 700) {
-        finish(true);   // user ad দেখে ফিরে এসেছে
-      }
-    };
-    document.addEventListener('visibilitychange', onVis);
+    const elapsed = () => Date.now() - startTime;
 
-    /* ---- window blur / focus (fallback signal) ---- */
-    const onBlur = () => {
-      blurAt = Date.now();
-      markOpened();
+    /* ---------- STRICT visibility rule ---------- */
+    const canFinishFromHidden = () => {
+      return everHidden
+          && totalHidden >= MIN_HIDDEN_MS
+          && elapsed() >= MIN_TIME_MS
+          && !document.hidden;
     };
-    const onFocus = () => {
-      if (adOpened && Date.now() - blurAt >= 700) {
+
+    const checkState = () => {
+      updateHidden();
+
+      // progress feedback
+      if (onProgress) {
+        if (document.hidden && hiddenStart) {
+          onProgress('watching', Math.floor((Date.now() - hiddenStart) / 1000));
+        } else if (everHidden && totalHidden > 0 && totalHidden < MIN_HIDDEN_MS) {
+          onProgress('watch-more', Math.ceil((MIN_HIDDEN_MS - totalHidden) / 1000));
+        }
+      }
+
+      if (canFinishFromHidden()) {
         finish(true);
       }
     };
+
+    const onVis     = () => checkState();
+    const onBlur    = () => { if (!hiddenStart) hiddenStart = Date.now(); everHidden = true; checkState(); };
+    const onFocus   = () => checkState();
+    const onPageHide= () => { if (!hiddenStart) hiddenStart = Date.now(); everHidden = true; };
+    const onPageShow= () => checkState();
+
+    document.addEventListener('visibilitychange', onVis);
     window.addEventListener('blur', onBlur);
     window.addEventListener('focus', onFocus);
-
-    /* ---- pagehide / pageshow (some webviews) ---- */
-    const onPageHide = () => markOpened();
-    const onPageShow = () => {
-      if (adOpened && Date.now() - hiddenAt >= 700) finish(true);
-    };
     window.addEventListener('pagehide', onPageHide);
     window.addEventListener('pageshow', onPageShow);
 
-    /* ---- polling as safety net (every 300ms) ---- */
-    pollTimer = setInterval(() => {
-      if (document.visibilityState === 'hidden' && !adOpened) {
-        markOpened();
-      }
-      if (adOpened && document.visibilityState === 'visible' &&
-          Date.now() - hiddenAt >= 700) {
-        finish(true);
-      }
-    }, 300);
+    const poller = setInterval(checkState, 250);
 
-    /* ---- fail fast: if ad didn't open within 5s → try fallback ---- */
+    /* ---------- Fail timer: ad never opened ---------- */
     const failTimer = setTimeout(() => {
-      if (!adOpened && document.visibilityState === 'visible') {
+      if (!everHidden && !rewardSignal && !document.hidden) {
         finish(false);
       }
-    }, 5000);
+    }, FAIL_OPEN_MS);
 
-    /* ---- trust timeout: after 25s, always grant ---- */
-    const trustTimer = setTimeout(() => {
-      finish(true);
-    }, 25000);
+    /* ---------- Hard cap ---------- */
+    const capTimer = setTimeout(() => {
+      finish(rewardSignal || canFinishFromHidden());
+    }, HARD_CAP_MS);
 
-    /* ---- absolute safety ---- */
-    const absTimer = setTimeout(() => finish(true), 90000);
-
-    /* ---- Trigger the actual SDK ---- */
-    let promise = null;
+    /* =====================================================
+       Trigger the SDK
+       ===================================================== */
     try {
+      /* ---------- ADSGRAM (trust onReward + done:true) ---------- */
       if (provider === 'adsgram') {
         const ctrl = initAdsgram();
         if (!ctrl || typeof ctrl.show !== 'function') { finish(false); return; }
+
         try {
           if (typeof ctrl.on === 'function') {
-            ctrl.on('onReward', () => finish(true));
-            ctrl.on('onError',  () => { /* rely on vis/trust */ });
+            ctrl.on('onReward', () => {
+              rewardSignal = true;
+              const wait = Math.max(0, MIN_TIME_MS - elapsed());
+              setTimeout(() => finish(true), wait);
+            });
+            ctrl.on('onError', () => {
+              /* don't finish — visibility rule may still apply */
+            });
           }
         } catch (e) {}
-        promise = ctrl.show();
+
+        let p = null;
+        try { p = ctrl.show(); } catch (e) { finish(false); return; }
+
+        if (p && typeof p.then === 'function') {
+          p.then((result) => {
+            if (result && result.done === true) {
+              rewardSignal = true;
+              const wait = Math.max(0, MIN_TIME_MS - elapsed());
+              setTimeout(() => finish(true), wait);
+            }
+            // result.done === false → don't finish, wait for visibility or cap
+          }).catch(() => { /* ignore — visibility rule can still grant */ });
+        }
+
+      /* ---------- ADSBITVEX (strict visibility required) ---------- */
       } else if (provider === 'adsbitvex') {
         if (typeof window.showadsbitvex !== 'function') { finish(false); return; }
-        promise = window.showadsbitvex();
+
+        let p = null;
+        try { p = window.showadsbitvex(); } catch (e) { finish(false); return; }
+
+        if (p && typeof p.then === 'function') {
+          p.then(() => {
+            /* ⚠️ promise resolve alone does NOT grant the point.
+               We only grant if the page was actually hidden long enough. */
+            if (canFinishFromHidden()) {
+              finish(true);
+            }
+            // else: wait for visibility rule or fail/cap timer
+          }).catch(() => {
+            // If the ad errored and user never went away → fail soon
+            if (!everHidden && elapsed() < FAIL_OPEN_MS) {
+              setTimeout(() => {
+                if (!everHidden && !canFinishFromHidden()) finish(false);
+              }, FAIL_OPEN_MS - elapsed());
+            }
+          });
+        }
+
+      /* ---------- MONETAG (strict visibility required) ---------- */
       } else if (provider === 'monetag') {
         if (typeof window.show_10541383 !== 'function') { finish(false); return; }
-        promise = window.show_10541383();
+
+        let p = null;
+        try { p = window.show_10541383(); } catch (e) { finish(false); return; }
+
+        if (p && typeof p.then === 'function') {
+          p.then(() => {
+            /* ⚠️ promise resolve alone does NOT grant the point. */
+            if (canFinishFromHidden()) {
+              finish(true);
+            }
+          }).catch(() => {
+            if (!everHidden && elapsed() < FAIL_OPEN_MS) {
+              setTimeout(() => {
+                if (!everHidden && !canFinishFromHidden()) finish(false);
+              }, FAIL_OPEN_MS - elapsed());
+            }
+          });
+        }
+      } else {
+        finish(false);
       }
     } catch (e) {
       finish(false);
-      return;
-    }
-
-    if (promise && typeof promise.then === 'function') {
-      promise.then(() => finish(true)).catch(() => {
-        /* promise reject হলেও visibility/trust এ fallback আছে */
-      });
     }
   });
 }
@@ -699,7 +714,6 @@ function buildMissions() {
     };
 
     ref.btn.addEventListener('click', () => onMissionClick(i));
-
     refs.push(ref);
     wrap.appendChild(card);
   });
@@ -717,7 +731,7 @@ function onMissionClick(i) {
   else runLinkMission(i);
 }
 
-/* ---------- Ad mission with Adsgram → Monetag fallback ---------- */
+/* ---------- Ad mission ---------- */
 async function runAdMission(i) {
   const m = MISSIONS[i];
   const s = state[i];
@@ -728,33 +742,50 @@ async function runAdMission(i) {
   r.btn.classList.add('loading');
   r.btn.disabled = true;
 
+  const baseLabel = {
+    adsgram:   'Watch Adsgram Ads',
+    adsbitvex: 'Watch Adsbitbex Ads',
+    monetag:   'Watch Monetag Ads'
+  }[m.provider] || 'Watch Ad';
+
+  // Progress callback — updates the button text while the ad is opening/watching
+  const onProgress = (phase, sec) => {
+    if (phase === 'watching') {
+      r.label.textContent = 'Watching… ' + sec + 's';
+    } else if (phase === 'watch-more') {
+      r.label.textContent = 'Watch ' + sec + 's more…';
+    }
+  };
+
   let rewarded = false;
 
   if (m.provider === 'adsgram') {
-    r.label.textContent = 'Loading Adsgram ad…';
-    rewarded = await runAd('adsgram');
+    r.label.textContent = 'Opening Adsgram ad…';
+    rewarded = await runAd('adsgram', onProgress);
 
     if (!rewarded) {
       r.label.textContent = 'Trying Monetag…';
-      toast('Adsgram unavailable — switching to Monetag');
+      toast('Adsgram failed — switching to Monetag');
       await sleep(400);
-      rewarded = await runAd('monetag');
+      rewarded = await runAd('monetag', onProgress);
     }
 
   } else if (m.provider === 'adsbitvex') {
-    r.label.textContent = 'Loading Adsbitbex ad…';
+    r.label.textContent = 'Opening Adsbitbex ad…';
     const ready = await waitFor(() => typeof window.showadsbitvex === 'function', 20, 200);
-    if (ready) rewarded = await runAd('adsbitvex');
+    if (ready) rewarded = await runAd('adsbitvex', onProgress);
+    else r.label.textContent = 'Adsbitbex not available';
 
   } else if (m.provider === 'monetag') {
-    r.label.textContent = 'Loading Monetag ad…';
+    r.label.textContent = 'Opening Monetag ad…';
     const ready = await waitFor(() => typeof window.show_10541383 === 'function', 20, 200);
-    if (ready) rewarded = await runAd('monetag');
+    if (ready) rewarded = await runAd('monetag', onProgress);
+    else r.label.textContent = 'Monetag not available';
   }
 
   r.btn.classList.remove('loading');
   r.btn.disabled = false;
-  r.label.textContent = m.button;
+  r.label.textContent = baseLabel;
   s.busy = false;
 
   if (rewarded) {
@@ -815,13 +846,9 @@ function runLinkMission(i) {
   };
 
   timer = setInterval(() => {
-    const elapsed = (Date.now() - startTime) / 1000;
-    const left = LINK_STAY_SECONDS - elapsed;
-    if (left <= 0) {
-      finish();
-    } else {
-      r.label.textContent = 'Stay ' + Math.ceil(left) + 's…';
-    }
+    const left = LINK_STAY_SECONDS - (Date.now() - startTime) / 1000;
+    if (left <= 0) finish();
+    else r.label.textContent = 'Stay ' + Math.ceil(left) + 's…';
   }, 250);
 
   document.addEventListener('visibilitychange', onVisible);
@@ -886,22 +913,21 @@ function showCongrats() {
   const when = congratsAt || new Date();
 
   const dateStr = when.toLocaleDateString('en-GB', {
-    day: '2-digit', month: 'short', year: 'numeric'
+    day:'2-digit', month:'short', year:'numeric'
   });
   const timeStr = when.toLocaleTimeString('en-US', {
-    hour: '2-digit', minute: '2-digit', hour12: true
+    hour:'2-digit', minute:'2-digit', hour12:true
   });
 
   document.getElementById('cgDate').textContent = dateStr;
   document.getElementById('cgTime').textContent = timeStr;
-
   document.getElementById('congrats').classList.add('show');
   launchConfetti();
 }
 
 function launchConfetti() {
   const layer = document.getElementById('confetti');
-  const colors = ['#7c5cff', '#22d3ee', '#22c55e', '#f59e0b', '#ef4444', '#ec4899', '#ffffff'];
+  const colors = ['#7c5cff','#22d3ee','#22c55e','#f59e0b','#ef4444','#ec4899','#ffffff'];
 
   for (let i = 0; i < 110; i++) {
     const p = document.createElement('i');
@@ -924,8 +950,8 @@ document.getElementById('cgBtn').addEventListener('click', () => {
   if (tg && tg.sendData) {
     try {
       tg.sendData(JSON.stringify({
-        event: 'all_missions_completed',
-        at: (congratsAt || new Date()).toISOString()
+        event:'all_missions_completed',
+        at:(congratsAt || new Date()).toISOString()
       }));
     } catch (e) {}
   }

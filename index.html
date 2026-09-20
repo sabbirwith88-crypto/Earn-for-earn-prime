@@ -12,12 +12,12 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 <!-- Telegram Web SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- Ad SDKs: Ads 1 Adsgram, Ads 2 Adsbitvex, Ads 3 Monetag, Ads 4 Giga Pub, Ads 5 Adexora -->
+<!-- Ad SDKs: Ads 1 Adsgram, Ads 2 Adsbitvex, Ads 3 Monetag, Ads 4 Giga Pub, Ads 5 OnClickA -->
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
 <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
 <script src="https://ad.gigapub.tech/script?id=6471"></script>
-<script src="https://adexora.com/cdn/ads.js?id=1963"></script>
+<script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
 <style>
 :root{
   --bg:#F5F4FB; --card:#FFFFFF; --ink:#16132F; --muted:#6C6989; --line:#E7E4F4;
@@ -46,16 +46,23 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 .row{display:flex;align-items:center;gap:12px}
 
 /* splash + gate */
-#splash,#gate{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;text-align:center;transition:opacity .4s ease}
+#splash,#gate{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:32px;text-align:center;transition:opacity .45s ease}
+#splash{background:radial-gradient(circle at 50% 36%,rgba(106,61,240,.20),transparent 58%),var(--bg)}
 #splash.leave{opacity:0;pointer-events:none}
-#splash .logo{width:92px;height:92px;border-radius:30px;animation:float 2.4s ease-in-out infinite}
-#splash .word{font:800 28px 'Sora',sans-serif;letter-spacing:.08em}
-#splash .bar{width:120px;height:4px;border-radius:4px;background:var(--line);overflow:hidden}
+.sl{position:relative;width:112px;height:112px;margin-bottom:26px;animation:pop .7s cubic-bezier(.2,1.2,.4,1) both}
+.sl .logo{width:112px;height:112px;filter:drop-shadow(0 20px 26px rgba(106,61,240,.45))}
+.sl::before,.sl::after{content:"";position:absolute;inset:-14px;border-radius:38%;border:1.5px solid var(--brand);opacity:0;animation:ring 2.4s ease-out infinite}
+.sl::after{animation-delay:1.2s}
+#splash .word{font:800 30px 'Sora',sans-serif;letter-spacing:.32em;text-indent:.32em;animation:rise .6s .25s cubic-bezier(.2,.8,.2,1) both}
+#splash .tag{margin-top:8px;color:var(--muted);font-size:13.5px;font-weight:600;letter-spacing:.06em;animation:rise .6s .4s cubic-bezier(.2,.8,.2,1) both}
+#splash .bar{width:132px;height:4px;border-radius:4px;background:var(--line);overflow:hidden;margin:34px 0 0;animation:rise .6s .55s both}
 #splash .bar i{display:block;height:100%;width:40%;background:var(--brand);border-radius:4px;animation:slide 1s ease-in-out infinite}
+#gate{gap:14px}
+#gate .logo{width:84px;height:84px;filter:drop-shadow(0 16px 22px rgba(106,61,240,.4))}
 #gate h1{font-size:22px}
 #gate p{max-width:300px;color:var(--muted)}
-.logo{background:var(--brand);color:#fff;display:grid;place-items:center;border-radius:12px;overflow:hidden;flex:none}
-.logo .ico{width:60%;height:60%;stroke-width:2}
+.logo{display:block;border-radius:30%;overflow:hidden;flex:none;line-height:0}
+.logo .mark{width:100%;height:100%;display:block}
 .logo img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* layout */
@@ -70,7 +77,7 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 .page.enter .list>*:nth-child(n+5){animation-delay:.16s}
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .brand{display:flex;align-items:center;gap:10px;font:800 19px 'Sora',sans-serif;letter-spacing:.06em}
-.brand .logo{width:38px;height:38px;border-radius:12px}
+.brand .logo{width:38px;height:38px;box-shadow:0 6px 14px -6px rgba(106,61,240,.6)}
 .icon-btn{width:40px;height:40px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;transition:transform .12s}
 .icon-btn:active{transform:scale(.92)}
 
@@ -155,7 +162,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 
 /* promote */
 .promo-head{display:flex;align-items:center;gap:14px;margin:6px 0 14px}
-.promo-head .logo{width:56px;height:56px;border-radius:18px}
+.promo-head .logo{width:58px;height:58px;box-shadow:0 10px 20px -8px rgba(106,61,240,.55)}
 .promo-head h1{font-size:26px;font-weight:800;line-height:1.1}
 .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
 .stepper div{font-size:12.5px;color:var(--muted);font-weight:600}
@@ -238,10 +245,25 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .msgbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:12px 0;font-size:13.5px;white-space:pre-line;color:var(--muted)}
 .hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
 .gap{height:10px}
+.stack{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.stack .field{margin:0}
+.field.sub label{font-size:13px}
+.badge{background:var(--brand);color:#fff;border-radius:999px;font-size:11px;padding:1px 8px;margin-left:8px}
+.note{background:var(--brand-soft);color:var(--brand);border-radius:14px;padding:12px 14px;font-weight:600;font-size:13px;margin-bottom:14px;line-height:1.4}
+.pkgs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pkg{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:left;cursor:pointer;transition:border-color .2s,background .2s,transform .12s}
+.pkg:active{transform:scale(.97)}
+.pkg.on{border-color:var(--brand);background:var(--brand-soft)}
+.pkg b{display:block;font:800 22px 'Sora',sans-serif}
+.pkg span{display:flex;align-items:center;gap:6px;margin-top:8px;font:700 13px 'Sora',sans-serif;color:var(--muted)}
+.req{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+.req b{display:block;word-break:break-word}
+.req small{display:block;color:var(--muted);font-size:12.5px}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes ring{0%{opacity:.55;transform:scale(.92)}100%{opacity:0;transform:scale(1.45)}}
 @keyframes ping{0%{stroke-opacity:.12}30%{stroke-opacity:.6}100%{stroke-opacity:.12}}
 @keyframes tin{from{transform:translateY(-24px) scale(.9);opacity:0}to{transform:none;opacity:1}}
 @keyframes tout{to{transform:translateY(-16px);opacity:0}}
@@ -256,6 +278,16 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 
 <!-- icons -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="lg-brand" x1="8" y1="4" x2="88" y2="92" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9B78FF"/><stop offset=".55" stop-color="#6A3DF0"/><stop offset="1" stop-color="#4A22C2"/></linearGradient>
+<linearGradient id="lg-shine" x1="0" y1="0" x2="0" y2="96" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<radialGradient id="lg-coin" cx=".32" cy=".28" r=".9"><stop offset="0" stop-color="#FFE79B"/><stop offset=".6" stop-color="#FFC53D"/><stop offset="1" stop-color="#E39D00"/></radialGradient>
+<symbol id="logo-mark" viewBox="0 0 96 96">
+  <rect width="96" height="96" rx="29" fill="url(#lg-brand)"/>
+  <rect width="96" height="96" rx="29" fill="url(#lg-shine)"/>
+  <g fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="1.6"><circle cx="84" cy="10" r="22"/><circle cx="84" cy="10" r="38"/><circle cx="84" cy="10" r="54"/></g>
+  <path fill="#fff" fill-rule="evenodd" d="M30 30a5 5 0 0 1 5-5h20a19 19 0 0 1 0 38H46v9a5 5 0 0 1-5 5h-6a5 5 0 0 1-5-5zM46 37v13h9a6.5 6.5 0 0 0 0-13z"/>
+  <circle cx="69" cy="70" r="11" fill="url(#lg-coin)"/><circle cx="69" cy="70" r="7.4" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.4"/>
+</symbol>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></symbol>
 <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
 <symbol id="i-tasks" viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.3 1.3L7 5M3.5 12l1.3 1.3L7 11M3.5 18l1.3 1.3L7 17"/></symbol>
@@ -279,10 +311,10 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/></symbol>
 </defs></svg>
 
-<div id="splash"><div class="logo" id="splashLogo"></div><div class="word">PMER</div><div class="bar"><i></i></div></div>
+<div id="splash"><div class="sl"><div class="logo" id="splashLogo"></div></div><div class="word">PMER</div><div class="tag">Earn. Promote. Grow.</div><div class="bar"><i></i></div></div>
 
 <div id="gate" hidden>
-  <div class="logo" id="gateLogo" style="width:72px;height:72px;border-radius:24px"></div>
+  <div class="logo" id="gateLogo"></div>
   <h1>Open PMER in Telegram</h1>
   <p>Your balance and tasks are tied to your Telegram account. Open this app from the PMER bot inside Telegram to continue.</p>
 </div>
@@ -316,14 +348,18 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 const CONFIG = {
   appName: 'PMER',
   logo: '',                     // your logo: paste an image URL or a data:image/... string here
-  adReward: 1500,               // JR per completed ad
-  adCooldownSec: 60,            // an ad can be watched again after this many seconds (no daily limit)
+  adReward: 1100,               // JR per completed ad
+  adDailyLimit: 5,              // how many times each ad can be watched per day
+  adCooldownSec: 60,            // an ad can be watched again after this many seconds
   adsgramBlockId: '30645',
+  onclickaId: '464920',
   minReward: { join: 1000, reaction: 700, view: 500, conditions: 2500 }, // minimum JR per user
   minUsers: 20,                 // minimum users for a campaign
   titleMin: 5, titleMax: 25,
   viewSeconds: 5,               // View task: user must stay away from the app this long
-  conditionSeconds: 10,         // With-conditions task: minimum time before Verify works
+  reactionSeconds: 8,           // Reaction on channel posts (Telegram hides who reacted): user must open the post, react and stay this long
+  conditionSeconds: 10,         // With-conditions task: minimum time between opening the bot and submitting
+  reviewHours: 24,              // With-conditions requests are approved automatically after this many hours
   referral: { bonus: 15000, afterTasks: 20 },
   withdraw: { min: 300000, minReferrals: 3, feePercent: 10, methods: ['Binance'] },
   jrPerUsd: 3000000,            // 300,000 JR = $0.10
@@ -335,7 +371,10 @@ const CONFIG = {
   // token only if you accept that risk, or deploy the Worker at the bottom of this file and use verifyUrl instead.
   botToken: '',
   verifyUrl: '',
-  depositInfo: { Binance: '' }  // payment details shown on the Deposit sheet (leave empty to send users to support)
+  deposit: {                    // Deposit packages and the Binance UID users pay to
+    uid: '1226899375',
+    packages: [{ usd: 1, jr: 1000000 }, { usd: 5, jr: 4500000 }, { usd: 10, jr: 8000000 }, { usd: 25, jr: 20000000 }]
+  }
 };
 
 /* =====================================================================
@@ -363,11 +402,13 @@ const fmt = n => Number(n || 0).toLocaleString('en-US');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ico = (n, c = '') => `<svg class="ico ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const coin = (c = '') => `<span class="coin ${c}" aria-hidden="true">JR</span>`;
-const logoHTML = () => CONFIG.logo ? `<img src="${esc(CONFIG.logo)}" alt="${CONFIG.appName}">` : ico('mega');
+const logoHTML = () => CONFIG.logo ? `<img src="${esc(CONFIG.logo)}" alt="${CONFIG.appName}">` : '<svg class="mark" viewBox="0 0 96 96" role="img" aria-label="PMER"><use href="#logo-mark"/></svg>';
 const PREVIEW = /[?&]preview\b/.test(location.search);
 const tg = window.Telegram && window.Telegram.WebApp;
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
 const jrToUsd = jr => (jr / CONFIG.jrPerUsd).toFixed(2);
+const today = () => new Date().toLocaleDateString('en-CA');
+const fmtLeft = ms => { const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return h > 0 ? `${h}h ${m}m` : `${Math.max(0, m)}m`; };
 const chatKey = c => String(c).replace(/^@/, '').toLowerCase();
 function setHTML(el, html) { if (el.__h === html) return false; el.innerHTML = html; el.__h = html; return true; }
 
@@ -429,7 +470,7 @@ function applyTheme() {
    State
    ===================================================================== */
 const S = {
-  uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null, screened: {},
+  uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null, screened: {}, chatCache: {}, botId: null, pending: {}, prevSub: null,
   wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' }
 };
 
@@ -463,7 +504,7 @@ async function checkReferral(u) {
 }
 
 /* =====================================================================
-   Ads: no daily limit, each ad is ready again after adCooldownSec
+   Ads: daily limit per ad, plus a cooldown between views
    ===================================================================== */
 const notReady = () => { throw new Error('not_ready'); };
 const ADS = [
@@ -471,12 +512,22 @@ const ADS = [
   { key: 'adsbitvex', label: 'Ads 2', run: async () => { if (typeof window.showadsbitvex !== 'function') notReady(); await window.showadsbitvex(); } },
   { key: 'monetag',   label: 'Ads 3', run: async () => { if (typeof window.show_10541383 !== 'function') notReady(); await window.show_10541383(); } },
   { key: 'gigapub',   label: 'Ads 4', run: async () => { if (typeof window.showGiga !== 'function') notReady(); await window.showGiga('main'); } },
-  { key: 'adexora',   label: 'Ads 5', run: async () => { if (typeof window.showAdexora !== 'function') notReady(); await window.showAdexora(); } }
+  { key: 'onclicka',  label: 'Ads 5', run: async () => { const show = await initOnclicka(); await show(); } }
 ];
+let onclickaInit = null;
+function initOnclicka() {
+  if (onclickaInit) return onclickaInit;
+  if (typeof window.initCdTma !== 'function') return Promise.reject(new Error('not_ready'));
+  onclickaInit = window.initCdTma({ id: CONFIG.onclickaId }).then(show => { window.show = show; return show; }).catch(e => { onclickaInit = null; throw e; });
+  return onclickaInit;
+}
+const adCount = k => (S.user.adDay === today() ? (S.user.adToday || {})[k] || 0 : 0);
 const adLeft = k => Math.min(CONFIG.adCooldownSec, Math.max(0, Math.ceil((((S.user.adNext || {})[k] || 0) - Date.now()) / 1000)));
 
 async function watchAd(key) {
-  const a = ADS.find(x => x.key === key); if (!a || S.ui['ad_' + key] || adLeft(key) > 0) return;
+  const a = ADS.find(x => x.key === key); if (!a || S.ui['ad_' + key]) return;
+  if (adCount(key) >= CONFIG.adDailyLimit) return toastErr(`You have used all ${CONFIG.adDailyLimit} views of this ad today. Come back tomorrow.`);
+  if (adLeft(key) > 0) return;
   S.ui['ad_' + key] = true; renderEarn();
   try { await a.run(); }
   catch (e) {
@@ -486,25 +537,28 @@ async function watchAd(key) {
   }
   const res = await db.ref(P.user(S.uid)).transaction(u => {
     if (!u) return u;
-    const now = Date.now();
-    u.adNext = u.adNext || {}; u.ads = u.ads || {};
+    const now = Date.now(), d = today();
+    if (u.adDay !== d) { u.adDay = d; u.adToday = {}; }
+    u.adToday = u.adToday || {}; u.adNext = u.adNext || {};
+    if ((u.adToday[key] || 0) >= CONFIG.adDailyLimit) return;
     if ((u.adNext[key] || 0) - now > 3000) return;
     u.adNext[key] = now + CONFIG.adCooldownSec * 1000;
-    u.ads[key] = (u.ads[key] || 0) + 1;
+    u.adToday[key] = (u.adToday[key] || 0) + 1;
     applyIncome(u, CONFIG.adReward);
     return u;
   });
   S.ui['ad_' + key] = false;
   if (res.committed) { rewarded(CONFIG.adReward, 'Ad reward added'); checkReferral(res.snapshot.val()); }
-  else toastErr(`Please wait ${CONFIG.adCooldownSec} seconds before watching this ad again.`);
+  else toastErr('This ad is not available right now. Try again in a moment.');
   renderEarn();
 }
 function updateAdButtons() {
   $$('[data-adbtn]').forEach(b => {
     const k = b.dataset.adbtn; if (S.ui['ad_' + k]) return;
-    const left = adLeft(k), txt = left > 0 ? `Watch again in ${left}s` : 'Watch ad';
+    const full = adCount(k) >= CONFIG.adDailyLimit, left = adLeft(k);
+    const txt = full ? 'Daily limit reached' : left > 0 ? `Watch again in ${left}s` : 'Watch ad';
     if (b.__t !== txt) { b.textContent = txt; b.__t = txt; }
-    b.disabled = left > 0; b.classList.toggle('cool', left > 0);
+    b.disabled = full || left > 0; b.classList.toggle('cool', full || left > 0);
   });
 }
 setInterval(() => { if (S.tab === 'earn') updateAdButtons(); }, 500);
@@ -550,37 +604,60 @@ function checkUrl(type, raw) {
   return { ok: true, p };
 }
 
-/* Adult / pornographic content screening */
+/* Adult / pornographic content screening + trackability checks */
 const BAD_EN = /(^|[^a-z0-9])(porn\w*|pr0n|xxx+|sex\w*|nud(e|es|ity)|naked|nsfw|hentai|erotic\w*|escort\w*|onlyfans|18\s?\+|18plus|adult\s?(content|video|videos|chat|only|club|movies?)|cam\s?girls?|milf|blowjob|boobs?|fetish|bdsm|hookup|call\s?girls?|chudai)([^a-z0-9]|$)/i;
 const BAD_BN = /(পর্ন|সেক্স|নগ্ন|উলঙ্গ|চটি)/;
 const isBad = t => !!t && (BAD_EN.test(String(t).replace(/[_\-.]+/g, ' ')) || BAD_BN.test(String(t)));
 const HARAM_MSG = 'This is haram. Adult and pornographic content is not allowed on PMER, so this link cannot be promoted.';
+const botName = () => '@' + CONFIG.botLink.split('/').pop().split('?')[0];
 
 async function tgApi(method, qs) {
   const r = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/${method}?${qs}`);
   return r.json();
 }
-async function screenTarget(p, extra) {
-  const key = p.url + '|' + (extra || []).join('|');
-  if (S.screened[key]) return S.screened[key];
-  const texts = [p.chat || '', p.url].concat(extra || []);
-  let res = { ok: true };
-  if (CONFIG.botToken && p.kind !== 'bot' && !/^-100/.test(p.chat)) {
+// Checks that the chat exists and, for Join/Reaction, that PMER's bot is an admin there (otherwise nothing can be tracked).
+async function chatCheck(p, type) {
+  const ck = p.chat + '|' + type, c = S.chatCache[ck];
+  if (c && Date.now() - c.t < 60000) return c.v;
+  const needTrack = type === 'join' || type === 'reaction';
+  let v = { ok: true, texts: [] };
+  if (p.kind === 'bot') return v;
+  if (needTrack && !CONFIG.botToken && !CONFIG.verifyUrl) v = { ok: false, reason: 'notrack' };
+  else if (CONFIG.botToken) {
     try {
       const j = await tgApi('getChat', 'chat_id=' + encodeURIComponent(p.chat));
-      if (!j.ok) res = { ok: false, reason: 'notfound' };
-      else {
-        const c = j.result;
-        if (p.kind === 'channel' && c.type === 'private') res = { ok: false, reason: 'notchannel' };
-        texts.push(c.title || '', c.description || '', c.username || '');
+      if (!j.ok) {
+        if (needTrack) v = { ok: false, reason: /^-100/.test(p.chat) ? 'needadmin' : 'notfound' };
+        else if (!/^-100/.test(p.chat)) v = { ok: false, reason: 'notfound' };
+      } else {
+        const ch = j.result; v.chatType = ch.type; v.texts = [ch.title || '', ch.description || '', ch.username || ''];
+        if (type === 'join' && ch.type === 'private') v = { ok: false, reason: 'notchannel' };
+        else if (needTrack) {
+          if (!S.botId) { const me = await tgApi('getMe', ''); S.botId = me.ok ? me.result.id : null; }
+          const m = S.botId ? await tgApi('getChatMember', `chat_id=${encodeURIComponent(p.chat)}&user_id=${S.botId}`) : { ok: false };
+          if (!m.ok || !['administrator', 'creator'].includes(m.result.status)) v = { ok: false, reason: 'needadmin' };
+        }
       }
-    } catch (e) { /* offline: fall back to text checks */ }
+    } catch (e) { v = { ok: false, reason: 'offline' }; }
   }
-  if (res.ok && texts.some(isBad)) res = { ok: false, reason: 'adult' };
-  if (res.reason === 'adult') { try { db.ref('pn/flags').push().set({ uid: S.uid, url: p.url, createdAt: TS }); } catch (e) {} }
-  S.screened[key] = res; return res;
+  if (v.ok) S.chatCache[ck] = { t: Date.now(), v };
+  return v;
 }
-const blockText = r => r === 'adult' ? HARAM_MSG : r === 'notfound' ? 'We could not find this channel or group. Check the link and try again.' : 'This link is a person, not a channel or group. Use a public channel or group link.';
+async function screenTarget(p, extra, type) {
+  const cc = await chatCheck(p, type);
+  if (!cc.ok) return cc;
+  const texts = [p.chat || '', p.url].concat(cc.texts || [], extra || []);
+  if (texts.some(isBad)) { try { db.ref('pn/flags').push().set({ uid: S.uid, url: p.url, createdAt: TS }); } catch (e) {} return { ok: false, reason: 'adult' }; }
+  return { ok: true, chatType: cc.chatType };
+}
+const blockText = r => ({
+  adult: HARAM_MSG,
+  notfound: 'We could not find this channel or group. Check the link and try again.',
+  notchannel: 'This link is a person, not a channel or group. Use a public channel or group link.',
+  needadmin: `Add ${botName()} as an admin of this channel or group first. PMER needs it to check who really joined or reacted.`,
+  notrack: 'Join and Reaction campaigns are not available right now because tracking is not set up. Please contact support.',
+  offline: 'Could not check this link right now. Check your connection and try again.'
+}[r] || 'This link cannot be promoted.');
 function showBlock(msg) { const b = $('#blockBox'); if (!b) return; const uh = $('#urlHint'); if (uh) uh.hidden = true; b.textContent = msg; b.hidden = false; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); hap('error'); }
 
 /* =====================================================================
@@ -653,12 +730,16 @@ async function claimTask(task) {
    Tasks page
    ===================================================================== */
 const liveTasks = () => Object.entries(S.tasks).map(([id, t]) => ({ id, ...t })).filter(t => t.status === 'live' && t.remaining > 0 && CAT[t.type]);
-const availableTasks = () => liveTasks().filter(t => t.owner !== S.uid && !(S.user.done && S.user.done[t.id]));
-const listTasks = () => liveTasks().filter(t => t.owner === S.uid || !(S.user.done && S.user.done[t.id]));
+const subOf = id => (S.user.submitted || {})[id];
+const isMine = t => t.owner === S.uid;
+const notDone = t => !(S.user.done && S.user.done[t.id]) && !subOf(t.id);
+const availableTasks = () => liveTasks().filter(t => !isMine(t) && notDone(t));
+const listTasks = () => liveTasks().filter(t => isMine(t) || notDone(t));
+const pendingTasks = () => Object.entries(S.user.submitted || {}).filter(([, st]) => st === 'pending').map(([id]) => ({ id, ...(S.tasks[id] || {}) }));
 
 function taskCard(t) {
   const c = CAT[t.type], st = S.ui[t.id] || {};
-  if (t.owner === S.uid) {
+  if (isMine(t)) {
     const done = (t.total || 0) - (t.remaining || 0), pct = t.total ? done / t.total * 100 : 0;
     return `<article class="card" data-card="${t.id}">
       <div class="row"><span class="tbadge t-${t.type}">${ico(c.icon)}</span>
@@ -668,37 +749,62 @@ function taskCard(t) {
       <div class="row" style="justify-content:space-between;font-size:13px"><span class="mut">${fmt(done)} of ${fmt(t.total)} users</span><span class="mut">${fmt(t.remaining)} left</span></div></article>`;
   }
   const busy = '<span class="spin"></span>';
-  let acts = '';
+  let acts = '', wrap = 'actions';
   const vbtn = `<button class="btn btn-soft" data-act="verify" data-id="${t.id}" ${st.busy ? 'disabled' : ''}>${st.busy ? busy : st.failed ? 'Try again' : 'Verify'}</button>`;
   if (t.type === 'join') acts = `<button class="btn btn-primary" data-act="open" data-id="${t.id}">Join</button>${vbtn}`;
   if (t.type === 'reaction') acts = `<button class="btn btn-primary" data-act="open" data-id="${t.id}">Open post</button>${vbtn}`;
   if (t.type === 'view') acts = `<button class="btn btn-primary btn-block" data-act="view" data-id="${t.id}" data-vbtn="${t.id}" ${st.busy ? 'disabled' : ''}>${st.failed ? 'Try again' : 'View'}</button>`;
-  if (t.type === 'conditions') acts = `<button class="btn btn-primary" data-act="cond-open" data-id="${t.id}">Open bot</button><button class="btn btn-soft" data-act="cond-verify" data-id="${t.id}" ${st.busy ? 'disabled' : ''}>${st.failed ? 'Try again' : 'Verify'}</button>`;
+  if (t.type === 'conditions') {
+    wrap = 'stack';
+    const un = st.uname !== undefined ? st.uname : (S.user.username ? '@' + S.user.username : '');
+    acts = `<button class="btn btn-primary btn-block" data-act="cond-open" data-id="${t.id}">Open bot</button>
+      <div class="field sub"><label for="u-${t.id}">Submit your username</label><input id="u-${t.id}" class="input" data-uname="${t.id}" maxlength="40" autocomplete="off" autocapitalize="off" placeholder="Your username in the bot" value="${esc(un)}"><div class="hint">Finish the steps in the bot, then submit the username you used there.</div></div>
+      <button class="btn btn-soft btn-block" data-act="cond-submit" data-id="${t.id}" ${st.busy ? 'disabled' : ''}>${st.busy ? busy : st.failed ? 'Try again' : 'Submit for review'}</button>`;
+  }
   const steps = t.type === 'conditions' && t.steps ? `<ol class="steps">${t.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : '';
   return `<article class="card" data-card="${t.id}">
     <div class="row"><span class="tbadge t-${t.type}">${ico(c.icon)}</span>
       <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}, ${fmt(t.remaining)} spots left</p></div>
       <span class="reward">${coin()}+${fmt(t.perUser)}</span></div>
-    ${steps}<div class="actions">${acts}</div></article>`;
+    ${steps}<div class="${wrap}">${acts}</div></article>`;
+}
+function pendingCard(t) {
+  const at = (S.user.subAt || {})[t.id] || 0, ms = at ? at + CONFIG.reviewHours * 3600000 - Date.now() : 0;
+  return `<article class="card"><div class="row"><span class="tbadge t-conditions">${ico('shieldok')}</span>
+    <div class="grow"><h3>${esc(t.title || 'Task')}</h3><p class="meta">Waiting for the advertiser${ms > 0 ? `, auto-approved in ${fmtLeft(ms)}` : ''}</p></div>
+    <span class="reward">${coin()}+${fmt(t.perUser)}</span></div></article>`;
 }
 
 function renderTasks() {
   if (S.tab !== 'tasks') return;
-  const all = listTasks();
-  const n = k => k === 'all' ? all.length : all.filter(t => t.type === k).length;
-  const list = (S.filter === 'all' ? all : all.filter(t => t.type === S.filter)).sort((a, b) => b.perUser - a.perUser || (a.createdAt || 0) - (b.createdAt || 0));
-  const chips = [['all', 'All'], ['join', 'Join'], ['reaction', 'Reaction'], ['view', 'View'], ['conditions', 'With conditions']]
+  const ae = document.activeElement;
+  if (ae && ae.matches && ae.matches('[data-uname]')) { S.taskDirty = true; return; }
+  const all = listTasks(), pend = pendingTasks();
+  const n = k => k === 'all' ? all.length : k === 'pending' ? pend.length : all.filter(t => t.type === k).length;
+  const list = S.filter === 'pending' ? pend : (S.filter === 'all' ? all : all.filter(t => t.type === S.filter)).sort((a, b) => b.perUser - a.perUser || (a.createdAt || 0) - (b.createdAt || 0));
+  const chips = [['all', 'All'], ['join', 'Join'], ['reaction', 'Reaction'], ['view', 'View'], ['conditions', 'With conditions'], ['pending', 'Pending']]
     .map(([k, l]) => `<button class="chip ${S.filter === k ? 'on' : ''}" data-act="filter" data-k="${k}">${l}<em>${n(k)}</em></button>`).join('');
-  setHTML($('#p-tasks'), `<h1>Tasks</h1><p class="sub">Finish a quick task and the JR lands in your balance right away. Highest rewards come first.</p>
+  setHTML($('#p-tasks'), `<h1>Tasks</h1><p class="sub">Finish a quick task and the JR lands in your balance. Highest rewards come first.</p>
     <div class="chips" role="tablist">${chips}</div>
-    <div class="list">${list.length ? list.map(taskCard).join('') : `<div class="empty">${ico('tasks')}<b>No tasks here right now</b><span>New tasks appear as soon as advertisers publish them. Watch an ad in the meantime.</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
+    <div class="list">${list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit to advertisers show up here until they are approved.' : 'New tasks appear as soon as advertisers publish them. Watch an ad in the meantime.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
 }
+document.addEventListener('focusout', e => { if (e.target.matches && e.target.matches('[data-uname]') && S.taskDirty) { S.taskDirty = false; setTimeout(renderTasks, 350); } });
 
 function setTaskUi(id, patch) { S.ui[id] = Object.assign(S.ui[id] || {}, patch); renderTasks(); }
 const taskById = id => S.tasks[id] ? { id, ...S.tasks[id] } : null;
 
 async function doVerify(id) {
   const t = taskById(id); if (!t) return;
+  if (t.type === 'reaction' && t.track === 'timer') {
+    const o = S.ui[id] && S.ui[id].opened;
+    if (!o || Date.now() - o < CONFIG.reactionSeconds * 1000) {
+      setTaskUi(id, { failed: true });
+      return toastErr(o ? `React to the post and stay on it for ${CONFIG.reactionSeconds} seconds, then tap Try again.` : 'Open the post and react first.');
+    }
+    setTaskUi(id, { busy: true, failed: false });
+    await claimTask(t);
+    return setTaskUi(id, { busy: false });
+  }
   setTaskUi(id, { busy: true });
   let ok = false;
   try { ok = await verifyRemote(t); }
@@ -750,18 +856,89 @@ function onReturn() {
 document.addEventListener('visibilitychange', () => document.hidden ? markLeft() : onReturn());
 try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', onReturn); } catch (e) {}
 
-/* With-conditions task */
+/* With-conditions task: user submits a username, the advertiser approves (auto-approved after reviewHours) */
 function condOpen(id) { const t = taskById(id); if (!t) return; S.ui[id] = Object.assign(S.ui[id] || {}, { opened: Date.now() }); openLink(t.url); }
-async function condVerify(id) {
+
+async function condSubmit(id) {
   const t = taskById(id); if (!t) return;
-  const o = S.ui[id] && S.ui[id].opened;
+  const st = S.ui[id] || {}, o = st.opened;
+  const un = (st.uname !== undefined ? st.uname : (S.user.username ? '@' + S.user.username : '')).trim();
   if (!o || Date.now() - o < CONFIG.conditionSeconds * 1000) {
     setTaskUi(id, { failed: true });
     return toastErr(o ? 'Finish all the steps in the bot first, then tap Try again.' : 'Open the bot and follow the steps first.');
   }
-  setTaskUi(id, { failed: false, busy: true });
-  await claimTask(t);
+  if (un.length < 3) return toastErr('Enter the username you used in the bot.');
+  setTaskUi(id, { busy: true, failed: false });
+  const mark = await db.ref(P.user(S.uid)).transaction(u => {
+    if (!u) return u;
+    u.submitted = u.submitted || {}; u.subAt = u.subAt || {};
+    if (u.submitted[id] || (u.done && u.done[id])) return;
+    u.submitted[id] = 'pending'; u.subAt[id] = Date.now(); return u;
+  });
+  if (!mark.committed) { setTaskUi(id, { busy: false }); return toastErr('You already submitted this task.'); }
+  const remRef = db.ref(P.task(id) + '/remaining');
+  const slot = await remRef.transaction(r => { if (r === null) return null; return r > 0 ? r - 1 : undefined; });
+  if (!slot.committed || slot.snapshot.val() === null) {
+    await db.ref(P.user(S.uid)).transaction(u => { if (u && u.submitted) { delete u.submitted[id]; if (u.subAt) delete u.subAt[id]; } return u; });
+    setTaskUi(id, { busy: false }); return toastErr('This task is full. Try another one.');
+  }
+  const key = `${id}_${S.uid}`;
+  await db.ref(`pn/pending/${t.owner}/${key}`).set({ status: 'pending', taskId: id, uid: S.uid, name: S.user.name || '', tgUser: S.user.username || '', submitted: un, perUser: t.perUser, title: t.title, createdAt: TS });
+  await db.ref(`pn/pendingAll/${key}`).set({ owner: t.owner, createdAt: TS });
   setTaskUi(id, { busy: false });
+  hap('success'); toast(`Submitted. The advertiser reviews it within ${CONFIG.reviewHours} hours.`);
+}
+
+// Approve or reject one pending request. Safe to call from any client: only the first caller wins.
+async function resolveReview(owner, key, approve) {
+  const ref = db.ref(`pn/pending/${owner}/${key}`);
+  const tx = await ref.transaction(cur => { if (cur === null) return cur; if (cur.status !== 'pending') return; cur.status = 'resolving'; return cur; });
+  const v = tx.committed ? tx.snapshot.val() : null;
+  if (!v || v.status !== 'resolving') return false;
+  if (approve) {
+    await db.ref(P.user(v.uid)).transaction(u => {
+      if (!u) return u;
+      u.submitted = u.submitted || {}; u.done = u.done || {};
+      u.done[v.taskId] = true; u.submitted[v.taskId] = 'approved'; applyIncome(u, v.perUser); return u;
+    });
+  } else {
+    await db.ref(P.user(v.uid)).transaction(u => { if (!u) return u; u.submitted = u.submitted || {}; u.submitted[v.taskId] = 'rejected'; return u; });
+    await db.ref(P.task(v.taskId) + '/remaining').transaction(r => (r || 0) + 1);
+    await db.ref(P.task(v.taskId) + '/status').set('live');
+  }
+  await ref.remove(); await db.ref('pn/pendingAll/' + key).remove();
+  return true;
+}
+async function sweepPending() {
+  if (!S.uid) return;
+  try {
+    const cutoff = Date.now() - CONFIG.reviewHours * 3600000;
+    const snap = await db.ref('pn/pendingAll').orderByChild('createdAt').endAt(cutoff).limitToFirst(20).once('value');
+    for (const [key, v] of Object.entries(snap.val() || {})) await resolveReview(v.owner, key, true);
+  } catch (e) { console.warn('sweep', e); }
+}
+function notifySubmissions(u) {
+  const cur = u.submitted || {}, prev = S.prevSub;
+  if (prev) for (const [id, st] of Object.entries(cur)) {
+    if (prev[id] === 'pending' && st !== 'pending') {
+      const t = S.tasks[id] || {};
+      if (st === 'approved') rewarded(t.perUser || 0, 'Submission approved'); else toastErr(`Your submission "${t.title || 'task'}" was rejected.`);
+    }
+  }
+  S.prevSub = Object.assign({}, cur);
+}
+function openPendingSheet(id) {
+  const t = taskById(id); if (!t) return;
+  const items = Object.entries(S.pending || {}).filter(([, v]) => v.taskId === id).sort((a, b) => (a[1].createdAt || 0) - (b[1].createdAt || 0));
+  const left = v => fmtLeft((v.createdAt || Date.now()) + CONFIG.reviewHours * 3600000 - Date.now());
+  openSheet(`<h2>Pending requests</h2><p class="lead">${esc(t.title)}. Approve users who finished the steps. Requests you do not answer within ${CONFIG.reviewHours} hours are approved automatically and the user gets ${fmt(t.perUser)} JR.</p>
+    ${items.length ? items.map(([k, v]) => `<div class="req" data-k="${esc(k)}"><div class="grow"><b>${esc(v.submitted)}</b><small>${esc(v.name || 'User')}${v.tgUser ? ' (@' + esc(v.tgUser) + ')' : ''}, ${left(v)} left</small></div><button class="btn btn-soft btn-sm" data-r="reject">Reject</button><button class="btn btn-primary btn-sm" data-r="approve">Approve</button></div>`).join('') : `<div class="empty"><b>No pending requests</b><span>New submissions from users appear here.</span></div>`}`, b => {
+    $$('.req', b).forEach(row => $$('[data-r]', row).forEach(btn => btn.onclick = async () => {
+      $$('[data-r]', row).forEach(x => x.disabled = true);
+      const ok = await resolveReview(S.uid, row.dataset.k, btn.dataset.r === 'approve');
+      if (ok) { row.remove(); toast(btn.dataset.r === 'approve' ? 'Approved. The user received the JR.' : 'Rejected.'); hap('success'); } else { toastErr('This request was already handled.'); row.remove(); }
+    }));
+  });
 }
 
 /* =====================================================================
@@ -769,18 +946,18 @@ async function condVerify(id) {
    ===================================================================== */
 function renderEarn() {
   if (S.tab !== 'earn') return;
-  const td = S.user.today && S.user.today.d === new Date().toLocaleDateString('en-CA') ? S.user.today.a : 0;
+  const td = S.user.today && S.user.today.d === today() ? S.user.today.a : 0, L = CONFIG.adDailyLimit;
   const cards = ADS.map(a => {
-    const n = (S.user.ads || {})[a.key] || 0, busy = S.ui['ad_' + a.key], left = adLeft(a.key);
+    const n = adCount(a.key), busy = S.ui['ad_' + a.key], left = adLeft(a.key), full = n >= L;
     return `<article class="card">
       <div class="row"><span class="tbadge t-ads">${ico('play')}</span>
-        <div class="grow"><h3>${a.label}</h3><p class="meta">${n ? `Watched ${fmt(n)} time${n === 1 ? '' : 's'}` : 'Ready to watch'}</p></div>
+        <div class="grow"><h3>${a.label}</h3><p class="meta">${n} of ${L} watched today</p></div>
         <span class="reward">${coin()}+${fmt(CONFIG.adReward)}</span></div>
-      <div class="gap"></div>
-      <button class="btn btn-primary btn-block ${left > 0 && !busy ? 'cool' : ''}" data-act="watch" data-key="${a.key}" data-adbtn="${a.key}" ${left > 0 || busy ? 'disabled' : ''}>${busy ? '<span class="spin"></span> Loading ad' : left > 0 ? `Watch again in ${left}s` : 'Watch ad'}</button>
+      <div class="bar"><i style="width:${Math.min(100, n / L * 100)}%"></i></div>
+      <button class="btn btn-primary btn-block ${(full || left > 0) && !busy ? 'cool' : ''}" data-act="watch" data-key="${a.key}" data-adbtn="${a.key}" ${full || left > 0 || busy ? 'disabled' : ''}>${busy ? '<span class="spin"></span> Loading ad' : full ? 'Daily limit reached' : left > 0 ? `Watch again in ${left}s` : 'Watch ad'}</button>
     </article>`;
   }).join('');
-  setHTML($('#p-earn'), `<h1>Earn</h1><p class="sub">Watch an ad and earn ${fmt(CONFIG.adReward)} JR each time. There is no daily limit, every ad is ready again after ${CONFIG.adCooldownSec} seconds. You have earned ${fmt(td)} JR today.</p><div class="list">${cards}</div>`);
+  setHTML($('#p-earn'), `<h1>Earn</h1><p class="sub">Watch an ad and earn ${fmt(CONFIG.adReward)} JR each time. Every ad can be watched ${L} times a day, with a ${CONFIG.adCooldownSec} second wait between views. You have earned ${fmt(td)} JR today.</p><div class="list">${cards}</div>`);
   updateAdButtons();
 }
 
@@ -794,7 +971,7 @@ function countUp(el, from, to) {
 }
 function renderHome() {
   if (S.tab !== 'home') return;
-  const u = S.user, refs = Object.keys(u.referrals || {}).length, td = u.today && u.today.d === new Date().toLocaleDateString('en-CA') ? u.today.a : 0;
+  const u = S.user, refs = Object.keys(u.referrals || {}).length, td = u.today && u.today.d === today() ? u.today.a : 0;
   setHTML($('#p-home'), `
     <header class="topbar"><div class="brand"><span class="logo">${logoHTML()}</span>PMER</div><button class="icon-btn" data-sheet="support" aria-label="Support">${ico('help')}</button></header>
     <section class="hero" id="hero">
@@ -834,14 +1011,16 @@ function renderPromote() {
 
 function renderMine() {
   const el = $('#promoBody'); if (!el) return;
-  const mine = myTasks();
+  const mine = myTasks(), pend = Object.values(S.pending || {});
   setHTML(el, mine.length ? `<div class="list">${mine.map(t => {
     const c = CAT[t.type] || CAT.join, done = (t.total || 0) - (t.remaining || 0), pct = t.total ? done / t.total * 100 : 0;
+    const pc = t.type === 'conditions' ? pend.filter(v => v.taskId === t.id).length : 0;
     return `<article class="card"><div class="row"><span class="tbadge t-${t.type}">${ico(c.icon)}</span>
-      <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}, ${fmt(t.perUser)} JR per user</p></div>
+      <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}${t.track === 'timer' ? ' (time check)' : ''}, ${fmt(t.perUser)} JR per user</p></div>
       <span class="pill ${t.status === 'live' ? 'ok' : 'mut'}">${t.status === 'live' ? 'Live' : 'Completed'}</span></div>
       <div class="bar"><i style="width:${pct}%"></i></div>
-      <div class="row" style="justify-content:space-between;font-size:13px"><span class="mut">${fmt(done)} of ${fmt(t.total)} users</span><span class="mut">${fmt(done * t.perUser)} JR spent</span></div></article>`;
+      <div class="row" style="justify-content:space-between;font-size:13px"><span class="mut">${fmt(done)} of ${fmt(t.total)} users</span><span class="mut">${fmt(done * t.perUser)} JR spent</span></div>
+      ${t.type === 'conditions' ? `<button class="btn btn-soft btn-block" style="margin-top:12px" data-act="pending" data-id="${t.id}">Pending requests<span class="badge">${pc}</span></button>` : ''}</article>`;
   }).join('')}</div>` : `<div class="empty">${ico('mega')}<b>No campaigns yet</b><span>Create your first campaign and start getting users.</span><button class="btn btn-primary" data-act="promo-tab" data-k="new">Create campaign</button></div>`);
 }
 
@@ -863,7 +1042,7 @@ function renderWizard() {
       <div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>`;
   } else {
     body = `<div class="alert" id="blockBox" hidden></div>
-      <div class="field"><label for="wPer">Reward per user <span>Minimum ${fmt(CONFIG.minReward[w.type])} JR</span></label><input id="wPer" class="input" data-wiz="perUser" inputmode="numeric" placeholder="${CONFIG.minReward[w.type]}" value="${esc(w.perUser)}"><div class="hint" id="perHint"></div></div>
+      ${w.timer ? `<div class="note">Telegram hides who reacts to channel posts, so PMER cannot verify these reactions. Users are paid after they open the post, react, and stay for ${CONFIG.reactionSeconds} seconds.</div>` : ''}<div class="field"><label for="wPer">Reward per user <span>Minimum ${fmt(CONFIG.minReward[w.type])} JR</span></label><input id="wPer" class="input" data-wiz="perUser" inputmode="numeric" placeholder="${CONFIG.minReward[w.type]}" value="${esc(w.perUser)}"><div class="hint" id="perHint"></div></div>
       <div class="field"><label for="wUsers">Users needed <span>Minimum ${CONFIG.minUsers}</span></label><input id="wUsers" class="input" data-wiz="users" inputmode="numeric" placeholder="${CONFIG.minUsers}" value="${esc(w.users)}"><div class="hint" id="usersHint"></div></div>
       <div class="sum"><div><span class="mut">Total cost</span><span id="sCost">0 JR</span></div><div><span class="mut">Your balance</span><span id="sBal">0 JR</span></div><div><span id="sLbl">Balance after publishing</span><span id="sAfter">0 JR</span></div></div>
       <div class="alert" id="fundHint" hidden></div>
@@ -914,14 +1093,14 @@ async function publish() {
   if (per < CONFIG.minReward[w.type] || users < CONFIG.minUsers) return;
   if (cost > (S.user.balance || 0)) { toastErr('You have not enough balance'); btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return updateWiz(); }
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
-  const scr = await screenTarget(r.p, [w.title].concat(w.type === 'conditions' ? w.steps : []));
+  const scr = await screenTarget(r.p, [w.title].concat(w.type === 'conditions' ? w.steps : []), w.type);
   if (!scr.ok) { showBlock(blockText(scr.reason)); btn.textContent = 'Publish campaign'; return updateWiz(); }
   btn.innerHTML = '<span class="spin"></span> Publishing';
   const tx = await db.ref(P.user(S.uid)).transaction(u => { if (!u || (u.balance || 0) < cost) return; u.balance -= cost; u.spent = (u.spent || 0) + cost; return u; });
   if (!tx.committed) { toastErr('You have not enough balance'); btn.textContent = 'Publish campaign'; return updateWiz(); }
   try {
     await db.ref(P.tasks).push().set({
-      type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat, msgId: r.p.msgId || null,
+      type: w.type, track: (w.type === 'reaction' && scr.chatType === 'channel') ? 'timer' : 'bot', title: w.title.trim(), url: r.p.url, chat: r.p.chat, msgId: r.p.msgId || null,
       steps: w.type === 'conditions' ? w.steps.map(s => s.trim()) : null,
       perUser: per, total: users, remaining: users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS
     });
@@ -940,8 +1119,9 @@ async function wizNext() {
   if (w.step === 1) {
     const r = checkUrl(w.type, w.url); if (!r.ok) return;
     btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking link';
-    const scr = await screenTarget(r.p, []);
+    const scr = await screenTarget(r.p, [], w.type);
     if (!scr.ok) { showBlock(blockText(scr.reason)); btn.textContent = 'Continue'; return updateWiz(); }
+    w.timer = w.type === 'reaction' && scr.chatType === 'channel';
   } else if (w.step === 2) {
     if (isBad(w.title) || (w.type === 'conditions' && w.steps.some(isBad))) return showBlock(HARAM_MSG);
   }
@@ -989,21 +1169,24 @@ const SHEETS = {
   },
 
   deposit: () => {
-    const M = CONFIG.withdraw.methods; let usd = 5, method = M[0];
-    const html = () => `<h2>Deposit</h2><p class="lead">Choose an amount. Your balance is credited after we confirm the payment.</p>
-      <div class="opts">${[1, 5, 10, 25].map(v => `<button class="opt ${usd === v ? 'on' : ''}" data-d="usd" data-v="${v}">$${v}</button>`).join('')}</div>
-      ${M.length > 1 ? `<div class="opts">${M.map(m => `<button class="opt ${method === m ? 'on' : ''}" data-d="method" data-v="${m}">${m}</button>`).join('')}</div>` : ''}
-      <div class="kv"><div><span class="mut">Method</span><b>${method}</b></div><div><span class="mut">You receive</span><b>${fmt(usd * CONFIG.jrPerUsd)} JR</b></div>${CONFIG.depositInfo[method] ? `<div><span class="mut">Send to</span><b>${esc(CONFIG.depositInfo[method])}</b></div>` : ''}</div>
-      <button class="btn btn-primary btn-block" id="depGo">I have paid, submit request</button>`;
+    const D = CONFIG.deposit; let pick = 1, page = 1, logged = false;
     const draw = b => {
-      b.innerHTML = html();
-      $$('[data-d]', b).forEach(x => x.onclick = () => { if (x.dataset.d === 'usd') usd = +x.dataset.v; else method = x.dataset.v; draw(b); });
-      $('#depGo', b).onclick = async () => {
-        const g = $('#depGo', b); g.disabled = true;
-        try {
-          await db.ref('pn/deposits').push().set({ uid: S.uid, name: S.user.name || '', usd, jr: usd * CONFIG.jrPerUsd, method, status: 'pending', createdAt: TS });
-          b.innerHTML = `<h2>Request sent</h2><p class="lead">Send your payment proof to support so we can credit ${fmt(usd * CONFIG.jrPerUsd)} JR to your balance.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Send proof to support</button>`;
-        } catch (e) { g.disabled = false; toastErr('Could not send the request. Try again.'); }
+      const pk = D.packages[pick];
+      b.innerHTML = page === 1
+        ? `<h2>Deposit</h2><p class="lead">Choose a package. You pay in USD with Binance.</p>
+          <div class="pkgs">${D.packages.map((x, i) => `<button class="pkg ${i === pick ? 'on' : ''}" data-i="${i}"><b>$${x.usd}</b><span>${coin()}${fmt(x.jr)} JR</span></button>`).join('')}</div>
+          <button class="btn btn-primary btn-block" id="depNext">Next</button>`
+        : `<h2>Pay $${pk.usd}</h2><p class="lead">You receive ${fmt(pk.jr)} JR after the admin confirms your payment.</p>
+          <div class="linkbox"><div class="grow"><small class="mut">Binance UID</small><div style="font:800 21px 'Sora',sans-serif;letter-spacing:.04em">${esc(D.uid)}</div></div><button class="btn btn-soft btn-sm" data-copy="${esc(D.uid)}">${ico('copy', 'sm')} Copy</button></div>
+          <ol class="steps"><li>Open Binance and pay $${pk.usd} to the Binance UID above.</li><li>Take a screenshot of the payment and copy the Order ID.</li><li>Send the screenshot and the Order ID to the admin.</li></ol>
+          <div class="gap"></div><button class="btn btn-primary btn-block" id="depAdmin">${ico('send', 'sm')} Send to admin</button>
+          <div class="gap"></div><button class="btn btn-line btn-block" id="depBack">Back</button>`;
+      $$('.pkg', b).forEach(x => x.onclick = () => { pick = +x.dataset.i; draw(b); });
+      const nx = $('#depNext', b); if (nx) nx.onclick = () => { page = 2; draw(b); };
+      const bk = $('#depBack', b); if (bk) bk.onclick = () => { page = 1; draw(b); };
+      const ad = $('#depAdmin', b); if (ad) ad.onclick = async () => {
+        if (!logged) { logged = true; try { await db.ref('pn/deposits').push().set({ uid: S.uid, name: S.user.name || '', usd: pk.usd, jr: pk.jr, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {} }
+        openLink(CONFIG.supportLink);
       };
     };
     openSheet('', draw);
@@ -1052,13 +1235,13 @@ const SHEETS = {
   privacy: () => openSheet(`<h2>Privacy policy</h2>
     <h4>What we collect</h4><p class="doc">Your Telegram ID, name, username and profile photo as provided by Telegram, plus your balance, completed tasks, campaigns, deposit requests and withdrawal requests.</p>
     <h4>How we use it</h4><p class="doc">To run PMER, credit rewards, show your campaigns, review payments and withdrawals, prevent fraud and answer support requests.</p>
-    <h4>Ads</h4><p class="doc">Ads are delivered by third-party networks such as Adsgram, Adsbitvex, Monetag, Giga Pub and Adexora. They may collect device and ad-interaction data under their own privacy policies.</p>
+    <h4>Ads</h4><p class="doc">Ads are delivered by third-party networks such as Adsgram, Adsbitvex, Monetag, Giga Pub and OnClickA. They may collect device and ad-interaction data under their own privacy policies.</p>
     <h4>Sharing</h4><p class="doc">We do not sell your personal data. Campaign owners only see totals for their campaigns, not who completed them.</p>
     <h4>Your choices</h4><p class="doc">You can ask support to delete your account data at any time. Some payment records may be kept as required for fraud prevention.</p>`),
 
   terms: () => openSheet(`<h2>Terms and conditions</h2>
     <h4>Using PMER</h4><p class="doc">You need a Telegram account. One person may use one account. Do not use bots, scripts, VPN farms or multiple accounts to collect rewards.</p>
-    <h4>Rewards</h4><p class="doc">Rewards are added after a task is completed and verified. We may remove rewards and block accounts that show fake or abusive activity.</p>
+    <h4>Rewards</h4><p class="doc">Rewards are added after a task is completed and verified. With conditions tasks are reviewed by the advertiser and approved automatically after ${CONFIG.reviewHours} hours if not reviewed. We may remove rewards and block accounts that show fake or abusive activity.</p>
     <h4>Campaigns</h4><p class="doc">Campaigns must follow the law and Telegram rules. Every link is checked before it goes live. Adult and pornographic content is haram and strictly forbidden, along with scams, hate and illegal offers. Such links are rejected and the account may be blocked. The full campaign budget is reserved when you publish and is paid out as users complete the task.</p>
     <h4>Balance and withdrawals</h4><p class="doc">JR is a reward balance inside PMER. Withdrawals are paid to Binance only, need at least ${fmt(CONFIG.withdraw.min)} JR ($${jrToUsd(CONFIG.withdraw.min)}), are reviewed manually and include a service fee.</p>
     <h4>Changes</h4><p class="doc">We may update rewards, limits and these terms. Continuing to use PMER means you accept the changes.</p>`)
@@ -1090,11 +1273,12 @@ function go(tab) {
 const ACT = {
   watch: b => watchAd(b.dataset.key),
   filter: b => { S.filter = b.dataset.k; renderTasks(); },
-  open: b => { const t = taskById(b.dataset.id); if (t) openLink(t.url); },
+  open: b => { const t = taskById(b.dataset.id); if (!t) return; S.ui[t.id] = Object.assign(S.ui[t.id] || {}, { opened: Date.now() }); openLink(t.url); },
   verify: b => doVerify(b.dataset.id),
   view: b => startView(b.dataset.id),
   'cond-open': b => condOpen(b.dataset.id),
-  'cond-verify': b => condVerify(b.dataset.id),
+  'cond-submit': b => condSubmit(b.dataset.id),
+  pending: b => openPendingSheet(b.dataset.id),
   'promo-tab': b => { S.promoTab = b.dataset.k; renderPromote(); },
   'wiz-cat': b => { S.wiz.type = b.dataset.k; S.wiz.url = ''; S.wiz.perUser = ''; renderWizard(); },
   'wiz-next': () => wizNext(),
@@ -1115,6 +1299,8 @@ document.addEventListener('click', e => {
   }
 });
 document.addEventListener('input', e => {
+  const un = e.target.closest && e.target.closest('[data-uname]');
+  if (un) { const id = un.dataset.uname; S.ui[id] = Object.assign(S.ui[id] || {}, { uname: un.value }); return; }
   const el = e.target.closest('[data-wiz]'); if (!el) return;
   const w = S.wiz, k = el.dataset.wiz;
   if (k === 'step') w.steps[+el.dataset.i] = el.value;
@@ -1148,7 +1334,10 @@ async function boot() {
   if (!tu) { $('#splash').hidden = true; $('#gate').hidden = false; return; }
   S.uid = String(tu.id);
   try { await ensureUser(tu); } catch (e) { console.error(e); }
-  db.ref(P.user(S.uid)).on('value', s => { S.user = s.val() || {}; render(); });
+  let firstUser = true;
+  db.ref(P.user(S.uid)).on('value', s => { const u = s.val() || {}; notifySubmissions(u); S.user = u; render(); if (firstUser) { firstUser = false; checkReferral(u); } });
+  db.ref('pn/pending/' + S.uid).on('value', s => { S.pending = s.val() || {}; if (S.tab === 'promote' && S.promoTab === 'mine') renderMine(); });
+  sweepPending(); setInterval(sweepPending, 60000);
   db.ref(P.tasks).limitToLast(300).on('value', s => { S.tasks = s.val() || {}; render(); });
   $('#app').hidden = false; $('#nav').hidden = false;
   go('home');

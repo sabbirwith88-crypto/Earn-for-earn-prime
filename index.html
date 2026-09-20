@@ -348,7 +348,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 const CONFIG = {
   appName: 'PMER',
   logo: '',                     // your logo: paste an image URL or a data:image/... string here
-  adReward: 1100,               // JR per completed ad
+  adReward: 1000,               // JR per completed ad
   adDailyLimit: 5,              // how many times each ad can be watched per day
   adCooldownSec: 60,            // an ad can be watched again after this many seconds
   adsgramBlockId: '30645',
@@ -356,8 +356,8 @@ const CONFIG = {
   minReward: { join: 1000, reaction: 700, view: 500, conditions: 2500 }, // minimum JR per user
   minUsers: 20,                 // minimum users for a campaign
   titleMin: 5, titleMax: 25,
-  viewSeconds: 5,               // View task: user must stay away from the app this long
-  reactionSeconds: 8,           // Reaction on channel posts (Telegram hides who reacted): user must open the post, react and stay this long
+  viewSeconds: 2,               // View task: user must stay on the post this long, then come back
+  reactionSeconds: 6,           // Reaction task: user opens the post, reacts and stays this long, then comes back
   conditionSeconds: 10,         // With-conditions task: minimum time between opening the bot and submitting
   reviewHours: 24,              // With-conditions requests are approved automatically after this many hours
   referral: { bonus: 15000, afterTasks: 20 },
@@ -369,7 +369,7 @@ const CONFIG = {
   // Join / Reaction / link checking. Paste your bot token (from @BotFather) here. Make the bot an admin of every
   // channel that runs Join or Reaction campaigns. NOTE: anything in this file can be read by users, so keep the
   // token only if you accept that risk, or deploy the Worker at the bottom of this file and use verifyUrl instead.
-  botToken: '',
+  botToken: '8900908750:AAFs1ORXDg_7C_YRbWM-6lxpJeeljNeKWC0',
   verifyUrl: '',
   deposit: {                    // Deposit packages and the Binance UID users pay to
     uid: '1226899375',
@@ -432,7 +432,9 @@ function copyText(t) {
 
 /* toasts */
 function toast(msg, opt = {}) {
-  const el = document.createElement('div');
+  const key = (opt.coins ? 'c' + opt.coins : '') + '|' + msg + '|' + (opt.err ? 'e' : '');
+  if ($$('#toasts .toast').some(x => x.__k === key)) return;
+  const el = document.createElement('div'); el.__k = key;
   el.className = 'toast' + (opt.err ? ' err' : '');
   el.innerHTML = opt.coins
     ? `${coin()}<div><b>+${fmt(opt.coins)} JR</b><small>${esc(msg || 'added to your balance')}</small></div>`
@@ -509,10 +511,10 @@ async function checkReferral(u) {
 const notReady = () => { throw new Error('not_ready'); };
 const ADS = [
   { key: 'adsgram',   label: 'Ads 1', run: async () => { if (!window.Adsgram) notReady(); await window.Adsgram.init({ blockId: CONFIG.adsgramBlockId }).show(); } },
-  { key: 'adsbitvex', label: 'Ads 2', run: async () => { if (typeof window.showadsbitvex !== 'function') notReady(); await window.showadsbitvex(); } },
+  { key: 'onclicka',  label: 'Ads 2', run: async () => { const show = await initOnclicka(); await show(); } },
   { key: 'monetag',   label: 'Ads 3', run: async () => { if (typeof window.show_10541383 !== 'function') notReady(); await window.show_10541383(); } },
   { key: 'gigapub',   label: 'Ads 4', run: async () => { if (typeof window.showGiga !== 'function') notReady(); await window.showGiga('main'); } },
-  { key: 'onclicka',  label: 'Ads 5', run: async () => { const show = await initOnclicka(); await show(); } }
+  { key: 'adsbitvex', label: 'Ads 5', run: async () => { if (typeof window.showadsbitvex !== 'function') notReady(); await window.showadsbitvex(); } }
 ];
 let onclickaInit = null;
 function initOnclicka() {
@@ -610,16 +612,19 @@ const BAD_BN = /(পর্ন|সেক্স|নগ্ন|উলঙ্গ|চ�
 const isBad = t => !!t && (BAD_EN.test(String(t).replace(/[_\-.]+/g, ' ')) || BAD_BN.test(String(t)));
 const HARAM_MSG = 'This is haram. Adult and pornographic content is not allowed on PMER, so this link cannot be promoted.';
 const botName = () => '@' + CONFIG.botLink.split('/').pop().split('?')[0];
+// Telegram deep link: opens a picker where the owner chooses the channel/group and confirms adding the bot as admin (invite_users = smallest right).
+const adminLink = type => `${CONFIG.botLink}?${type === 'channel' ? 'startchannel' : 'startgroup'}&admin=invite_users`;
+const adminButtons = () => `<div class="actions" style="margin-top:12px"><button class="btn btn-primary btn-sm" data-act="add-admin">Add PMER as admin</button><button class="btn btn-soft btn-sm" data-act="recheck">I added it, check again</button></div>`;
 
 async function tgApi(method, qs) {
   const r = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/${method}?${qs}`);
   return r.json();
 }
-// Checks that the chat exists and, for Join/Reaction, that PMER's bot is an admin there (otherwise nothing can be tracked).
+// Checks that the chat exists and, for Join, that PMER's bot is an admin there (otherwise joins cannot be tracked).
 async function chatCheck(p, type) {
   const ck = p.chat + '|' + type, c = S.chatCache[ck];
   if (c && Date.now() - c.t < 60000) return c.v;
-  const needTrack = type === 'join' || type === 'reaction';
+  const needTrack = type === 'join';
   let v = { ok: true, texts: [] };
   if (p.kind === 'bot') return v;
   if (needTrack && !CONFIG.botToken && !CONFIG.verifyUrl) v = { ok: false, reason: 'notrack' };
@@ -635,7 +640,7 @@ async function chatCheck(p, type) {
         else if (needTrack) {
           if (!S.botId) { const me = await tgApi('getMe', ''); S.botId = me.ok ? me.result.id : null; }
           const m = S.botId ? await tgApi('getChatMember', `chat_id=${encodeURIComponent(p.chat)}&user_id=${S.botId}`) : { ok: false };
-          if (!m.ok || !['administrator', 'creator'].includes(m.result.status)) v = { ok: false, reason: 'needadmin' };
+          if (!m.ok || !['administrator', 'creator'].includes(m.result.status)) v = { ok: false, reason: 'needadmin', chatType: ch.type };
         }
       }
     } catch (e) { v = { ok: false, reason: 'offline' }; }
@@ -654,35 +659,15 @@ const blockText = r => ({
   adult: HARAM_MSG,
   notfound: 'We could not find this channel or group. Check the link and try again.',
   notchannel: 'This link is a person, not a channel or group. Use a public channel or group link.',
-  needadmin: `Add ${botName()} as an admin of this channel or group first. PMER needs it to check who really joined or reacted.`,
-  notrack: 'Join and Reaction campaigns are not available right now because tracking is not set up. Please contact support.',
+  needadmin: `Give PMER permission first. Tap "Add PMER as admin", pick this channel or group, and confirm. PMER only needs it to check who really joined.`,
+  notrack: 'Join campaigns are not available right now because join tracking is not set up. Please contact support.',
   offline: 'Could not check this link right now. Check your connection and try again.'
 }[r] || 'This link cannot be promoted.');
-function showBlock(msg) { const b = $('#blockBox'); if (!b) return; const uh = $('#urlHint'); if (uh) uh.hidden = true; b.textContent = msg; b.hidden = false; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); hap('error'); }
+function showBlock(msg, extra) { const b = $('#blockBox'); if (!b) return; const uh = $('#urlHint'); if (uh) uh.hidden = true; b.textContent = msg; if (extra) b.insertAdjacentHTML('beforeend', extra); b.hidden = false; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); hap('error'); }
 
 /* =====================================================================
-   Verification (Join and Reaction tracking)
+   Verification (Join tracking)
    ===================================================================== */
-let updOffset = 0, polling = false, pollDead = false;
-async function pollReactions() {
-  if (!CONFIG.botToken || polling || pollDead) return;
-  polling = true;
-  try {
-    const j = await tgApi('getUpdates', `timeout=0&offset=${updOffset}&allowed_updates=${encodeURIComponent('["message_reaction"]')}`);
-    if (!j.ok) { if (j.error_code === 409) { pollDead = true; console.warn('Reaction tracking: a webhook is set on the bot. Run deleteWebhook once, then reload.'); } return; }
-    for (const up of j.result) {
-      updOffset = up.update_id + 1;
-      const mr = up.message_reaction; if (!mr || !mr.user) continue;
-      const keys = [`${mr.chat.id}_${mr.message_id}`];
-      if (mr.chat.username) keys.push(`${mr.chat.username.toLowerCase()}_${mr.message_id}`);
-      const on = (mr.new_reaction || []).length > 0;
-      await Promise.all(keys.map(k => db.ref(`pn/reactions/${k}/${mr.user.id}`).set(on ? true : null)));
-    }
-  } catch (e) { /* ignore network errors */ }
-  finally { polling = false; }
-}
-setInterval(() => { if (!document.hidden && S.uid) pollReactions(); }, 4000);
-
 async function verifyRemote(task) {
   const chat = task.chat;
   if (CONFIG.verifyUrl) {
@@ -698,11 +683,6 @@ async function verifyRemote(task) {
     const j = await tgApi('getChatMember', `chat_id=${encodeURIComponent(chat)}&user_id=${S.uid}`);
     if (!j.ok) throw new Error('verifier_tg');
     const m = j.result; return ['member', 'administrator', 'creator'].includes(m.status) || (m.status === 'restricted' && m.is_member);
-  }
-  if (task.type === 'reaction') {
-    await pollReactions();
-    const s = await db.ref(`pn/reactions/${chatKey(chat)}_${task.msgId}/${S.uid}`).once('value');
-    return s.val() === true;
   }
   return false;
 }
@@ -733,8 +713,10 @@ const liveTasks = () => Object.entries(S.tasks).map(([id, t]) => ({ id, ...t }))
 const subOf = id => (S.user.submitted || {})[id];
 const isMine = t => t.owner === S.uid;
 const notDone = t => !(S.user.done && S.user.done[t.id]) && !subOf(t.id);
-const availableTasks = () => liveTasks().filter(t => !isMine(t) && notDone(t));
-const listTasks = () => liveTasks().filter(t => isMine(t) || notDone(t));
+const canVerifyJoin = () => !!(CONFIG.botToken || CONFIG.verifyUrl);
+const usable = t => t.type !== 'join' || canVerifyJoin();
+const availableTasks = () => liveTasks().filter(t => !isMine(t) && notDone(t) && usable(t));
+const listTasks = () => liveTasks().filter(t => isMine(t) || (notDone(t) && usable(t)));
 const pendingTasks = () => Object.entries(S.user.submitted || {}).filter(([, st]) => st === 'pending').map(([id]) => ({ id, ...(S.tasks[id] || {}) }));
 
 function taskCard(t) {
@@ -750,10 +732,9 @@ function taskCard(t) {
   }
   const busy = '<span class="spin"></span>';
   let acts = '', wrap = 'actions';
-  const vbtn = `<button class="btn btn-soft" data-act="verify" data-id="${t.id}" ${st.busy ? 'disabled' : ''}>${st.busy ? busy : st.failed ? 'Try again' : 'Verify'}</button>`;
+  const vbtn = `<button class="btn btn-soft" data-act="verify" data-id="${t.id}" ${st.busy ? 'disabled' : ''}>${st.busy ? busy : 'Verify'}</button>`;
   if (t.type === 'join') acts = `<button class="btn btn-primary" data-act="open" data-id="${t.id}">Join</button>${vbtn}`;
-  if (t.type === 'reaction') acts = `<button class="btn btn-primary" data-act="open" data-id="${t.id}">Open post</button>${vbtn}`;
-  if (t.type === 'view') acts = `<button class="btn btn-primary btn-block" data-act="view" data-id="${t.id}" data-vbtn="${t.id}" ${st.busy ? 'disabled' : ''}>${st.failed ? 'Try again' : 'View'}</button>`;
+  if (t.type === 'reaction' || t.type === 'view') acts = `<button class="btn btn-primary btn-block" data-act="view" data-id="${t.id}" data-vbtn="${t.id}" ${st.busy ? 'disabled' : ''}>${st.failed ? 'Try again' : t.type === 'view' ? 'View' : 'React'}</button>`;
   if (t.type === 'conditions') {
     wrap = 'stack';
     const un = st.uname !== undefined ? st.uname : (S.user.username ? '@' + S.user.username : '');
@@ -795,47 +776,39 @@ const taskById = id => S.tasks[id] ? { id, ...S.tasks[id] } : null;
 
 async function doVerify(id) {
   const t = taskById(id); if (!t) return;
-  if (t.type === 'reaction' && t.track === 'timer') {
-    const o = S.ui[id] && S.ui[id].opened;
-    if (!o || Date.now() - o < CONFIG.reactionSeconds * 1000) {
-      setTaskUi(id, { failed: true });
-      return toastErr(o ? `React to the post and stay on it for ${CONFIG.reactionSeconds} seconds, then tap Try again.` : 'Open the post and react first.');
-    }
-    setTaskUi(id, { busy: true, failed: false });
-    await claimTask(t);
-    return setTaskUi(id, { busy: false });
-  }
   setTaskUi(id, { busy: true });
   let ok = false;
   try { ok = await verifyRemote(t); }
   catch (e) {
+    console.warn('verify error', e);
     setTaskUi(id, { busy: false });
-    return toastErr(e.message === 'no_verifier' ? 'Verification is not available yet. Please try again later.' : 'Could not check right now. Try again in a moment.');
+    return toastErr(e.message === 'no_verifier' ? 'Verification is not available yet. Please try again later.'
+      : e.message === 'verifier_tg' ? 'Could not check this channel. Its owner must make ' + botName() + ' an admin.'
+      : 'Could not check right now. Try again in a moment.');
   }
-  if (!ok) {
-    setTaskUi(id, { busy: false, failed: true });
-    return toastErr(t.type === 'join' ? 'You have not joined yet. Join the channel, then tap Try again.' : 'No reaction found yet. React to the post, then tap Try again.');
-  }
-  setTaskUi(id, { busy: false, failed: false });
+  if (!ok) { setTaskUi(id, { busy: false }); return toastErr('You have not joined this channel yet. Join it first, then tap Verify.'); }
+  setTaskUi(id, { busy: false });
   await claimTask(t);
 }
 
-/* View task: stay away from the app for viewSeconds, then come back */
+/* View and Reaction tasks: open the post, stay on it for a few seconds, then come back */
+const secsFor = t => (t && t.type === 'reaction' ? CONFIG.reactionSeconds : CONFIG.viewSeconds);
 function viewLabel(id) {
   const v = S.view; const b = $(`[data-vbtn="${id}"]`); if (!b) return;
-  if (!v || v.id !== id) { b.innerHTML = (S.ui[id] && S.ui[id].failed) ? 'Try again' : 'View'; return; }
-  const left = Math.max(0, Math.ceil((CONFIG.viewSeconds * 1000 - (Date.now() - v.t0)) / 1000));
-  b.innerHTML = left > 0 ? `<span class="spin"></span> Viewing, ${left}s` : 'Come back to the app';
+  const t = taskById(id), idle = t && t.type === 'reaction' ? 'React' : 'View';
+  if (!v || v.id !== id) { b.innerHTML = (S.ui[id] && S.ui[id].failed) ? 'Try again' : idle; return; }
+  const left = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
+  b.innerHTML = left > 0 ? `<span class="spin"></span> ${t && t.type === 'reaction' ? 'Reacting' : 'Viewing'}, ${left}s` : 'Come back to the app';
 }
 function startView(id) {
   const t = taskById(id); if (!t || S.view) return;
-  S.view = { id, t0: Date.now(), left: false };
+  S.view = { id, t0: Date.now(), left: false, secs: secsFor(t) };
   setTaskUi(id, { busy: true, failed: false });
   openLink(t.url);
   const timer = setInterval(() => {
     const v = S.view; if (!v) return clearInterval(timer);
     viewLabel(v.id);
-    if (!v.left && Date.now() - v.t0 >= CONFIG.viewSeconds * 1000) finishView(true);
+    if (!v.left && Date.now() - v.t0 >= v.secs * 1000) finishView(true);
   }, 250);
   S.view.timer = timer;
   viewLabel(id);
@@ -844,17 +817,21 @@ async function finishView(success) {
   const v = S.view; if (!v) return;
   clearInterval(v.timer); S.view = null;
   const t = taskById(v.id);
-  if (!success || !t) { setTaskUi(v.id, { busy: false, failed: true }); return toastErr(`You came back too soon. Stay on the post for ${CONFIG.viewSeconds} seconds, then return.`); }
+  if (!success || !t) {
+    setTaskUi(v.id, { busy: false, failed: true });
+    return toastErr(t && t.type === 'reaction' ? `You came back too soon. React to the post and stay on it for ${v.secs} seconds, then return.` : `You came back too soon. Stay on the post for ${v.secs} seconds, then return.`);
+  }
   setTaskUi(v.id, { busy: false, failed: false });
   await claimTask(t);
 }
 function markLeft() { if (S.view) S.view.left = true; }
 function onReturn() {
   const v = S.view; if (!v || !v.left) return;
-  finishView(Date.now() - v.t0 >= CONFIG.viewSeconds * 1000);
+  finishView(Date.now() - v.t0 >= v.secs * 1000);
 }
-document.addEventListener('visibilitychange', () => document.hidden ? markLeft() : onReturn());
-try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', onReturn); } catch (e) {}
+function maybeRecheck() { if (S.adminType && S.tab === 'promote' && S.wiz.step === 1) setTimeout(wizNext, 700); }
+document.addEventListener('visibilitychange', () => { if (document.hidden) markLeft(); else { onReturn(); maybeRecheck(); } });
+try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', () => { onReturn(); maybeRecheck(); }); } catch (e) {}
 
 /* With-conditions task: user submits a username, the advertiser approves (auto-approved after reviewHours) */
 function condOpen(id) { const t = taskById(id); if (!t) return; S.ui[id] = Object.assign(S.ui[id] || {}, { opened: Date.now() }); openLink(t.url); }
@@ -1016,7 +993,7 @@ function renderMine() {
     const c = CAT[t.type] || CAT.join, done = (t.total || 0) - (t.remaining || 0), pct = t.total ? done / t.total * 100 : 0;
     const pc = t.type === 'conditions' ? pend.filter(v => v.taskId === t.id).length : 0;
     return `<article class="card"><div class="row"><span class="tbadge t-${t.type}">${ico(c.icon)}</span>
-      <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}${t.track === 'timer' ? ' (time check)' : ''}, ${fmt(t.perUser)} JR per user</p></div>
+      <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}, ${fmt(t.perUser)} JR per user</p></div>
       <span class="pill ${t.status === 'live' ? 'ok' : 'mut'}">${t.status === 'live' ? 'Live' : 'Completed'}</span></div>
       <div class="bar"><i style="width:${pct}%"></i></div>
       <div class="row" style="justify-content:space-between;font-size:13px"><span class="mut">${fmt(done)} of ${fmt(t.total)} users</span><span class="mut">${fmt(done * t.perUser)} JR spent</span></div>
@@ -1042,7 +1019,7 @@ function renderWizard() {
       <div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>`;
   } else {
     body = `<div class="alert" id="blockBox" hidden></div>
-      ${w.timer ? `<div class="note">Telegram hides who reacts to channel posts, so PMER cannot verify these reactions. Users are paid after they open the post, react, and stay for ${CONFIG.reactionSeconds} seconds.</div>` : ''}<div class="field"><label for="wPer">Reward per user <span>Minimum ${fmt(CONFIG.minReward[w.type])} JR</span></label><input id="wPer" class="input" data-wiz="perUser" inputmode="numeric" placeholder="${CONFIG.minReward[w.type]}" value="${esc(w.perUser)}"><div class="hint" id="perHint"></div></div>
+      ${w.type === 'reaction' ? `<div class="note">Reactions are checked by time. Users are paid after they open the post, react, and stay on it for ${CONFIG.reactionSeconds} seconds.</div>` : ''}<div class="field"><label for="wPer">Reward per user <span>Minimum ${fmt(CONFIG.minReward[w.type])} JR</span></label><input id="wPer" class="input" data-wiz="perUser" inputmode="numeric" placeholder="${CONFIG.minReward[w.type]}" value="${esc(w.perUser)}"><div class="hint" id="perHint"></div></div>
       <div class="field"><label for="wUsers">Users needed <span>Minimum ${CONFIG.minUsers}</span></label><input id="wUsers" class="input" data-wiz="users" inputmode="numeric" placeholder="${CONFIG.minUsers}" value="${esc(w.users)}"><div class="hint" id="usersHint"></div></div>
       <div class="sum"><div><span class="mut">Total cost</span><span id="sCost">0 JR</span></div><div><span class="mut">Your balance</span><span id="sBal">0 JR</span></div><div><span id="sLbl">Balance after publishing</span><span id="sAfter">0 JR</span></div></div>
       <div class="alert" id="fundHint" hidden></div>
@@ -1059,7 +1036,7 @@ function updateWiz() {
   const w = S.wiz, next = $('#wizNext');
   if (w.step === 1) {
     const r = checkUrl(w.type, w.url), h = $('#urlHint'), inp = $('#wUrl');
-    h.hidden = false;
+    h.hidden = !!($('#blockBox') && !$('#blockBox').hidden);
     if (r.ok) { h.className = 'hint ok'; h.textContent = 'Link looks good.'; inp.classList.remove('bad'); }
     else if (r.msg) { h.className = 'hint bad'; h.textContent = r.msg; inp.classList.add('bad'); }
     else { h.className = 'hint'; h.textContent = CAT[w.type].hint; inp.classList.remove('bad'); }
@@ -1100,7 +1077,7 @@ async function publish() {
   if (!tx.committed) { toastErr('You have not enough balance'); btn.textContent = 'Publish campaign'; return updateWiz(); }
   try {
     await db.ref(P.tasks).push().set({
-      type: w.type, track: (w.type === 'reaction' && scr.chatType === 'channel') ? 'timer' : 'bot', title: w.title.trim(), url: r.p.url, chat: r.p.chat, msgId: r.p.msgId || null,
+      type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat, msgId: r.p.msgId || null,
       steps: w.type === 'conditions' ? w.steps.map(s => s.trim()) : null,
       perUser: per, total: users, remaining: users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS
     });
@@ -1115,13 +1092,22 @@ async function publish() {
 }
 
 async function wizNext() {
+  if (S.checking) return;
+  S.checking = true;
+  try { await wizNextInner(); } finally { S.checking = false; }
+}
+async function wizNextInner() {
   const w = S.wiz, btn = $('#wizNext');
   if (w.step === 1) {
     const r = checkUrl(w.type, w.url); if (!r.ok) return;
     btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking link';
     const scr = await screenTarget(r.p, [], w.type);
-    if (!scr.ok) { showBlock(blockText(scr.reason)); btn.textContent = 'Continue'; return updateWiz(); }
-    w.timer = w.type === 'reaction' && scr.chatType === 'channel';
+    if (!scr.ok) {
+      S.adminType = scr.reason === 'needadmin' ? (scr.chatType || 'channel') : null;
+      showBlock(blockText(scr.reason), S.adminType ? adminButtons() : '');
+      btn.textContent = 'Continue'; return updateWiz();
+    }
+    S.adminType = null;
   } else if (w.step === 2) {
     if (isBad(w.title) || (w.type === 'conditions' && w.steps.some(isBad))) return showBlock(HARAM_MSG);
   }
@@ -1282,6 +1268,8 @@ const ACT = {
   'promo-tab': b => { S.promoTab = b.dataset.k; renderPromote(); },
   'wiz-cat': b => { S.wiz.type = b.dataset.k; S.wiz.url = ''; S.wiz.perUser = ''; renderWizard(); },
   'wiz-next': () => wizNext(),
+  'add-admin': () => openLink(adminLink(S.adminType)),
+  recheck: () => wizNext(),
   'wiz-back': () => { S.wiz.step--; renderWizard(); window.scrollTo(0, 0); },
   'wiz-publish': () => publish()
 };
@@ -1306,7 +1294,7 @@ document.addEventListener('input', e => {
   if (k === 'step') w.steps[+el.dataset.i] = el.value;
   else if (k === 'perUser' || k === 'users') { el.value = el.value.replace(/\D/g, '').slice(0, 9); w[k] = el.value; }
   else w[k] = el.value;
-  const bb = $('#blockBox'); if (bb) bb.hidden = true;
+  const bb = $('#blockBox'); if (bb) bb.hidden = true; S.adminType = null;
   updateWiz();
 });
 

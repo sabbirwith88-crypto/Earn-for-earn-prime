@@ -368,7 +368,7 @@ const CONFIG = {
   ],
   adsgramBlockId: '30645',
   onclickaId: '464920',
-  minReward: { join: 1500, reaction: 700, view: 500, conditions: 2500, website: 3000, youtube: 1000 }, // minimum JR per user
+  minReward: { join: 3000, reaction: 1000, view: 700, conditions: 2500, website: 1500, youtube: 1000 }, // minimum JR per user
   fee: { website: 300 },        // service fee in JR per user, charged on top of the reward when a campaign is published
   minUsers: 1,                  // minimum users for a campaign
   titleMin: 5, titleMax: 25,
@@ -378,9 +378,8 @@ const CONFIG = {
   youtubeSeconds: 12,           // YouTube task: user must stay on the video this long, then come back
   conditionSeconds: 10,         // With-conditions task: minimum time between opening the bot and submitting
   reviewHours: 24,              // With-conditions requests are approved automatically after this many hours
-  referral: { bonus: 15000, afterTasks: 20 },
-  withdraw: { min: 300000, minReferrals: 3, feePercent: 10, methods: ['Binance'] },
-  jrPerUsd: 3000000,            // 300,000 JR = $0.10
+  referral: { bonus: 25000, inviteeBonus: 0 },   // bonus: paid to the inviter the moment a friend joins. inviteeBonus: optional extra for the friend
+  leave: { days: 5, batch: 5, firstCheckMin: 10, recheckMin: 60 }, // Join tasks: leaving within `days` returns the reward to the campaign owner
   botLink: 'https://t.me/pmer01_bot',
   communityLink: 'https://t.me/pmercommunity',
   supportLink: 'https://t.me/mrdinooo11',
@@ -424,7 +423,7 @@ const logoHTML = () => CONFIG.logo ? `<img src="${esc(CONFIG.logo)}" alt="${CONF
 const PREVIEW = /[?&]preview\b/.test(location.search);
 const tg = window.Telegram && window.Telegram.WebApp;
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const jrToUsd = jr => (jr / CONFIG.jrPerUsd).toFixed(2);
+const netBal = u => ((u && u.balance) || 0) - ((u && u.debtTotal) || 0);   // negative when the user owes JR
 const today = () => new Date().toLocaleDateString('en-CA');
 const fmtLeft = ms => { const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return h > 0 ? `${h}h ${m}m` : `${Math.max(0, m)}m`; };
 const chatKey = c => String(c).replace(/^@/, '').toLowerCase();
@@ -506,12 +505,15 @@ function applyIncome(u, amt) {
   u.tasksDone = (u.tasksDone || 0) + 1;
 }
 
+// Referral: the inviter gets CONFIG.referral.bonus the moment the friend joins (paid once, guarded by refBonusPaid)
 async function checkReferral(u) {
-  const B = CONFIG.referral.bonus;
-  if (!u || !u.referredBy || u.refBonusPaid || (u.tasksDone || 0) < CONFIG.referral.afterTasks) return;
+  const B = CONFIG.referral.bonus, IB = CONFIG.referral.inviteeBonus || 0;
+  if (!u || !u.referredBy || u.refBonusPaid) return;
   const t = await db.ref(P.user(S.uid)).transaction(x => {
     if (!x) return x; if (x.refBonusPaid) return;
-    x.refBonusPaid = true; x.balance = (x.balance || 0) + B; x.totalIncome = (x.totalIncome || 0) + B; return x;
+    x.refBonusPaid = true;
+    if (IB) { x.balance = (x.balance || 0) + IB; x.totalIncome = (x.totalIncome || 0) + IB; }
+    return x;
   });
   if (!t.committed) return;
   await db.ref(P.user(u.referredBy)).transaction(r => {
@@ -520,7 +522,7 @@ async function checkReferral(u) {
     if (r.referrals && r.referrals[S.uid]) r.referrals[S.uid].bonus = B;
     return r;
   });
-  rewarded(B, 'Referral bonus');
+  if (IB) rewarded(IB, 'Welcome bonus');
 }
 
 /* =====================================================================
@@ -557,7 +559,7 @@ async function payAd(key) {
     applyIncome(u, CONFIG.adReward);
     return u;
   });
-  if (res.committed) { rewarded(CONFIG.adReward, 'Ad reward added'); checkReferral(res.snapshot.val()); return true; }
+  if (res.committed) { rewarded(CONFIG.adReward, 'Ad reward added'); return true; }
   return false;
 }
 
@@ -797,8 +799,117 @@ async function claimTask(task) {
   if (!res.committed) { await remRef.transaction(r => (r || 0) + 1); toastErr('You already completed this task.'); return false; }
   if (slot.snapshot.val() === 0) db.ref(P.task(task.id) + '/status').set('completed');
   rewarded(task.perUser, 'Task reward added');
-  checkReferral(res.snapshot.val());
+  if (task.type === 'join') watchJoin(task);
   return true;
+}
+
+/* =====================================================================
+   Join protection: a user who leaves a channel within CONFIG.leave.days loses the reward.
+   The reward goes back to the campaign owner. If the user cannot pay it, the balance shows as a
+   negative amount (debt) and every new reward goes to the campaign owner until it is paid.
+   Any open client checks other users' joins (pn/joinWatch), so it works even if the leaver never opens the app.
+   ===================================================================== */
+function watchJoin(t) {
+  const now = Date.now();
+  db.ref('pn/joinWatch/' + t.id + '_' + S.uid).set({
+    uid: S.uid, taskId: t.id, chat: t.chat, owner: t.owner, amt: t.perUser, title: t.title || '',
+    at: now, until: now + CONFIG.leave.days * 86400000, next: now + CONFIG.leave.firstCheckMin * 60000
+  }).catch(e => console.warn('watchJoin', e));
+}
+
+// Pay the owners listed in a user's outbox. Each payment has a unique key, so it can never be paid twice.
+async function flushOutbox(uid) {
+  const snap = await db.ref(P.user(uid) + '/outbox').once('value');
+  for (const [k, o] of Object.entries(snap.val() || {})) {
+    if (o && o.owner && o.amt > 0) {
+      await db.ref(P.user(o.owner)).transaction(r => {
+        if (!r) return r;
+        r.recv = r.recv || {};
+        if (r.recv[k]) return;
+        r.recv[k] = o.amt;
+        r.balance = (r.balance || 0) + o.amt; r.reclaimed = (r.reclaimed || 0) + o.amt;
+        return r;
+      });
+    }
+    await db.ref(P.user(uid) + '/outbox/' + k).remove();
+  }
+}
+
+async function clawback(key, w) {
+  await db.ref(P.user(w.uid)).transaction(u => {
+    if (!u) return u;
+    u.clawed = u.clawed || {};
+    if (u.clawed[key]) return;
+    const pay = Math.min(Math.max(u.balance || 0, 0), w.amt), rest = w.amt - pay;
+    u.clawed[key] = { amt: w.amt, owner: w.owner, at: Date.now(), title: w.title || '' };
+    u.balance = (u.balance || 0) - pay;
+    if (pay > 0) { u.outbox = u.outbox || {}; u.outbox[key + '_0'] = { owner: w.owner, amt: pay }; }
+    if (rest > 0) { u.debts = u.debts || {}; u.debts[key] = { owner: w.owner, left: rest, title: w.title || '' }; u.debtTotal = (u.debtTotal || 0) + rest; }
+    return u;
+  });
+  await db.ref('pn/joinWatch/' + key).remove();
+  await flushOutbox(w.uid);
+}
+
+async function checkJoin(key) {
+  const claim = await db.ref('pn/joinWatch/' + key).transaction(x => {
+    if (!x || x.next > Date.now()) return;
+    x.next = Date.now() + CONFIG.leave.recheckMin * 60000; return x;
+  });
+  if (!claim.committed) return;
+  const w = claim.snapshot.val(); if (!w) return;
+  if (Date.now() > w.until) return db.ref('pn/joinWatch/' + key).remove();
+  let m;
+  try {
+    const j = await tgApi('getChatMember', `chat_id=${encodeURIComponent(w.chat)}&user_id=${w.uid}`);
+    if (!j.ok) return;                       // could not check (bot not admin, network): never punish on an error
+    m = j.result;
+  } catch (e) { return; }
+  if (m.status === 'left' || (m.status === 'restricted' && !m.is_member)) await clawback(key, w);
+}
+
+async function sweepJoins() {
+  if (!S.uid || !CONFIG.botToken || S.sweepingJoins) return;
+  S.sweepingJoins = true;
+  try {
+    const snap = await db.ref('pn/joinWatch').orderByChild('next').endAt(Date.now()).limitToFirst(CONFIG.leave.batch).once('value');
+    for (const key of Object.keys(snap.val() || {})) await checkJoin(key);
+  } catch (e) { console.warn('sweepJoins', e); }
+  S.sweepingJoins = false;
+}
+
+// New income first pays what the user owes. It goes to the campaign owner, not to the user.
+async function settleDebts() {
+  if (S.settling) return; S.settling = true;
+  try {
+    const tx = await db.ref(P.user(S.uid)).transaction(u => {
+      if (!u || !(u.debtTotal > 0) || !(u.balance > 0)) return;
+      u.outbox = u.outbox || {};
+      const ts = Date.now(); let i = 0;
+      for (const [id, d] of Object.entries(u.debts || {})) {
+        if (u.balance <= 0) break;
+        const pay = Math.min(u.balance, d.left); if (pay <= 0) continue;
+        u.balance -= pay; d.left -= pay; u.debtTotal -= pay;
+        u.outbox[`${id}_${ts}_${i++}`] = { owner: d.owner, amt: pay };
+        if (d.left <= 0) delete u.debts[id];
+      }
+      if (u.debtTotal <= 0) { u.debtTotal = 0; u.debts = null; }
+      return u;
+    });
+    if (tx.committed) await flushOutbox(S.uid);
+  } catch (e) { console.warn('settleDebts', e); }
+  S.settling = false;
+}
+
+// Toasts for money that arrives from other people's actions
+function notifyCredits(u) {
+  const ref = u.refEarned || 0, rec = u.reclaimed || 0, ck = Object.keys(u.clawed || {});
+  if (S.prevCred) {
+    if (ref > S.prevCred.ref) rewarded(ref - S.prevCred.ref, 'Friend joined, referral reward');
+    if (rec > S.prevCred.rec) rewarded(rec - S.prevCred.rec, 'Returned: a user left your channel');
+    ck.filter(k => !S.prevCred.ck.includes(k)).forEach(k => toastErr(`You left a channel within ${CONFIG.leave.days} days, so ${fmt(u.clawed[k].amt)} JR went back to the campaign owner.`));
+  }
+  S.prevCred = { ref, rec, ck };
 }
 
 /* =====================================================================
@@ -845,11 +956,12 @@ function taskCard(t) {
       <button class="btn btn-soft btn-block" data-act="cond-submit" data-id="${t.id}" ${st.busy ? 'disabled' : ''}>${st.busy ? busy : st.failed ? 'Try again' : 'Submit for review'}</button>`;
   }
   const steps = t.type === 'conditions' && t.steps ? `<ol class="steps">${t.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : '';
+  const note = t.type === 'join' ? `<p class="adnote" style="margin:10px 0 0">Stay for ${CONFIG.leave.days} days. If you leave earlier, the reward goes back to the campaign owner.</p>` : '';
   return `<article class="card" data-card="${t.id}">
     <div class="row"><span class="tbadge t-${t.type}">${ico(c.icon)}</span>
       <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}, ${fmt(t.remaining)} spots left</p></div>
       <span class="reward">${coin()}+${fmt(t.perUser)}</span></div>
-    ${steps}<div class="${wrap}">${acts}</div></article>`;
+    ${steps}${note}<div class="${wrap}">${acts}</div></article>`;
 }
 function pendingCard(t) {
   const at = (S.user.subAt || {})[t.id] || 0, ms = at ? at + CONFIG.reviewHours * 3600000 - Date.now() : 0;
@@ -1063,6 +1175,7 @@ function renderHome() {
       <p class="hero-sub">${fmt(u.totalIncome)} JR earned in total</p>
       <div class="hero-actions"><button class="btn btn-gold" data-go="earn">Earn JR</button><button class="btn btn-glass" data-go="promote">Promote</button></div>
     </section>
+    ${(u.debtTotal || 0) > 0 ? `<div class="alert">You owe ${fmt(u.debtTotal)} JR because you left a channel within ${CONFIG.leave.days} days. New rewards go to the campaign owner until it is paid.</div>` : ''}
     <div class="stats">
       <div class="stat"><div class="num">${fmt(refs)}</div><small>Referrals</small></div>
       <div class="stat"><div class="num">${fmt(u.tasksDone)}</div><small>Tasks done</small></div>
@@ -1072,9 +1185,9 @@ function renderHome() {
       <button class="tile" data-go="earn"><span class="tbadge t-ads">${ico('play')}</span><div><b>Watch ads</b><span class="mut">${fmt(CONFIG.adReward)} JR each</span></div></button>
       <button class="tile" data-go="tasks"><span class="tbadge t-view">${ico('tasks')}</span><div><b>Social tasks</b><span class="mut">${availableTasks().length} live now</span></div></button>
       <button class="tile" data-go="promote"><span class="tbadge t-reaction">${ico('mega')}</span><div><b>Promote</b><span class="mut">Grow your channel or bot</span></div></button>
-      <button class="tile" data-sheet="withdraw"><span class="tbadge t-conditions">${ico('out')}</span><div><b>Withdraw</b><span class="mut">From ${fmt(CONFIG.withdraw.min)} JR</span></div></button>
+      <button class="tile" data-sheet="referral"><span class="tbadge t-join">${ico('userplus')}</span><div><b>Invite friends</b><span class="mut">${fmt(CONFIG.referral.bonus)} JR for each friend</span></div></button>
     </div>`);
-  const bal = u.balance || 0; countUp($('#balNum'), S.shown === null ? bal : S.shown, bal); S.shown = bal;
+  const bal = netBal(u); countUp($('#balNum'), S.shown === null ? bal : S.shown, bal); S.shown = bal;
 }
 
 /* =====================================================================
@@ -1138,7 +1251,8 @@ function renderWizard() {
 const feeOf = t => (CONFIG.fee && CONFIG.fee[t]) || 0;
 const usersWord = n => `${fmt(n)} user${n === 1 ? '' : 's'}`;
 function waitNote(type) {
-  const t = { reaction: `Reactions are checked by time. Users are paid after they open the post, react, and stay on it for ${CONFIG.reactionSeconds} seconds.`,
+  const t = { join: `Users who leave your channel or group within ${CONFIG.leave.days} days lose their reward, and it is returned to you. Make PMER's bot an admin so joins can be checked.`,
+    reaction: `Reactions are checked by time. Users are paid after they open the post, react, and stay on it for ${CONFIG.reactionSeconds} seconds.`,
     view: `Users are paid after they open the post and stay on it for ${CONFIG.viewSeconds} seconds.`,
     website: `Users are paid after they open your website and stay on it for ${CONFIG.websiteSeconds} seconds. A service fee of ${fmt(feeOf('website'))} JR per user is added when you publish.`,
     youtube: `Users are paid after they open your video and stay on it for ${CONFIG.youtubeSeconds} seconds.` }[type];
@@ -1163,7 +1277,7 @@ function updateWiz() {
     const stepsOk = w.type !== 'conditions' || w.steps.every(s => s.trim().length >= 5);
     next.disabled = !(ok && stepsOk);
   } else {
-    const min = CONFIG.minReward[w.type], { per, users, fee, cost } = wizCost(), bal = S.user.balance || 0;
+    const min = CONFIG.minReward[w.type], { per, users, fee, cost } = wizCost(), bal = netBal(S.user);
     const perOk = per >= min, usersOk = users >= CONFIG.minUsers && users <= 1000000, ph = $('#perHint'), uh = $('#usersHint');
     ph.className = 'hint' + (w.perUser && !perOk ? ' bad' : ''); ph.textContent = w.perUser && !perOk ? `The minimum for ${CAT[w.type].label} is ${fmt(min)} JR per user.` : '';
     uh.className = 'hint' + (w.users && !usersOk ? ' bad' : ''); uh.textContent = w.users && !usersOk ? `You need at least ${usersWord(CONFIG.minUsers)} for a campaign.` : '';
@@ -1183,12 +1297,12 @@ async function publish() {
   const w = S.wiz, r = checkUrl(w.type, w.url); if (!r.ok) return;
   const { per, users, fee, cost } = wizCost(), btn = $('#wizPublish');
   if (per < CONFIG.minReward[w.type] || users < CONFIG.minUsers) return;
-  if (cost > (S.user.balance || 0)) { toastErr('You have not enough balance'); btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return updateWiz(); }
+  if (cost > netBal(S.user)) { toastErr('You have not enough balance'); btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return updateWiz(); }
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
   const scr = await screenTarget(r.p, [w.title].concat(w.type === 'conditions' ? w.steps : []), w.type);
   if (!scr.ok) { showBlock(blockText(scr.reason)); btn.textContent = 'Publish campaign'; return updateWiz(); }
   btn.innerHTML = '<span class="spin"></span> Publishing';
-  const tx = await db.ref(P.user(S.uid)).transaction(u => { if (!u || (u.balance || 0) < cost) return; u.balance -= cost; u.spent = (u.spent || 0) + cost; return u; });
+  const tx = await db.ref(P.user(S.uid)).transaction(u => { if (!u || netBal(u) < cost) return; u.balance -= cost; u.spent = (u.spent || 0) + cost; return u; });
   if (!tx.committed) { toastErr('You have not enough balance'); btn.textContent = 'Publish campaign'; return updateWiz(); }
   try {
     await db.ref(P.tasks).push().set({
@@ -1239,17 +1353,15 @@ function renderProfile() {
     <div class="pfp"><div class="avatar">${u.photo ? `<img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span>${init}</span></div>
       <div><h1>${esc(name)}</h1><span class="mut">${u.username ? '@' + esc(u.username) : 'Telegram user'}</span></div></div>
     <div class="income"><small>Total income</small><div class="num">${coin('lg')}${fmt(u.totalIncome)}</div></div>
-    <div class="card deposit"><div class="grow"><h3>Balance ${fmt(u.balance)} JR</h3><p class="meta">Add balance to run campaigns</p></div><button class="btn btn-gold" data-sheet="deposit">${ico('plus', 'sm')} Deposit</button></div>
+    <div class="card deposit"><div class="grow"><h3>Balance ${fmt(netBal(u))} JR</h3><p class="meta">Add balance to run campaigns</p></div><button class="btn btn-gold" data-sheet="deposit">${ico('plus', 'sm')} Deposit</button></div>
     <button class="card" data-open="${esc(CONFIG.communityLink)}"><span class="tbadge t-join">${ico('send')}</span><div class="grow"><h3>Join our community</h3><p class="meta">News, updates and help from the PMER team</p></div>${ico('chev')}</button>
     <div class="menu">
-      <button data-sheet="withdraw">${ico('out')}Withdraw${ico('chev')}</button>
-      <button data-sheet="referral">${ico('users')}Invite friends${ico('chev')}</button>
       <button data-sheet="about">${ico('info')}About us${ico('chev')}</button>
       <button data-sheet="settings">${ico('sliders')}Settings${ico('chev')}</button>
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">PMER 1.2</p>`);
+    </div><p class="ver">PMER 1.3</p>`);
 }
 
 const SHARE_TEXT = `Join me on PMER, the Telegram app where you earn JR every day.
@@ -1257,29 +1369,29 @@ const SHARE_TEXT = `Join me on PMER, the Telegram app where you earn JR every da
 - Complete simple tasks and earn
 - Watch ads and get ${fmt(CONFIG.adReward)} JR each time
 - Promote your channel, group or bot to real users
-- Withdraw your earnings to Binance
+- Invite friends and get ${fmt(CONFIG.referral.bonus)} JR for each one who joins
 
 Start earning now:`;
 
 const SHEETS = {
-  support: () => openSheet(`<h2>Support</h2><p class="lead">Questions about a task, deposit, or withdrawal? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
+  support: () => openSheet(`<h2>Support</h2><p class="lead">Questions about a task or a deposit? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
 
   about: () => {
-    const W = CONFIG.withdraw, R = CONFIG.referral, L = CONFIG.adDailyLimit;
+    const R = CONFIG.referral, L = CONFIG.adDailyLimit;
     openSheet(`<h2>About PMER</h2>
       <p class="lead">PMER is a reward and promotion app that runs inside Telegram. People earn JR by doing simple actions, and advertisers use JR to send visitors to their channel, group, bot, website or video.</p>
       <h4>What PMER does</h4><p class="doc">PMER connects two groups. Users complete short tasks and watch or click ads to earn JR. Advertisers spend JR to run campaigns, and each campaign is paid out one completed task at a time.</p>
       <h4>How you earn</h4>
       <ul class="doc">
         <li>Ads: watch or click an ad and get ${fmt(CONFIG.adReward)} JR. Each ad can be used ${L} times a day, with a ${CONFIG.adCooldownSec} second wait between uses.</li>
-        <li>Join: join a channel or group and tap Verify.</li>
+        <li>Join: join a channel or group and tap Verify. Stay for ${CONFIG.leave.days} days. If you leave earlier, the reward goes back to the campaign owner.</li>
         <li>Reaction and View: open a Telegram post, react or view it, and stay for the required time.</li>
         <li>With conditions: follow the steps in a bot and submit your username for review.</li>
         <li>Website and YouTube: open the link, stay for the required time, and come back to the app.</li>
       </ul>
       <h4>How you promote</h4><p class="doc">Open Promote, pick a campaign type, paste your link, add a title, then set the reward per user and the number of users you need. The full budget is taken from your balance when you publish. Website campaigns add a service fee of ${fmt(feeOf('website'))} JR per user. Every link is checked before it goes live.</p>
-      <h4>Balance and withdrawals</h4><p class="doc">JR is the reward balance inside PMER. You can deposit to run campaigns and withdraw your earnings to ${esc(W.methods[0])}. The minimum withdrawal is ${fmt(W.min)} JR ($${jrToUsd(W.min)})${W.minReferrals ? `, you need at least ${W.minReferrals} referrals` : ''}, and a ${W.feePercent}% fee applies.</p>
-      <h4>Invite friends</h4><p class="doc">You and your friend each get ${fmt(R.bonus)} JR after they complete ${R.afterTasks} tasks.</p>
+      <h4>Balance</h4><p class="doc">JR is the reward balance inside PMER. Use it to run campaigns, and deposit to add more. If you leave a channel too early, the reward you got is taken back. If you cannot cover it, your balance shows as a negative amount and your next rewards go to the campaign owner until it is paid.</p>
+      <h4>Invite friends</h4><p class="doc">You get ${fmt(R.bonus)} JR the moment a friend joins PMER with your link.</p>
       <h4>Fair use</h4><p class="doc">One person, one account. Bots, scripts and fake activity are not allowed. Adult content, scams and illegal offers are not allowed in campaigns.</p>
       <div class="gap"></div>
       <button class="btn btn-primary btn-block" data-open="${esc(CONFIG.communityLink)}">${ico('send', 'sm')} Join our community</button>
@@ -1317,49 +1429,22 @@ const SHEETS = {
     openSheet('', draw);
   },
 
-  withdraw: () => {
-    const u = S.user, refs = Object.keys(u.referrals || {}).length, W = CONFIG.withdraw, bal = u.balance || 0;
-    const okBal = bal >= W.min, okRef = refs >= W.minReferrals, method = W.methods[0];
-    const hist = Object.values(u.withdrawals || {}).sort((a, b) => b.createdAt - a.createdAt).slice(0, 8);
-    openSheet(`<h2>Withdraw</h2><p class="lead">Available ${fmt(bal)} JR, about $${jrToUsd(bal)}. Payouts go to ${method} only.</p>
-      <div class="kv"><div><span class="mut">Minimum withdrawal</span><b>${fmt(W.min)} JR = $${jrToUsd(W.min)}</b></div>
-        <div><span>Balance of ${fmt(W.min)} JR or more</span><span class="pill ${okBal ? 'ok' : 'mut'}">${okBal ? 'Done' : 'Not yet'}</span></div>
-        ${W.minReferrals ? `<div><span>At least ${W.minReferrals} referrals</span><span class="pill ${okRef ? 'ok' : 'mut'}">${okRef ? 'Done' : refs + ' of ' + W.minReferrals}</span></div>` : ''}</div>
-      <div class="field"><input id="wdAcc" class="input" placeholder="${method} ID or wallet address" autocomplete="off"></div>
-      <div class="field"><input id="wdAmt" class="input" inputmode="numeric" placeholder="Amount in JR (min ${fmt(W.min)})"><div class="hint" id="wdHint">A ${W.feePercent}% fee applies.</div></div>
-      <button class="btn btn-primary btn-block" id="wdGo" ${okBal && (okRef || !W.minReferrals) ? '' : 'disabled'}>Request withdrawal</button>
-      ${hist.length ? `<h4>Recent requests</h4>${hist.map(h => `<div class="hist"><span>${esc(h.method)}, ${fmt(h.amount)} JR</span><span class="mut">${esc(h.status || 'pending')}</span></div>`).join('')}` : ''}`, b => {
-      $('#wdAmt', b).oninput = e => { const a = parseInt(e.target.value, 10) || 0; $('#wdHint', b).textContent = a ? `You receive about $${jrToUsd(Math.floor(a * (100 - W.feePercent) / 100))} after the ${W.feePercent}% fee.` : `A ${W.feePercent}% fee applies.`; };
-      $('#wdGo', b).onclick = async () => {
-        const acc = $('#wdAcc', b).value.trim(), amt = parseInt($('#wdAmt', b).value, 10) || 0;
-        if (!acc) return toastErr(`Enter your ${method} ID or wallet address.`);
-        if (amt < W.min) return toastErr(`The minimum withdrawal is ${fmt(W.min)} JR.`);
-        const tx = await db.ref(P.user(S.uid)).transaction(x => { if (!x || (x.balance || 0) < amt) return; x.balance -= amt; return x; });
-        if (!tx.committed) return toastErr('You have not enough balance');
-        const rec = { uid: S.uid, name: u.name || '', method, account: acc, amount: amt, fee: Math.ceil(amt * W.feePercent / 100), net: Math.floor(amt * (100 - W.feePercent) / 100), status: 'pending', createdAt: TS };
-        const ref = db.ref('pn/withdrawals').push();
-        await ref.set(rec); await db.ref(P.user(S.uid) + '/withdrawals/' + ref.key).set(rec);
-        hap('success'); closeSheet(); toast('Withdrawal requested. We will review it soon.');
-      };
-    });
-  },
-
   referral: () => {
     const u = S.user, list = Object.values(u.referrals || {}), link = `${CONFIG.botLink}?startapp=${S.uid}`, R = CONFIG.referral;
     const msg = SHARE_TEXT + '\n' + link;
-    openSheet(`<h2>Invite friends</h2><p class="lead">You and your friend each get ${fmt(R.bonus)} JR once they complete ${R.afterTasks} tasks.</p>
+    openSheet(`<h2>Invite friends</h2><p class="lead">You get ${fmt(R.bonus)} JR the moment a friend joins PMER with your link.${R.inviteeBonus ? ` Your friend gets ${fmt(R.inviteeBonus)} JR too.` : ''}</p>
       <div class="linkbox"><span class="grow">${esc(link)}</span><button class="btn btn-soft btn-sm" data-copy="${esc(link)}">${ico('copy', 'sm')} Copy</button></div>
       <div class="msgbox">${esc(msg)}</div>
       <button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(SHARE_TEXT)}">${ico('send', 'sm')} Share on Telegram</button>
       <div class="gap"></div>
       <button class="btn btn-soft btn-block" data-copy="${esc(msg)}">${ico('copy', 'sm')} Copy message</button>
-      <h4>Your referrals (${list.length})</h4>${list.length ? list.map(r => `<div class="hist"><span>${esc(r.name || 'Friend')}</span><span class="${r.bonus ? '' : 'mut'}">${r.bonus ? '+' + fmt(r.bonus) + ' JR' : 'In progress'}</span></div>`).join('') : '<p class="doc">No referrals yet.</p>'}
+      <h4>Your referrals (${list.length})</h4>${list.length ? list.map(r => `<div class="hist"><span>${esc(r.name || 'Friend')}</span><span class="${r.bonus ? '' : 'mut'}">${r.bonus ? '+' + fmt(r.bonus) + ' JR' : 'Pending'}</span></div>`).join('') : '<p class="doc">No referrals yet.</p>'}
       <div class="kv" style="margin-top:14px"><div><span class="mut">Referral bonus earned</span><b>${fmt(u.refEarned)} JR</b></div></div>`);
   },
 
   privacy: () => openSheet(`<h2>Privacy policy</h2>
-    <h4>What we collect</h4><p class="doc">Your Telegram ID, name, username and profile photo as provided by Telegram, plus your balance, completed tasks, campaigns, deposit requests and withdrawal requests.</p>
-    <h4>How we use it</h4><p class="doc">To run PMER, credit rewards, show your campaigns, review payments and withdrawals, prevent fraud and answer support requests.</p>
+    <h4>What we collect</h4><p class="doc">Your Telegram ID, name, username and profile photo as provided by Telegram, plus your balance, completed tasks, campaigns and deposit requests.</p>
+    <h4>How we use it</h4><p class="doc">To run PMER, credit rewards, show your campaigns, review payments, prevent fraud and answer support requests.</p>
     <h4>Ads</h4><p class="doc">Ads are delivered by third-party networks such as Adsgram, Adsbitvex, Monetag, Giga Pub and OnClickA. Some ads open a partner web page in your browser. These networks may collect device and ad-interaction data under their own privacy policies.</p>
     <h4>Sharing</h4><p class="doc">We do not sell your personal data. Campaign owners only see totals for their campaigns, not who completed them.</p>
     <h4>Your choices</h4><p class="doc">You can ask support to delete your account data at any time. Some payment records may be kept as required for fraud prevention.</p>`),
@@ -1368,7 +1453,8 @@ const SHEETS = {
     <h4>Using PMER</h4><p class="doc">You need a Telegram account. One person may use one account. Do not use bots, scripts, VPN farms or multiple accounts to collect rewards.</p>
     <h4>Rewards</h4><p class="doc">Rewards are added after a task is completed and verified. With conditions tasks are reviewed by the advertiser and approved automatically after ${CONFIG.reviewHours} hours if not reviewed. We may remove rewards and block accounts that show fake or abusive activity.</p>
     <h4>Campaigns</h4><p class="doc">Campaigns must follow the law and Telegram rules. Every link is checked before it goes live. Adult and pornographic content is haram and strictly forbidden, along with scams, hate and illegal offers. Such links are rejected and the account may be blocked. The full campaign budget is reserved when you publish and is paid out as users complete the task.</p>
-    <h4>Balance and withdrawals</h4><p class="doc">JR is a reward balance inside PMER. Withdrawals are paid to Binance only, need at least ${fmt(CONFIG.withdraw.min)} JR ($${jrToUsd(CONFIG.withdraw.min)}), are reviewed manually and include a service fee.</p>
+    <h4>Balance</h4><p class="doc">JR is a reward balance inside PMER that you can use to run campaigns.</p>
+    <h4>Leaving a channel</h4><p class="doc">If you join a channel or group through a Join task and leave within ${CONFIG.leave.days} days, the reward is returned to the campaign owner. If your balance is too low, it shows as a negative amount and your next rewards go to the campaign owner until it is paid.</p>
     <h4>Changes</h4><p class="doc">We may update rewards, limits and these terms. Continuing to use PMER means you accept the changes.</p>`)
 };
 
@@ -1462,9 +1548,10 @@ async function boot() {
   S.uid = String(tu.id);
   try { await ensureUser(tu); } catch (e) { console.error(e); }
   let firstUser = true;
-  db.ref(P.user(S.uid)).on('value', s => { const u = s.val() || {}; notifySubmissions(u); S.user = u; render(); if (firstUser) { firstUser = false; checkReferral(u); } });
+  db.ref(P.user(S.uid)).on('value', s => { const u = s.val() || {}; notifySubmissions(u); notifyCredits(u); S.user = u; render(); if (firstUser) { firstUser = false; checkReferral(u); } if ((u.debtTotal || 0) > 0 && (u.balance || 0) > 0) settleDebts(); });
   db.ref('pn/pending/' + S.uid).on('value', s => { S.pending = s.val() || {}; if (S.tab === 'promote' && S.promoTab === 'mine') renderMine(); });
   sweepPending(); setInterval(sweepPending, 60000);
+  sweepJoins(); setInterval(sweepJoins, 300000); flushOutbox(S.uid).catch(e => console.warn('outbox', e));
   db.ref(P.tasks).limitToLast(300).on('value', s => { S.tasks = s.val() || {}; render(); });
   $('#app').hidden = false; $('#nav').hidden = false;
   go('home');

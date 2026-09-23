@@ -67,7 +67,6 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 .page>h1{font-size:26px;font-weight:800;margin:6px 0 4px}
 .page>.sub{color:var(--muted);margin-bottom:18px;max-width:40ch}
 .page.enter{animation:pagein .35s cubic-bezier(.2,.8,.2,1)}
-.page.enter .list>*,.page.enter .tiles>*,.page.enter .stats>*,.page.enter .menu{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .brand{display:flex;align-items:center;gap:10px;font:800 19px 'Sora',sans-serif;letter-spacing:.06em}
 .brand .logo{width:38px;height:38px;box-shadow:0 6px 14px -6px rgba(106,61,240,.6)}
@@ -85,8 +84,8 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 .hero-label{font-size:13px;color:#fff;opacity:.72}
 .hero-amt{display:flex;align-items:center;gap:10px;margin:6px 0 2px}
 .hero-amt .num{font-size:40px;font-weight:800;line-height:1.1}
-.hero-sub{font-size:13px;opacity:.72;margin-bottom:8px}
-.hero-usd{font-size:14px;font-weight:700;color:#C7B8FF;margin-bottom:18px}
+.hero-usd{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#fff;font:800 15px 'Sora',sans-serif;padding:5px 12px;border-radius:999px;margin:4px 0 12px}
+.hero-sub{font-size:12.5px;opacity:.72;margin-bottom:18px}
 .hero-actions{display:flex;gap:10px}
 .hero-actions .btn{flex:1}
 
@@ -106,8 +105,7 @@ button.card:active{transform:scale(.98)}
 button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .list{display:flex;flex-direction:column;gap:12px}
 .tbadge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:none;color:var(--tc,var(--brand));background:color-mix(in srgb,var(--tc,var(--brand)) 15%,transparent)}
-.t-join{--tc:#6A3DF0}.t-reaction{--tc:#E0457B}.t-view{--tc:#0C93A0}.t-conditions{--tc:#D18100}.t-ads{--tc:#6A3DF0}.t-website{--tc:#0B7A5A}.t-youtube{--tc:#E02B2B}.t-linkad{--tc:#0C93A0}
-[data-theme="dark"] .t-join,[data-theme="dark"] .t-ads{--tc:#A58CFF}
+.t-join{--tc:#6A3DF0}.t-reaction{--tc:#E0457B}.t-view{--tc:#0C93A0}.t-conditions{--tc:#D18100}.t-ads{--tc:#6A3DF0}.t-website{--tc:#0B7A5A}.t-youtube{--tc:#E02B2B}.t-game{--tc:#E0457B}
 .reward{display:inline-flex;align-items:center;gap:6px;background:color-mix(in srgb,var(--gold) 22%,transparent);color:#8A5A00;font:700 13px 'Sora',sans-serif;padding:6px 10px 6px 6px;border-radius:999px;white-space:nowrap}
 .reward.rj{background:color-mix(in srgb,var(--jade) 22%,transparent);color:#00714A}
 [data-theme="dark"] .reward{color:#FFD879}
@@ -142,12 +140,12 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 
 .chips{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 16px;padding:2px 16px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 14px;font:600 13.5px 'Manrope',sans-serif;cursor:pointer;display:flex;gap:6px;align-items:center;transition:background .2s,color .2s,transform .12s}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 14px;font:600 13.5px 'Manrope',sans-serif;cursor:pointer;display:flex;gap:6px;align-items:center}
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip em{font-style:normal;opacity:.6;font-size:12px}
 
 .seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--line);border-radius:14px;padding:4px;margin-bottom:18px}
-.seg button{border:0;background:transparent;border-radius:11px;padding:10px;font:700 13.5px 'Manrope',sans-serif;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+.seg button{border:0;background:transparent;border-radius:11px;padding:10px;font:700 13.5px 'Manrope',sans-serif;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
 .seg .count{background:var(--brand);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px;margin-left:4px}
 
@@ -169,18 +167,18 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .rjcard .btn{margin-left:auto}
 .stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
 .stepper div{font-size:12.5px;color:var(--muted);font-weight:600}
-.stepper div::before{content:"";display:block;height:4px;border-radius:4px;background:var(--line);margin-bottom:6px;transition:background .3s}
+.stepper div::before{content:"";display:block;height:4px;border-radius:4px;background:var(--line);margin-bottom:6px}
 .stepper div.done::before,.stepper div.now::before{background:var(--brand)}
 .stepper div.now{color:var(--ink)}
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.cat{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,background .2s,transform .12s}
+.cat{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px}
 .cat.on{border-color:var(--brand);background:var(--brand-soft)}
 .cat b{font:700 14px 'Sora',sans-serif;display:block}
 .cat small{color:var(--muted);font-size:12.5px}
 .field{margin-bottom:16px}
 .field label{display:flex;justify-content:space-between;font-weight:700;font-size:13.5px;margin-bottom:8px}
 .field label span{font-weight:600;color:var(--muted)}
-.input{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.input{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;outline:none}
 .input:focus{border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}
 .input.bad{border-color:var(--bad)}
 .hint{font-size:12.5px;margin-top:6px;color:var(--muted)}
@@ -208,8 +206,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .wallet small{color:var(--muted);font-size:12.5px;display:block}
 .wallet .num{font-size:22px;font-weight:800;display:flex;align-items:center;gap:8px;margin-top:6px}
 .menu{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-top:12px}
-.menu button{width:100%;display:flex;align-items:center;gap:14px;padding:16px;background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;text-align:left;font-weight:600;transition:background .15s}
-.menu button:active{background:var(--brand-soft)}
+.menu button{width:100%;display:flex;align-items:center;gap:14px;padding:16px;background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;text-align:left;font-weight:600}
 .menu button:last-child{border:0}
 .menu .ico:first-child{color:var(--brand)}
 .menu .ico:last-child{margin-left:auto;color:var(--muted);width:18px;height:18px}
@@ -217,11 +214,9 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
 #nav .navbar{pointer-events:auto;width:100%;max-width:480px;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;background:var(--card);background:var(--nav);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
-.nb{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font:600 11px 'Manrope',sans-serif;cursor:pointer;transition:color .2s}
-.nb .ico{transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.nb{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font:600 11px 'Manrope',sans-serif;cursor:pointer}
 .nb.on{color:var(--brand);font-weight:800}
-.nb.fab .fabi{width:54px;height:54px;border-radius:19px;background:var(--brand);color:#fff;display:grid;place-items:center;margin-top:-26px;box-shadow:0 12px 22px -10px var(--brand);border:4px solid var(--bg);transition:transform .2s}
-.nb.fab:active .fabi{transform:scale(.92)}
+.nb.fab .fabi{width:54px;height:54px;border-radius:19px;background:var(--brand);color:#fff;display:grid;place-items:center;margin-top:-26px;box-shadow:0 12px 22px -10px var(--brand);border:4px solid var(--bg)}
 .nb.fab{color:var(--muted)}.nb.fab.on{color:var(--brand)}
 
 #toasts{position:fixed;top:calc(12px + env(safe-area-inset-top));left:0;right:0;z-index:300;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 16px}
@@ -242,7 +237,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .sheet h4{font:700 14.5px 'Sora',sans-serif;margin:16px 0 4px}
 .sheet p.doc{color:var(--muted);font-size:14px}
 .opts{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;margin-bottom:16px}
-.opt{border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:12px 8px;font:700 14px 'Manrope',sans-serif;cursor:pointer;text-align:center;transition:border-color .2s,background .2s}
+.opt{border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:12px 8px;font:700 14px 'Manrope',sans-serif;cursor:pointer;text-align:center}
 .opt.on{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
 .kv{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:4px 14px;margin-bottom:16px}
 .kv div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
@@ -257,7 +252,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .badge{background:var(--brand);color:#fff;border-radius:999px;font-size:11px;padding:1px 8px;margin-left:8px}
 .note{background:var(--brand-soft);color:var(--brand);border-radius:14px;padding:12px 14px;font-weight:600;font-size:13px;margin-bottom:14px;line-height:1.4}
 .pkgs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.pkg{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:left;cursor:pointer;transition:border-color .2s,background .2s,transform .12s}
+.pkg{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:left;cursor:pointer}
 .pkg.on{border-color:var(--brand);background:var(--brand-soft)}
 .pkg b{display:block;font:800 22px 'Sora',sans-serif}
 .pkg span{display:flex;align-items:center;gap:6px;margin-top:8px;font:700 13px 'Sora',sans-serif;color:var(--muted)}
@@ -266,6 +261,8 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .swapbox .rate{font:800 22px 'Sora',sans-serif}
 .swapbox .rate span{display:inline-flex;align-items:center;gap:6px;vertical-align:middle}
 .swapbox small{color:var(--muted);display:block;margin-top:4px}
+
+.section-title{font:800 18px 'Sora',sans-serif;margin:24px 0 12px;display:flex;align-items:center;gap:8px}
 
 #fatal{position:fixed;inset:0;z-index:999;background:#0E0B22;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;gap:14px}
 #fatal h2{font-family:'Sora',sans-serif;font-size:22px}
@@ -319,10 +316,10 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></symbol>
 <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l4 2.5-4 2.5z"/></symbol>
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.7v.01"/></symbol>
-<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></symbol>
 <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/></symbol>
 <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4L3 8l4 4"/><path d="M3 8h14a4 4 0 014 4v0"/><path d="M17 20l4-4-4-4"/><path d="M21 16H7a4 4 0 01-4-4v0"/></symbol>
 <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v14"/><path d="M6 13l6 6 6-6"/><path d="M4 21h16"/></symbol>
+<symbol id="i-game" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="12" rx="4"/><path d="M7 13h3M8.5 11.5v3"/><circle cx="15.5" cy="12" r=".9" fill="currentColor"/><circle cx="17.5" cy="14" r=".9" fill="currentColor"/></symbol>
 </defs></svg>
 
 <div id="splash"><div class="sl"><div class="logo" id="splashLogo"></div></div><div class="word">PMER</div><div class="tag">Earn. Promote. Grow.</div><div class="bar"><i></i></div></div>
@@ -377,7 +374,6 @@ const CONFIG = {
   appName: 'PMER',
   logo: '',
 
-  /* Ads: 9 ads grouped into 3 tasks. Watch all 3 → Claim 18 JR. 60s cooldown between claims. Limit 10/day. */
   adReward: 18,
   adDailyLimit: 10,
   adCooldownSec: 60,
@@ -392,16 +388,10 @@ const CONFIG = {
   adsgramBlockId: '30645',
   onclickaId: '464920',
 
-  /* Swap: JR → RJ. 1000 JR = 50000 RJ, min 100 JR */
   swap: { jrIn: 1000, rjOut: 50000, min: 100 },
-
-  /* Withdraw: min 1000 JR, 3% fee, Binance UID only */
   withdraw: { min: 1000, feePct: 3, method: 'Binance' },
+  usdRate: 10000,   // 10000 JR = $1
 
-  /* USD rate: 10000 JR = 1 USD */
-  usdRate: 10000,
-
-  /* Task rewards are in RJ */
   minReward: { join: 3000, reaction: 1000, view: 700, conditions: 2500, website: 1500, youtube: 1000 },
   fee: { website: 300 },
   minUsers: 1,
@@ -431,7 +421,17 @@ const CONFIG = {
       { usd: 5, rj: 5500000 },
       { usd: 10, rj: 11000000 }
     ]
-  }
+  },
+
+  /* Games section on Earn page. These do NOT pay out; they just open the link. */
+  games: [
+    {
+      id: 'game1',
+      title: 'Play lunch the complete 27 level and get 1000 JR',
+      reward: 1000,
+      link: 'https://t.me/pmer01_bot'   // replace with your game bot link
+    }
+  ]
 };
 
 /* =====================================================================
@@ -452,8 +452,7 @@ try {
   TS = firebase.database.ServerValue.TIMESTAMP;
   P = { user: id => `pn/users/${id}`, tasks: 'pn/tasks', task: id => `pn/tasks/${id}` };
 } catch (e) {
-  console.error('Firebase init failed:', e);
-  showFatal('Firebase error', 'Could not connect to the database. ' + (e.message || e));
+  showFatal('Firebase error', 'Could not connect. ' + (e.message || e));
   return;
 }
 
@@ -474,11 +473,9 @@ const tg = window.Telegram && window.Telegram.WebApp;
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
 const jrBal = u => (u && u.balance) || 0;
 const rjBal = u => ((u && u.rjBalance) || 0) - ((u && u.debtTotal) || 0);
-const netBal = u => ((u && u.balance) || 0) - ((u && u.debtTotal) || 0);
 const jrToUSD = jr => (jr || 0) / (CONFIG.usdRate || 10000);
 const today = () => new Date().toLocaleDateString('en-CA');
 const fmtLeft = ms => { const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return h > 0 ? `${h}h ${m}m` : `${Math.max(0, m)}m`; };
-const chatKey = c => String(c).replace(/^@/, '').toLowerCase();
 function setHTML(el, html) { if (!el) return false; if (el.__h === html) return false; el.innerHTML = html; el.__h = html; return true; }
 
 function hap(kind) {
@@ -542,7 +539,7 @@ function applyTheme() {
    State
    ===================================================================== */
 const S = {
-  uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null,
+  uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null, shownUsd: null,
   chatCache: {}, botId: null, pending: {}, prevSub: null,
   wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' }
 };
@@ -591,7 +588,7 @@ async function checkReferral(u) {
 }
 
 /* =====================================================================
-   Ads: 3 tasks × 3 ads. Watch all 3 → Claim 18 JR. 60s cooldown, 10/day.
+   ADS — 3 tasks × 3 ads. Watch all 3 → Claim 18 JR. 60s cooldown, 10/day.
    ===================================================================== */
 async function runMonetag() {
   if (typeof window.show_10541383 !== 'function') throw new Error('not_ready');
@@ -609,10 +606,19 @@ async function runGigapub() {
   if (typeof window.showGiga !== 'function') throw new Error('not_ready');
   await window.showGiga('main');
 }
-async function runAdsgramFallbackMonetag() {
+/* Ad 3: try Adsgram → fall back to Monetag if Adsgram fails/unavailable */
+async function runAd3() {
   try { await runAdsgram(); }
   catch (e) {
-    console.warn('Adsgram failed, trying Monetag:', e);
+    console.warn('Adsgram failed, falling back to Monetag:', e);
+    await runMonetag();
+  }
+}
+/* Ad 5: try Adsbitvex → fall back to Monetag */
+async function runAd5() {
+  try { await runAdsbitvex(); }
+  catch (e) {
+    console.warn('Adsbitvex failed, falling back to Monetag:', e);
     await runMonetag();
   }
 }
@@ -620,9 +626,9 @@ async function runAdsgramFallbackMonetag() {
 const PROVIDERS = {
   p1: { label: 'Ad 1', run: runMonetag },
   p2: { label: 'Ad 2', run: runAdsbitvex },
-  p3: { label: 'Ad 3', run: runAdsgramFallbackMonetag },
+  p3: { label: 'Ad 3', run: runAd3 },
   p4: { label: 'Ad 4', run: runGigapub },
-  p5: { label: 'Ad 5', run: runAdsbitvex },
+  p5: { label: 'Ad 5', run: runAd5 },
   p6: { label: 'Ad 6', link: CONFIG.adLinks[0] },
   p7: { label: 'Ad 7', link: CONFIG.adLinks[1] },
   p8: { label: 'Ad 8', link: CONFIG.adLinks[2] },
@@ -634,55 +640,70 @@ const AD_GROUPS = [
   { id: 'g3', label: 'Ad Task 3', sub: 'Ads 7, 8, 9', ads: ['p7', 'p8', 'p9'] }
 ];
 
+/* Uses S.user directly but tolerates undefined values gracefully */
 function getGroupState(gid) {
-  const u = S.user;
+  const u = S.user || {};
   const empty = { done: [], claims: 0, lastClaim: 0 };
   if (u.adDay !== today()) return empty;
-  return ((u.adProgress || {})[gid]) || empty;
+  const p = (u.adProgress || {})[gid];
+  if (!p || typeof p !== 'object') return empty;
+  return {
+    done: Array.isArray(p.done) ? p.done : [],
+    claims: Number(p.claims) || 0,
+    lastClaim: Number(p.lastClaim) || 0
+  };
 }
 function groupCooldownLeft(gid) {
   const st = getGroupState(gid);
   if (!st.lastClaim) return 0;
-  return Math.max(0, Math.ceil((st.lastClaim + CONFIG.adCooldownSec * 1000 - Date.now()) / 1000));
+  const ms = st.lastClaim + CONFIG.adCooldownSec * 1000 - Date.now();
+  return ms > 0 ? Math.ceil(ms / 1000) : 0;
 }
 
 async function watchGroupAd(gid, key) {
-  const group = AD_GROUPS.find(g => g.id === gid); if (!group) return;
-  const provider = PROVIDERS[key]; if (!provider) return;
-  const st = getGroupState(gid);
-  if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task. Try again tomorrow.');
-  if (groupCooldownLeft(gid) > 0) return toastErr(`Please wait ${groupCooldownLeft(gid)}s before the next round.`);
-  if (st.done.includes(key)) return toastErr('You already watched this ad in this round.');
-  if (S.ui['ad_' + key]) return;
-  if (provider.link && S.view) return;
+  try {
+    const group = AD_GROUPS.find(g => g.id === gid); if (!group) return;
+    const provider = PROVIDERS[key]; if (!provider) return;
+    const st = getGroupState(gid);
+    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task. Come back tomorrow.');
+    if (groupCooldownLeft(gid) > 0) return toastErr(`Please wait ${groupCooldownLeft(gid)}s before the next round.`);
+    if (st.done.includes(key)) return toastErr('You already watched this ad in this round.');
+    if (S.ui['ad_' + key]) return;
+    if (provider.link && S.view) return;
 
-  if (provider.link) return startGroupLinkAd(gid, key, provider.link);
+    if (provider.link) return startGroupLinkAd(gid, key, provider.link);
 
-  S.ui['ad_' + key] = true; renderEarn();
-  try { await provider.run(); }
-  catch (e) {
-    console.warn('Ad error', key, e);
-    S.ui['ad_' + key] = false; renderEarn();
-    return toastErr(e && e.message === 'not_ready' ? 'This ad is not available right now. Try another one.' : 'The ad was not finished, so no JR was added. Try again.');
-  }
-  S.ui['ad_' + key] = false;
-  await markAdDone(gid, key);
-  renderEarn();
+    S.ui['ad_' + key] = true; renderEarn();
+    try {
+      await provider.run();
+      S.ui['ad_' + key] = false;
+      await markAdDone(gid, key);
+    } catch (e) {
+      console.warn('Ad error', key, e);
+      S.ui['ad_' + key] = false;
+      toastErr(e && e.message === 'not_ready'
+        ? 'This ad is not available right now. Try another one.'
+        : 'The ad was not finished, so no JR was added. Try again.');
+    }
+    renderEarn();
+  } catch (e) { console.error('watchGroupAd outer', e); }
 }
 
 async function markAdDone(gid, key) {
-  await db.ref(P.user(S.uid)).transaction(u => {
+  const res = await db.ref(P.user(S.uid)).transaction(u => {
     if (!u) return u;
     const d = today();
     if (u.adDay !== d) { u.adDay = d; u.adProgress = {}; }
     u.adProgress = u.adProgress || {};
     const p = u.adProgress[gid] = u.adProgress[gid] || { done: [], claims: 0, lastClaim: 0 };
+    if (!Array.isArray(p.done)) p.done = [];
     if (p.done.includes(key)) return u;
     if ((p.claims || 0) >= CONFIG.adDailyLimit) return u;
     if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return u;
     p.done.push(key);
     return u;
   });
+  if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
 }
 
 function startGroupLinkAd(gid, key, url) {
@@ -711,44 +732,68 @@ async function finishGroupLinkAd(success) {
 }
 
 async function claimAdGroup(gid) {
-  const st = getGroupState(gid);
-  if (st.done.length < 3) return toastErr('Watch all 3 ads first.');
-  if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task.');
-  if (groupCooldownLeft(gid) > 0) return toastErr(`Please wait ${groupCooldownLeft(gid)}s before claiming.`);
+  try {
+    const st = getGroupState(gid);
+    if (st.done.length < 3) return toastErr('Watch all 3 ads first.');
+    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task.');
+    if (groupCooldownLeft(gid) > 0) return toastErr(`Please wait ${groupCooldownLeft(gid)}s before claiming.`);
 
-  let claimed = false;
-  const res = await db.ref(P.user(S.uid)).transaction(u => {
-    claimed = false;
-    if (!u) return u;
-    if (u.adDay !== today()) { u.adDay = today(); u.adProgress = {}; }
-    u.adProgress = u.adProgress || {};
-    const p = u.adProgress[gid] = u.adProgress[gid] || { done: [], claims: 0, lastClaim: 0 };
-    if (p.done.length < 3) return u;
-    if ((p.claims || 0) >= CONFIG.adDailyLimit) return u;
-    if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return u;
-    p.done = [];
-    p.claims = (p.claims || 0) + 1;
-    p.lastClaim = Date.now();
-    applyIncome(u, CONFIG.adReward);
-    claimed = true;
-    return u;
-  });
+    const res = await db.ref(P.user(S.uid)).transaction(u => {
+      if (!u) return u;
+      const d = today();
+      if (u.adDay !== d) { u.adDay = d; u.adProgress = {}; }
+      u.adProgress = u.adProgress || {};
+      const p = u.adProgress[gid] = u.adProgress[gid] || { done: [], claims: 0, lastClaim: 0 };
+      if (!Array.isArray(p.done)) p.done = [];
+      if (p.done.length < 3) return;                      // abort
+      if ((p.claims || 0) >= CONFIG.adDailyLimit) return; // abort
+      if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return; // abort
+      p.done = [];
+      p.claims = (p.claims || 0) + 1;
+      p.lastClaim = Date.now();
+      applyIncome(u, CONFIG.adReward);
+      return u;
+    });
 
-  if (res.committed && claimed) { rewarded(CONFIG.adReward, 'Ad task complete'); hap('success'); }
-  else toastErr('Could not claim right now. Try again.');
-  renderEarn();
+    if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
+
+    if (res.committed) {
+      rewarded(CONFIG.adReward, 'Ad task complete');
+      hap('success');
+    } else {
+      toastErr('Could not claim right now. Try again in a moment.');
+    }
+    renderEarn();
+  } catch (e) {
+    console.error('claimAdGroup', e);
+    toastErr('Could not claim right now.');
+    renderEarn();
+  }
+}
+
+function adButtonHtmlFor(gid, key, st) {
+  const p = PROVIDERS[key]; if (!p) return '';
+  const isDone = st.done.includes(key);
+  const v = S.view && S.view.ad === key ? S.view : null;
+  if (isDone) return { html: `✓ ${p.label}`, dis: true, done: true };
+  if (v) {
+    const s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
+    return { html: s > 0 ? `<span class="spin"></span>${s}s` : 'Return', dis: true, done: false };
+  }
+  if (S.ui['ad_' + key]) return { html: `<span class="spin"></span>`, dis: true, done: false };
+  if (S.ui['adfail_' + key]) return { html: 'Retry', dis: false, done: false };
+  return { html: p.label, dis: false, done: false };
 }
 
 function renderAdGroup(g) {
   const st = getGroupState(g.id);
   const cooldown = groupCooldownLeft(g.id);
-  const canClaim = st.done.length >= 3 && st.claims < CONFIG.adDailyLimit && cooldown === 0;
   const limitReached = st.claims >= CONFIG.adDailyLimit;
   const waiting = cooldown > 0;
-  const roundPct = (st.done.length / 3) * 100;
-  const claimPct = (st.claims / CONFIG.adDailyLimit) * 100;
+  const canClaim = st.done.length >= 3 && !limitReached && !waiting;
+  const roundPct = Math.min(100, (st.done.length / 3) * 100);
 
-  let content;
+  let content = '';
   if (limitReached) {
     content = `<div class="note" style="margin:0;text-align:center">Daily limit reached (${st.claims}/${CONFIG.adDailyLimit}). Come back tomorrow.</div>`;
   } else if (waiting) {
@@ -757,21 +802,10 @@ function renderAdGroup(g) {
     content = `<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="${g.id}">🎁 Claim ${CONFIG.adReward} JR</button>`;
   } else {
     const buttons = g.ads.map(key => {
-      const p = PROVIDERS[key]; if (!p) return '';
-      const isDone = st.done.includes(key);
-      const isBusy = S.ui['ad_' + key];
-      const v = S.view && S.view.ad === key ? S.view : null;
-      let html, dis = false;
-      if (isDone) { html = `✓ ${p.label}`; dis = true; }
-      else if (v) {
-        const s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
-        html = s > 0 ? `<span class="spin"></span>${s}s` : 'Return';
-        dis = true;
-      }
-      else if (isBusy) { html = `<span class="spin"></span>`; dis = true; }
-      else if (S.ui['adfail_' + key]) { html = 'Retry'; }
-      else { html = p.label; }
-      return `<button class="btn ${isDone ? 'btn-jade' : 'btn-primary'}" data-act="watch-group" data-gid="${g.id}" data-key="${key}" ${dis ? 'disabled' : ''}>${html}</button>`;
+      const u = adButtonHtmlFor(g.id, key, st);
+      const cls = u.done ? 'btn-jade' : 'btn-primary';
+      const cool = u.dis && !u.done ? ' cool' : '';
+      return `<button class="btn ${cls}${cool}" data-act="watch-group" data-gid="${g.id}" data-key="${key}" ${u.dis ? 'disabled' : ''}>${u.html}</button>`;
     }).join('');
     content = `<div class="adgrid">${buttons}</div>`;
   }
@@ -782,19 +816,45 @@ function renderAdGroup(g) {
         <p class="meta">${g.sub} · ${st.claims}/${CONFIG.adDailyLimit} claimed today</p></div>
       <span class="reward">${coin()}+${fmt(CONFIG.adReward)}</span></div>
     <div class="bar"><i style="width:${roundPct}%"></i></div>
-    <p class="adnote" style="margin:0 0 10px">${st.done.length}/3 ads in this round${canClaim ? ' — all ads done! Claim now.' : ''}</p>
+    <p class="adnote" style="margin:0 0 10px">${st.done.length}/3 ads in this round${canClaim ? ' — all 3 done, claim now!' : ''}</p>
     ${content}
+  </article>`;
+}
+
+function renderGameCard(g) {
+  return `<article class="card">
+    <div class="row"><span class="tbadge t-game">${ico('game')}</span>
+      <div class="grow"><h3>${esc(g.title)}</h3>
+        <p class="meta">Open the game bot and complete the task</p></div>
+      <span class="reward">${coin()}+${fmt(g.reward)}</span></div>
+    <button class="btn btn-primary btn-block" style="margin-top:12px" data-act="open-game" data-id="${esc(g.id)}">Open</button>
   </article>`;
 }
 
 function renderEarn() {
   if (S.tab !== 'earn') return;
-  const td = S.user.today && S.user.today.d === today() ? S.user.today.a : 0;
-  const cards = AD_GROUPS.map(renderAdGroup).join('');
-  setHTML($('#p-earn'), `<h1>Earn</h1>
-    <p class="sub">Watch all 3 ads in each task to earn ${fmt(CONFIG.adReward)} JR. Each task can be claimed ${CONFIG.adDailyLimit} times a day, with ${CONFIG.adCooldownSec}s between claims. You earned ${fmt(td)} JR today.</p>
-    <div class="list">${cards}</div>`);
+  try {
+    const td = S.user && S.user.today && S.user.today.d === today() ? S.user.today.a : 0;
+    const adCards = AD_GROUPS.map(g => {
+      try { return renderAdGroup(g); } catch (e) { console.error('renderAdGroup', g.id, e); return ''; }
+    }).join('');
+    const gameCards = (CONFIG.games || []).map(g => {
+      try { return renderGameCard(g); } catch (e) { console.error('renderGameCard', e); return ''; }
+    }).join('');
+
+    setHTML($('#p-earn'), `
+      <h1>Earn</h1>
+      <p class="sub">Watch all 3 ads in each task to earn ${fmt(CONFIG.adReward)} JR. Each task can be claimed ${CONFIG.adDailyLimit} times a day, with ${CONFIG.adCooldownSec}s between claims. You earned ${fmt(td)} JR today.</p>
+      <div class="list">${adCards}</div>
+      <h2 class="section-title">🎮 Games</h2>
+      <div class="list">${gameCards || '<div class="empty"><b>No games right now</b></div>'}</div>
+    `);
+  } catch (e) {
+    console.error('renderEarn fatal:', e);
+    setHTML($('#p-earn'), `<h1>Earn</h1><p class="sub">Something went wrong. Please reload the app.</p>`);
+  }
 }
+/* Live cooldown ticker */
 setInterval(() => { if (S.tab === 'earn') renderEarn(); }, 1000);
 
 /* =====================================================================
@@ -802,12 +862,12 @@ setInterval(() => { if (S.tab === 'earn') renderEarn(); }, 1000);
    ===================================================================== */
 const KIND = { channel: 'a channel or group link', post: 'a post link', bot: 'a bot link' };
 const CAT = {
-  join:       { label: 'Join',            icon: 'userplus', kind: 'channel', ph: 'https://t.me/yourchannel',     hint: 'Public channel or group link, like https://t.me/yourchannel', sub: 'Channel or group' },
-  reaction:   { label: 'Reaction',        icon: 'heart',    kind: 'post',    ph: 'https://t.me/yourchannel/123', hint: 'Link to one post, like https://t.me/yourchannel/123',          sub: 'Post' },
-  view:       { label: 'View',            icon: 'eye',      kind: 'post',    ph: 'https://t.me/yourchannel/123', hint: 'Link to one post, like https://t.me/yourchannel/123',          sub: 'Post' },
-  conditions: { label: 'With conditions', icon: 'shieldok', kind: 'bot',     ph: 'https://t.me/yourbot?start=yourcode', hint: 'Bot link, like https://t.me/yourbot?start=yourcode', sub: 'Bot' },
-  website:    { label: 'Website',         icon: 'globe',    kind: 'web',     ph: 'https://example.com',          hint: 'Website link that starts with https://', sub: 'Website' },
-  youtube:    { label: 'YouTube',         icon: 'yt',       kind: 'yt',      ph: 'https://youtu.be/xxxxxxxxxxx', hint: 'YouTube video link that starts with https://', sub: 'YouTube video' }
+  join:       { label: 'Join',            icon: 'userplus', kind: 'channel', ph: 'https://t.me/yourchannel',     hint: 'Public channel or group link', sub: 'Channel or group' },
+  reaction:   { label: 'Reaction',        icon: 'heart',    kind: 'post',    ph: 'https://t.me/yourchannel/123', hint: 'Link to one post',             sub: 'Post' },
+  view:       { label: 'View',            icon: 'eye',      kind: 'post',    ph: 'https://t.me/yourchannel/123', hint: 'Link to one post',             sub: 'Post' },
+  conditions: { label: 'With conditions', icon: 'shieldok', kind: 'bot',     ph: 'https://t.me/yourbot?start=yourcode', hint: 'Bot link', sub: 'Bot' },
+  website:    { label: 'Website',         icon: 'globe',    kind: 'web',     ph: 'https://example.com',          hint: 'Website link starting with https://', sub: 'Website' },
+  youtube:    { label: 'YouTube',         icon: 'yt',       kind: 'yt',      ph: 'https://youtu.be/xxxxxxxxxxx', hint: 'YouTube video link', sub: 'YouTube video' }
 };
 
 function parseTg(raw) {
@@ -834,14 +894,14 @@ function parseTg(raw) {
   return null;
 }
 function checkWeb(cat, s) {
-  if (!/^https:\/\//i.test(s)) return { ok: false, msg: `The link must start with https://. ${cat.hint}.` };
-  let u; try { u = new URL(s); } catch (e) { return { ok: false, msg: `That is not a valid link. ${cat.hint}.` }; }
+  if (!/^https:\/\//i.test(s)) return { ok: false, msg: `The link must start with https://.` };
+  let u; try { u = new URL(s); } catch (e) { return { ok: false, msg: `That is not a valid link.` }; }
   const h = u.hostname.toLowerCase().replace(/^www\./, '');
-  if (!h.includes('.') || s.length > 300 || u.username || u.password) return { ok: false, msg: `That is not a valid link. ${cat.hint}.` };
+  if (!h.includes('.') || s.length > 300 || u.username || u.password) return { ok: false, msg: `That is not a valid link.` };
   const isTg = /^(t|telegram)\.me$/.test(h), isYt = /(^|\.)(youtube\.com|youtu\.be|youtube-nocookie\.com)$/.test(h);
   if (cat.kind === 'web') {
-    if (isTg) return { ok: false, msg: 'This is a Telegram link. Use Join, Reaction, View or With conditions for Telegram links.' };
-    if (isYt) return { ok: false, msg: 'This is a YouTube link. Use the YouTube type for videos.' };
+    if (isTg) return { ok: false, msg: 'This is a Telegram link.' };
+    if (isYt) return { ok: false, msg: 'This is a YouTube link.' };
     return { ok: true, p: { kind: 'web', chat: null, url: u.href } };
   }
   let id = null;
@@ -850,7 +910,7 @@ function checkWeb(cat, s) {
     const seg = u.pathname.split('/').filter(Boolean);
     if (seg[0] === 'watch') id = u.searchParams.get('v'); else if (['shorts', 'embed', 'live'].includes(seg[0])) id = seg[1];
   }
-  if (!id || !/^[\w-]{11}$/.test(id)) return { ok: false, msg: `That is not a YouTube video link. ${cat.hint}.` };
+  if (!id || !/^[\w-]{11}$/.test(id)) return { ok: false, msg: `That is not a YouTube video link.` };
   return { ok: true, p: { kind: 'yt', chat: null, url: `https://www.youtube.com/watch?v=${id}` } };
 }
 function checkUrl(type, raw) {
@@ -858,7 +918,7 @@ function checkUrl(type, raw) {
   if (!raw.trim()) return { ok: false, msg: '' };
   if (cat.kind === 'web' || cat.kind === 'yt') return checkWeb(cat, raw.trim());
   const p = parseTg(raw);
-  if (!p) return { ok: false, msg: `That is not a supported Telegram link. ${cat.hint}.` };
+  if (!p) return { ok: false, msg: `That is not a supported Telegram link.` };
   if (p.kind !== cat.kind) return { ok: false, msg: `This is ${KIND[p.kind]}. ${cat.label} campaigns need ${KIND[cat.kind]}.` };
   return { ok: true, p };
 }
@@ -866,7 +926,7 @@ function checkUrl(type, raw) {
 const BAD_EN = /(^|[^a-z0-9])(porn\w*|pr0n|xxx+|sex\w*|nud(e|es|ity)|naked|nsfw|hentai|erotic\w*|escort\w*|onlyfans|18\s?\+|adult\s?(content|video|chat)|milf|blowjob|fetish|bdsm|hookup|chudai)([^a-z0-9]|$)/i;
 const BAD_BN = /(পর্ন|সেক্স|নগ্ন|উলঙ্গ|চটি)/;
 const isBad = t => !!t && (BAD_EN.test(String(t).replace(/[_\-.]+/g, ' ')) || BAD_BN.test(String(t)));
-const HARAM_MSG = 'This is haram. Adult and pornographic content is not allowed on PMER, so this link cannot be promoted.';
+const HARAM_MSG = 'This is haram. Adult and pornographic content is not allowed on PMER.';
 const botName = () => '@' + CONFIG.botLink.split('/').pop().split('?')[0];
 const adminLink = type => `${CONFIG.botLink}?${type === 'channel' ? 'startchannel' : 'startgroup'}&admin=invite_users`;
 const adminButtons = () => `<div class="actions" style="margin-top:12px"><button class="btn btn-primary btn-sm" data-act="add-admin">Add PMER as admin</button><button class="btn btn-soft btn-sm" data-act="recheck">I added it, check again</button></div>`;
@@ -911,11 +971,11 @@ async function screenTarget(p, extra, type) {
 }
 const blockText = r => ({
   adult: HARAM_MSG,
-  notfound: 'We could not find this channel or group. Check the link and try again.',
+  notfound: 'We could not find this channel or group.',
   notchannel: 'This link is a person, not a channel or group.',
-  needadmin: `Give PMER permission first. Tap "Add PMER as admin", pick this channel or group, and confirm.`,
-  notrack: 'Join campaigns are not available right now. Please contact support.',
-  offline: 'Could not check this link right now. Check your connection and try again.'
+  needadmin: `Tap "Add PMER as admin", pick this channel or group, and confirm.`,
+  notrack: 'Join campaigns are not available right now.',
+  offline: 'Could not check this link right now.'
 }[r] || 'This link cannot be promoted.');
 function showBlock(msg, extra) { const b = $('#blockBox'); if (!b) return; const uh = $('#urlHint'); if (uh) uh.hidden = true; b.textContent = msg; if (extra) b.insertAdjacentHTML('beforeend', extra); b.hidden = false; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); hap('error'); }
 
@@ -954,6 +1014,7 @@ async function claimTask(task) {
     return u;
   });
   if (!res.committed) { await remRef.transaction(r => (r || 0) + 1); toastErr('You already completed this task.'); return false; }
+  if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
   if (slot.snapshot.val() === 0) db.ref(P.task(task.id) + '/status').set('completed');
   rewardedRJ(task.perUser, 'Task reward added');
   if (task.type === 'join') watchJoin(task);
@@ -1120,7 +1181,7 @@ function renderTasks() {
     .map(([k, l]) => `<button class="chip ${S.filter === k ? 'on' : ''}" data-act="filter" data-k="${k}">${l}<em>${n(k)}</em></button>`).join('');
   setHTML($('#p-tasks'), `<h1>Tasks</h1><p class="sub">Complete tasks and earn RJ. Higher rewards come first.</p>
     <div class="chips" role="tablist">${chips}</div>
-    <div class="list">${list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit to advertisers show up here until they are approved.' : 'New tasks appear as soon as advertisers publish them.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
+    <div class="list">${list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit show here until approved.' : 'New tasks appear soon.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
 }
 document.addEventListener('focusout', e => { if (e.target.matches && e.target.matches('[data-uname]') && S.taskDirty) { S.taskDirty = false; setTimeout(renderTasks, 350); } });
 
@@ -1136,7 +1197,7 @@ async function doVerify(id) {
     setTaskUi(id, { busy: false });
     return toastErr(e.message === 'no_verifier' ? 'Verification is not available yet.'
       : e.message === 'verifier_tg' ? 'Could not check this channel. Its owner must make ' + botName() + ' an admin.'
-      : 'Could not check right now. Try again in a moment.');
+      : 'Could not check right now. Try again.');
   }
   if (!ok) { setTaskUi(id, { busy: false }); return toastErr('You have not joined this channel yet. Join it first, then tap Verify.'); }
   setTaskUi(id, { busy: false });
@@ -1271,10 +1332,17 @@ function openPendingSheet(id) {
 /* =====================================================================
    Home
    ===================================================================== */
-function countUp(el, from, to) {
-  if (!el) return; if (from === to) { el.textContent = fmt(to); return; }
+function countUp(el, from, to, usdEl) {
+  if (!el) return;
+  if (from === to) { el.textContent = fmt(to); if (usdEl) usdEl.textContent = '≈ ' + fmtUSD(jrToUSD(to)); return; }
   const t0 = performance.now(), dur = 700;
-  (function step(now) { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = fmt(Math.round(from + (to - from) * e)); if (k < 1) requestAnimationFrame(step); })(t0);
+  (function step(now) {
+    const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    const v = Math.round(from + (to - from) * e);
+    el.textContent = fmt(v);
+    if (usdEl) usdEl.textContent = '≈ ' + fmtUSD(jrToUSD(v));
+    if (k < 1) requestAnimationFrame(step);
+  })(t0);
 }
 function renderHome() {
   if (S.tab !== 'home') return;
@@ -1302,8 +1370,9 @@ function renderHome() {
       <button class="tile" data-sheet="swap"><span class="tbadge t-reaction">${ico('swap')}</span><div><b>Swap JR → RJ</b><span class="mut">${fmt(CONFIG.swap.jrIn)} JR = ${fmt(CONFIG.swap.rjOut)} RJ</span></div></button>
       <button class="tile" data-sheet="referral"><span class="tbadge t-join">${ico('userplus')}</span><div><b>Invite friends</b><span class="mut">+${fmt(CONFIG.referral.bonusJR)} JR · +${fmt(CONFIG.referral.bonusRJ)} RJ</span></div></button>
     </div>`);
-  countUp($('#balNum'), S.shown === null ? jr : S.shown, jr); S.shown = jr;
-  const ue = $('#balUsd'); if (ue) ue.textContent = '≈ ' + fmtUSD(usd);
+  const balEl = $('#balNum'), usdEl = $('#balUsd');
+  countUp(balEl, S.shown === null ? jr : S.shown, jr, usdEl);
+  S.shown = jr;
 }
 
 /* =====================================================================
@@ -1368,11 +1437,11 @@ function renderWizard() {
 
 const feeOf = t => (CONFIG.fee && CONFIG.fee[t]) || 0;
 function waitNote(type) {
-  const t = { join: `Users who leave your channel or group within ${CONFIG.leave.days} days lose their reward, and it is returned to you.`,
-    reaction: `Users are paid after they open the post, react, and stay on it for ${CONFIG.reactionSeconds} seconds.`,
-    view: `Users are paid after they open the post and stay on it for ${CONFIG.viewSeconds} seconds.`,
-    website: `Users are paid after they open your website and stay on it for ${CONFIG.websiteSeconds} seconds. Service fee: ${fmt(feeOf('website'))} RJ per user.`,
-    youtube: `Users are paid after they open your video and stay on it for ${CONFIG.youtubeSeconds} seconds.` }[type];
+  const t = { join: `Users who leave within ${CONFIG.leave.days} days lose their reward, and it is returned to you.`,
+    reaction: `Users are paid after they react and stay on the post for ${CONFIG.reactionSeconds} seconds.`,
+    view: `Users are paid after they stay on the post for ${CONFIG.viewSeconds} seconds.`,
+    website: `Users are paid after staying on your site for ${CONFIG.websiteSeconds} seconds. Fee: ${fmt(feeOf('website'))} RJ per user.`,
+    youtube: `Users are paid after staying on the video for ${CONFIG.youtubeSeconds} seconds.` }[type];
   return t ? `<div class="note">${t}</div>` : '';
 }
 function wizCost() { const w = S.wiz, per = parseInt(w.perUser, 10) || 0, users = parseInt(w.users, 10) || 0, fee = feeOf(w.type); return { per, users, fee, cost: (per + fee) * users }; }
@@ -1390,7 +1459,7 @@ function updateWiz() {
   } else if (w.step === 2) {
     const n = w.title.trim().length, ok = n >= CONFIG.titleMin && n <= CONFIG.titleMax;
     const tc = $('#titleCount'); if (tc) tc.textContent = `${n}/${CONFIG.titleMax}`;
-    const th = $('#titleHint'); if (th) { th.className = 'hint' + (ok ? ' ok' : ''); th.textContent = ok ? 'Title looks good.' : n < CONFIG.titleMin ? `Add ${CONFIG.titleMin - n} more character${CONFIG.titleMin - n === 1 ? '' : 's'}.` : `Max ${CONFIG.titleMax} characters.`; }
+    const th = $('#titleHint'); if (th) { th.className = 'hint' + (ok ? ' ok' : ''); th.textContent = ok ? 'Title looks good.' : n < CONFIG.titleMin ? `Add ${CONFIG.titleMin - n} more.` : `Max ${CONFIG.titleMax}.`; }
     const stepsOk = w.type !== 'conditions' || w.steps.every(s => s.trim().length >= 5);
     next.disabled = !(ok && stepsOk);
   } else {
@@ -1422,6 +1491,7 @@ async function publish() {
   btn.innerHTML = '<span class="spin"></span> Publishing';
   const tx = await db.ref(P.user(S.uid)).transaction(u => { if (!u || rjBal(u) < cost) return; u.rjBalance -= cost; u.spent = (u.spent || 0) + cost; return u; });
   if (!tx.committed) { toastErr('You have not enough RJ balance'); btn.textContent = 'Publish campaign'; return updateWiz(); }
+  if (tx.snapshot && tx.snapshot.exists()) S.user = tx.snapshot.val();
   try {
     await db.ref(P.tasks).push().set({
       type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat || null, msgId: r.p.msgId || null, fee: fee || null,
@@ -1487,7 +1557,7 @@ function renderProfile() {
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">PMER 2.2</p>`);
+    </div><p class="ver">PMER 2.3</p>`);
 }
 
 const SHARE_TEXT = `Join me on PMER, the Telegram app where you earn JR and RJ every day.
@@ -1503,13 +1573,12 @@ Start earning now:`;
 const SHEETS = {
   support: () => openSheet(`<h2>Support</h2><p class="lead">Questions? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
 
-  /* SWAP JR → RJ */
   swap: () => {
     const rate = CONFIG.swap.rjOut / CONFIG.swap.jrIn;
     let jrIn = CONFIG.swap.min;
     const draw = b => {
       b.innerHTML = `<h2>Swap JR → RJ</h2><p class="lead">Convert your JR into RJ to run campaigns.</p>
-        <div class="swapbox"><div class="rate"><span>${coin('lg')}${fmt(CONFIG.swap.jrIn)}</span> = <span>${coinRJ('lg')}${fmt(CONFIG.swap.rjOut)}</span></div><small>1 JR = ${rate} RJ · Minimum swap ${fmt(CONFIG.swap.min)} JR</small></div>
+        <div class="swapbox"><div class="rate"><span>${coin('lg')}${fmt(CONFIG.swap.jrIn)}</span> = <span>${coinRJ('lg')}${fmt(CONFIG.swap.rjOut)}</span></div><small>1 JR = ${rate} RJ · Minimum ${fmt(CONFIG.swap.min)} JR</small></div>
         <div class="field"><label for="swapIn">JR to swap <span>You have ${fmt(jrBal(S.user))} JR</span></label><input id="swapIn" class="input" inputmode="numeric" placeholder="${CONFIG.swap.min}" value="${jrIn}"></div>
         <div class="sum" id="swapSum"></div>
         <div class="alert" id="swapErr" hidden></div>
@@ -1546,7 +1615,6 @@ const SHEETS = {
     openSheet('', draw);
   },
 
-  /* WITHDRAW JR → Binance, 3% fee */
   withdraw: () => {
     const feePct = CONFIG.withdraw.feePct;
     let jrAmt = CONFIG.withdraw.min;
@@ -1564,9 +1632,8 @@ const SHEETS = {
         jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/[^\d]/g, '')) || 0));
         const fee = Math.floor(jrAmt * feePct / 100);
         const net = jrAmt - fee;
-        const usd = jrToUSD(net);
         const sum = $('#wSum', b);
-        if (sum) sum.innerHTML = `<div><span class="mut">Amount</span><span>${fmt(jrAmt)} JR</span></div><div><span class="mut">Fee (${feePct}%)</span><span class="neg">- ${fmt(fee)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(net)} JR</span></div><div><span class="mut">≈ USD value</span><span>${fmtUSD(usd)}</span></div><div><span class="mut">Method</span><span>Binance</span></div>`;
+        if (sum) sum.innerHTML = `<div><span class="mut">Amount</span><span>${fmt(jrAmt)} JR</span></div><div><span class="mut">Fee (${feePct}%)</span><span class="neg">- ${fmt(fee)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(net)} JR</span></div><div><span class="mut">≈ USD value</span><span>${fmtUSD(jrToUSD(net))}</span></div><div><span class="mut">Method</span><span>Binance</span></div>`;
         const bad = jrAmt < CONFIG.withdraw.min ? `Minimum withdrawal is ${fmt(CONFIG.withdraw.min)} JR.` : jrAmt > jrBal(S.user) ? 'You do not have that much JR.' : '';
         err.hidden = !bad; if (bad) err.textContent = bad;
         btn.disabled = !!bad;
@@ -1595,7 +1662,6 @@ const SHEETS = {
     openSheet('', draw);
   },
 
-  /* DEPOSIT RJ via Binance with order ID */
   deposit: () => {
     const D = CONFIG.deposit;
     let pick = 1, page = 1, orderId = '', submitted = false;
@@ -1608,7 +1674,7 @@ const SHEETS = {
         const nx = $('#depNext', b); if (nx) nx.onclick = () => { page = 2; draw(b); };
       } else {
         const pk = D.packages[pick];
-        b.innerHTML = `<h2>Pay $${pk.usd}</h2><p class="lead">Send $${pk.usd} to the Binance UID below, then submit your Order ID. You receive ${fmt(pk.rj)} RJ after the admin approves.</p>
+        b.innerHTML = `<h2>Pay $${pk.usd}</h2><p class="lead">Send $${pk.usd} to the Binance UID below, then submit your Order ID. You receive ${fmt(pk.rj)} RJ after admin approval.</p>
           <div class="linkbox"><div class="grow"><small class="mut">Binance UID</small><div style="font:800 21px 'Sora',sans-serif;letter-spacing:.04em">${esc(D.binanceUid)}</div></div><button class="btn btn-soft btn-sm" data-copy="${esc(D.binanceUid)}">${ico('copy', 'sm')} Copy</button></div>
           <ol class="steps"><li>Open Binance and send exactly $${pk.usd} to the UID above.</li><li>Copy the Order ID from your payment confirmation.</li><li>Paste the Order ID below and submit.</li></ol>
           <div class="field"><label for="depOrder">Binance Order ID</label><input id="depOrder" class="input" autocomplete="off" autocapitalize="off" placeholder="Enter your Binance payment Order ID" value="${esc(orderId)}"></div>
@@ -1631,8 +1697,7 @@ const SHEETS = {
             toast('Deposit submitted. Admin will review it soon.'); hap('success');
             draw(b);
           } catch (e) {
-            console.error(e);
-            btn.disabled = false; btn.textContent = 'Try again';
+            console.error(e); btn.disabled = false; btn.textContent = 'Try again';
             err.hidden = false; err.textContent = 'Could not submit. Please try again.';
           }
         };
@@ -1641,7 +1706,6 @@ const SHEETS = {
     openSheet('', draw);
   },
 
-  /* REFERRAL */
   referral: () => {
     const u = S.user, list = Object.values(u.referrals || {}), link = `${CONFIG.botLink}?startapp=${S.uid}`, R = CONFIG.referral;
     const msg = SHARE_TEXT + '\n' + link;
@@ -1656,17 +1720,17 @@ const SHEETS = {
   },
 
   privacy: () => openSheet(`<h2>Privacy policy</h2>
-    <h4>What we collect</h4><p class="doc">Telegram ID, name, username, photo, JR/RJ balances, tasks, campaigns, swaps, withdrawals, deposits.</p>
-    <h4>Ads</h4><p class="doc">Ads are served by third-party networks. They may collect device and ad-interaction data under their own policies.</p>
+    <h4>What we collect</h4><p class="doc">Telegram ID, name, username, photo, balances, tasks, campaigns, swaps, withdrawals, deposits.</p>
+    <h4>Ads</h4><p class="doc">Ads are served by third-party networks.</p>
     <h4>Sharing</h4><p class="doc">We do not sell your personal data.</p>`),
 
   terms: () => openSheet(`<h2>Terms and conditions</h2>
-    <h4>Using PMER</h4><p class="doc">One person, one account. No bots, scripts, VPN farms.</p>
-    <h4>Rewards</h4><p class="doc">Ad tasks pay JR. Social tasks pay RJ. With conditions tasks auto-approve after ${CONFIG.reviewHours}h.</p>
+    <h4>Using PMER</h4><p class="doc">One person, one account. No bots or scripts.</p>
+    <h4>Rewards</h4><p class="doc">Ad tasks pay JR. Social tasks pay RJ. With-conditions tasks auto-approve after ${CONFIG.reviewHours}h.</p>
     <h4>Swap</h4><p class="doc">${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ. Min ${CONFIG.swap.min} JR. Swaps are final.</p>
-    <h4>Withdrawals</h4><p class="doc">Binance only. Min ${CONFIG.withdraw.min} JR. ${CONFIG.withdraw.feePct}% fee. Admin reviews each request.</p>
-    <h4>Deposits</h4><p class="doc">Deposits are RJ-only. Send USD to the Binance UID, submit your Order ID for approval.</p>
-    <h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers. RJ budget is reserved when you publish.</p>
+    <h4>Withdrawals</h4><p class="doc">Binance only. Min ${CONFIG.withdraw.min} JR. ${CONFIG.withdraw.feePct}% fee.</p>
+    <h4>Deposits</h4><p class="doc">Send USD to the Binance UID, submit your Order ID.</p>
+    <h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers.</p>
     <h4>Leaving a channel</h4><p class="doc">Leaving within ${CONFIG.leave.days} days returns your RJ reward to the owner.</p>`),
 
   settings: () => {
@@ -1680,7 +1744,7 @@ const SHEETS = {
     openSheet(`<h2>About PMER</h2>
       <p class="lead">Earn JR by ads, earn RJ by tasks, promote with RJ, withdraw JR to Binance.</p>
       <h4>Earn JR</h4><ul class="doc"><li>Each ad task has 3 ads. Claim ${fmt(CONFIG.adReward)} JR per completed round. ${L} rounds/day.</li><li>Referral: +${fmt(R.bonusJR)} JR and +${fmt(R.bonusRJ)} RJ per friend.</li></ul>
-      <h4>Earn RJ</h4><ul class="doc"><li>Complete social tasks (Join, Reaction, View, With conditions, Website, YouTube).</li><li>Swap JR → RJ at ${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ.</li></ul>
+      <h4>Earn RJ</h4><ul class="doc"><li>Complete social tasks.</li><li>Swap JR → RJ at ${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ.</li></ul>
       <h4>Withdraw & Deposit</h4><p class="doc">Withdraw JR to Binance (min ${fmt(CONFIG.withdraw.min)} JR, ${CONFIG.withdraw.feePct}% fee). Deposit USD → RJ via Binance UID + Order ID.</p>
       <h4>Fair use</h4><p class="doc">One account per person. No bots. No haram content.</p>
       <div class="gap"></div>
@@ -1712,6 +1776,8 @@ function go(tab) {
   $$('.nb').forEach(b => b.classList.toggle('on', b.dataset.go === tab));
   const pg = $('#p-' + tab); if (!pg) return;
   pg.classList.remove('enter'); void pg.offsetWidth; pg.classList.add('enter');
+  // Reset html cache on tab switch so the page fully rebuilds
+  pg.__h = null;
   if (tab === 'promote') { $('#p-promote').__h = null; renderPromote(); } else render();
   window.scrollTo(0, 0); hap('tap');
 }
@@ -1719,6 +1785,10 @@ function go(tab) {
 const ACT = {
   'watch-group': b => watchGroupAd(b.dataset.gid, b.dataset.key),
   'claim-ad': b => claimAdGroup(b.dataset.gid),
+  'open-game': b => {
+    const g = (CONFIG.games || []).find(x => x.id === b.dataset.id);
+    if (g && g.link) openLink(g.link);
+  },
   filter: b => { S.filter = b.dataset.k; renderTasks(); },
   open: b => { const t = taskById(b.dataset.id); if (!t) return; S.ui[t.id] = Object.assign(S.ui[t.id] || {}, { opened: Date.now() }); openLink(t.url); },
   verify: b => doVerify(b.dataset.id),
@@ -1796,7 +1866,7 @@ async function boot() {
 
   S.uid = String(tu.id);
   $('#app').hidden = false; $('#nav').hidden = false;
-  try { go('home'); } catch (e) {}
+  try { go('home'); } catch (e) { console.error('initial go', e); }
 
   try {
     await Promise.race([ ensureUser(tu), new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 8000)) ]);
@@ -1810,10 +1880,9 @@ async function boot() {
         notifySubmissions(u); notifyCredits(u); S.user = u; render();
         if (firstUser) { firstUser = false; checkReferral(u); }
         if ((u.debtTotal || 0) > 0 && (u.rjBalance || 0) > 0) settleDebts();
-        creditApprovedDeposits(u);
       } catch (err) { console.error('user listener', err); }
     }, err => console.error('user listener error', err));
-  } catch (e) {}
+  } catch (e) { console.error('user listener setup', e); }
 
   try {
     db.ref(P.user(S.uid) + '/deposits').on('value', snap => {
@@ -1847,7 +1916,6 @@ async function boot() {
   try { db.ref('.info/connected').on('value', s => console.log('Firebase connected:', s.val() === true)); } catch (e) {}
 }
 
-/* Auto credit approved deposits (safe with a flag) */
 async function creditDeposit(key, d) {
   try {
     const flagRef = db.ref(P.user(S.uid) + '/deposits/' + key + '/credited');
@@ -1861,10 +1929,6 @@ async function creditDeposit(key, d) {
     });
     rewardedRJ(d.rj, 'Deposit approved');
   } catch (e) { console.warn('creditDeposit', e); }
-}
-function creditApprovedDeposits(u) {
-  const deps = u.deposits || {};
-  Object.entries(deps).forEach(([k, d]) => { if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d); });
 }
 
 boot().catch(e => {

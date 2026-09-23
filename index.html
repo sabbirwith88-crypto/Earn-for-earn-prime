@@ -730,29 +730,38 @@ async function markAdDone(gid, key) {
   if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
 }
 
+/* ---------- LINK ADS (12s) — fixed completion ---------- */
 function startGroupLinkAd(gid, key, url) {
   if (S.view) return;
   S.ui['adfail_' + key] = false;
-  S.view = { ad: key, groupId: gid, id: 'ad_' + key, t0: Date.now(), left: false, secs: CONFIG.adLinkSeconds };
+  const v = S.view = { ad: key, groupId: gid, id: 'ad_' + key, t0: Date.now(), left: false, secs: CONFIG.adLinkSeconds };
   openLink(url);
-  const timer = setInterval(() => {
-    const v = S.view; if (!v || v.timer !== timer) return clearInterval(timer);
-    renderEarn();
-    if (!v.left && Date.now() - v.t0 >= v.secs * 1000) finishGroupLinkAd(true);
-  }, 250);
-  S.view.timer = timer;
-  renderEarn();
+  /* time-based tick: completes exactly after CONFIG.adLinkSeconds, even if the
+     browser throttled the timer while the ad page was open */
+  const tick = () => {
+    if (S.view !== v) { clearInterval(v.timer); return; }
+    if (Date.now() - v.t0 >= v.secs * 1000) { clearInterval(v.timer); finishGroupLinkAd(true); return; }
+    if (!document.hidden) renderEarn();
+  };
+  v.timer = setInterval(tick, 250);
+  tick();
 }
 async function finishGroupLinkAd(success) {
   const v = S.view; if (!v || !v.ad) return;
-  clearInterval(v.timer); S.view = null;
+  clearInterval(v.timer);
+  const key = v.ad, gid = v.groupId, secs = v.secs;
+  S.view = null;
   if (!success) {
-    S.ui['adfail_' + v.ad] = true; renderEarn();
-    return toastErr(`You came back too soon. Stay on the ad page for ${v.secs} seconds, then return.`);
+    S.ui['adfail_' + key] = true; renderEarn();
+    return toastErr(`You came back too soon. Stay on the ad page for ${secs} seconds, then return.`);
   }
-  S.ui['adfail_' + v.ad] = false;
-  await markAdDone(v.groupId, v.ad);
+  S.ui['adfail_' + key] = false;
+  S.ui['ad_' + key] = true;           // show spinner while saving
   renderEarn();
+  try { await markAdDone(gid, key); } catch (e) { console.warn('markAdDone', e); }
+  S.ui['ad_' + key] = false;
+  renderEarn();
+  hap('success');
 }
 
 async function claimAdGroup(gid) {
@@ -1271,14 +1280,32 @@ async function finishView(success) {
   await claimTask(t);
 }
 function markLeft() { if (S.view) S.view.left = true; }
+
+/* Resume / return check — runs from every possible "user is back" signal so a
+   finished 12s (or other timed) task always completes and shows as done. */
 function onReturn() {
-  const v = S.view; if (!v || !v.left) return;
-  const ok = Date.now() - v.t0 >= v.secs * 1000;
-  if (v.ad) finishGroupLinkAd(ok); else finishView(ok);
+  const v = S.view; if (!v) return;
+  if (Date.now() - v.t0 >= v.secs * 1000) {
+    if (v.ad) finishGroupLinkAd(true); else finishView(true);
+    return;
+  }
+  if (!v.left) return;                       // never actually left the app
+  if (v.ad) {                                // came back too early → retry
+    clearInterval(v.timer); S.view = null;
+    S.ui['adfail_' + v.ad] = true; renderEarn();
+    toastErr(`You came back too soon. Stay on the ad page for ${v.secs} seconds, then return.`);
+  } else finishView(false);
 }
 function maybeRecheck() { if (S.adminType && S.tab === 'promote' && S.wiz.step === 1) setTimeout(wizNext, 700); }
+
 document.addEventListener('visibilitychange', () => { if (document.hidden) markLeft(); else { onReturn(); maybeRecheck(); } });
-try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', () => { onReturn(); maybeRecheck(); }); } catch (e) {}
+window.addEventListener('focus', () => setTimeout(onReturn, 80));
+window.addEventListener('pageshow', () => setTimeout(onReturn, 80));
+document.addEventListener('pointerdown', () => setTimeout(onReturn, 0), true);
+try {
+  tg.onEvent('deactivated', markLeft);
+  tg.onEvent('activated', () => { setTimeout(onReturn, 80); maybeRecheck(); });
+} catch (e) {}
 
 function condOpen(id) { const t = taskById(id); if (!t) return; S.ui[id] = Object.assign(S.ui[id] || {}, { opened: Date.now() }); openLink(t.url); }
 async function condSubmit(id) {
@@ -1572,10 +1599,6 @@ function renderProfile() {
   setHTML($('#p-profile'), `
     <div class="pfp"><div class="avatar">${u.photo ? `<img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span>${init}</span></div>
       <div><h1>${esc(name)}</h1><span class="mut">${u.username ? '@' + esc(u.username) : 'Telegram user'}</span></div></div>
-    <div class="wallets">
-      <div class="wallet"><small>JR balance</small><div class="num">${coin()}${fmt(jrBal(u))}</div></div>
-      <div class="wallet"><small>RJ balance</small><div class="num">${coinRJ()}${fmt(rjBal(u))}</div></div>
-    </div>
     <div class="income"><small>Total JR income</small><div class="num">${coin('lg')}${fmt(u.totalIncome || 0)}</div></div>
     <div class="income jade" style="margin-top:10px"><small>Total RJ earned</small><div class="num">${coinRJ('lg')}${fmt(u.rjTotal || 0)}</div></div>
     <div class="gap"></div>

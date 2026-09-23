@@ -281,6 +281,19 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .shake{animation:shake .35s}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ---- polish ---- */
+html{scroll-behavior:smooth}
+body.locked{overflow:hidden}
+.input,.opt{font-size:16px}
+.sheet{overscroll-behavior:contain;max-height:88vh;max-height:88dvh}
+.hero{background:linear-gradient(150deg,#2E2183 0%,#17133A 65%);box-shadow:0 20px 38px -22px rgba(74,34,194,.75)}
+.btn-primary{background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 84%,#fff),var(--brand))}
+.card,.stat,.tile,.wallet,.pkg,.cat{transition:transform .15s,box-shadow .25s,border-color .25s,background .25s}
+.nb{transition:color .2s,transform .15s}.nb:active{transform:scale(.92)}
+.nb.fab .fabi{transition:transform .2s}.nb.fab:active .fabi{transform:scale(.94)}
+.skel{height:96px;border-radius:20px;background:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 45%,var(--card)) 50%,var(--line) 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
 </style>
 </head>
 <body>
@@ -462,7 +475,7 @@ try {
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const fmt = n => Number(n || 0).toLocaleString('en-US');
-const fmtUSD = n => '$' + Number(n || 0).toFixed(2);
+const fmtUSD = n => '$' + Number(n || 0).toFixed(3);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ico = (n, c = '') => `<svg class="ico ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const coin = (c = '') => `<span class="coin ${c}" aria-hidden="true">JR</span>`;
@@ -516,15 +529,26 @@ function rewarded(amount, note) {
 }
 function rewardedRJ(amount, note) { toast(note, { rj: amount }); hap('success'); }
 
+let sheetTimer = null;
 function openSheet(html, mount) {
   const root = $('#sheetBody'); if (!root) return;
+  clearTimeout(sheetTimer);
   root.innerHTML = html;
   const w = $('#sheetWrap'); w.hidden = false; requestAnimationFrame(() => w.classList.add('open'));
+  document.body.classList.add('locked');
+  try { tg.BackButton.show(); } catch (e) {}
   if (mount) try { mount(root); } catch (e) { console.error('sheet mount', e); }
 }
 function closeSheet() {
-  const w = $('#sheetWrap'); w.classList.remove('open'); setTimeout(() => { w.hidden = true; $('#sheetBody').innerHTML = ''; }, 250);
+  const w = $('#sheetWrap'); w.classList.remove('open');
+  document.body.classList.remove('locked');
+  try { tg.BackButton.hide(); } catch (e) {}
+  clearTimeout(sheetTimer);
+  sheetTimer = setTimeout(() => { w.hidden = true; $('#sheetBody').innerHTML = ''; }, 250);
 }
+try { tg.BackButton.onClick(() => { const w = $('#sheetWrap'); if (w && !w.hidden) closeSheet(); }); } catch (e) {}
+window.addEventListener('offline', () => toast('No internet connection', { err: true }));
+window.addEventListener('online', () => toast('Back online'));
 const sheetWrapEl = $('#sheetWrap'); if (sheetWrapEl) sheetWrapEl.addEventListener('click', e => { if (e.target.id === 'sheetWrap') closeSheet(); });
 
 function applyTheme() {
@@ -797,7 +821,7 @@ function renderAdGroup(g) {
   if (limitReached) {
     content = `<div class="note" style="margin:0;text-align:center">Daily limit reached (${st.claims}/${CONFIG.adDailyLimit}). Come back tomorrow.</div>`;
   } else if (waiting) {
-    content = `<button class="btn btn-cool btn-block" disabled><span class="spin"></span> Wait ${cooldown}s before next round</button>`;
+    content = `<button class="btn btn-cool btn-block" disabled><span class="spin"></span> Wait&nbsp;<span data-cd="${g.id}">${cooldown}</span>s before next round</button>`;
   } else if (canClaim) {
     content = `<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="${g.id}">🎁 Claim ${CONFIG.adReward} JR</button>`;
   } else {
@@ -855,7 +879,16 @@ function renderEarn() {
   }
 }
 /* Live cooldown ticker */
-setInterval(() => { if (S.tab === 'earn') renderEarn(); }, 1000);
+setInterval(() => {
+  if (S.tab !== 'earn') return;
+  let need = false;
+  AD_GROUPS.forEach(g => {
+    const el = $(`[data-cd="${g.id}"]`); if (!el) return;
+    const l = groupCooldownLeft(g.id);
+    if (l > 0) el.textContent = l; else need = true;
+  });
+  if (need) renderEarn();
+}, 1000);
 
 /* =====================================================================
    Telegram link parsing + screening
@@ -1181,7 +1214,7 @@ function renderTasks() {
     .map(([k, l]) => `<button class="chip ${S.filter === k ? 'on' : ''}" data-act="filter" data-k="${k}">${l}<em>${n(k)}</em></button>`).join('');
   setHTML($('#p-tasks'), `<h1>Tasks</h1><p class="sub">Complete tasks and earn RJ. Higher rewards come first.</p>
     <div class="chips" role="tablist">${chips}</div>
-    <div class="list">${list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit show here until approved.' : 'New tasks appear soon.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
+    <div class="list">${!S.tasksLoaded ? '<div class="skel"></div><div class="skel"></div><div class="skel"></div>' : list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit show here until approved.' : 'New tasks appear soon.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
 }
 document.addEventListener('focusout', e => { if (e.target.matches && e.target.matches('[data-uname]') && S.taskDirty) { S.taskDirty = false; setTimeout(renderTasks, 350); } });
 
@@ -1354,7 +1387,7 @@ function renderHome() {
       <svg class="rings" viewBox="0 0 240 240" aria-hidden="true"><circle cx="150" cy="90" r="30"/><circle cx="150" cy="90" r="60"/><circle cx="150" cy="90" r="90"/><circle cx="150" cy="90" r="120"/></svg>
       <div class="hero-label">JR balance</div>
       <div class="hero-amt">${coin('lg')}<span class="num" id="balNum">0</span></div>
-      <div class="hero-usd" id="balUsd">≈ $0.00</div>
+      <div class="hero-usd" id="balUsd">≈ $0.000</div>
       <p class="hero-sub">${fmt(u.totalIncome || 0)} JR earned in total · ${fmt(CONFIG.usdRate)} JR = $1</p>
       <div class="hero-actions"><button class="btn btn-gold" data-go="earn">Earn JR</button><button class="btn btn-glass" data-go="promote">Promote</button></div>
     </section>
@@ -1626,7 +1659,7 @@ const SHEETS = {
         <div class="sum" id="wSum"></div>
         <div class="alert" id="wErr" hidden></div>
         <button class="btn btn-gold btn-block" id="wConfirm">${ico('down', 'sm')} Request withdrawal</button>
-        ${list.length ? `<h4>Recent withdrawals</h4>${list.map(w => `<div class="hist"><div><b>${fmt(w.amount)} JR</b><br><small class="mut">${esc(w.binanceUid || '')}</small></div><span class="pill ${w.status === 'paid' ? 'ok' : 'bad'}">${w.status === 'paid' ? 'Paid' : 'Pending'}</span></div>`).join('')}` : ''}`;
+        ${list.length ? `<h4>Recent withdrawals</h4>${list.map(w => `<div class="hist"><div><b>${fmt(w.amount)} JR</b><br><small class="mut">${esc(w.binanceUid || '')}</small></div><span class="pill ${w.status === 'paid' ? 'ok' : 'brand'}">${w.status === 'paid' ? 'Paid' : 'Pending'}</span></div>`).join('')}` : ''}`;
       const amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
       const refresh = () => {
         jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/[^\d]/g, '')) || 0));
@@ -1901,7 +1934,7 @@ async function boot() {
   } catch (e) {}
 
   try {
-    db.ref(P.tasks).limitToLast(300).on('value', s => { S.tasks = s.val() || {}; render(); }, err => console.warn('tasks listener', err));
+    db.ref(P.tasks).limitToLast(300).on('value', s => { S.tasks = s.val() || {}; S.tasksLoaded = true; render(); }, err => { console.warn('tasks listener', err); S.tasksLoaded = true; render(); });
   } catch (e) {}
 
   sweepPending().catch(() => {});

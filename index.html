@@ -277,6 +277,11 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .swapbox .rate span{display:inline-flex;align-items:center;gap:6px;vertical-align:middle}
 .swapbox small{color:var(--muted);display:block;margin-top:4px}
 
+#fatal{position:fixed;inset:0;z-index:999;background:#0E0B22;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;gap:14px}
+#fatal h2{font-family:'Sora',sans-serif;font-size:22px}
+#fatal p{color:#9F9AC4;font-size:14px;max-width:340px;line-height:1.5}
+#fatal button{background:#6A3DF0;color:#fff;border:0;border-radius:14px;padding:12px 22px;font-weight:700;cursor:pointer}
+
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
 @keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
@@ -365,19 +370,37 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 'use strict';
 
 /* =====================================================================
-   CONFIG - edit these values
+   FAIL-SAFE: Firebase বা অন্য library load না হলে সাথে সাথে দেখাও
+   ===================================================================== */
+function showFatal(title, msg) {
+  const old = document.getElementById('fatal'); if (old) old.remove();
+  const d = document.createElement('div'); d.id = 'fatal';
+  d.innerHTML = `<h2>${title}</h2><p>${msg}</p><button onclick="location.reload()">Retry</button>`;
+  document.body.appendChild(d);
+  const sp = document.getElementById('splash'); if (sp) sp.hidden = true;
+}
+
+if (typeof firebase === 'undefined' || !firebase.database) {
+  showFatal('Could not load PMER', 'Firebase library failed to load. Check your internet connection and try again.');
+  return;
+}
+
+window.addEventListener('error', e => console.error('App error:', (e && e.error) || (e && e.message)));
+window.addEventListener('unhandledrejection', e => console.error('Promise error:', e && e.reason));
+
+/* =====================================================================
+   CONFIG
    ===================================================================== */
 const CONFIG = {
   appName: 'PMER',
-  logo: '',                     // paste image URL or data:image/... here
+  logo: '',
 
-  /* Ads: 9 ads merged into 3 tasks (each task = 3 ads). Complete a task = adReward JR. */
-  adReward: 18,                 // JR for completing one ad task (all 3 ads)
-  adDailyLimit: 10,             // how many times each ad task can be completed per day
-  adCooldownSec: 30,            // short cooldown between ad clicks
-  adLinkSeconds: 12,            // link ads: seconds to stay on the ad page
+  adReward: 18,
+  adDailyLimit: 10,
+  adCooldownSec: 30,
+  adLinkSeconds: 12,
 
-  adLinks: [                    // Ads 6, 7, 8, 9 (external link ads)
+  adLinks: [
     'https://wwp.giriubin.com/redirect-zone/31c41a18',
     'https://bowlsharp.com/yg0bftcw?key=568ce0b3290df6de10b74a13af0c817c',
     'https://omg10.com/4/10686606',
@@ -386,15 +409,11 @@ const CONFIG = {
   adsgramBlockId: '30645',
   onclickaId: '464920',
 
-  /* Swap: JR → RJ. 1000 JR = 50000 RJ, min 100 JR per swap */
   swap: { jrIn: 1000, rjOut: 50000, min: 100 },
-
-  /* Withdraw: min 1000 JR, Binance only */
   withdraw: { min: 1000, method: 'Binance' },
 
-  /* Task rewards are in RJ. Minimums per user. */
   minReward: { join: 3000, reaction: 1000, view: 700, conditions: 2500, website: 1500, youtube: 1000 },
-  fee: { website: 300 },        // service fee in RJ per user on top of reward
+  fee: { website: 300 },
   minUsers: 1,
   titleMin: 5, titleMax: 25,
   viewSeconds: 5,
@@ -404,7 +423,6 @@ const CONFIG = {
   conditionSeconds: 10,
   reviewHours: 24,
 
-  /* Referral: inviter gets bonusJR + bonusRJ the moment a friend joins */
   referral: { bonusJR: 200, bonusRJ: 20000, inviteeBonus: 0 },
 
   leave: { days: 5, batch: 5, firstCheckMin: 10, recheckMin: 60 },
@@ -420,20 +438,27 @@ const CONFIG = {
 };
 
 /* =====================================================================
-   Firebase
+   Firebase init (guarded)
    ===================================================================== */
-firebase.initializeApp({
-  apiKey: "AIzaSyAmTdb5ejQtgYxmkfLc575HcBN8pMhrBPM",
-  authDomain: "earn-for-earn-55d3e.firebaseapp.com",
-  databaseURL: "https://earn-for-earn-55d3e-default-rtdb.firebaseio.com",
-  projectId: "earn-for-earn-55d3e",
-  storageBucket: "earn-for-earn-55d3e.firebasestorage.app",
-  messagingSenderId: "109416949734",
-  appId: "1:109416949734:web:53f52de7899d65a04c9827"
-});
-const db = firebase.database();
-const TS = firebase.database.ServerValue.TIMESTAMP;
-const P = { user: id => `pn/users/${id}`, tasks: 'pn/tasks', task: id => `pn/tasks/${id}` };
+let db, TS, P;
+try {
+  firebase.initializeApp({
+    apiKey: "AIzaSyAmTdb5ejQtgYxmkfLc575HcBN8pMhrBPM",
+    authDomain: "earn-for-earn-55d3e.firebaseapp.com",
+    databaseURL: "https://earn-for-earn-55d3e-default-rtdb.firebaseio.com",
+    projectId: "earn-for-earn-55d3e",
+    storageBucket: "earn-for-earn-55d3e.firebasestorage.app",
+    messagingSenderId: "109416949734",
+    appId: "1:109416949734:web:53f52de7899d65a04c9827"
+  });
+  db = firebase.database();
+  TS = firebase.database.ServerValue.TIMESTAMP;
+  P = { user: id => `pn/users/${id}`, tasks: 'pn/tasks', task: id => `pn/tasks/${id}` };
+} catch (e) {
+  console.error('Firebase init failed:', e);
+  showFatal('Firebase error', 'Could not connect to the database. ' + (e.message || e));
+  return;
+}
 
 /* =====================================================================
    Helpers
@@ -449,13 +474,13 @@ const logoHTML = () => CONFIG.logo ? `<img src="${esc(CONFIG.logo)}" alt="${CONF
 const PREVIEW = /[?&]preview\b/.test(location.search);
 const tg = window.Telegram && window.Telegram.WebApp;
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const jrBal = u => (u && u.balance) || 0;                                     // JR (no debt)
-const rjBal = u => ((u && u.rjBalance) || 0) - ((u && u.debtTotal) || 0);     // RJ minus debt
-const netBal = u => ((u && u.balance) || 0) - ((u && u.debtTotal) || 0);      // legacy combined view
+const jrBal = u => (u && u.balance) || 0;
+const rjBal = u => ((u && u.rjBalance) || 0) - ((u && u.debtTotal) || 0);
+const netBal = u => ((u && u.balance) || 0) - ((u && u.debtTotal) || 0);
 const today = () => new Date().toLocaleDateString('en-CA');
 const fmtLeft = ms => { const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return h > 0 ? `${h}h ${m}m` : `${Math.max(0, m)}m`; };
 const chatKey = c => String(c).replace(/^@/, '').toLowerCase();
-function setHTML(el, html) { if (el.__h === html) return false; el.innerHTML = html; el.__h = html; return true; }
+function setHTML(el, html) { if (!el) return false; if (el.__h === html) return false; el.innerHTML = html; el.__h = html; return true; }
 
 function hap(kind) {
   if (store.get('pn_haptics') === 'off') return;
@@ -477,14 +502,15 @@ function copyText(t) {
 
 function toast(msg, opt = {}) {
   const key = (opt.coins ? 'c' + opt.coins : '') + (opt.rj ? 'r' + opt.rj : '') + '|' + msg + '|' + (opt.err ? 'e' : '');
+  const root = $('#toasts'); if (!root) return;
   if ($$('#toasts .toast').some(x => x.__k === key)) return;
   const el = document.createElement('div'); el.__k = key;
   el.className = 'toast' + (opt.err ? ' err' : '') + (opt.rj ? ' jade' : '');
   if (opt.rj) el.innerHTML = `${coinRJ()}<div><b>+${fmt(opt.rj)} RJ</b><small>${esc(msg || 'added to your RJ balance')}</small></div>`;
   else if (opt.coins) el.innerHTML = `${coin()}<div><b>+${fmt(opt.coins)} JR</b><small>${esc(msg || 'added to your balance')}</small></div>`;
   else el.innerHTML = `<div>${esc(msg)}</div>`;
-  $('#toasts').appendChild(el);
-  while ($('#toasts').children.length > 2) $('#toasts').firstChild.remove();
+  root.appendChild(el);
+  while (root.children.length > 2) root.firstChild.remove();
   setTimeout(() => el.remove(), 3400);
 }
 const toastErr = m => { toast(m, { err: true }); hap('error'); };
@@ -497,14 +523,15 @@ function rewardedRJ(amount, note) {
 }
 
 function openSheet(html, mount) {
-  $('#sheetBody').innerHTML = html;
+  const root = $('#sheetBody'); if (!root) return;
+  root.innerHTML = html;
   const w = $('#sheetWrap'); w.hidden = false; requestAnimationFrame(() => w.classList.add('open'));
-  if (mount) mount($('#sheetBody'));
+  if (mount) try { mount(root); } catch (e) { console.error('sheet mount', e); }
 }
 function closeSheet() {
   const w = $('#sheetWrap'); w.classList.remove('open'); setTimeout(() => { w.hidden = true; $('#sheetBody').innerHTML = ''; }, 250);
 }
-$('#sheetWrap').addEventListener('click', e => { if (e.target.id === 'sheetWrap') closeSheet(); });
+const sheetWrapEl = $('#sheetWrap'); if (sheetWrapEl) sheetWrapEl.addEventListener('click', e => { if (e.target.id === 'sheetWrap') closeSheet(); });
 
 function applyTheme() {
   const pref = store.get('pn_theme') || 'auto';
@@ -525,14 +552,14 @@ const S = {
 /* =====================================================================
    Income
    ===================================================================== */
-function applyIncome(u, amt) {   // JR
+function applyIncome(u, amt) {
   const d = new Date().toLocaleDateString('en-CA');
   if (!u.today || u.today.d !== d) u.today = { d, a: 0 };
   u.today.a += amt;
   u.balance = (u.balance || 0) + amt;
   u.totalIncome = (u.totalIncome || 0) + amt;
 }
-function applyTaskIncome(u, amt) {  // RJ
+function applyTaskIncome(u, amt) {
   const d = new Date().toLocaleDateString('en-CA');
   if (!u.todayRJ || u.todayRJ.d !== d) u.todayRJ = { d, a: 0 };
   u.todayRJ.a += amt;
@@ -544,27 +571,29 @@ function applyTaskIncome(u, amt) {  // RJ
 async function checkReferral(u) {
   const BJ = CONFIG.referral.bonusJR, BR = CONFIG.referral.bonusRJ, IB = CONFIG.referral.inviteeBonus || 0;
   if (!u || !u.referredBy || u.refBonusPaid) return;
-  const t = await db.ref(P.user(S.uid)).transaction(x => {
-    if (!x) return x; if (x.refBonusPaid) return;
-    x.refBonusPaid = true;
-    if (IB) { x.balance = (x.balance || 0) + IB; x.totalIncome = (x.totalIncome || 0) + IB; }
-    return x;
-  });
-  if (!t.committed) return;
-  await db.ref(P.user(u.referredBy)).transaction(r => {
-    if (!r) return r;
-    r.balance = (r.balance || 0) + BJ; r.totalIncome = (r.totalIncome || 0) + BJ;
-    r.rjBalance = (r.rjBalance || 0) + BR; r.rjTotal = (r.rjTotal || 0) + BR;
-    r.refEarned = (r.refEarned || 0) + BJ;
-    r.refEarnedRJ = (r.refEarnedRJ || 0) + BR;
-    if (r.referrals && r.referrals[S.uid]) r.referrals[S.uid].bonus = BJ;
-    return r;
-  });
-  if (IB) rewarded(IB, 'Welcome bonus');
+  try {
+    const t = await db.ref(P.user(S.uid)).transaction(x => {
+      if (!x) return x; if (x.refBonusPaid) return;
+      x.refBonusPaid = true;
+      if (IB) { x.balance = (x.balance || 0) + IB; x.totalIncome = (x.totalIncome || 0) + IB; }
+      return x;
+    });
+    if (!t.committed) return;
+    await db.ref(P.user(u.referredBy)).transaction(r => {
+      if (!r) return r;
+      r.balance = (r.balance || 0) + BJ; r.totalIncome = (r.totalIncome || 0) + BJ;
+      r.rjBalance = (r.rjBalance || 0) + BR; r.rjTotal = (r.rjTotal || 0) + BR;
+      r.refEarned = (r.refEarned || 0) + BJ;
+      r.refEarnedRJ = (r.refEarnedRJ || 0) + BR;
+      if (r.referrals && r.referrals[S.uid]) r.referrals[S.uid].bonus = BJ;
+      return r;
+    });
+    if (IB) rewarded(IB, 'Welcome bonus');
+  } catch (e) { console.warn('checkReferral', e); }
 }
 
 /* =====================================================================
-   Ads: 9 ads → 3 tasks (3 ads each). Complete task = adReward JR. Daily limit per task.
+   Ads
    ===================================================================== */
 const notReady = () => { throw new Error('not_ready'); };
 const AD_PROVIDERS = [
@@ -849,7 +878,7 @@ async function claimTask(task) {
     u.done = u.done || {};
     if (u.done[task.id]) return;
     u.done[task.id] = true;
-    applyTaskIncome(u, task.perUser);   // RJ
+    applyTaskIncome(u, task.perUser);
     return u;
   });
   if (!res.committed) { await remRef.transaction(r => (r || 0) + 1); toastErr('You already completed this task.'); return false; }
@@ -860,7 +889,7 @@ async function claimTask(task) {
 }
 
 /* =====================================================================
-   Join protection (works on RJ balance)
+   Join protection
    ===================================================================== */
 function watchJoin(t) {
   const now = Date.now();
@@ -871,21 +900,23 @@ function watchJoin(t) {
 }
 
 async function flushOutbox(uid) {
-  const snap = await db.ref(P.user(uid) + '/outbox').once('value');
-  for (const [k, o] of Object.entries(snap.val() || {})) {
-    if (o && o.owner && o.amt > 0) {
-      await db.ref(P.user(o.owner)).transaction(r => {
-        if (!r) return r;
-        r.recv = r.recv || {};
-        if (r.recv[k]) return;
-        r.recv[k] = o.amt;
-        r.rjBalance = (r.rjBalance || 0) + o.amt;
-        r.reclaimed = (r.reclaimed || 0) + o.amt;
-        return r;
-      });
+  try {
+    const snap = await db.ref(P.user(uid) + '/outbox').once('value');
+    for (const [k, o] of Object.entries(snap.val() || {})) {
+      if (o && o.owner && o.amt > 0) {
+        await db.ref(P.user(o.owner)).transaction(r => {
+          if (!r) return r;
+          r.recv = r.recv || {};
+          if (r.recv[k]) return;
+          r.recv[k] = o.amt;
+          r.rjBalance = (r.rjBalance || 0) + o.amt;
+          r.reclaimed = (r.reclaimed || 0) + o.amt;
+          return r;
+        });
+      }
+      await db.ref(P.user(uid) + '/outbox/' + k).remove();
     }
-    await db.ref(P.user(uid) + '/outbox/' + k).remove();
-  }
+  } catch (e) { console.warn('flushOutbox', e); }
 }
 
 async function clawback(key, w) {
@@ -1119,7 +1150,7 @@ async function condSubmit(id) {
   if (!mark.committed) { setTaskUi(id, { busy: false }); return toastErr('You already submitted this task.'); }
   const remRef = db.ref(P.task(id) + '/remaining');
   const slot = await remRef.transaction(r => { if (r === null) return null; return r > 0 ? r - 1 : undefined; });
- ${  if (!slot.committed || slot.snapshot.val() === null) {
+  if (!slot.committed || slot.snapshot.val() === null) {
     await db.ref(P.user(S.uid)).transaction(u => { if (u && u.submitted) { delete u.submitted[id]; if (u.subAt) delete u.subAt[id]; } return u; });
     setTaskUi(id, { busy: false }); return toastErr('This task is full. Try another one.');
   }
@@ -1171,7 +1202,7 @@ function openPendingSheet(id) {
   const t = taskById(id); if (!t) return;
   const items = Object.entries(S.pending || {}).filter(([, v]) => v.taskId === id).sort((a, b) => (a[1].createdAt || 0) - (b[1].createdAt || 0));
   const left = v => fmtLeft((v.createdAt || Date.now()) + CONFIG.reviewHours * 3600000 - Date.now());
-  openSheet(`<h2>Pending requests</h2><p class="lead">${esc(t.title)}. Approve users who finished the steps. Requests you do not answer within ${CONFIG.reviewHours} hours are approved automatically and the user getsfmt(t.perUser)} RJ.</p>
+  openSheet(`<h2>Pending requests</h2><p class="lead">${esc(t.title)}. Approve users who finished the steps. Requests you do not answer within ${CONFIG.reviewHours} hours are approved automatically and the user gets ${fmt(t.perUser)} RJ.</p>
     ${items.length ? items.map(([k, v]) => `<div class="req" data-k="${esc(k)}"><div class="grow"><b>${esc(v.submitted)}</b><small>${esc(v.name || 'User')}${v.tgUser ? ' (@' + esc(v.tgUser) + ')' : ''}, ${left(v)} left</small></div><button class="btn btn-soft btn-sm" data-r="reject">Reject</button><button class="btn btn-primary btn-sm" data-r="approve">Approve</button></div>`).join('') : `<div class="empty"><b>No pending requests</b><span>New submissions from users appear here.</span></div>`}`, b => {
     $$('.req', b).forEach(row => $$('[data-r]', row).forEach(btn => btn.onclick = async () => {
       $$('[data-r]', row).forEach(x => x.disabled = true);
@@ -1193,7 +1224,7 @@ function renderEarn() {
     const roundPct = (prog.done.length / totalAds) * 100;
     const buttons = g.providers.map(p => {
       const u = adButtonUI(g.id, p);
-      return `<button class="btn ${u.done ? 'btn-jade' : 'btn-primary'} ${u.dis && !u.done ? 'cool' : ''}" data-act="watch-group" data-gid="${g.id}" data-adbtn="${p.key}" data-g="${g.id}" data-key="${p.key}" ${u.dis ? 'disabled' : ''}>${u.html}</button>`;
+      return `<button class="btn ${u.done ? 'btn-jade' : 'btn-primary'} ${u.dis && !u.done ? 'cool' : ''}" data-act="watch-group" data-gid="${g.id}" data-adbtn="${p.key}" ${u.dis ? 'disabled' : ''}>${u.html}</button>`;
     }).join('');
     return `<article class="card">
       <div class="row"><span class="tbadge t-ads">${ico('play')}</span>
@@ -1328,25 +1359,24 @@ function updateWiz() {
     next.disabled = !r.ok;
   } else if (w.step === 2) {
     const n = w.title.trim().length, ok = n >= CONFIG.titleMin && n <= CONFIG.titleMax;
-    $('#titleCount').textContent = `${n}/${CONFIG.titleMax}`;
-    $('#titleHint').className = 'hint' + (ok ? ' ok' : '');
-    $('#titleHint').textContent = ok ? 'Title looks good.' : n < CONFIG.titleMin ? `Add ${CONFIG.titleMin - n} more character${CONFIG.titleMin - n === 1 ? '' : 's'}.` : `Titles can be at most ${CONFIG.titleMax} characters.`;
+    const tc = $('#titleCount'); if (tc) tc.textContent = `${n}/${CONFIG.titleMax}`;
+    const th = $('#titleHint'); if (th) { th.className = 'hint' + (ok ? ' ok' : ''); th.textContent = ok ? 'Title looks good.' : n < CONFIG.titleMin ? `Add ${CONFIG.titleMin - n} more character${CONFIG.titleMin - n === 1 ? '' : 's'}.` : `Titles can be at most ${CONFIG.titleMax} characters.`; }
     const stepsOk = w.type !== 'conditions' || w.steps.every(s => s.trim().length >= 5);
     next.disabled = !(ok && stepsOk);
   } else {
     const min = CONFIG.minReward[w.type], { per, users, fee, cost } = wizCost(), bal = rjBal(S.user);
     const perOk = per >= min, usersOk = users >= CONFIG.minUsers && users <= 1000000, ph = $('#perHint'), uh = $('#usersHint');
-    ph.className = 'hint' + (w.perUser && !perOk ? ' bad' : ''); ph.textContent = w.perUser && !perOk ? `The minimum for ${CAT[w.type].label} is ${fmt(min)} RJ per user.` : '';
-    uh.className = 'hint' + (w.users && !usersOk ? ' bad' : ''); uh.textContent = w.users && !usersOk ? `You need at least ${usersWord(CONFIG.minUsers)} for a campaign.` : '';
-    $('#sCost').textContent = fmt(cost) + ' RJ'; $('#sBal').textContent = fmt(bal) + ' RJ';
-    $('#sFeeRow').hidden = !fee; $('#sFee').textContent = fmt(fee * users) + ' RJ';
+    if (ph) { ph.className = 'hint' + (w.perUser && !perOk ? ' bad' : ''); ph.textContent = w.perUser && !perOk ? `The minimum for ${CAT[w.type].label} is ${fmt(min)} RJ per user.` : ''; }
+    if (uh) { uh.className = 'hint' + (w.users && !usersOk ? ' bad' : ''); uh.textContent = w.users && !usersOk ? `You need at least ${usersWord(CONFIG.minUsers)} for a campaign.` : ''; }
+    const sc = $('#sCost'), sb = $('#sBal'); if (sc) sc.textContent = fmt(cost) + ' RJ'; if (sb) sb.textContent = fmt(bal) + ' RJ';
+    const sfr = $('#sFeeRow'); if (sfr) sfr.hidden = !fee; const sf = $('#sFee'); if (sf) sf.textContent = fmt(fee * users) + ' RJ';
     const short = cost > bal, after = bal - cost;
-    $('#sLbl').textContent = short ? 'You still need' : 'RJ balance after publishing';
-    $('#sAfter').textContent = fmt(Math.abs(after)) + ' RJ'; $('#sAfter').className = short ? 'neg' : '';
+    const sl = $('#sLbl'); if (sl) sl.textContent = short ? 'You still need' : 'RJ balance after publishing';
+    const sa = $('#sAfter'); if (sa) { sa.textContent = fmt(Math.abs(after)) + ' RJ'; sa.className = short ? 'neg' : ''; }
     const fh = $('#fundHint'), showShort = short && per > 0 && users > 0;
-    fh.hidden = !showShort; fh.textContent = `You have not enough RJ balance. You are ${fmt(cost - bal)} RJ short.`;
-    $('#wizSwap').hidden = !showShort;
-    $('#wizPublish').disabled = !(perOk && usersOk);
+    if (fh) { fh.hidden = !showShort; fh.textContent = `You have not enough RJ balance. You are ${fmt(cost - bal)} RJ short.`; }
+    const ws = $('#wizSwap'); if (ws) ws.hidden = !showShort;
+    const pb = $('#wizPublish'); if (pb) pb.disabled = !(perOk && usersOk);
   }
 }
 
@@ -1416,7 +1446,7 @@ function renderProfile() {
     <div class="income"><small>Total JR income</small><div class="num">${coin('lg')}${fmt(u.totalIncome || 0)}</div></div>
     <div class="income jade" style="margin-top:10px"><small>Total RJ earned</small><div class="num">${coinRJ('lg')}${fmt(u.rjTotal || 0)}</div></div>
     <div class="gap"></div>
-    <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Swap JR → RJ</h3><p class="meta">${fmt(CONFIG.swap.jrIn)} JR = ${fmt(CONFIG.swap.rjOut)} RJ · minimum ${fmt(CONFIG.swap.min)} JR</p></div><button class="btn btn-jade btn-sm" data-sheet="swap">${ico('swap', 'sm')} Swap</button></div></div>
+    <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Swap JR → RJ</h3><p class="meta">${fmt(CONFIG.swap.jrIn)} JR = ${fmt(CONFIG.swap.rjOut)} RJ · min ${fmt(CONFIG.swap.min)} JR</p></div><button class="btn btn-jade btn-sm" data-sheet="swap">${ico('swap', 'sm')} Swap</button></div></div>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw JR</h3><p class="meta">Minimum ${fmt(CONFIG.withdraw.min)} JR · Binance only</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">${ico('down', 'sm')} Withdraw</button></div></div>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Add JR balance</h3><p class="meta">Buy JR with USD through Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">${ico('plus', 'sm')} Deposit</button></div></div>
     <button class="card" data-open="${esc(CONFIG.communityLink)}"><span class="tbadge t-join">${ico('send')}</span><div class="grow"><h3>Join our community</h3><p class="meta">News, updates and help from the PMER team</p></div>${ico('chev')}</button>
@@ -1426,7 +1456,7 @@ function renderProfile() {
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">PMER 2.0</p>`);
+    </div><p class="ver">PMER 2.1</p>`);
 }
 
 const SHARE_TEXT = `Join me on PMER, the Telegram app where you earn JR and RJ every day.
@@ -1443,21 +1473,22 @@ const SHEETS = {
   support: () => openSheet(`<h2>Support</h2><p class="lead">Questions about a task, swap, or deposit? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
 
   swap: () => {
-    const rate = CONFIG.swap.rjOut / CONFIG.swap.jrIn;      // 50 RJ per 1 JR
+    const rate = CONFIG.swap.rjOut / CONFIG.swap.jrIn;
     let jrIn = CONFIG.swap.min;
     const draw = b => {
       const rj = Math.floor(jrIn * rate);
       b.innerHTML = `<h2>Swap JR → RJ</h2><p class="lead">Convert your JR into RJ and use it to promote your channels, groups or bots.</p>
         <div class="swapbox"><div class="rate"><span>${coin('lg')}${fmt(CONFIG.swap.jrIn)}</span> = <span>${coinRJ('lg')}${fmt(CONFIG.swap.rjOut)}</span></div><small>Rate: 1 JR = ${rate} RJ · Minimum swap ${fmt(CONFIG.swap.min)} JR</small></div>
         <div class="field"><label for="swapIn">JR to swap <span>You have ${fmt(jrBal(S.user))} JR</span></label><input id="swapIn" class="input" inputmode="numeric" placeholder="${CONFIG.swap.min}" value="${jrIn}"></div>
-        <div class="sum"><div><span class="mut">You pay</span><span>${fmt(jrIn)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(rj)} RJ</span></div><div><span class="mut">JR after swap</span><span>${fmt(jrBal(S.user) - jrIn)} JR</span></div></div>
+        <div class="sum" id="swapSum"><div><span class="mut">You pay</span><span>${fmt(jrIn)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(rj)} RJ</span></div><div><span class="mut">JR after swap</span><span>${fmt(jrBal(S.user) - jrIn)} JR</span></div></div>
         <div class="alert" id="swapErr" hidden></div>
         <button class="btn btn-jade btn-block" id="swapConfirm">${ico('swap', 'sm')} Swap now</button>`;
       const inp = $('#swapIn', b), err = $('#swapErr', b), btn = $('#swapConfirm', b);
       const refresh = () => {
         jrIn = Math.max(0, Math.floor(Number(inp.value.replace(/[^\d]/g, '')) || 0));
-        const rj = Math.floor(jrIn * rate);
-        $('.sum', b).innerHTML = `<div><span class="mut">You pay</span><span>${fmt(jrIn)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(rj)} RJ</span></div><div><span class="mut">JR after swap</span><span>${fmt(jrBal(S.user) - jrIn)} JR</span></div>`;
+        const rj2 = Math.floor(jrIn * rate);
+        const sum = $('#swapSum', b);
+        if (sum) sum.innerHTML = `<div><span class="mut">You pay</span><span>${fmt(jrIn)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(rj2)} RJ</span></div><div><span class="mut">JR after swap</span><span>${fmt(jrBal(S.user) - jrIn)} JR</span></div>`;
         const bad = jrIn < CONFIG.swap.min ? `Minimum swap is ${fmt(CONFIG.swap.min)} JR.` : jrIn > jrBal(S.user) ? 'You do not have that much JR.' : '';
         err.hidden = !bad; if (bad) err.textContent = bad;
         btn.disabled = !!bad;
@@ -1465,12 +1496,11 @@ const SHEETS = {
       inp.addEventListener('input', refresh); refresh();
       btn.onclick = async () => {
         btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Swapping';
-        const rate2 = CONFIG.swap.rjOut / CONFIG.swap.jrIn;
+        const amt = Math.floor(jrIn);
         const tx = await db.ref(P.user(S.uid)).transaction(u => {
           if (!u) return u;
-          const amt = Math.floor(jrIn);
           if (amt < CONFIG.swap.min || (u.balance || 0) < amt) return;
-          const rjAmt = Math.floor(amt * rate2);
+          const rjAmt = Math.floor(amt * rate);
           u.balance -= amt;
           u.rjBalance = (u.rjBalance || 0) + rjAmt;
           u.rjTotal = (u.rjTotal || 0) + rjAmt;
@@ -1478,7 +1508,7 @@ const SHEETS = {
           u.swaps[Date.now()] = { jr: amt, rj: rjAmt };
           return u;
         });
-        if (tx.committed) { toast(`Swapped ${fmt(jrIn)} JR for ${fmt(Math.floor(jrIn * rate2))} RJ`); hap('success'); closeSheet(); setTimeout(render, 260); }
+        if (tx.committed) { toast(`Swapped ${fmt(amt)} JR for ${fmt(Math.floor(amt * rate))} RJ`); hap('success'); closeSheet(); setTimeout(render, 260); }
         else { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Swap failed. Try again.'); }
       };
     };
@@ -1488,13 +1518,14 @@ const SHEETS = {
   withdraw: () => {
     let jrAmt = CONFIG.withdraw.min;
     const draw = b => {
+      const list = Object.values(S.user.withdrawals || {}).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 5);
       b.innerHTML = `<h2>Withdraw JR</h2><p class="lead">Withdraw your JR to Binance. Minimum ${fmt(CONFIG.withdraw.min)} JR. Withdrawals are processed by the admin after review.</p>
         <div class="field"><label for="wAmt">JR to withdraw <span>You have ${fmt(jrBal(S.user))} JR</span></label><input id="wAmt" class="input" inputmode="numeric" placeholder="${CONFIG.withdraw.min}" value="${jrAmt}"></div>
-        <div class="field"><label for="wAddr">Your Binance UID or wallet address</label><input id="wAddr" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID or TRC20 address" value=""></div>
-        <div class="sum"><div><span class="mut">Amount</span><span id="wSum">${fmt(jrAmt)} JR</span></div><div><span class="mut">Method</span><span>Binance</span></div><div><span class="mut">JR after withdrawal</span><span id="wAfter">${fmt(jrBal(S.user) - jrAmt)} JR</span></div></div>
+        <div class="field"><label for="wAddr">Your Binance UID or wallet address</label><input id="wAddr" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID or TRC20 address"></div>
+        <div class="sum"><div><span class="mut">Amount</span><span id="wSum">${fmt(jrAmt)} JR</span></div><div><span class="mut">Method</span><span>Binance</span></div><div><span class="mut">JR after</span><span id="wAfter">${fmt(jrBal(S.user) - jrAmt)} JR</span></div></div>
         <div class="alert" id="wErr" hidden></div>
         <button class="btn btn-gold btn-block" id="wConfirm">${ico('down', 'sm')} Request withdrawal</button>
-        <h4>Recent withdrawals</h4>${(() => { const list = Object.values(S.user.withdrawals || {}).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 5); return list.length ? list.map(w => `<div class="hist"><span>${fmt(w.amount)} JR</span><span class="mut">${w.status || 'pending'}</span></div>`).join('') : '<p class="doc">No withdrawals yet.</p>'; })()}`;
+        <h4>Recent withdrawals</h4>${list.length ? list.map(w => `<div class="hist"><span>${fmt(w.amount)} JR</span><span class="mut">${w.status || 'pending'}</span></div>`).join('') : '<p class="doc">No withdrawals yet.</p>'}`;
       const amt = $('#wAmt', b), addr = $('#wAddr', b), err = $('#wErr', b), btn = $('#wConfirm', b);
       const refresh = () => {
         jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/[^\d]/g, '')) || 0));
@@ -1509,21 +1540,18 @@ const SHEETS = {
         const a = addr.value.trim();
         if (a.length < 5) { err.hidden = false; err.textContent = 'Enter your Binance UID or wallet address.'; return; }
         btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending';
+        const amt2 = Math.floor(jrAmt);
         const tx = await db.ref(P.user(S.uid)).transaction(u => {
           if (!u) return u;
-          const amt = Math.floor(jrAmt);
-          if (amt < CONFIG.withdraw.min || (u.balance || 0) < amt) return;
-          u.balance -= amt;
+          if (amt2 < CONFIG.withdraw.min || (u.balance || 0) < amt2) return;
+          u.balance -= amt2;
           u.withdrawals = u.withdrawals || {};
-          u.withdrawals[Date.now()] = { amount: amt, method: 'Binance', address: a, status: 'pending', createdAt: Date.now() };
+          u.withdrawals[Date.now()] = { amount: amt2, method: 'Binance', address: a, status: 'pending', createdAt: Date.now() };
           return u;
         });
         if (!tx.committed) { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Withdrawal failed. Try again.'); return; }
-        try {
-          await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: Math.floor(jrAmt), method: 'Binance', address: a, status: 'pending', createdAt: TS });
-        } catch (e) {}
-        toast('Withdrawal requested. The admin will process it soon.');
-        hap('success'); closeSheet(); setTimeout(render, 260);
+        try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, method: 'Binance', address: a, status: 'pending', createdAt: TS }); } catch (e) {}
+        toast('Withdrawal requested. The admin will process it soon.'); hap('success'); closeSheet(); setTimeout(render, 260);
       };
     };
     openSheet('', draw);
@@ -1592,7 +1620,6 @@ const SHEETS = {
     const R = CONFIG.referral, L = CONFIG.adDailyLimit;
     openSheet(`<h2>About PMER</h2>
       <p class="lead">PMER is a reward and promotion app that runs inside Telegram. People earn JR and RJ by doing simple actions, and advertisers use RJ to send visitors to their channel, group, bot, website or video.</p>
-      <h4>What PMER does</h4><p class="doc">PMER connects two groups. Users complete short tasks and watch ads to earn. Advertisers spend RJ to run campaigns.</p>
       <h4>How you earn JR</h4>
       <ul class="doc">
         <li>Ad tasks: each ad task has 3 ads. Complete all 3 to get ${fmt(CONFIG.adReward)} JR. Each task can be completed ${L} times a day.</li>
@@ -1603,8 +1630,8 @@ const SHEETS = {
         <li>Complete social tasks (Join, Reaction, View, With conditions, Website, YouTube).</li>
         <li>Swap JR to RJ at ${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ.</li>
       </ul>
-      <h4>How you promote</h4><p class="doc">Open Promote, pick a campaign type, paste your link, add a title, then set the RJ reward per user and the number of users you need. The full budget is taken from your RJ balance when you publish. Website campaigns add a service fee of ${fmt(feeOf('website'))} RJ per user.</p>
-      <h4>Withdraw</h4><p class="doc">Withdraw JR through Binance. Minimum ${CONFIG.withdraw.min} JR. The admin reviews and processes each request.</p>
+      <h4>How you promote</h4><p class="doc">Open Promote, pick a campaign type, paste your link, add a title, then set the RJ reward per user and the number of users you need. The full budget is taken from your RJ balance when you publish.</p>
+      <h4>Withdraw</h4><p class="doc">Withdraw JR through Binance. Minimum ${CONFIG.withdraw.min} JR.</p>
       <h4>Fair use</h4><p class="doc">One person, one account. Bots, scripts and fake activity are not allowed. Adult content, scams and illegal offers are not allowed in campaigns.</p>
       <div class="gap"></div>
       <button class="btn btn-primary btn-block" data-open="${esc(CONFIG.communityLink)}">${ico('send', 'sm')} Join our community</button>
@@ -1618,20 +1645,23 @@ const SHEETS = {
    ===================================================================== */
 function render() {
   if (!S.uid) return;
-  if (S.tab === 'home') renderHome();
-  else if (S.tab === 'earn') renderEarn();
-  else if (S.tab === 'tasks') renderTasks();
-  else if (S.tab === 'promote') {
-    if (S.promoTab === 'mine' || !$('#promoBody')) renderPromote();
-    else { const c = $('.seg .count'); if (c) c.textContent = myTasks().length; if (S.wiz.step === 3) updateWiz(); }
-  }
-  else if (S.tab === 'profile') renderProfile();
+  try {
+    if (S.tab === 'home') renderHome();
+    else if (S.tab === 'earn') renderEarn();
+    else if (S.tab === 'tasks') renderTasks();
+    else if (S.tab === 'promote') {
+      if (S.promoTab === 'mine' || !$('#promoBody')) renderPromote();
+      else { const c = $('.seg .count'); if (c) c.textContent = myTasks().length; if (S.wiz.step === 3) updateWiz(); }
+    }
+    else if (S.tab === 'profile') renderProfile();
+  } catch (e) { console.error('render error:', e); }
 }
 function go(tab) {
   S.tab = tab;
   $$('.page').forEach(p => p.hidden = p.id !== 'p-' + tab);
   $$('.nb').forEach(b => b.classList.toggle('on', b.dataset.go === tab));
-  const pg = $('#p-' + tab); pg.classList.remove('enter'); void pg.offsetWidth; pg.classList.add('enter');
+  const pg = $('#p-' + tab); if (!pg) return;
+  pg.classList.remove('enter'); void pg.offsetWidth; pg.classList.add('enter');
   if (tab === 'promote') { $('#p-promote').__h = null; renderPromote(); } else render();
   window.scrollTo(0, 0); hap('tap');
 }
@@ -1656,30 +1686,34 @@ const ACT = {
 document.addEventListener('click', e => {
   const t = e.target;
   let b;
-  if ((b = t.closest('[data-act]'))) return ACT[b.dataset.act] && ACT[b.dataset.act](b);
-  if ((b = t.closest('[data-go]'))) { if (!$('#sheetWrap').hidden) closeSheet(); return go(b.dataset.go); }
-  if ((b = t.closest('[data-sheet]'))) { hap('tap'); if (!$('#sheetWrap').hidden) { closeSheet(); return setTimeout(() => SHEETS[b.dataset.sheet](), 260); } return SHEETS[b.dataset.sheet](); }
-  if ((b = t.closest('[data-open]'))) return openLink(b.dataset.open);
-  if ((b = t.closest('[data-copy]'))) return copyText(b.dataset.copy);
-  if ((b = t.closest('[data-set]'))) {
-    store.set(b.dataset.set === 'theme' ? 'pn_theme' : 'pn_haptics', b.dataset.v);
-    $$(`[data-set="${b.dataset.set}"]`).forEach(x => x.classList.toggle('on', x === b)); applyTheme();
-  }
+  try {
+    if ((b = t.closest('[data-act]'))) return ACT[b.dataset.act] && ACT[b.dataset.act](b);
+    if ((b = t.closest('[data-go]'))) { if (!$('#sheetWrap').hidden) closeSheet(); return go(b.dataset.go); }
+    if ((b = t.closest('[data-sheet]'))) { hap('tap'); if (!$('#sheetWrap').hidden) { closeSheet(); return setTimeout(() => SHEETS[b.dataset.sheet](), 260); } return SHEETS[b.dataset.sheet](); }
+    if ((b = t.closest('[data-open]'))) return openLink(b.dataset.open);
+    if ((b = t.closest('[data-copy]'))) return copyText(b.dataset.copy);
+    if ((b = t.closest('[data-set]'))) {
+      store.set(b.dataset.set === 'theme' ? 'pn_theme' : 'pn_haptics', b.dataset.v);
+      $$(`[data-set="${b.dataset.set}"]`).forEach(x => x.classList.toggle('on', x === b)); applyTheme();
+    }
+  } catch (err) { console.error('click handler', err); }
 });
 document.addEventListener('input', e => {
-  const un = e.target.closest && e.target.closest('[data-uname]');
-  if (un) { const id = un.dataset.uname; S.ui[id] = Object.assign(S.ui[id] || {}, { uname: un.value }); return; }
-  const el = e.target.closest('[data-wiz]'); if (!el) return;
-  const w = S.wiz, k = el.dataset.wiz;
-  if (k === 'step') w.steps[+el.dataset.i] = el.value;
-  else if (k === 'perUser' || k === 'users') { el.value = el.value.replace(/\D/g, '').slice(0, 9); w[k] = el.value; }
-  else w[k] = el.value;
-  const bb = $('#blockBox'); if (bb) bb.hidden = true; S.adminType = null;
-  updateWiz();
+  try {
+    const un = e.target.closest && e.target.closest('[data-uname]');
+    if (un) { const id = un.dataset.uname; S.ui[id] = Object.assign(S.ui[id] || {}, { uname: un.value }); return; }
+    const el = e.target.closest('[data-wiz]'); if (!el) return;
+    const w = S.wiz, k = el.dataset.wiz;
+    if (k === 'step') w.steps[+el.dataset.i] = el.value;
+    else if (k === 'perUser' || k === 'users') { el.value = el.value.replace(/\D/g, '').slice(0, 9); w[k] = el.value; }
+    else w[k] = el.value;
+    const bb = $('#blockBox'); if (bb) bb.hidden = true; S.adminType = null;
+    updateWiz();
+  } catch (err) { console.error('input handler', err); }
 });
 
 /* =====================================================================
-   Boot
+   Boot (fully guarded)
    ===================================================================== */
 async function ensureUser(tu) {
   const ref = db.ref(P.user(S.uid)), snap = await ref.once('value');
@@ -1687,37 +1721,113 @@ async function ensureUser(tu) {
   if (snap.exists()) return ref.update(profile);
   const start = tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
   let referredBy = null;
-  if (start && /^\d+$/.test(start) && start !== S.uid) { const r = await db.ref(P.user(start) + '/name').once('value'); if (r.exists()) referredBy = start; }
+  if (start && /^\d+$/.test(start) && start !== S.uid) {
+    try { const r = await db.ref(P.user(start) + '/name').once('value'); if (r.exists()) referredBy = start; } catch (e) {}
+  }
   await ref.set(Object.assign({ balance: 0, rjBalance: 0, totalIncome: 0, rjTotal: 0, tasksDone: 0, createdAt: TS, referredBy }, profile));
-  if (referredBy) await db.ref(P.user(referredBy) + '/referrals/' + S.uid).set({ name: profile.name, bonus: 0 });
+  if (referredBy) try { await db.ref(P.user(referredBy) + '/referrals/' + S.uid).set({ name: profile.name, bonus: 0 }); } catch (e) {}
 }
-function hideSplash() { const s = $('#splash'); s.classList.add('leave'); setTimeout(() => { s.hidden = true; }, 420); }
+
+function hideSplash() {
+  const s = $('#splash'); if (!s || s.hidden) return;
+  s.classList.add('leave');
+  setTimeout(() => { s.hidden = true; }, 420);
+}
 
 async function boot() {
-  $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML();
   const t0 = Date.now();
-  try { tg.ready(); tg.expand(); tg.disableVerticalSwipes && tg.disableVerticalSwipes(); } catch (e) {}
-  applyTheme();
-  const tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
-  if (!tu) { $('#splash').hidden = true; $('#gate').hidden = false; return; }
+
+  // Fill logos
+  try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); } catch (e) {}
+
+  // Guarantee splash always hides within 2.5s, no matter what
+  const splashKill = setTimeout(hideSplash, 2500);
+
+  // Telegram SDK
+  try {
+    if (tg) { tg.ready(); tg.expand(); tg.disableVerticalSwipes && tg.disableVerticalSwipes(); }
+  } catch (e) { console.warn('tg init', e); }
+
+  try { applyTheme(); } catch (e) {}
+
+  const tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user)
+          || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
+
+  if (!tu) {
+    clearTimeout(splashKill);
+    $('#splash').hidden = true;
+    $('#gate').hidden = false;
+    return;
+  }
+
   S.uid = String(tu.id);
-  try { await ensureUser(tu); } catch (e) { console.error(e); }
+
+  // Show UI FIRST — user sees something immediately even if Firebase is slow
+  $('#app').hidden = false;
+  $('#nav').hidden = false;
+  try { go('home'); } catch (e) { console.error('go home', e); }
+
+  // Ensure user with a hard 8 second timeout
+  try {
+    await Promise.race([
+      ensureUser(tu),
+      new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 8000))
+    ]);
+  } catch (e) {
+    console.warn('ensureUser failed:', e);
+    toastErr('Could not reach the server. Data may be delayed.');
+  }
+
+  // Setup realtime listeners (each guarded)
   let firstUser = true;
-  db.ref(P.user(S.uid)).on('value', s => {
-    const u = s.val() || {};
-    notifySubmissions(u); notifyCredits(u); S.user = u; render();
-    if (firstUser) { firstUser = false; checkReferral(u); }
-    if ((u.debtTotal || 0) > 0 && (u.rjBalance || 0) > 0) settleDebts();
-  });
-  db.ref('pn/pending/' + S.uid).on('value', s => { S.pending = s.val() || {}; if (S.tab === 'promote' && S.promoTab === 'mine') renderMine(); });
-  sweepPending(); setInterval(sweepPending, 60000);
-  sweepJoins(); setInterval(sweepJoins, 300000); flushOutbox(S.uid).catch(e => console.warn('outbox', e));
-  db.ref(P.tasks).limitToLast(300).on('value', s => { S.tasks = s.val() || {}; render(); });
-  $('#app').hidden = false; $('#nav').hidden = false;
-  go('home');
-  setTimeout(hideSplash, Math.max(0, 900 - (Date.now() - t0)));
+  try {
+    db.ref(P.user(S.uid)).on('value', s => {
+      try {
+        const u = s.val() || {};
+        notifySubmissions(u); notifyCredits(u);
+        S.user = u; render();
+        if (firstUser) { firstUser = false; checkReferral(u); }
+        if ((u.debtTotal || 0) > 0 && (u.rjBalance || 0) > 0) settleDebts();
+      } catch (err) { console.error('user listener', err); }
+    }, err => console.error('user listener error', err));
+  } catch (e) { console.error('user listener setup', e); }
+
+  try {
+    db.ref('pn/pending/' + S.uid).on('value', s => {
+      S.pending = s.val() || {};
+      if (S.tab === 'promote' && S.promoTab === 'mine') renderMine();
+    }, err => console.warn('pending listener', err));
+  } catch (e) { console.warn('pending setup', e); }
+
+  try {
+    db.ref(P.tasks).limitToLast(300).on('value', s => {
+      S.tasks = s.val() || {};
+      render();
+    }, err => console.warn('tasks listener', err));
+  } catch (e) { console.warn('tasks setup', e); }
+
+  // Background sweeps — non-blocking
+  sweepPending().catch(() => {});
+  flushOutbox(S.uid).catch(() => {});
+  setInterval(() => sweepPending().catch(() => {}), 60000);
+  sweepJoins().catch(() => {});
+  setInterval(() => sweepJoins().catch(() => {}), 300000);
+
+  // Hide splash as soon as reasonable
+  const wait = Math.max(0, 900 - (Date.now() - t0));
+  setTimeout(() => { clearTimeout(splashKill); hideSplash(); }, wait);
+
+  // Log firebase connection
+  try {
+    db.ref('.info/connected').on('value', s => console.log('Firebase connected:', s.val() === true));
+  } catch (e) {}
 }
-boot();
+
+boot().catch(e => {
+  console.error('boot failed:', e);
+  showFatal('PMER could not start', (e && e.message) || 'Unknown error. Please try again.');
+});
+
 })();
 </script>
 </body>

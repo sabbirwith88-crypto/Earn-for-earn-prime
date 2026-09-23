@@ -68,10 +68,6 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 .page>.sub{color:var(--muted);margin-bottom:18px;max-width:40ch}
 .page.enter{animation:pagein .35s cubic-bezier(.2,.8,.2,1)}
 .page.enter .list>*,.page.enter .tiles>*,.page.enter .stats>*,.page.enter .menu{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
-.page.enter .list>*:nth-child(2),.page.enter .tiles>*:nth-child(2),.page.enter .stats>*:nth-child(2){animation-delay:.04s}
-.page.enter .list>*:nth-child(3),.page.enter .tiles>*:nth-child(3),.page.enter .stats>*:nth-child(3){animation-delay:.08s}
-.page.enter .list>*:nth-child(4),.page.enter .tiles>*:nth-child(4){animation-delay:.12s}
-.page.enter .list>*:nth-child(n+5){animation-delay:.16s}
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .brand{display:flex;align-items:center;gap:10px;font:800 19px 'Sora',sans-serif;letter-spacing:.06em}
 .brand .logo{width:38px;height:38px;box-shadow:0 6px 14px -6px rgba(106,61,240,.6)}
@@ -86,11 +82,11 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 .hero{position:relative;overflow:hidden;background:var(--hero);color:#fff;border-radius:28px;padding:22px 20px 20px;margin-bottom:14px}
 .hero .rings{position:absolute;right:-30px;top:-30px;width:240px;height:240px;fill:none;stroke:#fff;stroke-opacity:.12;stroke-width:1.5;pointer-events:none}
 .hero.ping .rings circle{animation:ping 1s ease-out}
-.hero.ping .rings circle:nth-child(2){animation-delay:.1s}.hero.ping .rings circle:nth-child(3){animation-delay:.2s}.hero.ping .rings circle:nth-child(4){animation-delay:.3s}
 .hero-label{font-size:13px;color:#fff;opacity:.72}
 .hero-amt{display:flex;align-items:center;gap:10px;margin:6px 0 2px}
 .hero-amt .num{font-size:40px;font-weight:800;line-height:1.1}
-.hero-sub{font-size:13px;opacity:.72;margin-bottom:18px}
+.hero-sub{font-size:13px;opacity:.72;margin-bottom:8px}
+.hero-usd{font-size:14px;font-weight:700;color:#C7B8FF;margin-bottom:18px}
 .hero-actions{display:flex;gap:10px}
 .hero-actions .btn{flex:1}
 
@@ -109,10 +105,10 @@ button.card{width:100%;text-align:left;display:flex;align-items:center;gap:12px;
 button.card:active{transform:scale(.98)}
 button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .list{display:flex;flex-direction:column;gap:12px}
-.tbadge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:none;color:var(--tc,var(--brand));background:var(--brand-soft);background:color-mix(in srgb,var(--tc,var(--brand)) 15%,transparent)}
+.tbadge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:none;color:var(--tc,var(--brand));background:color-mix(in srgb,var(--tc,var(--brand)) 15%,transparent)}
 .t-join{--tc:#6A3DF0}.t-reaction{--tc:#E0457B}.t-view{--tc:#0C93A0}.t-conditions{--tc:#D18100}.t-ads{--tc:#6A3DF0}.t-website{--tc:#0B7A5A}.t-youtube{--tc:#E02B2B}.t-linkad{--tc:#0C93A0}
 [data-theme="dark"] .t-join,[data-theme="dark"] .t-ads{--tc:#A58CFF}
-.reward{display:inline-flex;align-items:center;gap:6px;background:#FFF3D1;background:color-mix(in srgb,var(--gold) 22%,transparent);color:#8A5A00;font:700 13px 'Sora',sans-serif;padding:6px 10px 6px 6px;border-radius:999px;white-space:nowrap}
+.reward{display:inline-flex;align-items:center;gap:6px;background:color-mix(in srgb,var(--gold) 22%,transparent);color:#8A5A00;font:700 13px 'Sora',sans-serif;padding:6px 10px 6px 6px;border-radius:999px;white-space:nowrap}
 .reward.rj{background:color-mix(in srgb,var(--jade) 22%,transparent);color:#00714A}
 [data-theme="dark"] .reward{color:#FFD879}
 [data-theme="dark"] .reward.rj{color:#8CFFC9}
@@ -121,7 +117,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .card .meta{font-size:13px;color:var(--muted);margin-top:2px}
 .bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin:12px 0}
 .bar i{display:block;height:100%;background:var(--brand);border-radius:6px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.bar.jade i{background:var(--jade)}
 .actions{display:flex;gap:10px;margin-top:14px}
 .actions .btn{flex:1}
 .adgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
@@ -148,7 +143,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .chips{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 16px;padding:2px 16px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 14px;font:600 13.5px 'Manrope',sans-serif;cursor:pointer;display:flex;gap:6px;align-items:center;transition:background .2s,color .2s,transform .12s}
-.chip:active{transform:scale(.95)}
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip em{font-style:normal;opacity:.6;font-size:12px}
 
@@ -160,7 +154,10 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .empty{text-align:center;padding:36px 20px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:12px}
 .empty b{color:var(--ink);font:700 16px 'Sora',sans-serif}
 .pill{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap}
-.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.mut{background:var(--line);color:var(--muted)}.pill.brand{background:var(--brand-soft);color:var(--brand)}.pill.jade{background:var(--jade-soft);color:var(--ok)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.mut{background:var(--line);color:var(--muted)}
+.pill.brand{background:var(--brand-soft);color:var(--brand)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
 .alert{background:var(--bad-soft);color:var(--bad);border-radius:14px;padding:12px 14px;font-weight:700;font-size:13.5px;margin-bottom:14px;line-height:1.4}
 
 .promo-head{display:flex;align-items:center;gap:14px;margin:6px 0 14px}
@@ -177,7 +174,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .stepper div.now{color:var(--ink)}
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
 .cat{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,background .2s,transform .12s}
-.cat:active{transform:scale(.97)}
 .cat.on{border-color:var(--brand);background:var(--brand-soft)}
 .cat b{font:700 14px 'Sora',sans-serif;display:block}
 .cat small{color:var(--muted);font-size:12.5px}
@@ -207,7 +203,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .income .num{font-size:30px;font-weight:800;display:flex;align-items:center;gap:8px;margin-top:4px}
 .income small{opacity:.72;font-size:13px}
 .income.jade{background:linear-gradient(135deg,#0B4F3A,#34C48A)}
-.deposit{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .wallets{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .wallet{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
 .wallet small{color:var(--muted);font-size:12.5px;display:block}
@@ -225,7 +220,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .nb{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font:600 11px 'Manrope',sans-serif;cursor:pointer;transition:color .2s}
 .nb .ico{transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
 .nb.on{color:var(--brand);font-weight:800}
-.nb.on:not(.fab) .ico{transform:translateY(-2px) scale(1.12)}
 .nb.fab .fabi{width:54px;height:54px;border-radius:19px;background:var(--brand);color:#fff;display:grid;place-items:center;margin-top:-26px;box-shadow:0 12px 22px -10px var(--brand);border:4px solid var(--bg);transition:transform .2s}
 .nb.fab:active .fabi{transform:scale(.92)}
 .nb.fab{color:var(--muted)}.nb.fab.on{color:var(--brand)}
@@ -255,23 +249,19 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .kv div:last-child{border:0}
 .linkbox{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:12px 0;font-size:13px;word-break:break-all}
 .msgbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:12px 0;font-size:13.5px;white-space:pre-line;color:var(--muted)}
-.hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}
+.hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}
 .gap{height:10px}
 .stack{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 .stack .field{margin:0}
 .field.sub label{font-size:13px}
 .badge{background:var(--brand);color:#fff;border-radius:999px;font-size:11px;padding:1px 8px;margin-left:8px}
 .note{background:var(--brand-soft);color:var(--brand);border-radius:14px;padding:12px 14px;font-weight:600;font-size:13px;margin-bottom:14px;line-height:1.4}
-.note.jade{background:var(--jade-soft);color:var(--ok)}
 .pkgs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .pkg{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;text-align:left;cursor:pointer;transition:border-color .2s,background .2s,transform .12s}
-.pkg:active{transform:scale(.97)}
 .pkg.on{border-color:var(--brand);background:var(--brand-soft)}
 .pkg b{display:block;font:800 22px 'Sora',sans-serif}
 .pkg span{display:flex;align-items:center;gap:6px;margin-top:8px;font:700 13px 'Sora',sans-serif;color:var(--muted)}
 .req{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
-.req b{display:block;word-break:break-word}
-.req small{display:block;color:var(--muted);font-size:12.5px}
 .swapbox{background:linear-gradient(135deg,var(--brand-soft),var(--jade-soft));border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:16px;text-align:center}
 .swapbox .rate{font:800 22px 'Sora',sans-serif}
 .swapbox .rate span{display:inline-flex;align-items:center;gap:6px;vertical-align:middle}
@@ -321,14 +311,11 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 <symbol id="i-shieldok" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
 <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-<symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
-<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c3 .3 5 2 5 5"/></symbol>
 <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M19 6h1M4 12h3M13 12h7M4 18h11M21 18h-1"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
 <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
 <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
 <symbol id="i-help" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></symbol>
 <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></symbol>
-<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
 <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></symbol>
 <symbol id="i-yt" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l4 2.5-4 2.5z"/></symbol>
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.7v.01"/></symbol>
@@ -369,9 +356,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 (() => {
 'use strict';
 
-/* =====================================================================
-   FAIL-SAFE: Firebase বা অন্য library load না হলে সাথে সাথে দেখাও
-   ===================================================================== */
 function showFatal(title, msg) {
   const old = document.getElementById('fatal'); if (old) old.remove();
   const d = document.createElement('div'); d.id = 'fatal';
@@ -379,12 +363,10 @@ function showFatal(title, msg) {
   document.body.appendChild(d);
   const sp = document.getElementById('splash'); if (sp) sp.hidden = true;
 }
-
 if (typeof firebase === 'undefined' || !firebase.database) {
-  showFatal('Could not load PMER', 'Firebase library failed to load. Check your internet connection and try again.');
+  showFatal('Could not load PMER', 'Firebase library failed to load. Check your internet and try again.');
   return;
 }
-
 window.addEventListener('error', e => console.error('App error:', (e && e.error) || (e && e.message)));
 window.addEventListener('unhandledrejection', e => console.error('Promise error:', e && e.reason));
 
@@ -395,9 +377,10 @@ const CONFIG = {
   appName: 'PMER',
   logo: '',
 
+  /* Ads: 9 ads grouped into 3 tasks. Watch all 3 → Claim 18 JR. 60s cooldown between claims. Limit 10/day. */
   adReward: 18,
   adDailyLimit: 10,
-  adCooldownSec: 30,
+  adCooldownSec: 60,
   adLinkSeconds: 12,
 
   adLinks: [
@@ -409,9 +392,16 @@ const CONFIG = {
   adsgramBlockId: '30645',
   onclickaId: '464920',
 
+  /* Swap: JR → RJ. 1000 JR = 50000 RJ, min 100 JR */
   swap: { jrIn: 1000, rjOut: 50000, min: 100 },
-  withdraw: { min: 1000, method: 'Binance' },
 
+  /* Withdraw: min 1000 JR, 3% fee, Binance UID only */
+  withdraw: { min: 1000, feePct: 3, method: 'Binance' },
+
+  /* USD rate: 10000 JR = 1 USD */
+  usdRate: 10000,
+
+  /* Task rewards are in RJ */
   minReward: { join: 3000, reaction: 1000, view: 700, conditions: 2500, website: 1500, youtube: 1000 },
   fee: { website: 300 },
   minUsers: 1,
@@ -431,14 +421,21 @@ const CONFIG = {
   supportLink: 'https://t.me/mrdinooo11',
   botToken: '8900908750:AAFs1ORXDg_7C_YRbWM-6lxpJeeljNeKWC0',
   verifyUrl: '',
+
   deposit: {
-    uid: '1226899375',
-    packages: [{ usd: 1, jr: 1000000 }, { usd: 5, jr: 4500000 }, { usd: 10, jr: 8000000 }, { usd: 25, jr: 20000000 }]
+    binanceUid: '1226899375',
+    packages: [
+      { usd: 0.1, rj: 55000 },
+      { usd: 1, rj: 550000 },
+      { usd: 3, rj: 2000000 },
+      { usd: 5, rj: 5500000 },
+      { usd: 10, rj: 11000000 }
+    ]
   }
 };
 
 /* =====================================================================
-   Firebase init (guarded)
+   Firebase init
    ===================================================================== */
 let db, TS, P;
 try {
@@ -466,6 +463,7 @@ try {
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const fmt = n => Number(n || 0).toLocaleString('en-US');
+const fmtUSD = n => '$' + Number(n || 0).toFixed(2);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ico = (n, c = '') => `<svg class="ico ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const coin = (c = '') => `<span class="coin ${c}" aria-hidden="true">JR</span>`;
@@ -477,6 +475,7 @@ const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { 
 const jrBal = u => (u && u.balance) || 0;
 const rjBal = u => ((u && u.rjBalance) || 0) - ((u && u.debtTotal) || 0);
 const netBal = u => ((u && u.balance) || 0) - ((u && u.debtTotal) || 0);
+const jrToUSD = jr => (jr || 0) / (CONFIG.usdRate || 10000);
 const today = () => new Date().toLocaleDateString('en-CA');
 const fmtLeft = ms => { const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return h > 0 ? `${h}h ${m}m` : `${Math.max(0, m)}m`; };
 const chatKey = c => String(c).replace(/^@/, '').toLowerCase();
@@ -518,9 +517,7 @@ function rewarded(amount, note) {
   toast(note, { coins: amount }); hap('success');
   const h = $('#hero'); if (h) { h.classList.remove('ping'); void h.offsetWidth; h.classList.add('ping'); }
 }
-function rewardedRJ(amount, note) {
-  toast(note, { rj: amount }); hap('success');
-}
+function rewardedRJ(amount, note) { toast(note, { rj: amount }); hap('success'); }
 
 function openSheet(html, mount) {
   const root = $('#sheetBody'); if (!root) return;
@@ -545,7 +542,8 @@ function applyTheme() {
    State
    ===================================================================== */
 const S = {
-  uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null, screened: {}, chatCache: {}, botId: null, pending: {}, prevSub: null,
+  uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null,
+  chatCache: {}, botId: null, pending: {}, prevSub: null,
   wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' }
 };
 
@@ -593,74 +591,72 @@ async function checkReferral(u) {
 }
 
 /* =====================================================================
-   Ads
+   Ads: 3 tasks × 3 ads. Watch all 3 → Claim 18 JR. 60s cooldown, 10/day.
    ===================================================================== */
-const notReady = () => { throw new Error('not_ready'); };
-const AD_PROVIDERS = [
-  { key: 'monetag',   label: 'Ad 1', run: async () => { if (typeof window.show_10541383 !== 'function') notReady(); await window.show_10541383(); } },
-  { key: 'adsbitvex', label: 'Ad 2', run: async () => { if (typeof window.showadsbitvex !== 'function') notReady(); await window.showadsbitvex(); } },
-  { key: 'adsgram',   label: 'Ad 3', run: async () => { if (!window.Adsgram) notReady(); await window.Adsgram.init({ blockId: CONFIG.adsgramBlockId }).show(); } },
-  { key: 'gigapub',   label: 'Ad 4', run: async () => { if (typeof window.showGiga !== 'function') notReady(); await window.showGiga('main'); } },
-  { key: 'onclicka',  label: 'Ad 5', run: async () => { const show = await initOnclicka(); await show(); } }
-].concat(CONFIG.adLinks.map((url, i) => ({ key: 'link' + (i + 6), label: 'Ad ' + (i + 6), link: url })));
+async function runMonetag() {
+  if (typeof window.show_10541383 !== 'function') throw new Error('not_ready');
+  await window.show_10541383();
+}
+async function runAdsbitvex() {
+  if (typeof window.showadsbitvex !== 'function') throw new Error('not_ready');
+  await window.showadsbitvex();
+}
+async function runAdsgram() {
+  if (!window.Adsgram) throw new Error('not_ready');
+  await window.Adsgram.init({ blockId: CONFIG.adsgramBlockId }).show();
+}
+async function runGigapub() {
+  if (typeof window.showGiga !== 'function') throw new Error('not_ready');
+  await window.showGiga('main');
+}
+async function runAdsgramFallbackMonetag() {
+  try { await runAdsgram(); }
+  catch (e) {
+    console.warn('Adsgram failed, trying Monetag:', e);
+    await runMonetag();
+  }
+}
 
+const PROVIDERS = {
+  p1: { label: 'Ad 1', run: runMonetag },
+  p2: { label: 'Ad 2', run: runAdsbitvex },
+  p3: { label: 'Ad 3', run: runAdsgramFallbackMonetag },
+  p4: { label: 'Ad 4', run: runGigapub },
+  p5: { label: 'Ad 5', run: runAdsbitvex },
+  p6: { label: 'Ad 6', link: CONFIG.adLinks[0] },
+  p7: { label: 'Ad 7', link: CONFIG.adLinks[1] },
+  p8: { label: 'Ad 8', link: CONFIG.adLinks[2] },
+  p9: { label: 'Ad 9', link: CONFIG.adLinks[3] }
+};
 const AD_GROUPS = [
-  { id: 'g1', label: 'Ad Task 1', sub: 'Ads 1, 2, 3', providers: AD_PROVIDERS.slice(0, 3) },
-  { id: 'g2', label: 'Ad Task 2', sub: 'Ads 4, 5, 6', providers: AD_PROVIDERS.slice(3, 6) },
-  { id: 'g3', label: 'Ad Task 3', sub: 'Ads 7, 8, 9', providers: AD_PROVIDERS.slice(6, 9) }
+  { id: 'g1', label: 'Ad Task 1', sub: 'Ads 1, 2, 3', ads: ['p1', 'p2', 'p3'] },
+  { id: 'g2', label: 'Ad Task 2', sub: 'Ads 4, 5, 6', ads: ['p4', 'p5', 'p6'] },
+  { id: 'g3', label: 'Ad Task 3', sub: 'Ads 7, 8, 9', ads: ['p7', 'p8', 'p9'] }
 ];
-const PROVIDER = k => AD_PROVIDERS.find(p => p.key === k);
 
-let onclickaInit = null;
-function initOnclicka() {
-  if (onclickaInit) return onclickaInit;
-  if (typeof window.initCdTma !== 'function') return Promise.reject(new Error('not_ready'));
-  onclickaInit = window.initCdTma({ id: CONFIG.onclickaId }).then(show => { window.show = show; return show; }).catch(e => { onclickaInit = null; throw e; });
-  return onclickaInit;
-}
-const adCount = k => (S.user.adDay === today() ? (S.user.adToday || {})[k] || 0 : 0);
-
-function getGroupProgress(gid) {
+function getGroupState(gid) {
   const u = S.user;
-  if (u.adDay !== today()) return { done: [], completed: 0 };
-  return ((u.adProgress || {})[gid]) || { done: [], completed: 0 };
+  const empty = { done: [], claims: 0, lastClaim: 0 };
+  if (u.adDay !== today()) return empty;
+  return ((u.adProgress || {})[gid]) || empty;
 }
-const groupFull = gid => getGroupProgress(gid).completed >= CONFIG.adDailyLimit;
-
-async function markAdDone(gid, key) {
-  let justCompleted = false;
-  const res = await db.ref(P.user(S.uid)).transaction(u => {
-    justCompleted = false;
-    if (!u) return u;
-    const d = today();
-    if (u.adDay !== d) { u.adDay = d; u.adProgress = {}; }
-    u.adProgress = u.adProgress || {};
-    const p = u.adProgress[gid] = u.adProgress[gid] || { done: [], completed: 0 };
-    if (p.done.includes(key)) return u;
-    if ((p.completed || 0) >= CONFIG.adDailyLimit) return u;
-    p.done.push(key);
-    if (p.done.length >= 3) {
-      p.done = [];
-      p.completed = (p.completed || 0) + 1;
-      applyIncome(u, CONFIG.adReward);
-      justCompleted = true;
-    }
-    return u;
-  });
-  if (res.committed && justCompleted) rewarded(CONFIG.adReward, 'Ad task complete');
+function groupCooldownLeft(gid) {
+  const st = getGroupState(gid);
+  if (!st.lastClaim) return 0;
+  return Math.max(0, Math.ceil((st.lastClaim + CONFIG.adCooldownSec * 1000 - Date.now()) / 1000));
 }
 
 async function watchGroupAd(gid, key) {
-  const group = AD_GROUPS.find(g => g.id === gid);
-  const provider = group && group.providers.find(p => p.key === key);
-  if (!provider || !group) return;
-  if (groupFull(gid)) return toastErr('Daily limit reached for this ad task. Try again tomorrow.');
-  const prog = getGroupProgress(gid);
-  if (prog.done.includes(key)) return toastErr('You already watched this ad in this round.');
+  const group = AD_GROUPS.find(g => g.id === gid); if (!group) return;
+  const provider = PROVIDERS[key]; if (!provider) return;
+  const st = getGroupState(gid);
+  if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task. Try again tomorrow.');
+  if (groupCooldownLeft(gid) > 0) return toastErr(`Please wait ${groupCooldownLeft(gid)}s before the next round.`);
+  if (st.done.includes(key)) return toastErr('You already watched this ad in this round.');
   if (S.ui['ad_' + key]) return;
   if (provider.link && S.view) return;
 
-  if (provider.link) return startGroupLinkAd(gid, provider);
+  if (provider.link) return startGroupLinkAd(gid, key, provider.link);
 
   S.ui['ad_' + key] = true; renderEarn();
   try { await provider.run(); }
@@ -674,18 +670,33 @@ async function watchGroupAd(gid, key) {
   renderEarn();
 }
 
-function startGroupLinkAd(gid, provider) {
+async function markAdDone(gid, key) {
+  await db.ref(P.user(S.uid)).transaction(u => {
+    if (!u) return u;
+    const d = today();
+    if (u.adDay !== d) { u.adDay = d; u.adProgress = {}; }
+    u.adProgress = u.adProgress || {};
+    const p = u.adProgress[gid] = u.adProgress[gid] || { done: [], claims: 0, lastClaim: 0 };
+    if (p.done.includes(key)) return u;
+    if ((p.claims || 0) >= CONFIG.adDailyLimit) return u;
+    if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return u;
+    p.done.push(key);
+    return u;
+  });
+}
+
+function startGroupLinkAd(gid, key, url) {
   if (S.view) return;
-  S.ui['adfail_' + provider.key] = false;
-  S.view = { ad: provider.key, groupId: gid, id: 'ad_' + provider.key, t0: Date.now(), left: false, secs: CONFIG.adLinkSeconds };
-  openLink(provider.link);
+  S.ui['adfail_' + key] = false;
+  S.view = { ad: key, groupId: gid, id: 'ad_' + key, t0: Date.now(), left: false, secs: CONFIG.adLinkSeconds };
+  openLink(url);
   const timer = setInterval(() => {
     const v = S.view; if (!v || v.timer !== timer) return clearInterval(timer);
-    updateAdButtons();
+    renderEarn();
     if (!v.left && Date.now() - v.t0 >= v.secs * 1000) finishGroupLinkAd(true);
   }, 250);
   S.view.timer = timer;
-  updateAdButtons();
+  renderEarn();
 }
 async function finishGroupLinkAd(success) {
   const v = S.view; if (!v || !v.ad) return;
@@ -699,43 +710,104 @@ async function finishGroupLinkAd(success) {
   renderEarn();
 }
 
-function adButtonUI(gid, provider) {
-  const prog = getGroupProgress(gid);
-  const done = prog.done.includes(provider.key);
-  const full = groupFull(gid);
-  const v = S.view && S.view.ad === provider.key ? S.view : null;
-  if (done) return { html: `✓ ${provider.label}`, dis: true, done: true };
-  if (v) {
-    const s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
-    return { html: s > 0 ? `<span class="spin"></span>${s}s` : 'Return', dis: true, done: false };
-  }
-  if (S.ui['ad_' + provider.key]) return { html: `<span class="spin"></span>`, dis: true, done: false };
-  if (full) return { html: provider.label, dis: true, done: false };
-  if (S.ui['adfail_' + provider.key]) return { html: 'Retry', dis: false, done: false };
-  return { html: provider.label, dis: false, done: false };
-}
-function updateAdButtons() {
-  $$('[data-adbtn]').forEach(b => {
-    const gid = b.dataset.gid, key = b.dataset.adbtn;
-    const provider = PROVIDER(key); if (!provider) return;
-    const u = adButtonUI(gid, provider);
-    if (b.__t !== u.html) { b.innerHTML = u.html; b.__t = u.html; }
-    b.disabled = u.dis; b.classList.toggle('done', u.done);
+async function claimAdGroup(gid) {
+  const st = getGroupState(gid);
+  if (st.done.length < 3) return toastErr('Watch all 3 ads first.');
+  if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task.');
+  if (groupCooldownLeft(gid) > 0) return toastErr(`Please wait ${groupCooldownLeft(gid)}s before claiming.`);
+
+  let claimed = false;
+  const res = await db.ref(P.user(S.uid)).transaction(u => {
+    claimed = false;
+    if (!u) return u;
+    if (u.adDay !== today()) { u.adDay = today(); u.adProgress = {}; }
+    u.adProgress = u.adProgress || {};
+    const p = u.adProgress[gid] = u.adProgress[gid] || { done: [], claims: 0, lastClaim: 0 };
+    if (p.done.length < 3) return u;
+    if ((p.claims || 0) >= CONFIG.adDailyLimit) return u;
+    if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return u;
+    p.done = [];
+    p.claims = (p.claims || 0) + 1;
+    p.lastClaim = Date.now();
+    applyIncome(u, CONFIG.adReward);
+    claimed = true;
+    return u;
   });
+
+  if (res.committed && claimed) { rewarded(CONFIG.adReward, 'Ad task complete'); hap('success'); }
+  else toastErr('Could not claim right now. Try again.');
+  renderEarn();
 }
-setInterval(() => { if (S.tab === 'earn') updateAdButtons(); }, 500);
+
+function renderAdGroup(g) {
+  const st = getGroupState(g.id);
+  const cooldown = groupCooldownLeft(g.id);
+  const canClaim = st.done.length >= 3 && st.claims < CONFIG.adDailyLimit && cooldown === 0;
+  const limitReached = st.claims >= CONFIG.adDailyLimit;
+  const waiting = cooldown > 0;
+  const roundPct = (st.done.length / 3) * 100;
+  const claimPct = (st.claims / CONFIG.adDailyLimit) * 100;
+
+  let content;
+  if (limitReached) {
+    content = `<div class="note" style="margin:0;text-align:center">Daily limit reached (${st.claims}/${CONFIG.adDailyLimit}). Come back tomorrow.</div>`;
+  } else if (waiting) {
+    content = `<button class="btn btn-cool btn-block" disabled><span class="spin"></span> Wait ${cooldown}s before next round</button>`;
+  } else if (canClaim) {
+    content = `<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="${g.id}">🎁 Claim ${CONFIG.adReward} JR</button>`;
+  } else {
+    const buttons = g.ads.map(key => {
+      const p = PROVIDERS[key]; if (!p) return '';
+      const isDone = st.done.includes(key);
+      const isBusy = S.ui['ad_' + key];
+      const v = S.view && S.view.ad === key ? S.view : null;
+      let html, dis = false;
+      if (isDone) { html = `✓ ${p.label}`; dis = true; }
+      else if (v) {
+        const s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
+        html = s > 0 ? `<span class="spin"></span>${s}s` : 'Return';
+        dis = true;
+      }
+      else if (isBusy) { html = `<span class="spin"></span>`; dis = true; }
+      else if (S.ui['adfail_' + key]) { html = 'Retry'; }
+      else { html = p.label; }
+      return `<button class="btn ${isDone ? 'btn-jade' : 'btn-primary'}" data-act="watch-group" data-gid="${g.id}" data-key="${key}" ${dis ? 'disabled' : ''}>${html}</button>`;
+    }).join('');
+    content = `<div class="adgrid">${buttons}</div>`;
+  }
+
+  return `<article class="card">
+    <div class="row"><span class="tbadge t-ads">${ico('play')}</span>
+      <div class="grow"><h3>${g.label}</h3>
+        <p class="meta">${g.sub} · ${st.claims}/${CONFIG.adDailyLimit} claimed today</p></div>
+      <span class="reward">${coin()}+${fmt(CONFIG.adReward)}</span></div>
+    <div class="bar"><i style="width:${roundPct}%"></i></div>
+    <p class="adnote" style="margin:0 0 10px">${st.done.length}/3 ads in this round${canClaim ? ' — all ads done! Claim now.' : ''}</p>
+    ${content}
+  </article>`;
+}
+
+function renderEarn() {
+  if (S.tab !== 'earn') return;
+  const td = S.user.today && S.user.today.d === today() ? S.user.today.a : 0;
+  const cards = AD_GROUPS.map(renderAdGroup).join('');
+  setHTML($('#p-earn'), `<h1>Earn</h1>
+    <p class="sub">Watch all 3 ads in each task to earn ${fmt(CONFIG.adReward)} JR. Each task can be claimed ${CONFIG.adDailyLimit} times a day, with ${CONFIG.adCooldownSec}s between claims. You earned ${fmt(td)} JR today.</p>
+    <div class="list">${cards}</div>`);
+}
+setInterval(() => { if (S.tab === 'earn') renderEarn(); }, 1000);
 
 /* =====================================================================
-   Telegram links, categories, screening
+   Telegram link parsing + screening
    ===================================================================== */
 const KIND = { channel: 'a channel or group link', post: 'a post link', bot: 'a bot link' };
 const CAT = {
   join:       { label: 'Join',            icon: 'userplus', kind: 'channel', ph: 'https://t.me/yourchannel',     hint: 'Public channel or group link, like https://t.me/yourchannel', sub: 'Channel or group' },
   reaction:   { label: 'Reaction',        icon: 'heart',    kind: 'post',    ph: 'https://t.me/yourchannel/123', hint: 'Link to one post, like https://t.me/yourchannel/123',          sub: 'Post' },
   view:       { label: 'View',            icon: 'eye',      kind: 'post',    ph: 'https://t.me/yourchannel/123', hint: 'Link to one post, like https://t.me/yourchannel/123',          sub: 'Post' },
-  conditions: { label: 'With conditions', icon: 'shieldok', kind: 'bot',     ph: 'https://t.me/yourbot?start=yourcode', hint: 'Bot link or bot referral link, like https://t.me/yourbot?start=yourcode', sub: 'Bot' },
-  website:    { label: 'Website',         icon: 'globe',    kind: 'web',     ph: 'https://example.com',          hint: 'Website link that starts with https://, like https://example.com', sub: 'Website' },
-  youtube:    { label: 'YouTube',         icon: 'yt',       kind: 'yt',      ph: 'https://youtu.be/xxxxxxxxxxx', hint: 'YouTube video link that starts with https://, like https://youtu.be/xxxxxxxxxxx', sub: 'YouTube video' }
+  conditions: { label: 'With conditions', icon: 'shieldok', kind: 'bot',     ph: 'https://t.me/yourbot?start=yourcode', hint: 'Bot link, like https://t.me/yourbot?start=yourcode', sub: 'Bot' },
+  website:    { label: 'Website',         icon: 'globe',    kind: 'web',     ph: 'https://example.com',          hint: 'Website link that starts with https://', sub: 'Website' },
+  youtube:    { label: 'YouTube',         icon: 'yt',       kind: 'yt',      ph: 'https://youtu.be/xxxxxxxxxxx', hint: 'YouTube video link that starts with https://', sub: 'YouTube video' }
 };
 
 function parseTg(raw) {
@@ -791,7 +863,7 @@ function checkUrl(type, raw) {
   return { ok: true, p };
 }
 
-const BAD_EN = /(^|[^a-z0-9])(porn\w*|pr0n|xxx+|sex\w*|nud(e|es|ity)|naked|nsfw|hentai|erotic\w*|escort\w*|onlyfans|18\s?\+|18plus|adult\s?(content|video|videos|chat|only|club|movies?)|cam\s?girls?|milf|blowjob|boobs?|fetish|bdsm|hookup|call\s?girls?|chudai)([^a-z0-9]|$)/i;
+const BAD_EN = /(^|[^a-z0-9])(porn\w*|pr0n|xxx+|sex\w*|nud(e|es|ity)|naked|nsfw|hentai|erotic\w*|escort\w*|onlyfans|18\s?\+|adult\s?(content|video|chat)|milf|blowjob|fetish|bdsm|hookup|chudai)([^a-z0-9]|$)/i;
 const BAD_BN = /(পর্ন|সেক্স|নগ্ন|উলঙ্গ|চটি)/;
 const isBad = t => !!t && (BAD_EN.test(String(t).replace(/[_\-.]+/g, ' ')) || BAD_BN.test(String(t)));
 const HARAM_MSG = 'This is haram. Adult and pornographic content is not allowed on PMER, so this link cannot be promoted.';
@@ -840,9 +912,9 @@ async function screenTarget(p, extra, type) {
 const blockText = r => ({
   adult: HARAM_MSG,
   notfound: 'We could not find this channel or group. Check the link and try again.',
-  notchannel: 'This link is a person, not a channel or group. Use a public channel or group link.',
-  needadmin: `Give PMER permission first. Tap "Add PMER as admin", pick this channel or group, and confirm. PMER only needs it to check who really joined.`,
-  notrack: 'Join campaigns are not available right now because join tracking is not set up. Please contact support.',
+  notchannel: 'This link is a person, not a channel or group.',
+  needadmin: `Give PMER permission first. Tap "Add PMER as admin", pick this channel or group, and confirm.`,
+  notrack: 'Join campaigns are not available right now. Please contact support.',
   offline: 'Could not check this link right now. Check your connection and try again.'
 }[r] || 'This link cannot be promoted.');
 function showBlock(msg, extra) { const b = $('#blockBox'); if (!b) return; const uh = $('#urlHint'); if (uh) uh.hidden = true; b.textContent = msg; if (extra) b.insertAdjacentHTML('beforeend', extra); b.hidden = false; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); hap('error'); }
@@ -860,7 +932,7 @@ async function verifyRemote(task) {
     if (!r.ok) throw new Error('verifier_http');
     return !!(await r.json()).ok;
   }
-  if (!CONFIG.botToken) { console.warn('No verifier configured.'); throw new Error('no_verifier'); }
+  if (!CONFIG.botToken) throw new Error('no_verifier');
   if (task.type === 'join') {
     const j = await tgApi('getChatMember', `chat_id=${encodeURIComponent(chat)}&user_id=${S.uid}`);
     if (!j.ok) throw new Error('verifier_tg');
@@ -898,7 +970,6 @@ function watchJoin(t) {
     at: now, until: now + CONFIG.leave.days * 86400000, next: now + CONFIG.leave.firstCheckMin * 60000
   }).catch(e => console.warn('watchJoin', e));
 }
-
 async function flushOutbox(uid) {
   try {
     const snap = await db.ref(P.user(uid) + '/outbox').once('value');
@@ -906,11 +977,8 @@ async function flushOutbox(uid) {
       if (o && o.owner && o.amt > 0) {
         await db.ref(P.user(o.owner)).transaction(r => {
           if (!r) return r;
-          r.recv = r.recv || {};
-          if (r.recv[k]) return;
-          r.recv[k] = o.amt;
-          r.rjBalance = (r.rjBalance || 0) + o.amt;
-          r.reclaimed = (r.reclaimed || 0) + o.amt;
+          r.recv = r.recv || {}; if (r.recv[k]) return;
+          r.recv[k] = o.amt; r.rjBalance = (r.rjBalance || 0) + o.amt; r.reclaimed = (r.reclaimed || 0) + o.amt;
           return r;
         });
       }
@@ -918,12 +986,10 @@ async function flushOutbox(uid) {
     }
   } catch (e) { console.warn('flushOutbox', e); }
 }
-
 async function clawback(key, w) {
   await db.ref(P.user(w.uid)).transaction(u => {
     if (!u) return u;
-    u.clawed = u.clawed || {};
-    if (u.clawed[key]) return;
+    u.clawed = u.clawed || {}; if (u.clawed[key]) return;
     const pay = Math.min(Math.max(u.rjBalance || 0, 0), w.amt), rest = w.amt - pay;
     u.clawed[key] = { amt: w.amt, owner: w.owner, at: Date.now(), title: w.title || '' };
     u.rjBalance = (u.rjBalance || 0) - pay;
@@ -934,7 +1000,6 @@ async function clawback(key, w) {
   await db.ref('pn/joinWatch/' + key).remove();
   await flushOutbox(w.uid);
 }
-
 async function checkJoin(key) {
   const claim = await db.ref('pn/joinWatch/' + key).transaction(x => {
     if (!x || x.next > Date.now()) return;
@@ -944,14 +1009,9 @@ async function checkJoin(key) {
   const w = claim.snapshot.val(); if (!w) return;
   if (Date.now() > w.until) return db.ref('pn/joinWatch/' + key).remove();
   let m;
-  try {
-    const j = await tgApi('getChatMember', `chat_id=${encodeURIComponent(w.chat)}&user_id=${w.uid}`);
-    if (!j.ok) return;
-    m = j.result;
-  } catch (e) { return; }
+  try { const j = await tgApi('getChatMember', `chat_id=${encodeURIComponent(w.chat)}&user_id=${w.uid}`); if (!j.ok) return; m = j.result; } catch (e) { return; }
   if (m.status === 'left' || (m.status === 'restricted' && !m.is_member)) await clawback(key, w);
 }
-
 async function sweepJoins() {
   if (!S.uid || !CONFIG.botToken || S.sweepingJoins) return;
   S.sweepingJoins = true;
@@ -961,7 +1021,6 @@ async function sweepJoins() {
   } catch (e) { console.warn('sweepJoins', e); }
   S.sweepingJoins = false;
 }
-
 async function settleDebts() {
   if (S.settling) return; S.settling = true;
   try {
@@ -983,7 +1042,6 @@ async function settleDebts() {
   } catch (e) { console.warn('settleDebts', e); }
   S.settling = false;
 }
-
 function notifyCredits(u) {
   const ref = u.refEarned || 0, rec = u.reclaimed || 0, ck = Object.keys(u.clawed || {});
   if (S.prevCred) {
@@ -1017,7 +1075,7 @@ function taskCard(t) {
   const c = CAT[t.type], st = S.ui[t.id] || {};
   if (isMine(t)) {
     const done = (t.total || 0) - (t.remaining || 0), pct = t.total ? done / t.total * 100 : 0;
-    return `<article class="card" data-card="${t.id}">
+    return `<article class="card">
       <div class="row"><span class="tbadge t-${t.type}">${ico(c.icon)}</span>
         <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}, ${fmt(t.perUser)} RJ per user</p></div>
         <span class="pill brand">Your campaign</span></div>
@@ -1033,12 +1091,12 @@ function taskCard(t) {
     wrap = 'stack';
     const un = st.uname !== undefined ? st.uname : (S.user.username ? '@' + S.user.username : '');
     acts = `<button class="btn btn-primary btn-block" data-act="cond-open" data-id="${t.id}">Open bot</button>
-      <div class="field sub"><label for="u-${t.id}">Submit your username</label><input id="u-${t.id}" class="input" data-uname="${t.id}" maxlength="40" autocomplete="off" autocapitalize="off" placeholder="Your username in the bot" value="${esc(un)}"><div class="hint">Finish the steps in the bot, then submit the username you used there.</div></div>
+      <div class="field sub"><label for="u-${t.id}">Submit your username</label><input id="u-${t.id}" class="input" data-uname="${t.id}" maxlength="40" autocomplete="off" autocapitalize="off" placeholder="Your username in the bot" value="${esc(un)}"></div>
       <button class="btn btn-soft btn-block" data-act="cond-submit" data-id="${t.id}" ${st.busy ? 'disabled' : ''}>${st.busy ? busy : st.failed ? 'Try again' : 'Submit for review'}</button>`;
   }
   const steps = t.type === 'conditions' && t.steps ? `<ol class="steps">${t.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : '';
   const note = t.type === 'join' ? `<p class="adnote" style="margin:10px 0 0">Stay for ${CONFIG.leave.days} days. If you leave earlier, the reward goes back to the campaign owner.</p>` : '';
-  return `<article class="card" data-card="${t.id}">
+  return `<article class="card">
     <div class="row"><span class="tbadge t-${t.type}">${ico(c.icon)}</span>
       <div class="grow"><h3>${esc(t.title)}</h3><p class="meta">${c.label}, ${fmt(t.remaining)} spots left</p></div>
       <span class="reward rj">${coinRJ()}+${fmt(t.perUser)}</span></div>
@@ -1062,7 +1120,7 @@ function renderTasks() {
     .map(([k, l]) => `<button class="chip ${S.filter === k ? 'on' : ''}" data-act="filter" data-k="${k}">${l}<em>${n(k)}</em></button>`).join('');
   setHTML($('#p-tasks'), `<h1>Tasks</h1><p class="sub">Complete tasks and earn RJ. Higher rewards come first.</p>
     <div class="chips" role="tablist">${chips}</div>
-    <div class="list">${list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit to advertisers show up here until they are approved.' : 'New tasks appear as soon as advertisers publish them. Watch an ad in the meantime.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
+    <div class="list">${list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit to advertisers show up here until they are approved.' : 'New tasks appear as soon as advertisers publish them.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
 }
 document.addEventListener('focusout', e => { if (e.target.matches && e.target.matches('[data-uname]') && S.taskDirty) { S.taskDirty = false; setTimeout(renderTasks, 350); } });
 
@@ -1075,9 +1133,8 @@ async function doVerify(id) {
   let ok = false;
   try { ok = await verifyRemote(t); }
   catch (e) {
-    console.warn('verify error', e);
     setTaskUi(id, { busy: false });
-    return toastErr(e.message === 'no_verifier' ? 'Verification is not available yet. Please try again later.'
+    return toastErr(e.message === 'no_verifier' ? 'Verification is not available yet.'
       : e.message === 'verifier_tg' ? 'Could not check this channel. Its owner must make ' + botName() + ' an admin.'
       : 'Could not check right now. Try again in a moment.');
   }
@@ -1114,7 +1171,7 @@ async function finishView(success) {
   if (!success || !t) {
     setTaskUi(v.id, { busy: false, failed: true });
     const what = { reaction: 'the post', website: 'the website', youtube: 'the video' }[t && t.type] || 'the post';
-    return toastErr(t && t.type === 'reaction' ? `You came back too soon. React to the post and stay on it for ${v.secs} seconds, then return.` : `You came back too soon. Stay on ${what} for ${v.secs} seconds, then return.`);
+    return toastErr(`You came back too soon. Stay on ${what} for ${v.secs} seconds, then return.`);
   }
   setTaskUi(v.id, { busy: false, failed: false });
   await claimTask(t);
@@ -1130,7 +1187,6 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) markL
 try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', () => { onReturn(); maybeRecheck(); }); } catch (e) {}
 
 function condOpen(id) { const t = taskById(id); if (!t) return; S.ui[id] = Object.assign(S.ui[id] || {}, { opened: Date.now() }); openLink(t.url); }
-
 async function condSubmit(id) {
   const t = taskById(id); if (!t) return;
   const st = S.ui[id] || {}, o = st.opened;
@@ -1202,42 +1258,14 @@ function openPendingSheet(id) {
   const t = taskById(id); if (!t) return;
   const items = Object.entries(S.pending || {}).filter(([, v]) => v.taskId === id).sort((a, b) => (a[1].createdAt || 0) - (b[1].createdAt || 0));
   const left = v => fmtLeft((v.createdAt || Date.now()) + CONFIG.reviewHours * 3600000 - Date.now());
-  openSheet(`<h2>Pending requests</h2><p class="lead">${esc(t.title)}. Approve users who finished the steps. Requests you do not answer within ${CONFIG.reviewHours} hours are approved automatically and the user gets ${fmt(t.perUser)} RJ.</p>
-    ${items.length ? items.map(([k, v]) => `<div class="req" data-k="${esc(k)}"><div class="grow"><b>${esc(v.submitted)}</b><small>${esc(v.name || 'User')}${v.tgUser ? ' (@' + esc(v.tgUser) + ')' : ''}, ${left(v)} left</small></div><button class="btn btn-soft btn-sm" data-r="reject">Reject</button><button class="btn btn-primary btn-sm" data-r="approve">Approve</button></div>`).join('') : `<div class="empty"><b>No pending requests</b><span>New submissions from users appear here.</span></div>`}`, b => {
+  openSheet(`<h2>Pending requests</h2><p class="lead">${esc(t.title)}. Approve users who finished the steps.</p>
+    ${items.length ? items.map(([k, v]) => `<div class="req" data-k="${esc(k)}"><div class="grow"><b>${esc(v.submitted)}</b><small>${esc(v.name || 'User')}${v.tgUser ? ' (@' + esc(v.tgUser) + ')' : ''}, ${left(v)} left</small></div><button class="btn btn-soft btn-sm" data-r="reject">Reject</button><button class="btn btn-primary btn-sm" data-r="approve">Approve</button></div>`).join('') : `<div class="empty"><b>No pending requests</b></div>`}`, b => {
     $$('.req', b).forEach(row => $$('[data-r]', row).forEach(btn => btn.onclick = async () => {
       $$('[data-r]', row).forEach(x => x.disabled = true);
       const ok = await resolveReview(S.uid, row.dataset.k, btn.dataset.r === 'approve');
-      if (ok) { row.remove(); toast(btn.dataset.r === 'approve' ? 'Approved. The user received the RJ.' : 'Rejected.'); hap('success'); } else { toastErr('This request was already handled.'); row.remove(); }
+      if (ok) { row.remove(); toast(btn.dataset.r === 'approve' ? 'Approved.' : 'Rejected.'); } else { toastErr('Already handled.'); row.remove(); }
     }));
   });
-}
-
-/* =====================================================================
-   Earn
-   ===================================================================== */
-function renderEarn() {
-  if (S.tab !== 'earn') return;
-  const td = S.user.today && S.user.today.d === today() ? S.user.today.a : 0;
-  const cards = AD_GROUPS.map(g => {
-    const prog = getGroupProgress(g.id), full = groupFull(g.id);
-    const totalAds = 3;
-    const roundPct = (prog.done.length / totalAds) * 100;
-    const buttons = g.providers.map(p => {
-      const u = adButtonUI(g.id, p);
-      return `<button class="btn ${u.done ? 'btn-jade' : 'btn-primary'} ${u.dis && !u.done ? 'cool' : ''}" data-act="watch-group" data-gid="${g.id}" data-adbtn="${p.key}" ${u.dis ? 'disabled' : ''}>${u.html}</button>`;
-    }).join('');
-    return `<article class="card">
-      <div class="row"><span class="tbadge t-ads">${ico('play')}</span>
-        <div class="grow"><h3>${g.label}</h3><p class="meta">${g.sub} · ${prog.completed} of ${CONFIG.adDailyLimit} completed today</p></div>
-        <span class="reward">${coin()}+${fmt(CONFIG.adReward)}</span></div>
-      <div class="bar"><i style="width:${roundPct}%"></i></div>
-      <p class="adnote" style="margin:0 0 10px">${prog.done.length}/3 ads in this round. Complete all 3 ads to earn ${fmt(CONFIG.adReward)} JR.</p>
-      <div class="adgrid">${buttons}</div>
-      ${full ? '<p class="adnote" style="margin:10px 0 0;color:var(--ok);font-weight:700">Daily limit reached for this task.</p>' : ''}
-    </article>`;
-  }).join('');
-  setHTML($('#p-earn'), `<h1>Earn</h1><p class="sub">Complete each ad task by watching its 3 ads to earn ${fmt(CONFIG.adReward)} JR. Each task can be completed ${CONFIG.adDailyLimit} times a day. You have earned ${fmt(td)} JR today.</p><div class="list">${cards}</div>`);
-  updateAdButtons();
 }
 
 /* =====================================================================
@@ -1251,16 +1279,18 @@ function countUp(el, from, to) {
 function renderHome() {
   if (S.tab !== 'home') return;
   const u = S.user, refs = Object.keys(u.referrals || {}).length, td = u.today && u.today.d === today() ? u.today.a : 0;
+  const jr = jrBal(u), usd = jrToUSD(jr);
   setHTML($('#p-home'), `
     <header class="topbar"><div class="brand"><span class="logo">${logoHTML()}</span>PMER</div><button class="icon-btn" data-sheet="support" aria-label="Support">${ico('help')}</button></header>
     <section class="hero" id="hero">
       <svg class="rings" viewBox="0 0 240 240" aria-hidden="true"><circle cx="150" cy="90" r="30"/><circle cx="150" cy="90" r="60"/><circle cx="150" cy="90" r="90"/><circle cx="150" cy="90" r="120"/></svg>
       <div class="hero-label">JR balance</div>
       <div class="hero-amt">${coin('lg')}<span class="num" id="balNum">0</span></div>
-      <p class="hero-sub">${fmt(u.totalIncome || 0)} JR earned in total</p>
+      <div class="hero-usd" id="balUsd">≈ $0.00</div>
+      <p class="hero-sub">${fmt(u.totalIncome || 0)} JR earned in total · ${fmt(CONFIG.usdRate)} JR = $1</p>
       <div class="hero-actions"><button class="btn btn-gold" data-go="earn">Earn JR</button><button class="btn btn-glass" data-go="promote">Promote</button></div>
     </section>
-    ${(u.debtTotal || 0) > 0 ? `<div class="alert">You owe ${fmt(u.debtTotal)} RJ because you left a channel within ${CONFIG.leave.days} days. New RJ rewards go to the campaign owner until it is paid.</div>` : ''}
+    ${(u.debtTotal || 0) > 0 ? `<div class="alert">You owe ${fmt(u.debtTotal)} RJ because you left a channel within ${CONFIG.leave.days} days.</div>` : ''}
     <div class="stats">
       <div class="stat"><div class="num">${fmt(refs)}</div><small>Referrals</small></div>
       <div class="stat"><div class="num">${fmt(u.tasksDone)}</div><small>Tasks done</small></div>
@@ -1269,10 +1299,11 @@ function renderHome() {
     <div class="tiles">
       <button class="tile" data-go="earn"><span class="tbadge t-ads">${ico('play')}</span><div><b>Watch ads</b><span class="mut">${fmt(CONFIG.adReward)} JR per task</span></div></button>
       <button class="tile" data-go="tasks"><span class="tbadge t-view">${ico('tasks')}</span><div><b>Social tasks</b><span class="mut">${availableTasks().length} live now</span></div></button>
-      <button class="tile" data-go="promote"><span class="tbadge t-reaction">${ico('mega')}</span><div><b>Promote</b><span class="mut">Grow with RJ balance</span></div></button>
-      <button class="tile" data-sheet="referral"><span class="tbadge t-join">${ico('userplus')}</span><div><b>Invite friends</b><span class="mut">${fmt(CONFIG.referral.bonusJR)} JR + ${fmt(CONFIG.referral.bonusRJ)} RJ</span></div></button>
+      <button class="tile" data-sheet="swap"><span class="tbadge t-reaction">${ico('swap')}</span><div><b>Swap JR → RJ</b><span class="mut">${fmt(CONFIG.swap.jrIn)} JR = ${fmt(CONFIG.swap.rjOut)} RJ</span></div></button>
+      <button class="tile" data-sheet="referral"><span class="tbadge t-join">${ico('userplus')}</span><div><b>Invite friends</b><span class="mut">+${fmt(CONFIG.referral.bonusJR)} JR · +${fmt(CONFIG.referral.bonusRJ)} RJ</span></div></button>
     </div>`);
-  const bal = jrBal(u); countUp($('#balNum'), S.shown === null ? bal : S.shown, bal); S.shown = bal;
+  countUp($('#balNum'), S.shown === null ? jr : S.shown, jr); S.shown = jr;
+  const ue = $('#balUsd'); if (ue) ue.textContent = '≈ ' + fmtUSD(usd);
 }
 
 /* =====================================================================
@@ -1303,7 +1334,7 @@ function renderMine() {
       <div class="bar"><i style="width:${pct}%"></i></div>
       <div class="row" style="justify-content:space-between;font-size:13px"><span class="mut">${fmt(done)} of ${fmt(t.total)} users</span><span class="mut">${fmt(done * t.perUser)} RJ spent</span></div>
       ${t.type === 'conditions' ? `<button class="btn btn-soft btn-block" style="margin-top:12px" data-act="pending" data-id="${t.id}">Pending requests<span class="badge">${pc}</span></button>` : ''}</article>`;
-  }).join('')}</div>` : `<div class="empty">${ico('mega')}<b>No campaigns yet</b><span>Create your first campaign and start getting users.</span><button class="btn btn-primary" data-act="promo-tab" data-k="new">Create campaign</button></div>`);
+  }).join('')}</div>` : `<div class="empty">${ico('mega')}<b>No campaigns yet</b><span>Create your first campaign.</span><button class="btn btn-primary" data-act="promo-tab" data-k="new">Create campaign</button></div>`);
 }
 
 function renderWizard() {
@@ -1320,7 +1351,7 @@ function renderWizard() {
   } else if (w.step === 2) {
     body = `<div class="alert" id="blockBox" hidden></div>
       <div class="field"><label for="wTitle">Campaign title <span id="titleCount">0/${CONFIG.titleMax}</span></label><input id="wTitle" class="input" data-wiz="title" maxlength="${CONFIG.titleMax}" autocomplete="off" placeholder="Short, clear title" value="${esc(w.title)}"><div class="hint" id="titleHint">Use ${CONFIG.titleMin} to ${CONFIG.titleMax} characters.</div></div>
-      ${w.type === 'conditions' ? `<div class="field"><label>Steps users must follow</label>${[0, 1, 2].map(i => `<input class="input" style="margin-bottom:8px" data-wiz="step" data-i="${i}" maxlength="60" autocomplete="off" placeholder="Step ${i + 1}" value="${esc(w.steps[i])}" aria-label="Step ${i + 1}">`).join('')}<div class="hint">Three short steps.</div></div>` : ''}
+      ${w.type === 'conditions' ? `<div class="field"><label>Steps users must follow</label>${[0, 1, 2].map(i => `<input class="input" style="margin-bottom:8px" data-wiz="step" data-i="${i}" maxlength="60" autocomplete="off" placeholder="Step ${i + 1}" value="${esc(w.steps[i])}">`).join('')}</div>` : ''}
       <div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>`;
   } else {
     body = `<div class="alert" id="blockBox" hidden></div>
@@ -1336,12 +1367,11 @@ function renderWizard() {
 }
 
 const feeOf = t => (CONFIG.fee && CONFIG.fee[t]) || 0;
-const usersWord = n => `${fmt(n)} user${n === 1 ? '' : 's'}`;
 function waitNote(type) {
-  const t = { join: `Users who leave your channel or group within ${CONFIG.leave.days} days lose their reward, and it is returned to you. Make PMER's bot an admin so joins can be checked.`,
-    reaction: `Reactions are checked by time. Users are paid after they open the post, react, and stay on it for ${CONFIG.reactionSeconds} seconds.`,
+  const t = { join: `Users who leave your channel or group within ${CONFIG.leave.days} days lose their reward, and it is returned to you.`,
+    reaction: `Users are paid after they open the post, react, and stay on it for ${CONFIG.reactionSeconds} seconds.`,
     view: `Users are paid after they open the post and stay on it for ${CONFIG.viewSeconds} seconds.`,
-    website: `Users are paid after they open your website and stay on it for ${CONFIG.websiteSeconds} seconds. A service fee of ${fmt(feeOf('website'))} RJ per user is added when you publish.`,
+    website: `Users are paid after they open your website and stay on it for ${CONFIG.websiteSeconds} seconds. Service fee: ${fmt(feeOf('website'))} RJ per user.`,
     youtube: `Users are paid after they open your video and stay on it for ${CONFIG.youtubeSeconds} seconds.` }[type];
   return t ? `<div class="note">${t}</div>` : '';
 }
@@ -1360,21 +1390,22 @@ function updateWiz() {
   } else if (w.step === 2) {
     const n = w.title.trim().length, ok = n >= CONFIG.titleMin && n <= CONFIG.titleMax;
     const tc = $('#titleCount'); if (tc) tc.textContent = `${n}/${CONFIG.titleMax}`;
-    const th = $('#titleHint'); if (th) { th.className = 'hint' + (ok ? ' ok' : ''); th.textContent = ok ? 'Title looks good.' : n < CONFIG.titleMin ? `Add ${CONFIG.titleMin - n} more character${CONFIG.titleMin - n === 1 ? '' : 's'}.` : `Titles can be at most ${CONFIG.titleMax} characters.`; }
+    const th = $('#titleHint'); if (th) { th.className = 'hint' + (ok ? ' ok' : ''); th.textContent = ok ? 'Title looks good.' : n < CONFIG.titleMin ? `Add ${CONFIG.titleMin - n} more character${CONFIG.titleMin - n === 1 ? '' : 's'}.` : `Max ${CONFIG.titleMax} characters.`; }
     const stepsOk = w.type !== 'conditions' || w.steps.every(s => s.trim().length >= 5);
     next.disabled = !(ok && stepsOk);
   } else {
     const min = CONFIG.minReward[w.type], { per, users, fee, cost } = wizCost(), bal = rjBal(S.user);
-    const perOk = per >= min, usersOk = users >= CONFIG.minUsers && users <= 1000000, ph = $('#perHint'), uh = $('#usersHint');
-    if (ph) { ph.className = 'hint' + (w.perUser && !perOk ? ' bad' : ''); ph.textContent = w.perUser && !perOk ? `The minimum for ${CAT[w.type].label} is ${fmt(min)} RJ per user.` : ''; }
-    if (uh) { uh.className = 'hint' + (w.users && !usersOk ? ' bad' : ''); uh.textContent = w.users && !usersOk ? `You need at least ${usersWord(CONFIG.minUsers)} for a campaign.` : ''; }
+    const perOk = per >= min, usersOk = users >= CONFIG.minUsers && users <= 1000000;
+    const ph = $('#perHint'), uh = $('#usersHint');
+    if (ph) { ph.className = 'hint' + (w.perUser && !perOk ? ' bad' : ''); ph.textContent = w.perUser && !perOk ? `Minimum is ${fmt(min)} RJ per user.` : ''; }
+    if (uh) { uh.className = 'hint' + (w.users && !usersOk ? ' bad' : ''); uh.textContent = w.users && !usersOk ? `At least ${CONFIG.minUsers} user needed.` : ''; }
     const sc = $('#sCost'), sb = $('#sBal'); if (sc) sc.textContent = fmt(cost) + ' RJ'; if (sb) sb.textContent = fmt(bal) + ' RJ';
     const sfr = $('#sFeeRow'); if (sfr) sfr.hidden = !fee; const sf = $('#sFee'); if (sf) sf.textContent = fmt(fee * users) + ' RJ';
     const short = cost > bal, after = bal - cost;
     const sl = $('#sLbl'); if (sl) sl.textContent = short ? 'You still need' : 'RJ balance after publishing';
     const sa = $('#sAfter'); if (sa) { sa.textContent = fmt(Math.abs(after)) + ' RJ'; sa.className = short ? 'neg' : ''; }
     const fh = $('#fundHint'), showShort = short && per > 0 && users > 0;
-    if (fh) { fh.hidden = !showShort; fh.textContent = `You have not enough RJ balance. You are ${fmt(cost - bal)} RJ short.`; }
+    if (fh) { fh.hidden = !showShort; fh.textContent = `You need ${fmt(cost - bal)} more RJ.`; }
     const ws = $('#wizSwap'); if (ws) ws.hidden = !showShort;
     const pb = $('#wizPublish'); if (pb) pb.disabled = !(perOk && usersOk);
   }
@@ -1384,7 +1415,7 @@ async function publish() {
   const w = S.wiz, r = checkUrl(w.type, w.url); if (!r.ok) return;
   const { per, users, fee, cost } = wizCost(), btn = $('#wizPublish');
   if (per < CONFIG.minReward[w.type] || users < CONFIG.minUsers) return;
-  if (cost > rjBal(S.user)) { toastErr('You have not enough RJ balance'); btn.classList.remove('shake'); void btn.offsetWidth; btn.classList.add('shake'); return updateWiz(); }
+  if (cost > rjBal(S.user)) { toastErr('You have not enough RJ balance'); return updateWiz(); }
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking';
   const scr = await screenTarget(r.p, [w.title].concat(w.type === 'conditions' ? w.steps : []), w.type);
   if (!scr.ok) { showBlock(blockText(scr.reason)); btn.textContent = 'Publish campaign'; return updateWiz(); }
@@ -1398,9 +1429,8 @@ async function publish() {
       perUser: per, total: users, remaining: users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS
     });
   } catch (e) {
-    console.error(e);
     await db.ref(P.user(S.uid)).transaction(u => { if (!u) return u; u.rjBalance = (u.rjBalance || 0) + cost; u.spent = Math.max(0, (u.spent || 0) - cost); return u; });
-    toastErr('Could not publish. Your RJ balance was not charged.'); btn.textContent = 'Publish campaign'; return updateWiz();
+    toastErr('Could not publish. Your RJ was not charged.'); btn.textContent = 'Publish campaign'; return updateWiz();
   }
   S.wiz = { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' };
   S.promoTab = 'mine'; hap('success'); toast('Published. Your campaign is live.');
@@ -1408,8 +1438,7 @@ async function publish() {
 }
 
 async function wizNext() {
-  if (S.checking) return;
-  S.checking = true;
+  if (S.checking) return; S.checking = true;
   try { await wizNextInner(); } finally { S.checking = false; }
 }
 async function wizNextInner() {
@@ -1436,6 +1465,7 @@ async function wizNextInner() {
 function renderProfile() {
   if (S.tab !== 'profile') return;
   const u = S.user, name = u.name || 'User', init = esc(name.trim().charAt(0).toUpperCase() || 'U');
+  const refs = Object.keys(u.referrals || {}).length;
   setHTML($('#p-profile'), `
     <div class="pfp"><div class="avatar">${u.photo ? `<img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span>${init}</span></div>
       <div><h1>${esc(name)}</h1><span class="mut">${u.username ? '@' + esc(u.username) : 'Telegram user'}</span></div></div>
@@ -1446,9 +1476,10 @@ function renderProfile() {
     <div class="income"><small>Total JR income</small><div class="num">${coin('lg')}${fmt(u.totalIncome || 0)}</div></div>
     <div class="income jade" style="margin-top:10px"><small>Total RJ earned</small><div class="num">${coinRJ('lg')}${fmt(u.rjTotal || 0)}</div></div>
     <div class="gap"></div>
+    <button class="card" style="margin-bottom:10px" data-sheet="referral"><span class="tbadge t-join">${ico('userplus')}</span><div class="grow"><h3>Invite friends</h3><p class="meta">${refs} referral${refs === 1 ? '' : 's'} · earn ${fmt(CONFIG.referral.bonusJR)} JR + ${fmt(CONFIG.referral.bonusRJ)} RJ each</p></div>${ico('chev')}</button>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Swap JR → RJ</h3><p class="meta">${fmt(CONFIG.swap.jrIn)} JR = ${fmt(CONFIG.swap.rjOut)} RJ · min ${fmt(CONFIG.swap.min)} JR</p></div><button class="btn btn-jade btn-sm" data-sheet="swap">${ico('swap', 'sm')} Swap</button></div></div>
-    <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw JR</h3><p class="meta">Minimum ${fmt(CONFIG.withdraw.min)} JR · Binance only</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">${ico('down', 'sm')} Withdraw</button></div></div>
-    <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Add JR balance</h3><p class="meta">Buy JR with USD through Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">${ico('plus', 'sm')} Deposit</button></div></div>
+    <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw JR</h3><p class="meta">Min ${fmt(CONFIG.withdraw.min)} JR · ${CONFIG.withdraw.feePct}% fee · Binance</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">${ico('down', 'sm')} Withdraw</button></div></div>
+    <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Deposit RJ</h3><p class="meta">Buy RJ with USD through Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">${ico('plus', 'sm')} Deposit</button></div></div>
     <button class="card" data-open="${esc(CONFIG.communityLink)}"><span class="tbadge t-join">${ico('send')}</span><div class="grow"><h3>Join our community</h3><p class="meta">News, updates and help from the PMER team</p></div>${ico('chev')}</button>
     <div class="menu">
       <button data-sheet="about">${ico('info')}About us${ico('chev')}</button>
@@ -1456,7 +1487,7 @@ function renderProfile() {
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">PMER 2.1</p>`);
+    </div><p class="ver">PMER 2.2</p>`);
 }
 
 const SHARE_TEXT = `Join me on PMER, the Telegram app where you earn JR and RJ every day.
@@ -1470,17 +1501,17 @@ const SHARE_TEXT = `Join me on PMER, the Telegram app where you earn JR and RJ e
 Start earning now:`;
 
 const SHEETS = {
-  support: () => openSheet(`<h2>Support</h2><p class="lead">Questions about a task, swap, or deposit? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
+  support: () => openSheet(`<h2>Support</h2><p class="lead">Questions? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
 
+  /* SWAP JR → RJ */
   swap: () => {
     const rate = CONFIG.swap.rjOut / CONFIG.swap.jrIn;
     let jrIn = CONFIG.swap.min;
     const draw = b => {
-      const rj = Math.floor(jrIn * rate);
-      b.innerHTML = `<h2>Swap JR → RJ</h2><p class="lead">Convert your JR into RJ and use it to promote your channels, groups or bots.</p>
-        <div class="swapbox"><div class="rate"><span>${coin('lg')}${fmt(CONFIG.swap.jrIn)}</span> = <span>${coinRJ('lg')}${fmt(CONFIG.swap.rjOut)}</span></div><small>Rate: 1 JR = ${rate} RJ · Minimum swap ${fmt(CONFIG.swap.min)} JR</small></div>
+      b.innerHTML = `<h2>Swap JR → RJ</h2><p class="lead">Convert your JR into RJ to run campaigns.</p>
+        <div class="swapbox"><div class="rate"><span>${coin('lg')}${fmt(CONFIG.swap.jrIn)}</span> = <span>${coinRJ('lg')}${fmt(CONFIG.swap.rjOut)}</span></div><small>1 JR = ${rate} RJ · Minimum swap ${fmt(CONFIG.swap.min)} JR</small></div>
         <div class="field"><label for="swapIn">JR to swap <span>You have ${fmt(jrBal(S.user))} JR</span></label><input id="swapIn" class="input" inputmode="numeric" placeholder="${CONFIG.swap.min}" value="${jrIn}"></div>
-        <div class="sum" id="swapSum"><div><span class="mut">You pay</span><span>${fmt(jrIn)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(rj)} RJ</span></div><div><span class="mut">JR after swap</span><span>${fmt(jrBal(S.user) - jrIn)} JR</span></div></div>
+        <div class="sum" id="swapSum"></div>
         <div class="alert" id="swapErr" hidden></div>
         <button class="btn btn-jade btn-block" id="swapConfirm">${ico('swap', 'sm')} Swap now</button>`;
       const inp = $('#swapIn', b), err = $('#swapErr', b), btn = $('#swapConfirm', b);
@@ -1488,7 +1519,7 @@ const SHEETS = {
         jrIn = Math.max(0, Math.floor(Number(inp.value.replace(/[^\d]/g, '')) || 0));
         const rj2 = Math.floor(jrIn * rate);
         const sum = $('#swapSum', b);
-        if (sum) sum.innerHTML = `<div><span class="mut">You pay</span><span>${fmt(jrIn)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(rj2)} RJ</span></div><div><span class="mut">JR after swap</span><span>${fmt(jrBal(S.user) - jrIn)} JR</span></div>`;
+        if (sum) sum.innerHTML = `<div><span class="mut">You pay</span><span>${fmt(jrIn)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(rj2)} RJ</span></div><div><span class="mut">JR after swap</span><span>${fmt(Math.max(0, jrBal(S.user) - jrIn))} JR</span></div>`;
         const bad = jrIn < CONFIG.swap.min ? `Minimum swap is ${fmt(CONFIG.swap.min)} JR.` : jrIn > jrBal(S.user) ? 'You do not have that much JR.' : '';
         err.hidden = !bad; if (bad) err.textContent = bad;
         btn.disabled = !!bad;
@@ -1508,83 +1539,113 @@ const SHEETS = {
           u.swaps[Date.now()] = { jr: amt, rj: rjAmt };
           return u;
         });
-        if (tx.committed) { toast(`Swapped ${fmt(amt)} JR for ${fmt(Math.floor(amt * rate))} RJ`); hap('success'); closeSheet(); setTimeout(render, 260); }
-        else { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Swap failed. Try again.'); }
+        if (tx.committed) { toast(`Swapped ${fmt(amt)} JR → ${fmt(Math.floor(amt * rate))} RJ`, { rj: Math.floor(amt * rate) }); hap('success'); closeSheet(); setTimeout(render, 260); }
+        else { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Swap failed.'); }
       };
     };
     openSheet('', draw);
   },
 
+  /* WITHDRAW JR → Binance, 3% fee */
   withdraw: () => {
+    const feePct = CONFIG.withdraw.feePct;
     let jrAmt = CONFIG.withdraw.min;
     const draw = b => {
-      const list = Object.values(S.user.withdrawals || {}).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 5);
-      b.innerHTML = `<h2>Withdraw JR</h2><p class="lead">Withdraw your JR to Binance. Minimum ${fmt(CONFIG.withdraw.min)} JR. Withdrawals are processed by the admin after review.</p>
+      const list = Object.values(S.user.withdrawals || {}).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 8);
+      b.innerHTML = `<h2>Withdraw JR</h2><p class="lead">Withdraw your JR to Binance UID. A ${feePct}% fee is deducted. Minimum ${fmt(CONFIG.withdraw.min)} JR.</p>
         <div class="field"><label for="wAmt">JR to withdraw <span>You have ${fmt(jrBal(S.user))} JR</span></label><input id="wAmt" class="input" inputmode="numeric" placeholder="${CONFIG.withdraw.min}" value="${jrAmt}"></div>
-        <div class="field"><label for="wAddr">Your Binance UID or wallet address</label><input id="wAddr" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID or TRC20 address"></div>
-        <div class="sum"><div><span class="mut">Amount</span><span id="wSum">${fmt(jrAmt)} JR</span></div><div><span class="mut">Method</span><span>Binance</span></div><div><span class="mut">JR after</span><span id="wAfter">${fmt(jrBal(S.user) - jrAmt)} JR</span></div></div>
+        <div class="field"><label for="wUid">Your Binance UID</label><input id="wUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div>
+        <div class="sum" id="wSum"></div>
         <div class="alert" id="wErr" hidden></div>
         <button class="btn btn-gold btn-block" id="wConfirm">${ico('down', 'sm')} Request withdrawal</button>
-        <h4>Recent withdrawals</h4>${list.length ? list.map(w => `<div class="hist"><span>${fmt(w.amount)} JR</span><span class="mut">${w.status || 'pending'}</span></div>`).join('') : '<p class="doc">No withdrawals yet.</p>'}`;
-      const amt = $('#wAmt', b), addr = $('#wAddr', b), err = $('#wErr', b), btn = $('#wConfirm', b);
+        ${list.length ? `<h4>Recent withdrawals</h4>${list.map(w => `<div class="hist"><div><b>${fmt(w.amount)} JR</b><br><small class="mut">${esc(w.binanceUid || '')}</small></div><span class="pill ${w.status === 'paid' ? 'ok' : 'bad'}">${w.status === 'paid' ? 'Paid' : 'Pending'}</span></div>`).join('')}` : ''}`;
+      const amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
       const refresh = () => {
         jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/[^\d]/g, '')) || 0));
-        $('#wSum', b).textContent = fmt(jrAmt) + ' JR';
-        $('#wAfter', b).textContent = fmt(jrBal(S.user) - jrAmt) + ' JR';
+        const fee = Math.floor(jrAmt * feePct / 100);
+        const net = jrAmt - fee;
+        const usd = jrToUSD(net);
+        const sum = $('#wSum', b);
+        if (sum) sum.innerHTML = `<div><span class="mut">Amount</span><span>${fmt(jrAmt)} JR</span></div><div><span class="mut">Fee (${feePct}%)</span><span class="neg">- ${fmt(fee)} JR</span></div><div><span class="mut">You receive</span><span>${fmt(net)} JR</span></div><div><span class="mut">≈ USD value</span><span>${fmtUSD(usd)}</span></div><div><span class="mut">Method</span><span>Binance</span></div>`;
         const bad = jrAmt < CONFIG.withdraw.min ? `Minimum withdrawal is ${fmt(CONFIG.withdraw.min)} JR.` : jrAmt > jrBal(S.user) ? 'You do not have that much JR.' : '';
         err.hidden = !bad; if (bad) err.textContent = bad;
         btn.disabled = !!bad;
       };
       amt.addEventListener('input', refresh); refresh();
       btn.onclick = async () => {
-        const a = addr.value.trim();
-        if (a.length < 5) { err.hidden = false; err.textContent = 'Enter your Binance UID or wallet address.'; return; }
+        const u = uid.value.trim();
+        if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = 'Enter a valid Binance UID (digits only).'; return; }
         btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending';
         const amt2 = Math.floor(jrAmt);
-        const tx = await db.ref(P.user(S.uid)).transaction(u => {
-          if (!u) return u;
-          if (amt2 < CONFIG.withdraw.min || (u.balance || 0) < amt2) return;
-          u.balance -= amt2;
-          u.withdrawals = u.withdrawals || {};
-          u.withdrawals[Date.now()] = { amount: amt2, method: 'Binance', address: a, status: 'pending', createdAt: Date.now() };
-          return u;
+        const fee = Math.floor(amt2 * feePct / 100);
+        const net = amt2 - fee;
+        const tx = await db.ref(P.user(S.uid)).transaction(x => {
+          if (!x) return x;
+          if (amt2 < CONFIG.withdraw.min || (x.balance || 0) < amt2) return;
+          x.balance -= amt2;
+          x.withdrawals = x.withdrawals || {};
+          x.withdrawals[Date.now()] = { amount: amt2, fee, net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: Date.now() };
+          return x;
         });
-        if (!tx.committed) { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Withdrawal failed. Try again.'); return; }
-        try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, method: 'Binance', address: a, status: 'pending', createdAt: TS }); } catch (e) {}
-        toast('Withdrawal requested. The admin will process it soon.'); hap('success'); closeSheet(); setTimeout(render, 260);
+        if (!tx.committed) { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Withdrawal failed.'); return; }
+        try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee, net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {}
+        toast('Withdrawal requested. Admin will process it soon.'); hap('success'); closeSheet(); setTimeout(render, 260);
       };
     };
     openSheet('', draw);
   },
 
+  /* DEPOSIT RJ via Binance with order ID */
   deposit: () => {
-    const D = CONFIG.deposit; let pick = 1, page = 1, logged = false;
+    const D = CONFIG.deposit;
+    let pick = 1, page = 1, orderId = '', submitted = false;
     const draw = b => {
-      const pk = D.packages[pick];
-      b.innerHTML = page === 1
-        ? `<h2>Deposit</h2><p class="lead">Choose a package. You pay in USD with Binance.</p>
-          <div class="pkgs">${D.packages.map((x, i) => `<button class="pkg ${i === pick ? 'on' : ''}" data-i="${i}"><b>$${x.usd}</b><span>${coin()}${fmt(x.jr)} JR</span></button>`).join('')}</div>
-          <button class="btn btn-primary btn-block" id="depNext">Next</button>`
-        : `<h2>Pay $${pk.usd}</h2><p class="lead">You receive ${fmt(pk.jr)} JR after the admin confirms your payment.</p>
-          <div class="linkbox"><div class="grow"><small class="mut">Binance UID</small><div style="font:800 21px 'Sora',sans-serif;letter-spacing:.04em">${esc(D.uid)}</div></div><button class="btn btn-soft btn-sm" data-copy="${esc(D.uid)}">${ico('copy', 'sm')} Copy</button></div>
-          <ol class="steps"><li>Open Binance and pay $${pk.usd} to the Binance UID above.</li><li>Take a screenshot of the payment and copy the Order ID.</li><li>Send the screenshot and Order ID to the admin.</li></ol>
-          <div class="gap"></div><button class="btn btn-primary btn-block" id="depAdmin">${ico('send', 'sm')} Send to admin</button>
+      if (page === 1) {
+        b.innerHTML = `<h2>Deposit RJ</h2><p class="lead">Buy RJ with USD through Binance. Pick a package:</p>
+          <div class="pkgs">${D.packages.map((x, i) => `<button class="pkg ${i === pick ? 'on' : ''}" data-i="${i}"><b>$${x.usd}</b><span>${coinRJ()}${fmt(x.rj)} RJ</span></button>`).join('')}</div>
+          <button class="btn btn-primary btn-block" id="depNext">Next</button>`;
+        $$('.pkg', b).forEach(x => x.onclick = () => { pick = +x.dataset.i; draw(b); });
+        const nx = $('#depNext', b); if (nx) nx.onclick = () => { page = 2; draw(b); };
+      } else {
+        const pk = D.packages[pick];
+        b.innerHTML = `<h2>Pay $${pk.usd}</h2><p class="lead">Send $${pk.usd} to the Binance UID below, then submit your Order ID. You receive ${fmt(pk.rj)} RJ after the admin approves.</p>
+          <div class="linkbox"><div class="grow"><small class="mut">Binance UID</small><div style="font:800 21px 'Sora',sans-serif;letter-spacing:.04em">${esc(D.binanceUid)}</div></div><button class="btn btn-soft btn-sm" data-copy="${esc(D.binanceUid)}">${ico('copy', 'sm')} Copy</button></div>
+          <ol class="steps"><li>Open Binance and send exactly $${pk.usd} to the UID above.</li><li>Copy the Order ID from your payment confirmation.</li><li>Paste the Order ID below and submit.</li></ol>
+          <div class="field"><label for="depOrder">Binance Order ID</label><input id="depOrder" class="input" autocomplete="off" autocapitalize="off" placeholder="Enter your Binance payment Order ID" value="${esc(orderId)}"></div>
+          <div class="alert" id="depErr" hidden></div>
+          <button class="btn btn-jade btn-block" id="depSubmit">${submitted ? '✓ Submitted' : 'Submit for approval'}</button>
           <div class="gap"></div><button class="btn btn-line btn-block" id="depBack">Back</button>`;
-      $$('.pkg', b).forEach(x => x.onclick = () => { pick = +x.dataset.i; draw(b); });
-      const nx = $('#depNext', b); if (nx) nx.onclick = () => { page = 2; draw(b); };
-      const bk = $('#depBack', b); if (bk) bk.onclick = () => { page = 1; draw(b); };
-      const ad = $('#depAdmin', b); if (ad) ad.onclick = async () => {
-        if (!logged) { logged = true; try { await db.ref('pn/deposits').push().set({ uid: S.uid, name: S.user.name || '', usd: pk.usd, jr: pk.jr, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {} }
-        openLink(CONFIG.supportLink);
-      };
+        const inp = $('#depOrder', b), err = $('#depErr', b), btn = $('#depSubmit', b);
+        inp.addEventListener('input', () => { orderId = inp.value.trim(); err.hidden = true; });
+        const bk = $('#depBack', b); if (bk) bk.onclick = () => { page = 1; draw(b); };
+        if (submitted) { btn.disabled = true; btn.textContent = '✓ Submitted'; }
+        else btn.onclick = async () => {
+          if (orderId.length < 5) { err.hidden = false; err.textContent = 'Enter a valid Binance Order ID.'; return; }
+          btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting';
+          const key = String(Date.now());
+          try {
+            const rec = { uid: S.uid, name: S.user.name || '', username: S.user.username || '', usd: pk.usd, rj: pk.rj, orderId, method: 'Binance', status: 'pending', createdAt: TS };
+            await db.ref('pn/deposits/' + key).set(rec);
+            await db.ref(P.user(S.uid) + '/deposits/' + key).set({ usd: pk.usd, rj: pk.rj, orderId, status: 'pending', createdAt: Date.now() });
+            submitted = true;
+            toast('Deposit submitted. Admin will review it soon.'); hap('success');
+            draw(b);
+          } catch (e) {
+            console.error(e);
+            btn.disabled = false; btn.textContent = 'Try again';
+            err.hidden = false; err.textContent = 'Could not submit. Please try again.';
+          }
+        };
+      }
     };
     openSheet('', draw);
   },
 
+  /* REFERRAL */
   referral: () => {
     const u = S.user, list = Object.values(u.referrals || {}), link = `${CONFIG.botLink}?startapp=${S.uid}`, R = CONFIG.referral;
     const msg = SHARE_TEXT + '\n' + link;
-    openSheet(`<h2>Invite friends</h2><p class="lead">You get ${fmt(R.bonusJR)} JR and ${fmt(R.bonusRJ)} RJ the moment a friend joins PMER with your link.</p>
+    openSheet(`<h2>Invite friends</h2><p class="lead">You get ${fmt(R.bonusJR)} JR + ${fmt(R.bonusRJ)} RJ the moment a friend joins with your link.</p>
       <div class="linkbox"><span class="grow">${esc(link)}</span><button class="btn btn-soft btn-sm" data-copy="${esc(link)}">${ico('copy', 'sm')} Copy</button></div>
       <div class="msgbox">${esc(msg)}</div>
       <button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(SHARE_TEXT)}">${ico('send', 'sm')} Share on Telegram</button>
@@ -1595,20 +1656,18 @@ const SHEETS = {
   },
 
   privacy: () => openSheet(`<h2>Privacy policy</h2>
-    <h4>What we collect</h4><p class="doc">Your Telegram ID, name, username and profile photo as provided by Telegram, plus your JR and RJ balances, completed tasks, campaigns, swaps, withdrawals and deposit requests.</p>
-    <h4>How we use it</h4><p class="doc">To run PMER, credit rewards, show your campaigns, process swaps and withdrawals, review payments, prevent fraud and answer support requests.</p>
-    <h4>Ads</h4><p class="doc">Ads are delivered by third-party networks. Some ads open a partner web page in your browser. These networks may collect device and ad-interaction data under their own privacy policies.</p>
-    <h4>Sharing</h4><p class="doc">We do not sell your personal data. Campaign owners only see totals for their campaigns, not who completed them.</p>
-    <h4>Your choices</h4><p class="doc">You can ask support to delete your account data at any time. Some payment records may be kept as required for fraud prevention.</p>`),
+    <h4>What we collect</h4><p class="doc">Telegram ID, name, username, photo, JR/RJ balances, tasks, campaigns, swaps, withdrawals, deposits.</p>
+    <h4>Ads</h4><p class="doc">Ads are served by third-party networks. They may collect device and ad-interaction data under their own policies.</p>
+    <h4>Sharing</h4><p class="doc">We do not sell your personal data.</p>`),
 
   terms: () => openSheet(`<h2>Terms and conditions</h2>
-    <h4>Using PMER</h4><p class="doc">You need a Telegram account. One person may use one account. Do not use bots, scripts, VPN farms or multiple accounts to collect rewards.</p>
-    <h4>Rewards</h4><p class="doc">Ad tasks pay JR. Social tasks pay RJ. With conditions tasks are reviewed by the advertiser and approved automatically after ${CONFIG.reviewHours} hours if not reviewed. We may remove rewards and block accounts that show fake or abusive activity.</p>
-    <h4>Swap</h4><p class="doc">You can swap JR to RJ at ${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ. Minimum swap is ${CONFIG.swap.min} JR. Swaps are final.</p>
-    <h4>Withdrawals</h4><p class="doc">Withdrawals are only processed through Binance. Minimum withdrawal is ${CONFIG.withdraw.min} JR. The admin reviews each request before sending the funds.</p>
-    <h4>Campaigns</h4><p class="doc">Campaigns must follow the law and Telegram rules. Every link is checked before it goes live. Adult and pornographic content is haram and strictly forbidden. Such links are rejected and the account may be blocked. The full campaign budget (in RJ) is reserved when you publish.</p>
-    <h4>Leaving a channel</h4><p class="doc">If you join a channel or group through a Join task and leave within ${CONFIG.leave.days} days, the RJ reward is returned to the campaign owner. If your RJ balance is too low, it shows as a negative amount and your next RJ rewards go to the campaign owner until it is paid.</p>
-    <h4>Changes</h4><p class="doc">We may update rewards, limits and these terms. Continuing to use PMER means you accept the changes.</p>`),
+    <h4>Using PMER</h4><p class="doc">One person, one account. No bots, scripts, VPN farms.</p>
+    <h4>Rewards</h4><p class="doc">Ad tasks pay JR. Social tasks pay RJ. With conditions tasks auto-approve after ${CONFIG.reviewHours}h.</p>
+    <h4>Swap</h4><p class="doc">${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ. Min ${CONFIG.swap.min} JR. Swaps are final.</p>
+    <h4>Withdrawals</h4><p class="doc">Binance only. Min ${CONFIG.withdraw.min} JR. ${CONFIG.withdraw.feePct}% fee. Admin reviews each request.</p>
+    <h4>Deposits</h4><p class="doc">Deposits are RJ-only. Send USD to the Binance UID, submit your Order ID for approval.</p>
+    <h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers. RJ budget is reserved when you publish.</p>
+    <h4>Leaving a channel</h4><p class="doc">Leaving within ${CONFIG.leave.days} days returns your RJ reward to the owner.</p>`),
 
   settings: () => {
     const th = store.get('pn_theme') || 'auto', hp = store.get('pn_haptics') !== 'off';
@@ -1619,22 +1678,13 @@ const SHEETS = {
   about: () => {
     const R = CONFIG.referral, L = CONFIG.adDailyLimit;
     openSheet(`<h2>About PMER</h2>
-      <p class="lead">PMER is a reward and promotion app that runs inside Telegram. People earn JR and RJ by doing simple actions, and advertisers use RJ to send visitors to their channel, group, bot, website or video.</p>
-      <h4>How you earn JR</h4>
-      <ul class="doc">
-        <li>Ad tasks: each ad task has 3 ads. Complete all 3 to get ${fmt(CONFIG.adReward)} JR. Each task can be completed ${L} times a day.</li>
-        <li>Referrals: get ${fmt(R.bonusJR)} JR and ${fmt(R.bonusRJ)} RJ when a friend joins with your link.</li>
-      </ul>
-      <h4>How you earn RJ</h4>
-      <ul class="doc">
-        <li>Complete social tasks (Join, Reaction, View, With conditions, Website, YouTube).</li>
-        <li>Swap JR to RJ at ${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ.</li>
-      </ul>
-      <h4>How you promote</h4><p class="doc">Open Promote, pick a campaign type, paste your link, add a title, then set the RJ reward per user and the number of users you need. The full budget is taken from your RJ balance when you publish.</p>
-      <h4>Withdraw</h4><p class="doc">Withdraw JR through Binance. Minimum ${CONFIG.withdraw.min} JR.</p>
-      <h4>Fair use</h4><p class="doc">One person, one account. Bots, scripts and fake activity are not allowed. Adult content, scams and illegal offers are not allowed in campaigns.</p>
+      <p class="lead">Earn JR by ads, earn RJ by tasks, promote with RJ, withdraw JR to Binance.</p>
+      <h4>Earn JR</h4><ul class="doc"><li>Each ad task has 3 ads. Claim ${fmt(CONFIG.adReward)} JR per completed round. ${L} rounds/day.</li><li>Referral: +${fmt(R.bonusJR)} JR and +${fmt(R.bonusRJ)} RJ per friend.</li></ul>
+      <h4>Earn RJ</h4><ul class="doc"><li>Complete social tasks (Join, Reaction, View, With conditions, Website, YouTube).</li><li>Swap JR → RJ at ${CONFIG.swap.jrIn} JR = ${CONFIG.swap.rjOut} RJ.</li></ul>
+      <h4>Withdraw & Deposit</h4><p class="doc">Withdraw JR to Binance (min ${fmt(CONFIG.withdraw.min)} JR, ${CONFIG.withdraw.feePct}% fee). Deposit USD → RJ via Binance UID + Order ID.</p>
+      <h4>Fair use</h4><p class="doc">One account per person. No bots. No haram content.</p>
       <div class="gap"></div>
-      <button class="btn btn-primary btn-block" data-open="${esc(CONFIG.communityLink)}">${ico('send', 'sm')} Join our community</button>
+      <button class="btn btn-primary btn-block" data-open="${esc(CONFIG.communityLink)}">${ico('send', 'sm')} Join community</button>
       <div class="gap"></div>
       <button class="btn btn-soft btn-block" data-sheet="support">${ico('help', 'sm')} Contact support</button>`);
   }
@@ -1667,7 +1717,8 @@ function go(tab) {
 }
 
 const ACT = {
-  'watch-group': b => watchGroupAd(b.dataset.gid, b.dataset.adbtn),
+  'watch-group': b => watchGroupAd(b.dataset.gid, b.dataset.key),
+  'claim-ad': b => claimAdGroup(b.dataset.gid),
   filter: b => { S.filter = b.dataset.k; renderTasks(); },
   open: b => { const t = taskById(b.dataset.id); if (!t) return; S.ui[t.id] = Object.assign(S.ui[t.id] || {}, { opened: Date.now() }); openLink(t.url); },
   verify: b => doVerify(b.dataset.id),
@@ -1684,8 +1735,7 @@ const ACT = {
   'wiz-publish': () => publish()
 };
 document.addEventListener('click', e => {
-  const t = e.target;
-  let b;
+  const t = e.target; let b;
   try {
     if ((b = t.closest('[data-act]'))) return ACT[b.dataset.act] && ACT[b.dataset.act](b);
     if ((b = t.closest('[data-go]'))) { if (!$('#sheetWrap').hidden) closeSheet(); return go(b.dataset.go); }
@@ -1713,7 +1763,7 @@ document.addEventListener('input', e => {
 });
 
 /* =====================================================================
-   Boot (fully guarded)
+   Boot
    ===================================================================== */
 async function ensureUser(tu) {
   const ref = db.ref(P.user(S.uid)), snap = await ref.once('value');
@@ -1730,102 +1780,96 @@ async function ensureUser(tu) {
 
 function hideSplash() {
   const s = $('#splash'); if (!s || s.hidden) return;
-  s.classList.add('leave');
-  setTimeout(() => { s.hidden = true; }, 420);
+  s.classList.add('leave'); setTimeout(() => { s.hidden = true; }, 420);
 }
 
 async function boot() {
   const t0 = Date.now();
-
-  // Fill logos
   try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); } catch (e) {}
-
-  // Guarantee splash always hides within 2.5s, no matter what
   const splashKill = setTimeout(hideSplash, 2500);
-
-  // Telegram SDK
-  try {
-    if (tg) { tg.ready(); tg.expand(); tg.disableVerticalSwipes && tg.disableVerticalSwipes(); }
-  } catch (e) { console.warn('tg init', e); }
-
+  try { if (tg) { tg.ready(); tg.expand(); tg.disableVerticalSwipes && tg.disableVerticalSwipes(); } } catch (e) {}
   try { applyTheme(); } catch (e) {}
 
   const tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user)
           || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
-
-  if (!tu) {
-    clearTimeout(splashKill);
-    $('#splash').hidden = true;
-    $('#gate').hidden = false;
-    return;
-  }
+  if (!tu) { clearTimeout(splashKill); $('#splash').hidden = true; $('#gate').hidden = false; return; }
 
   S.uid = String(tu.id);
+  $('#app').hidden = false; $('#nav').hidden = false;
+  try { go('home'); } catch (e) {}
 
-  // Show UI FIRST — user sees something immediately even if Firebase is slow
-  $('#app').hidden = false;
-  $('#nav').hidden = false;
-  try { go('home'); } catch (e) { console.error('go home', e); }
-
-  // Ensure user with a hard 8 second timeout
   try {
-    await Promise.race([
-      ensureUser(tu),
-      new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 8000))
-    ]);
-  } catch (e) {
-    console.warn('ensureUser failed:', e);
-    toastErr('Could not reach the server. Data may be delayed.');
-  }
+    await Promise.race([ ensureUser(tu), new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 8000)) ]);
+  } catch (e) { console.warn('ensureUser failed:', e); toastErr('Could not reach server. Data may be delayed.'); }
 
-  // Setup realtime listeners (each guarded)
   let firstUser = true;
   try {
     db.ref(P.user(S.uid)).on('value', s => {
       try {
         const u = s.val() || {};
-        notifySubmissions(u); notifyCredits(u);
-        S.user = u; render();
+        notifySubmissions(u); notifyCredits(u); S.user = u; render();
         if (firstUser) { firstUser = false; checkReferral(u); }
         if ((u.debtTotal || 0) > 0 && (u.rjBalance || 0) > 0) settleDebts();
+        creditApprovedDeposits(u);
       } catch (err) { console.error('user listener', err); }
     }, err => console.error('user listener error', err));
-  } catch (e) { console.error('user listener setup', e); }
+  } catch (e) {}
+
+  try {
+    db.ref(P.user(S.uid) + '/deposits').on('value', snap => {
+      const deps = snap.val() || {};
+      Object.entries(deps).forEach(([k, d]) => {
+        if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d);
+      });
+    }, err => console.warn('deposits listener', err));
+  } catch (e) {}
 
   try {
     db.ref('pn/pending/' + S.uid).on('value', s => {
       S.pending = s.val() || {};
       if (S.tab === 'promote' && S.promoTab === 'mine') renderMine();
     }, err => console.warn('pending listener', err));
-  } catch (e) { console.warn('pending setup', e); }
+  } catch (e) {}
 
   try {
-    db.ref(P.tasks).limitToLast(300).on('value', s => {
-      S.tasks = s.val() || {};
-      render();
-    }, err => console.warn('tasks listener', err));
-  } catch (e) { console.warn('tasks setup', e); }
+    db.ref(P.tasks).limitToLast(300).on('value', s => { S.tasks = s.val() || {}; render(); }, err => console.warn('tasks listener', err));
+  } catch (e) {}
 
-  // Background sweeps — non-blocking
   sweepPending().catch(() => {});
   flushOutbox(S.uid).catch(() => {});
   setInterval(() => sweepPending().catch(() => {}), 60000);
   sweepJoins().catch(() => {});
   setInterval(() => sweepJoins().catch(() => {}), 300000);
 
-  // Hide splash as soon as reasonable
   const wait = Math.max(0, 900 - (Date.now() - t0));
   setTimeout(() => { clearTimeout(splashKill); hideSplash(); }, wait);
 
-  // Log firebase connection
+  try { db.ref('.info/connected').on('value', s => console.log('Firebase connected:', s.val() === true)); } catch (e) {}
+}
+
+/* Auto credit approved deposits (safe with a flag) */
+async function creditDeposit(key, d) {
   try {
-    db.ref('.info/connected').on('value', s => console.log('Firebase connected:', s.val() === true));
-  } catch (e) {}
+    const flagRef = db.ref(P.user(S.uid) + '/deposits/' + key + '/credited');
+    const tx = await flagRef.transaction(c => (c === true ? undefined : true));
+    if (!tx.committed) return;
+    await db.ref(P.user(S.uid)).transaction(u => {
+      if (!u) return u;
+      u.rjBalance = (u.rjBalance || 0) + d.rj;
+      u.rjTotal = (u.rjTotal || 0) + d.rj;
+      return u;
+    });
+    rewardedRJ(d.rj, 'Deposit approved');
+  } catch (e) { console.warn('creditDeposit', e); }
+}
+function creditApprovedDeposits(u) {
+  const deps = u.deposits || {};
+  Object.entries(deps).forEach(([k, d]) => { if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d); });
 }
 
 boot().catch(e => {
   console.error('boot failed:', e);
-  showFatal('PMER could not start', (e && e.message) || 'Unknown error. Please try again.');
+  showFatal('PMER could not start', (e && e.message) || 'Unknown error.');
 });
 
 })();

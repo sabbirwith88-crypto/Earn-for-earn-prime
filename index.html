@@ -17,8 +17,6 @@
 <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
 <script src="https://ad.gigapub.tech/script?id=6471"></script>
 <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
-<script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-<script src="https://adexora.com/cdn/ads.js?id=1963"></script>
 <style>
 :root{
   --bg:#F5F4FB; --card:#FFFFFF; --ink:#16132F; --muted:#6C6989; --line:#E7E4F4;
@@ -39,7 +37,7 @@
 [hidden]{display:none!important}
 html,body{background:var(--bg);color:var(--ink);font:500 15px/1.45 'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased;touch-action:manipulation;overscroll-behavior-y:none}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
-body{overflow-x:hidden;min-height:100vh;min-height:100dvh;position:relative;width:100%}
+body{overflow-x:hidden;width:100%;position:relative}
 button,input,select{font:inherit;color:inherit;max-width:100%}
 h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 :focus-visible{outline:2.5px solid var(--brand);outline-offset:2px}
@@ -288,7 +286,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .shake{animation:shake .35s}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
-/* ---- polish ---- */
 body.locked{overflow:hidden}
 .sheet{overscroll-behavior:contain}
 .hero{background:linear-gradient(150deg,#2E2183 0%,#17133A 65%);box-shadow:0 20px 38px -22px rgba(74,34,194,.75)}
@@ -299,7 +296,7 @@ body.locked{overflow:hidden}
 .skel{height:96px;border-radius:20px;background:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 45%,var(--card)) 50%,var(--line) 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
 
-/* ---- mobile responsive tweaks ---- */
+/* ---- mobile responsive ---- */
 @media (max-width:380px){
   #app{padding:14px 14px calc(100px + env(safe-area-inset-bottom,0px))}
   .page>h1{font-size:23px}
@@ -401,6 +398,14 @@ a,button{touch-action:manipulation}
 (() => {
 'use strict';
 
+/* ---- Immediate splash kill switch: hide splash after 4 seconds no matter what ---- */
+setTimeout(function () {
+  try {
+    var s = document.getElementById('splash');
+    if (s && !s.hidden) { s.style.display = 'none'; }
+  } catch (e) {}
+}, 4000);
+
 function showFatal(title, msg) {
   const old = document.getElementById('fatal'); if (old) old.remove();
   const d = document.createElement('div'); d.id = 'fatal';
@@ -437,9 +442,7 @@ const CONFIG = {
   adsgramBlockId: '30645',
   onclickaId: '464920',
 
-  /* Adexium placement id */
   adexiumWid: 'cc12a9f3-3f3b-4b0e-975e-912219a7d8eb',
-  /* Adexora app id */
   adexoraId: '1963',
 
   swap: { jrIn: 1000, rjOut: 50000, min: 100 },
@@ -530,6 +533,27 @@ const jrToUSD = jr => (jr || 0) / (CONFIG.usdRate || 10000);
 const today = () => new Date().toLocaleDateString('en-CA');
 const fmtLeft = ms => { const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return h > 0 ? `${h}h ${m}m` : `${Math.max(0, m)}m`; };
 function setHTML(el, html) { if (!el) return false; if (el.__h === html) return false; el.innerHTML = html; el.__h = html; return true; }
+
+/* ---- Dynamic script loader (so ad SDKs don't block page load) ---- */
+const _loadedScripts = {};
+function loadScriptOnce(src) {
+  return new Promise((resolve, reject) => {
+    if (_loadedScripts[src] === true) return resolve();
+    if (_loadedScripts[src] instanceof Promise) return _loadedScripts[src].then(resolve, reject);
+    if (document.querySelector(`script[src="${src}"]`)) { _loadedScripts[src] = true; return resolve(); }
+    const p = new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = src; s.async = true;
+      const t = setTimeout(() => rej(new Error('timeout:' + src)), 15000);
+      s.onload = () => { clearTimeout(t); res(); };
+      s.onerror = () => { clearTimeout(t); rej(new Error('load_failed:' + src)); };
+      document.head.appendChild(s);
+    });
+    _loadedScripts[src] = p;
+    p.then(() => { _loadedScripts[src] = true; }, () => { delete _loadedScripts[src]; });
+    return p.then(resolve, reject);
+  });
+}
 
 function hap(kind) {
   if (store.get('pn_haptics') === 'off') return;
@@ -652,7 +676,7 @@ async function checkReferral(u) {
 }
 
 /* =====================================================================
-   ADS — 4 tasks × 3 ads. Watch all 3 → Claim 18 JR. 60s cooldown, 10/day.
+   ADS
    ===================================================================== */
 async function runMonetag() {
   if (typeof window.show_10541383 !== 'function') throw new Error('not_ready');
@@ -671,23 +695,23 @@ async function runGigapub() {
   await window.showGiga('main');
 }
 
-/* ---------- Adexium ----------
-   Official setup from docs:
-   <script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-   const widget = new AdexiumWidget({ wid, adFormat:'interstitial' });
-   widget.autoMode();
-   We hook adComplete/close events and also resolve via the returned promise
-   from showAd() if available. */
+/* ---------- Adexium (dynamic load + widget hooks) ---------- */
 let _adexiumWidget = null;
+let _adexiumResolve = null, _adexiumReject = null;
+
+async function ensureAdexium() {
+  if (typeof window.AdexiumWidget === 'undefined') {
+    await loadScriptOnce('https://cdn.tgads.space/assets/js/adexium-widget.min.js');
+  }
+  if (typeof window.AdexiumWidget === 'undefined') throw new Error('not_ready');
+}
 function getAdexiumWidget() {
   if (_adexiumWidget) return _adexiumWidget;
-  if (typeof window.AdexiumWidget === 'undefined') return null;
   try {
     _adexiumWidget = new window.AdexiumWidget({
       wid: CONFIG.adexiumWid,
       adFormat: 'interstitial'
     });
-    // Register completion hooks early so we never miss an event
     if (typeof _adexiumWidget.on === 'function') {
       try { _adexiumWidget.on('adComplete', () => _adexiumResolve && _adexiumResolve()); } catch (e) {}
       try { _adexiumWidget.on('close', () => _adexiumResolve && _adexiumResolve()); } catch (e) {}
@@ -697,8 +721,8 @@ function getAdexiumWidget() {
   } catch (e) { console.warn('Adexium init failed', e); _adexiumWidget = null; }
   return _adexiumWidget;
 }
-let _adexiumResolve = null, _adexiumReject = null;
 async function runAdexium() {
+  await ensureAdexium();
   const w = getAdexiumWidget();
   if (!w) throw new Error('not_ready');
   await new Promise((resolve, reject) => {
@@ -706,20 +730,17 @@ async function runAdexium() {
     _adexiumResolve = () => { if (!done) { done = true; resolve(); } };
     _adexiumReject = (e) => { if (!done) { done = true; reject(e instanceof Error ? e : new Error('adexium_failed')); } };
     try {
-      // Preferred: direct show method
       const showFn = w.showAd || w.show || w.display;
       if (typeof showFn === 'function') {
         const r = showFn.call(w);
         if (r && typeof r.then === 'function') {
           r.then(_adexiumResolve).catch(_adexiumReject);
-          setTimeout(_adexiumResolve, 30000); // safety
+          setTimeout(_adexiumResolve, 30000);
           return;
         }
-        // If show() returns void, wait for the event hooks (registered above)
         setTimeout(_adexiumResolve, 30000);
         return;
       }
-      // Fallback: autoMode
       if (typeof w.autoMode === 'function') {
         w.autoMode();
         setTimeout(_adexiumResolve, 15000);
@@ -731,48 +752,37 @@ async function runAdexium() {
   _adexiumResolve = null; _adexiumReject = null;
 }
 
-/* ---------- Adexora ----------
-   Official setup:
-   <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
-   window.showAdexora()
-     .then(() => { /* reward */ })
-     .catch(e => { /* error */ }); */
-async function runAdexora() {
+/* ---------- Adexora (dynamic load + showAdexora promise) ---------- */
+async function ensureAdexora() {
+  if (typeof window.showAdexora !== 'function') {
+    await loadScriptOnce('https://adexora.com/cdn/ads.js?id=' + CONFIG.adexoraId);
+  }
   if (typeof window.showAdexora !== 'function') throw new Error('not_ready');
+}
+async function runAdexora() {
+  await ensureAdexora();
   await window.showAdexora();
 }
 
-/* Ad 3: try Adsgram → fall back to Monetag if Adsgram fails/unavailable */
+/* Ad 3: Adsgram → fallback Monetag */
 async function runAd3() {
   try { await runAdsgram(); }
-  catch (e) {
-    console.warn('Adsgram failed, falling back to Monetag:', e);
-    await runMonetag();
-  }
+  catch (e) { console.warn('Adsgram failed, fallback Monetag:', e); await runMonetag(); }
 }
-/* Ad 5: try Adsbitvex → fall back to Monetag */
+/* Ad 5: Adsbitvex → fallback Monetag */
 async function runAd5() {
   try { await runAdsbitvex(); }
-  catch (e) {
-    console.warn('Adsbitvex failed, falling back to Monetag:', e);
-    await runMonetag();
-  }
+  catch (e) { console.warn('Adsbitvex failed, fallback Monetag:', e); await runMonetag(); }
 }
-/* Ad 10: Adexium → fallback to Monetag */
+/* Ad 10: Adexium → fallback Monetag */
 async function runAd10() {
   try { await runAdexium(); }
-  catch (e) {
-    console.warn('Adexium failed, falling back to Monetag:', e);
-    await runMonetag();
-  }
+  catch (e) { console.warn('Adexium failed, fallback Monetag:', e); await runMonetag(); }
 }
-/* Ad 11: Adexora → fallback to Monetag */
+/* Ad 11: Adexora → fallback Monetag */
 async function runAd11() {
   try { await runAdexora(); }
-  catch (e) {
-    console.warn('Adexora failed, falling back to Monetag:', e);
-    await runMonetag();
-  }
+  catch (e) { console.warn('Adexora failed, fallback Monetag:', e); await runMonetag(); }
 }
 
 const PROVIDERS = {
@@ -796,7 +806,6 @@ const AD_GROUPS = [
   { id: 'g4', label: 'Ad Task 4', sub: 'Ads 10, 11, 12', ads: ['p10', 'p11', 'p12'] }
 ];
 
-/* Uses S.user directly but tolerates undefined values gracefully */
 function getGroupState(gid) {
   const u = S.user || {};
   const empty = { done: [], claims: 0, lastClaim: 0 };
@@ -862,7 +871,6 @@ async function markAdDone(gid, key) {
   if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
 }
 
-/* ---------- LINK ADS (12s) — fixed completion ---------- */
 function startGroupLinkAd(gid, key, url) {
   if (S.view) return;
   S.ui['adfail_' + key] = false;

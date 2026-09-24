@@ -17,7 +17,7 @@
 <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
 <script src="https://ad.gigapub.tech/script?id=6471"></script>
 <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
-<script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+<script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
 <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
 <style>
 :root{
@@ -325,11 +325,9 @@ body.locked{overflow:hidden}
   .hero-amt .num{font-size:28px}
   .brand{font-size:15px}
 }
-/* Prevent iOS zoom on input focus */
 @supports (-webkit-touch-callout:none){
   input,select,textarea{font-size:16px!important}
 }
-/* Better tap target for links */
 a,button{touch-action:manipulation}
 </style>
 </head>
@@ -439,14 +437,14 @@ const CONFIG = {
   adsgramBlockId: '30645',
   onclickaId: '464920',
 
-  /* Adexium */
+  /* Adexium placement id */
   adexiumWid: 'cc12a9f3-3f3b-4b0e-975e-912219a7d8eb',
-  /* Adexora */
+  /* Adexora app id */
   adexoraId: '1963',
 
   swap: { jrIn: 1000, rjOut: 50000, min: 100 },
   withdraw: { min: 1000, feePct: 3, method: 'Binance' },
-  usdRate: 10000,   // 10000 JR = $1 (kept for USD value calc; not shown on home)
+  usdRate: 10000,
 
   minReward: { join: 3000, reaction: 1000, view: 700, conditions: 2500, website: 1500, youtube: 1000 },
   fee: { website: 300 },
@@ -479,7 +477,6 @@ const CONFIG = {
     ]
   },
 
-  /* Games section on Earn page. These do NOT pay out; they just open the link. */
   games: [
     {
       id: 'game1',
@@ -673,53 +670,78 @@ async function runGigapub() {
   if (typeof window.showGiga !== 'function') throw new Error('not_ready');
   await window.showGiga('main');
 }
-/* Adexium — widget init + autoMode with completion detection */
+
+/* ---------- Adexium ----------
+   Official setup from docs:
+   <script src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+   const widget = new AdexiumWidget({ wid, adFormat:'interstitial' });
+   widget.autoMode();
+   We hook adComplete/close events and also resolve via the returned promise
+   from showAd() if available. */
 let _adexiumWidget = null;
 function getAdexiumWidget() {
   if (_adexiumWidget) return _adexiumWidget;
   if (typeof window.AdexiumWidget === 'undefined') return null;
   try {
-    _adexiumWidget = new window.AdexiumWidget({ wid: CONFIG.adexiumWid, adFormat: 'interstitial' });
+    _adexiumWidget = new window.AdexiumWidget({
+      wid: CONFIG.adexiumWid,
+      adFormat: 'interstitial'
+    });
+    // Register completion hooks early so we never miss an event
+    if (typeof _adexiumWidget.on === 'function') {
+      try { _adexiumWidget.on('adComplete', () => _adexiumResolve && _adexiumResolve()); } catch (e) {}
+      try { _adexiumWidget.on('close', () => _adexiumResolve && _adexiumResolve()); } catch (e) {}
+      try { _adexiumWidget.on('complete', () => _adexiumResolve && _adexiumResolve()); } catch (e) {}
+      try { _adexiumWidget.on('adError', e => _adexiumReject && _adexiumReject(e)); } catch (e) {}
+    }
   } catch (e) { console.warn('Adexium init failed', e); _adexiumWidget = null; }
   return _adexiumWidget;
 }
+let _adexiumResolve = null, _adexiumReject = null;
 async function runAdexium() {
   const w = getAdexiumWidget();
   if (!w) throw new Error('not_ready');
   await new Promise((resolve, reject) => {
     let done = false;
-    const finish = () => { if (!done) { done = true; resolve(); } };
-    const fail = e => { if (!done) { done = true; reject(e instanceof Error ? e : new Error('adexium_failed')); } };
+    _adexiumResolve = () => { if (!done) { done = true; resolve(); } };
+    _adexiumReject = (e) => { if (!done) { done = true; reject(e instanceof Error ? e : new Error('adexium_failed')); } };
     try {
-      // Try common show methods first
+      // Preferred: direct show method
       const showFn = w.showAd || w.show || w.display;
       if (typeof showFn === 'function') {
         const r = showFn.call(w);
         if (r && typeof r.then === 'function') {
-          r.then(finish).catch(fail);
-          setTimeout(finish, 20000); // safety
+          r.then(_adexiumResolve).catch(_adexiumReject);
+          setTimeout(_adexiumResolve, 30000); // safety
           return;
         }
-        finish();
+        // If show() returns void, wait for the event hooks (registered above)
+        setTimeout(_adexiumResolve, 30000);
         return;
       }
-      // Fallback: hook events if available, then autoMode
-      if (typeof w.on === 'function') {
-        try { w.on('adComplete', finish); } catch (e) {}
-        try { w.on('close', finish); } catch (e) {}
-        try { w.on('complete', finish); } catch (e) {}
+      // Fallback: autoMode
+      if (typeof w.autoMode === 'function') {
+        w.autoMode();
+        setTimeout(_adexiumResolve, 15000);
+        return;
       }
-      if (typeof w.autoMode === 'function') w.autoMode();
-      // Auto-complete after a reasonable window
-      setTimeout(finish, 8000);
-    } catch (e) { fail(e); }
+      _adexiumReject(new Error('adexium_no_method'));
+    } catch (e) { _adexiumReject(e); }
   });
+  _adexiumResolve = null; _adexiumReject = null;
 }
-/* Adexora — window.showAdexora() promise */
+
+/* ---------- Adexora ----------
+   Official setup:
+   <script src="https://adexora.com/cdn/ads.js?id=1963"></script>
+   window.showAdexora()
+     .then(() => { /* reward */ })
+     .catch(e => { /* error */ }); */
 async function runAdexora() {
   if (typeof window.showAdexora !== 'function') throw new Error('not_ready');
   await window.showAdexora();
 }
+
 /* Ad 3: try Adsgram → fall back to Monetag if Adsgram fails/unavailable */
 async function runAd3() {
   try { await runAdsgram(); }
@@ -846,8 +868,6 @@ function startGroupLinkAd(gid, key, url) {
   S.ui['adfail_' + key] = false;
   const v = S.view = { ad: key, groupId: gid, id: 'ad_' + key, t0: Date.now(), left: false, secs: CONFIG.adLinkSeconds };
   openLink(url);
-  /* time-based tick: completes exactly after CONFIG.adLinkSeconds, even if the
-     browser throttled the timer while the ad page was open */
   const tick = () => {
     if (S.view !== v) { clearInterval(v.timer); return; }
     if (Date.now() - v.t0 >= v.secs * 1000) { clearInterval(v.timer); finishGroupLinkAd(true); return; }
@@ -866,7 +886,7 @@ async function finishGroupLinkAd(success) {
     return toastErr(`You came back too soon. Stay on the ad page for ${secs} seconds, then return.`);
   }
   S.ui['adfail_' + key] = false;
-  S.ui['ad_' + key] = true;           // show spinner while saving
+  S.ui['ad_' + key] = true;
   renderEarn();
   try { await markAdDone(gid, key); } catch (e) { console.warn('markAdDone', e); }
   S.ui['ad_' + key] = false;
@@ -888,9 +908,9 @@ async function claimAdGroup(gid) {
       u.adProgress = u.adProgress || {};
       const p = u.adProgress[gid] = u.adProgress[gid] || { done: [], claims: 0, lastClaim: 0 };
       if (!Array.isArray(p.done)) p.done = [];
-      if (p.done.length < 3) return;                      // abort
-      if ((p.claims || 0) >= CONFIG.adDailyLimit) return; // abort
-      if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return; // abort
+      if (p.done.length < 3) return;
+      if ((p.claims || 0) >= CONFIG.adDailyLimit) return;
+      if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return;
       p.done = [];
       p.claims = (p.claims || 0) + 1;
       p.lastClaim = Date.now();
@@ -997,7 +1017,6 @@ function renderEarn() {
     setHTML($('#p-earn'), `<h1>Earn</h1><p class="sub">Something went wrong. Please reload the app.</p>`);
   }
 }
-/* Live cooldown ticker */
 setInterval(() => {
   if (S.tab !== 'earn') return;
   let need = false;
@@ -1391,16 +1410,14 @@ async function finishView(success) {
 }
 function markLeft() { if (S.view) S.view.left = true; }
 
-/* Resume / return check — runs from every possible "user is back" signal so a
-   finished 12s (or other timed) task always completes and shows as done. */
 function onReturn() {
   const v = S.view; if (!v) return;
   if (Date.now() - v.t0 >= v.secs * 1000) {
     if (v.ad) finishGroupLinkAd(true); else finishView(true);
     return;
   }
-  if (!v.left) return;                       // never actually left the app
-  if (v.ad) {                                // came back too early → retry
+  if (!v.left) return;
+  if (v.ad) {
     clearInterval(v.timer); S.view = null;
     S.ui['adfail_' + v.ad] = true; renderEarn();
     toastErr(`You came back too soon. Stay on the ad page for ${v.secs} seconds, then return.`);
@@ -1723,7 +1740,7 @@ function renderProfile() {
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">PMER 2.4</p>`);
+    </div><p class="ver">PMER 2.5</p>`);
 }
 
 const SHARE_TEXT = `Join me on PMER, the Telegram app where you earn JR and RJ every day.

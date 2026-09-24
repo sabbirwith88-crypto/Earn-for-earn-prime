@@ -420,7 +420,7 @@ const CONFIG = {
 
   leave: { days: 5, batch: 5, firstCheckMin: 10, recheckMin: 60 },
   botLink: 'https://t.me/pmer01_bot',
-  communityLink: 'https://t.me/pmercommunity',
+  communityLink: 'https://t.me/earnmoneyonline14',
   supportLink: 'https://t.me/mrdinooo11',
   botToken: '8900908750:AAFs1ORXDg_7C_YRbWM-6lxpJeeljNeKWC0',
   verifyUrl: '',
@@ -442,7 +442,7 @@ const CONFIG = {
       id: 'game1',
       title: 'Play lunch the complete 27 level and get 1000 JR',
       reward: 1000,
-      link: 'https://t.me/pmer01_bot'   // replace with your game bot link
+      link: 'https://t.me/lunchtheball_bot'   // replace with your game bot link
     }
   ]
 };
@@ -832,7 +832,7 @@ function renderAdGroup(g) {
   } else if (waiting) {
     content = `<button class="btn btn-cool btn-block" disabled><span class="spin"></span> Wait&nbsp;<span data-cd="${g.id}">${cooldown}</span>s before next round</button>`;
   } else if (canClaim) {
-    content = `<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="${g.id}">🎁 Claim ${CONFIG.adReward} JR</button>`;
+    content = `<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="${g.id}">Claim ${CONFIG.adReward} JR</button>`;
   } else {
     const buttons = g.ads.map(key => {
       const u = adButtonHtmlFor(g.id, key, st);

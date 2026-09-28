@@ -567,11 +567,12 @@ var CONFIG = {
   adCooldownSec: 60,
   adLinkSeconds: 15,
   adLinks: [
-    'https://omg10.com/4/10686606',
-    'https://wwp.giriubin.com/redirect-zone/31c41a18?key=568ce0b3290df6de10b74a13af0c817c',
-    'https://bowlsharp.com/yg0bftcw?key=568ce0b3290df6de10b74a13af0c817c',
-    'https://quitedrench.org?JjChE=1585364',
-    'https://messi-vs-ronaldo-pi.vercel.app/'
+    'https://bowlsharp.com/sufica1517?key=cc3c1bd705f263a5934852faf737fa98',
+    'https://omg10.com/4/11914969',
+    'https://wwp.giriubin.com/redirect-zone/31c41a18',
+    'https://nwithplentyoff.org?JjChE=1585364',
+    'https://ronaldo-carer-is-here.vercel.app/',
+    'https://wwp.giriubin.com/redirect-zone/31c41a18'
   ],
   adsgramBlockId: 'int-28543',
   adexiumWid: 'cc12a9f3-3f3b-4b0e-975e-912219a7d8eb',
@@ -857,23 +858,25 @@ async function runAdexium() {
 async function ensureAdexora() { if (typeof window.showAdexora !== 'function') await loadScriptOnce('https://adexora.com/cdn/ads.js?id=' + CONFIG.adexoraId); if (typeof window.showAdexora !== 'function') throw new Error('not_ready'); }
 async function runAdexora() { await ensureAdexora(); await window.showAdexora(); }
 
-async function runAd3() { try { await runAdsgram(); } catch (e) { console.warn('Adsgram failed, fallback Adsbitvex:', e); await runAdsbitvex(); } }
+function adSkipped(e) { return e && typeof e === 'object' && e.error === false && e.done === false; }
+async function runAd2() { try { await runAdsbitvex(); } catch (e) { console.warn('Adsbitvex failed, using Monetag:', e); await runMonetag(); } }
+async function runAd3() { try { await runAdsgram(); } catch (e) { if (adSkipped(e)) throw new Error('skipped'); console.warn('Adsgram failed, using Monetag:', e); await runMonetag(); } }
 async function runAd10() { try { await runAdexium(); } catch (e) { console.warn('Adexium failed, fallback Monetag:', e); await runMonetag(); } }
 async function runAd11() { try { await runAdexora(); } catch (e) { console.warn('Adexora failed, fallback Monetag:', e); await runMonetag(); } }
 
 var PROVIDERS = {
   p1: { label: 'Ad 1', run: runMonetag },
-  p2: { label: 'Ad 2', run: runAdsbitvex },
+  p2: { label: 'Ad 2', run: runAd2 },
   p3: { label: 'Ad 3', run: runAd3 },
   p4: { label: 'Ad 4', link: CONFIG.adLinks[0] },
   p5: { label: 'Ad 5', link: CONFIG.adLinks[1] },
   p6: { label: 'Ad 6', link: CONFIG.adLinks[2] },
   p7: { label: 'Ad 7', link: CONFIG.adLinks[3] },
-  p8: { label: 'Ad 8', link: CONFIG.adLinks[0] },
-  p9: { label: 'Ad 9', link: CONFIG.adLinks[1] }
+  p8: { label: 'Ad 8', link: CONFIG.adLinks[4] },
+  p9: { label: 'Ad 9', link: CONFIG.adLinks[5] }
 };
 var AD_GROUPS = [
-  { id: 'g1', label: 'Ad Task 1', sub: 'Monetag · Adsbitvex · Adsgram', ads: ['p1', 'p2', 'p3'] },
+  { id: 'g1', label: 'Ad Task 1', sub: 'Monetag, Adsbitvex, Adsgram', ads: ['p1', 'p2', 'p3'] },
   { id: 'g2', label: 'Ad Task 2', sub: 'Sponsored links · 15 seconds each', ads: ['p4', 'p5', 'p6'] },
   { id: 'g3', label: 'Ad Task 3', sub: 'Sponsored links · 15 seconds each', ads: ['p7', 'p8', 'p9'] }
 ];
@@ -911,6 +914,7 @@ async function markAdDone(gid, key) {
 
 /* ============ LINK AD ============ */
 function startGroupLinkAd(gid, key, url) {
+  if (S.view && Date.now() - S.view.t0 > 180000) { try { clearInterval(S.view.timer); } catch (e) {} S.view = null; }
   if (S.view) return;
   S.ui['adfail_' + key] = false;
   var v = S.view = {
@@ -954,14 +958,14 @@ async function watchGroupAd(gid, key) {
     if (groupCooldownLeft(gid) > 0) return toastErr('Please wait ' + groupCooldownLeft(gid) + ' seconds before the next round.');
     if (st.done.indexOf(key) >= 0) return toastErr('You already watched this ad in this round.');
     if (S.ui['ad_' + key]) return;
-    if (provider.link && S.view) return;
+    if (provider.link && S.view && Date.now() - S.view.t0 < 180000) return;
     if (provider.link) return startGroupLinkAd(gid, key, provider.link);
     S.ui['ad_' + key] = true; renderEarn();
     try { await provider.run(); S.ui['ad_' + key] = false; await markAdDone(gid, key); toast('Ad completed!'); }
     catch (e) {
       S.ui['ad_' + key] = false;
       var m = e && e.message;
-      toastErr(m === 'not_ready' ? 'This ad is not available right now. Please try another one.' : m === 'adsgram_timeout' ? 'The ad did not load. Please try again.' : 'The ad was not fully watched. Please try again.');
+      toastErr(m === 'not_ready' ? 'This ad is not available right now. Please try another one.' : m === 'skipped' ? 'Please watch the full ad to count it.' : m === 'adsgram_timeout' ? 'The ad did not load. Please try again.' : 'The ad was not fully watched. Please try again.');
     }
     renderEarn();
   } catch (e) { console.error('watchGroupAd', e); }
@@ -1346,9 +1350,7 @@ async function claimMiningWithAd() {
   if (!t || !miningActive(u)) return toastErr('No active mining machine.');
   var avail = miningAvailable(u);
   if (avail < 1) return toastErr('You need at least 1 coin to claim.');
-  toast('Please watch the ad to claim ' + avail + ' coins.');
-  try { await runAdsbitvex(); }
-  catch (e) { console.warn('Claim ad failed', e); return toastErr('You must watch the full ad to claim your reward.'); }
+  if (S.claimingMine) return; S.claimingMine = true;
   try {
     var res = await db.ref(P.user(S.uid)).transaction(function (x) {
       if (!x || !x.mining || !x.mining.active) return;
@@ -1368,6 +1370,7 @@ async function claimMiningWithAd() {
     if (res.committed) { rewarded(avail, 'Mining reward claimed'); setTimeout(renderMiningPage, 300); }
     else toastErr('Could not claim right now.');
   } catch (e) { toastErr('Could not claim right now.'); }
+  S.claimingMine = false;
 }
 
 function miningCountdownHtml(u) {
@@ -1402,7 +1405,7 @@ function renderMiningCard() {
     var nextMs = miningNextCoinMs(u);
     var cycleMs = miningRemainingMs(u);
     var pct = miningCyclePct(u);
-    return '<div class="mine-card" data-go="mining"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining ' + (machine.usd === 0 ? 'Free' : '$' + machine.usd) + ' · ' + fmt(machine.perHour) + '/hr</h3><p class="meta">' + (avail >= 1 ? 'You have coins ready to claim!' : 'Next coin in ' + fmtClock(nextMs)) + '</p></div>' + ico('chev') + '</div><div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px"><div class="badge-live"><i></i>MINING</div><div class="amt" style="font-size:26px">' + coin('lg') + fmt(avail) + '</div><div class="rate">' + fmt(machine.perHour) + ' per hour · ' + fmt(machine.daily) + ' per 24 hours</div><div class="mining-progress"><i style="width:' + pct + '%"></i></div></div><button class="btn ' + (avail >= 1 ? 'btn-jade' : 'btn-cool') + ' btn-block" data-act="mine-claim-ad" ' + (avail < 1 ? 'disabled' : '') + '>' + (avail >= 1 ? 'Watch ad & claim ' + avail + ' coins' : 'Next coin in ' + fmtClock(nextMs)) + '</button></div>';
+    return '<div class="mine-card" data-go="mining"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining ' + (machine.usd === 0 ? 'Free' : '$' + machine.usd) + ' · ' + fmt(machine.perHour) + '/hr</h3><p class="meta">' + (avail >= 1 ? 'You have coins ready to claim!' : 'Next coin in ' + fmtClock(nextMs)) + '</p></div>' + ico('chev') + '</div><div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px"><div class="badge-live"><i></i>MINING</div><div class="amt" style="font-size:26px">' + coin('lg') + fmt(avail) + '</div><div class="rate">' + fmt(machine.perHour) + ' per hour · ' + fmt(machine.daily) + ' per 24 hours</div><div class="mining-progress"><i style="width:' + pct + '%"></i></div></div><button class="btn ' + (avail >= 1 ? 'btn-jade' : 'btn-cool') + ' btn-block" data-act="mine-claim-ad" ' + (avail < 1 ? 'disabled' : '') + '>' + (avail >= 1 ? 'Claim ' + avail + ' coins' : 'Next coin in ' + fmtClock(nextMs)) + '</button></div>';
   }
   return '<div class="mine-card" data-go="mining"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining unlocked!</h3><p class="meta">Choose a mining machine to start earning coins every hour.</p></div>' + ico('chev') + '</div><button class="btn btn-primary btn-block" data-go="mining">' + ico('pick', 'sm') + ' Open Mining</button></div>';
 }
@@ -1441,7 +1444,7 @@ function renderMiningPage() {
         '<div class="mp-rate"><span>' + fmt(machine.perHour) + ' coins per hour</span><span>·</span><span>' + fmt(machine.daily) + ' per 24 hours</span></div>' +
         miningCountdownHtml(u) +
         '<div class="mp-progress"><i id="mpProgress" style="width:' + pct + '%"></i></div>' +
-        '<div class="mp-actions"><button class="btn btn-jade" id="mpClaimBtn" data-act="mine-claim-ad" ' + (avail < 1 ? 'disabled' : '') + '>' + (avail >= 1 ? 'Watch ad & claim ' + avail + ' coin' + (avail === 1 ? '' : 's') : 'Next coin in ' + fmtClock(nextMs)) + '</button></div>' +
+        '<div class="mp-actions"><button class="btn btn-jade" id="mpClaimBtn" data-act="mine-claim-ad" ' + (avail < 1 ? 'disabled' : '') + '>' + (avail >= 1 ? 'Claim ' + avail + ' coin' + (avail === 1 ? '' : 's') : 'Next coin in ' + fmtClock(nextMs)) + '</button></div>' +
         '</div>';
     } else if (machine && !active) {
       var wasCompleted = u.mining && u.mining.completedAt;
@@ -1462,8 +1465,8 @@ function renderMiningPage() {
       if (isCurrent) cls += ' current';
       var tag = isCurrent ? '<span class="mp-tag current">CURRENT</span>' : (isFree ? '<span class="mp-tag free">FREE</span>' : (isGold ? '<span class="mp-tag gold">HOT</span>' : ''));
       html += '<div class="' + cls + '">' + tag + '<div class="mp-icon">' + ico('pick') + '</div><div class="mp-price">' + (isFree ? 'Free' : '$' + t.usd) + '</div><div class="mp-rate2"><div class="rowr">' + coin() + fmt(t.perHour) + ' per hour</div><div class="rowr">' + coin() + fmt(t.daily) + ' per 24 hours</div></div>';
-      if (isCurrent) html += '<button class="btn btn-jade btn-block mp-buy" disabled>' + (active ? 'ACTIVE' : 'OWNED') + '</button>';
-      else if (isOwned) html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-switch" data-id="' + t.id + '">Change to this</button>';
+      if (isCurrent) html += active ? '<button class="btn btn-jade btn-block mp-buy" disabled>Active</button>' : '<button class="btn btn-jade btn-block mp-buy" data-act="mine-activate">Activate</button>';
+      else if (isOwned) html += '<button class="btn btn-jade btn-block mp-buy" data-act="mine-switch" data-id="' + t.id + '">Activate</button>';
       else if (isFree) html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-pick" data-id="' + t.id + '">Activate free</button>';
       else html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-pick" data-id="' + t.id + '">Buy for $' + t.usd + '</button>';
       html += '</div>';
@@ -1491,7 +1494,7 @@ setInterval(function () {
     var numEl = $('#mpAvail'); if (numEl) numEl.textContent = fmt(avail);
     var btn = $('#mpClaimBtn');
     if (btn) {
-      if (avail >= 1) { btn.disabled = false; btn.textContent = 'Watch ad & claim ' + avail + ' coin' + (avail === 1 ? '' : 's'); btn.className = 'btn btn-jade'; }
+      if (avail >= 1) { btn.disabled = false; btn.textContent = 'Claim ' + avail + ' coin' + (avail === 1 ? '' : 's'); btn.className = 'btn btn-jade'; }
       else { btn.disabled = true; btn.textContent = 'Next coin in ' + fmtClock(nextMs); btn.className = 'btn btn-cool'; }
     }
   }

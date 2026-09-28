@@ -241,7 +241,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .kv div:last-child{border:0}
 .linkbox{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:12px 0;font-size:13px;word-break:break-all}
 .msgbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:12px 0;font-size:13.5px;white-space:pre-line;color:var(--muted)}
-.hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
 .gap{height:10px}
 .stack{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 .stack .field{margin:0}
@@ -261,7 +261,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 
 .section-title{font:800 18px 'Sora',sans-serif;margin:24px 0 12px;display:flex;align-items:center;gap:8px}
 
-/* ============ SPIN MODAL ============ */
+/* ============ SPIN MODAL (SVG based) ============ */
 .spin-modal{position:fixed;inset:0;z-index:250;background:rgba(10,15,28,.72);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .spin-modal.open{opacity:1}
 .spin-modal-card{width:100%;max-width:400px;background:linear-gradient(160deg,#1A2440 0%,#0F1A2E 100%);border-radius:28px;padding:22px 20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transform:scale(.92);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
@@ -271,18 +271,13 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .spin-head{position:relative;z-index:2;text-align:center;margin-bottom:18px}
 .spin-head h2{font:800 24px 'Sora',sans-serif;letter-spacing:-.02em}
 .spin-head p{font-size:13px;opacity:.72;margin-top:4px}
-.spin-wheel-wrap{position:relative;z-index:2;width:260px;height:260px;margin:0 auto 18px}
-.wheel-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:22px solid #FFC53D;z-index:5;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
-.wheel-pointer::after{content:"";position:absolute;top:-28px;left:-6px;width:12px;height:12px;background:#FFC53D;border-radius:50%;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2)}
-.wheel{position:absolute;inset:0;border-radius:50%;overflow:hidden;box-shadow:0 0 0 6px #1A2440,0 0 0 9px #FFC53D,0 10px 30px -8px rgba(0,0,0,.5),inset 0 0 30px rgba(0,0,0,.25);transition:transform 4.5s cubic-bezier(.17,.67,.15,1.05);will-change:transform}
-.wheel::before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.06) 0deg 1deg,transparent 1deg 6deg);pointer-events:none;z-index:2}
-.wheel-slice{position:absolute;inset:0;display:flex;justify-content:center;padding-top:16px;transform:rotate(var(--a));pointer-events:none}
-.wheel-slice span{display:inline-block;font:800 15px 'Sora',sans-serif;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.35);transform:rotate(calc(-1 * var(--a)));line-height:1}
-.wheel-slice span small{display:block;font-size:9px;opacity:.85;font-weight:600;letter-spacing:.08em;margin-top:2px}
-.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE79B,#FFC53D 60%,#E39D00);display:grid;place-items:center;box-shadow:0 4px 10px rgba(0,0,0,.35),inset 0 2px 4px rgba(255,255,255,.55),inset 0 -3px 6px rgba(0,0,0,.2);cursor:pointer;z-index:4;border:3px solid #fff;transition:transform .15s}
-.wheel-center:active{transform:translate(-50%,-50%) scale(.94)}
-.wheel-center span{font:800 13px 'Sora',sans-serif;color:#5C4000;letter-spacing:.06em}
-.wheel-center.spinning span{animation:pulseText .8s ease-in-out infinite}
+.spin-wheel-wrap{position:relative;z-index:2;width:270px;height:270px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
+.spin-wheel-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 12px 30px rgba(0,0,0,.45))}
+.spin-wheel-svg .wheel-group{transform-origin:150px 150px;transition:transform 4.5s cubic-bezier(.17,.67,.15,1.05);will-change:transform}
+.spin-pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:28px;height:34px;z-index:5;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));pointer-events:none}
+.spin-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE79B,#FFC53D 60%,#E39D00);display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.4),inset 0 2px 4px rgba(255,255,255,.55),inset 0 -3px 6px rgba(0,0,0,.2);cursor:pointer;z-index:4;border:3px solid #fff;transition:transform .15s;font:800 14px 'Sora',sans-serif;color:#5C4000;letter-spacing:.06em}
+.spin-btn:active{transform:translate(-50%,-50%) scale(.94)}
+.spin-btn.spinning span{animation:pulseText .8s ease-in-out infinite;display:inline-block}
 .spin-hint{text-align:center;font-size:12.5px;opacity:.68;margin-top:6px;position:relative;z-index:2}
 .spin-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:0;cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;z-index:5;transition:background .2s,transform .15s}
 .spin-close:active{transform:scale(.9);background:rgba(255,255,255,.22)}
@@ -292,7 +287,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .spin-result .win-label{font-size:14px;opacity:.75}
 .spin-result .btn{margin-top:6px}
 @keyframes popWin{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
-@keyframes pulseText{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes pulseText{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 
 /* ============ MINING ============ */
 .mining-hero{background:linear-gradient(150deg,#0B4F3A 0%,#22C58B 100%);color:#fff;border-radius:24px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 14px 30px -14px rgba(34,197,139,.6)}
@@ -303,12 +298,11 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .mining-hero .badge-live{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;font:700 11px 'Sora',sans-serif;letter-spacing:.08em;display:flex;gap:5px;align-items:center;z-index:1}
 .mining-hero .badge-live i{width:7px;height:7px;border-radius:50%;background:#8CFFC9;box-shadow:0 0 8px #8CFFC9;animation:pulseDot 1.6s ease-in-out infinite}
 @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.75)}}
-
 .mine-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.mine-card.locked{opacity:.85}
+.mine-card.locked{opacity:.9}
 .mine-card h3{font:800 16px 'Sora',sans-serif;display:flex;align-items:center;gap:8px}
 .mine-card p.meta{font-size:13px;color:var(--muted);margin:4px 0 14px}
-.mine-tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mine-tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .mine-tier{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;text-align:left}
 .mine-tier:active{transform:scale(.97)}
 .mine-tier.on{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 8px 20px -10px var(--brand)}
@@ -320,13 +314,16 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .mine-tier.gold.on{background:linear-gradient(135deg,#FFF4D6,#FFE79B);border-color:#FFC53D}
 [data-theme="dark"] .mine-tier.gold.on{background:linear-gradient(135deg,#4A3800,#6E5200);border-color:#FFC53D}
 [data-theme="dark"] .mine-tier.gold b{color:#FFD879}
-
 .mining-status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--brand-soft);color:var(--brand);font-weight:600;font-size:13.5px;margin-bottom:14px}
 .mining-status.warn{background:var(--bad-soft);color:var(--bad)}
 .mining-status.ok{background:var(--ok-soft);color:var(--ok)}
 .mining-status .ico{flex:none}
 .mining-progress{height:8px;border-radius:8px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:8px;position:relative}
 .mining-progress i{display:block;height:100%;background:#8CFFC9;border-radius:8px;transition:width .6s ease}
+.mine-machine-details{background:var(--brand-soft);border-radius:14px;padding:12px 14px;margin:10px 0;display:flex;flex-direction:column;gap:8px}
+.mine-machine-details div{display:flex;justify-content:space-between;font-size:13px}
+.mine-machine-details div span:first-child{color:var(--muted)}
+.mine-machine-details div span:last-child{font-weight:700}
 
 #fatal{position:fixed;inset:0;z-index:999;background:#0A0F1C;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;gap:14px}
 #fatal h2{font-family:'Sora',sans-serif;font-size:22px}
@@ -372,8 +369,8 @@ body.locked{overflow:hidden}
   .sheet h2{font-size:19px}
   .cats{grid-template-columns:1fr}
   .nb{font-size:10px}
-  .spin-wheel-wrap{width:230px;height:230px}
-  .wheel-center{width:68px;height:68px}
+  .spin-wheel-wrap{width:240px;height:240px}
+  .spin-btn{width:74px;height:74px;font-size:13px}
   .mine-tiers{grid-template-columns:1fr}
 }
 @media (max-width:320px){
@@ -493,15 +490,23 @@ a,button{touch-action:manipulation}
       <p id="spinSub">Spin the wheel and win coins!</p>
     </div>
     <div class="spin-wheel-wrap">
-      <div class="wheel-pointer"></div>
-      <div class="wheel" id="spinWheel">
-        <div class="wheel-slice" style="--a:-54deg"><span>10<small>COINS</small></span></div>
-        <div class="wheel-slice" style="--a:18deg"><span>20<small>COINS</small></span></div>
-        <div class="wheel-slice" style="--a:90deg"><span>15<small>COINS</small></span></div>
-        <div class="wheel-slice" style="--a:162deg"><span>12<small>COINS</small></span></div>
-        <div class="wheel-slice" style="--a:234deg"><span>100<small>COINS</small></span></div>
-        <div class="wheel-center" id="spinBtn"><span id="spinBtnText">SPIN</span></div>
+      <svg class="spin-wheel-svg" viewBox="0 0 300 300" aria-hidden="true">
+        <defs>
+          <clipPath id="wheelClip"><circle cx="150" cy="150" r="146"/></clipPath>
+        </defs>
+        <g clip-path="url(#wheelClip)">
+          <g id="wheelGroup" class="wheel-group">
+            <!-- Wheel segments injected by JS -->
+            <g id="wheelSegments"></g>
+          </g>
+        </g>
+        <circle cx="150" cy="150" r="146" fill="none" stroke="#FFC53D" stroke-width="6"/>
+        <circle cx="150" cy="150" r="150" fill="none" stroke="#1A2440" stroke-width="4"/>
+      </svg>
+      <div class="spin-pointer">
+        <svg viewBox="0 0 28 34"><path d="M14 34 L2 8 Q14 -4 26 8 Z" fill="#FFC53D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="14" cy="10" r="3" fill="#fff"/></svg>
       </div>
+      <div class="spin-btn" id="spinBtn"><span id="spinBtnText">SPIN</span></div>
     </div>
     <p class="spin-hint" id="spinHint">Come back tomorrow for another spin</p>
     <div class="spin-result" id="spinResult">
@@ -557,7 +562,8 @@ const CONFIG = {
   adexiumWid: 'cc12a9f3-3f3b-4b0e-975e-912219a7d8eb',
   adexoraId: '1963',
 
-  swap: { jrIn: 100, rjOut: 50000, min: 100 },
+  /* Swap: 2000 coins = 50000 D Coin */
+  swap: { jrIn: 2000, rjOut: 50000, min: 2000 },
   withdraw: { min: 500, feePct: 3, method: 'Binance' },
 
   minReward: { join: 3000, reaction: 1000, view: 700, conditions: 5000, website: 1500, youtube: 1000 },
@@ -571,22 +577,23 @@ const CONFIG = {
   conditionSeconds: 10,
   reviewHours: 24,
 
-  referral: { bonusJR: 25, bonusRJ: 10000, inviteeBonus: 0 },
+  /* Referral: 200 coins + 10000 D Coin */
+  referral: { bonusJR: 200, bonusRJ: 10000, inviteeBonus: 0 },
 
-  /* Daily Spin prizes + weights */
+  /* Daily Spin — 4 normal prizes + 100 only on milestone */
   spin: {
     prizes: [
-      { amount: 10, weight: 30, color: '#5B5BF5' },
-      { amount: 20, weight: 20, color: '#22C58B' },
-      { amount: 15, weight: 20, color: '#FF8C42' },
-      { amount: 12, weight: 25, color: '#E0457B' },
-      { amount: 100, weight: 5, color: '#FFC53D' }
+      { amount: 10,  weight: 30, color: '#5B5BF5', label: '10' },
+      { amount: 20,  weight: 20, color: '#22C58B', label: '20' },
+      { amount: 15,  weight: 20, color: '#FF8C42', label: '15' },
+      { amount: 12,  weight: 25, color: '#E0457B', label: '12' },
+      { amount: 100, weight: 0,  color: '#FFC53D', label: '100', milestone: true }
     ],
-    milestone: 100,       // every 100th spin globally = 100 coins
+    milestoneEvery: 100,       // every 100th spin globally = 100 coins
     milestoneAmount: 100
   },
 
-  /* Mining — needs 1 referral to unlock */
+  /* Mining */
   mining: {
     minReferrals: 1,
     tiers: [
@@ -699,7 +706,6 @@ function copyText(t) {
   if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t).then(done, fallback);
   fallback();
 }
-
 function toast(msg, opt = {}) {
   const key = (opt.coins ? 'c' + opt.coins : '') + (opt.rj ? 'r' + opt.rj : '') + '|' + msg + '|' + (opt.err ? 'e' : '');
   const root = $('#toasts'); if (!root) return;
@@ -754,7 +760,7 @@ const S = {
   uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null,
   chatCache: {}, botId: null, pending: {}, prevSub: null,
   wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' },
-  spin: { spinning: false, pendingPrize: null, alreadyShownToday: false },
+  spin: { spinning: false, currentRot: 0, alreadyShownToday: false },
   mining: { selectedTier: null }
 };
 
@@ -776,7 +782,6 @@ function applyTaskIncome(u, amt) {
   u.rjTotal = (u.rjTotal || 0) + amt;
   u.tasksDone = (u.tasksDone || 0) + 1;
 }
-
 async function checkReferral(u) {
   const BC = CONFIG.referral.bonusJR, BD = CONFIG.referral.bonusRJ, IB = CONFIG.referral.inviteeBonus || 0;
   if (!u || !u.referredBy || u.refBonusPaid) return;
@@ -873,7 +878,7 @@ const PROVIDERS = {
   p11: { label: 'Ad 11', run: runAd11 },
   p12: { label: 'Ad 12', link: CONFIG.adLinks[4] }
 };
-/* Ad Task 4 removed. Only 3 ad tasks now. */
+/* Ad Task 4 removed */
 const AD_GROUPS = [
   { id: 'g1', label: 'Ad Task 1', sub: 'Ads 1, 2, 3', ads: ['p1', 'p2', 'p3'] },
   { id: 'g2', label: 'Ad Task 2', sub: 'Ads 4, 5, 6', ads: ['p4', 'p5', 'p6'] },
@@ -1063,109 +1068,149 @@ setInterval(() => {
 }, 1000);
 
 /* =====================================================================
-   SPIN WHEEL
+   SPIN WHEEL — SVG based, segments injected by JS
    ===================================================================== */
+function polarXY(cx, cy, r, angleDeg) {
+  const rad = (angleDeg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+function buildWheelSvg() {
+  const segGroup = document.getElementById('wheelSegments');
+  if (!segGroup || segGroup.__built) return;
+  const prizes = CONFIG.spin.prizes;
+  const n = prizes.length;
+  const cx = 150, cy = 150, R = 148;
+  const segAngle = 360 / n;
+  let svg = '';
+  for (let i = 0; i < n; i++) {
+    const a1 = -segAngle / 2 + i * segAngle;
+    const a2 = a1 + segAngle;
+    const p1 = polarXY(cx, cy, R, a1);
+    const p2 = polarXY(cx, cy, R, a2);
+    const largeArc = (a2 - a1) > 180 ? 1 : 0;
+    const d = `M${cx},${cy} L${p1.x},${p1.y} A${R},${R} 0 ${largeArc},1 ${p2.x},${p2.y} Z`;
+    svg += `<path d="${d}" fill="${prizes[i].color}" stroke="#fff" stroke-width="1.5" stroke-opacity=".35"/>`;
+    // Label at mid-angle
+    const midAngle = a1 + segAngle / 2;
+    const labelPos = polarXY(cx, cy, R * 0.66, midAngle);
+    const rot = midAngle; // radial text
+    svg += `<g transform="rotate(${rot}, ${cx}, ${cy})"><text x="${labelPos.x}" y="${labelPos.y}" text-anchor="middle" dominant-baseline="middle" font-family="Sora,sans-serif" font-weight="800" font-size="24" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-opacity:.25;stroke-width:4px;stroke-linejoin:round">${prizes[i].label}</text></g>`;
+  }
+  segGroup.innerHTML = svg;
+  segGroup.__built = true;
+}
 function openSpinModal() {
+  buildWheelSvg();
   const m = $('#spinModal'); if (!m) return;
   m.hidden = false;
   requestAnimationFrame(() => m.classList.add('open'));
+  // Reset wheel visual
+  const wg = $('#wheelGroup');
+  if (wg) { wg.style.transition = 'none'; wg.style.transform = 'rotate(0deg)'; S.spin.currentRot = 0; }
+  setTimeout(() => { const w = $('#wheelGroup'); if (w) w.style.transition = ''; }, 60);
+  const res = $('#spinResult'); if (res) res.classList.remove('show');
+  const hint = $('#spinHint');
+  const sub = $('#spinSub');
+  if (spinTodayDone()) {
+    if (hint) hint.textContent = 'You already spun today. Come back tomorrow!';
+    if (sub) sub.textContent = 'See you tomorrow!';
+  } else {
+    if (hint) hint.textContent = 'Spin and win up to 100 coins!';
+    if (sub) sub.textContent = 'Spin the wheel and win coins!';
+  }
 }
 function closeSpinModal() {
   const m = $('#spinModal'); if (!m) return;
   m.classList.remove('open');
   setTimeout(() => { m.hidden = true; }, 300);
-  // Reset wheel for next time
-  const w = $('#spinWheel'); if (w) w.style.transform = 'rotate(0deg)';
-  const b = $('#spinBtn'); if (b) b.classList.remove('spinning');
-  const t = $('#spinBtnText'); if (t) t.textContent = 'SPIN';
 }
 function spinTodayDone() { return S.user && S.user.lastSpinDay === today(); }
-function shouldShowSpinToday() { return !spinTodayDone(); }
-
-function pickPrize() {
+function pickPrizeIndex() {
   const prizes = CONFIG.spin.prizes;
-  const total = prizes.reduce((s, p) => s + p.weight, 0);
+  // Exclude milestone segment from random pick
+  const normal = prizes.map((p, i) => ({ i, w: p.milestone ? 0 : p.weight }));
+  const total = normal.reduce((s, p) => s + p.w, 0);
   let r = Math.random() * total;
-  for (let i = 0; i < prizes.length; i++) {
-    r -= prizes[i].weight;
-    if (r <= 0) return { index: i, prize: prizes[i] };
+  for (const n of normal) {
+    if (n.w <= 0) continue;
+    r -= n.w;
+    if (r <= 0) return n.i;
   }
-  return { index: 0, prize: prizes[0] };
+  return normal.find(n => n.w > 0).i;
 }
-
 async function doSpin() {
   if (S.spin.spinning) return;
   if (spinTodayDone()) { toastErr('You already spun today. Come back tomorrow!'); return; }
   S.spin.spinning = true;
-  const btn = $('#spinBtn'), btnText = $('#spinBtnText'), wheel = $('#spinWheel');
+  const btn = $('#spinBtn'), btnText = $('#spinBtnText'), wheelGroup = $('#wheelGroup');
   btn.classList.add('spinning'); btnText.textContent = '...';
 
-  let prize, index;
+  let prizeIndex, amount;
   try {
-    // Increment global spin counter atomically
     const counterRes = await db.ref('pn/spinCounter/total').transaction(c => (Number(c) || 0) + 1);
     const totalCount = counterRes.snapshot.val() || 1;
-    if (totalCount % CONFIG.spin.milestone === 0) {
-      // Milestone winner — 100 coins
-      prize = { amount: CONFIG.spin.milestoneAmount, color: '#FFC53D' };
-      index = CONFIG.spin.prizes.findIndex(p => p.amount === CONFIG.spin.milestoneAmount);
-      if (index < 0) index = 4;
+    if (totalCount % CONFIG.spin.milestoneEvery === 0) {
+      // Milestone winner: 100 coins
+      prizeIndex = CONFIG.spin.prizes.findIndex(p => p.milestone);
+      amount = CONFIG.spin.milestoneAmount;
     } else {
-      const pick = pickPrize();
-      index = pick.index; prize = pick.prize;
+      prizeIndex = pickPrizeIndex();
+      amount = CONFIG.spin.prizes[prizeIndex].amount;
     }
   } catch (e) {
-    console.warn('Spin counter failed, using local pick', e);
-    const pick = pickPrize();
-    index = pick.index; prize = pick.prize;
+    console.warn('Spin counter failed', e);
+    prizeIndex = pickPrizeIndex();
+    amount = CONFIG.spin.prizes[prizeIndex].amount;
   }
 
-  // Compute rotation: segment i center at -54 + i*72 (math convention, clockwise)
-  // Pointer is at top (-90°). Rotation to bring segment i to top:
-  // target = -90 - (-54 + i*72) = -36 - i*72
-  const baseAngle = -36 - index * 72;
-  const spins = 6; // full rotations
-  const currentRot = S.spin.currentRot || 0;
-  // Make sure we always spin forward at least 'spins' full turns
-  const extra = ((baseAngle - currentRot) % 360 + 360) % 360;
-  const target = currentRot + spins * 360 + extra;
-  S.spin.currentRot = target;
+  // Compute target rotation.
+  // Wheel segments: segment i is centered at angle  i * segAngle  (starting at top).
+  // Pointer at top = 0deg. To land segment i under pointer, we need wheel rotated
+  // by  -i * segAngle  (mod 360). Add several full spins for drama.
+  const n = CONFIG.spin.prizes.length;
+  const segAngle = 360 / n;
+  const targetMod = ((-prizeIndex * segAngle) % 360 + 360) % 360;
+  const currentMod = ((S.spin.currentRot % 360) + 360) % 360;
+  const delta = ((targetMod - currentMod) % 360 + 360) % 360;
+  const spins = 6;
+  const newRot = S.spin.currentRot + spins * 360 + delta;
+  S.spin.currentRot = newRot;
+  if (wheelGroup) wheelGroup.style.transform = `rotate(${newRot}deg)`;
 
-  wheel.style.transform = `rotate(${target}deg)`;
-
-  // Wait for animation to finish (matches CSS transition: 4.5s)
   setTimeout(async () => {
     try {
       await db.ref(P.user(S.uid)).transaction(u => {
         if (!u) return u;
+        if (u.lastSpinDay === today()) return u;
         u.lastSpinDay = today();
         u.spinCount = (u.spinCount || 0) + 1;
-        applyIncome(u, prize.amount);
+        applyIncome(u, amount);
         u.spinHistory = u.spinHistory || {};
-        u.spinHistory[Date.now()] = { amount: prize.amount };
+        u.spinHistory[Date.now()] = { amount };
         return u;
       });
-      // Show result
       const res = $('#spinResult');
       const amtEl = $('#spinWinAmount');
       const coinEl = $('#spinWinCoin');
       if (coinEl) coinEl.innerHTML = coin('lg');
-      if (amtEl) amtEl.textContent = fmt(prize.amount);
+      if (amtEl) amtEl.textContent = fmt(amount);
       if (res) res.classList.add('show');
       hap('success');
-      // Update hint
       const hint = $('#spinHint');
       if (hint) hint.textContent = 'You already spun today. Come back tomorrow!';
       const st = $('#spinSub');
       if (st) st.textContent = 'Nice win!';
-      // Update local user
-      if (S.user) { S.user.lastSpinDay = today(); S.user.spinCount = (S.user.spinCount || 0) + 1; S.user.balance = (S.user.balance || 0) + prize.amount; S.user.totalIncome = (S.user.totalIncome || 0) + prize.amount; }
+      if (S.user) {
+        S.user.lastSpinDay = today();
+        S.user.spinCount = (S.user.spinCount || 0) + 1;
+        S.user.balance = (S.user.balance || 0) + amount;
+        S.user.totalIncome = (S.user.totalIncome || 0) + amount;
+      }
       render();
     } catch (e) {
       console.error('Spin credit failed', e);
       toastErr('Could not save your spin. Try again.');
-      const res = $('#spinResult');
-      if (res) res.classList.remove('show');
+      const res = $('#spinResult'); if (res) res.classList.remove('show');
     }
     S.spin.spinning = false;
     btn.classList.remove('spinning');
@@ -1179,99 +1224,186 @@ async function doSpin() {
 function referralCount(u) { return Object.keys((u && u.referrals) || {}).length; }
 function miningUnlocked(u) { return referralCount(u) >= CONFIG.mining.minReferrals; }
 function miningTierById(id) { return CONFIG.mining.tiers.find(t => t.id === id); }
-function miningDaily(u) { const t = miningTierById((u && u.mining && u.mining.machine)); return t ? t.daily : 0; }
+function miningMachine(u) { return u && u.mining && u.mining.machine ? miningTierById(u.mining.machine) : null; }
+function miningActive(u) { return !!(u && u.mining && u.mining.active); }
+function miningStartedAt(u) { return (u && u.mining && u.mining.startedAt) || 0; }
 function miningLastClaim(u) { return (u && u.mining && u.mining.lastClaim) || 0; }
 function miningPending(u) { return (u && u.mining && u.mining.pendingRequest) || null; }
-function miningClaimable(u) {
-  const last = miningLastClaim(u);
-  if (!last) return false;
-  return Date.now() - last >= 24 * 3600 * 1000;
-}
-function miningCooldownLeft(u) {
-  const last = miningLastClaim(u);
-  if (!last) return 0;
-  const ms = last + 24 * 3600 * 1000 - Date.now();
-  return ms > 0 ? ms : 0;
-}
+function miningStatus(u) { return (u && u.mining && u.mining.status) || 'idle'; }
+
+const HOUR = 3600 * 1000;
+const DAY = 24 * HOUR;
+
 function miningAccrued(u) {
-  const last = miningLastClaim(u);
-  if (!last) return 0;
-  const daily = miningDaily(u);
-  if (!daily) return 0;
-  const ms = Date.now() - last;
-  const pct = Math.min(1, ms / (24 * 3600 * 1000));
-  return Math.floor(daily * pct);
+  const t = miningMachine(u);
+  if (!t || !miningActive(u)) return 0;
+  const start = miningStartedAt(u);
+  if (!start) return 0;
+  const rate = t.daily / DAY; // coins per ms
+  const since = Date.now() - start;
+  return Math.max(0, Math.min(t.daily, Math.floor(since * rate)));
+}
+function miningCycleLeft(u) {
+  const start = miningStartedAt(u);
+  if (!start) return 0;
+  const left = start + DAY - Date.now();
+  return left > 0 ? left : 0;
+}
+function miningReady(u) { return miningActive(u) && miningCycleLeft(u) === 0; }
+
+async function activateMining() {
+  const u = S.user; if (!u) return;
+  if (!miningMachine(u)) return toastErr('You need a machine first.');
+  if (miningActive(u)) return toastErr('Mining already started.');
+  try {
+    const res = await db.ref(P.user(S.uid)).transaction(x => {
+      if (!x || !x.mining || !x.mining.machine) return;
+      if (x.mining.active) return;
+      x.mining.active = true;
+      x.mining.startedAt = Date.now();
+      x.mining.status = 'mining';
+      return x;
+    });
+    if (res.committed) { hap('success'); toast('Mining started! Come back in 24h to collect.'); }
+    renderHome();
+    closeSheet();
+  } catch (e) { console.error('activateMining', e); toastErr('Could not start mining.'); }
 }
 
 async function claimMining() {
-  const u = S.user;
-  if (!u) return;
-  if (!miningUnlocked(u)) return toastErr('Unlock mining by inviting 1 friend first.');
-  const daily = miningDaily(u);
-  if (!daily) return toastErr('You need a mining machine first.');
-  if (!miningClaimable(u)) {
-    const ms = miningCooldownLeft(u);
-    return toastErr(`Come back in ${fmtLeft(ms)} to collect your mining reward.`);
+  const u = S.user; if (!u) return;
+  if (!miningReady(u)) {
+    const left = miningCycleLeft(u);
+    return toastErr(left > 0 ? `Come back in ${fmtLeft(left)} to collect.` : 'Nothing to collect yet.');
   }
+  const t = miningMachine(u);
+  if (!t) return;
   try {
     const res = await db.ref(P.user(S.uid)).transaction(x => {
-      if (!x) return x;
-      const last = (x.mining && x.mining.lastClaim) || 0;
-      if (!last || Date.now() - last < 24 * 3600 * 1000) return;
-      const d = miningTierById(x.mining.machine);
-      if (!d) return;
-      applyIncome(x, d.daily);
+      if (!x || !x.mining || !x.mining.active) return;
+      const start = x.mining.startedAt || 0;
+      if (!start || Date.now() - start < DAY) return;
+      const tier = miningTierById(x.mining.machine);
+      if (!tier) return;
+      applyIncome(x, tier.daily);
       x.mining.lastClaim = Date.now();
-      x.mining.totalMined = (x.mining.totalMined || 0) + d.daily;
+      x.mining.startedAt = Date.now(); // restart cycle
+      x.mining.totalMined = (x.mining.totalMined || 0) + tier.daily;
       return x;
     });
-    if (res.committed) { rewarded(daily, 'Mining reward collected'); hap('success'); }
+    if (res.committed) { rewarded(t.daily, 'Mining reward collected'); hap('success'); renderHome(); closeSheet(); }
     else toastErr('Nothing to collect yet.');
-    renderHome();
   } catch (e) { console.error('claimMining', e); toastErr('Could not collect right now.'); }
+}
+
+function renderMiningCard() {
+  const u = S.user || {};
+  const refs = referralCount(u);
+  const unlocked = miningUnlocked(u);
+  const machine = miningMachine(u);
+  const pending = miningPending(u);
+  const status = miningStatus(u);
+
+  if (!unlocked) {
+    return `<div class="mine-card locked" data-sheet="mining">
+      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+        <div class="grow"><h3>Mining</h3><p class="meta">Unlock with ${CONFIG.mining.minReferrals} referral${CONFIG.mining.minReferrals>1?'s':''} · You have ${refs}</p></div></div>
+      <button class="btn btn-soft btn-block" data-sheet="referral">${ico('userplus', 'sm')} Invite friends</button>
+    </div>`;
+  }
+  if (pending && !machine) {
+    return `<div class="mine-card" data-sheet="mining">
+      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+        <div class="grow"><h3>Mining</h3><p class="meta">Request pending · $${pending.usd} · ${fmt(pending.daily)}/day</p></div></div>
+      <div class="mining-status"><span class="spin"></span> Waiting for admin approval</div>
+    </div>`;
+  }
+  if (machine && !miningActive(u)) {
+    return `<div class="mine-card" data-sheet="mining">
+      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+        <div class="grow"><h3>Mining Machine</h3><p class="meta">$${machine.usd} · ${fmt(machine.daily)} coins/day</p></div></div>
+      <div class="mining-status ok">${ico('shieldok')}<div>Machine ready. Click <b>Active</b> to start mining.</div></div>
+      <button class="btn btn-jade btn-block" data-act="mine-activate">${ico('play', 'sm')} Active</button>
+    </div>`;
+  }
+  if (machine && miningActive(u)) {
+    const accrued = miningAccrued(u);
+    const ready = miningReady(u);
+    const left = miningCycleLeft(u);
+    const pct = Math.min(100, (accrued / machine.daily) * 100);
+    return `<div class="mine-card">
+      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+        <div class="grow"><h3>Mining $${machine.usd} · ${fmt(machine.daily)}/day</h3><p class="meta">${ready ? 'Reward ready to collect!' : 'Next reward in ' + fmtLeft(left)}</p></div></div>
+      <div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px">
+        <div class="badge-live"><i></i>MINING</div>
+        <div class="amt" style="font-size:26px">${coin('lg')}${fmt(accrued)}</div>
+        <div class="rate">1 dog per hour · ${fmt(machine.daily)} per 24h</div>
+        <div class="mining-progress"><i style="width:${pct}%"></i></div>
+      </div>
+      <button class="btn ${ready ? 'btn-jade' : 'btn-cool'} btn-block" data-act="mine-claim" ${ready ? '' : 'disabled'}>${ready ? `Collect ${fmt(machine.daily)} coins` : `Come back in ${fmtLeft(left)}`}</button>
+    </div>`;
+  }
+  return `<div class="mine-card" data-sheet="mining">
+    <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+      <div class="grow"><h3>Mining unlocked!</h3><p class="meta">Buy a machine and earn coins every day.</p></div></div>
+    <button class="btn btn-primary btn-block" data-act="open-mining">${ico('pick', 'sm')} Choose a machine</button>
+  </div>`;
 }
 
 function openMiningSheet() {
   const u = S.user || {};
   const unlocked = miningUnlocked(u);
-  const machineId = u.mining && u.mining.machine;
-  const pendingReq = miningPending(u);
-
-  const tiersHtml = CONFIG.mining.tiers.map((t, i) => {
-    const isGold = t.usd >= 5;
-    const on = S.mining.selectedTier === t.id ? 'on' : '';
-    return `<button class="mine-tier ${isGold ? 'gold' : ''} ${on}" data-act="mine-tier" data-id="${t.id}">
-      ${isGold ? '<span class="tier-tag">HOT</span>' : ''}
-      <b>$${t.usd}</b>
-      <span class="rate">${coin()}${fmt(t.daily)} / day</span>
-    </button>`;
-  }).join('');
-
+  const machine = miningMachine(u);
+  const pending = miningPending(u);
+  const active = miningActive(u);
   const u_refs = referralCount(u);
+
   let content = '';
   if (!unlocked) {
-    content = `<div class="mining-status warn">${ico('shield')}<div>Invite <b>${CONFIG.mining.minReferrals}</b> friend${CONFIG.mining.minReferrals>1?'s':''} to unlock mining. You have <b>${u_refs}</b>.</div></div>
+    content = `<div class="mining-status warn">${ico('shield')}<div>Invite <b>${CONFIG.mining.minReferrals}</b> friend to unlock mining. You have <b>${u_refs}</b>.</div></div>
       <button class="btn btn-primary btn-block" data-sheet="referral">${ico('userplus', 'sm')} Invite friends now</button>`;
-  } else if (pendingReq) {
-    content = `<div class="mining-status">${ico('shieldok')}<div>Your mining request (<b>$${pendingReq.usd}</b> · ${fmt(pendingReq.daily)}/day) is pending admin approval.</div></div>
-      <div class="kv"><div><span class="mut">Status</span><b><span class="pill brand">Pending</span></b></div><div><span class="mut">Requested</span><b>${new Date(pendingReq.createdAt || Date.now()).toLocaleDateString()}</b></div><div><span class="mut">Binance UID</span><b>${esc(pendingReq.binanceUid || '')}</b></div></div>`;
-  } else if (machineId) {
-    const t = miningTierById(machineId);
+  } else if (pending && !machine) {
+    content = `<div class="mining-status">${ico('shieldok')}<div>Your mining request is pending admin approval.</div></div>
+      <div class="kv">
+        <div><span class="mut">Machine</span><b>$${pending.usd} · ${fmt(pending.daily)}/day</b></div>
+        <div><span class="mut">Status</span><b><span class="pill brand">Pending</span></b></div>
+        <div><span class="mut">Binance UID</span><b>${esc(pending.binanceUid || '')}</b></div>
+      </div>`;
+  } else if (machine) {
     const accrued = miningAccrued(u);
-    const canClaim = miningClaimable(u);
-    const cd = miningCooldownLeft(u);
-    content = `<div class="mining-hero">
-        <div class="badge-live"><i></i>MINING</div>
-        <div class="label">Currently mining</div>
+    const left = miningCycleLeft(u);
+    const ready = miningReady(u);
+    content = `
+      <div class="mining-hero">
+        <div class="badge-live"><i></i>${active ? 'MINING' : 'READY'}</div>
+        <div class="label">Machine: $${machine.usd} · ${machine.label}</div>
         <div class="amt">${coin('lg')}${fmt(accrued)}</div>
-        <div class="rate">$ ${t.usd} machine · ${fmt(t.daily)} coins / day</div>
-        <div class="mining-progress"><i style="width:${Math.min(100, (accrued / t.daily) * 100)}%"></i></div>
+        <div class="rate">${fmt(machine.daily)} coins per 24h · 1 dog per hour</div>
+        <div class="mining-progress"><i style="width:${Math.min(100,(accrued/machine.daily)*100)}%"></i></div>
       </div>
-      <button class="btn btn-jade btn-block" data-act="mine-claim" ${canClaim ? '' : 'disabled'}>${canClaim ? `Collect ${fmt(t.daily)} coins` : `Come back in ${fmtLeft(cd)}`}</button>
+      <div class="mine-machine-details">
+        <div><span>Machine tier</span><span>$${machine.usd} ${machine.label}</span></div>
+        <div><span>Daily rate</span><span>${fmt(machine.daily)} coins</span></div>
+        <div><span>Hourly rate</span><span>${fmt(machine.daily/24)} dog</span></div>
+        <div><span>Total mined</span><span>${fmt((u.mining && u.mining.totalMined) || 0)} coins</span></div>
+        <div><span>Status</span><span>${active ? (ready ? 'Ready to collect' : 'Mining · ' + fmtLeft(left)) : 'Inactive'}</span></div>
+      </div>
+      ${active
+        ? `<button class="btn ${ready ? 'btn-jade' : 'btn-cool'} btn-block" data-act="mine-claim" ${ready ? '' : 'disabled'}>${ready ? `Collect ${fmt(machine.daily)} coins` : `Come back in ${fmtLeft(left)}`}</button>`
+        : `<button class="btn btn-jade btn-block" data-act="mine-activate">${ico('play', 'sm')} Active · Start mining</button>`}
       <div class="gap"></div>
-      <button class="btn btn-line btn-block" data-act="mine-upgrade">Upgrade machine</button>`;
+      <p class="hint" style="text-align:center">After you collect, the next 24h cycle starts automatically.</p>`;
   } else {
-    content = `<p class="lead">Buy a mining machine. You earn coins every day automatically.</p>
+    const tiersHtml = CONFIG.mining.tiers.map((t) => {
+      const isGold = t.usd >= 5;
+      const on = S.mining.selectedTier === t.id ? 'on' : '';
+      return `<button class="mine-tier ${isGold ? 'gold' : ''} ${on}" data-act="mine-tier" data-id="${t.id}">
+        ${isGold ? '<span class="tier-tag">HOT</span>' : ''}
+        <b>$${t.usd}</b>
+        <span class="rate">${coin()}${fmt(t.daily)} / day</span>
+      </button>`;
+    }).join('');
+    content = `<p class="lead">Pick a mining machine. It earns coins automatically. Deposit the USD to the Binance UID, admin approves, machine becomes active.</p>
       <div class="mine-tiers">${tiersHtml}</div>
       <div class="gap"></div>
       <div class="field"><label for="mineUid">Your Binance UID</label><input id="mineUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div>
@@ -1279,16 +1411,11 @@ function openMiningSheet() {
       <button class="btn btn-primary btn-block" id="mineSubmit" data-act="mine-submit" ${S.mining.selectedTier ? '' : 'disabled'}>Request mining machine</button>
       <p class="hint" style="margin-top:10px">Send the USD to the Binance UID, then submit. Admin approves and your machine unlocks automatically.</p>`;
   }
-
-  openSheet(`<h2>Mining</h2>${content}`, b => {
-    const btn = $('#mineSubmit', b);
-    if (btn) btn.addEventListener('click', submitMiningRequest);
-  });
+  openSheet(`<h2>Mining</h2>${content}`);
 }
 
 async function submitMiningRequest() {
-  const u = S.user;
-  if (!u) return;
+  const u = S.user; if (!u) return;
   const tierId = S.mining.selectedTier;
   if (!tierId) return toastErr('Pick a mining machine first.');
   const t = miningTierById(tierId);
@@ -1745,50 +1872,6 @@ function countUp(el, from, to) {
     if (k < 1) requestAnimationFrame(step);
   })(t0);
 }
-
-function renderMiningCard() {
-  const u = S.user || {};
-  const refs = referralCount(u);
-  const unlocked = miningUnlocked(u);
-  const machineId = u.mining && u.mining.machine;
-  const pending = miningPending(u);
-  if (!unlocked) {
-    return `<div class="mine-card locked">
-      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-        <div class="grow"><h3>Mining</h3><p class="meta">Unlock with ${CONFIG.mining.minReferrals} referral${CONFIG.mining.minReferrals>1?'s':''} · You have ${refs}</p></div></div>
-      <button class="btn btn-soft btn-block" data-sheet="referral">${ico('userplus', 'sm')} Invite friends</button>
-    </div>`;
-  }
-  if (pending) {
-    return `<div class="mine-card">
-      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-        <div class="grow"><h3>Mining</h3><p class="meta">Request pending · $${pending.usd} · ${fmt(pending.daily)}/day</p></div></div>
-      <div class="mining-status"><span class="spin"></span> Waiting for admin approval</div>
-    </div>`;
-  }
-  if (machineId) {
-    const t = miningTierById(machineId);
-    const accrued = miningAccrued(u);
-    const canClaim = miningClaimable(u);
-    const cd = miningCooldownLeft(u);
-    return `<div class="mine-card">
-      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-        <div class="grow"><h3>Mining $${t.usd} · ${fmt(t.daily)}/day</h3><p class="meta">${canClaim ? 'Reward ready to collect' : 'Next reward in ' + fmtLeft(cd)}</p></div></div>
-      <div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px">
-        <div class="badge-live"><i></i>MINING</div>
-        <div class="amt" style="font-size:24px">${coin('lg')}${fmt(accrued)}</div>
-        <div class="mining-progress"><i style="width:${Math.min(100, (accrued / t.daily) * 100)}%"></i></div>
-      </div>
-      <button class="btn btn-jade btn-block" data-act="mine-claim" ${canClaim ? '' : 'disabled'}>${canClaim ? `Collect ${fmt(t.daily)} coins` : `Come back in ${fmtLeft(cd)}`}</button>
-    </div>`;
-  }
-  return `<div class="mine-card">
-    <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-      <div class="grow"><h3>Mining unlocked!</h3><p class="meta">Buy a machine and earn coins every day.</p></div></div>
-    <button class="btn btn-primary btn-block" data-sheet="mining">${ico('pick', 'sm')} Choose a machine</button>
-  </div>`;
-}
-
 function renderHome() {
   if (S.tab !== 'home') return;
   const u = S.user, refs = Object.keys(u.referrals || {}).length, td = u.today && u.today.d === today() ? u.today.a : 0;
@@ -1971,7 +2054,7 @@ function renderProfile() {
   if (S.tab !== 'profile') return;
   const u = S.user, name = u.name || 'User', init = esc(name.trim().charAt(0).toUpperCase() || 'U');
   const refs = Object.keys(u.referrals || {}).length;
-  const machine = u.mining && u.mining.machine ? miningTierById(u.mining.machine) : null;
+  const machine = miningMachine(u);
   setHTML($('#p-profile'), `
     <div class="pfp"><div class="avatar">${u.photo ? `<img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span>${init}</span></div>
       <div><h1>${esc(name)}</h1><span class="mut">${u.username ? '@' + esc(u.username) : 'Telegram user'}</span></div></div>
@@ -1990,7 +2073,7 @@ function renderProfile() {
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">DOGS 2.0</p>`);
+    </div><p class="ver">DOGS 2.1</p>`);
 }
 
 const SHARE_TEXT = `Join me on DOGS, the Telegram app where you earn coins and D Coin every day.
@@ -2006,9 +2089,7 @@ Start earning now:`;
 
 const SHEETS = {
   support: () => openSheet(`<h2>Support</h2><p class="lead">Questions? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
-
   mining: () => openMiningSheet(),
-
   swap: () => {
     const rate = CONFIG.swap.rjOut / CONFIG.swap.jrIn;
     let jrIn = CONFIG.swap.min;
@@ -2048,7 +2129,6 @@ const SHEETS = {
     };
     openSheet('', draw);
   },
-
   withdraw: () => {
     const feePct = CONFIG.withdraw.feePct;
     let jrAmt = CONFIG.withdraw.min;
@@ -2063,7 +2143,7 @@ const SHEETS = {
         ${list.length ? `<h4>Recent withdrawals</h4>${list.map(w => {
           const statusClass = w.status === 'paid' ? 'ok' : w.status === 'rejected' ? 'bad' : 'brand';
           const statusText = w.status === 'paid' ? 'Paid' : w.status === 'rejected' ? 'Rejected' : 'Pending';
-          return `<div class="hist"><div><b>${fmt(w.amount)} coins</b><br><small class="mut">${esc(w.binanceUid || '')}</small></div><span class="pill ${statusClass}">${statusText}</span></div>`;
+          return `<div class="hist"><div class="grow"><b>${fmt(w.amount)} coins</b><br><small class="mut">${esc(w.binanceUid || '')}</small></div><span class="pill ${statusClass}">${statusText}</span></div>`;
         }).join('')}` : ''}`;
       const amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
       const refresh = () => {
@@ -2096,7 +2176,6 @@ const SHEETS = {
     };
     openSheet('', draw);
   },
-
   deposit: () => {
     const D = CONFIG.deposit;
     let pick = 1, page = 1, orderId = '', submitted = false;
@@ -2137,7 +2216,6 @@ const SHEETS = {
     };
     openSheet('', draw);
   },
-
   referral: () => {
     const u = S.user, list = Object.values(u.referrals || {}), link = `${CONFIG.botLink}?startapp=${S.uid}`, R = CONFIG.referral;
     const msg = SHARE_TEXT + '\n' + link;
@@ -2150,34 +2228,30 @@ const SHEETS = {
       <h4>Your referrals (${list.length})</h4>${list.length ? list.map(r => `<div class="hist"><span>${esc(r.name || 'Friend')}</span><span class="${r.bonus ? '' : 'mut'}">${r.bonus ? '+' + fmt(R.bonusJR) + ' coins / ' + fmt(R.bonusRJ) + ' D' : 'Pending'}</span></div>`).join('') : '<p class="doc">No referrals yet.</p>'}
       <div class="kv" style="margin-top:14px"><div><span class="mut">Referral coins earned</span><b>${fmt(u.refEarned || 0)} coins</b></div><div><span class="mut">Referral D Coin earned</span><b>${fmt(u.refEarnedRJ || 0)} D Coin</b></div></div>`);
   },
-
   privacy: () => openSheet(`<h2>Privacy policy</h2>
     <h4>What we collect</h4><p class="doc">Telegram ID, name, username, photo, balances, tasks, campaigns, swaps, withdrawals, deposits, mining, spin history.</p>
     <h4>Ads</h4><p class="doc">Ads are served by third-party networks.</p>
     <h4>Sharing</h4><p class="doc">We do not sell your personal data.</p>`),
-
   terms: () => openSheet(`<h2>Terms and conditions</h2>
     <h4>Using DOGS</h4><p class="doc">One person, one account. No bots or scripts.</p>
     <h4>Rewards</h4><p class="doc">Ad tasks pay coins. Social tasks pay D Coin. With-conditions tasks auto-approve after ${CONFIG.reviewHours}h.</p>
     <h4>Swap</h4><p class="doc">${CONFIG.swap.jrIn} coins = ${CONFIG.swap.rjOut} D Coin. Min ${CONFIG.swap.min} coins. Swaps are final.</p>
     <h4>Withdrawals</h4><p class="doc">Binance only. Min ${CONFIG.withdraw.min} coins. ${CONFIG.withdraw.feePct}% fee.</p>
     <h4>Deposits</h4><p class="doc">Send USD to the Binance UID, submit your Order ID.</p>
-    <h4>Mining</h4><p class="doc">Unlock mining with ${CONFIG.mining.minReferrals} referral. Buy a machine and collect coins every 24h.</p>
+    <h4>Mining</h4><p class="doc">Unlock mining with ${CONFIG.mining.minReferrals} referral. Buy a machine, click Active, collect every 24 hours.</p>
     <h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers.</p>
     <h4>Leaving a channel</h4><p class="doc">Leaving within ${CONFIG.leave.days} days returns your D Coin reward to the owner.</p>`),
-
   settings: () => {
     const th = store.get('pn_theme') || 'auto', hp = store.get('pn_haptics') !== 'off';
     openSheet(`<h2>Settings</h2><h4>Appearance</h4><div class="opts">${['auto', 'light', 'dark'].map(k => `<button class="opt ${th === k ? 'on' : ''}" data-set="theme" data-v="${k}">${k[0].toUpperCase() + k.slice(1)}</button>`).join('')}</div>
       <h4>Vibration</h4><div class="opts"><button class="opt ${hp ? 'on' : ''}" data-set="haptics" data-v="on">On</button><button class="opt ${!hp ? 'on' : ''}" data-set="haptics" data-v="off">Off</button></div>`);
   },
-
   about: () => {
     const R = CONFIG.referral, L = CONFIG.adDailyLimit;
     openSheet(`<h2>About DOGS</h2>
       <p class="lead">Earn coins by ads, earn D Coin by tasks, promote with D Coin, withdraw coins to Binance.</p>
-      <h4>Daily Spin</h4><ul class="doc"><li>Spin once per day. Win up to 100 coins!</li><li>Every 100th spin in the world wins 100 coins.</li></ul>
-      <h4>Mining</h4><ul class="doc"><li>Unlock with ${CONFIG.mining.minReferrals} referral.</li><li>Buy a machine: $1 → 200/day, $3 → 600/day, $5 → 1000/day, $10 → 3000/day.</li><li>Collect once every 24 hours.</li></ul>
+      <h4>Daily Spin</h4><ul class="doc"><li>Spin once per day. Win up to 100 coins!</li><li>Every ${CONFIG.spin.milestoneEvery}th spin in the world wins 100 coins.</li></ul>
+      <h4>Mining</h4><ul class="doc"><li>Unlock with ${CONFIG.mining.minReferrals} referral.</li><li>Buy a machine: $1 → 200/day, $3 → 600/day, $5 → 1000/day, $10 → 3000/day.</li><li>Click Active to start. Collect every 24 hours.</li></ul>
       <h4>Earn coins</h4><ul class="doc"><li>Ad tasks: ${fmt(CONFIG.adReward)} coins per task, ${L} rounds/day.</li><li>Referral: +${fmt(R.bonusJR)} coins and +${fmt(R.bonusRJ)} D Coin per friend.</li></ul>
       <h4>Withdraw & Deposit</h4><p class="doc">Withdraw coins to Binance (min ${fmt(CONFIG.withdraw.min)} coins, ${CONFIG.withdraw.feePct}% fee). Deposit USD → D Coin via Binance UID + Order ID.</p>
       <h4>Fair use</h4><p class="doc">One account per person. No bots. No haram content.</p>
@@ -2220,10 +2294,11 @@ const ACT = {
   'claim-ad': b => claimAdGroup(b.dataset.gid),
   'open-game': b => { const g = (CONFIG.games || []).find(x => x.id === b.dataset.id); if (g && g.link) openLink(g.link); },
   'open-spin': () => openSpinModal(),
-  'mine-claim': () => claimMining(),
+  'open-mining': () => openMiningSheet(),
   'mine-tier': b => { S.mining.selectedTier = b.dataset.id; openMiningSheet(); },
   'mine-submit': () => submitMiningRequest(),
-  'mine-upgrade': () => openMiningSheet(),
+  'mine-claim': () => claimMining(),
+  'mine-activate': () => activateMining(),
   filter: b => { S.filter = b.dataset.k; renderTasks(); },
   open: b => { const t = taskById(b.dataset.id); if (!t) return; S.ui[t.id] = Object.assign(S.ui[t.id] || {}, { opened: Date.now() }); openLink(t.url); },
   verify: b => doVerify(b.dataset.id),
@@ -2271,9 +2346,19 @@ document.addEventListener('input', e => {
 const _spinClose = $('#spinClose'); if (_spinClose) _spinClose.addEventListener('click', closeSpinModal);
 const _spinBtn = $('#spinBtn'); if (_spinBtn) _spinBtn.addEventListener('click', doSpin);
 const _spinCollect = $('#spinCollect'); if (_spinCollect) _spinCollect.addEventListener('click', () => { closeSpinModal(); setTimeout(render, 260); });
-/* If user clicks outside the card, close */
 const _spinModalEl = $('#spinModal');
 if (_spinModalEl) _spinModalEl.addEventListener('click', e => { if (e.target.id === 'spinModal') closeSpinModal(); });
+
+/* Mining status ticker — update home card every second while mining */
+setInterval(() => {
+  if (S.tab !== 'home') return;
+  const u = S.user;
+  if (u && u.mining && u.mining.active) {
+    // Only re-render if the accrued amount changed visibly (every ~60s)
+    const sec = Math.floor(Date.now() / 1000);
+    if (sec % 30 === 0) renderHome();
+  }
+}, 1000);
 
 /* =====================================================================
    Boot
@@ -2321,10 +2406,6 @@ async function boot() {
           S.spin.alreadyShownToday = true;
           setTimeout(() => {
             if (u.lastSpinDay !== today() && !S.spin.spinning) {
-              // Reset wheel
-              const w = $('#spinWheel'); if (w) { w.style.transition = 'none'; w.style.transform = 'rotate(0deg)'; }
-              S.spin.currentRot = 0;
-              setTimeout(() => { const ww = $('#spinWheel'); if (ww) ww.style.transition = ''; }, 60);
               openSpinModal();
             }
           }, 1400);

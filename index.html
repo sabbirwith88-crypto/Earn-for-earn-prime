@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#0F1A2E">
+<meta name="theme-color" content="#5B5BF5">
 <title>DOGS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +64,6 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif;letter-spacing:-.01em}
 #gate p{max-width:300px;color:var(--muted)}
 .logo{display:block;border-radius:24%;overflow:hidden;flex:none;line-height:0}
 .logo svg.mark{width:100%;height:100%;display:block}
-.logo img{width:100%;height:100%;object-fit:cover;display:block}
 
 #app{max-width:480px;width:100%;margin:0 auto;padding:16px 16px calc(104px + env(safe-area-inset-bottom,0px))}
 
@@ -107,7 +106,7 @@ button.card:active{transform:scale(.98)}
 button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .list{display:flex;flex-direction:column;gap:12px}
 .tbadge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:none;color:var(--tc,var(--brand));background:color-mix(in srgb,var(--tc,var(--brand)) 15%,transparent)}
-.t-join{--tc:#5B5BF5}.t-reaction{--tc:#E0457B}.t-view{--tc:#0C93A0}.t-conditions{--tc:#D18100}.t-ads{--tc:#5B5BF5}.t-website{--tc:#0B7A5A}.t-youtube{--tc:#E02B2B}.t-game{--tc:#E0457B}
+.t-join{--tc:#5B5BF5}.t-reaction{--tc:#E0457B}.t-view{--tc:#0C93A0}.t-conditions{--tc:#D18100}.t-ads{--tc:#5B5BF5}.t-website{--tc:#0B7A5A}.t-youtube{--tc:#E02B2B}.t-game{--tc:#E0457B}.t-spin{--tc:#FFC53D}.t-mining{--tc:#22C58B}
 .reward{display:inline-flex;align-items:center;gap:6px;background:color-mix(in srgb,var(--gold) 22%,transparent);color:#8A5A00;font:700 13px 'Sora',sans-serif;padding:6px 10px 6px 6px;border-radius:999px;white-space:nowrap}
 .reward.rj{background:color-mix(in srgb,var(--jade) 22%,transparent);color:#00714A}
 [data-theme="dark"] .reward{color:#FFD879}
@@ -262,6 +261,73 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 
 .section-title{font:800 18px 'Sora',sans-serif;margin:24px 0 12px;display:flex;align-items:center;gap:8px}
 
+/* ============ SPIN MODAL ============ */
+.spin-modal{position:fixed;inset:0;z-index:250;background:rgba(10,15,28,.72);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.spin-modal.open{opacity:1}
+.spin-modal-card{width:100%;max-width:400px;background:linear-gradient(160deg,#1A2440 0%,#0F1A2E 100%);border-radius:28px;padding:22px 20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transform:scale(.92);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
+.spin-modal.open .spin-modal-card{transform:scale(1)}
+.spin-modal-card::before{content:"";position:absolute;top:-40%;right:-20%;width:280px;height:280px;background:radial-gradient(circle,rgba(91,91,245,.35),transparent 70%);pointer-events:none}
+.spin-modal-card::after{content:"";position:absolute;bottom:-40%;left:-20%;width:280px;height:280px;background:radial-gradient(circle,rgba(255,197,61,.22),transparent 70%);pointer-events:none}
+.spin-head{position:relative;z-index:2;text-align:center;margin-bottom:18px}
+.spin-head h2{font:800 24px 'Sora',sans-serif;letter-spacing:-.02em}
+.spin-head p{font-size:13px;opacity:.72;margin-top:4px}
+.spin-wheel-wrap{position:relative;z-index:2;width:260px;height:260px;margin:0 auto 18px}
+.wheel-pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:22px solid #FFC53D;z-index:5;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+.wheel-pointer::after{content:"";position:absolute;top:-28px;left:-6px;width:12px;height:12px;background:#FFC53D;border-radius:50%;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2)}
+.wheel{position:absolute;inset:0;border-radius:50%;overflow:hidden;box-shadow:0 0 0 6px #1A2440,0 0 0 9px #FFC53D,0 10px 30px -8px rgba(0,0,0,.5),inset 0 0 30px rgba(0,0,0,.25);transition:transform 4.5s cubic-bezier(.17,.67,.15,1.05);will-change:transform}
+.wheel::before{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.06) 0deg 1deg,transparent 1deg 6deg);pointer-events:none;z-index:2}
+.wheel-slice{position:absolute;inset:0;display:flex;justify-content:center;padding-top:16px;transform:rotate(var(--a));pointer-events:none}
+.wheel-slice span{display:inline-block;font:800 15px 'Sora',sans-serif;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.35);transform:rotate(calc(-1 * var(--a)));line-height:1}
+.wheel-slice span small{display:block;font-size:9px;opacity:.85;font-weight:600;letter-spacing:.08em;margin-top:2px}
+.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE79B,#FFC53D 60%,#E39D00);display:grid;place-items:center;box-shadow:0 4px 10px rgba(0,0,0,.35),inset 0 2px 4px rgba(255,255,255,.55),inset 0 -3px 6px rgba(0,0,0,.2);cursor:pointer;z-index:4;border:3px solid #fff;transition:transform .15s}
+.wheel-center:active{transform:translate(-50%,-50%) scale(.94)}
+.wheel-center span{font:800 13px 'Sora',sans-serif;color:#5C4000;letter-spacing:.06em}
+.wheel-center.spinning span{animation:pulseText .8s ease-in-out infinite}
+.spin-hint{text-align:center;font-size:12.5px;opacity:.68;margin-top:6px;position:relative;z-index:2}
+.spin-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:0;cursor:pointer;font-size:18px;line-height:1;display:grid;place-items:center;z-index:5;transition:background .2s,transform .15s}
+.spin-close:active{transform:scale(.9);background:rgba(255,255,255,.22)}
+.spin-result{position:absolute;inset:0;background:rgba(10,15,28,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:10;opacity:0;pointer-events:none;transition:opacity .35s;border-radius:28px}
+.spin-result.show{opacity:1;pointer-events:auto}
+.spin-result .win-amount{font:800 46px 'Sora',sans-serif;color:#FFC53D;display:flex;align-items:center;gap:10px;text-shadow:0 4px 20px rgba(255,197,61,.5);animation:popWin .5s cubic-bezier(.2,1.4,.4,1)}
+.spin-result .win-label{font-size:14px;opacity:.75}
+.spin-result .btn{margin-top:6px}
+@keyframes popWin{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes pulseText{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+/* ============ MINING ============ */
+.mining-hero{background:linear-gradient(150deg,#0B4F3A 0%,#22C58B 100%);color:#fff;border-radius:24px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 14px 30px -14px rgba(34,197,139,.6)}
+.mining-hero::before{content:"";position:absolute;top:-30px;right:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);pointer-events:none}
+.mining-hero .label{font-size:12.5px;opacity:.85}
+.mining-hero .amt{font:800 32px 'Sora',sans-serif;display:flex;align-items:center;gap:10px;margin:4px 0 4px;position:relative;z-index:1}
+.mining-hero .rate{font-size:12.5px;opacity:.82}
+.mining-hero .badge-live{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;font:700 11px 'Sora',sans-serif;letter-spacing:.08em;display:flex;gap:5px;align-items:center;z-index:1}
+.mining-hero .badge-live i{width:7px;height:7px;border-radius:50%;background:#8CFFC9;box-shadow:0 0 8px #8CFFC9;animation:pulseDot 1.6s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.75)}}
+
+.mine-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.mine-card.locked{opacity:.85}
+.mine-card h3{font:800 16px 'Sora',sans-serif;display:flex;align-items:center;gap:8px}
+.mine-card p.meta{font-size:13px;color:var(--muted);margin:4px 0 14px}
+.mine-tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mine-tier{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;text-align:left}
+.mine-tier:active{transform:scale(.97)}
+.mine-tier.on{border-color:var(--brand);background:var(--brand-soft);box-shadow:0 8px 20px -10px var(--brand)}
+.mine-tier b{display:block;font:800 20px 'Sora',sans-serif;color:var(--ink)}
+.mine-tier .rate{display:flex;align-items:center;gap:6px;margin-top:6px;font:700 12.5px 'Sora',sans-serif;color:var(--muted)}
+.mine-tier .tier-tag{position:absolute;top:10px;right:10px;background:var(--brand);color:#fff;font:800 10px 'Sora',sans-serif;padding:3px 7px;border-radius:999px;letter-spacing:.06em}
+.mine-tier.gold{border-color:#FFD66B}
+.mine-tier.gold b{color:#B4791B}
+.mine-tier.gold.on{background:linear-gradient(135deg,#FFF4D6,#FFE79B);border-color:#FFC53D}
+[data-theme="dark"] .mine-tier.gold.on{background:linear-gradient(135deg,#4A3800,#6E5200);border-color:#FFC53D}
+[data-theme="dark"] .mine-tier.gold b{color:#FFD879}
+
+.mining-status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--brand-soft);color:var(--brand);font-weight:600;font-size:13.5px;margin-bottom:14px}
+.mining-status.warn{background:var(--bad-soft);color:var(--bad)}
+.mining-status.ok{background:var(--ok-soft);color:var(--ok)}
+.mining-status .ico{flex:none}
+.mining-progress{height:8px;border-radius:8px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:8px;position:relative}
+.mining-progress i{display:block;height:100%;background:#8CFFC9;border-radius:8px;transition:width .6s ease}
+
 #fatal{position:fixed;inset:0;z-index:999;background:#0A0F1C;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;gap:14px}
 #fatal h2{font-family:'Sora',sans-serif;font-size:22px}
 #fatal p{color:#8E97B3;font-size:14px;max-width:340px;line-height:1.5}
@@ -284,7 +350,7 @@ body.locked{overflow:hidden}
 .sheet{overscroll-behavior:contain}
 .hero{background:linear-gradient(150deg,#1A2440 0%,#0F1A2E 65%);box-shadow:0 20px 38px -22px rgba(91,91,245,.75)}
 .btn-primary{background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 84%,#fff),var(--brand))}
-.card,.stat,.tile,.pkg,.cat{transition:transform .15s,box-shadow .25s,border-color .25s,background .25s}
+.card,.stat,.tile,.pkg,.cat,.mine-tier{transition:transform .15s,box-shadow .25s,border-color .25s,background .25s}
 .nb{transition:color .2s,transform .15s}.nb:active{transform:scale(.92)}
 .nb.fab .fabi{transition:transform .2s}.nb.fab:active .fabi{transform:scale(.94)}
 .skel{height:96px;border-radius:20px;background:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 45%,var(--card)) 50%,var(--line) 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite}
@@ -306,6 +372,9 @@ body.locked{overflow:hidden}
   .sheet h2{font-size:19px}
   .cats{grid-template-columns:1fr}
   .nb{font-size:10px}
+  .spin-wheel-wrap{width:230px;height:230px}
+  .wheel-center{width:68px;height:68px}
+  .mine-tiers{grid-template-columns:1fr}
 }
 @media (max-width:320px){
   .adgrid{grid-template-columns:1fr}
@@ -324,12 +393,9 @@ a,button{touch-action:manipulation}
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<linearGradient id="dg-brand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9B78FF"/><stop offset="1" stop-color="#4A22C2"/></linearGradient>
 <linearGradient id="dg-shine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
 <radialGradient id="dg-d" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#B39DFF"/><stop offset=".55" stop-color="#7C5CFF"/><stop offset="1" stop-color="#4A22C2"/></radialGradient>
 <radialGradient id="dg-money" cx=".4" cy=".4" r=".9"><stop offset="0" stop-color="#A8E88C"/><stop offset="1" stop-color="#4DA82D"/></radialGradient>
-
-<!-- Dog head coin -->
 <symbol id="dog-coin" viewBox="0 0 40 40">
   <circle cx="20" cy="20" r="19.4" fill="#FBFBFE"/>
   <path d="M9 13 L5.2 3.5 L13 9.2 Z" fill="#FBFBFE" stroke="#0A0A0A" stroke-width="1" stroke-linejoin="round"/>
@@ -339,36 +405,25 @@ a,button{touch-action:manipulation}
   <ellipse cx="26" cy="21" rx="2.6" ry="3.6" fill="#0A0A0A"/>
   <ellipse cx="20" cy="31.5" rx="4.3" ry="3.2" fill="#0A0A0A"/>
 </symbol>
-
-<!-- D coin -->
 <symbol id="d-coin" viewBox="0 0 40 40">
   <circle cx="20" cy="20" r="19" fill="url(#dg-d)"/>
   <text x="20" y="27.5" text-anchor="middle" font-family="Sora,sans-serif" font-weight="800" font-size="20" fill="#fff">D</text>
 </symbol>
-
-<!-- DOGS logo (dog holding money) -->
 <symbol id="dogs-logo" viewBox="0 0 200 200">
-  <!-- Background circle -->
   <circle cx="100" cy="100" r="98" fill="#5B5BF5"/>
   <circle cx="100" cy="100" r="98" fill="url(#dg-shine)"/>
-  <!-- Dog head -->
-  <g>
-    <path d="M50 78 L28 32 L62 52 Z" fill="#FBFBFE" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M150 78 L172 32 L138 52 Z" fill="#FBFBFE" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M50 78 C50 128 64 152 100 164 C136 152 150 128 150 78 C138 62 62 62 50 78 Z" fill="#FBFBFE" stroke="#0A0A0A" stroke-width="3"/>
-    <ellipse cx="78" cy="98" rx="9" ry="12" fill="#0A0A0A"/>
-    <ellipse cx="122" cy="98" rx="9" ry="12" fill="#0A0A0A"/>
-    <ellipse cx="100" cy="140" rx="14" ry="11" fill="#0A0A0A"/>
-  </g>
-  <!-- Money bill -->
+  <path d="M50 78 L28 32 L62 52 Z" fill="#FBFBFE" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M150 78 L172 32 L138 52 Z" fill="#FBFBFE" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M50 78 C50 128 64 152 100 164 C136 152 150 128 150 78 C138 62 62 62 50 78 Z" fill="#FBFBFE" stroke="#0A0A0A" stroke-width="3"/>
+  <ellipse cx="78" cy="98" rx="9" ry="12" fill="#0A0A0A"/>
+  <ellipse cx="122" cy="98" rx="9" ry="12" fill="#0A0A0A"/>
+  <ellipse cx="100" cy="140" rx="14" ry="11" fill="#0A0A0A"/>
   <g transform="translate(112 118) rotate(-18)">
     <rect x="0" y="0" width="66" height="34" rx="4" fill="url(#dg-money)" stroke="#0A0A0A" stroke-width="2.2"/>
     <circle cx="33" cy="17" r="9" fill="#fff" stroke="#0A0A0A" stroke-width="1.6"/>
     <text x="33" y="22" text-anchor="middle" font-family="Sora,sans-serif" font-weight="800" font-size="11" fill="#0A0A0A">D</text>
   </g>
 </symbol>
-
-<!-- Icons -->
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-5h4v5"/></symbol>
 <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
 <symbol id="i-tasks" viewBox="0 0 24 24"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.3 1.3L7 5M3.5 12l1.3 1.3L7 11M3.5 18l1.3 1.3L7 17"/></symbol>
@@ -393,6 +448,8 @@ a,button{touch-action:manipulation}
 <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 4L3 8l4 4"/><path d="M3 8h14a4 4 0 014 4v0"/><path d="M17 20l4-4-4-4"/><path d="M21 16H7a4 4 0 01-4-4v0"/></symbol>
 <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v14"/><path d="M6 13l6 6 6-6"/><path d="M4 21h16"/></symbol>
 <symbol id="i-game" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="12" rx="4"/><path d="M7 13h3M8.5 11.5v3"/><circle cx="15.5" cy="12" r=".9" fill="currentColor"/><circle cx="17.5" cy="14" r=".9" fill="currentColor"/></symbol>
+<symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18"/><path d="M12 8v13"/><path d="M7.5 8a2.5 2.5 0 010-5c2 0 3.5 2 4.5 5"/><path d="M16.5 8a2.5 2.5 0 000-5c-2 0-3.5 2-4.5 5"/></symbol>
+<symbol id="i-pick" viewBox="0 0 24 24"><path d="M14 4l6 6-9 9-6-6z"/><path d="M10 18l-6 2 2-6"/><path d="M5 5l4 4"/><path d="M19 15l-4 4"/></symbol>
 </defs></svg>
 
 <div id="splash">
@@ -427,15 +484,40 @@ a,button{touch-action:manipulation}
 <div id="toasts" aria-live="polite"></div>
 <div id="sheetWrap" class="sheet-wrap" hidden><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div></div>
 
+<!-- SPIN MODAL -->
+<div id="spinModal" class="spin-modal" hidden>
+  <div class="spin-modal-card" role="dialog" aria-modal="true">
+    <button class="spin-close" id="spinClose" aria-label="Close">✕</button>
+    <div class="spin-head">
+      <h2>Daily Spin</h2>
+      <p id="spinSub">Spin the wheel and win coins!</p>
+    </div>
+    <div class="spin-wheel-wrap">
+      <div class="wheel-pointer"></div>
+      <div class="wheel" id="spinWheel">
+        <div class="wheel-slice" style="--a:-54deg"><span>10<small>COINS</small></span></div>
+        <div class="wheel-slice" style="--a:18deg"><span>20<small>COINS</small></span></div>
+        <div class="wheel-slice" style="--a:90deg"><span>15<small>COINS</small></span></div>
+        <div class="wheel-slice" style="--a:162deg"><span>12<small>COINS</small></span></div>
+        <div class="wheel-slice" style="--a:234deg"><span>100<small>COINS</small></span></div>
+        <div class="wheel-center" id="spinBtn"><span id="spinBtnText">SPIN</span></div>
+      </div>
+    </div>
+    <p class="spin-hint" id="spinHint">Come back tomorrow for another spin</p>
+    <div class="spin-result" id="spinResult">
+      <div class="win-amount"><span id="spinWinCoin"></span><span id="spinWinAmount">0</span></div>
+      <div class="win-label">coins added to your balance!</div>
+      <button class="btn btn-gold" id="spinCollect">Collect</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (() => {
 'use strict';
 
 setTimeout(function () {
-  try {
-    var s = document.getElementById('splash');
-    if (s && !s.hidden) s.style.display = 'none';
-  } catch (e) {}
+  try { var s = document.getElementById('splash'); if (s && !s.hidden) s.style.display = 'none'; } catch (e) {}
 }, 5000);
 
 function showFatal(title, msg) {
@@ -458,7 +540,7 @@ window.addEventListener('unhandledrejection', e => console.error('Promise error:
 const CONFIG = {
   appName: 'DOGS',
 
-  adReward: 2.3,
+  adReward: 20,
   adDailyLimit: 15,
   adCooldownSec: 60,
   adLinkSeconds: 12,
@@ -475,9 +557,8 @@ const CONFIG = {
   adexiumWid: 'cc12a9f3-3f3b-4b0e-975e-912219a7d8eb',
   adexoraId: '1963',
 
-  /* 100 coins → 50000 D Coin */
   swap: { jrIn: 100, rjOut: 50000, min: 100 },
-  withdraw: { min: 200, feePct: 3, method: 'Binance' },
+  withdraw: { min: 500, feePct: 3, method: 'Binance' },
 
   minReward: { join: 3000, reaction: 1000, view: 700, conditions: 5000, website: 1500, youtube: 1000 },
   fee: { website: 300 },
@@ -490,8 +571,31 @@ const CONFIG = {
   conditionSeconds: 10,
   reviewHours: 24,
 
-  /* 25 coins + 10000 D Coin per referral */
   referral: { bonusJR: 25, bonusRJ: 10000, inviteeBonus: 0 },
+
+  /* Daily Spin prizes + weights */
+  spin: {
+    prizes: [
+      { amount: 10, weight: 30, color: '#5B5BF5' },
+      { amount: 20, weight: 20, color: '#22C58B' },
+      { amount: 15, weight: 20, color: '#FF8C42' },
+      { amount: 12, weight: 25, color: '#E0457B' },
+      { amount: 100, weight: 5, color: '#FFC53D' }
+    ],
+    milestone: 100,       // every 100th spin globally = 100 coins
+    milestoneAmount: 100
+  },
+
+  /* Mining — needs 1 referral to unlock */
+  mining: {
+    minReferrals: 1,
+    tiers: [
+      { id: 'm1',  usd: 1,  daily: 200,  label: 'Starter' },
+      { id: 'm3',  usd: 3,  daily: 600,  label: 'Pro' },
+      { id: 'm5',  usd: 5,  daily: 1000, label: 'Advanced' },
+      { id: 'm10', usd: 10, daily: 3000, label: 'Elite' }
+    ]
+  },
 
   leave: { days: 5, batch: 5, firstCheckMin: 10, recheckMin: 60 },
   botLink: 'https://t.me/DoGs010_bot',
@@ -512,7 +616,7 @@ const CONFIG = {
   },
 
   games: [
-    { id: 'game1', title: 'Play lunch the ball complete 27 levels', reward: 160, link: 'https://t.me/lunchtheball_bot' }
+    { id: 'game1', title: 'Play lunch the ball complete 27 levels', reward: 1400, link: 'https://t.me/lunchtheball_bot' }
   ]
 };
 
@@ -543,13 +647,7 @@ try {
    ===================================================================== */
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-const fmt = n => {
-  const v = Number(n || 0);
-  if (!isFinite(v)) return '0';
-  const abs = Math.abs(v);
-  const digits = abs >= 1000 ? 0 : (Number.isInteger(v) ? 0 : 2);
-  return v.toLocaleString('en-US', { maximumFractionDigits: digits });
-};
+const fmt = n => { const v = Number(n || 0); if (!isFinite(v)) return '0'; const abs = Math.abs(v); const digits = abs >= 1000 ? 0 : (Number.isInteger(v) ? 0 : 2); return v.toLocaleString('en-US', { maximumFractionDigits: digits }); };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const ico = (n, c = '') => `<svg class="ico ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
 const coin = (c = '') => `<span class="coin ${c}" aria-label="coins"><svg viewBox="0 0 40 40"><use href="#dog-coin"/></svg></span>`;
@@ -616,10 +714,7 @@ function toast(msg, opt = {}) {
   setTimeout(() => el.remove(), 3400);
 }
 const toastErr = m => { toast(m, { err: true }); hap('error'); };
-function rewarded(amount, note) {
-  toast(note, { coins: amount }); hap('success');
-  const h = $('#hero'); if (h) { h.classList.remove('ping'); void h.offsetWidth; h.classList.add('ping'); }
-}
+function rewarded(amount, note) { toast(note, { coins: amount }); hap('success'); const h = $('#hero'); if (h) { h.classList.remove('ping'); void h.offsetWidth; h.classList.add('ping'); } }
 function rewardedD(amount, note) { toast(note, { rj: amount }); hap('success'); }
 
 let sheetTimer = null;
@@ -658,7 +753,9 @@ function applyTheme() {
 const S = {
   uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null,
   chatCache: {}, botId: null, pending: {}, prevSub: null,
-  wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' }
+  wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' },
+  spin: { spinning: false, pendingPrize: null, alreadyShownToday: false },
+  mining: { selectedTier: null }
 };
 
 /* =====================================================================
@@ -707,29 +804,15 @@ async function checkReferral(u) {
 /* =====================================================================
    ADS
    ===================================================================== */
-async function runMonetag() {
-  if (typeof window.show_10541383 !== 'function') throw new Error('not_ready');
-  await window.show_10541383();
-}
-async function runAdsbitvex() {
-  if (typeof window.showadsbitvex !== 'function') throw new Error('not_ready');
-  await window.showadsbitvex();
-}
-async function runAdsgram() {
-  if (!window.Adsgram) throw new Error('not_ready');
-  await window.Adsgram.init({ blockId: CONFIG.adsgramBlockId }).show();
-}
-async function runGigapub() {
-  if (typeof window.showGiga !== 'function') throw new Error('not_ready');
-  await window.showGiga('main');
-}
+async function runMonetag() { if (typeof window.show_10541383 !== 'function') throw new Error('not_ready'); await window.show_10541383(); }
+async function runAdsbitvex() { if (typeof window.showadsbitvex !== 'function') throw new Error('not_ready'); await window.showadsbitvex(); }
+async function runAdsgram() { if (!window.Adsgram) throw new Error('not_ready'); await window.Adsgram.init({ blockId: CONFIG.adsgramBlockId }).show(); }
+async function runGigapub() { if (typeof window.showGiga !== 'function') throw new Error('not_ready'); await window.showGiga('main'); }
 
 let _adexiumWidget = null;
 let _adexiumResolve = null, _adexiumReject = null;
 async function ensureAdexium() {
-  if (typeof window.AdexiumWidget === 'undefined') {
-    await loadScriptOnce('https://cdn.tgads.space/assets/js/adexium-widget.min.js');
-  }
+  if (typeof window.AdexiumWidget === 'undefined') await loadScriptOnce('https://cdn.tgads.space/assets/js/adexium-widget.min.js');
   if (typeof window.AdexiumWidget === 'undefined') throw new Error('not_ready');
 }
 function getAdexiumWidget() {
@@ -747,8 +830,7 @@ function getAdexiumWidget() {
 }
 async function runAdexium() {
   await ensureAdexium();
-  const w = getAdexiumWidget();
-  if (!w) throw new Error('not_ready');
+  const w = getAdexiumWidget(); if (!w) throw new Error('not_ready');
   await new Promise((resolve, reject) => {
     let done = false;
     _adexiumResolve = () => { if (!done) { done = true; resolve(); } };
@@ -757,13 +839,8 @@ async function runAdexium() {
       const showFn = w.showAd || w.show || w.display;
       if (typeof showFn === 'function') {
         const r = showFn.call(w);
-        if (r && typeof r.then === 'function') {
-          r.then(_adexiumResolve).catch(_adexiumReject);
-          setTimeout(_adexiumResolve, 30000);
-          return;
-        }
-        setTimeout(_adexiumResolve, 30000);
-        return;
+        if (r && typeof r.then === 'function') { r.then(_adexiumResolve).catch(_adexiumReject); setTimeout(_adexiumResolve, 30000); return; }
+        setTimeout(_adexiumResolve, 30000); return;
       }
       if (typeof w.autoMode === 'function') { w.autoMode(); setTimeout(_adexiumResolve, 15000); return; }
       _adexiumReject(new Error('adexium_no_method'));
@@ -771,34 +848,16 @@ async function runAdexium() {
   });
   _adexiumResolve = null; _adexiumReject = null;
 }
-
 async function ensureAdexora() {
-  if (typeof window.showAdexora !== 'function') {
-    await loadScriptOnce('https://adexora.com/cdn/ads.js?id=' + CONFIG.adexoraId);
-  }
+  if (typeof window.showAdexora !== 'function') await loadScriptOnce('https://adexora.com/cdn/ads.js?id=' + CONFIG.adexoraId);
   if (typeof window.showAdexora !== 'function') throw new Error('not_ready');
 }
-async function runAdexora() {
-  await ensureAdexora();
-  await window.showAdexora();
-}
+async function runAdexora() { await ensureAdexora(); await window.showAdexora(); }
 
-async function runAd3() {
-  try { await runAdsgram(); }
-  catch (e) { console.warn('Adsgram failed, fallback Monetag:', e); await runMonetag(); }
-}
-async function runAd5() {
-  try { await runAdsbitvex(); }
-  catch (e) { console.warn('Adsbitvex failed, fallback Monetag:', e); await runMonetag(); }
-}
-async function runAd10() {
-  try { await runAdexium(); }
-  catch (e) { console.warn('Adexium failed, fallback Monetag:', e); await runMonetag(); }
-}
-async function runAd11() {
-  try { await runAdexora(); }
-  catch (e) { console.warn('Adexora failed, fallback Monetag:', e); await runMonetag(); }
-}
+async function runAd3() { try { await runAdsgram(); } catch (e) { console.warn('Adsgram fallback:', e); await runMonetag(); } }
+async function runAd5() { try { await runAdsbitvex(); } catch (e) { console.warn('Adsbitvex fallback:', e); await runMonetag(); } }
+async function runAd10() { try { await runAdexium(); } catch (e) { console.warn('Adexium fallback:', e); await runMonetag(); } }
+async function runAd11() { try { await runAdexora(); } catch (e) { console.warn('Adexora fallback:', e); await runMonetag(); } }
 
 const PROVIDERS = {
   p1: { label: 'Ad 1', run: runMonetag },
@@ -814,11 +873,11 @@ const PROVIDERS = {
   p11: { label: 'Ad 11', run: runAd11 },
   p12: { label: 'Ad 12', link: CONFIG.adLinks[4] }
 };
+/* Ad Task 4 removed. Only 3 ad tasks now. */
 const AD_GROUPS = [
   { id: 'g1', label: 'Ad Task 1', sub: 'Ads 1, 2, 3', ads: ['p1', 'p2', 'p3'] },
   { id: 'g2', label: 'Ad Task 2', sub: 'Ads 4, 5, 6', ads: ['p4', 'p5', 'p6'] },
-  { id: 'g3', label: 'Ad Task 3', sub: 'Ads 7, 8, 9', ads: ['p7', 'p8', 'p9'] },
-  { id: 'g4', label: 'Ad Task 4', sub: 'Ads 10, 11, 12', ads: ['p10', 'p11', 'p12'] }
+  { id: 'g3', label: 'Ad Task 3', sub: 'Ads 7, 8, 9', ads: ['p7', 'p8', 'p9'] }
 ];
 
 function getGroupState(gid) {
@@ -827,11 +886,7 @@ function getGroupState(gid) {
   if (u.adDay !== today()) return empty;
   const p = (u.adProgress || {})[gid];
   if (!p || typeof p !== 'object') return empty;
-  return {
-    done: Array.isArray(p.done) ? p.done : [],
-    claims: Number(p.claims) || 0,
-    lastClaim: Number(p.lastClaim) || 0
-  };
+  return { done: Array.isArray(p.done) ? p.done : [], claims: Number(p.claims) || 0, lastClaim: Number(p.lastClaim) || 0 };
 }
 function groupCooldownLeft(gid) {
   const st = getGroupState(gid);
@@ -839,7 +894,6 @@ function groupCooldownLeft(gid) {
   const ms = st.lastClaim + CONFIG.adCooldownSec * 1000 - Date.now();
   return ms > 0 ? Math.ceil(ms / 1000) : 0;
 }
-
 async function watchGroupAd(gid, key) {
   try {
     const group = AD_GROUPS.find(g => g.id === gid); if (!group) return;
@@ -850,25 +904,17 @@ async function watchGroupAd(gid, key) {
     if (st.done.includes(key)) return toastErr('You already watched this ad in this round.');
     if (S.ui['ad_' + key]) return;
     if (provider.link && S.view) return;
-
     if (provider.link) return startGroupLinkAd(gid, key, provider.link);
-
     S.ui['ad_' + key] = true; renderEarn();
-    try {
-      await provider.run();
-      S.ui['ad_' + key] = false;
-      await markAdDone(gid, key);
-    } catch (e) {
+    try { await provider.run(); S.ui['ad_' + key] = false; await markAdDone(gid, key); }
+    catch (e) {
       console.warn('Ad error', key, e);
       S.ui['ad_' + key] = false;
-      toastErr(e && e.message === 'not_ready'
-        ? 'This ad is not available right now. Try another one.'
-        : 'The ad was not finished, so no coins were added. Try again.');
+      toastErr(e && e.message === 'not_ready' ? 'This ad is not available right now. Try another one.' : 'The ad was not finished, so no coins were added. Try again.');
     }
     renderEarn();
   } catch (e) { console.error('watchGroupAd outer', e); }
 }
-
 async function markAdDone(gid, key) {
   const res = await db.ref(P.user(S.uid)).transaction(u => {
     if (!u) return u;
@@ -885,7 +931,6 @@ async function markAdDone(gid, key) {
   });
   if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
 }
-
 function startGroupLinkAd(gid, key, url) {
   if (S.view) return;
   S.ui['adfail_' + key] = false;
@@ -904,10 +949,7 @@ async function finishGroupLinkAd(success) {
   clearInterval(v.timer);
   const key = v.ad, gid = v.groupId, secs = v.secs;
   S.view = null;
-  if (!success) {
-    S.ui['adfail_' + key] = true; renderEarn();
-    return toastErr(`You came back too soon. Stay on the ad page for ${secs} seconds, then return.`);
-  }
+  if (!success) { S.ui['adfail_' + key] = true; renderEarn(); return toastErr(`You came back too soon. Stay on the ad page for ${secs} seconds, then return.`); }
   S.ui['adfail_' + key] = false;
   S.ui['ad_' + key] = true;
   renderEarn();
@@ -916,14 +958,12 @@ async function finishGroupLinkAd(success) {
   renderEarn();
   hap('success');
 }
-
 async function claimAdGroup(gid) {
   try {
     const st = getGroupState(gid);
     if (st.done.length < 3) return toastErr('Watch all 3 ads first.');
     if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task.');
     if (groupCooldownLeft(gid) > 0) return toastErr(`Please wait ${groupCooldownLeft(gid)}s before claiming.`);
-
     const res = await db.ref(P.user(S.uid)).transaction(u => {
       if (!u) return u;
       const d = today();
@@ -934,43 +974,26 @@ async function claimAdGroup(gid) {
       if (p.done.length < 3) return;
       if ((p.claims || 0) >= CONFIG.adDailyLimit) return;
       if (p.lastClaim && Date.now() - p.lastClaim < CONFIG.adCooldownSec * 1000) return;
-      p.done = [];
-      p.claims = (p.claims || 0) + 1;
-      p.lastClaim = Date.now();
+      p.done = []; p.claims = (p.claims || 0) + 1; p.lastClaim = Date.now();
       applyIncome(u, CONFIG.adReward);
       return u;
     });
-
     if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
-
-    if (res.committed) {
-      rewarded(CONFIG.adReward, 'Ad task complete');
-      hap('success');
-    } else {
-      toastErr('Could not claim right now. Try again in a moment.');
-    }
+    if (res.committed) { rewarded(CONFIG.adReward, 'Ad task complete'); hap('success'); }
+    else toastErr('Could not claim right now. Try again in a moment.');
     renderEarn();
-  } catch (e) {
-    console.error('claimAdGroup', e);
-    toastErr('Could not claim right now.');
-    renderEarn();
-  }
+  } catch (e) { console.error('claimAdGroup', e); toastErr('Could not claim right now.'); renderEarn(); }
 }
-
 function adButtonHtmlFor(gid, key, st) {
   const p = PROVIDERS[key]; if (!p) return '';
   const isDone = st.done.includes(key);
   const v = S.view && S.view.ad === key ? S.view : null;
   if (isDone) return { html: `✓ ${p.label}`, dis: true, done: true };
-  if (v) {
-    const s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
-    return { html: s > 0 ? `<span class="spin"></span>${s}s` : 'Return', dis: true, done: false };
-  }
+  if (v) { const s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000)); return { html: s > 0 ? `<span class="spin"></span>${s}s` : 'Return', dis: true, done: false }; }
   if (S.ui['ad_' + key]) return { html: `<span class="spin"></span>`, dis: true, done: false };
   if (S.ui['adfail_' + key]) return { html: 'Retry', dis: false, done: false };
   return { html: p.label, dis: false, done: false };
 }
-
 function renderAdGroup(g) {
   const st = getGroupState(g.id);
   const cooldown = groupCooldownLeft(g.id);
@@ -978,15 +1001,11 @@ function renderAdGroup(g) {
   const waiting = cooldown > 0;
   const canClaim = st.done.length >= 3 && !limitReached && !waiting;
   const roundPct = Math.min(100, (st.done.length / 3) * 100);
-
   let content = '';
-  if (limitReached) {
-    content = `<div class="note" style="margin:0;text-align:center">Daily limit reached (${st.claims}/${CONFIG.adDailyLimit}). Come back tomorrow.</div>`;
-  } else if (waiting) {
-    content = `<button class="btn btn-cool btn-block" disabled><span class="spin"></span> Wait&nbsp;<span data-cd="${g.id}">${cooldown}</span>s before next round</button>`;
-  } else if (canClaim) {
-    content = `<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="${g.id}">Claim ${fmt(CONFIG.adReward)} coins</button>`;
-  } else {
+  if (limitReached) content = `<div class="note" style="margin:0;text-align:center">Daily limit reached (${st.claims}/${CONFIG.adDailyLimit}). Come back tomorrow.</div>`;
+  else if (waiting) content = `<button class="btn btn-cool btn-block" disabled><span class="spin"></span> Wait&nbsp;<span data-cd="${g.id}">${cooldown}</span>s before next round</button>`;
+  else if (canClaim) content = `<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="${g.id}">Claim ${fmt(CONFIG.adReward)} coins</button>`;
+  else {
     const buttons = g.ads.map(key => {
       const u = adButtonHtmlFor(g.id, key, st);
       const cls = u.done ? 'btn-jade' : 'btn-primary';
@@ -995,7 +1014,6 @@ function renderAdGroup(g) {
     }).join('');
     content = `<div class="adgrid">${buttons}</div>`;
   }
-
   return `<article class="card">
     <div class="row"><span class="tbadge t-ads">${ico('play')}</span>
       <div class="grow"><h3>${g.label}</h3>
@@ -1006,7 +1024,6 @@ function renderAdGroup(g) {
     ${content}
   </article>`;
 }
-
 function renderGameCard(g) {
   return `<article class="card">
     <div class="row"><span class="tbadge t-game">${ico('game')}</span>
@@ -1016,18 +1033,12 @@ function renderGameCard(g) {
     <button class="btn btn-primary btn-block" style="margin-top:12px" data-act="open-game" data-id="${esc(g.id)}">Open</button>
   </article>`;
 }
-
 function renderEarn() {
   if (S.tab !== 'earn') return;
   try {
     const td = S.user && S.user.today && S.user.today.d === today() ? S.user.today.a : 0;
-    const adCards = AD_GROUPS.map(g => {
-      try { return renderAdGroup(g); } catch (e) { console.error('renderAdGroup', g.id, e); return ''; }
-    }).join('');
-    const gameCards = (CONFIG.games || []).map(g => {
-      try { return renderGameCard(g); } catch (e) { console.error('renderGameCard', e); return ''; }
-    }).join('');
-
+    const adCards = AD_GROUPS.map(g => { try { return renderAdGroup(g); } catch (e) { console.error('renderAdGroup', g.id, e); return ''; } }).join('');
+    const gameCards = (CONFIG.games || []).map(g => { try { return renderGameCard(g); } catch (e) { console.error('renderGameCard', e); return ''; } }).join('');
     setHTML($('#p-earn'), `
       <h1>Earn</h1>
       <p class="sub">Watch all 3 ads in each task to earn ${fmt(CONFIG.adReward)} coins. Each task can be claimed ${CONFIG.adDailyLimit} times a day, with ${CONFIG.adCooldownSec}s between claims. You earned ${fmt(td)} coins today.</p>
@@ -1052,6 +1063,265 @@ setInterval(() => {
 }, 1000);
 
 /* =====================================================================
+   SPIN WHEEL
+   ===================================================================== */
+function openSpinModal() {
+  const m = $('#spinModal'); if (!m) return;
+  m.hidden = false;
+  requestAnimationFrame(() => m.classList.add('open'));
+}
+function closeSpinModal() {
+  const m = $('#spinModal'); if (!m) return;
+  m.classList.remove('open');
+  setTimeout(() => { m.hidden = true; }, 300);
+  // Reset wheel for next time
+  const w = $('#spinWheel'); if (w) w.style.transform = 'rotate(0deg)';
+  const b = $('#spinBtn'); if (b) b.classList.remove('spinning');
+  const t = $('#spinBtnText'); if (t) t.textContent = 'SPIN';
+}
+function spinTodayDone() { return S.user && S.user.lastSpinDay === today(); }
+function shouldShowSpinToday() { return !spinTodayDone(); }
+
+function pickPrize() {
+  const prizes = CONFIG.spin.prizes;
+  const total = prizes.reduce((s, p) => s + p.weight, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < prizes.length; i++) {
+    r -= prizes[i].weight;
+    if (r <= 0) return { index: i, prize: prizes[i] };
+  }
+  return { index: 0, prize: prizes[0] };
+}
+
+async function doSpin() {
+  if (S.spin.spinning) return;
+  if (spinTodayDone()) { toastErr('You already spun today. Come back tomorrow!'); return; }
+  S.spin.spinning = true;
+  const btn = $('#spinBtn'), btnText = $('#spinBtnText'), wheel = $('#spinWheel');
+  btn.classList.add('spinning'); btnText.textContent = '...';
+
+  let prize, index;
+  try {
+    // Increment global spin counter atomically
+    const counterRes = await db.ref('pn/spinCounter/total').transaction(c => (Number(c) || 0) + 1);
+    const totalCount = counterRes.snapshot.val() || 1;
+    if (totalCount % CONFIG.spin.milestone === 0) {
+      // Milestone winner — 100 coins
+      prize = { amount: CONFIG.spin.milestoneAmount, color: '#FFC53D' };
+      index = CONFIG.spin.prizes.findIndex(p => p.amount === CONFIG.spin.milestoneAmount);
+      if (index < 0) index = 4;
+    } else {
+      const pick = pickPrize();
+      index = pick.index; prize = pick.prize;
+    }
+  } catch (e) {
+    console.warn('Spin counter failed, using local pick', e);
+    const pick = pickPrize();
+    index = pick.index; prize = pick.prize;
+  }
+
+  // Compute rotation: segment i center at -54 + i*72 (math convention, clockwise)
+  // Pointer is at top (-90°). Rotation to bring segment i to top:
+  // target = -90 - (-54 + i*72) = -36 - i*72
+  const baseAngle = -36 - index * 72;
+  const spins = 6; // full rotations
+  const currentRot = S.spin.currentRot || 0;
+  // Make sure we always spin forward at least 'spins' full turns
+  const extra = ((baseAngle - currentRot) % 360 + 360) % 360;
+  const target = currentRot + spins * 360 + extra;
+  S.spin.currentRot = target;
+
+  wheel.style.transform = `rotate(${target}deg)`;
+
+  // Wait for animation to finish (matches CSS transition: 4.5s)
+  setTimeout(async () => {
+    try {
+      await db.ref(P.user(S.uid)).transaction(u => {
+        if (!u) return u;
+        u.lastSpinDay = today();
+        u.spinCount = (u.spinCount || 0) + 1;
+        applyIncome(u, prize.amount);
+        u.spinHistory = u.spinHistory || {};
+        u.spinHistory[Date.now()] = { amount: prize.amount };
+        return u;
+      });
+      // Show result
+      const res = $('#spinResult');
+      const amtEl = $('#spinWinAmount');
+      const coinEl = $('#spinWinCoin');
+      if (coinEl) coinEl.innerHTML = coin('lg');
+      if (amtEl) amtEl.textContent = fmt(prize.amount);
+      if (res) res.classList.add('show');
+      hap('success');
+      // Update hint
+      const hint = $('#spinHint');
+      if (hint) hint.textContent = 'You already spun today. Come back tomorrow!';
+      const st = $('#spinSub');
+      if (st) st.textContent = 'Nice win!';
+      // Update local user
+      if (S.user) { S.user.lastSpinDay = today(); S.user.spinCount = (S.user.spinCount || 0) + 1; S.user.balance = (S.user.balance || 0) + prize.amount; S.user.totalIncome = (S.user.totalIncome || 0) + prize.amount; }
+      render();
+    } catch (e) {
+      console.error('Spin credit failed', e);
+      toastErr('Could not save your spin. Try again.');
+      const res = $('#spinResult');
+      if (res) res.classList.remove('show');
+    }
+    S.spin.spinning = false;
+    btn.classList.remove('spinning');
+    btnText.textContent = 'SPIN';
+  }, 4600);
+}
+
+/* =====================================================================
+   MINING
+   ===================================================================== */
+function referralCount(u) { return Object.keys((u && u.referrals) || {}).length; }
+function miningUnlocked(u) { return referralCount(u) >= CONFIG.mining.minReferrals; }
+function miningTierById(id) { return CONFIG.mining.tiers.find(t => t.id === id); }
+function miningDaily(u) { const t = miningTierById((u && u.mining && u.mining.machine)); return t ? t.daily : 0; }
+function miningLastClaim(u) { return (u && u.mining && u.mining.lastClaim) || 0; }
+function miningPending(u) { return (u && u.mining && u.mining.pendingRequest) || null; }
+function miningClaimable(u) {
+  const last = miningLastClaim(u);
+  if (!last) return false;
+  return Date.now() - last >= 24 * 3600 * 1000;
+}
+function miningCooldownLeft(u) {
+  const last = miningLastClaim(u);
+  if (!last) return 0;
+  const ms = last + 24 * 3600 * 1000 - Date.now();
+  return ms > 0 ? ms : 0;
+}
+function miningAccrued(u) {
+  const last = miningLastClaim(u);
+  if (!last) return 0;
+  const daily = miningDaily(u);
+  if (!daily) return 0;
+  const ms = Date.now() - last;
+  const pct = Math.min(1, ms / (24 * 3600 * 1000));
+  return Math.floor(daily * pct);
+}
+
+async function claimMining() {
+  const u = S.user;
+  if (!u) return;
+  if (!miningUnlocked(u)) return toastErr('Unlock mining by inviting 1 friend first.');
+  const daily = miningDaily(u);
+  if (!daily) return toastErr('You need a mining machine first.');
+  if (!miningClaimable(u)) {
+    const ms = miningCooldownLeft(u);
+    return toastErr(`Come back in ${fmtLeft(ms)} to collect your mining reward.`);
+  }
+  try {
+    const res = await db.ref(P.user(S.uid)).transaction(x => {
+      if (!x) return x;
+      const last = (x.mining && x.mining.lastClaim) || 0;
+      if (!last || Date.now() - last < 24 * 3600 * 1000) return;
+      const d = miningTierById(x.mining.machine);
+      if (!d) return;
+      applyIncome(x, d.daily);
+      x.mining.lastClaim = Date.now();
+      x.mining.totalMined = (x.mining.totalMined || 0) + d.daily;
+      return x;
+    });
+    if (res.committed) { rewarded(daily, 'Mining reward collected'); hap('success'); }
+    else toastErr('Nothing to collect yet.');
+    renderHome();
+  } catch (e) { console.error('claimMining', e); toastErr('Could not collect right now.'); }
+}
+
+function openMiningSheet() {
+  const u = S.user || {};
+  const unlocked = miningUnlocked(u);
+  const machineId = u.mining && u.mining.machine;
+  const pendingReq = miningPending(u);
+
+  const tiersHtml = CONFIG.mining.tiers.map((t, i) => {
+    const isGold = t.usd >= 5;
+    const on = S.mining.selectedTier === t.id ? 'on' : '';
+    return `<button class="mine-tier ${isGold ? 'gold' : ''} ${on}" data-act="mine-tier" data-id="${t.id}">
+      ${isGold ? '<span class="tier-tag">HOT</span>' : ''}
+      <b>$${t.usd}</b>
+      <span class="rate">${coin()}${fmt(t.daily)} / day</span>
+    </button>`;
+  }).join('');
+
+  const u_refs = referralCount(u);
+  let content = '';
+  if (!unlocked) {
+    content = `<div class="mining-status warn">${ico('shield')}<div>Invite <b>${CONFIG.mining.minReferrals}</b> friend${CONFIG.mining.minReferrals>1?'s':''} to unlock mining. You have <b>${u_refs}</b>.</div></div>
+      <button class="btn btn-primary btn-block" data-sheet="referral">${ico('userplus', 'sm')} Invite friends now</button>`;
+  } else if (pendingReq) {
+    content = `<div class="mining-status">${ico('shieldok')}<div>Your mining request (<b>$${pendingReq.usd}</b> · ${fmt(pendingReq.daily)}/day) is pending admin approval.</div></div>
+      <div class="kv"><div><span class="mut">Status</span><b><span class="pill brand">Pending</span></b></div><div><span class="mut">Requested</span><b>${new Date(pendingReq.createdAt || Date.now()).toLocaleDateString()}</b></div><div><span class="mut">Binance UID</span><b>${esc(pendingReq.binanceUid || '')}</b></div></div>`;
+  } else if (machineId) {
+    const t = miningTierById(machineId);
+    const accrued = miningAccrued(u);
+    const canClaim = miningClaimable(u);
+    const cd = miningCooldownLeft(u);
+    content = `<div class="mining-hero">
+        <div class="badge-live"><i></i>MINING</div>
+        <div class="label">Currently mining</div>
+        <div class="amt">${coin('lg')}${fmt(accrued)}</div>
+        <div class="rate">$ ${t.usd} machine · ${fmt(t.daily)} coins / day</div>
+        <div class="mining-progress"><i style="width:${Math.min(100, (accrued / t.daily) * 100)}%"></i></div>
+      </div>
+      <button class="btn btn-jade btn-block" data-act="mine-claim" ${canClaim ? '' : 'disabled'}>${canClaim ? `Collect ${fmt(t.daily)} coins` : `Come back in ${fmtLeft(cd)}`}</button>
+      <div class="gap"></div>
+      <button class="btn btn-line btn-block" data-act="mine-upgrade">Upgrade machine</button>`;
+  } else {
+    content = `<p class="lead">Buy a mining machine. You earn coins every day automatically.</p>
+      <div class="mine-tiers">${tiersHtml}</div>
+      <div class="gap"></div>
+      <div class="field"><label for="mineUid">Your Binance UID</label><input id="mineUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div>
+      <div class="alert" id="mineErr" hidden></div>
+      <button class="btn btn-primary btn-block" id="mineSubmit" data-act="mine-submit" ${S.mining.selectedTier ? '' : 'disabled'}>Request mining machine</button>
+      <p class="hint" style="margin-top:10px">Send the USD to the Binance UID, then submit. Admin approves and your machine unlocks automatically.</p>`;
+  }
+
+  openSheet(`<h2>Mining</h2>${content}`, b => {
+    const btn = $('#mineSubmit', b);
+    if (btn) btn.addEventListener('click', submitMiningRequest);
+  });
+}
+
+async function submitMiningRequest() {
+  const u = S.user;
+  if (!u) return;
+  const tierId = S.mining.selectedTier;
+  if (!tierId) return toastErr('Pick a mining machine first.');
+  const t = miningTierById(tierId);
+  if (!t) return;
+  const uidInput = $('#mineUid');
+  const uid = (uidInput && uidInput.value || '').trim();
+  const err = $('#mineErr');
+  if (!/^\d{6,}$/.test(uid)) { if (err) { err.hidden = false; err.textContent = 'Enter a valid Binance UID (digits only).'; } return; }
+  const btn = $('#mineSubmit');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting'; }
+  const key = String(Date.now());
+  try {
+    await db.ref('pn/miningRequests/' + key).set({
+      uid: S.uid, name: u.name || '', username: u.username || '',
+      tier: tierId, usd: t.usd, daily: t.daily, binanceUid: uid,
+      status: 'pending', createdAt: TS
+    });
+    await db.ref(P.user(S.uid) + '/mining/pendingRequest').set({
+      id: key, tier: tierId, usd: t.usd, daily: t.daily, binanceUid: uid,
+      status: 'pending', createdAt: Date.now()
+    });
+    hap('success');
+    toast('Mining request submitted. Admin will review it soon.');
+    closeSheet();
+    renderHome();
+  } catch (e) {
+    console.error('mining request', e);
+    if (btn) { btn.disabled = false; btn.textContent = 'Try again'; }
+    if (err) { err.hidden = false; err.textContent = 'Could not submit. Please try again.'; }
+  }
+}
+
+/* =====================================================================
    Telegram link parsing + screening
    ===================================================================== */
 const KIND = { channel: 'a channel or group link', post: 'a post link', bot: 'a bot link' };
@@ -1063,7 +1333,6 @@ const CAT = {
   website:    { label: 'Website',         icon: 'globe',    kind: 'web',     ph: 'https://example.com',          hint: 'Website link starting with https://', sub: 'Website' },
   youtube:    { label: 'YouTube',         icon: 'yt',       kind: 'yt',      ph: 'https://youtu.be/xxxxxxxxxxx', hint: 'YouTube video link', sub: 'YouTube video' }
 };
-
 function parseTg(raw) {
   let s = (raw || '').trim(); if (!s) return null;
   if (!/^https?:\/\//i.test(s)) s = 'https://' + s;
@@ -1100,10 +1369,7 @@ function checkWeb(cat, s) {
   }
   let id = null;
   if (h === 'youtu.be') id = u.pathname.split('/')[1];
-  else if (/(^|\.)youtube\.com$/.test(h)) {
-    const seg = u.pathname.split('/').filter(Boolean);
-    if (seg[0] === 'watch') id = u.searchParams.get('v'); else if (['shorts', 'embed', 'live'].includes(seg[0])) id = seg[1];
-  }
+  else if (/(^|\.)youtube\.com$/.test(h)) { const seg = u.pathname.split('/').filter(Boolean); if (seg[0] === 'watch') id = u.searchParams.get('v'); else if (['shorts', 'embed', 'live'].includes(seg[0])) id = seg[1]; }
   if (!id || !/^[\w-]{11}$/.test(id)) return { ok: false, msg: `That is not a YouTube video link.` };
   return { ok: true, p: { kind: 'yt', chat: null, url: `https://www.youtube.com/watch?v=${id}` } };
 }
@@ -1116,7 +1382,6 @@ function checkUrl(type, raw) {
   if (p.kind !== cat.kind) return { ok: false, msg: `This is ${KIND[p.kind]}. ${cat.label} campaigns need ${KIND[cat.kind]}.` };
   return { ok: true, p };
 }
-
 const BAD_EN = /(^|[^a-z0-9])(porn\w*|pr0n|xxx+|sex\w*|nud(e|es|ity)|naked|nsfw|hentai|erotic\w*|escort\w*|onlyfans|18\s?\+|adult\s?(content|video|chat)|milf|blowjob|fetish|bdsm|hookup|chudai)([^a-z0-9]|$)/i;
 const BAD_BN = /(পর্ন|সেক্স|নগ্ন|উলঙ্গ|চটি)/;
 const isBad = t => !!t && (BAD_EN.test(String(t).replace(/[_\-.]+/g, ' ')) || BAD_BN.test(String(t)));
@@ -1124,11 +1389,7 @@ const HARAM_MSG = 'This is haram. Adult and pornographic content is not allowed 
 const botName = () => '@' + CONFIG.botLink.split('/').pop().split('?')[0];
 const adminLink = type => `${CONFIG.botLink}?${type === 'channel' ? 'startchannel' : 'startgroup'}&admin=invite_users`;
 const adminButtons = () => `<div class="actions" style="margin-top:12px"><button class="btn btn-primary btn-sm" data-act="add-admin">Add DOGS as admin</button><button class="btn btn-soft btn-sm" data-act="recheck">I added it, check again</button></div>`;
-
-async function tgApi(method, qs) {
-  const r = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/${method}?${qs}`);
-  return r.json();
-}
+async function tgApi(method, qs) { const r = await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/${method}?${qs}`); return r.json(); }
 async function chatCheck(p, type) {
   const ck = p.chat + '|' + type, c = S.chatCache[ck];
   if (c && Date.now() - c.t < 60000) return c.v;
@@ -1139,10 +1400,8 @@ async function chatCheck(p, type) {
   else if (CONFIG.botToken) {
     try {
       const j = await tgApi('getChat', 'chat_id=' + encodeURIComponent(p.chat));
-      if (!j.ok) {
-        if (needTrack) v = { ok: false, reason: /^-100/.test(p.chat) ? 'needadmin' : 'notfound' };
-        else if (!/^-100/.test(p.chat)) v = { ok: false, reason: 'notfound' };
-      } else {
+      if (!j.ok) { if (needTrack) v = { ok: false, reason: /^-100/.test(p.chat) ? 'needadmin' : 'notfound' }; else if (!/^-100/.test(p.chat)) v = { ok: false, reason: 'notfound' }; }
+      else {
         const ch = j.result; v.chatType = ch.type; v.texts = [ch.title || '', ch.description || '', ch.username || ''];
         if (type === 'join' && ch.type === 'private') v = { ok: false, reason: 'notchannel' };
         else if (needTrack) {
@@ -1163,14 +1422,7 @@ async function screenTarget(p, extra, type) {
   if (texts.some(isBad)) { try { db.ref('pn/flags').push().set({ uid: S.uid, url: p.url, createdAt: TS }); } catch (e) {} return { ok: false, reason: 'adult' }; }
   return { ok: true, chatType: cc.chatType };
 }
-const blockText = r => ({
-  adult: HARAM_MSG,
-  notfound: 'We could not find this channel or group.',
-  notchannel: 'This link is a person, not a channel or group.',
-  needadmin: `Tap "Add DOGS as admin", pick this channel or group, and confirm.`,
-  notrack: 'Join campaigns are not available right now.',
-  offline: 'Could not check this link right now.'
-}[r] || 'This link cannot be promoted.');
+const blockText = r => ({ adult: HARAM_MSG, notfound: 'We could not find this channel or group.', notchannel: 'This link is a person, not a channel or group.', needadmin: `Tap "Add DOGS as admin", pick this channel or group, and confirm.`, notrack: 'Join campaigns are not available right now.', offline: 'Could not check this link right now.' }[r] || 'This link cannot be promoted.');
 function showBlock(msg, extra) { const b = $('#blockBox'); if (!b) return; const uh = $('#urlHint'); if (uh) uh.hidden = true; b.textContent = msg; if (extra) b.insertAdjacentHTML('beforeend', extra); b.hidden = false; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); hap('error'); }
 
 /* =====================================================================
@@ -1179,10 +1431,7 @@ function showBlock(msg, extra) { const b = $('#blockBox'); if (!b) return; const
 async function verifyRemote(task) {
   const chat = task.chat;
   if (CONFIG.verifyUrl) {
-    const r = await fetch(CONFIG.verifyUrl.replace(/\/$/, '') + '/verify', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: task.type, chat, msgId: task.msgId || null, initData: (tg && tg.initData) || '' })
-    });
+    const r = await fetch(CONFIG.verifyUrl.replace(/\/$/, '') + '/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: task.type, chat, msgId: task.msgId || null, initData: (tg && tg.initData) || '' }) });
     if (!r.ok) throw new Error('verifier_http');
     return !!(await r.json()).ok;
   }
@@ -1194,19 +1443,11 @@ async function verifyRemote(task) {
   }
   return false;
 }
-
 async function claimTask(task) {
   const remRef = db.ref(P.task(task.id) + '/remaining');
   const slot = await remRef.transaction(r => { if (r === null) return null; return r > 0 ? r - 1 : undefined; });
   if (!slot.committed || slot.snapshot.val() === null) { toastErr('This task is full. Try another one.'); return false; }
-  const res = await db.ref(P.user(S.uid)).transaction(u => {
-    if (!u) return u;
-    u.done = u.done || {};
-    if (u.done[task.id]) return;
-    u.done[task.id] = true;
-    applyTaskIncome(u, task.perUser);
-    return u;
-  });
+  const res = await db.ref(P.user(S.uid)).transaction(u => { if (!u) return u; u.done = u.done || {}; if (u.done[task.id]) return; u.done[task.id] = true; applyTaskIncome(u, task.perUser); return u; });
   if (!res.committed) { await remRef.transaction(r => (r || 0) + 1); toastErr('You already completed this task.'); return false; }
   if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
   if (slot.snapshot.val() === 0) db.ref(P.task(task.id) + '/status').set('completed');
@@ -1220,22 +1461,14 @@ async function claimTask(task) {
    ===================================================================== */
 function watchJoin(t) {
   const now = Date.now();
-  db.ref('pn/joinWatch/' + t.id + '_' + S.uid).set({
-    uid: S.uid, taskId: t.id, chat: t.chat, owner: t.owner, amt: t.perUser, title: t.title || '',
-    at: now, until: now + CONFIG.leave.days * 86400000, next: now + CONFIG.leave.firstCheckMin * 60000
-  }).catch(e => console.warn('watchJoin', e));
+  db.ref('pn/joinWatch/' + t.id + '_' + S.uid).set({ uid: S.uid, taskId: t.id, chat: t.chat, owner: t.owner, amt: t.perUser, title: t.title || '', at: now, until: now + CONFIG.leave.days * 86400000, next: now + CONFIG.leave.firstCheckMin * 60000 }).catch(e => console.warn('watchJoin', e));
 }
 async function flushOutbox(uid) {
   try {
     const snap = await db.ref(P.user(uid) + '/outbox').once('value');
     for (const [k, o] of Object.entries(snap.val() || {})) {
       if (o && o.owner && o.amt > 0) {
-        await db.ref(P.user(o.owner)).transaction(r => {
-          if (!r) return r;
-          r.recv = r.recv || {}; if (r.recv[k]) return;
-          r.recv[k] = o.amt; r.rjBalance = (r.rjBalance || 0) + o.amt; r.reclaimed = (r.reclaimed || 0) + o.amt;
-          return r;
-        });
+        await db.ref(P.user(o.owner)).transaction(r => { if (!r) return r; r.recv = r.recv || {}; if (r.recv[k]) return; r.recv[k] = o.amt; r.rjBalance = (r.rjBalance || 0) + o.amt; r.reclaimed = (r.reclaimed || 0) + o.amt; return r; });
       }
       await db.ref(P.user(uid) + '/outbox/' + k).remove();
     }
@@ -1256,10 +1489,7 @@ async function clawback(key, w) {
   await flushOutbox(w.uid);
 }
 async function checkJoin(key) {
-  const claim = await db.ref('pn/joinWatch/' + key).transaction(x => {
-    if (!x || x.next > Date.now()) return;
-    x.next = Date.now() + CONFIG.leave.recheckMin * 60000; return x;
-  });
+  const claim = await db.ref('pn/joinWatch/' + key).transaction(x => { if (!x || x.next > Date.now()) return; x.next = Date.now() + CONFIG.leave.recheckMin * 60000; return x; });
   if (!claim.committed) return;
   const w = claim.snapshot.val(); if (!w) return;
   if (Date.now() > w.until) return db.ref('pn/joinWatch/' + key).remove();
@@ -1363,7 +1593,6 @@ function pendingCard(t) {
     <div class="grow"><h3>${esc(t.title || 'Task')}</h3><p class="meta">Waiting for the advertiser${ms > 0 ? `, auto-approved in ${fmtLeft(ms)}` : ''}</p></div>
     <span class="reward rj">${coinD()}+${fmt(t.perUser)}</span></div></article>`;
 }
-
 function renderTasks() {
   if (S.tab !== 'tasks') return;
   const ae = document.activeElement;
@@ -1378,26 +1607,18 @@ function renderTasks() {
     <div class="list">${!S.tasksLoaded ? '<div class="skel"></div><div class="skel"></div><div class="skel"></div>' : list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : `<div class="empty">${ico('tasks')}<b>${S.filter === 'pending' ? 'Nothing waiting for approval' : 'No tasks here right now'}</b><span>${S.filter === 'pending' ? 'Tasks you submit show here until approved.' : 'New tasks appear soon.'}</span><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>`}</div>`);
 }
 document.addEventListener('focusout', e => { if (e.target.matches && e.target.matches('[data-uname]') && S.taskDirty) { S.taskDirty = false; setTimeout(renderTasks, 350); } });
-
 function setTaskUi(id, patch) { S.ui[id] = Object.assign(S.ui[id] || {}, patch); renderTasks(); }
 const taskById = id => S.tasks[id] ? { id, ...S.tasks[id] } : null;
-
 async function doVerify(id) {
   const t = taskById(id); if (!t) return;
   setTaskUi(id, { busy: true });
   let ok = false;
   try { ok = await verifyRemote(t); }
-  catch (e) {
-    setTaskUi(id, { busy: false });
-    return toastErr(e.message === 'no_verifier' ? 'Verification is not available yet.'
-      : e.message === 'verifier_tg' ? 'Could not check this channel. Its owner must make ' + botName() + ' an admin.'
-      : 'Could not check right now. Try again.');
-  }
+  catch (e) { setTaskUi(id, { busy: false }); return toastErr(e.message === 'no_verifier' ? 'Verification is not available yet.' : e.message === 'verifier_tg' ? 'Could not check this channel. Its owner must make ' + botName() + ' an admin.' : 'Could not check right now. Try again.'); }
   if (!ok) { setTaskUi(id, { busy: false }); return toastErr('You have not joined this channel yet. Join it first, then tap Verify.'); }
   setTaskUi(id, { busy: false });
   await claimTask(t);
 }
-
 const secsFor = t => (t && TIMED[t.type] ? TIMED[t.type].secs() : CONFIG.viewSeconds);
 function viewLabel(id) {
   const v = S.view; const b = $(`[data-vbtn="${id}"]`); if (!b) return;
@@ -1423,57 +1644,33 @@ async function finishView(success) {
   const v = S.view; if (!v) return;
   clearInterval(v.timer); S.view = null;
   const t = taskById(v.id);
-  if (!success || !t) {
-    setTaskUi(v.id, { busy: false, failed: true });
-    const what = { reaction: 'the post', website: 'the website', youtube: 'the video' }[t && t.type] || 'the post';
-    return toastErr(`You came back too soon. Stay on ${what} for ${v.secs} seconds, then return.`);
-  }
+  if (!success || !t) { setTaskUi(v.id, { busy: false, failed: true }); const what = { reaction: 'the post', website: 'the website', youtube: 'the video' }[t && t.type] || 'the post'; return toastErr(`You came back too soon. Stay on ${what} for ${v.secs} seconds, then return.`); }
   setTaskUi(v.id, { busy: false, failed: false });
   await claimTask(t);
 }
 function markLeft() { if (S.view) S.view.left = true; }
-
 function onReturn() {
   const v = S.view; if (!v) return;
-  if (Date.now() - v.t0 >= v.secs * 1000) {
-    if (v.ad) finishGroupLinkAd(true); else finishView(true);
-    return;
-  }
+  if (Date.now() - v.t0 >= v.secs * 1000) { if (v.ad) finishGroupLinkAd(true); else finishView(true); return; }
   if (!v.left) return;
-  if (v.ad) {
-    clearInterval(v.timer); S.view = null;
-    S.ui['adfail_' + v.ad] = true; renderEarn();
-    toastErr(`You came back too soon. Stay on the ad page for ${v.secs} seconds, then return.`);
-  } else finishView(false);
+  if (v.ad) { clearInterval(v.timer); S.view = null; S.ui['adfail_' + v.ad] = true; renderEarn(); toastErr(`You came back too soon. Stay on the ad page for ${v.secs} seconds, then return.`); }
+  else finishView(false);
 }
 function maybeRecheck() { if (S.adminType && S.tab === 'promote' && S.wiz.step === 1) setTimeout(wizNext, 700); }
-
 document.addEventListener('visibilitychange', () => { if (document.hidden) markLeft(); else { onReturn(); maybeRecheck(); } });
 window.addEventListener('focus', () => setTimeout(onReturn, 80));
 window.addEventListener('pageshow', () => setTimeout(onReturn, 80));
 document.addEventListener('pointerdown', () => setTimeout(onReturn, 0), true);
-try {
-  tg.onEvent('deactivated', markLeft);
-  tg.onEvent('activated', () => { setTimeout(onReturn, 80); maybeRecheck(); });
-} catch (e) {}
-
+try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', () => { setTimeout(onReturn, 80); maybeRecheck(); }); } catch (e) {}
 function condOpen(id) { const t = taskById(id); if (!t) return; S.ui[id] = Object.assign(S.ui[id] || {}, { opened: Date.now() }); openLink(t.url); }
 async function condSubmit(id) {
   const t = taskById(id); if (!t) return;
   const st = S.ui[id] || {}, o = st.opened;
   const un = (st.uname !== undefined ? st.uname : (S.user.username ? '@' + S.user.username : '')).trim();
-  if (!o || Date.now() - o < CONFIG.conditionSeconds * 1000) {
-    setTaskUi(id, { failed: true });
-    return toastErr(o ? 'Finish all the steps in the bot first, then tap Try again.' : 'Open the bot and follow the steps first.');
-  }
+  if (!o || Date.now() - o < CONFIG.conditionSeconds * 1000) { setTaskUi(id, { failed: true }); return toastErr(o ? 'Finish all the steps in the bot first, then tap Try again.' : 'Open the bot and follow the steps first.'); }
   if (un.length < 3) return toastErr('Enter the username you used in the bot.');
   setTaskUi(id, { busy: true, failed: false });
-  const mark = await db.ref(P.user(S.uid)).transaction(u => {
-    if (!u) return u;
-    u.submitted = u.submitted || {}; u.subAt = u.subAt || {};
-    if (u.submitted[id] || (u.done && u.done[id])) return;
-    u.submitted[id] = 'pending'; u.subAt[id] = Date.now(); return u;
-  });
+  const mark = await db.ref(P.user(S.uid)).transaction(u => { if (!u) return u; u.submitted = u.submitted || {}; u.subAt = u.subAt || {}; if (u.submitted[id] || (u.done && u.done[id])) return; u.submitted[id] = 'pending'; u.subAt[id] = Date.now(); return u; });
   if (!mark.committed) { setTaskUi(id, { busy: false }); return toastErr('You already submitted this task.'); }
   const remRef = db.ref(P.task(id) + '/remaining');
   const slot = await remRef.transaction(r => { if (r === null) return null; return r > 0 ? r - 1 : undefined; });
@@ -1487,18 +1684,13 @@ async function condSubmit(id) {
   setTaskUi(id, { busy: false });
   hap('success'); toast(`Submitted. The advertiser reviews it within ${CONFIG.reviewHours} hours.`);
 }
-
 async function resolveReview(owner, key, approve) {
   const ref = db.ref(`pn/pending/${owner}/${key}`);
   const tx = await ref.transaction(cur => { if (cur === null) return cur; if (cur.status !== 'pending') return; cur.status = 'resolving'; return cur; });
   const v = tx.committed ? tx.snapshot.val() : null;
   if (!v || v.status !== 'resolving') return false;
   if (approve) {
-    await db.ref(P.user(v.uid)).transaction(u => {
-      if (!u) return u;
-      u.submitted = u.submitted || {}; u.done = u.done || {};
-      u.done[v.taskId] = true; u.submitted[v.taskId] = 'approved'; applyTaskIncome(u, v.perUser); return u;
-    });
+    await db.ref(P.user(v.uid)).transaction(u => { if (!u) return u; u.submitted = u.submitted || {}; u.done = u.done || {}; u.done[v.taskId] = true; u.submitted[v.taskId] = 'approved'; applyTaskIncome(u, v.perUser); return u; });
   } else {
     await db.ref(P.user(v.uid)).transaction(u => { if (!u) return u; u.submitted = u.submitted || {}; u.submitted[v.taskId] = 'rejected'; return u; });
     await db.ref(P.task(v.taskId) + '/remaining').transaction(r => (r || 0) + 1);
@@ -1553,10 +1745,55 @@ function countUp(el, from, to) {
     if (k < 1) requestAnimationFrame(step);
   })(t0);
 }
+
+function renderMiningCard() {
+  const u = S.user || {};
+  const refs = referralCount(u);
+  const unlocked = miningUnlocked(u);
+  const machineId = u.mining && u.mining.machine;
+  const pending = miningPending(u);
+  if (!unlocked) {
+    return `<div class="mine-card locked">
+      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+        <div class="grow"><h3>Mining</h3><p class="meta">Unlock with ${CONFIG.mining.minReferrals} referral${CONFIG.mining.minReferrals>1?'s':''} · You have ${refs}</p></div></div>
+      <button class="btn btn-soft btn-block" data-sheet="referral">${ico('userplus', 'sm')} Invite friends</button>
+    </div>`;
+  }
+  if (pending) {
+    return `<div class="mine-card">
+      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+        <div class="grow"><h3>Mining</h3><p class="meta">Request pending · $${pending.usd} · ${fmt(pending.daily)}/day</p></div></div>
+      <div class="mining-status"><span class="spin"></span> Waiting for admin approval</div>
+    </div>`;
+  }
+  if (machineId) {
+    const t = miningTierById(machineId);
+    const accrued = miningAccrued(u);
+    const canClaim = miningClaimable(u);
+    const cd = miningCooldownLeft(u);
+    return `<div class="mine-card">
+      <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+        <div class="grow"><h3>Mining $${t.usd} · ${fmt(t.daily)}/day</h3><p class="meta">${canClaim ? 'Reward ready to collect' : 'Next reward in ' + fmtLeft(cd)}</p></div></div>
+      <div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px">
+        <div class="badge-live"><i></i>MINING</div>
+        <div class="amt" style="font-size:24px">${coin('lg')}${fmt(accrued)}</div>
+        <div class="mining-progress"><i style="width:${Math.min(100, (accrued / t.daily) * 100)}%"></i></div>
+      </div>
+      <button class="btn btn-jade btn-block" data-act="mine-claim" ${canClaim ? '' : 'disabled'}>${canClaim ? `Collect ${fmt(t.daily)} coins` : `Come back in ${fmtLeft(cd)}`}</button>
+    </div>`;
+  }
+  return `<div class="mine-card">
+    <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
+      <div class="grow"><h3>Mining unlocked!</h3><p class="meta">Buy a machine and earn coins every day.</p></div></div>
+    <button class="btn btn-primary btn-block" data-sheet="mining">${ico('pick', 'sm')} Choose a machine</button>
+  </div>`;
+}
+
 function renderHome() {
   if (S.tab !== 'home') return;
   const u = S.user, refs = Object.keys(u.referrals || {}).length, td = u.today && u.today.d === today() ? u.today.a : 0;
   const jr = jrBal(u);
+  const spinDone = spinTodayDone();
   setHTML($('#p-home'), `
     <header class="topbar"><div class="brand"><span class="logo">${logoHTML()}</span>DOGS</div><button class="icon-btn" data-sheet="support" aria-label="Support">${ico('help')}</button></header>
     <section class="hero" id="hero">
@@ -1566,7 +1803,15 @@ function renderHome() {
       <p class="hero-sub">${fmt(u.totalIncome || 0)} coins earned in total</p>
       <div class="hero-actions"><button class="btn btn-gold" data-go="earn">Earn coins</button><button class="btn btn-glass" data-go="promote">Promote</button></div>
     </section>
+    <button class="card" style="margin-bottom:14px" data-act="open-spin" id="spinTile">
+      <span class="tbadge t-spin">${ico('gift')}</span>
+      <div class="grow"><h3>${spinDone ? 'Daily Spin · Done today' : 'Daily Spin · Spin the wheel!'}</h3>
+      <p class="meta">${spinDone ? 'Come back tomorrow to spin again' : 'Win up to 100 coins · every day'}</p></div>
+      ${ico('chev')}
+    </button>
     ${(u.debtTotal || 0) > 0 ? `<div class="alert">You owe ${fmt(u.debtTotal)} D Coin because you left a channel within ${CONFIG.leave.days} days.</div>` : ''}
+    ${renderMiningCard()}
+    <div class="gap"></div>
     <div class="stats">
       <div class="stat"><div class="num">${fmt(refs)}</div><small>Referrals</small></div>
       <div class="stat"><div class="num">${fmt(u.tasksDone)}</div><small>Tasks done</small></div>
@@ -1587,7 +1832,6 @@ function renderHome() {
    Promote
    ===================================================================== */
 const myTasks = () => Object.entries(S.tasks).map(([id, t]) => ({ id, ...t })).filter(t => t.owner === S.uid).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
 function renderPromote() {
   if (S.tab !== 'promote') return;
   const mine = myTasks(), rj = rjBal(S.user);
@@ -1598,7 +1842,6 @@ function renderPromote() {
     <div id="promoBody"></div>`);
   S.promoTab === 'new' ? renderWizard() : renderMine();
 }
-
 function renderMine() {
   const el = $('#promoBody'); if (!el) return;
   const mine = myTasks(), pend = Object.values(S.pending || {});
@@ -1613,7 +1856,6 @@ function renderMine() {
       ${t.type === 'conditions' ? `<button class="btn btn-soft btn-block" style="margin-top:12px" data-act="pending" data-id="${t.id}">Pending requests<span class="badge">${pc}</span></button>` : ''}</article>`;
   }).join('')}</div>` : `<div class="empty">${ico('mega')}<b>No campaigns yet</b><span>Create your first campaign.</span><button class="btn btn-primary" data-act="promo-tab" data-k="new">Create campaign</button></div>`);
 }
-
 function renderWizard() {
   const el = $('#promoBody'); if (!el) return;
   const w = S.wiz, cat = CAT[w.type];
@@ -1642,7 +1884,6 @@ function renderWizard() {
   el.innerHTML = stepper + body;
   updateWiz();
 }
-
 const feeOf = t => (CONFIG.fee && CONFIG.fee[t]) || 0;
 function waitNote(type) {
   const t = { join: `Users who leave within ${CONFIG.leave.days} days lose their reward, and it is returned to you.`,
@@ -1653,7 +1894,6 @@ function waitNote(type) {
   return t ? `<div class="note">${t}</div>` : '';
 }
 function wizCost() { const w = S.wiz, per = parseInt(w.perUser, 10) || 0, users = parseInt(w.users, 10) || 0, fee = feeOf(w.type); return { per, users, fee, cost: (per + fee) * users }; }
-
 function updateWiz() {
   const w = S.wiz, next = $('#wizNext');
   if (w.step === 1) {
@@ -1687,7 +1927,6 @@ function updateWiz() {
     const pb = $('#wizPublish'); if (pb) pb.disabled = !(perOk && usersOk);
   }
 }
-
 async function publish() {
   const w = S.wiz, r = checkUrl(w.type, w.url); if (!r.ok) return;
   const { per, users, fee, cost } = wizCost(), btn = $('#wizPublish');
@@ -1701,11 +1940,7 @@ async function publish() {
   if (!tx.committed) { toastErr('You have not enough D Coin balance'); btn.textContent = 'Publish campaign'; return updateWiz(); }
   if (tx.snapshot && tx.snapshot.exists()) S.user = tx.snapshot.val();
   try {
-    await db.ref(P.tasks).push().set({
-      type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat || null, msgId: r.p.msgId || null, fee: fee || null,
-      steps: w.type === 'conditions' ? w.steps.map(s => s.trim()) : null,
-      perUser: per, total: users, remaining: users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS
-    });
+    await db.ref(P.tasks).push().set({ type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat || null, msgId: r.p.msgId || null, fee: fee || null, steps: w.type === 'conditions' ? w.steps.map(s => s.trim()) : null, perUser: per, total: users, remaining: users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS });
   } catch (e) {
     await db.ref(P.user(S.uid)).transaction(u => { if (!u) return u; u.rjBalance = (u.rjBalance || 0) + cost; u.spent = Math.max(0, (u.spent || 0) - cost); return u; });
     toastErr('Could not publish. Your D Coin was not charged.'); btn.textContent = 'Publish campaign'; return updateWiz();
@@ -1714,22 +1949,14 @@ async function publish() {
   S.promoTab = 'mine'; hap('success'); toast('Published. Your campaign is live.');
   renderPromote();
 }
-
-async function wizNext() {
-  if (S.checking) return; S.checking = true;
-  try { await wizNextInner(); } finally { S.checking = false; }
-}
+async function wizNext() { if (S.checking) return; S.checking = true; try { await wizNextInner(); } finally { S.checking = false; } }
 async function wizNextInner() {
   const w = S.wiz, btn = $('#wizNext');
   if (w.step === 1) {
     const r = checkUrl(w.type, w.url); if (!r.ok) return;
     btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking link';
     const scr = await screenTarget(r.p, [], w.type);
-    if (!scr.ok) {
-      S.adminType = scr.reason === 'needadmin' ? (scr.chatType || 'channel') : null;
-      showBlock(blockText(scr.reason), S.adminType ? adminButtons() : '');
-      btn.textContent = 'Continue'; return updateWiz();
-    }
+    if (!scr.ok) { S.adminType = scr.reason === 'needadmin' ? (scr.chatType || 'channel') : null; showBlock(blockText(scr.reason), S.adminType ? adminButtons() : ''); btn.textContent = 'Continue'; return updateWiz(); }
     S.adminType = null;
   } else if (w.step === 2) {
     if (isBad(w.title) || (w.type === 'conditions' && w.steps.some(isBad))) return showBlock(HARAM_MSG);
@@ -1744,6 +1971,7 @@ function renderProfile() {
   if (S.tab !== 'profile') return;
   const u = S.user, name = u.name || 'User', init = esc(name.trim().charAt(0).toUpperCase() || 'U');
   const refs = Object.keys(u.referrals || {}).length;
+  const machine = u.mining && u.mining.machine ? miningTierById(u.mining.machine) : null;
   setHTML($('#p-profile'), `
     <div class="pfp"><div class="avatar">${u.photo ? `<img src="${esc(u.photo)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}<span>${init}</span></div>
       <div><h1>${esc(name)}</h1><span class="mut">${u.username ? '@' + esc(u.username) : 'Telegram user'}</span></div></div>
@@ -1751,6 +1979,7 @@ function renderProfile() {
     <div class="income jade" style="margin-top:10px"><small>Total D Coin earned</small><div class="num">${coinD('lg')}${fmt(u.rjTotal || 0)}</div></div>
     <div class="gap"></div>
     <button class="card" style="margin-bottom:10px" data-sheet="referral"><span class="tbadge t-join">${ico('userplus')}</span><div class="grow"><h3>Invite friends</h3><p class="meta">${refs} referral${refs === 1 ? '' : 's'} · earn ${fmt(CONFIG.referral.bonusJR)} coins + ${fmt(CONFIG.referral.bonusRJ)} D Coin each</p></div>${ico('chev')}</button>
+    <button class="card" style="margin-bottom:10px" data-sheet="mining"><span class="tbadge t-mining">${ico('pick')}</span><div class="grow"><h3>Mining</h3><p class="meta">${machine ? `$${machine.usd} machine · ${fmt(machine.daily)} coins/day` : (refs >= CONFIG.mining.minReferrals ? 'Choose a machine' : 'Unlock with 1 referral')}</p></div>${ico('chev')}</button>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Swap coins → D Coin</h3><p class="meta">${fmt(CONFIG.swap.jrIn)} coins = ${fmt(CONFIG.swap.rjOut)} D Coin · min ${fmt(CONFIG.swap.min)} coins</p></div><button class="btn btn-jade btn-sm" data-sheet="swap">${ico('swap', 'sm')} Swap</button></div></div>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw coins</h3><p class="meta">Min ${fmt(CONFIG.withdraw.min)} coins · ${CONFIG.withdraw.feePct}% fee · Binance</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">${ico('down', 'sm')} Withdraw</button></div></div>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Deposit D Coin</h3><p class="meta">Buy D Coin with USD through Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">${ico('plus', 'sm')} Deposit</button></div></div>
@@ -1761,21 +1990,24 @@ function renderProfile() {
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">DOGS 1.0</p>`);
+    </div><p class="ver">DOGS 2.0</p>`);
 }
 
 const SHARE_TEXT = `Join me on DOGS, the Telegram app where you earn coins and D Coin every day.
 
 - Complete simple tasks and earn D Coin
 - Watch ads and get ${fmt(CONFIG.adReward)} coins per task
+- Daily Spin the wheel — win up to 100 coins
+- Buy a mining machine and earn daily
 - Promote your channel, group or bot with D Coin
-- Swap coins to D Coin or withdraw coins to Binance
 - Invite friends and get ${fmt(CONFIG.referral.bonusJR)} coins + ${fmt(CONFIG.referral.bonusRJ)} D Coin for each
 
 Start earning now:`;
 
 const SHEETS = {
   support: () => openSheet(`<h2>Support</h2><p class="lead">Questions? Message us on Telegram.</p><button class="btn btn-primary btn-block" data-open="${esc(CONFIG.supportLink)}">${ico('send', 'sm')} Message support</button>`),
+
+  mining: () => openMiningSheet(),
 
   swap: () => {
     const rate = CONFIG.swap.rjOut / CONFIG.swap.jrIn;
@@ -1805,9 +2037,7 @@ const SHEETS = {
           if (!u) return u;
           if (amt < CONFIG.swap.min || (u.balance || 0) < amt) return;
           const rjAmt = Math.floor(amt * rate);
-          u.balance -= amt;
-          u.rjBalance = (u.rjBalance || 0) + rjAmt;
-          u.rjTotal = (u.rjTotal || 0) + rjAmt;
+          u.balance -= amt; u.rjBalance = (u.rjBalance || 0) + rjAmt; u.rjTotal = (u.rjTotal || 0) + rjAmt;
           u.swaps = u.swaps || {};
           u.swaps[Date.now()] = { jr: amt, rj: rjAmt };
           return u;
@@ -1838,8 +2068,7 @@ const SHEETS = {
       const amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
       const refresh = () => {
         jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/[^\d]/g, '')) || 0));
-        const fee = Math.floor(jrAmt * feePct / 100);
-        const net = jrAmt - fee;
+        const fee = Math.floor(jrAmt * feePct / 100); const net = jrAmt - fee;
         const sum = $('#wSum', b);
         if (sum) sum.innerHTML = `<div><span class="mut">Amount</span><span>${fmt(jrAmt)} coins</span></div><div><span class="mut">Fee (${feePct}%)</span><span class="neg">- ${fmt(fee)} coins</span></div><div><span class="mut">You receive</span><span>${fmt(net)} coins</span></div><div><span class="mut">Method</span><span>Binance</span></div>`;
         const bad = jrAmt < CONFIG.withdraw.min ? `Minimum withdrawal is ${fmt(CONFIG.withdraw.min)} coins.` : jrAmt > jrBal(S.user) ? 'You do not have that many coins.' : '';
@@ -1851,9 +2080,7 @@ const SHEETS = {
         const u = uid.value.trim();
         if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = 'Enter a valid Binance UID (digits only).'; return; }
         btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending';
-        const amt2 = Math.floor(jrAmt);
-        const fee = Math.floor(amt2 * feePct / 100);
-        const net = amt2 - fee;
+        const amt2 = Math.floor(jrAmt); const fee = Math.floor(amt2 * feePct / 100); const net = amt2 - fee;
         const tx = await db.ref(P.user(S.uid)).transaction(x => {
           if (!x) return x;
           if (amt2 < CONFIG.withdraw.min || (x.balance || 0) < amt2) return;
@@ -1904,10 +2131,7 @@ const SHEETS = {
             submitted = true;
             toast('Deposit submitted. Admin will review it soon.'); hap('success');
             draw(b);
-          } catch (e) {
-            console.error(e); btn.disabled = false; btn.textContent = 'Try again';
-            err.hidden = false; err.textContent = 'Could not submit. Please try again.';
-          }
+          } catch (e) { console.error(e); btn.disabled = false; btn.textContent = 'Try again'; err.hidden = false; err.textContent = 'Could not submit. Please try again.'; }
         };
       }
     };
@@ -1928,7 +2152,7 @@ const SHEETS = {
   },
 
   privacy: () => openSheet(`<h2>Privacy policy</h2>
-    <h4>What we collect</h4><p class="doc">Telegram ID, name, username, photo, balances, tasks, campaigns, swaps, withdrawals, deposits.</p>
+    <h4>What we collect</h4><p class="doc">Telegram ID, name, username, photo, balances, tasks, campaigns, swaps, withdrawals, deposits, mining, spin history.</p>
     <h4>Ads</h4><p class="doc">Ads are served by third-party networks.</p>
     <h4>Sharing</h4><p class="doc">We do not sell your personal data.</p>`),
 
@@ -1938,6 +2162,7 @@ const SHEETS = {
     <h4>Swap</h4><p class="doc">${CONFIG.swap.jrIn} coins = ${CONFIG.swap.rjOut} D Coin. Min ${CONFIG.swap.min} coins. Swaps are final.</p>
     <h4>Withdrawals</h4><p class="doc">Binance only. Min ${CONFIG.withdraw.min} coins. ${CONFIG.withdraw.feePct}% fee.</p>
     <h4>Deposits</h4><p class="doc">Send USD to the Binance UID, submit your Order ID.</p>
+    <h4>Mining</h4><p class="doc">Unlock mining with ${CONFIG.mining.minReferrals} referral. Buy a machine and collect coins every 24h.</p>
     <h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers.</p>
     <h4>Leaving a channel</h4><p class="doc">Leaving within ${CONFIG.leave.days} days returns your D Coin reward to the owner.</p>`),
 
@@ -1951,8 +2176,9 @@ const SHEETS = {
     const R = CONFIG.referral, L = CONFIG.adDailyLimit;
     openSheet(`<h2>About DOGS</h2>
       <p class="lead">Earn coins by ads, earn D Coin by tasks, promote with D Coin, withdraw coins to Binance.</p>
-      <h4>Earn coins</h4><ul class="doc"><li>Each ad task has 3 ads. Claim ${fmt(CONFIG.adReward)} coins per completed round. ${L} rounds/day. 4 ad tasks available.</li><li>Referral: +${fmt(R.bonusJR)} coins and +${fmt(R.bonusRJ)} D Coin per friend.</li></ul>
-      <h4>Earn D Coin</h4><ul class="doc"><li>Complete social tasks.</li><li>Swap coins → D Coin at ${CONFIG.swap.jrIn} coins = ${CONFIG.swap.rjOut} D Coin.</li></ul>
+      <h4>Daily Spin</h4><ul class="doc"><li>Spin once per day. Win up to 100 coins!</li><li>Every 100th spin in the world wins 100 coins.</li></ul>
+      <h4>Mining</h4><ul class="doc"><li>Unlock with ${CONFIG.mining.minReferrals} referral.</li><li>Buy a machine: $1 → 200/day, $3 → 600/day, $5 → 1000/day, $10 → 3000/day.</li><li>Collect once every 24 hours.</li></ul>
+      <h4>Earn coins</h4><ul class="doc"><li>Ad tasks: ${fmt(CONFIG.adReward)} coins per task, ${L} rounds/day.</li><li>Referral: +${fmt(R.bonusJR)} coins and +${fmt(R.bonusRJ)} D Coin per friend.</li></ul>
       <h4>Withdraw & Deposit</h4><p class="doc">Withdraw coins to Binance (min ${fmt(CONFIG.withdraw.min)} coins, ${CONFIG.withdraw.feePct}% fee). Deposit USD → D Coin via Binance UID + Order ID.</p>
       <h4>Fair use</h4><p class="doc">One account per person. No bots. No haram content.</p>
       <div class="gap"></div>
@@ -1992,10 +2218,12 @@ function go(tab) {
 const ACT = {
   'watch-group': b => watchGroupAd(b.dataset.gid, b.dataset.key),
   'claim-ad': b => claimAdGroup(b.dataset.gid),
-  'open-game': b => {
-    const g = (CONFIG.games || []).find(x => x.id === b.dataset.id);
-    if (g && g.link) openLink(g.link);
-  },
+  'open-game': b => { const g = (CONFIG.games || []).find(x => x.id === b.dataset.id); if (g && g.link) openLink(g.link); },
+  'open-spin': () => openSpinModal(),
+  'mine-claim': () => claimMining(),
+  'mine-tier': b => { S.mining.selectedTier = b.dataset.id; openMiningSheet(); },
+  'mine-submit': () => submitMiningRequest(),
+  'mine-upgrade': () => openMiningSheet(),
   filter: b => { S.filter = b.dataset.k; renderTasks(); },
   open: b => { const t = taskById(b.dataset.id); if (!t) return; S.ui[t.id] = Object.assign(S.ui[t.id] || {}, { opened: Date.now() }); openLink(t.url); },
   verify: b => doVerify(b.dataset.id),
@@ -2039,6 +2267,14 @@ document.addEventListener('input', e => {
   } catch (err) { console.error('input handler', err); }
 });
 
+/* Spin modal wiring */
+const _spinClose = $('#spinClose'); if (_spinClose) _spinClose.addEventListener('click', closeSpinModal);
+const _spinBtn = $('#spinBtn'); if (_spinBtn) _spinBtn.addEventListener('click', doSpin);
+const _spinCollect = $('#spinCollect'); if (_spinCollect) _spinCollect.addEventListener('click', () => { closeSpinModal(); setTimeout(render, 260); });
+/* If user clicks outside the card, close */
+const _spinModalEl = $('#spinModal');
+if (_spinModalEl) _spinModalEl.addEventListener('click', e => { if (e.target.id === 'spinModal') closeSpinModal(); });
+
 /* =====================================================================
    Boot
    ===================================================================== */
@@ -2054,11 +2290,7 @@ async function ensureUser(tu) {
   await ref.set(Object.assign({ balance: 0, rjBalance: 0, totalIncome: 0, rjTotal: 0, tasksDone: 0, createdAt: TS, referredBy }, profile));
   if (referredBy) try { await db.ref(P.user(referredBy) + '/referrals/' + S.uid).set({ name: profile.name, bonus: 0 }); } catch (e) {}
 }
-
-function hideSplash() {
-  const s = $('#splash'); if (!s || s.hidden) return;
-  s.classList.add('leave'); setTimeout(() => { s.hidden = true; }, 420);
-}
+function hideSplash() { const s = $('#splash'); if (!s || s.hidden) return; s.classList.add('leave'); setTimeout(() => { s.hidden = true; }, 420); }
 
 async function boot() {
   const t0 = Date.now();
@@ -2067,17 +2299,15 @@ async function boot() {
   try { if (tg) { tg.ready(); tg.expand(); tg.disableVerticalSwipes && tg.disableVerticalSwipes(); } } catch (e) {}
   try { applyTheme(); } catch (e) {}
 
-  const tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user)
-          || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
+  const tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
   if (!tu) { clearTimeout(splashKill); $('#splash').hidden = true; $('#gate').hidden = false; return; }
 
   S.uid = String(tu.id);
   $('#app').hidden = false; $('#nav').hidden = false;
   try { go('home'); } catch (e) { console.error('initial go', e); }
 
-  try {
-    await Promise.race([ ensureUser(tu), new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 8000)) ]);
-  } catch (e) { console.warn('ensureUser failed:', e); toastErr('Could not reach server. Data may be delayed.'); }
+  try { await Promise.race([ ensureUser(tu), new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 8000)) ]); }
+  catch (e) { console.warn('ensureUser failed:', e); toastErr('Could not reach server. Data may be delayed.'); }
 
   let firstUser = true;
   try {
@@ -2085,6 +2315,20 @@ async function boot() {
       try {
         const u = s.val() || {};
         notifySubmissions(u); notifyCredits(u); S.user = u; render();
+
+        // Show daily spin once per day
+        if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) {
+          S.spin.alreadyShownToday = true;
+          setTimeout(() => {
+            if (u.lastSpinDay !== today() && !S.spin.spinning) {
+              // Reset wheel
+              const w = $('#spinWheel'); if (w) { w.style.transition = 'none'; w.style.transform = 'rotate(0deg)'; }
+              S.spin.currentRot = 0;
+              setTimeout(() => { const ww = $('#spinWheel'); if (ww) ww.style.transition = ''; }, 60);
+              openSpinModal();
+            }
+          }, 1400);
+        }
         if (firstUser) { firstUser = false; checkReferral(u); }
         if ((u.debtTotal || 0) > 0 && (u.rjBalance || 0) > 0) settleDebts();
       } catch (err) { console.error('user listener', err); }
@@ -2094,17 +2338,12 @@ async function boot() {
   try {
     db.ref(P.user(S.uid) + '/deposits').on('value', snap => {
       const deps = snap.val() || {};
-      Object.entries(deps).forEach(([k, d]) => {
-        if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d);
-      });
+      Object.entries(deps).forEach(([k, d]) => { if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d); });
     }, err => console.warn('deposits listener', err));
   } catch (e) {}
 
   try {
-    db.ref('pn/pending/' + S.uid).on('value', s => {
-      S.pending = s.val() || {};
-      if (S.tab === 'promote' && S.promoTab === 'mine') renderMine();
-    }, err => console.warn('pending listener', err));
+    db.ref('pn/pending/' + S.uid).on('value', s => { S.pending = s.val() || {}; if (S.tab === 'promote' && S.promoTab === 'mine') renderMine(); }, err => console.warn('pending listener', err));
   } catch (e) {}
 
   try {
@@ -2122,26 +2361,16 @@ async function boot() {
 
   try { db.ref('.info/connected').on('value', s => console.log('Firebase connected:', s.val() === true)); } catch (e) {}
 }
-
 async function creditDeposit(key, d) {
   try {
     const flagRef = db.ref(P.user(S.uid) + '/deposits/' + key + '/credited');
     const tx = await flagRef.transaction(c => (c === true ? undefined : true));
     if (!tx.committed) return;
-    await db.ref(P.user(S.uid)).transaction(u => {
-      if (!u) return u;
-      u.rjBalance = (u.rjBalance || 0) + d.rj;
-      u.rjTotal = (u.rjTotal || 0) + d.rj;
-      return u;
-    });
+    await db.ref(P.user(S.uid)).transaction(u => { if (!u) return u; u.rjBalance = (u.rjBalance || 0) + d.rj; u.rjTotal = (u.rjTotal || 0) + d.rj; return u; });
     rewardedD(d.rj, 'Deposit approved');
   } catch (e) { console.warn('creditDeposit', e); }
 }
-
-boot().catch(e => {
-  console.error('boot failed:', e);
-  showFatal('DOGS could not start', (e && e.message) || 'Unknown error.');
-});
+boot().catch(e => { console.error('boot failed:', e); showFatal('DOGS could not start', (e && e.message) || 'Unknown error.'); });
 
 })();
 </script>

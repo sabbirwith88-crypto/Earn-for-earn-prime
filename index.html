@@ -212,7 +212,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .kv div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .kv div:last-child{border:0}
 .linkbox{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:12px 0;font-size:13px;word-break:break-all}
-.msgbox{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:12px 0;font-size:13.5px;white-space:pre-line;color:var(--muted)}
 .hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
 .gap{height:10px}
 .stack{display:flex;flex-direction:column;gap:10px;margin-top:14px}
@@ -235,7 +234,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .spin-modal.open{opacity:1}
 .spin-modal-card{width:100%;max-width:400px;background:linear-gradient(160deg,#1A2440 0%,#0F1A2E 100%);border-radius:28px;padding:22px 20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transform:scale(.92);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
 .spin-modal.open .spin-modal-card{transform:scale(1)}
-.spin-modal-card::before{content:"";position:absolute;top:-40%;right:-20%;width:280px;height:280px;background:radial-gradient(circle,rgba(91,91,245,.35),transparent 70%);pointer-events:none}
 .spin-head{position:relative;z-index:2;text-align:center;margin-bottom:18px}
 .spin-head h2{font:800 24px 'Sora',sans-serif}
 .spin-head p{font-size:13px;opacity:.72;margin-top:4px}
@@ -254,35 +252,79 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .spin-result .win-amount{font:800 46px 'Sora',sans-serif;color:#FFC53D;display:flex;align-items:center;gap:10px;text-shadow:0 4px 20px rgba(255,197,61,.5);animation:popWin .5s cubic-bezier(.2,1.4,.4,1)}
 .spin-result .win-label{font-size:14px;opacity:.75}
 .spin-result .btn{margin-top:6px}
+
+/* ========== MINING PAGE (full screen) ========== */
+.mining-page{padding-bottom:20px}
+.mining-page .mp-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.mining-page .mp-back{width:40px;height:40px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;flex:none}
+.mining-page .mp-back:active{transform:scale(.92)}
+.mining-page .mp-back svg{width:20px;height:20px}
+.mining-page h1{font-size:24px;font-weight:800;line-height:1;margin:0}
+.mp-status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--brand-soft);color:var(--brand);font-weight:600;font-size:13.5px;margin-bottom:16px}
+.mp-status.warn{background:var(--bad-soft);color:var(--bad)}
+.mp-status.ok{background:var(--ok-soft);color:var(--ok)}
+.mp-locked{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px 20px;text-align:center;box-shadow:var(--shadow)}
+.mp-locked .lock-icon{width:64px;height:64px;border-radius:22px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;margin:0 auto 14px}
+.mp-locked .lock-icon svg{width:32px;height:32px}
+.mp-locked h3{font:800 18px 'Sora',sans-serif;margin-bottom:6px}
+.mp-locked p{color:var(--muted);font-size:13.5px;margin-bottom:16px;line-height:1.5}
+.mp-active{background:linear-gradient(150deg,#0B4F3A 0%,#22C58B 100%);color:#fff;border-radius:24px;padding:20px 22px 22px;position:relative;overflow:hidden;box-shadow:0 20px 40px -18px rgba(34,197,139,.65);margin-bottom:20px}
+.mp-active::before{content:"";position:absolute;top:-30px;right:-30px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.22),transparent 70%);pointer-events:none}
+.mp-active .mp-live{position:absolute;top:16px;right:18px;background:rgba(255,255,255,.2);border-radius:999px;padding:5px 11px;font:800 10.5px 'Sora',sans-serif;letter-spacing:.1em;display:flex;gap:5px;align-items:center;z-index:1}
+.mp-active .mp-live i{width:7px;height:7px;border-radius:50%;background:#8CFFC9;box-shadow:0 0 8px #8CFFC9;animation:pulseDot 1.6s ease-in-out infinite}
+.mp-active .mp-machine-label{font-size:12.5px;opacity:.85;margin-bottom:4px}
+.mp-active .mp-accrued{display:flex;align-items:center;gap:12px;margin:4px 0 8px;position:relative;z-index:1}
+.mp-active .mp-accrued .num{font:800 44px 'Sora',sans-serif;line-height:1;letter-spacing:-.02em}
+.mp-active .mp-accrued .coin{width:38px;height:38px}
+.mp-active .mp-rate{font-size:12.5px;opacity:.85;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.mp-active .mp-rate span{display:inline-flex;align-items:center;gap:5px}
+.mp-active .mp-countdown{background:rgba(0,0,0,.15);border-radius:12px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:14px;position:relative;z-index:1}
+.mp-active .mp-countdown b{font:800 15px 'Sora',sans-serif;letter-spacing:.02em}
+.mp-active .mp-progress{height:7px;border-radius:7px;background:rgba(255,255,255,.22);overflow:hidden;margin-bottom:14px;position:relative;z-index:1}
+.mp-active .mp-progress i{display:block;height:100%;background:#8CFFC9;border-radius:7px;transition:width .5s ease}
+.mp-active .mp-actions{display:flex;gap:10px;position:relative;z-index:1}
+.mp-active .mp-actions .btn{flex:1}
+.mp-active .btn-glass{background:rgba(255,255,255,.18);color:#fff}
+.mp-active .btn-jade{background:#fff;color:#0B4F3A;box-shadow:0 10px 22px -12px rgba(0,0,0,.4)}
+.mp-machines-title{font:800 15px 'Sora',sans-serif;margin:22px 0 12px;display:flex;align-items:center;gap:8px}
+.mp-machines{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mp-machine{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:14px;position:relative;overflow:hidden;text-align:left;cursor:pointer;transition:transform .15s,box-shadow .2s,border-color .2s}
+.mp-machine:active{transform:scale(.97)}
+.mp-machine.current{border-color:var(--jade);background:linear-gradient(135deg,color-mix(in srgb,var(--jade) 12%,transparent),transparent)}
+.mp-machine.free-tier{border-color:var(--jade);background:linear-gradient(135deg,color-mix(in srgb,var(--jade) 15%,transparent),color-mix(in srgb,var(--jade) 5%,transparent))}
+.mp-machine.gold{border-color:#FFD66B}
+.mp-machine.gold .mp-price{color:#B4791B}
+.mp-machine .mp-tag{position:absolute;top:10px;right:10px;background:var(--brand);color:#fff;font:800 9.5px 'Sora',sans-serif;padding:3px 7px;border-radius:999px;letter-spacing:.06em}
+.mp-machine .mp-tag.free{background:var(--jade)}
+.mp-machine .mp-tag.gold{background:#FFC53D;color:#3D2A00}
+.mp-machine .mp-tag.current{background:var(--jade);}
+.mp-machine .mp-icon{width:38px;height:38px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;margin-bottom:10px}
+.mp-machine .mp-icon svg{width:20px;height:20px}
+.mp-machine.gold .mp-icon{background:linear-gradient(135deg,#FFF4D6,#FFE79B);color:#B4791B}
+.mp-machine .mp-price{font:800 22px 'Sora',sans-serif;line-height:1;margin-bottom:4px}
+.mp-machine .mp-rate2{font:700 12px 'Sora',sans-serif;color:var(--muted);display:flex;flex-direction:column;gap:3px;margin-top:8px}
+.mp-machine .mp-rate2 .rowr{display:flex;align-items:center;gap:5px}
+.mp-machine .mp-rate2 .rowr .coin{width:14px;height:14px}
+.mp-machine .mp-buy{margin-top:12px;width:100%;padding:8px 10px;font-size:12.5px;border-radius:10px}
+@media (max-width:380px){
+  .mp-machines{grid-template-columns:1fr}
+  .mp-active .mp-accrued .num{font-size:36px}
+}
 .mining-hero{background:linear-gradient(150deg,#0B4F3A 0%,#22C58B 100%);color:#fff;border-radius:24px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 14px 30px -14px rgba(34,197,139,.6)}
-.mining-hero .label{font-size:12.5px;opacity:.85}
 .mining-hero .amt{font:800 32px 'Sora',sans-serif;display:flex;align-items:center;gap:10px;margin:4px 0;position:relative;z-index:1}
 .mining-hero .rate{font-size:12.5px;opacity:.82}
 .mining-hero .badge-live{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;font:700 11px 'Sora',sans-serif;letter-spacing:.08em;display:flex;gap:5px;align-items:center;z-index:1}
 .mining-hero .badge-live i{width:7px;height:7px;border-radius:50%;background:#8CFFC9;box-shadow:0 0 8px #8CFFC9;animation:pulseDot 1.6s ease-in-out infinite}
+.mining-progress{height:8px;border-radius:8px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:8px;position:relative}
+.mining-progress i{display:block;height:100%;background:#8CFFC9;border-radius:8px;transition:width .6s ease}
 .mine-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .mine-card.locked{opacity:.9}
 .mine-card h3{font:800 16px 'Sora',sans-serif;display:flex;align-items:center;gap:8px}
 .mine-card p.meta{font-size:13px;color:var(--muted);margin:4px 0 14px}
-.mine-tiers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.mine-tier{border:1.5px solid var(--line);background:var(--card);border-radius:18px;padding:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;text-align:left}
-.mine-tier:active{transform:scale(.97)}
-.mine-tier b{display:block;font:800 20px 'Sora',sans-serif;color:var(--ink)}
-.mine-tier .rate{display:flex;align-items:center;gap:6px;margin-top:6px;font:700 12.5px 'Sora',sans-serif;color:var(--muted)}
-.mine-tier .tier-tag{position:absolute;top:10px;right:10px;background:var(--brand);color:#fff;font:800 10px 'Sora',sans-serif;padding:3px 7px;border-radius:999px;letter-spacing:.06em}
-.mine-tier .tier-tag.free{background:var(--jade)}
-.mine-tier.free-tier{border-color:var(--jade);background:linear-gradient(135deg,#E1F6EC,#C7F0DE)}
-[data-theme="dark"] .mine-tier.free-tier{background:linear-gradient(135deg,#0F3527,#155038);border-color:var(--jade)}
 .mining-status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--brand-soft);color:var(--brand);font-weight:600;font-size:13.5px;margin-bottom:14px}
 .mining-status.warn{background:var(--bad-soft);color:var(--bad)}
 .mining-status.ok{background:var(--ok-soft);color:var(--ok)}
 .mining-status .ico{flex:none}
-.mining-progress{height:8px;border-radius:8px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:8px;position:relative}
-.mining-progress i{display:block;height:100%;background:#8CFFC9;border-radius:8px;transition:width .6s ease}
-.mine-machine-details{background:var(--brand-soft);border-radius:14px;padding:12px 14px;margin:10px 0;display:flex;flex-direction:column;gap:8px}
-.mine-machine-details div{display:flex;justify-content:space-between;font-size:13px}
-.mine-machine-details div span:first-child{color:var(--muted)}
-.mine-machine-details div span:last-child{font-weight:700}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
 @keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
@@ -312,7 +354,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
   .nb{font-size:10px}
   .spin-wheel-wrap{width:240px;height:240px}
   .spin-btn{width:74px;height:74px;font-size:13px}
-  .mine-tiers{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -365,6 +406,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M19 6h1M4 12h3M13 12h7M4 18h11M21 18h-1"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
 <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
 <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></symbol>
 <symbol id="i-help" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></symbol>
 <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></symbol>
 <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></symbol>
@@ -392,6 +434,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
   <section id="p-tasks" class="page" hidden></section>
   <section id="p-promote" class="page" hidden></section>
   <section id="p-profile" class="page" hidden></section>
+  <section id="p-mining" class="page" hidden></section>
 </main>
 
 <nav id="nav" hidden><div class="navbar">
@@ -435,7 +478,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 </div>
 
 <script>
-// IMMEDIATE splash kill switch — runs standalone so it survives ANY main script failure
 window.__splashKilled = false;
 setTimeout(function () {
   if (window.__splashKilled) return;
@@ -449,12 +491,8 @@ setTimeout(function () {
     var gate = document.getElementById('gate');
     var nav = document.getElementById('nav');
     var hasTg = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
-    if (hasTg) {
-      if (app) app.hidden = false;
-      if (nav) nav.hidden = false;
-    } else if (gate) {
-      gate.hidden = false;
-    }
+    if (hasTg) { if (app) app.hidden = false; if (nav) nav.hidden = false; }
+    else if (gate) gate.hidden = false;
   } catch (e) {}
 }, 4000);
 </script>
@@ -465,30 +503,18 @@ setTimeout(function () {
 
 var $ = function (s, el) { return (el || document).querySelector(s); };
 var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
-var fmt = function (n) {
-  var v = Number(n || 0);
-  if (!isFinite(v)) return '0';
-  var abs = Math.abs(v);
-  var digits = abs >= 1000 ? 0 : (Math.floor(v) === v ? 0 : 2);
-  return v.toLocaleString('en-US', { maximumFractionDigits: digits });
-};
-var esc = function (s) {
-  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-  });
-};
+var fmt = function (n) { var v = Number(n || 0); if (!isFinite(v)) return '0'; var abs = Math.abs(v); var digits = abs >= 1000 ? 0 : (Math.floor(v) === v ? 0 : 2); return v.toLocaleString('en-US', { maximumFractionDigits: digits }); };
+var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
 var ico = function (n, c) { return '<svg class="ico ' + (c || '') + '" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; };
 var coin = function (c) { return '<span class="coin ' + (c || '') + '"><svg viewBox="0 0 40 40"><use href="#dog-coin"/></svg></span>'; };
 var coinD = function (c) { return '<span class="coin ' + (c || '') + '"><svg viewBox="0 0 40 40"><use href="#d-coin"/></svg></span>'; };
 var logoHTML = function () { return '<svg class="mark" viewBox="0 0 200 200"><use href="#dogs-logo"/></svg>'; };
 var PREVIEW = /[?&]preview\b/.test(location.search);
 var tg = window.Telegram && window.Telegram.WebApp;
-var store = {
-  get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
-  set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
-};
+var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
 var today = function () { return new Date().toLocaleDateString('en-CA'); };
 var fmtLeft = function (ms) { var h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000); return h > 0 ? h + 'h ' + m + 'm' : Math.max(0, m) + 'm'; };
+var fmtClock = function (ms) { if (ms < 0) ms = 0; var s = Math.floor(ms / 1000); var h = Math.floor(s / 3600); var m = Math.floor((s % 3600) / 60); var sec = s % 60; return (h > 0 ? h + ':' : '') + (m < 10 && h > 0 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec; };
 
 var CONFIG = {
   adReward: 20,
@@ -502,7 +528,7 @@ var CONFIG = {
     'https://onepyrincehyarey.org?JjChE=1585364',
     'https://get.atechspace.live/dl/669b811b-6021-41c5-8e69-6645a42668d8'
   ],
-  adsgramBlockId: '30645',
+  adsgramBlockId: 'int-28543',
   adexiumWid: 'cc12a9f3-3f3b-4b0e-975e-912219a7d8eb',
   adexoraId: '1963',
   swap: { jrIn: 2000, rjOut: 50000, min: 2000 },
@@ -511,13 +537,9 @@ var CONFIG = {
   fee: { website: 300 },
   minUsers: 1,
   titleMin: 5, titleMax: 25,
-  viewSeconds: 5,
-  reactionSeconds: 8,
-  websiteSeconds: 15,
-  youtubeSeconds: 12,
-  conditionSeconds: 10,
+  viewSeconds: 5, reactionSeconds: 8, websiteSeconds: 15, youtubeSeconds: 12, conditionSeconds: 10,
   reviewHours: 24,
-  referral: { bonusJR: 200, bonusRJ: 10000, inviteeBonus: 0 },
+  referral: { bonusJR: 200, bonusRJ: 10000 },
   spin: {
     prizes: [
       { amount: 10,  weight: 30, color: '#5B5BF5', label: '10' },
@@ -526,17 +548,17 @@ var CONFIG = {
       { amount: 12,  weight: 25, color: '#E0457B', label: '12' },
       { amount: 100, weight: 0,  color: '#FFC53D', label: '100', milestone: true }
     ],
-    milestoneEvery: 100,
-    milestoneAmount: 100
+    milestoneEvery: 100, milestoneAmount: 100
   },
   mining: {
     minReferrals: 1,
     tiers: [
-      { id: 'free', usd: 0,  daily: 24,   label: 'Free',     free: true },
-      { id: 'm1',   usd: 1,  daily: 200,  label: 'Starter' },
-      { id: 'm3',   usd: 3,  daily: 600,  label: 'Pro' },
-      { id: 'm5',   usd: 5,  daily: 1000, label: 'Advanced' },
-      { id: 'm10',  usd: 10, daily: 3000, label: 'Elite' }
+      { id: 'free', usd: 0,  perHour: 1,   daily: 24,   label: 'Free' },
+      { id: 'm1',   usd: 1,  perHour: 9,   daily: 216,  label: 'Starter' },
+      { id: 'm3',   usd: 3,  perHour: 15,  daily: 360,  label: 'Pro' },
+      { id: 'm10',  usd: 10, perHour: 30,  daily: 720,  label: 'Advanced' },
+      { id: 'm25',  usd: 25, perHour: 50,  daily: 1200, label: 'Elite' },
+      { id: 'm50',  usd: 50, perHour: 100, daily: 2400, label: 'Legend' }
     ]
   },
   leave: { days: 5, batch: 5, firstCheckMin: 10, recheckMin: 60 },
@@ -548,11 +570,7 @@ var CONFIG = {
   deposit: {
     binanceUid: '1226899375',
     packages: [
-      { usd: 0.1, rj: 55000 },
-      { usd: 1, rj: 550000 },
-      { usd: 3, rj: 2000000 },
-      { usd: 5, rj: 5500000 },
-      { usd: 10, rj: 11000000 }
+      { usd: 0.1, rj: 55000 }, { usd: 1, rj: 550000 }, { usd: 3, rj: 2000000 }, { usd: 5, rj: 5500000 }, { usd: 10, rj: 11000000 }
     ]
   },
   games: [
@@ -574,10 +592,7 @@ try {
   db = firebase.database();
   TS = firebase.database.ServerValue.TIMESTAMP;
   P = { user: function (id) { return 'pn/users/' + id; }, tasks: 'pn/tasks', task: function (id) { return 'pn/tasks/' + id; } };
-} catch (e) {
-  alert('Firebase error: ' + (e.message || e));
-  return;
-}
+} catch (e) { alert('Firebase error: ' + (e.message || e)); return; }
 
 var _loadedScripts = {};
 function loadScriptOnce(src) {
@@ -599,13 +614,7 @@ function loadScriptOnce(src) {
   });
 }
 
-function hap(kind) {
-  if (store.get('pn_haptics') === 'off') return;
-  try {
-    if (kind === 'tap') tg.HapticFeedback.impactOccurred('light');
-    else tg.HapticFeedback.notificationOccurred(kind);
-  } catch (e) {}
-}
+function hap(kind) { if (store.get('pn_haptics') === 'off') return; try { if (kind === 'tap') tg.HapticFeedback.impactOccurred('light'); else tg.HapticFeedback.notificationOccurred(kind); } catch (e) {} }
 function openLink(url) {
   try {
     if (/^https?:\/\/(t|telegram)\.me\//i.test(url) && tg && tg.openTelegramLink) return tg.openTelegramLink(url);
@@ -615,16 +624,10 @@ function openLink(url) {
 }
 function copyText(t) {
   var done = function () { toast('Copied'); hap('success'); };
-  var fallback = function () {
-    var a = document.createElement('textarea');
-    a.value = t; document.body.appendChild(a); a.select();
-    try { document.execCommand('copy'); done(); } catch (e) {}
-    a.remove();
-  };
+  var fallback = function () { var a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); done(); } catch (e) {} a.remove(); };
   if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t).then(done, fallback);
   fallback();
 }
-
 function toast(msg, opt) {
   opt = opt || {};
   var root = $('#toasts'); if (!root) return;
@@ -680,7 +683,8 @@ var S = {
   ui: {}, view: null, shown: null,
   chatCache: {}, botId: null, pending: {}, prevSub: null,
   wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' },
-  spin: { spinning: false, currentRot: 0, alreadyShownToday: false }
+  spin: { spinning: false, currentRot: 0, alreadyShownToday: false },
+  miningTick: null
 };
 
 function applyIncome(u, amt) {
@@ -705,17 +709,13 @@ async function checkReferral(u) {
   var BC = CONFIG.referral.bonusJR, BD = CONFIG.referral.bonusRJ;
   if (!u || !u.referredBy || u.refBonusPaid) return;
   try {
-    var t = await db.ref(P.user(S.uid)).transaction(function (x) {
-      if (!x) return x; if (x.refBonusPaid) return;
-      x.refBonusPaid = true; return x;
-    });
+    var t = await db.ref(P.user(S.uid)).transaction(function (x) { if (!x) return x; if (x.refBonusPaid) return; x.refBonusPaid = true; return x; });
     if (!t.committed) return;
     await db.ref(P.user(u.referredBy)).transaction(function (r) {
       if (!r) return r;
       r.balance = (r.balance || 0) + BC; r.totalIncome = (r.totalIncome || 0) + BC;
       r.rjBalance = (r.rjBalance || 0) + BD; r.rjTotal = (r.rjTotal || 0) + BD;
-      r.refEarned = (r.refEarned || 0) + BC;
-      r.refEarnedRJ = (r.refEarnedRJ || 0) + BD;
+      r.refEarned = (r.refEarned || 0) + BC; r.refEarnedRJ = (r.refEarnedRJ || 0) + BD;
       if (r.referrals && r.referrals[S.uid]) r.referrals[S.uid].bonus = BC;
       return r;
     });
@@ -782,18 +782,9 @@ async function ensureAdexora() {
 }
 async function runAdexora() { await ensureAdexora(); await window.showAdexora(); }
 
-async function runAd3() {
-  try { await runAdsgram(); }
-  catch (e) { console.warn('Adsgram failed, fallback Adsbitvex:', e); await runAdsbitvex(); }
-}
-async function runAd10() {
-  try { await runAdexium(); }
-  catch (e) { console.warn('Adexium failed, fallback Monetag:', e); await runMonetag(); }
-}
-async function runAd11() {
-  try { await runAdexora(); }
-  catch (e) { console.warn('Adexora failed, fallback Monetag:', e); await runMonetag(); }
-}
+async function runAd3() { try { await runAdsgram(); } catch (e) { console.warn('Adsgram fallback Adsbitvex:', e); await runAdsbitvex(); } }
+async function runAd10() { try { await runAdexium(); } catch (e) { console.warn('Adexium fallback Monetag:', e); await runMonetag(); } }
+async function runAd11() { try { await runAdexora(); } catch (e) { console.warn('Adexora fallback Monetag:', e); await runMonetag(); } }
 
 var PROVIDERS = {
   p1: { label: 'Ad 1', run: runMonetag },
@@ -826,7 +817,6 @@ function groupCooldownLeft(gid) {
   var ms = st.lastClaim + CONFIG.adCooldownSec * 1000 - Date.now();
   return ms > 0 ? Math.ceil(ms / 1000) : 0;
 }
-
 async function markAdDone(gid, key) {
   var res = await db.ref(P.user(S.uid)).transaction(function (u) {
     if (!u) return u;
@@ -843,7 +833,6 @@ async function markAdDone(gid, key) {
   });
   if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
 }
-
 function startGroupLinkAd(gid, key, url) {
   if (S.view) return;
   S.ui['adfail_' + key] = false;
@@ -862,7 +851,7 @@ async function finishGroupLinkAd(success) {
   clearInterval(v.timer);
   var key = v.ad, gid = v.groupId, secs = v.secs;
   S.view = null;
-  if (!success) { S.ui['adfail_' + key] = true; renderEarn(); return toastErr('You came back too soon. Stay on the ad page for ' + secs + ' seconds, then return.'); }
+  if (!success) { S.ui['adfail_' + key] = true; renderEarn(); return toastErr('You came back too soon. Stay on the ad page for ' + secs + ' seconds.'); }
   S.ui['adfail_' + key] = false;
   S.ui['ad_' + key] = true;
   renderEarn();
@@ -871,33 +860,28 @@ async function finishGroupLinkAd(success) {
   renderEarn();
   hap('success');
 }
-
 async function watchGroupAd(gid, key) {
   try {
     var provider = PROVIDERS[key]; if (!provider) return;
     var st = getGroupState(gid);
-    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task.');
-    if (groupCooldownLeft(gid) > 0) return toastErr('Please wait ' + groupCooldownLeft(gid) + 's before the next round.');
-    if (st.done.indexOf(key) >= 0) return toastErr('You already watched this ad in this round.');
+    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached.');
+    if (groupCooldownLeft(gid) > 0) return toastErr('Wait ' + groupCooldownLeft(gid) + 's.');
+    if (st.done.indexOf(key) >= 0) return toastErr('Already watched this ad.');
     if (S.ui['ad_' + key]) return;
     if (provider.link && S.view) return;
     if (provider.link) return startGroupLinkAd(gid, key, provider.link);
     S.ui['ad_' + key] = true; renderEarn();
     try { await provider.run(); S.ui['ad_' + key] = false; await markAdDone(gid, key); }
-    catch (e) {
-      S.ui['ad_' + key] = false;
-      toastErr(e && e.message === 'not_ready' ? 'This ad is not available. Try another one.' : 'The ad was not finished. Try again.');
-    }
+    catch (e) { S.ui['ad_' + key] = false; toastErr(e && e.message === 'not_ready' ? 'Ad not available.' : 'Ad not finished.'); }
     renderEarn();
   } catch (e) { console.error('watchGroupAd', e); }
 }
-
 async function claimAdGroup(gid) {
   try {
     var st = getGroupState(gid);
     if (st.done.length < 3) return toastErr('Watch all 3 ads first.');
-    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task.');
-    if (groupCooldownLeft(gid) > 0) return toastErr('Please wait ' + groupCooldownLeft(gid) + 's before claiming.');
+    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached.');
+    if (groupCooldownLeft(gid) > 0) return toastErr('Wait ' + groupCooldownLeft(gid) + 's.');
     var res = await db.ref(P.user(S.uid)).transaction(function (u) {
       if (!u) return u;
       var d = today();
@@ -913,25 +897,20 @@ async function claimAdGroup(gid) {
       return u;
     });
     if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
-    if (res.committed) { rewarded(CONFIG.adReward, 'Ad task complete'); }
-    else toastErr('Could not claim right now.');
+    if (res.committed) rewarded(CONFIG.adReward, 'Ad task complete');
+    else toastErr('Could not claim.');
     renderEarn();
-  } catch (e) { console.error('claimAdGroup', e); toastErr('Could not claim.'); renderEarn(); }
+  } catch (e) { toastErr('Could not claim.'); }
 }
-
 function adButtonHtmlFor(gid, key, st) {
   var p = PROVIDERS[key]; if (!p) return { html: '', dis: true, done: false };
   if (st.done.indexOf(key) >= 0) return { html: '✓ ' + p.label, dis: true, done: true };
   var v = S.view && S.view.ad === key ? S.view : null;
-  if (v) {
-    var s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
-    return { html: s > 0 ? '<span class="spin-icon"></span>' + s + 's' : 'Return', dis: true, done: false };
-  }
+  if (v) { var s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000)); return { html: s > 0 ? '<span class="spin-icon"></span>' + s + 's' : 'Return', dis: true, done: false }; }
   if (S.ui['ad_' + key]) return { html: '<span class="spin-icon"></span>', dis: true, done: false };
   if (S.ui['adfail_' + key]) return { html: 'Retry', dis: false, done: false };
   return { html: p.label, dis: false, done: false };
 }
-
 function renderAdGroup(g) {
   var st = getGroupState(g.id);
   var cooldown = groupCooldownLeft(g.id);
@@ -940,7 +919,7 @@ function renderAdGroup(g) {
   var canClaim = st.done.length >= 3 && !limitReached && !waiting;
   var roundPct = Math.min(100, (st.done.length / 3) * 100);
   var content = '';
-  if (limitReached) content = '<div class="note" style="margin:0;text-align:center">Daily limit reached (' + st.claims + '/' + CONFIG.adDailyLimit + '). Come back tomorrow.</div>';
+  if (limitReached) content = '<div class="note" style="margin:0;text-align:center">Daily limit reached (' + st.claims + '/' + CONFIG.adDailyLimit + ').</div>';
   else if (waiting) content = '<button class="btn btn-cool btn-block" disabled><span class="spin-icon"></span> Wait ' + cooldown + 's</button>';
   else if (canClaim) content = '<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="' + g.id + '">Claim ' + fmt(CONFIG.adReward) + ' coins</button>';
   else {
@@ -952,20 +931,10 @@ function renderAdGroup(g) {
     }).join('');
     content = '<div class="adgrid">' + buttons + '</div>';
   }
-  return '<article class="card">' +
-    '<div class="row"><span class="tbadge t-ads">' + ico('play') + '</span>' +
-    '<div class="grow"><h3>' + g.label + '</h3><p class="meta">' + g.sub + ' · ' + st.claims + '/' + CONFIG.adDailyLimit + ' claimed</p></div>' +
-    '<span class="reward">' + coin() + '+' + fmt(CONFIG.adReward) + '</span></div>' +
-    '<div class="bar"><i style="width:' + roundPct + '%"></i></div>' +
-    '<p class="adnote" style="margin:0 0 10px">' + st.done.length + '/3 ads' + (canClaim ? ' — claim now!' : '') + '</p>' +
-    content + '</article>';
+  return '<article class="card"><div class="row"><span class="tbadge t-ads">' + ico('play') + '</span><div class="grow"><h3>' + g.label + '</h3><p class="meta">' + g.sub + ' · ' + st.claims + '/' + CONFIG.adDailyLimit + '</p></div><span class="reward">' + coin() + '+' + fmt(CONFIG.adReward) + '</span></div><div class="bar"><i style="width:' + roundPct + '%"></i></div><p class="adnote" style="margin:0 0 10px">' + st.done.length + '/3 ads' + (canClaim ? ' — claim now!' : '') + '</p>' + content + '</article>';
 }
 function renderGameCard(g) {
-  return '<article class="card">' +
-    '<div class="row"><span class="tbadge t-game">' + ico('game') + '</span>' +
-    '<div class="grow"><h3>' + esc(g.title) + '</h3><p class="meta">Open the game bot</p></div>' +
-    '<span class="reward">' + coin() + '+' + fmt(g.reward) + '</span></div>' +
-    '<button class="btn btn-primary btn-block" style="margin-top:12px" data-act="open-game" data-id="' + esc(g.id) + '">Open</button></article>';
+  return '<article class="card"><div class="row"><span class="tbadge t-game">' + ico('game') + '</span><div class="grow"><h3>' + esc(g.title) + '</h3><p class="meta">Open the game bot</p></div><span class="reward">' + coin() + '+' + fmt(g.reward) + '</span></div><button class="btn btn-primary btn-block" style="margin-top:12px" data-act="open-game" data-id="' + esc(g.id) + '">Open</button></article>';
 }
 function renderEarn() {
   if (S.tab !== 'earn') return;
@@ -973,48 +942,33 @@ function renderEarn() {
     var td = S.user && S.user.today && S.user.today.d === today() ? S.user.today.a : 0;
     var adCards = AD_GROUPS.map(function (g) { return renderAdGroup(g); }).join('');
     var gameCards = (CONFIG.games || []).map(function (g) { return renderGameCard(g); }).join('');
-    var el = $('#p-earn');
-    el.innerHTML = '<h1>Earn</h1><p class="sub">Watch all 3 ads in each task to earn ' + fmt(CONFIG.adReward) + ' coins. ' + CONFIG.adDailyLimit + ' claims/day. You earned ' + fmt(td) + ' coins today.</p>' +
-      '<div class="list">' + adCards + '</div>' +
-      '<h2 class="section-title">🎮 Games</h2>' +
-      '<div class="list">' + (gameCards || '<div class="empty"><b>No games right now</b></div>') + '</div>';
-  } catch (e) { console.error('renderEarn', e); }
+    $('#p-earn').innerHTML = '<h1>Earn</h1><p class="sub">Watch all 3 ads in each task to earn ' + fmt(CONFIG.adReward) + ' coins. ' + CONFIG.adDailyLimit + ' claims/day. You earned ' + fmt(td) + ' coins today.</p><div class="list">' + adCards + '</div><h2 class="section-title">🎮 Games</h2><div class="list">' + (gameCards || '<div class="empty"><b>No games</b></div>') + '</div>';
+  } catch (e) {}
 }
 setInterval(function () {
   if (S.tab !== 'earn') return;
-  var need = false;
   AD_GROUPS.forEach(function (g) {
-    var el = $('[data-cd="' + g.id + '"]'); if (!el) return;
-    var l = groupCooldownLeft(g.id);
-    if (l > 0) el.textContent = l; else need = true;
+    var el = $('[data-cd="' + g.id + '"]');
+    if (el) { var l = groupCooldownLeft(g.id); if (l > 0) el.textContent = l; }
   });
-  if (need) renderEarn();
 }, 1000);
 
 /* SPIN */
-function polarXY(cx, cy, r, angleDeg) {
-  var rad = (angleDeg - 90) * Math.PI / 180;
-  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-}
+function polarXY(cx, cy, r, angleDeg) { var rad = (angleDeg - 90) * Math.PI / 180; return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) }; }
 function buildWheelSvg() {
   var segGroup = document.getElementById('wheelSegments');
   if (!segGroup || segGroup.__built) return;
   var prizes = CONFIG.spin.prizes;
-  var n = prizes.length;
-  var cx = 150, cy = 150, R = 148;
-  var segAngle = 360 / n;
+  var n = prizes.length, cx = 150, cy = 150, R = 148, segAngle = 360 / n;
   var svg = '';
   for (var i = 0; i < n; i++) {
-    var a1 = -segAngle / 2 + i * segAngle;
-    var a2 = a1 + segAngle;
-    var p1 = polarXY(cx, cy, R, a1);
-    var p2 = polarXY(cx, cy, R, a2);
+    var a1 = -segAngle / 2 + i * segAngle, a2 = a1 + segAngle;
+    var p1 = polarXY(cx, cy, R, a1), p2 = polarXY(cx, cy, R, a2);
     var largeArc = (a2 - a1) > 180 ? 1 : 0;
     var d = 'M' + cx + ',' + cy + ' L' + p1.x + ',' + p1.y + ' A' + R + ',' + R + ' 0 ' + largeArc + ',1 ' + p2.x + ',' + p2.y + ' Z';
     svg += '<path d="' + d + '" fill="' + prizes[i].color + '" stroke="#fff" stroke-width="1.5" stroke-opacity=".35"/>';
-    var midAngle = a1 + segAngle / 2;
-    var labelPos = polarXY(cx, cy, R * 0.64, midAngle);
-    svg += '<text x="' + labelPos.x + '" y="' + labelPos.y + '" text-anchor="middle" dominant-baseline="middle" transform="rotate(' + midAngle + ' ' + labelPos.x + ' ' + labelPos.y + ')" font-family="Sora,sans-serif" font-weight="800" font-size="26" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-opacity:.3;stroke-width:4px;stroke-linejoin:round">' + prizes[i].label + '</text>';
+    var mid = a1 + segAngle / 2, lp = polarXY(cx, cy, R * 0.64, mid);
+    svg += '<text x="' + lp.x + '" y="' + lp.y + '" text-anchor="middle" dominant-baseline="middle" transform="rotate(' + mid + ' ' + lp.x + ' ' + lp.y + ')" font-family="Sora,sans-serif" font-weight="800" font-size="26" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-opacity:.3;stroke-width:4px;stroke-linejoin:round">' + prizes[i].label + '</text>';
   }
   segGroup.innerHTML = svg;
   segGroup.__built = true;
@@ -1029,13 +983,8 @@ function openSpinModal() {
   setTimeout(function () { var w = $('#wheelGroup'); if (w) w.style.transition = ''; }, 60);
   var res = $('#spinResult'); if (res) res.classList.remove('show');
   var hint = $('#spinHint'), sub = $('#spinSub');
-  if (spinTodayDone()) {
-    if (hint) hint.textContent = 'You already spun today. Come back tomorrow!';
-    if (sub) sub.textContent = 'See you tomorrow!';
-  } else {
-    if (hint) hint.textContent = 'Spin and win up to 100 coins!';
-    if (sub) sub.textContent = 'Spin the wheel and win coins!';
-  }
+  if (spinTodayDone()) { if (hint) hint.textContent = 'You already spun today.'; if (sub) sub.textContent = 'See you tomorrow!'; }
+  else { if (hint) hint.textContent = 'Spin and win up to 100 coins!'; if (sub) sub.textContent = 'Spin the wheel and win coins!'; }
 }
 function closeSpinModal() {
   var m = $('#spinModal'); if (!m) return;
@@ -1044,26 +993,16 @@ function closeSpinModal() {
 }
 function spinTodayDone() { return S.user && S.user.lastSpinDay === today(); }
 function pickPrizeIndex() {
-  var prizes = CONFIG.spin.prizes;
-  var normals = [];
-  var total = 0;
-  for (var i = 0; i < prizes.length; i++) {
-    var w = prizes[i].milestone ? 0 : prizes[i].weight;
-    normals.push({ i: i, w: w });
-    total += w;
-  }
+  var prizes = CONFIG.spin.prizes, normals = [], total = 0;
+  for (var i = 0; i < prizes.length; i++) { var w = prizes[i].milestone ? 0 : prizes[i].weight; normals.push({ i: i, w: w }); total += w; }
   var r = Math.random() * total;
-  for (var j = 0; j < normals.length; j++) {
-    if (normals[j].w <= 0) continue;
-    r -= normals[j].w;
-    if (r <= 0) return normals[j].i;
-  }
+  for (var j = 0; j < normals.length; j++) { if (normals[j].w <= 0) continue; r -= normals[j].w; if (r <= 0) return normals[j].i; }
   for (var k = 0; k < normals.length; k++) if (normals[k].w > 0) return normals[k].i;
   return 0;
 }
 async function doSpin() {
   if (S.spin.spinning) return;
-  if (spinTodayDone()) { toastErr('You already spun today. Come back tomorrow!'); return; }
+  if (spinTodayDone()) { toastErr('Already spun today.'); return; }
   S.spin.spinning = true;
   var btn = $('#spinBtn'), btnText = $('#spinBtnText'), wheelGroup = $('#wheelGroup');
   btn.classList.add('spinning'); btnText.textContent = '...';
@@ -1075,23 +1014,15 @@ async function doSpin() {
       prizeIndex = -1;
       for (var mi = 0; mi < CONFIG.spin.prizes.length; mi++) if (CONFIG.spin.prizes[mi].milestone) prizeIndex = mi;
       amount = CONFIG.spin.milestoneAmount;
-    } else {
-      prizeIndex = pickPrizeIndex();
-      amount = CONFIG.spin.prizes[prizeIndex].amount;
-    }
-  } catch (e) {
-    prizeIndex = pickPrizeIndex();
-    amount = CONFIG.spin.prizes[prizeIndex].amount;
-  }
-  var n = CONFIG.spin.prizes.length;
-  var segAngle = 360 / n;
+    } else { prizeIndex = pickPrizeIndex(); amount = CONFIG.spin.prizes[prizeIndex].amount; }
+  } catch (e) { prizeIndex = pickPrizeIndex(); amount = CONFIG.spin.prizes[prizeIndex].amount; }
+  var n = CONFIG.spin.prizes.length, segAngle = 360 / n;
   var targetMod = ((-prizeIndex * segAngle) % 360 + 360) % 360;
   var currentMod = ((S.spin.currentRot % 360) + 360) % 360;
   var delta = ((targetMod - currentMod) % 360 + 360) % 360;
   var newRot = S.spin.currentRot + 6 * 360 + delta;
   S.spin.currentRot = newRot;
   if (wheelGroup) wheelGroup.style.transform = 'rotate(' + newRot + 'deg)';
-
   setTimeout(async function () {
     try {
       await db.ref(P.user(S.uid)).transaction(function (u) {
@@ -1100,22 +1031,14 @@ async function doSpin() {
         u.lastSpinDay = today();
         u.spinCount = (u.spinCount || 0) + 1;
         applyIncome(u, amount);
-        u.spinHistory = u.spinHistory || {};
-        u.spinHistory[Date.now()] = { amount: amount };
         return u;
       });
-      var res = $('#spinResult');
-      var amtEl = $('#spinWinAmount');
-      var coinEl = $('#spinWinCoin');
+      var res = $('#spinResult'), amtEl = $('#spinWinAmount'), coinEl = $('#spinWinCoin');
       if (coinEl) coinEl.innerHTML = coin('lg');
       if (amtEl) amtEl.textContent = fmt(amount);
       if (res) res.classList.add('show');
       hap('success');
-      var hint = $('#spinHint'); if (hint) hint.textContent = 'Come back tomorrow!';
-      var st = $('#spinSub'); if (st) st.textContent = 'Nice win!';
-      if (S.user) { S.user.lastSpinDay = today(); S.user.spinCount = (S.user.spinCount || 0) + 1; S.user.balance = (S.user.balance || 0) + amount; S.user.totalIncome = (S.user.totalIncome || 0) + amount; }
-      render();
-    } catch (e) { console.error('spin credit', e); toastErr('Could not save spin.'); }
+    } catch (e) { toastErr('Could not save spin.'); }
     S.spin.spinning = false;
     btn.classList.remove('spinning');
     btnText.textContent = 'SPIN';
@@ -1129,29 +1052,30 @@ function miningTierById(id) { for (var i = 0; i < CONFIG.mining.tiers.length; i+
 function miningMachine(u) { return u && u.mining && u.mining.machine ? miningTierById(u.mining.machine) : null; }
 function miningActive(u) { return !!(u && u.mining && u.mining.active); }
 function miningStartedAt(u) { return (u && u.mining && u.mining.startedAt) || 0; }
+function miningClaimed(u) { return (u && u.mining && u.mining.claimed) || 0; }
 function miningPending(u) { return (u && u.mining && u.mining.pendingRequest) || null; }
-var HOUR = 3600 * 1000;
-var DAY = 24 * HOUR;
+var HOUR_MS = 3600 * 1000;
 function miningAccrued(u) {
   var t = miningMachine(u);
   if (!t || !miningActive(u)) return 0;
   var start = miningStartedAt(u);
   if (!start) return 0;
-  var rate = t.daily / DAY;
-  var since = Date.now() - start;
-  return Math.max(0, Math.min(t.daily, Math.floor(since * rate)));
+  var total = (Date.now() - start) / HOUR_MS * t.perHour;
+  return Math.max(0, total - miningClaimed(u));
 }
-function miningCycleLeft(u) {
-  var start = miningStartedAt(u);
-  if (!start) return 0;
-  var left = start + DAY - Date.now();
-  return left > 0 ? left : 0;
+function miningAvailable(u) { return Math.floor(miningAccrued(u)); }
+function miningNextCoinMs(u) {
+  var t = miningMachine(u);
+  if (!t || !miningActive(u)) return 0;
+  var msPerCoin = HOUR_MS / t.perHour;
+  var acc = miningAccrued(u);
+  var frac = acc - Math.floor(acc);
+  if (frac === 0 && acc > 0) return 0;
+  return Math.ceil((1 - frac) * msPerCoin);
 }
-function miningReady(u) { return miningActive(u) && miningCycleLeft(u) === 0; }
-
 async function activateFreeMachine() {
   var u = S.user; if (!u) return;
-  if (!miningUnlocked(u)) return toastErr('Unlock mining with 1 referral first.');
+  if (!miningUnlocked(u)) return toastErr('Invite 1 friend to unlock.');
   if (miningMachine(u)) return toastErr('You already have a machine.');
   try {
     var res = await db.ref(P.user(S.uid)).transaction(function (x) {
@@ -1161,46 +1085,62 @@ async function activateFreeMachine() {
       x.mining.machine = 'free';
       x.mining.active = true;
       x.mining.startedAt = Date.now();
+      x.mining.claimed = 0;
       return x;
     });
-    if (res.committed) { hap('success'); toast('Free mining activated! 1 coin/hour.'); closeSheet(); renderHome(); }
-  } catch (e) { console.error(e); toastErr('Could not activate.'); }
+    if (res.committed) { hap('success'); toast('Free machine activated!'); setTimeout(renderMiningPage, 250); }
+    else toastErr('Already have a machine.');
+  } catch (e) { toastErr('Could not activate.'); }
 }
 async function activateMining() {
   var u = S.user; if (!u) return;
-  if (!miningMachine(u)) return toastErr('You need a machine first.');
-  if (miningActive(u)) return toastErr('Mining already started.');
+  if (!miningMachine(u)) return toastErr('Buy a machine first.');
+  if (miningActive(u)) return toastErr('Already active.');
   try {
     var res = await db.ref(P.user(S.uid)).transaction(function (x) {
       if (!x || !x.mining || !x.mining.machine) return;
       if (x.mining.active) return;
       x.mining.active = true;
-      x.mining.startedAt = Date.now();
+      if (!x.mining.startedAt) x.mining.startedAt = Date.now();
+      x.mining.claimed = x.mining.claimed || 0;
       return x;
     });
-    if (res.committed) { hap('success'); toast('Mining started! Collect in 24h.'); renderHome(); closeSheet(); }
-  } catch (e) { toastErr('Could not start mining.'); }
+    if (res.committed) { hap('success'); toast('Mining started!'); setTimeout(renderMiningPage, 250); }
+  } catch (e) { toastErr('Could not start.'); }
 }
-async function claimMining() {
+async function claimMiningWithAd() {
   var u = S.user; if (!u) return;
-  if (!miningReady(u)) { var left = miningCycleLeft(u); return toastErr(left > 0 ? 'Come back in ' + fmtLeft(left) + '.' : 'Nothing to collect.'); }
   var t = miningMachine(u);
-  if (!t) return;
+  if (!t || !miningActive(u)) return toastErr('No active mining.');
+  var avail = miningAvailable(u);
+  if (avail < 1) return toastErr('You need at least 1 coin to claim.');
+  toast('Watch the ad to claim ' + avail + ' coins...');
+  try {
+    await runAdsbitvex();
+  } catch (e) {
+    console.warn('Claim ad failed', e);
+    return toastErr('You must watch the full ad to claim.');
+  }
   try {
     var res = await db.ref(P.user(S.uid)).transaction(function (x) {
       if (!x || !x.mining || !x.mining.active) return;
-      var start = x.mining.startedAt || 0;
-      if (!start || Date.now() - start < DAY) return;
       var tier = miningTierById(x.mining.machine);
       if (!tier) return;
-      applyIncome(x, tier.daily);
-      x.mining.lastClaim = Date.now();
-      x.mining.startedAt = Date.now();
-      x.mining.totalMined = (x.mining.totalMined || 0) + tier.daily;
+      var start = x.mining.startedAt || 0;
+      var claimed = x.mining.claimed || 0;
+      var total = (Date.now() - start) / HOUR_MS * tier.perHour;
+      var available = Math.floor(total - claimed);
+      if (available < 1) return;
+      applyIncome(x, available);
+      x.mining.claimed = claimed + available;
+      x.mining.totalMined = (x.mining.totalMined || 0) + available;
       return x;
     });
-    if (res.committed) { rewarded(t.daily, 'Mining reward collected'); renderHome(); closeSheet(); }
-  } catch (e) { toastErr('Could not collect.'); }
+    if (res.committed) {
+      rewarded(avail, 'Mining reward claimed');
+      setTimeout(renderMiningPage, 300);
+    } else toastErr('Could not claim.');
+  } catch (e) { toastErr('Could not claim.'); }
 }
 
 function renderMiningCard() {
@@ -1210,155 +1150,119 @@ function renderMiningCard() {
   var machine = miningMachine(u);
   var pending = miningPending(u);
   if (!unlocked) {
-    return '<div class="mine-card locked" data-sheet="mining">' +
-      '<div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span>' +
-      '<div class="grow"><h3>Mining</h3><p class="meta">Unlock with 1 referral · You have ' + refs + '</p></div></div>' +
-      '<button class="btn btn-soft btn-block" data-sheet="referral">' + ico('userplus', 'sm') + ' Invite friends</button></div>';
+    return '<div class="mine-card locked"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining</h3><p class="meta">Unlock with 1 referral · You have ' + refs + '</p></div></div><button class="btn btn-soft btn-block" data-sheet="referral">' + ico('userplus', 'sm') + ' Invite friends</button></div>';
   }
   if (pending && !machine) {
-    return '<div class="mine-card" data-sheet="mining">' +
-      '<div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span>' +
-      '<div class="grow"><h3>Mining</h3><p class="meta">Request pending · $' + pending.usd + ' · ' + fmt(pending.daily) + '/day</p></div></div>' +
-      '<div class="mining-status"><span class="spin-icon"></span> Waiting for admin approval</div></div>';
+    return '<div class="mine-card" data-go="mining"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining</h3><p class="meta">Request pending · $' + pending.usd + ' · ' + fmt(pending.daily) + '/day</p></div>' + ico('chev') + '</div><div class="mining-status"><span class="spin-icon"></span> Waiting for admin approval</div></div>';
   }
   if (machine && !miningActive(u)) {
-    return '<div class="mine-card" data-sheet="mining">' +
-      '<div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span>' +
-      '<div class="grow"><h3>Mining Machine</h3><p class="meta">' + (machine.free ? 'Free' : '$' + machine.usd) + ' · ' + fmt(machine.daily) + '/day</p></div></div>' +
-      '<div class="mining-status ok">' + ico('shieldok') + '<div>Ready. Click <b>Active</b> to start.</div></div>' +
-      '<button class="btn btn-jade btn-block" data-act="mine-activate">' + ico('play', 'sm') + ' Active</button></div>';
+    return '<div class="mine-card"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining Machine</h3><p class="meta">' + (machine.usd === 0 ? 'Free' : '$' + machine.usd) + ' · ' + fmt(machine.perHour) + '/hour</p></div></div><div class="mining-status ok">' + ico('shieldok') + '<div>Ready. Click <b>Active</b> to start.</div></div><button class="btn btn-jade btn-block" data-act="mine-activate">' + ico('play', 'sm') + ' Active</button></div>';
   }
   if (machine && miningActive(u)) {
-    var accrued = miningAccrued(u);
-    var ready = miningReady(u);
-    var left = miningCycleLeft(u);
-    var pct = Math.min(100, (accrued / machine.daily) * 100);
-    return '<div class="mine-card">' +
-      '<div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span>' +
-      '<div class="grow"><h3>Mining ' + (machine.free ? 'Free' : '$' + machine.usd) + ' · ' + fmt(machine.daily) + '/day</h3>' +
-      '<p class="meta">' + (ready ? 'Reward ready to collect!' : 'Next reward in ' + fmtLeft(left)) + '</p></div></div>' +
-      '<div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px">' +
-      '<div class="badge-live"><i></i>MINING</div>' +
-      '<div class="amt" style="font-size:26px">' + coin('lg') + fmt(accrued) + '</div>' +
-      '<div class="rate">1 dog/hour · ' + fmt(machine.daily) + ' per 24h</div>' +
-      '<div class="mining-progress"><i style="width:' + pct + '%"></i></div></div>' +
-      '<button class="btn ' + (ready ? 'btn-jade' : 'btn-cool') + ' btn-block" data-act="mine-claim" ' + (ready ? '' : 'disabled') + '>' + (ready ? 'Collect ' + fmt(machine.daily) + ' coins' : 'Come back in ' + fmtLeft(left)) + '</button></div>';
+    var avail = miningAvailable(u);
+    var nextMs = miningNextCoinMs(u);
+    var pct = Math.min(100, (miningAccrued(u) / machine.perHour) * 100);
+    return '<div class="mine-card" data-go="mining"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining ' + (machine.usd === 0 ? 'Free' : '$' + machine.usd) + ' · ' + fmt(machine.perHour) + '/hr</h3><p class="meta">' + (avail >= 1 ? 'Ready to claim!' : 'Next coin in ' + fmtClock(nextMs)) + '</p></div>' + ico('chev') + '</div><div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px"><div class="badge-live"><i></i>MINING</div><div class="amt" style="font-size:26px">' + coin('lg') + fmt(avail) + '</div><div class="rate">' + fmt(machine.perHour) + '/hour · ' + fmt(machine.daily) + '/day</div><div class="mining-progress"><i style="width:' + pct + '%"></i></div></div><button class="btn ' + (avail >= 1 ? 'btn-jade' : 'btn-cool') + ' btn-block" data-act="mine-claim-ad" ' + (avail < 1 ? 'disabled' : '') + '>' + (avail >= 1 ? 'Watch ad & claim ' + avail + ' coins' : 'Next coin in ' + fmtClock(nextMs)) + '</button></div>';
   }
-  return '<div class="mine-card" data-sheet="mining">' +
-    '<div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span>' +
-    '<div class="grow"><h3>Mining unlocked!</h3><p class="meta">Get the free machine or buy a paid one.</p></div></div>' +
-    '<button class="btn btn-primary btn-block" data-act="open-mining">' + ico('pick', 'sm') + ' Choose a machine</button></div>';
+  return '<div class="mine-card" data-go="mining"><div class="row"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining unlocked!</h3><p class="meta">Choose a mining machine</p></div>' + ico('chev') + '</div><button class="btn btn-primary btn-block" data-go="mining">' + ico('pick', 'sm') + ' Open Mining</button></div>';
 }
 
-function openMiningSheet() {
+function renderMiningPage() {
+  if (S.tab !== 'mining') return;
   var u = S.user || {};
   var unlocked = miningUnlocked(u);
   var machine = miningMachine(u);
-  var pending = miningPending(u);
   var active = miningActive(u);
-  var u_refs = referralCount(u);
-  var content = '';
+  var pending = miningPending(u);
+  var refs = referralCount(u);
+  var el = $('#p-mining');
+  var html = '';
+  html += '<div class="mp-header"><button class="mp-back" data-go="home" aria-label="Back">' + ico('arrow-left') + '</button><h1>Mining</h1></div>';
   if (!unlocked) {
-    content = '<div class="mining-status warn">' + ico('shield') + '<div>Invite <b>1</b> friend to unlock. You have <b>' + u_refs + '</b>.</div></div>' +
-      '<button class="btn btn-primary btn-block" data-sheet="referral">' + ico('userplus', 'sm') + ' Invite friends now</button>';
-  } else if (pending && !machine) {
-    content = '<div class="mining-status">' + ico('shieldok') + '<div>Your mining request is pending admin approval.</div></div>' +
-      '<div class="kv">' +
-      '<div><span class="mut">Machine</span><b>$' + pending.usd + ' · ' + fmt(pending.daily) + '/day</b></div>' +
-      '<div><span class="mut">Status</span><b><span class="pill brand">Pending</span></b></div>' +
-      '<div><span class="mut">Order ID</span><b>' + esc(pending.orderId || '—') + '</b></div>' +
-      '<div><span class="mut">Binance UID</span><b>' + esc(pending.binanceUid || '') + '</b></div></div>' +
-      '<p class="hint">Admin will verify your Binance order ID and unlock the machine.</p>';
-  } else if (machine) {
-    var accrued = miningAccrued(u);
-    var left = miningCycleLeft(u);
-    var ready = miningReady(u);
-    content = '<div class="mining-hero">' +
-      '<div class="badge-live"><i></i>' + (active ? 'MINING' : 'READY') + '</div>' +
-      '<div class="label">Machine: ' + (machine.free ? 'Free' : '$' + machine.usd) + ' · ' + machine.label + '</div>' +
-      '<div class="amt">' + coin('lg') + fmt(accrued) + '</div>' +
-      '<div class="rate">' + fmt(machine.daily) + ' coins / 24h · ' + fmt(machine.daily / 24) + ' dog per hour</div>' +
-      '<div class="mining-progress"><i style="width:' + Math.min(100, (accrued / machine.daily) * 100) + '%"></i></div></div>' +
-      '<div class="mine-machine-details">' +
-      '<div><span>Machine tier</span><span>' + (machine.free ? 'Free' : '$' + machine.usd) + ' ' + machine.label + '</span></div>' +
-      '<div><span>Daily rate</span><span>' + fmt(machine.daily) + ' coins</span></div>' +
-      '<div><span>Hourly rate</span><span>' + fmt(machine.daily / 24) + ' dog</span></div>' +
-      '<div><span>Total mined</span><span>' + fmt((u.mining && u.mining.totalMined) || 0) + ' coins</span></div>' +
-      '<div><span>Status</span><span>' + (active ? (ready ? 'Ready to collect' : 'Mining · ' + fmtLeft(left)) : 'Inactive') + '</span></div></div>' +
-      (active
-        ? '<button class="btn ' + (ready ? 'btn-jade' : 'btn-cool') + ' btn-block" data-act="mine-claim" ' + (ready ? '' : 'disabled') + '>' + (ready ? 'Collect ' + fmt(machine.daily) + ' coins' : 'Come back in ' + fmtLeft(left)) + '</button>'
-        : '<button class="btn btn-jade btn-block" data-act="mine-activate">' + ico('play', 'sm') + ' Active · Start mining</button>') +
-      '<div class="gap"></div>' +
-      '<p class="hint" style="text-align:center">After you collect, the next 24h cycle starts automatically.</p>';
+    html += '<div class="mp-locked"><div class="lock-icon">' + ico('shield') + '</div><h3>Mining Locked</h3><p>Invite <b>1 friend</b> to unlock mining. You have <b>' + refs + '</b>.</p><button class="btn btn-primary btn-block" data-sheet="referral">' + ico('userplus', 'sm') + ' Invite friends</button></div>';
   } else {
-    var tiersHtml = CONFIG.mining.tiers.map(function (t) {
-      var isFree = t.free;
-      var cls = isFree ? 'free-tier' : '';
-      return '<button class="mine-tier ' + cls + '" data-act="mine-pick" data-id="' + t.id + '">' +
-        (isFree ? '<span class="tier-tag free">FREE</span>' : '') +
-        '<b>' + (isFree ? 'Free' : '$' + t.usd) + '</b>' +
-        '<span class="rate">' + coin() + fmt(t.daily) + ' / day</span></button>';
-    }).join('');
-    content = '<p class="lead">Pick a machine. Free is instant. Paid machines need a deposit to Binance.</p>' +
-      '<div class="mine-tiers">' + tiersHtml + '</div>';
+    if (pending && !machine) {
+      html += '<div class="mp-status warn">' + ico('shield') + '<div>Request pending admin approval</div></div>';
+      html += '<div class="kv"><div><span>Machine</span><b>$' + pending.usd + '</b></div><div><span>Rate</span><b>' + fmt(pending.perHour || 0) + '/hr · ' + fmt(pending.daily) + '/day</b></div><div><span>Order ID</span><b>' + esc(pending.orderId || '—') + '</b></div><div><span>Status</span><b><span class="pill brand">Pending</span></b></div></div>';
+    }
+    if (machine && active) {
+      var avail = miningAvailable(u);
+      var nextMs = miningNextCoinMs(u);
+      var pct = Math.min(100, (miningAccrued(u) / machine.perHour) * 100);
+      html += '<div class="mp-active"><div class="mp-live"><i></i>MINING</div><div class="mp-machine-label">' + (machine.usd === 0 ? 'Free Machine' : '$' + machine.usd + ' ' + machine.label) + '</div><div class="mp-accrued">' + coin('lg') + '<span class="num">' + fmt(avail) + '</span></div><div class="mp-rate"><span>' + fmt(machine.perHour) + ' per hour</span><span>·</span><span>' + fmt(machine.daily) + ' per day</span></div><div class="mp-countdown"><span>Next coin in</span><b id="mpCountdown">' + fmtClock(nextMs) + '</b></div><div class="mp-progress"><i style="width:' + pct + '%"></i></div><div class="mp-actions"><button class="btn btn-jade" data-act="mine-claim-ad" ' + (avail < 1 ? 'disabled' : '') + '>' + (avail >= 1 ? 'Watch ad & claim ' + avail : 'Wait ' + fmtClock(nextMs)) + '</button></div></div>';
+    } else if (machine && !active) {
+      html += '<div class="mp-status ok">' + ico('shieldok') + '<div>Machine ready. Click <b>Active</b> to start earning.</div></div>';
+      html += '<button class="btn btn-jade btn-block" data-act="mine-activate" style="margin-bottom:18px">' + ico('play', 'sm') + ' Active · Start mining</button>';
+    }
+    html += '<div class="mp-machines-title">' + ico('pick') + ' Mining Machines</div>';
+    html += '<div class="mp-machines">';
+    CONFIG.mining.tiers.forEach(function (t) {
+      var isFree = t.id === 'free';
+      var isGold = t.usd >= 10;
+      var isCurrent = machine && machine.id === t.id;
+      var cls = 'mp-machine';
+      if (isFree) cls += ' free-tier';
+      if (isGold) cls += ' gold';
+      if (isCurrent) cls += ' current';
+      var tag = isCurrent ? '<span class="mp-tag current">CURRENT</span>' : (isFree ? '<span class="mp-tag free">FREE</span>' : (isGold ? '<span class="mp-tag gold">HOT</span>' : ''));
+      html += '<div class="' + cls + '">' + tag + '<div class="mp-icon">' + ico('pick') + '</div><div class="mp-price">' + (isFree ? 'Free' : '$' + t.usd) + '</div><div class="mp-rate2"><div class="rowr">' + coin() + fmt(t.perHour) + ' per hour</div><div class="rowr">' + coin() + fmt(t.daily) + ' per 24h</div></div>';
+      if (isCurrent) html += '<button class="btn btn-jade btn-block mp-buy" disabled>' + (active ? 'ACTIVE' : 'OWNED') + '</button>';
+      else if (isFree) html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-pick" data-id="' + t.id + '">Activate free</button>';
+      else html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-pick" data-id="' + t.id + '">Buy $' + t.usd + '</button>';
+      html += '</div>';
+    });
+    html += '</div>';
+    if (!machine) html += '<p class="hint" style="text-align:center;margin-top:16px">Free machine activates instantly. Paid machines need Binance deposit + admin approval.</p>';
   }
-  openSheet('<h2>Mining</h2>' + content);
+  el.innerHTML = html;
 }
+setInterval(function () {
+  if (S.tab !== 'mining') return;
+  var u = S.user;
+  if (!u || !miningActive(u)) return;
+  var avail = miningAvailable(u);
+  var nextMs = miningNextCoinMs(u);
+  var cdEl = $('#mpCountdown');
+  if (cdEl) cdEl.textContent = fmtClock(nextMs);
+  // Update claim button and stats if changed
+  var t = miningMachine(u);
+  if (t) {
+    var pct = Math.min(100, (miningAccrued(u) / t.perHour) * 100);
+    var pi = $('.mp-progress i'); if (pi) pi.style.width = pct + '%';
+    var numEl = $('.mp-accrued .num'); if (numEl) numEl.textContent = fmt(avail);
+    var btn = $('[data-act="mine-claim-ad"]');
+    if (btn) {
+      if (avail >= 1) { btn.disabled = false; btn.textContent = 'Watch ad & claim ' + avail; btn.className = 'btn btn-jade'; }
+      else { btn.disabled = true; btn.textContent = 'Wait ' + fmtClock(nextMs); btn.className = 'btn btn-jade'; }
+    }
+  }
+}, 1000);
 
 function openMachineDepositForm(tier) {
-  openSheet('<h2>Buy $' + tier.usd + ' Machine</h2>' +
-    '<p class="lead">Send $' + tier.usd + ' USDT to the Binance UID below, then submit your Order ID.</p>' +
-    '<div class="linkbox"><div class="grow"><small class="mut">Binance UID</small><div style="font:800 21px \'Sora\',sans-serif;letter-spacing:.04em">' + esc(CONFIG.deposit.binanceUid) + '</div></div>' +
-    '<button class="btn btn-soft btn-sm" data-copy="' + esc(CONFIG.deposit.binanceUid) + '">' + ico('copy', 'sm') + ' Copy</button></div>' +
-    '<ol class="steps">' +
-    '<li>Open Binance and send exactly <b>$' + tier.usd + '</b> USDT to the UID above.</li>' +
-    '<li>Copy the Order ID from your payment confirmation.</li>' +
-    '<li>Paste the Order ID below and submit.</li>' +
-    '<li>Admin verifies and your machine unlocks — then tap Active.</li></ol>' +
-    '<div class="kv">' +
-    '<div><span class="mut">Machine</span><b>$' + tier.usd + ' ' + tier.label + '</b></div>' +
-    '<div><span class="mut">Daily reward</span><b>' + fmt(tier.daily) + ' coins</b></div>' +
-    '<div><span class="mut">Hourly rate</span><b>' + fmt(tier.daily / 24) + ' dog</b></div></div>' +
-    '<div class="field"><label for="mOrder">Binance Order ID</label>' +
-    '<input id="mOrder" class="input" autocomplete="off" autocapitalize="off" placeholder="Enter Binance Order ID" value=""></div>' +
+  openSheet('<h2>Buy $' + tier.usd + ' Machine</h2><p class="lead">Send $' + tier.usd + ' USDT to the Binance UID, then submit your Order ID.</p>' +
+    '<div class="linkbox"><div class="grow"><small class="mut">Binance UID</small><div style="font:800 21px \'Sora\',sans-serif;letter-spacing:.04em">' + esc(CONFIG.deposit.binanceUid) + '</div></div><button class="btn btn-soft btn-sm" data-copy="' + esc(CONFIG.deposit.binanceUid) + '">' + ico('copy', 'sm') + ' Copy</button></div>' +
+    '<ol class="steps"><li>Open Binance and send exactly <b>$' + tier.usd + '</b> USDT to the UID above.</li><li>Copy the Order ID from confirmation.</li><li>Paste Order ID below.</li><li>Admin verifies → machine unlocks.</li></ol>' +
+    '<div class="kv"><div><span>Machine</span><b>$' + tier.usd + ' ' + tier.label + '</b></div><div><span>Per hour</span><b>' + fmt(tier.perHour) + ' coins</b></div><div><span>Per 24h</span><b>' + fmt(tier.daily) + ' coins</b></div></div>' +
+    '<div class="field"><label for="mOrder">Binance Order ID</label><input id="mOrder" class="input" placeholder="Order ID" value=""></div>' +
     '<div class="alert" id="mErr" hidden></div>' +
-    '<button class="btn btn-primary btn-block" id="mSubmit">Submit mining deposit</button>' +
-    '<button class="btn btn-line btn-block" id="mBack" style="margin-top:8px">Back to machines</button>',
+    '<button class="btn btn-primary btn-block" id="mSubmit">Submit deposit</button>' +
+    '<button class="btn btn-line btn-block" id="mBack" style="margin-top:8px">Back</button>',
     function (b) {
-      var orderInput = $('#mOrder', b);
-      var err = $('#mErr', b);
-      var submit = $('#mSubmit', b);
-      var back = $('#mBack', b);
-      if (back) back.onclick = function () { openMiningSheet(); };
+      var orderInput = $('#mOrder', b), err = $('#mErr', b), submit = $('#mSubmit', b), back = $('#mBack', b);
+      if (back) back.onclick = function () { closeSheet(); };
       if (submit) submit.onclick = async function () {
         var orderId = (orderInput.value || '').trim();
-        if (orderId.length < 5) { err.hidden = false; err.textContent = 'Enter a valid Binance Order ID.'; return; }
-        submit.disabled = true;
-        submit.innerHTML = '<span class="spin-icon"></span> Submitting';
+        if (orderId.length < 5) { err.hidden = false; err.textContent = 'Valid Order ID required.'; return; }
+        submit.disabled = true; submit.innerHTML = '<span class="spin-icon"></span> Submitting';
         try {
           var key = String(Date.now());
-          await db.ref('pn/miningRequests/' + key).set({
-            uid: S.uid, name: S.user.name || '', username: S.user.username || '',
-            tier: tier.id, usd: tier.usd, daily: tier.daily,
-            binanceUid: CONFIG.deposit.binanceUid,
-            orderId: orderId, status: 'pending', createdAt: TS
-          });
-          await db.ref(P.user(S.uid) + '/mining/pendingRequest').set({
-            id: key, tier: tier.id, usd: tier.usd, daily: tier.daily,
-            binanceUid: CONFIG.deposit.binanceUid, orderId: orderId,
-            status: 'pending', createdAt: Date.now()
-          });
+          await db.ref('pn/miningRequests/' + key).set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', tier: tier.id, usd: tier.usd, perHour: tier.perHour, daily: tier.daily, binanceUid: CONFIG.deposit.binanceUid, orderId: orderId, status: 'pending', createdAt: TS });
+          await db.ref(P.user(S.uid) + '/mining/pendingRequest').set({ id: key, tier: tier.id, usd: tier.usd, perHour: tier.perHour, daily: tier.daily, binanceUid: CONFIG.deposit.binanceUid, orderId: orderId, status: 'pending', createdAt: Date.now() });
           hap('success');
-          toast('Mining deposit submitted. Admin will verify soon.');
+          toast('Deposit submitted. Admin will verify soon.');
           closeSheet();
-          renderHome();
-        } catch (e) {
-          console.error(e);
-          submit.disabled = false;
-          submit.textContent = 'Try again';
-          err.hidden = false;
-          err.textContent = 'Could not submit. Try again.';
-        }
+          setTimeout(renderMiningPage, 300);
+        } catch (e) { submit.disabled = false; submit.textContent = 'Try again'; err.hidden = false; err.textContent = 'Failed.'; }
       };
     });
 }
@@ -1380,41 +1284,27 @@ function parseTg(raw) {
   if (['t.me', 'www.t.me', 'telegram.me'].indexOf(u.hostname.toLowerCase()) < 0) return null;
   var p = u.pathname.split('/').filter(Boolean);
   if (!p.length) return null;
-  if (p[0] === 'c') {
-    if (p.length === 3 && /^\d+$/.test(p[1]) && /^\d+$/.test(p[2])) return { kind: 'post', chat: '-100' + p[1], msgId: +p[2], url: 'https://t.me/c/' + p[1] + '/' + p[2] };
-    return null;
-  }
+  if (p[0] === 'c') { if (p.length === 3 && /^\d+$/.test(p[1]) && /^\d+$/.test(p[2])) return { kind: 'post', chat: '-100' + p[1], msgId: +p[2], url: 'https://t.me/c/' + p[1] + '/' + p[2] }; return null; }
   var name = p[0];
   if (!/^[A-Za-z][A-Za-z0-9_]{3,31}$/.test(name)) return null;
   var isBot = /bot$/i.test(name);
   var ref = /^\?(start|startapp)=[\w.=-]{1,128}$/.test(u.search) ? u.search : '';
-  if (p.length === 1) {
-    if (isBot) return { kind: 'bot', chat: '@' + name, url: 'https://t.me/' + name + ref };
-    return { kind: 'channel', chat: '@' + name, url: 'https://t.me/' + name };
-  }
+  if (p.length === 1) { if (isBot) return { kind: 'bot', chat: '@' + name, url: 'https://t.me/' + name + ref }; return { kind: 'channel', chat: '@' + name, url: 'https://t.me/' + name }; }
   if (p.length === 2 && isBot && /^[A-Za-z][A-Za-z0-9_]{2,31}$/.test(p[1])) return { kind: 'bot', chat: '@' + name, url: 'https://t.me/' + name + '/' + p[1] + ref };
   if (p.length === 2 && /^\d+$/.test(p[1]) && !isBot) return { kind: 'post', chat: '@' + name, msgId: +p[1], url: 'https://t.me/' + name + '/' + p[1] };
   return null;
 }
 function checkWeb(cat, s) {
-  if (!/^https:\/\//i.test(s)) return { ok: false, msg: 'The link must start with https://.' };
+  if (!/^https:\/\//i.test(s)) return { ok: false, msg: 'Must start with https://.' };
   var u; try { u = new URL(s); } catch (e) { return { ok: false, msg: 'Not a valid link.' }; }
   var h = u.hostname.toLowerCase().replace(/^www\./, '');
   if (h.indexOf('.') < 0 || s.length > 300 || u.username || u.password) return { ok: false, msg: 'Not a valid link.' };
   var isTg = /^(t|telegram)\.me$/.test(h), isYt = /(^|\.)(youtube\.com|youtu\.be|youtube-nocookie\.com)$/.test(h);
-  if (cat.kind === 'web') {
-    if (isTg) return { ok: false, msg: 'This is a Telegram link.' };
-    if (isYt) return { ok: false, msg: 'This is a YouTube link.' };
-    return { ok: true, p: { kind: 'web', chat: null, url: u.href } };
-  }
+  if (cat.kind === 'web') { if (isTg) return { ok: false, msg: 'This is a Telegram link.' }; if (isYt) return { ok: false, msg: 'This is a YouTube link.' }; return { ok: true, p: { kind: 'web', chat: null, url: u.href } }; }
   var id = null;
   if (h === 'youtu.be') id = u.pathname.split('/')[1];
-  else if (/(^|\.)youtube\.com$/.test(h)) {
-    var seg = u.pathname.split('/').filter(Boolean);
-    if (seg[0] === 'watch') id = u.searchParams.get('v');
-    else if (['shorts', 'embed', 'live'].indexOf(seg[0]) >= 0) id = seg[1];
-  }
-  if (!id || !/^[\w-]{11}$/.test(id)) return { ok: false, msg: 'Not a YouTube video link.' };
+  else if (/(^|\.)youtube\.com$/.test(h)) { var seg = u.pathname.split('/').filter(Boolean); if (seg[0] === 'watch') id = u.searchParams.get('v'); else if (['shorts', 'embed', 'live'].indexOf(seg[0]) >= 0) id = seg[1]; }
+  if (!id || !/^[\w-]{11}$/.test(id)) return { ok: false, msg: 'Not a YouTube link.' };
   return { ok: true, p: { kind: 'yt', chat: null, url: 'https://www.youtube.com/watch?v=' + id } };
 }
 function checkUrl(type, raw) {
@@ -1429,15 +1319,11 @@ function checkUrl(type, raw) {
 var BAD_EN = /(^|[^a-z0-9])(porn\w*|pr0n|xxx+|sex\w*|nud(e|es|ity)|naked|nsfw|hentai|erotic\w*|escort\w*|onlyfans|18\s?\+|adult\s?(content|video|chat)|milf|blowjob|fetish|bdsm|hookup|chudai)([^a-z0-9]|$)/i;
 var BAD_BN = /(পর্ন|সেক্স|নগ্ন|উলঙ্গ|চটি)/;
 function isBad(t) { return !!t && (BAD_EN.test(String(t).replace(/[_\-.]+/g, ' ')) || BAD_BN.test(String(t))); }
-var HARAM_MSG = 'This is haram. Adult content is not allowed on DOGS.';
+var HARAM_MSG = 'Haram content not allowed.';
 function botName() { return '@' + CONFIG.botLink.split('/').pop().split('?')[0]; }
 function adminLink(type) { return CONFIG.botLink + '?' + (type === 'channel' ? 'startchannel' : 'startgroup') + '&admin=invite_users'; }
 function adminButtons() { return '<div class="actions" style="margin-top:12px"><button class="btn btn-primary btn-sm" data-act="add-admin">Add DOGS as admin</button><button class="btn btn-soft btn-sm" data-act="recheck">Check again</button></div>'; }
-
-async function tgApi(method, qs) {
-  var r = await fetch('https://api.telegram.org/bot' + CONFIG.botToken + '/' + method + '?' + qs);
-  return r.json();
-}
+async function tgApi(method, qs) { var r = await fetch('https://api.telegram.org/bot' + CONFIG.botToken + '/' + method + '?' + qs); return r.json(); }
 async function chatCheck(p, type) {
   var ck = p.chat + '|' + type, c = S.chatCache[ck];
   if (c && Date.now() - c.t < 60000) return c.v;
@@ -1448,13 +1334,9 @@ async function chatCheck(p, type) {
   else if (CONFIG.botToken) {
     try {
       var j = await tgApi('getChat', 'chat_id=' + encodeURIComponent(p.chat));
-      if (!j.ok) {
-        if (needTrack) v = { ok: false, reason: /^-100/.test(p.chat) ? 'needadmin' : 'notfound' };
-        else if (!/^-100/.test(p.chat)) v = { ok: false, reason: 'notfound' };
-      } else {
-        var ch = j.result;
-        v.chatType = ch.type;
-        v.texts = [ch.title || '', ch.description || '', ch.username || ''];
+      if (!j.ok) { if (needTrack) v = { ok: false, reason: /^-100/.test(p.chat) ? 'needadmin' : 'notfound' }; else if (!/^-100/.test(p.chat)) v = { ok: false, reason: 'notfound' }; }
+      else {
+        var ch = j.result; v.chatType = ch.type; v.texts = [ch.title || '', ch.description || '', ch.username || ''];
         if (type === 'join' && ch.type === 'private') v = { ok: false, reason: 'notchannel' };
         else if (needTrack) {
           if (!S.botId) { var me = await tgApi('getMe', ''); S.botId = me.ok ? me.result.id : null; }
@@ -1471,24 +1353,11 @@ async function screenTarget(p, extra, type) {
   var cc = await chatCheck(p, type);
   if (!cc.ok) return cc;
   var texts = [p.chat || '', p.url].concat(cc.texts || [], extra || []);
-  if (texts.some(isBad)) {
-    try { db.ref('pn/flags').push().set({ uid: S.uid, url: p.url, createdAt: TS }); } catch (e) {}
-    return { ok: false, reason: 'adult' };
-  }
+  if (texts.some(isBad)) { try { db.ref('pn/flags').push().set({ uid: S.uid, url: p.url, createdAt: TS }); } catch (e) {} return { ok: false, reason: 'adult' }; }
   return { ok: true, chatType: cc.chatType };
 }
-function blockText(r) {
-  return ({ adult: HARAM_MSG, notfound: 'Could not find this channel.', notchannel: 'This is a person, not a channel.', needadmin: 'Tap "Add DOGS as admin", pick the channel, confirm.', notrack: 'Join campaigns not available.', offline: 'Could not check right now.' }[r] || 'Cannot promote this link.');
-}
-function showBlock(msg, extra) {
-  var b = $('#blockBox'); if (!b) return;
-  var uh = $('#urlHint'); if (uh) uh.hidden = true;
-  b.textContent = msg;
-  if (extra) b.insertAdjacentHTML('beforeend', extra);
-  b.hidden = false;
-  b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake');
-  hap('error');
-}
+function blockText(r) { return ({ adult: HARAM_MSG, notfound: 'Could not find channel.', notchannel: 'This is a person.', needadmin: 'Add DOGS as admin.', notrack: 'Not available.', offline: 'Could not check.' }[r] || 'Cannot promote.'); }
+function showBlock(msg, extra) { var b = $('#blockBox'); if (!b) return; var uh = $('#urlHint'); if (uh) uh.hidden = true; b.textContent = msg; if (extra) b.insertAdjacentHTML('beforeend', extra); b.hidden = false; b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); hap('error'); }
 
 async function verifyRemote(task) {
   var chat = task.chat;
@@ -1509,15 +1378,8 @@ async function verifyRemote(task) {
 async function claimTask(task) {
   var remRef = db.ref(P.task(task.id) + '/remaining');
   var slot = await remRef.transaction(function (r) { if (r === null) return null; return r > 0 ? r - 1 : undefined; });
-  if (!slot.committed || slot.snapshot.val() === null) { toastErr('Task is full.'); return false; }
-  var res = await db.ref(P.user(S.uid)).transaction(function (u) {
-    if (!u) return u;
-    u.done = u.done || {};
-    if (u.done[task.id]) return;
-    u.done[task.id] = true;
-    applyTaskIncome(u, task.perUser);
-    return u;
-  });
+  if (!slot.committed || slot.snapshot.val() === null) { toastErr('Task full.'); return false; }
+  var res = await db.ref(P.user(S.uid)).transaction(function (u) { if (!u) return u; u.done = u.done || {}; if (u.done[task.id]) return; u.done[task.id] = true; applyTaskIncome(u, task.perUser); return u; });
   if (!res.committed) { await remRef.transaction(function (r) { return (r || 0) + 1; }); toastErr('Already completed.'); return false; }
   if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
   if (slot.snapshot.val() === 0) db.ref(P.task(task.id) + '/status').set('completed');
@@ -1525,13 +1387,7 @@ async function claimTask(task) {
   if (task.type === 'join') watchJoin(task);
   return true;
 }
-function watchJoin(t) {
-  var now = Date.now();
-  db.ref('pn/joinWatch/' + t.id + '_' + S.uid).set({
-    uid: S.uid, taskId: t.id, chat: t.chat, owner: t.owner, amt: t.perUser, title: t.title || '',
-    at: now, until: now + CONFIG.leave.days * 86400000, next: now + CONFIG.leave.firstCheckMin * 60000
-  }).catch(function () {});
-}
+function watchJoin(t) { var now = Date.now(); db.ref('pn/joinWatch/' + t.id + '_' + S.uid).set({ uid: S.uid, taskId: t.id, chat: t.chat, owner: t.owner, amt: t.perUser, title: t.title || '', at: now, until: now + CONFIG.leave.days * 86400000, next: now + CONFIG.leave.firstCheckMin * 60000 }).catch(function () {}); }
 async function flushOutbox(uid) {
   try {
     var snap = await db.ref(P.user(uid) + '/outbox').once('value');
@@ -1540,37 +1396,28 @@ async function flushOutbox(uid) {
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i], o = obj[k];
       if (o && o.owner && o.amt > 0) {
-        await db.ref(P.user(o.owner)).transaction(function (r) {
-          if (!r) return r;
-          r.recv = r.recv || {}; if (r.recv[k]) return;
-          r.recv[k] = o.amt; r.rjBalance = (r.rjBalance || 0) + o.amt; r.reclaimed = (r.reclaimed || 0) + o.amt;
-          return r;
-        });
+        await db.ref(P.user(o.owner)).transaction(function (r) { if (!r) return r; r.recv = r.recv || {}; if (r.recv[k]) return; r.recv[k] = o.amt; r.rjBalance = (r.rjBalance || 0) + o.amt; r.reclaimed = (r.reclaimed || 0) + o.amt; return r; });
       }
       await db.ref(P.user(uid) + '/outbox/' + k).remove();
     }
-  } catch (e) { console.warn('flushOutbox', e); }
+  } catch (e) {}
 }
 async function clawback(key, w) {
   await db.ref(P.user(w.uid)).transaction(function (u) {
     if (!u) return u;
     u.clawed = u.clawed || {}; if (u.clawed[key]) return;
     var pay = Math.min(Math.max(u.rjBalance || 0, 0), w.amt), rest = w.amt - pay;
-    u.clawed[key] = { amt: w.amt, owner: w.owner, at: Date.now(), title: w.title || '' };
+    u.clawed[key] = { amt: w.amt, owner: w.owner, at: Date.now() };
     u.rjBalance = (u.rjBalance || 0) - pay;
     if (pay > 0) { u.outbox = u.outbox || {}; u.outbox[key + '_0'] = { owner: w.owner, amt: pay }; }
-    if (rest > 0) { u.debts = u.debts || {}; u.debts[key] = { owner: w.owner, left: rest, title: w.title || '' }; u.debtTotal = (u.debtTotal || 0) + rest; }
+    if (rest > 0) { u.debts = u.debts || {}; u.debts[key] = { owner: w.owner, left: rest }; u.debtTotal = (u.debtTotal || 0) + rest; }
     return u;
   });
   await db.ref('pn/joinWatch/' + key).remove();
   await flushOutbox(w.uid);
 }
 async function checkJoin(key) {
-  var claim = await db.ref('pn/joinWatch/' + key).transaction(function (x) {
-    if (!x || x.next > Date.now()) return;
-    x.next = Date.now() + CONFIG.leave.recheckMin * 60000;
-    return x;
-  });
+  var claim = await db.ref('pn/joinWatch/' + key).transaction(function (x) { if (!x || x.next > Date.now()) return; x.next = Date.now() + CONFIG.leave.recheckMin * 60000; return x; });
   if (!claim.committed) return;
   var w = claim.snapshot.val(); if (!w) return;
   if (Date.now() > w.until) return db.ref('pn/joinWatch/' + key).remove();
@@ -1585,7 +1432,7 @@ async function sweepJoins() {
     var snap = await db.ref('pn/joinWatch').orderByChild('next').endAt(Date.now()).limitToFirst(CONFIG.leave.batch).once('value');
     var keys = Object.keys(snap.val() || {});
     for (var i = 0; i < keys.length; i++) await checkJoin(keys[i]);
-  } catch (e) { console.warn('sweepJoins', e); }
+  } catch (e) {}
   S.sweepingJoins = false;
 }
 async function settleDebts() {
@@ -1614,11 +1461,9 @@ async function settleDebts() {
 function notifyCredits(u) {
   var ref = u.refEarned || 0, rec = u.reclaimed || 0, ck = Object.keys(u.clawed || {});
   if (S.prevCred) {
-    if (ref > S.prevCred.ref) rewarded(ref - S.prevCred.ref, 'Friend joined, referral coins');
-    if (rec > S.prevCred.rec) rewardedD(rec - S.prevCred.rec, 'Returned: a user left');
-    ck.filter(function (k) { return S.prevCred.ck.indexOf(k) < 0; }).forEach(function (k) {
-      toastErr('You left a channel within ' + CONFIG.leave.days + ' days. ' + fmt(u.clawed[k].amt) + ' D Coin returned.');
-    });
+    if (ref > S.prevCred.ref) rewarded(ref - S.prevCred.ref, 'Referral coins');
+    if (rec > S.prevCred.rec) rewardedD(rec - S.prevCred.rec, 'Channel leave return');
+    ck.filter(function (k) { return S.prevCred.ck.indexOf(k) < 0; }).forEach(function (k) { toastErr('Left a channel early. ' + fmt(u.clawed[k].amt) + ' D Coin returned.'); });
   }
   S.prevCred = { ref: ref, rec: rec, ck: ck };
 }
@@ -1642,11 +1487,7 @@ function taskCard(t) {
   var c = CAT[t.type], st = S.ui[t.id] || {};
   if (isMine(t)) {
     var done = (t.total || 0) - (t.remaining || 0), pct = t.total ? done / t.total * 100 : 0;
-    return '<article class="card"><div class="row"><span class="tbadge t-' + t.type + '">' + ico(c.icon) + '</span>' +
-      '<div class="grow"><h3>' + esc(t.title) + '</h3><p class="meta">' + c.label + ', ' + fmt(t.perUser) + ' D Coin per user</p></div>' +
-      '<span class="pill brand">Your campaign</span></div>' +
-      '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
-      '<div class="row" style="justify-content:space-between;font-size:13px"><span class="mut">' + fmt(done) + ' of ' + fmt(t.total) + ' users</span><span class="mut">' + fmt(t.remaining) + ' left</span></div></article>';
+    return '<article class="card"><div class="row"><span class="tbadge t-' + t.type + '">' + ico(c.icon) + '</span><div class="grow"><h3>' + esc(t.title) + '</h3><p class="meta">' + c.label + ', ' + fmt(t.perUser) + ' D/user</p></div><span class="pill brand">Yours</span></div><div class="bar"><i style="width:' + pct + '%"></i></div></article>';
   }
   var busy = '<span class="spin-icon"></span>';
   var acts = '', wrap = 'actions';
@@ -1656,23 +1497,13 @@ function taskCard(t) {
   if (t.type === 'conditions') {
     wrap = 'stack';
     var un = st.uname !== undefined ? st.uname : (S.user.username ? '@' + S.user.username : '');
-    acts = '<button class="btn btn-primary btn-block" data-act="cond-open" data-id="' + t.id + '">Open bot</button>' +
-      '<div class="field sub"><label for="u-' + t.id + '">Submit your username</label><input id="u-' + t.id + '" class="input" data-uname="' + t.id + '" maxlength="40" autocomplete="off" autocapitalize="off" placeholder="Your username in the bot" value="' + esc(un) + '"></div>' +
-      '<button class="btn btn-soft btn-block" data-act="cond-submit" data-id="' + t.id + '" ' + (st.busy ? 'disabled' : '') + '>' + (st.busy ? busy : st.failed ? 'Try again' : 'Submit for review') + '</button>';
+    acts = '<button class="btn btn-primary btn-block" data-act="cond-open" data-id="' + t.id + '">Open bot</button><div class="field sub"><label>Username</label><input class="input" data-uname="' + t.id + '" maxlength="40" placeholder="username" value="' + esc(un) + '"></div><button class="btn btn-soft btn-block" data-act="cond-submit" data-id="' + t.id + '">Submit</button>';
   }
   var steps = t.type === 'conditions' && t.steps ? '<ol class="steps">' + t.steps.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ol>' : '';
-  var note = t.type === 'join' ? '<p class="adnote" style="margin:10px 0 0">Stay for ' + CONFIG.leave.days + ' days. If you leave earlier, the reward returns to the owner.</p>' : '';
-  return '<article class="card">' +
-    '<div class="row"><span class="tbadge t-' + t.type + '">' + ico(c.icon) + '</span>' +
-    '<div class="grow"><h3>' + esc(t.title) + '</h3><p class="meta">' + c.label + ', ' + fmt(t.remaining) + ' spots left</p></div>' +
-    '<span class="reward rj">' + coinD() + '+' + fmt(t.perUser) + '</span></div>' +
-    steps + note + '<div class="' + wrap + '">' + acts + '</div></article>';
+  return '<article class="card"><div class="row"><span class="tbadge t-' + t.type + '">' + ico(c.icon) + '</span><div class="grow"><h3>' + esc(t.title) + '</h3><p class="meta">' + c.label + ', ' + fmt(t.remaining) + ' spots</p></div><span class="reward rj">' + coinD() + '+' + fmt(t.perUser) + '</span></div>' + steps + '<div class="' + wrap + '">' + acts + '</div></article>';
 }
 function pendingCard(t) {
-  var at = (S.user.subAt || {})[t.id] || 0, ms = at ? at + CONFIG.reviewHours * 3600000 - Date.now() : 0;
-  return '<article class="card"><div class="row"><span class="tbadge t-conditions">' + ico('shieldok') + '</span>' +
-    '<div class="grow"><h3>' + esc(t.title || 'Task') + '</h3><p class="meta">Waiting for advertiser' + (ms > 0 ? ', auto-approved in ' + fmtLeft(ms) : '') + '</p></div>' +
-    '<span class="reward rj">' + coinD() + '+' + fmt(t.perUser) + '</span></div></article>';
+  return '<article class="card"><div class="row"><span class="tbadge t-conditions">' + ico('shieldok') + '</span><div class="grow"><h3>' + esc(t.title || 'Task') + '</h3><p class="meta">Waiting for advertiser</p></div><span class="reward rj">' + coinD() + '+' + fmt(t.perUser) + '</span></div></article>';
 }
 function renderTasks() {
   if (S.tab !== 'tasks') return;
@@ -1680,29 +1511,19 @@ function renderTasks() {
   if (ae && ae.matches && ae.matches('[data-uname]')) { S.taskDirty = true; return; }
   var all = listTasks(), pend = pendingTasks();
   var n = function (k) { return k === 'all' ? all.length : k === 'pending' ? pend.length : all.filter(function (t) { return t.type === k; }).length; };
-  var list = S.filter === 'pending' ? pend : (S.filter === 'all' ? all : all.filter(function (t) { return t.type === S.filter; })).sort(function (a, b) { return b.perUser - a.perUser || (a.createdAt || 0) - (b.createdAt || 0); });
-  var chips = [['all', 'All'], ['join', 'Join'], ['reaction', 'Reaction'], ['view', 'View'], ['conditions', 'With conditions'], ['website', 'Website'], ['youtube', 'YouTube'], ['pending', 'Pending']]
-    .map(function (p) { return '<button class="chip ' + (S.filter === p[0] ? 'on' : '') + '" data-act="filter" data-k="' + p[0] + '">' + p[1] + '<em>' + n(p[0]) + '</em></button>'; }).join('');
-  var el = $('#p-tasks');
-  el.innerHTML = '<h1>Tasks</h1><p class="sub">Complete tasks and earn D Coin. Higher rewards come first.</p>' +
-    '<div class="chips">' + chips + '</div>' +
-    '<div class="list">' + (!S.tasksLoaded ? '<div class="skel"></div><div class="skel"></div>' : list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : '<div class="empty">' + ico('tasks') + '<b>' + (S.filter === 'pending' ? 'Nothing waiting' : 'No tasks right now') + '</b><button class="btn btn-soft" data-go="earn">Go to Earn</button></div>') + '</div>';
+  var list = S.filter === 'pending' ? pend : (S.filter === 'all' ? all : all.filter(function (t) { return t.type === S.filter; })).sort(function (a, b) { return b.perUser - a.perUser; });
+  var chips = [['all', 'All'], ['join', 'Join'], ['reaction', 'Reaction'], ['view', 'View'], ['conditions', 'With conditions'], ['website', 'Website'], ['youtube', 'YouTube'], ['pending', 'Pending']].map(function (p) { return '<button class="chip ' + (S.filter === p[0] ? 'on' : '') + '" data-act="filter" data-k="' + p[0] + '">' + p[1] + '<em>' + n(p[0]) + '</em></button>'; }).join('');
+  $('#p-tasks').innerHTML = '<h1>Tasks</h1><p class="sub">Complete tasks and earn D Coin.</p><div class="chips">' + chips + '</div><div class="list">' + (!S.tasksLoaded ? '<div class="skel"></div>' : list.length ? list.map(S.filter === 'pending' ? pendingCard : taskCard).join('') : '<div class="empty">' + ico('tasks') + '<b>No tasks</b></div>') + '</div>';
 }
-document.addEventListener('focusout', function (e) {
-  if (e.target.matches && e.target.matches('[data-uname]') && S.taskDirty) { S.taskDirty = false; setTimeout(renderTasks, 350); }
-});
+document.addEventListener('focusout', function (e) { if (e.target.matches && e.target.matches('[data-uname]') && S.taskDirty) { S.taskDirty = false; setTimeout(renderTasks, 350); } });
 function setTaskUi(id, patch) { S.ui[id] = Object.assign(S.ui[id] || {}, patch); renderTasks(); }
 function taskById(id) { return S.tasks[id] ? Object.assign({ id: id }, S.tasks[id]) : null; }
 async function doVerify(id) {
   var t = taskById(id); if (!t) return;
   setTaskUi(id, { busy: true });
   var ok = false;
-  try { ok = await verifyRemote(t); }
-  catch (e) {
-    setTaskUi(id, { busy: false });
-    return toastErr(e.message === 'no_verifier' ? 'Verification not available.' : e.message === 'verifier_tg' ? 'Owner must make ' + botName() + ' admin.' : 'Could not check. Try again.');
-  }
-  if (!ok) { setTaskUi(id, { busy: false }); return toastErr('Join the channel first, then verify.'); }
+  try { ok = await verifyRemote(t); } catch (e) { setTaskUi(id, { busy: false }); return toastErr(e.message === 'no_verifier' ? 'Verify not available.' : e.message === 'verifier_tg' ? 'Owner must add ' + botName() + ' as admin.' : 'Could not check.'); }
+  if (!ok) { setTaskUi(id, { busy: false }); return toastErr('Join the channel first.'); }
   setTaskUi(id, { busy: false });
   await claimTask(t);
 }
@@ -1731,11 +1552,7 @@ async function finishView(success) {
   var v = S.view; if (!v) return;
   clearInterval(v.timer); S.view = null;
   var t = taskById(v.id);
-  if (!success || !t) {
-    setTaskUi(v.id, { busy: false, failed: true });
-    var what = { reaction: 'the post', website: 'the website', youtube: 'the video' }[t && t.type] || 'the post';
-    return toastErr('You came back too soon. Stay on ' + what + ' for ' + v.secs + ' seconds.');
-  }
+  if (!success || !t) { setTaskUi(v.id, { busy: false, failed: true }); return toastErr('Came back too soon. Stay ' + v.secs + 's.'); }
   setTaskUi(v.id, { busy: false, failed: false });
   await claimTask(t);
 }
@@ -1744,52 +1561,32 @@ function onReturn() {
   var v = S.view; if (!v) return;
   if (Date.now() - v.t0 >= v.secs * 1000) { if (v.ad) finishGroupLinkAd(true); else finishView(true); return; }
   if (!v.left) return;
-  if (v.ad) {
-    clearInterval(v.timer); S.view = null;
-    S.ui['adfail_' + v.ad] = true; renderEarn();
-    toastErr('You came back too soon. Stay on the ad page for ' + v.secs + ' seconds.');
-  } else finishView(false);
+  if (v.ad) { clearInterval(v.timer); S.view = null; S.ui['adfail_' + v.ad] = true; renderEarn(); toastErr('Came back too soon.'); }
+  else finishView(false);
 }
 document.addEventListener('visibilitychange', function () { if (document.hidden) markLeft(); else onReturn(); });
 window.addEventListener('focus', function () { setTimeout(onReturn, 80); });
 window.addEventListener('pageshow', function () { setTimeout(onReturn, 80); });
 document.addEventListener('pointerdown', function () { setTimeout(onReturn, 0); }, true);
-try {
-  tg.onEvent('deactivated', markLeft);
-  tg.onEvent('activated', function () { setTimeout(onReturn, 80); });
-} catch (e) {}
-
+try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', function () { setTimeout(onReturn, 80); }); } catch (e) {}
 function condOpen(id) { var t = taskById(id); if (!t) return; S.ui[id] = Object.assign(S.ui[id] || {}, { opened: Date.now() }); openLink(t.url); }
 async function condSubmit(id) {
   var t = taskById(id); if (!t) return;
   var st = S.ui[id] || {}, o = st.opened;
   var un = (st.uname !== undefined ? st.uname : (S.user.username ? '@' + S.user.username : '')).trim();
-  if (!o || Date.now() - o < CONFIG.conditionSeconds * 1000) {
-    setTaskUi(id, { failed: true });
-    return toastErr(o ? 'Finish all steps first.' : 'Open bot and follow steps first.');
-  }
-  if (un.length < 3) return toastErr('Enter your username.');
+  if (!o || Date.now() - o < CONFIG.conditionSeconds * 1000) { setTaskUi(id, { failed: true }); return toastErr('Finish all steps first.'); }
+  if (un.length < 3) return toastErr('Enter username.');
   setTaskUi(id, { busy: true, failed: false });
-  var mark = await db.ref(P.user(S.uid)).transaction(function (u) {
-    if (!u) return u;
-    u.submitted = u.submitted || {}; u.subAt = u.subAt || {};
-    if (u.submitted[id] || (u.done && u.done[id])) return;
-    u.submitted[id] = 'pending'; u.subAt[id] = Date.now();
-    return u;
-  });
+  var mark = await db.ref(P.user(S.uid)).transaction(function (u) { if (!u) return u; u.submitted = u.submitted || {}; u.subAt = u.subAt || {}; if (u.submitted[id] || (u.done && u.done[id])) return; u.submitted[id] = 'pending'; u.subAt[id] = Date.now(); return u; });
   if (!mark.committed) { setTaskUi(id, { busy: false }); return toastErr('Already submitted.'); }
   var remRef = db.ref(P.task(id) + '/remaining');
   var slot = await remRef.transaction(function (r) { if (r === null) return null; return r > 0 ? r - 1 : undefined; });
-  if (!slot.committed || slot.snapshot.val() === null) {
-    await db.ref(P.user(S.uid)).transaction(function (u) { if (u && u.submitted) { delete u.submitted[id]; if (u.subAt) delete u.subAt[id]; } return u; });
-    setTaskUi(id, { busy: false }); return toastErr('Task is full.');
-  }
+  if (!slot.committed || slot.snapshot.val() === null) { setTaskUi(id, { busy: false }); return toastErr('Task full.'); }
   var key = id + '_' + S.uid;
   await db.ref('pn/pending/' + t.owner + '/' + key).set({ status: 'pending', taskId: id, uid: S.uid, name: S.user.name || '', tgUser: S.user.username || '', submitted: un, perUser: t.perUser, title: t.title, createdAt: TS });
   await db.ref('pn/pendingAll/' + key).set({ owner: t.owner, createdAt: TS });
   setTaskUi(id, { busy: false });
-  hap('success');
-  toast('Submitted. Review within ' + CONFIG.reviewHours + ' hours.');
+  hap('success'); toast('Submitted.');
 }
 async function resolveReview(owner, key, approve) {
   var ref = db.ref('pn/pending/' + owner + '/' + key);
@@ -1797,20 +1594,13 @@ async function resolveReview(owner, key, approve) {
   var v = tx.committed ? tx.snapshot.val() : null;
   if (!v || v.status !== 'resolving') return false;
   if (approve) {
-    await db.ref(P.user(v.uid)).transaction(function (u) {
-      if (!u) return u;
-      u.submitted = u.submitted || {}; u.done = u.done || {};
-      u.done[v.taskId] = true; u.submitted[v.taskId] = 'approved';
-      applyTaskIncome(u, v.perUser);
-      return u;
-    });
+    await db.ref(P.user(v.uid)).transaction(function (u) { if (!u) return u; u.submitted = u.submitted || {}; u.done = u.done || {}; u.done[v.taskId] = true; u.submitted[v.taskId] = 'approved'; applyTaskIncome(u, v.perUser); return u; });
   } else {
     await db.ref(P.user(v.uid)).transaction(function (u) { if (!u) return u; u.submitted = u.submitted || {}; u.submitted[v.taskId] = 'rejected'; return u; });
     await db.ref(P.task(v.taskId) + '/remaining').transaction(function (r) { return (r || 0) + 1; });
     await db.ref(P.task(v.taskId) + '/status').set('live');
   }
-  await ref.remove();
-  await db.ref('pn/pendingAll/' + key).remove();
+  await ref.remove(); await db.ref('pn/pendingAll/' + key).remove();
   return true;
 }
 async function sweepPending() {
@@ -1832,7 +1622,7 @@ function notifySubmissions(u) {
       if (prev[id] === 'pending' && st !== 'pending') {
         var t = S.tasks[id] || {};
         if (st === 'approved') rewardedD(t.perUser || 0, 'Submission approved');
-        else toastErr('Submission rejected: ' + (t.title || 'task'));
+        else toastErr('Submission rejected.');
       }
     }
   }
@@ -1840,20 +1630,15 @@ function notifySubmissions(u) {
 }
 function openPendingSheet(id) {
   var t = taskById(id); if (!t) return;
-  var items = Object.keys(S.pending || {}).filter(function (k) { return S.pending[k].taskId === id; }).map(function (k) { return { k: k, v: S.pending[k] }; }).sort(function (a, b) { return (a.v.createdAt || 0) - (b.v.createdAt || 0); });
-  var left = function (v) { return fmtLeft((v.createdAt || Date.now()) + CONFIG.reviewHours * 3600000 - Date.now()); };
-  openSheet('<h2>Pending requests</h2><p class="lead">' + esc(t.title) + '</p>' +
-    (items.length ? items.map(function (it) {
-      return '<div class="req" data-k="' + esc(it.k) + '"><div class="grow"><b>' + esc(it.v.submitted) + '</b><small>' + esc(it.v.name || 'User') + (it.v.tgUser ? ' (@' + esc(it.v.tgUser) + ')' : '') + ', ' + left(it.v) + ' left</small></div><button class="btn btn-soft btn-sm" data-r="reject">Reject</button><button class="btn btn-primary btn-sm" data-r="approve">Approve</button></div>';
-    }).join('') : '<div class="empty"><b>No pending requests</b></div>'),
+  var items = Object.keys(S.pending || {}).filter(function (k) { return S.pending[k].taskId === id; }).map(function (k) { return { k: k, v: S.pending[k] }; });
+  openSheet('<h2>Pending requests</h2>' + (items.length ? items.map(function (it) { return '<div class="req" data-k="' + esc(it.k) + '"><div class="grow"><b>' + esc(it.v.submitted) + '</b><small>' + esc(it.v.name || 'User') + '</small></div><button class="btn btn-soft btn-sm" data-r="reject">Reject</button><button class="btn btn-primary btn-sm" data-r="approve">Approve</button></div>'; }).join('') : '<div class="empty"><b>No pending</b></div>'),
     function (b) {
       $$('.req', b).forEach(function (row) {
         $$('[data-r]', row).forEach(function (btn) {
           btn.onclick = async function () {
             $$('[data-r]', row).forEach(function (x) { x.disabled = true; });
             var ok = await resolveReview(S.uid, row.dataset.k, btn.dataset.r === 'approve');
-            if (ok) { row.remove(); toast(btn.dataset.r === 'approve' ? 'Approved.' : 'Rejected.'); }
-            else { toastErr('Already handled.'); row.remove(); }
+            if (ok) { row.remove(); toast(btn.dataset.r === 'approve' ? 'Approved.' : 'Rejected.'); } else row.remove();
           };
         });
       });
@@ -1866,8 +1651,7 @@ function countUp(el, from, to) {
   var t0 = performance.now(), dur = 700;
   (function step(now) {
     var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-    var v = from + (to - from) * e;
-    el.textContent = fmt(v);
+    el.textContent = fmt(from + (to - from) * e);
     if (k < 1) requestAnimationFrame(step);
   })(t0);
 }
@@ -1876,33 +1660,18 @@ function renderHome() {
   var u = S.user, refs = Object.keys(u.referrals || {}).length, td = u.today && u.today.d === today() ? u.today.a : 0;
   var jr = jrBal(u);
   var spinDone = spinTodayDone();
-  var el = $('#p-home');
-  el.innerHTML =
+  $('#p-home').innerHTML =
     '<header class="topbar"><div class="brand"><span class="logo">' + logoHTML() + '</span>DOGS</div><button class="icon-btn" data-sheet="support" aria-label="Support">' + ico('help') + '</button></header>' +
-    '<section class="hero" id="hero">' +
-    '<svg class="rings" viewBox="0 0 240 240"><circle cx="150" cy="90" r="30"/><circle cx="150" cy="90" r="60"/><circle cx="150" cy="90" r="90"/><circle cx="150" cy="90" r="120"/></svg>' +
-    '<div class="hero-label">Coins balance</div>' +
-    '<div class="hero-amt">' + coin('lg') + '<span class="num" id="balNum">0</span></div>' +
-    '<p class="hero-sub">' + fmt(u.totalIncome || 0) + ' coins earned in total</p>' +
-    '<div class="hero-actions"><button class="btn btn-gold" data-go="earn">Earn coins</button><button class="btn btn-glass" data-go="promote">Promote</button></div></section>' +
-    '<button class="card" style="margin-bottom:14px" data-act="open-spin" id="spinTile">' +
-    '<span class="tbadge t-spin">' + ico('gift') + '</span>' +
-    '<div class="grow"><h3>' + (spinDone ? 'Daily Spin · Done today' : 'Daily Spin · Spin the wheel!') + '</h3>' +
-    '<p class="meta">' + (spinDone ? 'Come back tomorrow' : 'Win up to 100 coins · every day') + '</p></div>' +
-    ico('chev') + '</button>' +
-    ((u.debtTotal || 0) > 0 ? '<div class="alert">You owe ' + fmt(u.debtTotal) + ' D Coin from leaving a channel early.</div>' : '') +
+    '<section class="hero" id="hero"><svg class="rings" viewBox="0 0 240 240"><circle cx="150" cy="90" r="30"/><circle cx="150" cy="90" r="60"/><circle cx="150" cy="90" r="90"/><circle cx="150" cy="90" r="120"/></svg>' +
+    '<div class="hero-label">Coins balance</div><div class="hero-amt">' + coin('lg') + '<span class="num" id="balNum">0</span></div>' +
+    '<p class="hero-sub">' + fmt(u.totalIncome || 0) + ' coins earned total</p>' +
+    '<div class="hero-actions"><button class="btn btn-gold" data-go="earn">Earn</button><button class="btn btn-glass" data-go="promote">Promote</button></div></section>' +
+    '<button class="card" style="margin-bottom:14px" data-act="open-spin"><span class="tbadge t-spin">' + ico('gift') + '</span><div class="grow"><h3>' + (spinDone ? 'Daily Spin · Done' : 'Daily Spin · Spin now!') + '</h3><p class="meta">' + (spinDone ? 'Come back tomorrow' : 'Win up to 100 coins') + '</p></div>' + ico('chev') + '</button>' +
+    ((u.debtTotal || 0) > 0 ? '<div class="alert">You owe ' + fmt(u.debtTotal) + ' D Coin.</div>' : '') +
     renderMiningCard() +
     '<div class="gap"></div>' +
-    '<div class="stats">' +
-    '<div class="stat"><div class="num">' + fmt(refs) + '</div><small>Referrals</small></div>' +
-    '<div class="stat"><div class="num">' + fmt(u.tasksDone) + '</div><small>Tasks done</small></div>' +
-    '<div class="stat"><div class="num">' + fmt(td) + '</div><small>Coins today</small></div></div>' +
-    '<div class="tiles">' +
-    '<button class="tile" data-go="earn"><span class="tbadge t-ads">' + ico('play') + '</span><div><b>Watch ads</b><span class="mut">' + fmt(CONFIG.adReward) + ' coins per task</span></div></button>' +
-    '<button class="tile" data-go="tasks"><span class="tbadge t-view">' + ico('tasks') + '</span><div><b>Social tasks</b><span class="mut">' + availableTasks().length + ' live</span></div></button>' +
-    '<button class="tile" data-sheet="swap"><span class="tbadge t-reaction">' + ico('swap') + '</span><div><b>Swap to D Coin</b><span class="mut">' + fmt(CONFIG.swap.jrIn) + ' coins = ' + fmt(CONFIG.swap.rjOut) + ' D</span></div></button>' +
-    '<button class="tile" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div><b>Invite friends</b><span class="mut">+' + fmt(CONFIG.referral.bonusJR) + ' coins · +' + fmt(CONFIG.referral.bonusRJ) + ' D</span></div></button>' +
-    '</div>';
+    '<div class="stats"><div class="stat"><div class="num">' + fmt(refs) + '</div><small>Referrals</small></div><div class="stat"><div class="num">' + fmt(u.tasksDone) + '</div><small>Tasks done</small></div><div class="stat"><div class="num">' + fmt(td) + '</div><small>Today</small></div></div>' +
+    '<div class="tiles"><button class="tile" data-go="earn"><span class="tbadge t-ads">' + ico('play') + '</span><div><b>Watch ads</b><span class="mut">' + fmt(CONFIG.adReward) + ' coins/task</span></div></button><button class="tile" data-go="tasks"><span class="tbadge t-view">' + ico('tasks') + '</span><div><b>Tasks</b><span class="mut">' + availableTasks().length + ' live</span></div></button><button class="tile" data-sheet="swap"><span class="tbadge t-reaction">' + ico('swap') + '</span><div><b>Swap to D</b><span class="mut">' + fmt(CONFIG.swap.jrIn) + ' = ' + fmt(CONFIG.swap.rjOut) + ' D</span></div></button><button class="tile" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div><b>Invite</b><span class="mut">+' + fmt(CONFIG.referral.bonusJR) + ' & +' + fmt(CONFIG.referral.bonusRJ) + ' D</span></div></button></div>';
   var balEl = $('#balNum');
   countUp(balEl, S.shown === null ? jr : S.shown, jr);
   S.shown = jr;
@@ -1912,30 +1681,19 @@ function myTasks() { return Object.keys(S.tasks).map(function (id) { return Obje
 function renderPromote() {
   if (S.tab !== 'promote') return;
   var mine = myTasks(), rj = rjBal(S.user);
-  var el = $('#p-promote');
-  el.innerHTML =
-    '<div class="promo-head"><span class="logo">' + logoHTML() + '</span><div><h1>Promote</h1><span class="mut">Grow your channel</span></div></div>' +
+  $('#p-promote').innerHTML = '<div class="promo-head"><span class="logo">' + logoHTML() + '</span><div><h1>Promote</h1><span class="mut">Grow your channel</span></div></div>' +
     '<div class="rjcard"><div><small>D Coin balance</small><div class="num">' + coinD('lg') + fmt(rj) + '</div></div><button class="btn btn-glass btn-sm" data-sheet="swap">' + ico('swap', 'sm') + ' Swap</button></div>' +
-    '<div class="seg"><button class="' + (S.promoTab === 'new' ? 'on' : '') + '" data-act="promo-tab" data-k="new">New campaign</button><button class="' + (S.promoTab === 'mine' ? 'on' : '') + '" data-act="promo-tab" data-k="mine">My campaigns<span class="count">' + mine.length + '</span></button></div>' +
-    '<div id="promoBody"></div>';
+    '<div class="seg"><button class="' + (S.promoTab === 'new' ? 'on' : '') + '" data-act="promo-tab" data-k="new">New</button><button class="' + (S.promoTab === 'mine' ? 'on' : '') + '" data-act="promo-tab" data-k="mine">My campaigns<span class="count">' + mine.length + '</span></button></div><div id="promoBody"></div>';
   if (S.promoTab === 'new') renderWizard(); else renderMine();
 }
 function renderMine() {
   var el = $('#promoBody'); if (!el) return;
   var mine = myTasks(), pend = Object.values(S.pending || {});
-  if (!mine.length) {
-    el.innerHTML = '<div class="empty">' + ico('mega') + '<b>No campaigns yet</b><span>Create your first campaign.</span><button class="btn btn-primary" data-act="promo-tab" data-k="new">Create campaign</button></div>';
-    return;
-  }
+  if (!mine.length) { el.innerHTML = '<div class="empty">' + ico('mega') + '<b>No campaigns</b><button class="btn btn-primary" data-act="promo-tab" data-k="new">Create</button></div>'; return; }
   el.innerHTML = '<div class="list">' + mine.map(function (t) {
     var c = CAT[t.type] || CAT.join, done = (t.total || 0) - (t.remaining || 0), pct = t.total ? done / t.total * 100 : 0;
     var pc = t.type === 'conditions' ? pend.filter(function (v) { return v.taskId === t.id; }).length : 0;
-    return '<article class="card"><div class="row"><span class="tbadge t-' + t.type + '">' + ico(c.icon) + '</span>' +
-      '<div class="grow"><h3>' + esc(t.title) + '</h3><p class="meta">' + c.label + ', ' + fmt(t.perUser) + ' D Coin per user</p></div>' +
-      '<span class="pill ' + (t.status === 'live' ? 'ok' : 'mut') + '">' + (t.status === 'live' ? 'Live' : 'Completed') + '</span></div>' +
-      '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
-      '<div class="row" style="justify-content:space-between;font-size:13px"><span class="mut">' + fmt(done) + ' of ' + fmt(t.total) + ' users</span><span class="mut">' + fmt(done * t.perUser) + ' D spent</span></div>' +
-      (t.type === 'conditions' ? '<button class="btn btn-soft btn-block" style="margin-top:12px" data-act="pending" data-id="' + t.id + '">Pending requests<span class="badge">' + pc + '</span></button>' : '') + '</article>';
+    return '<article class="card"><div class="row"><span class="tbadge t-' + t.type + '">' + ico(c.icon) + '</span><div class="grow"><h3>' + esc(t.title) + '</h3><p class="meta">' + fmt(done) + ' / ' + fmt(t.total) + '</p></div><span class="pill ' + (t.status === 'live' ? 'ok' : 'mut') + '">' + t.status + '</span></div><div class="bar"><i style="width:' + pct + '%"></i></div>' + (t.type === 'conditions' ? '<button class="btn btn-soft btn-block" style="margin-top:12px" data-act="pending" data-id="' + t.id + '">Pending<span class="badge">' + pc + '</span></button>' : '') + '</article>';
   }).join('') + '</div>';
 }
 function renderWizard() {
@@ -1943,107 +1701,49 @@ function renderWizard() {
   var w = S.wiz, cat = CAT[w.type];
   var stepper = '<div class="stepper">' + ['Target', 'Details', 'Budget'].map(function (l, i) { return '<div class="' + (i + 1 < w.step ? 'done' : i + 1 === w.step ? 'now' : '') + '">' + l + '</div>'; }).join('') + '</div>';
   var body = '';
-  if (w.step === 1) {
-    body = '<div class="cats">' + Object.keys(CAT).map(function (k) {
-      var c = CAT[k];
-      return '<button class="cat ' + (w.type === k ? 'on' : '') + '" data-act="wiz-cat" data-k="' + k + '"><span class="tbadge t-' + k + '">' + ico(c.icon) + '</span><div><b>' + c.label + '</b><small>Min ' + fmt(CONFIG.minReward[k]) + ' D Coin</small></div></button>';
-    }).join('') + '</div>' +
-      '<div class="alert" id="blockBox" hidden></div>' +
-      '<div class="field"><label for="wUrl">' + cat.sub + ' link</label><input id="wUrl" class="input" data-wiz="url" inputmode="url" autocapitalize="off" autocomplete="off" placeholder="' + cat.ph + '" value="' + esc(w.url) + '"><div class="hint" id="urlHint">' + cat.hint + '</div></div>' +
-      '<div class="nav-row"><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>';
-  } else if (w.step === 2) {
-    body = '<div class="alert" id="blockBox" hidden></div>' +
-      '<div class="field"><label for="wTitle">Campaign title <span id="titleCount">0/' + CONFIG.titleMax + '</span></label><input id="wTitle" class="input" data-wiz="title" maxlength="' + CONFIG.titleMax + '" autocomplete="off" placeholder="Short title" value="' + esc(w.title) + '"><div class="hint" id="titleHint">Use ' + CONFIG.titleMin + '-' + CONFIG.titleMax + ' characters.</div></div>' +
-      (w.type === 'conditions' ? '<div class="field"><label>Steps users must follow</label>' + [0, 1, 2].map(function (i) { return '<input class="input" style="margin-bottom:8px" data-wiz="step" data-i="' + i + '" maxlength="60" autocomplete="off" placeholder="Step ' + (i + 1) + '" value="' + esc(w.steps[i]) + '">'; }).join('') + '</div>' : '') +
-      '<div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>';
-  } else {
-    body = '<div class="alert" id="blockBox" hidden></div>' +
-      waitNote(w.type) +
-      '<div class="field"><label for="wPer">Reward per user <span>Min ' + fmt(CONFIG.minReward[w.type]) + ' D</span></label><input id="wPer" class="input" data-wiz="perUser" inputmode="numeric" placeholder="' + CONFIG.minReward[w.type] + '" value="' + esc(w.perUser) + '"><div class="hint" id="perHint"></div></div>' +
-      '<div class="field"><label for="wUsers">Users needed</label><input id="wUsers" class="input" data-wiz="users" inputmode="numeric" placeholder="' + CONFIG.minUsers + '" value="' + esc(w.users) + '"><div class="hint" id="usersHint"></div></div>' +
-      '<div class="sum"><div><span class="mut">Total cost</span><span id="sCost">0 D</span></div><div><span class="mut">Your D balance</span><span id="sBal">0 D</span></div><div><span id="sLbl">Balance after</span><span id="sAfter">0 D</span></div></div>' +
-      '<div class="alert" id="fundHint" hidden></div>' +
-      '<div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizPublish" data-act="wiz-publish" disabled>Publish</button></div>';
-  }
+  if (w.step === 1) body = '<div class="cats">' + Object.keys(CAT).map(function (k) { return '<button class="cat ' + (w.type === k ? 'on' : '') + '" data-act="wiz-cat" data-k="' + k + '"><span class="tbadge t-' + k + '">' + ico(CAT[k].icon) + '</span><div><b>' + CAT[k].label + '</b><small>Min ' + fmt(CONFIG.minReward[k]) + ' D</small></div></button>'; }).join('') + '</div><div class="alert" id="blockBox" hidden></div><div class="field"><label>' + cat.sub + ' link</label><input id="wUrl" class="input" data-wiz="url" placeholder="' + cat.ph + '" value="' + esc(w.url) + '"><div class="hint" id="urlHint">' + cat.hint + '</div></div><div class="nav-row"><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>';
+  else if (w.step === 2) body = '<div class="alert" id="blockBox" hidden></div><div class="field"><label>Title <span id="titleCount">0/' + CONFIG.titleMax + '</span></label><input id="wTitle" class="input" data-wiz="title" maxlength="' + CONFIG.titleMax + '" value="' + esc(w.title) + '"></div>' + (w.type === 'conditions' ? '<div class="field"><label>Steps</label>' + [0, 1, 2].map(function (i) { return '<input class="input" style="margin-bottom:8px" data-wiz="step" data-i="' + i + '" value="' + esc(w.steps[i]) + '" placeholder="Step ' + (i + 1) + '">'; }).join('') + '</div>' : '') + '<div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>';
+  else body = '<div class="alert" id="blockBox" hidden></div><div class="field"><label>Reward/user</label><input class="input" data-wiz="perUser" inputmode="numeric" value="' + esc(w.perUser) + '"></div><div class="field"><label>Users</label><input class="input" data-wiz="users" inputmode="numeric" value="' + esc(w.users) + '"></div><div class="sum"><div><span>Cost</span><span id="sCost">0</span></div><div><span>Balance</span><span id="sBal">0</span></div></div><div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizPublish" data-act="wiz-publish" disabled>Publish</button></div>';
   el.innerHTML = stepper + body;
   updateWiz();
 }
 function feeOf(t) { return (CONFIG.fee && CONFIG.fee[t]) || 0; }
-function waitNote(type) {
-  var t = {
-    join: 'Users who leave within ' + CONFIG.leave.days + ' days lose reward.',
-    reaction: 'Paid after react + ' + CONFIG.reactionSeconds + 's.',
-    view: 'Paid after ' + CONFIG.viewSeconds + 's view.',
-    website: 'Paid after ' + CONFIG.websiteSeconds + 's. Fee: ' + fmt(feeOf('website')) + ' D per user.',
-    youtube: 'Paid after ' + CONFIG.youtubeSeconds + 's.'
-  }[type];
-  return t ? '<div class="note">' + t + '</div>' : '';
-}
 function wizCost() { var w = S.wiz, per = parseInt(w.perUser, 10) || 0, users = parseInt(w.users, 10) || 0, fee = feeOf(w.type); return { per: per, users: users, fee: fee, cost: (per + fee) * users }; }
 function updateWiz() {
   var w = S.wiz, next = $('#wizNext');
   if (w.step === 1) {
-    var r = checkUrl(w.type, w.url), h = $('#urlHint'), inp = $('#wUrl');
-    if (!h) return;
+    var r = checkUrl(w.type, w.url), h = $('#urlHint'), inp = $('#wUrl'); if (!h) return;
     h.hidden = !!($('#blockBox') && !$('#blockBox').hidden);
-    if (r.ok) { h.className = 'hint ok'; h.textContent = 'Link looks good.'; inp.classList.remove('bad'); }
+    if (r.ok) { h.className = 'hint ok'; h.textContent = 'Good.'; inp.classList.remove('bad'); }
     else if (r.msg) { h.className = 'hint bad'; h.textContent = r.msg; inp.classList.add('bad'); }
-    else { h.className = 'hint'; h.textContent = CAT[w.type].hint; inp.classList.remove('bad'); }
     next.disabled = !r.ok;
   } else if (w.step === 2) {
     var n = w.title.trim().length, ok = n >= CONFIG.titleMin && n <= CONFIG.titleMax;
     var tc = $('#titleCount'); if (tc) tc.textContent = n + '/' + CONFIG.titleMax;
-    var th = $('#titleHint'); if (th) { th.className = 'hint' + (ok ? ' ok' : ''); th.textContent = ok ? 'Good.' : n < CONFIG.titleMin ? 'Add ' + (CONFIG.titleMin - n) + ' more.' : 'Max ' + CONFIG.titleMax + '.'; }
-    var stepsOk = w.type !== 'conditions' || w.steps.every(function (s) { return s.trim().length >= 5; });
-    next.disabled = !(ok && stepsOk);
+    next.disabled = !ok;
   } else {
-    var min = CONFIG.minReward[w.type];
-    var c = wizCost();
-    var bal = rjBal(S.user);
-    var perOk = c.per >= min, usersOk = c.users >= CONFIG.minUsers;
-    var ph = $('#perHint'); if (ph) ph.textContent = (w.perUser && !perOk) ? 'Min ' + fmt(min) + ' D.' : '';
-    var sc = $('#sCost'), sb = $('#sBal');
-    if (sc) sc.textContent = fmt(c.cost) + ' D';
-    if (sb) sb.textContent = fmt(bal) + ' D';
-    var short = c.cost > bal;
-    var sl = $('#sLbl'); if (sl) sl.textContent = short ? 'You need' : 'After publishing';
-    var sa = $('#sAfter'); if (sa) { sa.textContent = fmt(Math.abs(bal - c.cost)) + ' D'; sa.className = short ? 'neg' : ''; }
-    var fh = $('#fundHint'); if (fh) { fh.hidden = !short || !c.per; fh.textContent = short ? 'You need ' + fmt(c.cost - bal) + ' more D Coin.' : ''; }
-    var pb = $('#wizPublish'); if (pb) pb.disabled = !(perOk && usersOk);
+    var c = wizCost(), bal = rjBal(S.user);
+    var sc = $('#sCost'), sb = $('#sBal'); if (sc) sc.textContent = fmt(c.cost) + ' D'; if (sb) sb.textContent = fmt(bal) + ' D';
+    var pb = $('#wizPublish'); if (pb) pb.disabled = !(c.per >= CONFIG.minReward[w.type] && c.users >= CONFIG.minUsers);
   }
 }
 async function publish() {
   var w = S.wiz, r = checkUrl(w.type, w.url); if (!r.ok) return;
   var c = wizCost(), btn = $('#wizPublish');
-  if (c.per < CONFIG.minReward[w.type] || c.users < CONFIG.minUsers) return;
-  if (c.cost > rjBal(S.user)) { toastErr('Not enough D Coin'); return; }
-  btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Publishing';
+  if (c.cost > rjBal(S.user)) return toastErr('Not enough D Coin');
+  btn.disabled = true;
   try {
-    await db.ref(P.user(S.uid)).transaction(function (u) { if (!u || rjBal(u) < c.cost) return; u.rjBalance -= c.cost; u.spent = (u.spent || 0) + c.cost; return u; });
-    await db.ref(P.tasks).push().set({
-      type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat || null, msgId: r.p.msgId || null, fee: c.fee || null,
-      steps: w.type === 'conditions' ? w.steps.map(function (s) { return s.trim(); }) : null,
-      perUser: c.per, total: c.users, remaining: c.users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS
-    });
+    await db.ref(P.user(S.uid)).transaction(function (u) { if (!u || rjBal(u) < c.cost) return; u.rjBalance -= c.cost; return u; });
+    await db.ref(P.tasks).push().set({ type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat || null, msgId: r.p.msgId || null, fee: c.fee || null, steps: w.type === 'conditions' ? w.steps.map(function (s) { return s.trim(); }) : null, perUser: c.per, total: c.users, remaining: c.users, owner: S.uid, status: 'live', createdAt: TS });
     S.wiz = { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' };
-    S.promoTab = 'mine'; hap('success'); toast('Campaign published!');
+    S.promoTab = 'mine'; hap('success'); toast('Published!');
     renderPromote();
-  } catch (e) {
-    await db.ref(P.user(S.uid)).transaction(function (u) { if (!u) return u; u.rjBalance = (u.rjBalance || 0) + c.cost; u.spent = Math.max(0, (u.spent || 0) - c.cost); return u; });
-    toastErr('Could not publish.');
-  }
+  } catch (e) { toastErr('Could not publish.'); }
 }
 async function wizNext() {
   var w = S.wiz, btn = $('#wizNext');
-  if (w.step === 1) {
-    var r = checkUrl(w.type, w.url); if (!r.ok) return;
-    btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Checking';
-    var scr = await screenTarget(r.p, [], w.type);
-    if (!scr.ok) { showBlock(blockText(scr.reason), scr.reason === 'needadmin' ? adminButtons() : ''); btn.textContent = 'Continue'; return; }
-  } else if (w.step === 2) {
-    if (isBad(w.title)) return showBlock(HARAM_MSG);
-  }
-  w.step++; renderWizard(); window.scrollTo(0, 0);
+  if (w.step === 1) { var r = checkUrl(w.type, w.url); if (!r.ok) return; btn.disabled = true; var scr = await screenTarget(r.p, [], w.type); if (!scr.ok) { showBlock(blockText(scr.reason), scr.reason === 'needadmin' ? adminButtons() : ''); btn.textContent = 'Continue'; return; } }
+  w.step++; renderWizard();
 }
 
 function renderProfile() {
@@ -2052,151 +1752,130 @@ function renderProfile() {
   var init = esc(name.trim().charAt(0).toUpperCase() || 'U');
   var refs = Object.keys(u.referrals || {}).length;
   var machine = miningMachine(u);
-  var el = $('#p-profile');
-  el.innerHTML =
-    '<div class="pfp"><div class="avatar">' + (u.photo ? '<img src="' + esc(u.photo) + '" alt="">' : '') + '<span>' + init + '</span></div>' +
-    '<div><h1>' + esc(name) + '</h1><span class="mut">' + (u.username ? '@' + esc(u.username) : 'Telegram user') + '</span></div></div>' +
-    '<div class="income"><small>Total coins earned</small><div class="num">' + coin('lg') + fmt(u.totalIncome || 0) + '</div></div>' +
-    '<div class="income jade" style="margin-top:10px"><small>Total D Coin earned</small><div class="num">' + coinD('lg') + fmt(u.rjTotal || 0) + '</div></div>' +
+  $('#p-profile').innerHTML = '<div class="pfp"><div class="avatar">' + (u.photo ? '<img src="' + esc(u.photo) + '" alt="">' : '') + '<span>' + init + '</span></div><div><h1>' + esc(name) + '</h1><span class="mut">' + (u.username ? '@' + esc(u.username) : 'Telegram user') + '</span></div></div>' +
+    '<div class="income"><small>Total coins</small><div class="num">' + coin('lg') + fmt(u.totalIncome || 0) + '</div></div>' +
+    '<div class="income jade" style="margin-top:10px"><small>Total D Coin</small><div class="num">' + coinD('lg') + fmt(u.rjTotal || 0) + '</div></div>' +
     '<div class="gap"></div>' +
-    '<button class="card" style="margin-bottom:10px" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div class="grow"><h3>Invite friends</h3><p class="meta">' + refs + ' referrals · earn ' + fmt(CONFIG.referral.bonusJR) + ' coins + ' + fmt(CONFIG.referral.bonusRJ) + ' D each</p></div>' + ico('chev') + '</button>' +
-    '<button class="card" style="margin-bottom:10px" data-sheet="mining"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining</h3><p class="meta">' + (machine ? (machine.free ? 'Free' : '$' + machine.usd) + ' machine · ' + fmt(machine.daily) + '/day' : (refs >= 1 ? 'Choose a machine' : 'Unlock with 1 referral')) + '</p></div>' + ico('chev') + '</button>' +
-    '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Swap coins → D Coin</h3><p class="meta">' + fmt(CONFIG.swap.jrIn) + ' coins = ' + fmt(CONFIG.swap.rjOut) + ' D</p></div><button class="btn btn-jade btn-sm" data-sheet="swap">' + ico('swap', 'sm') + ' Swap</button></div></div>' +
-    '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw coins</h3><p class="meta">Min ' + fmt(CONFIG.withdraw.min) + ' · ' + CONFIG.withdraw.feePct + '% fee · Binance</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">' + ico('down', 'sm') + ' Withdraw</button></div></div>' +
-    '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Deposit D Coin</h3><p class="meta">Buy D Coin via Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">' + ico('plus', 'sm') + ' Deposit</button></div></div>' +
-    '<button class="card" data-open="' + esc(CONFIG.communityLink) + '"><span class="tbadge t-join">' + ico('send') + '</span><div class="grow"><h3>Join community</h3><p class="meta">News and support</p></div>' + ico('chev') + '</button>' +
-    '<div class="menu">' +
-    '<button data-sheet="about">' + ico('info') + 'About us' + ico('chev') + '</button>' +
-    '<button data-sheet="settings">' + ico('sliders') + 'Settings' + ico('chev') + '</button>' +
-    '<button data-sheet="privacy">' + ico('shield') + 'Privacy policy' + ico('chev') + '</button>' +
-    '<button data-sheet="terms">' + ico('doc') + 'Terms' + ico('chev') + '</button>' +
-    '<button data-sheet="support">' + ico('help') + 'Support' + ico('chev') + '</button>' +
-    '</div><p class="ver">DOGS 2.3</p>';
+    '<button class="card" style="margin-bottom:10px" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div class="grow"><h3>Invite friends</h3><p class="meta">' + refs + ' refs · +' + fmt(CONFIG.referral.bonusJR) + ' & +' + fmt(CONFIG.referral.bonusRJ) + ' D</p></div>' + ico('chev') + '</button>' +
+    '<button class="card" style="margin-bottom:10px" data-go="mining"><span class="tbadge t-mining">' + ico('pick') + '</span><div class="grow"><h3>Mining</h3><p class="meta">' + (machine ? (machine.usd === 0 ? 'Free' : '$' + machine.usd) + ' · ' + fmt(machine.daily) + '/day' : (refs >= 1 ? 'Choose a machine' : 'Unlock with 1 referral')) + '</p></div>' + ico('chev') + '</button>' +
+    '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Swap coins → D</h3><p class="meta">' + fmt(CONFIG.swap.jrIn) + ' = ' + fmt(CONFIG.swap.rjOut) + ' D</p></div><button class="btn btn-jade btn-sm" data-sheet="swap">' + ico('swap', 'sm') + ' Swap</button></div></div>' +
+    '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw</h3><p class="meta">Min ' + fmt(CONFIG.withdraw.min) + ' · ' + CONFIG.withdraw.feePct + '% fee</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">' + ico('down', 'sm') + ' Withdraw</button></div></div>' +
+    '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Deposit D</h3><p class="meta">Buy D Coin via Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">' + ico('plus', 'sm') + ' Deposit</button></div></div>' +
+    '<button class="card" data-open="' + esc(CONFIG.communityLink) + '"><span class="tbadge t-join">' + ico('send') + '</span><div class="grow"><h3>Community</h3><p class="meta">News & support</p></div>' + ico('chev') + '</button>' +
+    '<div class="menu"><button data-sheet="about">' + ico('info') + 'About' + ico('chev') + '</button><button data-sheet="settings">' + ico('sliders') + 'Settings' + ico('chev') + '</button><button data-sheet="terms">' + ico('doc') + 'Terms' + ico('chev') + '</button><button data-sheet="support">' + ico('help') + 'Support' + ico('chev') + '</button></div><p class="ver">DOGS 3.0</p>';
 }
 
-var SHARE_TEXT = 'Join me on DOGS, the Telegram app where you earn coins and D Coin every day.\n\n- Complete tasks and earn D Coin\n- Watch ads and get ' + fmt(CONFIG.adReward) + ' coins per task\n- Daily Spin — win up to 100 coins\n- Buy a mining machine and earn daily\n- Invite friends and get ' + fmt(CONFIG.referral.bonusJR) + ' coins + ' + fmt(CONFIG.referral.bonusRJ) + ' D each\n\nStart earning now:';
+var SHARE_TEXT = 'Join DOGS — earn coins and D Coin.\n\n- Tasks pay D Coin\n- Ads pay ' + fmt(CONFIG.adReward) + ' coins\n- Daily Spin up to 100 coins\n- Mining machines\n- Referral: +' + fmt(CONFIG.referral.bonusJR) + ' coins +' + fmt(CONFIG.referral.bonusRJ) + ' D\n\nStart now:';
 
 var SHEETS = {
-  support: function () { openSheet('<h2>Support</h2><p class="lead">Questions? Message us.</p><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.supportLink) + '">' + ico('send', 'sm') + ' Message support</button>'); },
-  mining: function () { openMiningSheet(); },
+  support: function () { openSheet('<h2>Support</h2><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.supportLink) + '">' + ico('send', 'sm') + ' Message support</button>'); },
   swap: function () {
     var rate = CONFIG.swap.rjOut / CONFIG.swap.jrIn;
-    openSheet('<h2>Swap coins → D Coin</h2><p class="lead">Convert coins into D Coin.</p>' +
-      '<div class="swapbox"><div class="rate"><span>' + coin('lg') + fmt(CONFIG.swap.jrIn) + '</span> = <span>' + coinD('lg') + fmt(CONFIG.swap.rjOut) + '</span></div><small>1 coin = ' + rate + ' D Coin · Min ' + fmt(CONFIG.swap.min) + ' coins</small></div>' +
-      '<div class="field"><label for="swapIn">Coins to swap <span>You have ' + fmt(jrBal(S.user)) + '</span></label><input id="swapIn" class="input" inputmode="numeric" placeholder="' + CONFIG.swap.min + '" value="' + CONFIG.swap.min + '"></div>' +
-      '<div class="sum" id="swapSum"></div>' +
-      '<div class="alert" id="swapErr" hidden></div>' +
-      '<button class="btn btn-jade btn-block" id="swapConfirm">' + ico('swap', 'sm') + ' Swap now</button>',
+    openSheet('<h2>Swap coins → D Coin</h2><div class="swapbox"><div class="rate"><span>' + coin('lg') + fmt(CONFIG.swap.jrIn) + '</span> = <span>' + coinD('lg') + fmt(CONFIG.swap.rjOut) + '</span></div><small>Min ' + fmt(CONFIG.swap.min) + ' coins</small></div>' +
+      '<div class="field"><label>Coins to swap <span>You have ' + fmt(jrBal(S.user)) + '</span></label><input id="swapIn" class="input" inputmode="numeric" value="' + CONFIG.swap.min + '"></div>' +
+      '<div class="sum" id="swapSum"></div><div class="alert" id="swapErr" hidden></div>' +
+      '<button class="btn btn-jade btn-block" id="swapConfirm">Swap</button>',
       function (b) {
         var inp = $('#swapIn', b), err = $('#swapErr', b), btn = $('#swapConfirm', b);
         var refresh = function () {
           var jrIn = Math.max(0, Math.floor(Number(inp.value.replace(/\D/g, '')) || 0));
           var rj2 = Math.floor(jrIn * rate);
           var sum = $('#swapSum', b);
-          if (sum) sum.innerHTML = '<div><span class="mut">You pay</span><span>' + fmt(jrIn) + ' coins</span></div><div><span class="mut">You receive</span><span>' + fmt(rj2) + ' D Coin</span></div>';
-          var bad = jrIn < CONFIG.swap.min ? 'Min swap is ' + fmt(CONFIG.swap.min) + '.' : jrIn > jrBal(S.user) ? 'Not enough coins.' : '';
+          if (sum) sum.innerHTML = '<div><span>You pay</span><span>' + fmt(jrIn) + ' coins</span></div><div><span>You receive</span><span>' + fmt(rj2) + ' D Coin</span></div>';
+          var bad = jrIn < CONFIG.swap.min ? 'Min ' + fmt(CONFIG.swap.min) + '.' : jrIn > jrBal(S.user) ? 'Not enough.' : '';
           err.hidden = !bad; if (bad) err.textContent = bad;
           btn.disabled = !!bad;
         };
         inp.addEventListener('input', refresh); refresh();
         btn.onclick = async function () {
-          btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Swapping';
+          btn.disabled = true;
           var amt = Math.floor(Number(inp.value.replace(/\D/g, '')) || 0);
           var tx = await db.ref(P.user(S.uid)).transaction(function (u) {
             if (!u) return u;
             if (amt < CONFIG.swap.min || (u.balance || 0) < amt) return;
             var rjAmt = Math.floor(amt * rate);
-            u.balance -= amt;
-            u.rjBalance = (u.rjBalance || 0) + rjAmt;
-            u.rjTotal = (u.rjTotal || 0) + rjAmt;
+            u.balance -= amt; u.rjBalance = (u.rjBalance || 0) + rjAmt; u.rjTotal = (u.rjTotal || 0) + rjAmt;
             return u;
           });
-          if (tx.committed) { toast('Swapped!', { rj: Math.floor(amt * rate) }); hap('success'); closeSheet(); setTimeout(render, 260); }
-          else { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Swap failed.'); }
+          if (tx.committed) { toast('Swapped!', { rj: Math.floor(amt * rate) }); closeSheet(); setTimeout(render, 260); }
+          else { btn.disabled = false; toastErr('Failed.'); }
         };
       });
   },
   withdraw: function () {
     var feePct = CONFIG.withdraw.feePct;
-    var draw = function (b) {
-      var list = Object.values(S.user.withdrawals || {}).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 8);
-      b.innerHTML = '<h2>Withdraw coins</h2><p class="lead">Withdraw to Binance. ' + feePct + '% fee. Min ' + fmt(CONFIG.withdraw.min) + ' coins.</p>' +
-        '<div class="field"><label for="wAmt">Coins to withdraw <span>You have ' + fmt(jrBal(S.user)) + '</span></label><input id="wAmt" class="input" inputmode="numeric" placeholder="' + CONFIG.withdraw.min + '" value="' + CONFIG.withdraw.min + '"></div>' +
-        '<div class="field"><label for="wUid">Binance UID</label><input id="wUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div>' +
-        '<div class="sum" id="wSum"></div>' +
-        '<div class="alert" id="wErr" hidden></div>' +
-        '<button class="btn btn-gold btn-block" id="wConfirm">' + ico('down', 'sm') + ' Request withdrawal</button>' +
-        (list.length ? '<h4>Recent</h4>' + list.map(function (w) {
+    openSheet('<h2>Withdraw coins</h2><p class="lead">' + feePct + '% fee · Min ' + fmt(CONFIG.withdraw.min) + '</p>' +
+      '<div class="field"><label>Coins <span>You have ' + fmt(jrBal(S.user)) + '</span></label><input id="wAmt" class="input" inputmode="numeric" value="' + CONFIG.withdraw.min + '"></div>' +
+      '<div class="field"><label>Binance UID</label><input id="wUid" class="input" placeholder="UID" value=""></div>' +
+      '<div class="sum" id="wSum"></div><div class="alert" id="wErr" hidden></div>' +
+      '<button class="btn btn-gold btn-block" id="wConfirm">Request</button>' +
+      (function () {
+        var list = Object.values(S.user.withdrawals || {}).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 5);
+        if (!list.length) return '';
+        return '<h4>Recent</h4>' + list.map(function (w) {
           var sc = w.status === 'paid' ? 'ok' : w.status === 'rejected' ? 'bad' : 'brand';
           var st = w.status === 'paid' ? 'Paid' : w.status === 'rejected' ? 'Rejected' : 'Pending';
           return '<div class="hist"><div class="grow"><b>' + fmt(w.amount) + ' coins</b><br><small class="mut">' + esc(w.binanceUid || '') + '</small></div><span class="pill ' + sc + '">' + st + '</span></div>';
-        }).join('') : '');
-      var amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
-      var refresh = function () {
-        var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0));
-        var fee = Math.floor(jrAmt * feePct / 100);
-        var net = jrAmt - fee;
-        var sum = $('#wSum', b);
-        if (sum) sum.innerHTML = '<div><span class="mut">Amount</span><span>' + fmt(jrAmt) + ' coins</span></div><div><span class="mut">Fee</span><span class="neg">- ' + fmt(fee) + '</span></div><div><span class="mut">You receive</span><span>' + fmt(net) + ' coins</span></div>';
-        var bad = jrAmt < CONFIG.withdraw.min ? 'Min ' + fmt(CONFIG.withdraw.min) + '.' : jrAmt > jrBal(S.user) ? 'Not enough.' : '';
-        err.hidden = !bad; if (bad) err.textContent = bad;
-        btn.disabled = !!bad;
-      };
-      amt.addEventListener('input', refresh); refresh();
-      btn.onclick = async function () {
-        var u = uid.value.trim();
-        if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = 'Valid Binance UID required.'; return; }
-        btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Sending';
-        var amt2 = Math.floor(Number(amt.value.replace(/\D/g, '')) || 0);
-        var fee = Math.floor(amt2 * feePct / 100);
-        var net = amt2 - fee;
-        var tx = await db.ref(P.user(S.uid)).transaction(function (x) {
-          if (!x) return x;
-          if (amt2 < CONFIG.withdraw.min || (x.balance || 0) < amt2) return;
-          x.balance -= amt2;
-          x.withdrawals = x.withdrawals || {};
-          x.withdrawals[Date.now()] = { amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: Date.now() };
-          return x;
-        });
-        if (!tx.committed) { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Failed.'); return; }
-        try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', amount: amt2, fee: fee, net: net, binanceUid: u, status: 'pending', createdAt: TS }); } catch (e) {}
-        toast('Requested. Admin will process soon.'); hap('success'); closeSheet(); setTimeout(render, 260);
-      };
-    };
-    openSheet('', draw);
+        }).join('');
+      })(),
+      function (b) {
+        var amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
+        var refresh = function () {
+          var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0));
+          var fee = Math.floor(jrAmt * feePct / 100);
+          var sum = $('#wSum', b);
+          if (sum) sum.innerHTML = '<div><span>Amount</span><span>' + fmt(jrAmt) + '</span></div><div><span>Fee</span><span class="neg">- ' + fmt(fee) + '</span></div><div><span>Net</span><span>' + fmt(jrAmt - fee) + '</span></div>';
+          var bad = jrAmt < CONFIG.withdraw.min ? 'Min ' + fmt(CONFIG.withdraw.min) + '.' : jrAmt > jrBal(S.user) ? 'Not enough.' : '';
+          err.hidden = !bad; if (bad) err.textContent = bad;
+          btn.disabled = !!bad;
+        };
+        amt.addEventListener('input', refresh); refresh();
+        btn.onclick = async function () {
+          var u = uid.value.trim();
+          if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = 'Valid UID required.'; return; }
+          btn.disabled = true;
+          var amt2 = Math.floor(Number(amt.value.replace(/\D/g, '')) || 0);
+          var fee = Math.floor(amt2 * feePct / 100);
+          var tx = await db.ref(P.user(S.uid)).transaction(function (x) {
+            if (!x) return x;
+            if (amt2 < CONFIG.withdraw.min || (x.balance || 0) < amt2) return;
+            x.balance -= amt2;
+            x.withdrawals = x.withdrawals || {};
+            x.withdrawals[Date.now()] = { amount: amt2, fee: fee, net: amt2 - fee, binanceUid: u, status: 'pending', createdAt: Date.now() };
+            return x;
+          });
+          if (!tx.committed) { btn.disabled = false; toastErr('Failed.'); return; }
+          try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, amount: amt2, binanceUid: u, status: 'pending', createdAt: TS }); } catch (e) {}
+          toast('Requested.'); closeSheet(); setTimeout(render, 260);
+        };
+      });
   },
   deposit: function () {
-    var D = CONFIG.deposit;
-    var pick = 1, page = 1, orderId = '';
+    var D = CONFIG.deposit, pick = 1, page = 1, orderId = '';
     var draw = function (b) {
       if (page === 1) {
-        b.innerHTML = '<h2>Deposit D Coin</h2><p class="lead">Buy D Coin via Binance.</p>' +
-          '<div class="pkgs">' + D.packages.map(function (x, i) { return '<button class="pkg ' + (i === pick ? 'on' : '') + '" data-i="' + i + '"><b>$' + x.usd + '</b><span>' + coinD() + fmt(x.rj) + ' D</span></button>'; }).join('') + '</div>' +
-          '<button class="btn btn-primary btn-block" id="depNext">Next</button>';
+        b.innerHTML = '<h2>Deposit D Coin</h2><div class="pkgs">' + D.packages.map(function (x, i) { return '<button class="pkg ' + (i === pick ? 'on' : '') + '" data-i="' + i + '"><b>$' + x.usd + '</b><span>' + coinD() + fmt(x.rj) + ' D</span></button>'; }).join('') + '</div><button class="btn btn-primary btn-block" id="depNext">Next</button>';
         $$('.pkg', b).forEach(function (x) { x.onclick = function () { pick = +x.dataset.i; draw(b); }; });
         $('#depNext', b).onclick = function () { page = 2; draw(b); };
       } else {
         var pk = D.packages[pick];
-        b.innerHTML = '<h2>Pay $' + pk.usd + '</h2><p class="lead">Send $' + pk.usd + ' to the Binance UID, then submit Order ID.</p>' +
-          '<div class="linkbox"><div class="grow"><small class="mut">Binance UID</small><div style="font:800 20px \'Sora\',sans-serif">' + esc(D.binanceUid) + '</div></div><button class="btn btn-soft btn-sm" data-copy="' + esc(D.binanceUid) + '">' + ico('copy', 'sm') + ' Copy</button></div>' +
-          '<ol class="steps"><li>Send $' + pk.usd + ' to the UID above</li><li>Copy Order ID</li><li>Paste below and submit</li></ol>' +
-          '<div class="field"><label for="depOrder">Binance Order ID</label><input id="depOrder" class="input" placeholder="Order ID" value=""></div>' +
-          '<div class="alert" id="depErr" hidden></div>' +
-          '<button class="btn btn-jade btn-block" id="depSubmit">Submit</button>' +
-          '<div class="gap"></div><button class="btn btn-line btn-block" id="depBack">Back</button>';
+        b.innerHTML = '<h2>Pay $' + pk.usd + '</h2><div class="linkbox"><div class="grow"><small>Binance UID</small><div style="font:800 20px \'Sora\',sans-serif">' + esc(D.binanceUid) + '</div></div><button class="btn btn-soft btn-sm" data-copy="' + esc(D.binanceUid) + '">' + ico('copy', 'sm') + ' Copy</button></div>' +
+          '<ol class="steps"><li>Send $' + pk.usd + ' to UID above</li><li>Copy Order ID</li><li>Paste below</li></ol>' +
+          '<div class="field"><label>Order ID</label><input id="depOrder" class="input" placeholder="Order ID"></div><div class="alert" id="depErr" hidden></div>' +
+          '<button class="btn btn-jade btn-block" id="depSubmit">Submit</button><button class="btn btn-line btn-block" id="depBack" style="margin-top:8px">Back</button>';
         var inp = $('#depOrder', b), err = $('#depErr', b), btn = $('#depSubmit', b);
         inp.addEventListener('input', function () { orderId = inp.value.trim(); err.hidden = true; });
         $('#depBack', b).onclick = function () { page = 1; draw(b); };
         btn.onclick = async function () {
           if (orderId.length < 5) { err.hidden = false; err.textContent = 'Valid Order ID required.'; return; }
-          btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Submitting';
+          btn.disabled = true;
           var key = String(Date.now());
           try {
-            await db.ref('pn/deposits/' + key).set({ uid: S.uid, name: S.user.name || '', usd: pk.usd, rj: pk.rj, orderId: orderId, status: 'pending', createdAt: TS });
+            await db.ref('pn/deposits/' + key).set({ uid: S.uid, usd: pk.usd, rj: pk.rj, orderId: orderId, status: 'pending', createdAt: TS });
             await db.ref(P.user(S.uid) + '/deposits/' + key).set({ usd: pk.usd, rj: pk.rj, orderId: orderId, status: 'pending', createdAt: Date.now() });
-            toast('Submitted. Admin will review.'); hap('success');
+            toast('Submitted.'); hap('success');
             draw(b);
-          } catch (e) { btn.disabled = false; btn.textContent = 'Try again'; err.hidden = false; err.textContent = 'Failed.'; }
+          } catch (e) { btn.disabled = false; err.hidden = false; err.textContent = 'Failed.'; }
         };
       }
     };
@@ -2207,30 +1886,22 @@ var SHEETS = {
     var link = CONFIG.botLink + '?startapp=' + S.uid;
     var R = CONFIG.referral;
     var msg = SHARE_TEXT + '\n' + link;
-    openSheet('<h2>Invite friends</h2><p class="lead">You get ' + fmt(R.bonusJR) + ' coins + ' + fmt(R.bonusRJ) + ' D Coin per friend.</p>' +
-      '<div class="linkbox"><span class="grow">' + esc(link) + '</span><button class="btn btn-soft btn-sm" data-copy="' + esc(link) + '">' + ico('copy', 'sm') + ' Copy</button></div>' +
-      '<button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT) + '">' + ico('send', 'sm') + ' Share on Telegram</button>' +
+    openSheet('<h2>Invite friends</h2><p class="lead">+' + fmt(R.bonusJR) + ' coins + ' + fmt(R.bonusRJ) + ' D per friend</p>' +
+      '<div class="linkbox"><span class="grow">' + esc(link) + '</span><button class="btn btn-soft btn-sm" data-copy="' + esc(link) + '">' + ico('copy', 'sm') + '</button></div>' +
+      '<button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT) + '">' + ico('send', 'sm') + ' Share</button>' +
       '<div class="gap"></div>' +
-      '<button class="btn btn-soft btn-block" data-copy="' + esc(msg) + '">' + ico('copy', 'sm') + ' Copy message</button>' +
-      '<h4>Your referrals (' + list.length + ')</h4>' +
-      (list.length ? list.map(function (r) { return '<div class="hist"><span>' + esc(r.name || 'Friend') + '</span><span class="' + (r.bonus ? '' : 'mut') + '">' + (r.bonus ? '+' + fmt(R.bonusJR) + ' / ' + fmt(R.bonusRJ) + ' D' : 'Pending') + '</span></div>'; }).join('') : '<p class="doc">No referrals yet.</p>') +
-      '<div class="kv" style="margin-top:14px"><div><span class="mut">Ref coins earned</span><b>' + fmt(u.refEarned || 0) + '</b></div><div><span class="mut">Ref D Coin earned</span><b>' + fmt(u.refEarnedRJ || 0) + '</b></div></div>');
+      '<button class="btn btn-soft btn-block" data-copy="' + esc(msg) + '">' + ico('copy', 'sm') + ' Copy</button>' +
+      '<h4>Referrals (' + list.length + ')</h4>' +
+      (list.length ? list.map(function (r) { return '<div class="hist"><span>' + esc(r.name || 'Friend') + '</span><span>' + (r.bonus ? '✓' : 'Pending') + '</span></div>'; }).join('') : '<p class="doc">None yet.</p>'));
   },
-  privacy: function () { openSheet('<h2>Privacy policy</h2><h4>What we collect</h4><p class="doc">Telegram ID, name, username, photo, balances, tasks, campaigns.</p><h4>Ads</h4><p class="doc">Third-party ad networks.</p><h4>Sharing</h4><p class="doc">We do not sell your personal data.</p>'); },
-  terms: function () { openSheet('<h2>Terms</h2><h4>Using DOGS</h4><p class="doc">One account. No bots.</p><h4>Rewards</h4><p class="doc">Ad tasks pay coins. Social tasks pay D Coin.</p><h4>Withdrawals</h4><p class="doc">Binance only. Min ' + CONFIG.withdraw.min + ' coins.</p><h4>No haram content</h4><p class="doc">Strictly prohibited.</p>'); },
   settings: function () {
     var th = store.get('pn_theme') || 'auto', hp = store.get('pn_haptics') !== 'off';
     openSheet('<h2>Settings</h2><h4>Appearance</h4><div class="opts">' + ['auto', 'light', 'dark'].map(function (k) { return '<button class="opt ' + (th === k ? 'on' : '') + '" data-set="theme" data-v="' + k + '">' + k[0].toUpperCase() + k.slice(1) + '</button>'; }).join('') + '</div><h4>Vibration</h4><div class="opts"><button class="opt ' + (hp ? 'on' : '') + '" data-set="haptics" data-v="on">On</button><button class="opt ' + (!hp ? 'on' : '') + '" data-set="haptics" data-v="off">Off</button></div>');
   },
   about: function () {
-    openSheet('<h2>About DOGS</h2>' +
-      '<p class="lead">Earn coins by ads, D Coin by tasks, promote with D Coin.</p>' +
-      '<h4>Daily Spin</h4><ul class="doc"><li>Spin once per day. Win up to 100 coins!</li></ul>' +
-      '<h4>Mining</h4><ul class="doc"><li>Unlock with 1 referral.</li><li>Free: 24 coins/day (1 coin/hour).</li><li>Paid: $1 → 200/day, $3 → 600/day, $5 → 1000/day, $10 → 3000/day.</li></ul>' +
-      '<h4>Earn coins</h4><ul class="doc"><li>Ad tasks: ' + fmt(CONFIG.adReward) + ' coins, ' + CONFIG.adDailyLimit + ' claims/day.</li><li>Referral: +' + fmt(CONFIG.referral.bonusJR) + ' coins +' + fmt(CONFIG.referral.bonusRJ) + ' D.</li></ul>' +
-      '<div class="gap"></div>' +
-      '<button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.communityLink) + '">' + ico('send', 'sm') + ' Join community</button>');
-  }
+    openSheet('<h2>About DOGS</h2><p class="lead">Earn coins by ads, D Coin by tasks, promote with D.</p><h4>Mining</h4><ul class="doc"><li>Unlock with 1 referral.</li><li>Free: 1/hr · 24/day</li><li>$1: 9/hr · 216/day</li><li>$3: 15/hr · 360/day</li><li>$10: 30/hr · 720/day</li><li>$25: 50/hr · 1200/day</li><li>$50: 100/hr · 2400/day</li><li>Claim requires watching an ad.</li></ul><div class="gap"></div><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.communityLink) + '">' + ico('send', 'sm') + ' Community</button>');
+  },
+  terms: function () { openSheet('<h2>Terms</h2><p class="doc">One account. Binance only. No haram content.</p>'); }
 };
 
 function render() {
@@ -2241,7 +1912,8 @@ function render() {
     else if (S.tab === 'tasks') renderTasks();
     else if (S.tab === 'promote') { if (S.promoTab === 'mine' || !$('#promoBody')) renderPromote(); else { var c = $('.seg .count'); if (c) c.textContent = myTasks().length; if (S.wiz.step === 3) updateWiz(); } }
     else if (S.tab === 'profile') renderProfile();
-  } catch (e) { console.error('render error:', e); }
+    else if (S.tab === 'mining') renderMiningPage();
+  } catch (e) { console.error('render', e); }
 }
 function go(tab) {
   S.tab = tab;
@@ -2250,7 +1922,8 @@ function go(tab) {
   var pg = $('#p-' + tab); if (!pg) return;
   pg.classList.remove('enter'); void pg.offsetWidth; pg.classList.add('enter');
   pg.__h = null;
-  if (tab === 'promote') renderPromote(); else render();
+  if (tab === 'promote') renderPromote();
+  else render();
   window.scrollTo(0, 0); hap('tap');
 }
 
@@ -2259,13 +1932,12 @@ var ACT = {
   'claim-ad': function (b) { claimAdGroup(b.dataset.gid); },
   'open-game': function (b) { var g = (CONFIG.games || []).filter(function (x) { return x.id === b.dataset.id; })[0]; if (g) openLink(g.link); },
   'open-spin': function () { openSpinModal(); },
-  'open-mining': function () { openMiningSheet(); },
   'mine-pick': function (b) {
     var tier = miningTierById(b.dataset.id); if (!tier) return;
-    if (tier.free) activateFreeMachine();
+    if (tier.id === 'free') activateFreeMachine();
     else openMachineDepositForm(tier);
   },
-  'mine-claim': function () { claimMining(); },
+  'mine-claim-ad': function () { claimMiningWithAd(); },
   'mine-activate': function () { activateMining(); },
   filter: function (b) { S.filter = b.dataset.k; renderTasks(); },
   open: function (b) { var t = taskById(b.dataset.id); if (!t) return; S.ui[t.id] = Object.assign(S.ui[t.id] || {}, { opened: Date.now() }); openLink(t.url); },
@@ -2279,7 +1951,7 @@ var ACT = {
   'wiz-next': function () { wizNext(); },
   'add-admin': function () { openLink(adminLink(S.adminType)); },
   recheck: function () { wizNext(); },
-  'wiz-back': function () { S.wiz.step--; renderWizard(); window.scrollTo(0, 0); },
+  'wiz-back': function () { S.wiz.step--; renderWizard(); },
   'wiz-publish': function () { publish(); }
 };
 document.addEventListener('click', function (e) {
@@ -2290,13 +1962,8 @@ document.addEventListener('click', function (e) {
     b = t.closest('[data-sheet]'); if (b) { hap('tap'); if (!$('#sheetWrap').hidden) { closeSheet(); setTimeout(function () { SHEETS[b.dataset.sheet](); }, 260); } else SHEETS[b.dataset.sheet](); return; }
     b = t.closest('[data-open]'); if (b) { openLink(b.dataset.open); return; }
     b = t.closest('[data-copy]'); if (b) { copyText(b.dataset.copy); return; }
-    b = t.closest('[data-set]'); if (b) {
-      store.set(b.dataset.set === 'theme' ? 'pn_theme' : 'pn_haptics', b.dataset.v);
-      $$('[data-set="' + b.dataset.set + '"]').forEach(function (x) { x.classList.toggle('on', x === b); });
-      applyTheme();
-      return;
-    }
-  } catch (err) { console.error('click', err); }
+    b = t.closest('[data-set]'); if (b) { store.set(b.dataset.set === 'theme' ? 'pn_theme' : 'pn_haptics', b.dataset.v); $$('[data-set="' + b.dataset.set + '"]').forEach(function (x) { x.classList.toggle('on', x === b); }); applyTheme(); return; }
+  } catch (err) {}
 });
 document.addEventListener('input', function (e) {
   try {
@@ -2311,7 +1978,6 @@ document.addEventListener('input', function (e) {
     updateWiz();
   } catch (err) {}
 });
-
 (function () {
   var sc = $('#spinClose'); if (sc) sc.addEventListener('click', closeSpinModal);
   var sb = $('#spinBtn'); if (sb) sb.addEventListener('click', doSpin);
@@ -2319,107 +1985,49 @@ document.addEventListener('input', function (e) {
   var sm = $('#spinModal'); if (sm) sm.addEventListener('click', function (e) { if (e.target.id === 'spinModal') closeSpinModal(); });
 })();
 
-setInterval(function () {
-  if (S.tab !== 'home') return;
-  var u = S.user;
-  if (u && u.mining && u.mining.active) {
-    var sec = Math.floor(Date.now() / 1000);
-    if (sec % 30 === 0) renderHome();
-  }
-}, 1000);
-
 async function ensureUser(tu) {
   var ref = db.ref(P.user(S.uid)), snap = await ref.once('value');
-  var profile = {
-    name: [tu.first_name, tu.last_name].filter(Boolean).join(' ') || tu.username || 'User',
-    username: tu.username || '',
-    photo: tu.photo_url || ''
-  };
+  var profile = { name: [tu.first_name, tu.last_name].filter(Boolean).join(' ') || tu.username || 'User', username: tu.username || '', photo: tu.photo_url || '' };
   if (snap.exists()) return ref.update(profile);
   var start = tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
   var referredBy = null;
-  if (start && /^\d+$/.test(start) && start !== S.uid) {
-    try { var r = await db.ref(P.user(start) + '/name').once('value'); if (r.exists()) referredBy = start; } catch (e) {}
-  }
+  if (start && /^\d+$/.test(start) && start !== S.uid) { try { var r = await db.ref(P.user(start) + '/name').once('value'); if (r.exists()) referredBy = start; } catch (e) {} }
   await ref.set(Object.assign({ balance: 0, rjBalance: 0, totalIncome: 0, rjTotal: 0, tasksDone: 0, createdAt: TS, referredBy: referredBy }, profile));
-  if (referredBy) {
-    try { await db.ref(P.user(referredBy) + '/referrals/' + S.uid).set({ name: profile.name, bonus: 0 }); } catch (e) {}
-  }
+  if (referredBy) try { await db.ref(P.user(referredBy) + '/referrals/' + S.uid).set({ name: profile.name, bonus: 0 }); } catch (e) {}
 }
-function hideSplash() {
-  var s = $('#splash'); if (!s || s.hidden) return;
-  window.__splashKilled = true;
-  s.classList.add('leave');
-  setTimeout(function () { s.hidden = true; }, 420);
-}
+function hideSplash() { var s = $('#splash'); if (!s || s.hidden) return; window.__splashKilled = true; s.classList.add('leave'); setTimeout(function () { s.hidden = true; }, 420); }
 
 async function boot() {
   var t0 = Date.now();
   try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); } catch (e) {}
   try { if (tg) { tg.ready(); tg.expand(); if (tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } } catch (e) {}
   try { applyTheme(); } catch (e) {}
-
   var tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
-  if (!tu) {
-    $('#splash').hidden = true; $('#gate').hidden = false;
-    window.__splashKilled = true;
-    return;
-  }
+  if (!tu) { $('#splash').hidden = true; $('#gate').hidden = false; window.__splashKilled = true; return; }
   S.uid = String(tu.id);
   $('#app').hidden = false; $('#nav').hidden = false;
-  try { go('home'); } catch (e) { console.error('initial go', e); }
-
-  try {
-    await Promise.race([ensureUser(tu), new Promise(function (_, rej) { setTimeout(function () { rej(new Error('timeout')); }, 8000); })]);
-  } catch (e) { console.warn('ensureUser failed:', e); }
-
+  try { go('home'); } catch (e) {}
+  try { await Promise.race([ensureUser(tu), new Promise(function (_, rej) { setTimeout(function () { rej(new Error('timeout')); }, 8000); })]); } catch (e) {}
   var firstUser = true;
   try {
     db.ref(P.user(S.uid)).on('value', function (s) {
       try {
         var u = s.val() || {};
         notifySubmissions(u); notifyCredits(u); S.user = u; render();
-        if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) {
-          S.spin.alreadyShownToday = true;
-          setTimeout(function () {
-            if (u.lastSpinDay !== today() && !S.spin.spinning) openSpinModal();
-          }, 1400);
-        }
+        if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) { S.spin.alreadyShownToday = true; setTimeout(function () { if (u.lastSpinDay !== today() && !S.spin.spinning) openSpinModal(); }, 1400); }
         if (firstUser) { firstUser = false; checkReferral(u); }
         if ((u.debtTotal || 0) > 0 && (u.rjBalance || 0) > 0) settleDebts();
-      } catch (err) { console.error('user listener', err); }
-    }, function (err) { console.error('user listener error', err); });
-  } catch (e) {}
-
-  try {
-    db.ref(P.user(S.uid) + '/deposits').on('value', function (snap) {
-      var deps = snap.val() || {};
-      Object.keys(deps).forEach(function (k) {
-        var d = deps[k];
-        if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d);
-      });
+      } catch (err) {}
     });
   } catch (e) {}
-
-  try {
-    db.ref('pn/pending/' + S.uid).on('value', function (s) {
-      S.pending = s.val() || {};
-      if (S.tab === 'promote' && S.promoTab === 'mine') renderMine();
-    });
-  } catch (e) {}
-
-  try {
-    db.ref(P.tasks).limitToLast(300).on('value', function (s) {
-      S.tasks = s.val() || {}; S.tasksLoaded = true; render();
-    }, function () { S.tasksLoaded = true; render(); });
-  } catch (e) {}
-
+  try { db.ref(P.user(S.uid) + '/deposits').on('value', function (snap) { var deps = snap.val() || {}; Object.keys(deps).forEach(function (k) { var d = deps[k]; if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d); }); }); } catch (e) {}
+  try { db.ref('pn/pending/' + S.uid).on('value', function (s) { S.pending = s.val() || {}; if (S.tab === 'promote' && S.promoTab === 'mine') renderMine(); }); } catch (e) {}
+  try { db.ref(P.tasks).limitToLast(300).on('value', function (s) { S.tasks = s.val() || {}; S.tasksLoaded = true; render(); }, function () { S.tasksLoaded = true; render(); }); } catch (e) {}
   sweepPending().catch(function () {});
   flushOutbox(S.uid).catch(function () {});
   setInterval(function () { sweepPending().catch(function () {}); }, 60000);
   sweepJoins().catch(function () {});
   setInterval(function () { sweepJoins().catch(function () {}); }, 300000);
-
   var wait = Math.max(0, 900 - (Date.now() - t0));
   setTimeout(function () { hideSplash(); }, wait);
 }
@@ -2428,29 +2036,13 @@ async function creditDeposit(key, d) {
     var flagRef = db.ref(P.user(S.uid) + '/deposits/' + key + '/credited');
     var tx = await flagRef.transaction(function (c) { return c === true ? undefined : true; });
     if (!tx.committed) return;
-    await db.ref(P.user(S.uid)).transaction(function (u) {
-      if (!u) return u;
-      u.rjBalance = (u.rjBalance || 0) + d.rj;
-      u.rjTotal = (u.rjTotal || 0) + d.rj;
-      return u;
-    });
+    await db.ref(P.user(S.uid)).transaction(function (u) { if (!u) return u; u.rjBalance = (u.rjBalance || 0) + d.rj; u.rjTotal = (u.rjTotal || 0) + d.rj; return u; });
     rewardedD(d.rj, 'Deposit approved');
   } catch (e) {}
 }
-
 try {
-  boot().catch(function (e) {
-    console.error('boot failed:', e);
-    hideSplash();
-    var app = $('#app'); if (app) app.hidden = false;
-    var nav = $('#nav'); if (nav) nav.hidden = false;
-  });
-} catch (e) {
-  console.error('boot crash:', e);
-  hideSplash();
-  var app2 = document.getElementById('app'); if (app2) app2.hidden = false;
-  var nav2 = document.getElementById('nav'); if (nav2) nav2.hidden = false;
-}
+  boot().catch(function (e) { console.error('boot', e); hideSplash(); var a = $('#app'); if (a) a.hidden = false; var n = $('#nav'); if (n) n.hidden = false; });
+} catch (e) { hideSplash(); var a2 = document.getElementById('app'); if (a2) a2.hidden = false; var n2 = document.getElementById('nav'); if (n2) n2.hidden = false; }
 
 })();
 </script>

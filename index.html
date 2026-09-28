@@ -43,7 +43,6 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 .mut{color:var(--muted)}
 .grow{flex:1;min-width:0}
 .row{display:flex;align-items:center;gap:12px}
-
 #splash{position:fixed;inset:0;z-index:200;background:radial-gradient(circle at 50% 36%,rgba(91,91,245,.20),transparent 58%),var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;transition:opacity .4s ease}
 #splash.leave{opacity:0;pointer-events:none}
 #gate{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;text-align:center}
@@ -57,7 +56,6 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 #splash .bar i{display:block;height:100%;width:40%;background:var(--brand);border-radius:4px;animation:slide 1s ease-in-out infinite}
 .logo{display:block;border-radius:24%;overflow:hidden;flex:none;line-height:0}
 .logo svg.mark{width:100%;height:100%;display:block}
-
 #app{max-width:480px;width:100%;margin:0 auto;padding:16px 16px calc(104px + env(safe-area-inset-bottom,0px))}
 .page>h1{font-size:26px;font-weight:800;margin:6px 0 4px;letter-spacing:-.02em}
 .page>.sub{color:var(--muted);margin-bottom:18px;max-width:42ch;font-size:14px;line-height:1.55}
@@ -67,11 +65,9 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 .brand .logo{width:38px;height:38px;box-shadow:0 6px 14px -6px rgba(91,91,245,.6)}
 .icon-btn{width:40px;height:40px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;transition:transform .12s;flex:none}
 .icon-btn:active{transform:scale(.92)}
-
 .coin{width:22px;height:22px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;vertical-align:middle}
 .coin svg{width:100%;height:100%;display:block}
 .coin.lg{width:34px;height:34px}
-
 .hero{position:relative;overflow:hidden;background:linear-gradient(150deg,#1A2440 0%,#0F1A2E 65%);color:#fff;border-radius:28px;padding:22px 20px 20px;margin-bottom:14px;box-shadow:0 20px 38px -22px rgba(91,91,245,.75)}
 .hero .rings{position:absolute;right:-30px;top:-30px;width:240px;height:240px;fill:none;stroke:#fff;stroke-opacity:.12;stroke-width:1.5;pointer-events:none}
 .hero.ping .rings circle{animation:ping 1s ease-out}
@@ -81,7 +77,6 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 .hero-sub{font-size:12.5px;opacity:.75;margin-bottom:18px;line-height:1.5}
 .hero-actions{display:flex;gap:10px}
 .hero-actions .btn{flex:1}
-
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 12px}
 .stat .num{font-size:19px;font-weight:700}
@@ -91,7 +86,6 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 .tile:active{transform:scale(.96)}
 .tile b{display:block;font:700 15px 'Sora',sans-serif}
 .tile span.mut{display:block;font-size:12.5px;line-height:1.4;margin-top:2px}
-
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
 button.card{width:100%;text-align:left;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .15s}
 button.card:active{transform:scale(.98)}
@@ -115,7 +109,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .steps{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:8px;counter-reset:s}
 .steps li{counter-increment:s;display:flex;gap:10px;font-size:13.5px;line-height:1.5}
 .steps li::before{content:counter(s);flex:none;width:20px;height:20px;border-radius:50%;background:var(--brand-soft);color:var(--brand);font:700 11px/20px 'Sora',sans-serif;text-align:center}
-
 .btn{appearance:none;border:0;border-radius:14px;padding:13px 16px;font:700 14.5px/1.15 'Manrope',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .15s,opacity .2s;text-align:center;min-height:44px}
 .btn:active{transform:scale(.96)}
 .btn[disabled]{opacity:.55;cursor:not-allowed}
@@ -129,18 +122,15 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .btn-sm{padding:10px 14px;font-size:13.5px;border-radius:12px;min-height:40px}
 .btn.cool{background:var(--line);color:var(--muted);box-shadow:none}
 .spin-icon{width:15px;height:15px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite;flex:none;display:inline-block}
-
 .chips{display:flex;gap:8px;overflow-x:auto;margin:0 -16px 16px;padding:2px 16px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 14px;font:600 13.5px 'Manrope',sans-serif;cursor:pointer;display:flex;gap:6px;align-items:center;white-space:nowrap}
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .chip em{font-style:normal;opacity:.6;font-size:12px}
-
 .seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--line);border-radius:14px;padding:4px;margin-bottom:18px}
 .seg button{border:0;background:transparent;border-radius:11px;padding:10px;font:700 13.5px 'Manrope',sans-serif;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
 .seg .count{background:var(--brand);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px;margin-left:4px}
-
 .empty{text-align:center;padding:36px 20px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:12px}
 .empty b{color:var(--ink);font:700 16px 'Sora',sans-serif}
 .pill{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap}
@@ -150,7 +140,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .pill.bad{background:var(--bad-soft);color:var(--bad)}
 .alert{background:var(--bad-soft);color:var(--bad);border-radius:14px;padding:12px 14px;font-weight:700;font-size:13.5px;margin-bottom:14px;line-height:1.5;word-break:break-word}
 .note{background:var(--brand-soft);color:var(--brand);border-radius:14px;padding:12px 14px;font-weight:600;font-size:13px;margin-bottom:14px;line-height:1.55}
-
 .promo-head{display:flex;align-items:center;gap:14px;margin:6px 0 14px}
 .promo-head .logo{width:58px;height:58px}
 .promo-head h1{font-size:26px;font-weight:800;line-height:1.1}
@@ -183,7 +172,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .sum div:last-child{border:0;font-weight:800}
 .sum .neg{color:var(--bad)}
 .nav-row{display:flex;gap:10px;margin-top:6px}.nav-row .btn:last-child{flex:1}
-
 .pfp{display:flex;align-items:center;gap:14px;margin:6px 0 18px}
 .avatar{width:64px;height:64px;border-radius:22px;background:var(--brand);color:#fff;display:grid;place-items:center;font:800 26px 'Sora',sans-serif;overflow:hidden;flex:none;position:relative}
 .avatar img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
@@ -198,14 +186,12 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .menu .ico:first-child{color:var(--brand)}
 .menu .ico:last-child{margin-left:auto;color:var(--muted);width:18px;height:18px}
 .ver{text-align:center;color:var(--muted);font-size:12.5px;margin-top:18px}
-
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
 #nav .navbar{pointer-events:auto;width:100%;max-width:480px;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;background:var(--nav);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px))}
 .nb{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font:600 11px 'Manrope',sans-serif;cursor:pointer;min-width:0}
 .nb.on{color:var(--brand);font-weight:800}
 .nb.fab .fabi{width:54px;height:54px;border-radius:19px;background:var(--brand);color:#fff;display:grid;place-items:center;margin-top:-26px;box-shadow:0 12px 22px -10px var(--brand);border:4px solid var(--bg)}
 .nb.fab.on{color:var(--brand)}
-
 #toasts{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:0;right:0;z-index:300;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 16px}
 .toast{background:var(--ink);color:var(--bg);border-radius:18px;padding:12px 16px;display:flex;align-items:center;gap:12px;max-width:380px;box-shadow:0 14px 30px -12px rgba(0,0,0,.45);font-weight:600;font-size:14px}
 .toast b{display:block;font:800 17px 'Sora',sans-serif}
@@ -213,7 +199,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .toast .coin{width:32px;height:32px}
 .toast.err{background:var(--bad);color:#fff}
 .toast.jade{background:linear-gradient(135deg,#0B4F3A,#22C58B);color:#fff}
-
 .sheet-wrap{position:fixed;inset:0;z-index:150;background:rgba(10,15,28,.55);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .25s}
 .sheet-wrap.open{opacity:1}
 .sheet{width:100%;max-width:480px;max-height:88vh;max-height:88dvh;overflow:auto;background:var(--bg);border-radius:28px 28px 0 0;padding:10px 18px calc(24px + env(safe-area-inset-bottom,0px));transform:translateY(60px);transition:transform .35s cubic-bezier(.2,.9,.3,1);-webkit-overflow-scrolling:touch}
@@ -258,7 +243,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .step-num{flex:none;width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font:800 12px 'Sora',sans-serif}
 .step-txt{font-size:13.5px;line-height:1.55;color:var(--muted);padding-top:3px}
 .step-txt b{color:var(--ink);font-weight:700}
-
 .spin-modal{position:fixed;inset:0;z-index:250;background:rgba(10,15,28,.72);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .spin-modal.open{opacity:1}
 .spin-modal-card{width:100%;max-width:400px;background:linear-gradient(160deg,#1A2440 0%,#0F1A2E 100%);border-radius:28px;padding:22px 20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transform:scale(.92);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
@@ -281,7 +265,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .spin-result .win-amount{font:800 46px 'Sora',sans-serif;color:#FFC53D;display:flex;align-items:center;gap:10px;text-shadow:0 4px 20px rgba(255,197,61,.5);animation:popWin .5s cubic-bezier(.2,1.4,.4,1)}
 .spin-result .win-label{font-size:14px;opacity:.78}
 .spin-result .btn{margin-top:6px}
-
 .mp-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .mp-back{width:40px;height:40px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;flex:none;transition:transform .12s}
 .mp-back:active{transform:scale(.92)}
@@ -334,7 +317,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .mp-machine .mp-rate2 .rowr{display:flex;align-items:center;gap:5px}
 .mp-machine .mp-rate2 .rowr .coin{width:14px;height:14px}
 .mp-machine .mp-buy{margin-top:12px;width:100%;padding:9px 10px;font-size:12.5px;border-radius:10px}
-
 .mining-hero{background:linear-gradient(150deg,#0B4F3A 0%,#22C58B 100%);color:#fff;border-radius:24px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 14px 30px -14px rgba(34,197,139,.6)}
 .mining-hero .amt{font:800 32px 'Sora',sans-serif;display:flex;align-items:center;gap:10px;margin:4px 0;position:relative;z-index:1}
 .mining-hero .rate{font-size:12.5px;opacity:.85}
@@ -350,7 +332,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .mining-status.warn{background:var(--bad-soft);color:var(--bad)}
 .mining-status.ok{background:var(--ok-soft);color:var(--ok)}
 .mining-status .ico{flex:none}
-
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
 @keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
@@ -363,7 +344,6 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 .shake{animation:shake .35s}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-
 body.locked{overflow:hidden}
 .sheet{overscroll-behavior:contain}
 .card,.stat,.tile,.pkg,.cat,.mp-machine{transition:transform .15s,box-shadow .25s,border-color .25s,background .25s}
@@ -371,7 +351,6 @@ body.locked{overflow:hidden}
 .nb.fab .fabi{transition:transform .2s}.nb.fab:active .fabi{transform:scale(.94)}
 .skel{height:96px;border-radius:20px;background:linear-gradient(90deg,var(--line) 25%,color-mix(in srgb,var(--line) 45%,var(--card)) 50%,var(--line) 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
-
 @media (max-width:380px){
   #app{padding:14px 14px calc(100px + env(safe-area-inset-bottom,0px))}
   .page>h1{font-size:23px}
@@ -593,6 +572,7 @@ var CONFIG = {
   },
   mining: {
     minReferrals: 1,
+    changeCooldownMs: 24 * 3600 * 1000,
     tiers: [
       { id: 'free', usd: 0,  perHour: 1,   daily: 24,   label: 'Free' },
       { id: 'm1',   usd: 1,  perHour: 9,   daily: 216,  label: 'Starter' },
@@ -857,25 +837,35 @@ async function markAdDone(gid, key) {
   });
   if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
 }
+
+/* ============ STRICT LINK AD (15s) ============ */
 function startGroupLinkAd(gid, key, url) {
   if (S.view) return;
   S.ui['adfail_' + key] = false;
-  var v = S.view = { ad: key, groupId: gid, t0: Date.now(), left: false, secs: CONFIG.adLinkSeconds };
-  openLink(url);
-  var tick = function () {
-    if (S.view !== v) { clearInterval(v.timer); return; }
-    if (Date.now() - v.t0 >= v.secs * 1000) { clearInterval(v.timer); finishGroupLinkAd(true); return; }
-    if (!document.hidden) renderEarn();
+  var v = S.view = {
+    ad: key, groupId: gid,
+    t0: Date.now(),
+    leftAt: 0,
+    left: false,
+    secs: CONFIG.adLinkSeconds,
+    timer: null
   };
-  v.timer = setInterval(tick, 250);
-  tick();
+  openLink(url);
+  // Tick only updates UI — does NOT auto-complete the ad
+  v.timer = setInterval(function () {
+    if (S.view !== v) { clearInterval(v.timer); return; }
+    if (!document.hidden) renderEarn();
+  }, 500);
 }
 async function finishGroupLinkAd(success) {
   var v = S.view; if (!v || !v.ad) return;
-  clearInterval(v.timer);
+  if (v.timer) clearInterval(v.timer);
   var key = v.ad, gid = v.groupId, secs = v.secs;
   S.view = null;
-  if (!success) { S.ui['adfail_' + key] = true; renderEarn(); return toastErr('You came back too soon. Please stay on the ad page for ' + secs + ' seconds before returning.'); }
+  if (!success) {
+    S.ui['adfail_' + key] = true; renderEarn();
+    return toastErr('You came back too soon. Please stay on the ad page for ' + secs + ' seconds before returning.');
+  }
   S.ui['adfail_' + key] = false;
   S.ui['ad_' + key] = true;
   renderEarn();
@@ -885,6 +875,7 @@ async function finishGroupLinkAd(success) {
   hap('success');
   toast('Ad completed!');
 }
+
 async function watchGroupAd(gid, key) {
   try {
     var provider = PROVIDERS[key]; if (!provider) return;
@@ -931,7 +922,12 @@ function adButtonHtmlFor(gid, key, st) {
   var p = PROVIDERS[key]; if (!p) return { html: '', dis: true, done: false };
   if (st.done.indexOf(key) >= 0) return { html: '✓ ' + p.label, dis: true, done: true };
   var v = S.view && S.view.ad === key ? S.view : null;
-  if (v) { var s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000)); return { html: s > 0 ? '<span class="spin-icon"></span>' + s + 's' : 'Return', dis: true, done: false }; }
+  if (v) {
+    // Show remaining time based on when they left (or since start)
+    var base = v.leftAt || v.t0;
+    var s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - base)) / 1000));
+    return { html: s > 0 ? '<span class="spin-icon"></span>' + s + 's' : 'Return', dis: true, done: false };
+  }
   if (S.ui['ad_' + key]) return { html: '<span class="spin-icon"></span>', dis: true, done: false };
   if (S.ui['adfail_' + key]) return { html: 'Retry', dis: false, done: false };
   return { html: p.label, dis: false, done: false };
@@ -944,10 +940,14 @@ function renderAdGroup(g) {
   var canClaim = st.done.length >= 3 && !limitReached && !waiting;
   var roundPct = Math.min(100, (st.done.length / 3) * 100);
   var content = '';
-  if (limitReached) content = '<div class="note" style="margin:0;text-align:center">Daily limit reached (' + st.claims + '/' + CONFIG.adDailyLimit + '). Please come back tomorrow.</div>';
-  else if (waiting) content = '<button class="btn btn-cool btn-block" disabled><span class="spin-icon"></span> Please wait ' + cooldown + 's</button>';
-  else if (canClaim) content = '<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="' + g.id + '">Claim ' + fmt(CONFIG.adReward) + ' coins</button>';
-  else {
+  if (limitReached) {
+    content = '<div class="note" style="margin:0;text-align:center">Daily limit reached (' + st.claims + '/' + CONFIG.adDailyLimit + '). Please come back tomorrow.</div>';
+  } else if (waiting) {
+    // FIX: data-cd span present so countdown can update live
+    content = '<button class="btn btn-cool btn-block" disabled><span class="spin-icon"></span> Please wait <span data-cd="' + g.id + '" style="display:inline-block;min-width:2ch;text-align:center">' + cooldown + '</span>s</button>';
+  } else if (canClaim) {
+    content = '<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="' + g.id + '">Claim ' + fmt(CONFIG.adReward) + ' coins</button>';
+  } else {
     var buttons = g.ads.map(function (key) {
       var u = adButtonHtmlFor(g.id, key, st);
       var cls = u.done ? 'btn-jade' : 'btn-primary';
@@ -970,14 +970,30 @@ function renderEarn() {
     $('#p-earn').innerHTML = '<h1>Earn coins</h1><p class="sub">Watch all 3 ads in each task to earn ' + fmt(CONFIG.adReward) + ' coins per task. You can claim up to ' + CONFIG.adDailyLimit + ' times per day. Wait ' + CONFIG.adCooldownSec + ' seconds between claims. You have earned ' + fmt(td) + ' coins today.</p><div class="list">' + adCards + '</div><h2 class="section-title">🎮 Games</h2><div class="list">' + (gameCards || '<div class="empty"><b>No games right now</b></div>') + '</div>';
   } catch (e) {}
 }
+// Live countdown ticker for ad groups — updates text only, does not re-render everything
 setInterval(function () {
   if (S.tab !== 'earn') return;
-  var need = false;
+  var needFull = false;
   AD_GROUPS.forEach(function (g) {
     var el = $('[data-cd="' + g.id + '"]');
-    if (el) { var l = groupCooldownLeft(g.id); if (l > 0) el.textContent = l; else need = true; }
+    if (el) {
+      var l = groupCooldownLeft(g.id);
+      if (l > 0) { el.textContent = l; }
+      else { needFull = true; }
+    }
+    // Also live-update the currently-watching ad button countdown
+    var v = S.view && S.view.ad ? S.view : null;
+    if (v) {
+      var btn = $('[data-act="watch-group"][data-key="' + v.ad + '"]');
+      if (btn) {
+        var base = v.leftAt || v.t0;
+        var s = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - base)) / 1000));
+        if (s > 0) btn.innerHTML = '<span class="spin-icon"></span>' + s + 's';
+        else btn.innerHTML = 'Return';
+      }
+    }
   });
-  if (need) renderEarn();
+  if (needFull) renderEarn();
 }, 1000);
 
 /* ============ SPIN ============ */
@@ -1075,6 +1091,16 @@ function miningActive(u) { return !!(u && u.mining && u.mining.active); }
 function miningStartedAt(u) { return (u && u.mining && u.mining.startedAt) || 0; }
 function miningClaimed(u) { return (u && u.mining && u.mining.claimed) || 0; }
 function miningPending(u) { return (u && u.mining && u.mining.pendingRequest) || null; }
+function miningOwned(u, id) { return !!(u && u.mining && u.mining.owned && u.mining.owned[id]); }
+function miningChangedAt(u) { return (u && u.mining && u.mining.machineChangedAt) || 0; }
+function canChangeMachine(u) {
+  var last = miningChangedAt(u);
+  if (!last) return { ok: true, left: 0 };
+  var elapsed = Date.now() - last;
+  var cd = CONFIG.mining.changeCooldownMs;
+  if (elapsed >= cd) return { ok: true, left: 0 };
+  return { ok: false, left: cd - elapsed };
+}
 var HOUR_MS = 3600 * 1000;
 function miningAccrued(u) { var t = miningMachine(u); if (!t || !miningActive(u)) return 0; var start = miningStartedAt(u); if (!start) return 0; var total = (Date.now() - start) / HOUR_MS * t.perHour; return Math.max(0, total - miningClaimed(u)); }
 function miningAvailable(u) { return Math.floor(miningAccrued(u)); }
@@ -1083,19 +1109,73 @@ function miningNextCoinMs(u) { var t = miningMachine(u); if (!t || !miningActive
 async function activateFreeMachine() {
   var u = S.user; if (!u) return;
   if (!miningUnlocked(u)) return toastErr('Please invite 1 friend to unlock mining.');
-  if (miningMachine(u)) return toastErr('You already have a mining machine.');
+  // First-time activation is allowed without 24h check
+  var alreadyHas = miningMachine(u);
+  if (alreadyHas) {
+    // Switching to free from another machine — check cooldown
+    var cc = canChangeMachine(u);
+    if (!cc.ok) return toastErr('You can only change machine once every 24 hours. Next change in ' + fmtLeft(cc.left) + '.');
+    return switchMachine('free');
+  }
+  // First activation
   try {
     var res = await db.ref(P.user(S.uid)).transaction(function (x) {
       if (!x) return x;
       x.mining = x.mining || {};
+      x.mining.owned = x.mining.owned || {};
       if (x.mining.machine) return;
-      x.mining.machine = 'free'; x.mining.active = true; x.mining.startedAt = Date.now(); x.mining.claimed = 0;
+      x.mining.machine = 'free';
+      x.mining.owned.free = true;
+      x.mining.active = true;
+      x.mining.startedAt = Date.now();
+      x.mining.claimed = 0;
+      x.mining.machineChangedAt = Date.now();
       return x;
     });
     if (res.committed) { hap('success'); toast('Free mining machine activated!'); setTimeout(renderMiningPage, 250); }
     else toastErr('You already have a machine.');
   } catch (e) { toastErr('Could not activate.'); }
 }
+
+async function switchMachine(newId) {
+  var u = S.user; if (!u) return;
+  var cur = miningMachine(u);
+  if (cur && cur.id === newId) return toastErr('This machine is already active.');
+  if (!miningOwned(u, newId)) return toastErr('You do not own this machine.');
+  var cc = canChangeMachine(u);
+  if (!cc.ok) return toastErr('You can only change machine once every 24 hours. Next change in ' + fmtLeft(cc.left) + '.');
+  try {
+    var res = await db.ref(P.user(S.uid)).transaction(function (x) {
+      if (!x || !x.mining) return;
+      if (!x.mining.owned || !x.mining.owned[newId]) return;
+      var curT = miningTierById(x.mining.machine);
+      // Auto-claim accrued from current machine before switching
+      if (curT && x.mining.active) {
+        var start = x.mining.startedAt || 0;
+        var claimed = x.mining.claimed || 0;
+        var total = (Date.now() - start) / HOUR_MS * curT.perHour;
+        var available = Math.floor(total - claimed);
+        if (available > 0) {
+          applyIncome(x, available);
+          x.mining.totalMined = (x.mining.totalMined || 0) + available;
+        }
+      }
+      x.mining.machine = newId;
+      x.mining.active = true;
+      x.mining.startedAt = Date.now();
+      x.mining.claimed = 0;
+      x.mining.machineChangedAt = Date.now();
+      return x;
+    });
+    if (res.committed) {
+      var newT = miningTierById(newId);
+      hap('success');
+      toast('Switched to ' + (newT ? (newT.usd === 0 ? 'Free' : '$' + newT.usd) : newId) + ' machine!');
+      setTimeout(renderMiningPage, 250);
+    } else toastErr('Could not switch machine.');
+  } catch (e) { toastErr('Could not switch machine.'); }
+}
+
 async function activateMining() {
   var u = S.user; if (!u) return;
   if (!miningMachine(u)) return toastErr('Please buy a machine first.');
@@ -1177,12 +1257,17 @@ function renderMiningPage() {
   var html = '';
   html += '<div class="mp-header"><button class="mp-back" data-go="home" aria-label="Back">' + ico('arrow-left') + '</button><h1>Mining</h1></div>';
   if (!unlocked) {
-    html += '<p class="mp-sub">Mining is a special feature where you can earn coins every hour automatically. To unlock, you need to invite at least 1 friend to DOGS.</p>';
+    html += '<p class="mp-sub">Mining lets you earn coins automatically every hour. To unlock, invite at least 1 friend to DOGS.</p>';
     html += '<div class="mp-locked"><div class="lock-icon">' + ico('shield') + '</div><h3>Mining Locked</h3><p>You currently have <b>' + refs + '</b> referral' + (refs === 1 ? '' : 's') + '. Invite <b>1 friend</b> to unlock mining.</p><button class="btn btn-primary btn-block" data-sheet="referral">' + ico('userplus', 'sm') + ' Invite friends now</button></div>';
   } else {
     if (pending && !machine) {
       html += '<div class="mp-status warn">' + ico('shield') + '<div>Your mining machine request is pending admin approval.</div></div>';
       html += '<div class="kv"><div><span>Requested machine</span><b>$' + pending.usd + '</b></div><div><span>Earning rate</span><b>' + fmt(pending.perHour || 0) + ' / hour</b></div><div><span>Daily earnings</span><b>' + fmt(pending.daily) + ' coins</b></div><div><span>Order ID</span><b>' + esc(pending.orderId || '—') + '</b></div><div><span>Status</span><b><span class="pill brand">Pending</span></b></div></div>';
+    }
+    // Show 24h change limit if user already changed
+    var cc = canChangeMachine(u);
+    if (machine && !cc.ok) {
+      html += '<div class="mp-status">' + ico('info') + '<div>You can only change machine once every 24 hours. Next change available in <b>' + fmtLeft(cc.left) + '</b>.</div></div>';
     }
     if (machine && active) {
       var avail = miningAvailable(u);
@@ -1193,13 +1278,14 @@ function renderMiningPage() {
       html += '<div class="mp-status ok">' + ico('shieldok') + '<div>Your ' + (machine.usd === 0 ? 'Free' : '$' + machine.usd) + ' machine is ready. Tap <b>Active</b> below to start mining.</div></div>';
       html += '<button class="btn btn-jade btn-block" data-act="mine-activate" style="margin-bottom:18px">' + ico('play', 'sm') + ' Active · Start mining now</button>';
     }
-    html += '<div class="mp-machines-title">' + ico('pick') + ' Available Mining Machines</div>';
-    html += '<p class="mp-machines-hint">Choose a machine below. Free machine activates instantly. Paid machines require a Binance deposit which the admin will verify. Once approved, tap <b>Active</b> to start mining.</p>';
+    html += '<div class="mp-machines-title">' + ico('pick') + ' Mining Machines</div>';
+    html += '<p class="mp-machines-hint">Choose a machine below. Free is instant. Paid machines need a Binance deposit which the admin will verify. You can change machine once every 24 hours.</p>';
     html += '<div class="mp-machines">';
     CONFIG.mining.tiers.forEach(function (t) {
       var isFree = t.id === 'free';
       var isGold = t.usd >= 10;
       var isCurrent = machine && machine.id === t.id;
+      var isOwned = miningOwned(u, t.id) || isCurrent;
       var cls = 'mp-machine';
       if (isFree) cls += ' free-tier';
       if (isGold) cls += ' gold';
@@ -1207,15 +1293,16 @@ function renderMiningPage() {
       var tag = isCurrent ? '<span class="mp-tag current">CURRENT</span>' : (isFree ? '<span class="mp-tag free">FREE</span>' : (isGold ? '<span class="mp-tag gold">HOT</span>' : ''));
       html += '<div class="' + cls + '">' + tag + '<div class="mp-icon">' + ico('pick') + '</div><div class="mp-price">' + (isFree ? 'Free' : '$' + t.usd) + '</div><div class="mp-rate2"><div class="rowr">' + coin() + fmt(t.perHour) + ' per hour</div><div class="rowr">' + coin() + fmt(t.daily) + ' per 24 hours</div></div>';
       if (isCurrent) html += '<button class="btn btn-jade btn-block mp-buy" disabled>' + (active ? 'ACTIVE' : 'OWNED') + '</button>';
+      else if (isOwned) html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-switch" data-id="' + t.id + '">Change to this</button>';
       else if (isFree) html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-pick" data-id="' + t.id + '">Activate free</button>';
       else html += '<button class="btn btn-primary btn-block mp-buy" data-act="mine-pick" data-id="' + t.id + '">Buy for $' + t.usd + '</button>';
       html += '</div>';
     });
     html += '</div>';
-    if (!machine) html += '<p class="hint" style="text-align:center;margin-top:16px">Free machine is instant. Paid machines need Binance deposit + admin approval before they become active.</p>';
   }
   el.innerHTML = html;
 }
+// Live countdown for mining page
 setInterval(function () {
   if (S.tab !== 'mining') return;
   var u = S.user;
@@ -1238,7 +1325,7 @@ setInterval(function () {
 }, 1000);
 
 function openMachineDepositForm(tier) {
-  openSheet('<h2>Buy $' + tier.usd + ' Machine</h2><p class="lead">Follow the steps below to purchase your mining machine. Your machine will activate after admin verifies your deposit.</p>' +
+  openSheet('<h2>Buy $' + tier.usd + ' Machine</h2><p class="lead">Follow the steps below to purchase your mining machine. Your machine activates after admin verifies your deposit.</p>' +
     '<div class="info-block"><h4>' + ico('info', 'sm') + ' How to pay</h4>' +
     '<div class="step-list">' +
     '<div class="step-row"><div class="step-num">1</div><div class="step-txt">Open Binance app and go to <b>Pay</b> → <b>Send</b>.</div></div>' +
@@ -1526,36 +1613,58 @@ function viewLabel(id) {
   var v = S.view; var b = $('[data-vbtn="' + id + '"]'); if (!b) return;
   var t = taskById(id), tm = (t && TIMED[t.type]) || TIMED.view;
   if (!v || v.id !== id) { b.innerHTML = (S.ui[id] && S.ui[id].failed) ? 'Try again' : tm.idle; return; }
-  var left = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - v.t0)) / 1000));
+  var base = v.leftAt || v.t0;
+  var left = Math.max(0, Math.ceil((v.secs * 1000 - (Date.now() - base)) / 1000));
   b.innerHTML = left > 0 ? '<span class="spin-icon"></span> ' + tm.ing + ', ' + left + 's' : 'Come back to the app';
 }
 function startView(id) {
   var t = taskById(id); if (!t || S.view) return;
-  S.view = { id: id, t0: Date.now(), left: false, secs: secsFor(t) };
+  S.view = { id: id, t0: Date.now(), leftAt: 0, left: false, secs: secsFor(t) };
   setTaskUi(id, { busy: true, failed: false });
   openLink(t.url);
   var timer = setInterval(function () {
     var v = S.view; if (!v) return clearInterval(timer);
     viewLabel(v.id);
-    if (!v.left && Date.now() - v.t0 >= v.secs * 1000) finishView(true);
   }, 250);
   S.view.timer = timer;
   viewLabel(id);
 }
 async function finishView(success) {
   var v = S.view; if (!v) return;
-  clearInterval(v.timer); S.view = null;
+  if (v.timer) clearInterval(v.timer);
+  S.view = null;
   var t = taskById(v.id);
   if (!success || !t) { setTaskUi(v.id, { busy: false, failed: true }); var what = { reaction: 'the post', website: 'the website', youtube: 'the video' }[t && t.type] || 'the post'; return toastErr('You came back too soon. Please stay on ' + what + ' for ' + v.secs + ' seconds, then return.'); }
   setTaskUi(v.id, { busy: false, failed: false });
   await claimTask(t);
 }
-function markLeft() { if (S.view) S.view.left = true; }
+function markLeft() {
+  if (!S.view) return;
+  S.view.left = true;
+  if (!S.view.leftAt) S.view.leftAt = Date.now();
+}
 function onReturn() {
   var v = S.view; if (!v) return;
-  if (Date.now() - v.t0 >= v.secs * 1000) { if (v.ad) finishGroupLinkAd(true); else finishView(true); return; }
-  if (!v.left) return;
-  if (v.ad) { clearInterval(v.timer); S.view = null; S.ui['adfail_' + v.ad] = true; renderEarn(); toastErr('You came back too soon. Please stay on the ad page for ' + v.secs + ' seconds.'); }
+  var now = Date.now();
+  // Link ad
+  if (v.ad) {
+    if (!v.left || !v.leftAt) {
+      // Never left — if enough time since start, reward; else do nothing (user still on app)
+      if (now - v.t0 >= v.secs * 1000) finishGroupLinkAd(true);
+      return;
+    }
+    var away = now - v.leftAt;
+    if (away >= v.secs * 1000) finishGroupLinkAd(true);
+    else finishGroupLinkAd(false);
+    return;
+  }
+  // Task view
+  if (!v.left || !v.leftAt) {
+    if (now - v.t0 >= v.secs * 1000) finishView(true);
+    return;
+  }
+  var away2 = now - v.leftAt;
+  if (away2 >= v.secs * 1000) finishView(true);
   else finishView(false);
 }
 document.addEventListener('visibilitychange', function () { if (document.hidden) markLeft(); else onReturn(); });
@@ -1741,7 +1850,7 @@ function renderProfile() {
     '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw coins</h3><p class="meta">Minimum ' + fmt(CONFIG.withdraw.min) + ' coins · ' + CONFIG.withdraw.feePct + '% fee · Binance</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">' + ico('down', 'sm') + ' Withdraw</button></div></div>' +
     '<div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Deposit D Coin</h3><p class="meta">Buy D Coin with USD through Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">' + ico('plus', 'sm') + ' Deposit</button></div></div>' +
     '<button class="card" data-open="' + esc(CONFIG.communityLink) + '"><span class="tbadge t-join">' + ico('send') + '</span><div class="grow"><h3>Join our community</h3><p class="meta">News, updates and help from the DOGS team</p></div>' + ico('chev') + '</button>' +
-    '<div class="menu"><button data-sheet="about">' + ico('info') + 'About DOGS' + ico('chev') + '</button><button data-sheet="settings">' + ico('sliders') + 'Settings' + ico('chev') + '</button><button data-sheet="privacy">' + ico('shield') + 'Privacy policy' + ico('chev') + '</button><button data-sheet="terms">' + ico('doc') + 'Terms and conditions' + ico('chev') + '</button><button data-sheet="support">' + ico('help') + 'Support' + ico('chev') + '</button></div><p class="ver">DOGS 3.1</p>';
+    '<div class="menu"><button data-sheet="about">' + ico('info') + 'About DOGS' + ico('chev') + '</button><button data-sheet="settings">' + ico('sliders') + 'Settings' + ico('chev') + '</button><button data-sheet="privacy">' + ico('shield') + 'Privacy policy' + ico('chev') + '</button><button data-sheet="terms">' + ico('doc') + 'Terms and conditions' + ico('chev') + '</button><button data-sheet="support">' + ico('help') + 'Support' + ico('chev') + '</button></div><p class="ver">DOGS 3.2</p>';
 }
 
 var SHARE_TEXT = 'Join me on DOGS — the Telegram app where you earn coins and D Coin every day.\n\n- Complete simple tasks and earn D Coin\n- Watch ads and get ' + fmt(CONFIG.adReward) + ' coins per task\n- Daily Spin the wheel — win up to 100 coins\n- Buy a mining machine and earn coins every hour\n- Promote your channel, group or bot with D Coin\n- Invite friends and get ' + fmt(CONFIG.referral.bonusJR) + ' coins + ' + fmt(CONFIG.referral.bonusRJ) + ' D Coin for each\n\nStart earning now:';
@@ -1795,13 +1904,13 @@ var SHEETS = {
     openSheet('<h2>Invite friends</h2><p class="lead">You get ' + fmt(R.bonusJR) + ' coins + ' + fmt(R.bonusRJ) + ' D Coin the moment a friend joins with your link.</p><div class="linkbox"><span class="grow">' + esc(link) + '</span><button class="btn btn-soft btn-sm" data-copy="' + esc(link) + '">' + ico('copy', 'sm') + ' Copy</button></div><button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT) + '">' + ico('send', 'sm') + ' Share on Telegram</button><div class="gap"></div><button class="btn btn-soft btn-block" data-copy="' + esc(msg) + '">' + ico('copy', 'sm') + ' Copy message</button><h4>Your referrals (' + list.length + ')</h4>' + (list.length ? list.map(function (r) { return '<div class="hist"><span>' + esc(r.name || 'Friend') + '</span><span class="' + (r.bonus ? '' : 'mut') + '">' + (r.bonus ? '+' + fmt(R.bonusJR) + ' coins / +' + fmt(R.bonusRJ) + ' D' : 'Pending') + '</span></div>'; }).join('') : '<p class="doc">No referrals yet. Share your link to start earning!</p>') + '<div class="kv" style="margin-top:14px"><div><span class="mut">Referral coins earned</span><b>' + fmt(u.refEarned || 0) + ' coins</b></div><div><span class="mut">Referral D Coin earned</span><b>' + fmt(u.refEarnedRJ || 0) + ' D Coin</b></div></div>');
   },
   privacy: function () { openSheet('<h2>Privacy policy</h2><h4>What we collect</h4><p class="doc">We store your Telegram ID, name, username, profile photo, balances, tasks, campaigns, swaps, withdrawals, deposits, mining and spin history. This data is required for the app to function.</p><h4>Ads</h4><p class="doc">Ads are served by third-party networks. Those networks may collect data per their own policies.</p><h4>Sharing</h4><p class="doc">We do not sell your personal data to anyone.</p>'); },
-  terms: function () { openSheet('<h2>Terms and conditions</h2><h4>Using DOGS</h4><p class="doc">One person, one account. Bots and scripts are not allowed.</p><h4>Rewards</h4><p class="doc">Ad tasks pay coins. Social tasks pay D Coin. With-conditions tasks are auto-approved after ' + CONFIG.reviewHours + ' hours.</p><h4>Swap</h4><p class="doc">' + CONFIG.swap.jrIn + ' coins = ' + CONFIG.swap.rjOut + ' D Coin. Minimum ' + CONFIG.swap.min + ' coins. Swaps are final.</p><h4>Withdrawals</h4><p class="doc">Binance only. Minimum ' + CONFIG.withdraw.min + ' coins. ' + CONFIG.withdraw.feePct + '% fee is deducted.</p><h4>Deposits</h4><p class="doc">Send USD to the Binance UID shown and submit your Order ID for verification.</p><h4>Mining</h4><p class="doc">Unlock with 1 referral. Free machine is instant. Paid machines need deposit + admin approval. Collect requires watching an ad.</p><h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers are permitted.</p><h4>Leaving a channel</h4><p class="doc">Leaving within ' + CONFIG.leave.days + ' days returns your D Coin reward to the campaign owner.</p>'); },
+  terms: function () { openSheet('<h2>Terms and conditions</h2><h4>Using DOGS</h4><p class="doc">One person, one account. Bots and scripts are not allowed.</p><h4>Rewards</h4><p class="doc">Ad tasks pay coins. Social tasks pay D Coin. With-conditions tasks are auto-approved after ' + CONFIG.reviewHours + ' hours.</p><h4>Swap</h4><p class="doc">' + CONFIG.swap.jrIn + ' coins = ' + CONFIG.swap.rjOut + ' D Coin. Minimum ' + CONFIG.swap.min + ' coins. Swaps are final.</p><h4>Withdrawals</h4><p class="doc">Binance only. Minimum ' + CONFIG.withdraw.min + ' coins. ' + CONFIG.withdraw.feePct + '% fee is deducted.</p><h4>Deposits</h4><p class="doc">Send USD to the Binance UID shown and submit your Order ID for verification.</p><h4>Mining</h4><p class="doc">Unlock with 1 referral. Free machine is instant. Paid machines need deposit + admin approval. Collect requires watching an ad. You can change machine once every 24 hours.</p><h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers are permitted.</p><h4>Leaving a channel</h4><p class="doc">Leaving within ' + CONFIG.leave.days + ' days returns your D Coin reward to the campaign owner.</p>'); },
   settings: function () {
     var th = store.get('pn_theme') || 'auto', hp = store.get('pn_haptics') !== 'off';
     openSheet('<h2>Settings</h2><h4>Appearance</h4><div class="opts">' + ['auto', 'light', 'dark'].map(function (k) { return '<button class="opt ' + (th === k ? 'on' : '') + '" data-set="theme" data-v="' + k + '">' + k[0].toUpperCase() + k.slice(1) + '</button>'; }).join('') + '</div><h4>Vibration</h4><div class="opts"><button class="opt ' + (hp ? 'on' : '') + '" data-set="haptics" data-v="on">On</button><button class="opt ' + (!hp ? 'on' : '') + '" data-set="haptics" data-v="off">Off</button></div>');
   },
   about: function () {
-    openSheet('<h2>About DOGS</h2><p class="lead">DOGS is a Telegram mini app where you earn coins by watching ads, complete tasks to earn D Coin, promote your content, and cash out to Binance.</p><h4>Daily Spin</h4><ul class="doc"><li>Spin once per day. Win up to 100 coins.</li><li>Every ' + CONFIG.spin.milestoneEvery + 'th spin in the world wins 100 coins guaranteed.</li></ul><h4>Mining</h4><ul class="doc"><li>Unlock by inviting 1 friend.</li><li>Free machine: 1 coin per hour · 24 coins per day.</li><li>$1 machine: 9 per hour · 216 per day.</li><li>$3 machine: 15 per hour · 360 per day.</li><li>$10 machine: 30 per hour · 720 per day.</li><li>$25 machine: 50 per hour · 1200 per day.</li><li>$50 machine: 100 per hour · 2400 per day.</li><li>Claiming requires watching a short ad.</li></ul><h4>Earn coins</h4><ul class="doc"><li>Ad tasks: ' + fmt(CONFIG.adReward) + ' coins per task, ' + CONFIG.adDailyLimit + ' claims per day.</li><li>Referral: +' + fmt(CONFIG.referral.bonusJR) + ' coins and +' + fmt(CONFIG.referral.bonusRJ) + ' D Coin per friend.</li></ul><h4>Withdraw & Deposit</h4><p class="doc">Withdraw coins to Binance (min ' + fmt(CONFIG.withdraw.min) + ' coins, ' + CONFIG.withdraw.feePct + '% fee). Deposit USD → D Coin via Binance UID + Order ID.</p><h4>Fair use</h4><p class="doc">One account per person. No bots. No haram content.</p><div class="gap"></div><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.communityLink) + '">' + ico('send', 'sm') + ' Join community</button><div class="gap"></div><button class="btn btn-soft btn-block" data-sheet="support">' + ico('help', 'sm') + ' Contact support</button>');
+    openSheet('<h2>About DOGS</h2><p class="lead">DOGS is a Telegram mini app where you earn coins by watching ads, complete tasks to earn D Coin, promote your content, and cash out to Binance.</p><h4>Daily Spin</h4><ul class="doc"><li>Spin once per day. Win up to 100 coins.</li><li>Every ' + CONFIG.spin.milestoneEvery + 'th spin in the world wins 100 coins guaranteed.</li></ul><h4>Mining</h4><ul class="doc"><li>Unlock by inviting 1 friend.</li><li>Free machine: 1 coin per hour · 24 coins per day.</li><li>$1 machine: 9 per hour · 216 per day.</li><li>$3 machine: 15 per hour · 360 per day.</li><li>$10 machine: 30 per hour · 720 per day.</li><li>$25 machine: 50 per hour · 1200 per day.</li><li>$50 machine: 100 per hour · 2400 per day.</li><li>Claiming requires watching a short ad.</li><li>You can change machine once every 24 hours.</li></ul><h4>Earn coins</h4><ul class="doc"><li>Ad tasks: ' + fmt(CONFIG.adReward) + ' coins per task, ' + CONFIG.adDailyLimit + ' claims per day.</li><li>Referral: +' + fmt(CONFIG.referral.bonusJR) + ' coins and +' + fmt(CONFIG.referral.bonusRJ) + ' D Coin per friend.</li></ul><h4>Withdraw & Deposit</h4><p class="doc">Withdraw coins to Binance (min ' + fmt(CONFIG.withdraw.min) + ' coins, ' + CONFIG.withdraw.feePct + '% fee). Deposit USD → D Coin via Binance UID + Order ID.</p><h4>Fair use</h4><p class="doc">One account per person. No bots. No haram content.</p><div class="gap"></div><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.communityLink) + '">' + ico('send', 'sm') + ' Join community</button><div class="gap"></div><button class="btn btn-soft btn-block" data-sheet="support">' + ico('help', 'sm') + ' Contact support</button>');
   }
 };
 
@@ -1833,6 +1942,7 @@ var ACT = {
   'open-game': function (b) { var g = (CONFIG.games || []).filter(function (x) { return x.id === b.dataset.id; })[0]; if (g && g.link) openLink(g.link); },
   'open-spin': function () { openSpinModal(); },
   'mine-pick': function (b) { var tier = miningTierById(b.dataset.id); if (!tier) return; if (tier.id === 'free') activateFreeMachine(); else openMachineDepositForm(tier); },
+  'mine-switch': function (b) { switchMachine(b.dataset.id); },
   'mine-claim-ad': function () { claimMiningWithAd(); },
   'mine-activate': function () { activateMining(); },
   filter: function (b) { S.filter = b.dataset.k; renderTasks(); },

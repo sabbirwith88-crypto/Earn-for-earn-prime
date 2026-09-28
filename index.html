@@ -386,6 +386,27 @@ body.locked{overflow:hidden}
 }
 @supports (-webkit-touch-callout:none){input,select,textarea{font-size:16px!important}}
 a,button{touch-action:manipulation}
+
+/* ---- responsive + iOS ---- */
+html{-webkit-text-size-adjust:100%;height:-webkit-fill-available}
+body{min-height:100vh;min-height:100dvh}
+img,svg,video{max-width:100%}
+@media (min-width:768px){
+  #app{max-width:720px;padding:28px 28px 120px}
+  #nav .navbar{max-width:720px;border-radius:22px 22px 0 0}
+  .tiles{grid-template-columns:repeat(4,1fr)}
+  .list{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  .page>h1{font-size:30px}
+  .hero{padding:28px 26px}
+  .hero-amt .num{font-size:48px}
+}
+@media (min-width:1100px){
+  #app{max-width:980px}
+  #nav .navbar{max-width:980px}
+  .list{grid-template-columns:repeat(3,1fr)}
+  .card:hover,.tile:hover{transform:translateY(-2px)}
+}
+@media (hover:none){.card:hover,.tile:hover{transform:none}}
 </style>
 </head>
 <body>
@@ -547,7 +568,7 @@ var CONFIG = {
   adLinkSeconds: 15,
   adLinks: [
     'https://omg10.com/4/10686606',
-    'https://wwp.giriubin.com/redirect-zone/31c41a18 key=568ce0b3290df6de10b74a13af0c817c',
+    'https://wwp.giriubin.com/redirect-zone/31c41a18?key=568ce0b3290df6de10b74a13af0c817c',
     'https://bowlsharp.com/yg0bftcw?key=568ce0b3290df6de10b74a13af0c817c',
     'https://quitedrench.org?JjChE=1585364',
     'https://messi-vs-ronaldo-pi.vercel.app/'
@@ -643,7 +664,13 @@ function loadScriptOnce(src) {
 function sleep(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
 
 function hap(kind) { if (store.get('pn_haptics') === 'off') return; try { if (kind === 'tap') tg.HapticFeedback.impactOccurred('light'); else tg.HapticFeedback.notificationOccurred(kind); } catch (e) {} }
+function fixUrl(u) {
+  u = String(u || '').trim().replace(/\s+(?=[A-Za-z0-9_]+=)/, '?').replace(/\s+/g, '');
+  if (u && !/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u;
+  return u;
+}
 function openLink(url) {
+  url = fixUrl(url);
   try {
     if (/^https?:\/\/(t|telegram)\.me\//i.test(url) && tg && tg.openTelegramLink) return tg.openTelegramLink(url);
     if (tg && tg.openLink) return tg.openLink(url);
@@ -772,10 +799,16 @@ async function ensureAdsbitvex() {
   if (await waitForGlobal('showadsbitvex', 60)) return true;
   throw new Error('not_ready');
 }
+function findAdsbitvexFn() {
+  if (typeof window.showadsbitvex === 'function') return window.showadsbitvex;
+  var k = Object.keys(window).filter(function (n) { return /adsbitvex/i.test(n) && typeof window[n] === 'function'; })[0];
+  return k ? window[k] : null;
+}
 async function runAdsbitvex() {
-  await ensureAdsbitvex();
+  for (var i = 0; i < 60 && !findAdsbitvexFn(); i++) await sleep(200);
+  var fn = findAdsbitvexFn(); if (!fn) throw new Error('not_ready');
   try {
-    var r = window.showadsbitvex();
+    var r = fn();
     if (r && typeof r.then === 'function') await r;
   } catch (e) { throw e; }
 }
@@ -1608,6 +1641,10 @@ async function verifyRemote(task) {
   return false;
 }
 async function claimTask(task) {
+  try { return await claimTaskInner(task); } catch (e) { console.error('claimTask', e); toastErr('Reward could not be added: ' + ((e && e.code) || (e && e.message) || 'network error') + '. Please try again.'); return false; }
+}
+async function claimTaskInner(task) {
+  task.perUser = Number(task.perUser) || 0;
   var remRef = db.ref(P.task(task.id) + '/remaining');
   var slot = await remRef.transaction(function (r) { if (r === null) return null; return r > 0 ? r - 1 : undefined; });
   if (!slot.committed || slot.snapshot.val() === null) { toastErr('This task is full. Try another one.'); return false; }
@@ -1958,12 +1995,14 @@ async function publish() {
   if (c.cost > rjBal(S.user)) { toastErr('You do not have enough D Coin balance.'); return updateWiz(); }
   btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Publishing';
   try {
-    await db.ref(P.user(S.uid)).transaction(function (u) { if (!u || rjBal(u) < c.cost) return; u.rjBalance -= c.cost; u.spent = (u.spent || 0) + c.cost; return u; });
-    await db.ref(P.tasks).push().set({ type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat || null, msgId: r.p.msgId || null, fee: c.fee || null, steps: w.type === 'conditions' ? w.steps.map(function (s) { return s.trim(); }) : null, perUser: c.per, total: c.users, remaining: c.users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS });
+    var chg = await db.ref(P.user(S.uid)).transaction(function (u) { if (!u) return u; if (rjBal(u) < c.cost) return; u.rjBalance -= c.cost; u.spent = (u.spent || 0) + c.cost; return u; });
+    if (!chg.committed) { btn.textContent = 'Publish campaign'; btn.disabled = false; return toastErr('Not enough D Coin balance.'); }
+    try { await db.ref(P.tasks).push().set({ type: w.type, title: w.title.trim(), url: r.p.url, chat: r.p.chat || null, msgId: r.p.msgId || null, fee: c.fee || null, steps: w.type === 'conditions' ? w.steps.map(function (s) { return s.trim(); }) : null, perUser: c.per, total: c.users, remaining: c.users, owner: S.uid, ownerName: S.user.name || '', status: 'live', createdAt: TS }); }
+    catch (pe) { await db.ref(P.user(S.uid)).transaction(function (u) { if (!u) return u; u.rjBalance = (u.rjBalance || 0) + c.cost; u.spent = Math.max(0, (u.spent || 0) - c.cost); return u; }); throw pe; }
     S.wiz = { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '', warnAdmin: false, warnChat: false };
     S.promoTab = 'mine'; hap('success'); toast('Campaign published. Your campaign is now live!');
     renderPromote();
-  } catch (e) { toastErr('Could not publish. Your D Coin was not charged.'); btn.textContent = 'Publish campaign'; }
+  } catch (e) { toastErr('Could not publish (' + ((e && e.code) || 'error') + '). Your D Coin was returned.'); btn.textContent = 'Publish campaign'; btn.disabled = false; }
 }
 async function wizNext() {
   var w = S.wiz, btn = $('#wizNext');
@@ -1971,7 +2010,7 @@ async function wizNext() {
     var r = checkUrl(w.type, w.url);
     if (!r.ok) return;
     btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Checking link';
-    var scr = await screenTarget(r.p, [], w.type);
+    var scr; try { scr = await screenTarget(r.p, [], w.type); } catch (e) { scr = { ok: true, warnChat: true }; }
     if (!scr.ok) { showBlock(blockText(scr.reason), scr.reason === 'needadmin' ? adminButtons() : ''); btn.textContent = 'Continue'; return; }
     w.warnAdmin = !!scr.warnAdmin;
     w.warnChat = !!scr.warnChat;

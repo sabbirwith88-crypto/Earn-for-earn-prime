@@ -15,7 +15,6 @@
 <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <script src="https://sdk.adsbitvex.com/functions/v1/ad-script?appid=000274"></script>
 <script src='//libtl.com/sdk.js' data-zone='10541383' data-sdk='show_10541383'></script>
-<script src="https://ad.gigapub.tech/script?id=6471"></script>
 <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
 <style>
 :root{
@@ -261,7 +260,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 
 .section-title{font:800 18px 'Sora',sans-serif;margin:24px 0 12px;display:flex;align-items:center;gap:8px}
 
-/* ============ SPIN MODAL (SVG based) ============ */
+/* SPIN MODAL */
 .spin-modal{position:fixed;inset:0;z-index:250;background:rgba(10,15,28,.72);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .spin-modal.open{opacity:1}
 .spin-modal-card{width:100%;max-width:400px;background:linear-gradient(160deg,#1A2440 0%,#0F1A2E 100%);border-radius:28px;padding:22px 20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transform:scale(.92);transition:transform .35s cubic-bezier(.2,.9,.3,1.2)}
@@ -289,7 +288,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 @keyframes popWin{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes pulseText{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 
-/* ============ MINING ============ */
+/* MINING */
 .mining-hero{background:linear-gradient(150deg,#0B4F3A 0%,#22C58B 100%);color:#fff;border-radius:24px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 14px 30px -14px rgba(34,197,139,.6)}
 .mining-hero::before{content:"";position:absolute;top:-30px;right:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);pointer-events:none}
 .mining-hero .label{font-size:12.5px;opacity:.85}
@@ -309,9 +308,12 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .mine-tier b{display:block;font:800 20px 'Sora',sans-serif;color:var(--ink)}
 .mine-tier .rate{display:flex;align-items:center;gap:6px;margin-top:6px;font:700 12.5px 'Sora',sans-serif;color:var(--muted)}
 .mine-tier .tier-tag{position:absolute;top:10px;right:10px;background:var(--brand);color:#fff;font:800 10px 'Sora',sans-serif;padding:3px 7px;border-radius:999px;letter-spacing:.06em}
+.mine-tier .tier-tag.free{background:var(--jade)}
 .mine-tier.gold{border-color:#FFD66B}
 .mine-tier.gold b{color:#B4791B}
 .mine-tier.gold.on{background:linear-gradient(135deg,#FFF4D6,#FFE79B);border-color:#FFC53D}
+.mine-tier.free-tier{border-color:var(--jade);background:linear-gradient(135deg,#E1F6EC,#C7F0DE)}
+[data-theme="dark"] .mine-tier.free-tier{background:linear-gradient(135deg,#0F3527,#155038);border-color:var(--jade)}
 [data-theme="dark"] .mine-tier.gold.on{background:linear-gradient(135deg,#4A3800,#6E5200);border-color:#FFC53D}
 [data-theme="dark"] .mine-tier.gold b{color:#FFD879}
 .mining-status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:var(--brand-soft);color:var(--brand);font-weight:600;font-size:13.5px;margin-bottom:14px}
@@ -496,7 +498,6 @@ a,button{touch-action:manipulation}
         </defs>
         <g clip-path="url(#wheelClip)">
           <g id="wheelGroup" class="wheel-group">
-            <!-- Wheel segments injected by JS -->
             <g id="wheelSegments"></g>
           </g>
         </g>
@@ -548,7 +549,7 @@ const CONFIG = {
   adReward: 20,
   adDailyLimit: 15,
   adCooldownSec: 60,
-  adLinkSeconds: 12,
+  adLinkSeconds: 15,
 
   adLinks: [
     'https://wwp.giriubin.com/redirect-zone/31c41a18',
@@ -562,7 +563,6 @@ const CONFIG = {
   adexiumWid: 'cc12a9f3-3f3b-4b0e-975e-912219a7d8eb',
   adexoraId: '1963',
 
-  /* Swap: 2000 coins = 50000 D Coin */
   swap: { jrIn: 2000, rjOut: 50000, min: 2000 },
   withdraw: { min: 500, feePct: 3, method: 'Binance' },
 
@@ -577,10 +577,8 @@ const CONFIG = {
   conditionSeconds: 10,
   reviewHours: 24,
 
-  /* Referral: 200 coins + 10000 D Coin */
   referral: { bonusJR: 200, bonusRJ: 10000, inviteeBonus: 0 },
 
-  /* Daily Spin — 4 normal prizes + 100 only on milestone */
   spin: {
     prizes: [
       { amount: 10,  weight: 30, color: '#5B5BF5', label: '10' },
@@ -589,18 +587,18 @@ const CONFIG = {
       { amount: 12,  weight: 25, color: '#E0457B', label: '12' },
       { amount: 100, weight: 0,  color: '#FFC53D', label: '100', milestone: true }
     ],
-    milestoneEvery: 100,       // every 100th spin globally = 100 coins
+    milestoneEvery: 100,
     milestoneAmount: 100
   },
 
-  /* Mining */
   mining: {
     minReferrals: 1,
     tiers: [
-      { id: 'm1',  usd: 1,  daily: 200,  label: 'Starter' },
-      { id: 'm3',  usd: 3,  daily: 600,  label: 'Pro' },
-      { id: 'm5',  usd: 5,  daily: 1000, label: 'Advanced' },
-      { id: 'm10', usd: 10, daily: 3000, label: 'Elite' }
+      { id: 'free', usd: 0,  daily: 24,   label: 'Free',     free: true },
+      { id: 'm1',   usd: 1,  daily: 200,  label: 'Starter' },
+      { id: 'm3',   usd: 3,  daily: 600,  label: 'Pro' },
+      { id: 'm5',   usd: 5,  daily: 1000, label: 'Advanced' },
+      { id: 'm10',  usd: 10, daily: 3000, label: 'Elite' }
     ]
   },
 
@@ -760,8 +758,7 @@ const S = {
   uid: null, user: {}, tasks: {}, tab: 'home', filter: 'all', promoTab: 'new', ui: {}, view: null, shown: null,
   chatCache: {}, botId: null, pending: {}, prevSub: null,
   wiz: { step: 1, type: 'join', url: '', title: '', steps: ['', '', ''], perUser: '', users: '' },
-  spin: { spinning: false, currentRot: 0, alreadyShownToday: false },
-  mining: { selectedTier: null }
+  spin: { spinning: false, currentRot: 0, alreadyShownToday: false }
 };
 
 /* =====================================================================
@@ -812,7 +809,6 @@ async function checkReferral(u) {
 async function runMonetag() { if (typeof window.show_10541383 !== 'function') throw new Error('not_ready'); await window.show_10541383(); }
 async function runAdsbitvex() { if (typeof window.showadsbitvex !== 'function') throw new Error('not_ready'); await window.showadsbitvex(); }
 async function runAdsgram() { if (!window.Adsgram) throw new Error('not_ready'); await window.Adsgram.init({ blockId: CONFIG.adsgramBlockId }).show(); }
-async function runGigapub() { if (typeof window.showGiga !== 'function') throw new Error('not_ready'); await window.showGiga('main'); }
 
 let _adexiumWidget = null;
 let _adexiumResolve = null, _adexiumReject = null;
@@ -859,30 +855,43 @@ async function ensureAdexora() {
 }
 async function runAdexora() { await ensureAdexora(); await window.showAdexora(); }
 
-async function runAd3() { try { await runAdsgram(); } catch (e) { console.warn('Adsgram fallback:', e); await runMonetag(); } }
-async function runAd5() { try { await runAdsbitvex(); } catch (e) { console.warn('Adsbitvex fallback:', e); await runMonetag(); } }
-async function runAd10() { try { await runAdexium(); } catch (e) { console.warn('Adexium fallback:', e); await runMonetag(); } }
-async function runAd11() { try { await runAdexora(); } catch (e) { console.warn('Adexora fallback:', e); await runMonetag(); } }
+/* Ad 3: Adsgram → fallback Adsbitvex */
+async function runAd3() {
+  try { await runAdsgram(); }
+  catch (e) {
+    console.warn('Adsgram failed, fallback Adsbitvex:', e);
+    await runAdsbitvex();
+  }
+}
+/* Ad 10: Adexium → fallback Monetag */
+async function runAd10() {
+  try { await runAdexium(); }
+  catch (e) { console.warn('Adexium failed, fallback Monetag:', e); await runMonetag(); }
+}
+/* Ad 11: Adexora → fallback Monetag */
+async function runAd11() {
+  try { await runAdexora(); }
+  catch (e) { console.warn('Adexora failed, fallback Monetag:', e); await runMonetag(); }
+}
 
 const PROVIDERS = {
   p1: { label: 'Ad 1', run: runMonetag },
   p2: { label: 'Ad 2', run: runAdsbitvex },
   p3: { label: 'Ad 3', run: runAd3 },
-  p4: { label: 'Ad 4', run: runGigapub },
-  p5: { label: 'Ad 5', run: runAd5 },
-  p6: { label: 'Ad 6', link: CONFIG.adLinks[0] },
-  p7: { label: 'Ad 7', link: CONFIG.adLinks[1] },
-  p8: { label: 'Ad 8', link: CONFIG.adLinks[2] },
-  p9: { label: 'Ad 9', link: CONFIG.adLinks[3] },
+  p4: { label: 'Ad 4', link: CONFIG.adLinks[0] },
+  p5: { label: 'Ad 5', link: CONFIG.adLinks[1] },
+  p6: { label: 'Ad 6', link: CONFIG.adLinks[2] },
+  p7: { label: 'Ad 7', link: CONFIG.adLinks[3] },
+  p8: { label: 'Ad 8', link: CONFIG.adLinks[0] },
+  p9: { label: 'Ad 9', link: CONFIG.adLinks[1] },
   p10: { label: 'Ad 10', run: runAd10 },
   p11: { label: 'Ad 11', run: runAd11 },
   p12: { label: 'Ad 12', link: CONFIG.adLinks[4] }
 };
-/* Ad Task 4 removed */
 const AD_GROUPS = [
-  { id: 'g1', label: 'Ad Task 1', sub: 'Ads 1, 2, 3', ads: ['p1', 'p2', 'p3'] },
-  { id: 'g2', label: 'Ad Task 2', sub: 'Ads 4, 5, 6', ads: ['p4', 'p5', 'p6'] },
-  { id: 'g3', label: 'Ad Task 3', sub: 'Ads 7, 8, 9', ads: ['p7', 'p8', 'p9'] }
+  { id: 'g1', label: 'Ad Task 1', sub: 'Monetag · Adsbitvex · Adsgram', ads: ['p1', 'p2', 'p3'] },
+  { id: 'g2', label: 'Ad Task 2', sub: 'Sponsored links · 15s each', ads: ['p4', 'p5', 'p6'] },
+  { id: 'g3', label: 'Ad Task 3', sub: 'Sponsored links · 15s each', ads: ['p7', 'p8', 'p9'] }
 ];
 
 function getGroupState(gid) {
@@ -1068,7 +1077,7 @@ setInterval(() => {
 }, 1000);
 
 /* =====================================================================
-   SPIN WHEEL — SVG based, segments injected by JS
+   SPIN WHEEL — SVG based, labels positioned at correct angle
    ===================================================================== */
 function polarXY(cx, cy, r, angleDeg) {
   const rad = (angleDeg - 90) * Math.PI / 180;
@@ -1076,7 +1085,7 @@ function polarXY(cx, cy, r, angleDeg) {
 }
 function buildWheelSvg() {
   const segGroup = document.getElementById('wheelSegments');
-  if (!segGroup || segGroup.__built) return;
+  if (!segGroup) return;
   const prizes = CONFIG.spin.prizes;
   const n = prizes.length;
   const cx = 150, cy = 150, R = 148;
@@ -1090,21 +1099,18 @@ function buildWheelSvg() {
     const largeArc = (a2 - a1) > 180 ? 1 : 0;
     const d = `M${cx},${cy} L${p1.x},${p1.y} A${R},${R} 0 ${largeArc},1 ${p2.x},${p2.y} Z`;
     svg += `<path d="${d}" fill="${prizes[i].color}" stroke="#fff" stroke-width="1.5" stroke-opacity=".35"/>`;
-    // Label at mid-angle
+    // Label: place at mid-angle, rotate around its own anchor only
     const midAngle = a1 + segAngle / 2;
-    const labelPos = polarXY(cx, cy, R * 0.66, midAngle);
-    const rot = midAngle; // radial text
-    svg += `<g transform="rotate(${rot}, ${cx}, ${cy})"><text x="${labelPos.x}" y="${labelPos.y}" text-anchor="middle" dominant-baseline="middle" font-family="Sora,sans-serif" font-weight="800" font-size="24" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-opacity:.25;stroke-width:4px;stroke-linejoin:round">${prizes[i].label}</text></g>`;
+    const labelPos = polarXY(cx, cy, R * 0.64, midAngle);
+    svg += `<text x="${labelPos.x}" y="${labelPos.y}" text-anchor="middle" dominant-baseline="middle" transform="rotate(${midAngle} ${labelPos.x} ${labelPos.y})" font-family="Sora,sans-serif" font-weight="800" font-size="26" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-opacity:.3;stroke-width:4px;stroke-linejoin:round">${prizes[i].label}</text>`;
   }
   segGroup.innerHTML = svg;
-  segGroup.__built = true;
 }
 function openSpinModal() {
   buildWheelSvg();
   const m = $('#spinModal'); if (!m) return;
   m.hidden = false;
   requestAnimationFrame(() => m.classList.add('open'));
-  // Reset wheel visual
   const wg = $('#wheelGroup');
   if (wg) { wg.style.transition = 'none'; wg.style.transform = 'rotate(0deg)'; S.spin.currentRot = 0; }
   setTimeout(() => { const w = $('#wheelGroup'); if (w) w.style.transition = ''; }, 60);
@@ -1127,7 +1133,6 @@ function closeSpinModal() {
 function spinTodayDone() { return S.user && S.user.lastSpinDay === today(); }
 function pickPrizeIndex() {
   const prizes = CONFIG.spin.prizes;
-  // Exclude milestone segment from random pick
   const normal = prizes.map((p, i) => ({ i, w: p.milestone ? 0 : p.weight }));
   const total = normal.reduce((s, p) => s + p.w, 0);
   let r = Math.random() * total;
@@ -1150,7 +1155,6 @@ async function doSpin() {
     const counterRes = await db.ref('pn/spinCounter/total').transaction(c => (Number(c) || 0) + 1);
     const totalCount = counterRes.snapshot.val() || 1;
     if (totalCount % CONFIG.spin.milestoneEvery === 0) {
-      // Milestone winner: 100 coins
       prizeIndex = CONFIG.spin.prizes.findIndex(p => p.milestone);
       amount = CONFIG.spin.milestoneAmount;
     } else {
@@ -1163,10 +1167,6 @@ async function doSpin() {
     amount = CONFIG.spin.prizes[prizeIndex].amount;
   }
 
-  // Compute target rotation.
-  // Wheel segments: segment i is centered at angle  i * segAngle  (starting at top).
-  // Pointer at top = 0deg. To land segment i under pointer, we need wheel rotated
-  // by  -i * segAngle  (mod 360). Add several full spins for drama.
   const n = CONFIG.spin.prizes.length;
   const segAngle = 360 / n;
   const targetMod = ((-prizeIndex * segAngle) % 360 + 360) % 360;
@@ -1227,9 +1227,7 @@ function miningTierById(id) { return CONFIG.mining.tiers.find(t => t.id === id);
 function miningMachine(u) { return u && u.mining && u.mining.machine ? miningTierById(u.mining.machine) : null; }
 function miningActive(u) { return !!(u && u.mining && u.mining.active); }
 function miningStartedAt(u) { return (u && u.mining && u.mining.startedAt) || 0; }
-function miningLastClaim(u) { return (u && u.mining && u.mining.lastClaim) || 0; }
 function miningPending(u) { return (u && u.mining && u.mining.pendingRequest) || null; }
-function miningStatus(u) { return (u && u.mining && u.mining.status) || 'idle'; }
 
 const HOUR = 3600 * 1000;
 const DAY = 24 * HOUR;
@@ -1239,7 +1237,7 @@ function miningAccrued(u) {
   if (!t || !miningActive(u)) return 0;
   const start = miningStartedAt(u);
   if (!start) return 0;
-  const rate = t.daily / DAY; // coins per ms
+  const rate = t.daily / DAY;
   const since = Date.now() - start;
   return Math.max(0, Math.min(t.daily, Math.floor(since * rate)));
 }
@@ -1250,6 +1248,29 @@ function miningCycleLeft(u) {
   return left > 0 ? left : 0;
 }
 function miningReady(u) { return miningActive(u) && miningCycleLeft(u) === 0; }
+
+async function activateFreeMachine() {
+  const u = S.user; if (!u) return;
+  if (!miningUnlocked(u)) return toastErr('Unlock mining with 1 referral first.');
+  if (miningMachine(u)) return toastErr('You already have a machine.');
+  try {
+    const res = await db.ref(P.user(S.uid)).transaction(x => {
+      if (!x || !x.mining) x.mining = x.mining || {};
+      if (x.mining.machine) return;
+      x.mining.machine = 'free';
+      x.mining.active = true;
+      x.mining.startedAt = Date.now();
+      x.mining.status = 'mining';
+      return x;
+    });
+    if (res.committed) {
+      hap('success');
+      toast('Free mining machine activated! 1 coin per hour.');
+      closeSheet();
+      renderHome();
+    } else toastErr('You already have a machine.');
+  } catch (e) { console.error('activateFreeMachine', e); toastErr('Could not activate.'); }
+}
 
 async function activateMining() {
   const u = S.user; if (!u) return;
@@ -1264,9 +1285,7 @@ async function activateMining() {
       x.mining.status = 'mining';
       return x;
     });
-    if (res.committed) { hap('success'); toast('Mining started! Come back in 24h to collect.'); }
-    renderHome();
-    closeSheet();
+    if (res.committed) { hap('success'); toast('Mining started! Come back in 24h to collect.'); renderHome(); closeSheet(); }
   } catch (e) { console.error('activateMining', e); toastErr('Could not start mining.'); }
 }
 
@@ -1287,7 +1306,7 @@ async function claimMining() {
       if (!tier) return;
       applyIncome(x, tier.daily);
       x.mining.lastClaim = Date.now();
-      x.mining.startedAt = Date.now(); // restart cycle
+      x.mining.startedAt = Date.now();
       x.mining.totalMined = (x.mining.totalMined || 0) + tier.daily;
       return x;
     });
@@ -1296,18 +1315,33 @@ async function claimMining() {
   } catch (e) { console.error('claimMining', e); toastErr('Could not collect right now.'); }
 }
 
+async function submitMachineDeposit(tier, orderId) {
+  const u = S.user; if (!u) return;
+  const key = String(Date.now());
+  await db.ref('pn/miningRequests/' + key).set({
+    uid: S.uid, name: u.name || '', username: u.username || '',
+    tier: tier.id, usd: tier.usd, daily: tier.daily,
+    binanceUid: CONFIG.deposit.binanceUid,
+    orderId, status: 'pending', createdAt: TS
+  });
+  await db.ref(P.user(S.uid) + '/mining/pendingRequest').set({
+    id: key, tier: tier.id, usd: tier.usd, daily: tier.daily,
+    binanceUid: CONFIG.deposit.binanceUid, orderId,
+    status: 'pending', createdAt: Date.now()
+  });
+}
+
 function renderMiningCard() {
   const u = S.user || {};
   const refs = referralCount(u);
   const unlocked = miningUnlocked(u);
   const machine = miningMachine(u);
   const pending = miningPending(u);
-  const status = miningStatus(u);
 
   if (!unlocked) {
     return `<div class="mine-card locked" data-sheet="mining">
       <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-        <div class="grow"><h3>Mining</h3><p class="meta">Unlock with ${CONFIG.mining.minReferrals} referral${CONFIG.mining.minReferrals>1?'s':''} · You have ${refs}</p></div></div>
+        <div class="grow"><h3>Mining</h3><p class="meta">Unlock with ${CONFIG.mining.minReferrals} referral · You have ${refs}</p></div></div>
       <button class="btn btn-soft btn-block" data-sheet="referral">${ico('userplus', 'sm')} Invite friends</button>
     </div>`;
   }
@@ -1321,7 +1355,7 @@ function renderMiningCard() {
   if (machine && !miningActive(u)) {
     return `<div class="mine-card" data-sheet="mining">
       <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-        <div class="grow"><h3>Mining Machine</h3><p class="meta">$${machine.usd} · ${fmt(machine.daily)} coins/day</p></div></div>
+        <div class="grow"><h3>Mining Machine</h3><p class="meta">${machine.free ? 'Free' : '$'+machine.usd} · ${fmt(machine.daily)} coins/day</p></div></div>
       <div class="mining-status ok">${ico('shieldok')}<div>Machine ready. Click <b>Active</b> to start mining.</div></div>
       <button class="btn btn-jade btn-block" data-act="mine-activate">${ico('play', 'sm')} Active</button>
     </div>`;
@@ -1333,7 +1367,7 @@ function renderMiningCard() {
     const pct = Math.min(100, (accrued / machine.daily) * 100);
     return `<div class="mine-card">
       <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-        <div class="grow"><h3>Mining $${machine.usd} · ${fmt(machine.daily)}/day</h3><p class="meta">${ready ? 'Reward ready to collect!' : 'Next reward in ' + fmtLeft(left)}</p></div></div>
+        <div class="grow"><h3>Mining ${machine.free ? 'Free' : '$'+machine.usd} · ${fmt(machine.daily)}/day</h3><p class="meta">${ready ? 'Reward ready to collect!' : 'Next reward in ' + fmtLeft(left)}</p></div></div>
       <div class="mining-hero" style="padding:14px 16px;margin:8px 0 12px">
         <div class="badge-live"><i></i>MINING</div>
         <div class="amt" style="font-size:26px">${coin('lg')}${fmt(accrued)}</div>
@@ -1345,7 +1379,7 @@ function renderMiningCard() {
   }
   return `<div class="mine-card" data-sheet="mining">
     <div class="row"><span class="tbadge t-mining">${ico('pick')}</span>
-      <div class="grow"><h3>Mining unlocked!</h3><p class="meta">Buy a machine and earn coins every day.</p></div></div>
+      <div class="grow"><h3>Mining unlocked!</h3><p class="meta">Get the free machine or buy a paid one.</p></div></div>
     <button class="btn btn-primary btn-block" data-act="open-mining">${ico('pick', 'sm')} Choose a machine</button>
   </div>`;
 }
@@ -1367,8 +1401,10 @@ function openMiningSheet() {
       <div class="kv">
         <div><span class="mut">Machine</span><b>$${pending.usd} · ${fmt(pending.daily)}/day</b></div>
         <div><span class="mut">Status</span><b><span class="pill brand">Pending</span></b></div>
+        <div><span class="mut">Order ID</span><b>${esc(pending.orderId || '—')}</b></div>
         <div><span class="mut">Binance UID</span><b>${esc(pending.binanceUid || '')}</b></div>
-      </div>`;
+      </div>
+      <p class="hint">Admin will verify your Binance order ID and unlock the machine.</p>`;
   } else if (machine) {
     const accrued = miningAccrued(u);
     const left = miningCycleLeft(u);
@@ -1376,13 +1412,13 @@ function openMiningSheet() {
     content = `
       <div class="mining-hero">
         <div class="badge-live"><i></i>${active ? 'MINING' : 'READY'}</div>
-        <div class="label">Machine: $${machine.usd} · ${machine.label}</div>
+        <div class="label">Machine: ${machine.free ? 'Free' : '$'+machine.usd} · ${machine.label}</div>
         <div class="amt">${coin('lg')}${fmt(accrued)}</div>
-        <div class="rate">${fmt(machine.daily)} coins per 24h · 1 dog per hour</div>
+        <div class="rate">${fmt(machine.daily)} coins per 24h · ${fmt(machine.daily/24)} dog per hour</div>
         <div class="mining-progress"><i style="width:${Math.min(100,(accrued/machine.daily)*100)}%"></i></div>
       </div>
       <div class="mine-machine-details">
-        <div><span>Machine tier</span><span>$${machine.usd} ${machine.label}</span></div>
+        <div><span>Machine tier</span><span>${machine.free ? 'Free' : '$'+machine.usd} ${machine.label}</span></div>
         <div><span>Daily rate</span><span>${fmt(machine.daily)} coins</span></div>
         <div><span>Hourly rate</span><span>${fmt(machine.daily/24)} dog</span></div>
         <div><span>Total mined</span><span>${fmt((u.mining && u.mining.totalMined) || 0)} coins</span></div>
@@ -1396,56 +1432,74 @@ function openMiningSheet() {
   } else {
     const tiersHtml = CONFIG.mining.tiers.map((t) => {
       const isGold = t.usd >= 5;
-      const on = S.mining.selectedTier === t.id ? 'on' : '';
-      return `<button class="mine-tier ${isGold ? 'gold' : ''} ${on}" data-act="mine-tier" data-id="${t.id}">
+      const isFree = t.free;
+      const cls = [isGold ? 'gold' : '', isFree ? 'free-tier' : ''].filter(Boolean).join(' ');
+      return `<button class="mine-tier ${cls}" data-act="mine-pick" data-id="${t.id}">
+        ${isFree ? '<span class="tier-tag free">FREE</span>' : ''}
         ${isGold ? '<span class="tier-tag">HOT</span>' : ''}
-        <b>$${t.usd}</b>
+        <b>${isFree ? 'Free' : '$'+t.usd}</b>
         <span class="rate">${coin()}${fmt(t.daily)} / day</span>
       </button>`;
     }).join('');
-    content = `<p class="lead">Pick a mining machine. It earns coins automatically. Deposit the USD to the Binance UID, admin approves, machine becomes active.</p>
-      <div class="mine-tiers">${tiersHtml}</div>
-      <div class="gap"></div>
-      <div class="field"><label for="mineUid">Your Binance UID</label><input id="mineUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div>
-      <div class="alert" id="mineErr" hidden></div>
-      <button class="btn btn-primary btn-block" id="mineSubmit" data-act="mine-submit" ${S.mining.selectedTier ? '' : 'disabled'}>Request mining machine</button>
-      <p class="hint" style="margin-top:10px">Send the USD to the Binance UID, then submit. Admin approves and your machine unlocks automatically.</p>`;
+    content = `<p class="lead">Pick a machine. Free machine is instant. Paid machines need a deposit to Binance.</p>
+      <div class="mine-tiers">${tiersHtml}</div>`;
   }
   openSheet(`<h2>Mining</h2>${content}`);
 }
 
-async function submitMiningRequest() {
-  const u = S.user; if (!u) return;
-  const tierId = S.mining.selectedTier;
-  if (!tierId) return toastErr('Pick a mining machine first.');
-  const t = miningTierById(tierId);
-  if (!t) return;
-  const uidInput = $('#mineUid');
-  const uid = (uidInput && uidInput.value || '').trim();
-  const err = $('#mineErr');
-  if (!/^\d{6,}$/.test(uid)) { if (err) { err.hidden = false; err.textContent = 'Enter a valid Binance UID (digits only).'; } return; }
-  const btn = $('#mineSubmit');
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting'; }
-  const key = String(Date.now());
-  try {
-    await db.ref('pn/miningRequests/' + key).set({
-      uid: S.uid, name: u.name || '', username: u.username || '',
-      tier: tierId, usd: t.usd, daily: t.daily, binanceUid: uid,
-      status: 'pending', createdAt: TS
-    });
-    await db.ref(P.user(S.uid) + '/mining/pendingRequest').set({
-      id: key, tier: tierId, usd: t.usd, daily: t.daily, binanceUid: uid,
-      status: 'pending', createdAt: Date.now()
-    });
-    hap('success');
-    toast('Mining request submitted. Admin will review it soon.');
-    closeSheet();
-    renderHome();
-  } catch (e) {
-    console.error('mining request', e);
-    if (btn) { btn.disabled = false; btn.textContent = 'Try again'; }
-    if (err) { err.hidden = false; err.textContent = 'Could not submit. Please try again.'; }
-  }
+function openMachineDepositForm(tier) {
+  openSheet(`<h2>Buy $${tier.usd} Machine</h2>
+    <p class="lead">Send $${tier.usd} USDT to the Binance UID below, then submit your Order ID. Admin will verify and unlock your machine.</p>
+    <div class="linkbox">
+      <div class="grow">
+        <small class="mut">Binance UID</small>
+        <div style="font:800 21px 'Sora',sans-serif;letter-spacing:.04em">${esc(CONFIG.deposit.binanceUid)}</div>
+      </div>
+      <button class="btn btn-soft btn-sm" data-copy="${esc(CONFIG.deposit.binanceUid)}">${ico('copy', 'sm')} Copy</button>
+    </div>
+    <ol class="steps">
+      <li>Open Binance and send exactly <b>$${tier.usd}</b> USDT to the UID above.</li>
+      <li>Copy the Order ID from your payment confirmation.</li>
+      <li>Paste the Order ID below and submit.</li>
+      <li>Admin verifies and your machine is unlocked — then tap Active.</li>
+    </ol>
+    <div class="kv">
+      <div><span class="mut">Machine</span><b>$${tier.usd} ${tier.label}</b></div>
+      <div><span class="mut">Daily reward</span><b>${fmt(tier.daily)} coins</b></div>
+      <div><span class="mut">Hourly rate</span><b>${fmt(tier.daily/24)} dog</b></div>
+    </div>
+    <div class="field"><label for="mOrder">Binance Order ID</label>
+      <input id="mOrder" class="input" autocomplete="off" autocapitalize="off" placeholder="Enter Binance Order ID" value="">
+    </div>
+    <div class="alert" id="mErr" hidden></div>
+    <button class="btn btn-primary btn-block" id="mSubmit">Submit mining deposit</button>
+    <button class="btn btn-line btn-block" id="mBack" style="margin-top:8px">Back to machines</button>
+  `, b => {
+    const orderInput = $('#mOrder', b);
+    const err = $('#mErr', b);
+    const submit = $('#mSubmit', b);
+    const back = $('#mBack', b);
+    if (back) back.onclick = () => openMiningSheet();
+    if (submit) submit.onclick = async () => {
+      const orderId = (orderInput.value || '').trim();
+      if (orderId.length < 5) { err.hidden = false; err.textContent = 'Enter a valid Binance Order ID.'; return; }
+      submit.disabled = true;
+      submit.innerHTML = '<span class="spin"></span> Submitting';
+      try {
+        await submitMachineDeposit(tier, orderId);
+        hap('success');
+        toast('Mining deposit submitted. Admin will verify it soon.');
+        closeSheet();
+        renderHome();
+      } catch (e) {
+        console.error(e);
+        submit.disabled = false;
+        submit.textContent = 'Try again';
+        err.hidden = false;
+        err.textContent = 'Could not submit. Please try again.';
+      }
+    };
+  });
 }
 
 /* =====================================================================
@@ -1952,12 +2006,12 @@ function renderWizard() {
       <div class="nav-row"><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>`;
   } else if (w.step === 2) {
     body = `<div class="alert" id="blockBox" hidden></div>
-      <div class="field"><label for="wTitle">Campaign title <span id="titleCount">0/${CONFIG.titleMax}</span></label><input id="wTitle" class="input" data-wiz="title" maxlength="${CONFIG.titleMax}" autocomplete="off" placeholder="Short, clear title" value="${esc(w.title)}"><div class="hint" id="titleHint">Use ${CONFIG.titleMin} to ${CONFIG.titleMax} characters.</div></div>
-      ${w.type === 'conditions' ? `<div class="field"><label>Steps users must follow</label>${[0, 1, 2].map(i => `<input class="input" style="margin-bottom:8px" data-wiz="step" data-i="${i}" maxlength="60" autocomplete="off" placeholder="Step ${i + 1}" value="${esc(w.steps[i])}">`).join('')}</div>` : ''}
-      <div class="nav-row"><button class="btn btn-line" data-act="wiz-back">Back</button><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></div>`;
+      <div class="field"><label for="wTitle">Campaign title <span id="titleCount">0/${CONFIG.titleMax}</span></label><input id="wTitle" class="input" data-wiz="title" maxlength="${CONFIG.titleMax}" autocomplete="off" placeholder="Short, clear title" value="${esc(w.title)}"><div class="hint" id="titleHint">Use ${CONFIG.titleMin} to ${CONFIG.titleMax} characters.</div></ '<div>
+      ${w.type === 'conditions' ? `<div class="field"><label>Steps users must follow</label>${[0, 1, 2].map(i => `<input class="input" stylespan="margin-bottom:8px" data-wiz="step" data-i="${i}" maxlength="60" autocomplete="off" placeholder="Step ${i + 1}" value="${esc(w.steps[i])}">`).join('')}</div>` : ''}
+      <div class="nav-row"><button class="btn btn-line" data-act=" classwiz-back">Back</button><button class="btn btn-primary" id="wizNext" data-act="wiz-next" disabled>Continue</button></="div>`;
   } else {
     body = `<div class="alert" id="blockBox" hidden></div>
-      ${waitNote(w.type)}<div class="field"><label for="wPer">Reward per user <span>Minimum ${fmt(CONFIG.minReward[w.type])} D Coin</span></label><input id="wPer" class="input" data-wiz="perUser" inputmode="numeric" placeholder="${CONFIG.minReward[w.type]}" value="${esc(w.perUser)}"><div class="hint" id="perHint"></div></div>
+      ${spinwaitNote(w.type)}<div class="field"><label for="wPer">Reward per user <span>Minimum ${"></fmt(CONFIG.minReward[w.type])} D Coin</span></label><input id="wPer" class="input" data-wiz="perUser" inputmode="numeric" placeholder="${CONFIG.minReward[w.type]}" value="${esc(w.perUser)}"><div class="hint" id="perHint"></div></div>
       <div class="field"><label for="wUsers">Users needed <span>Minimum ${CONFIG.minUsers}</span></label><input id="wUsers" class="input" data-wiz="users" inputmode="numeric" placeholder="${CONFIG.minUsers}" value="${esc(w.users)}"><div class="hint" id="usersHint"></div></div>
       <div class="sum"><div><span class="mut">Total cost</span><span id="sCost">0 D</span></div><div id="sFeeRow" hidden><span class="mut">Includes service fee</span><span id="sFee">0 D</span></div><div><span class="mut">Your D Coin balance</span><span id="sBal">0 D</span></div><div><span id="sLbl">Balance after publishing</span><span id="sAfter">0 D</span></div></div>
       <div class="alert" id="fundHint" hidden></div>
@@ -2037,7 +2091,7 @@ async function wizNextInner() {
   const w = S.wiz, btn = $('#wizNext');
   if (w.step === 1) {
     const r = checkUrl(w.type, w.url); if (!r.ok) return;
-    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Checking link';
+    btn.disabled = true; btn.innerHTML =span> Checking link';
     const scr = await screenTarget(r.p, [], w.type);
     if (!scr.ok) { S.adminType = scr.reason === 'needadmin' ? (scr.chatType || 'channel') : null; showBlock(blockText(scr.reason), S.adminType ? adminButtons() : ''); btn.textContent = 'Continue'; return updateWiz(); }
     S.adminType = null;
@@ -2062,7 +2116,7 @@ function renderProfile() {
     <div class="income jade" style="margin-top:10px"><small>Total D Coin earned</small><div class="num">${coinD('lg')}${fmt(u.rjTotal || 0)}</div></div>
     <div class="gap"></div>
     <button class="card" style="margin-bottom:10px" data-sheet="referral"><span class="tbadge t-join">${ico('userplus')}</span><div class="grow"><h3>Invite friends</h3><p class="meta">${refs} referral${refs === 1 ? '' : 's'} · earn ${fmt(CONFIG.referral.bonusJR)} coins + ${fmt(CONFIG.referral.bonusRJ)} D Coin each</p></div>${ico('chev')}</button>
-    <button class="card" style="margin-bottom:10px" data-sheet="mining"><span class="tbadge t-mining">${ico('pick')}</span><div class="grow"><h3>Mining</h3><p class="meta">${machine ? `$${machine.usd} machine · ${fmt(machine.daily)} coins/day` : (refs >= CONFIG.mining.minReferrals ? 'Choose a machine' : 'Unlock with 1 referral')}</p></div>${ico('chev')}</button>
+    <button class="card" style="margin-bottom:10px" data-sheet="mining"><span class="tbadge t-mining">${ico('pick')}</span><div class="grow"><h3>Mining</h3><p class="meta">${machine ? `${machine.free ? 'Free' : '$'+machine.usd} machine · ${fmt(machine.daily)} coins/day` : (refs >= CONFIG.mining.minReferrals ? 'Choose a machine' : 'Unlock with 1 referral')}</p></div>${ico('chev')}</button>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Swap coins → D Coin</h3><p class="meta">${fmt(CONFIG.swap.jrIn)} coins = ${fmt(CONFIG.swap.rjOut)} D Coin · min ${fmt(CONFIG.swap.min)} coins</p></div><button class="btn btn-jade btn-sm" data-sheet="swap">${ico('swap', 'sm')} Swap</button></div></div>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Withdraw coins</h3><p class="meta">Min ${fmt(CONFIG.withdraw.min)} coins · ${CONFIG.withdraw.feePct}% fee · Binance</p></div><button class="btn btn-gold btn-sm" data-sheet="withdraw">${ico('down', 'sm')} Withdraw</button></div></div>
     <div class="card" style="margin-bottom:10px"><div class="row"><div class="grow"><h3>Deposit D Coin</h3><p class="meta">Buy D Coin with USD through Binance</p></div><button class="btn btn-soft btn-sm" data-sheet="deposit">${ico('plus', 'sm')} Deposit</button></div></div>
@@ -2073,7 +2127,7 @@ function renderProfile() {
       <button data-sheet="privacy">${ico('shield')}Privacy policy${ico('chev')}</button>
       <button data-sheet="terms">${ico('doc')}Terms and conditions${ico('chev')}</button>
       <button data-sheet="support">${ico('help')}Support${ico('chev')}</button>
-    </div><p class="ver">DOGS 2.1</p>`);
+    </div><p class="ver">DOGS 2.2</p>`);
 }
 
 const SHARE_TEXT = `Join me on DOGS, the Telegram app where you earn coins and D Coin every day.
@@ -2238,7 +2292,7 @@ const SHEETS = {
     <h4>Swap</h4><p class="doc">${CONFIG.swap.jrIn} coins = ${CONFIG.swap.rjOut} D Coin. Min ${CONFIG.swap.min} coins. Swaps are final.</p>
     <h4>Withdrawals</h4><p class="doc">Binance only. Min ${CONFIG.withdraw.min} coins. ${CONFIG.withdraw.feePct}% fee.</p>
     <h4>Deposits</h4><p class="doc">Send USD to the Binance UID, submit your Order ID.</p>
-    <h4>Mining</h4><p class="doc">Unlock mining with ${CONFIG.mining.minReferrals} referral. Buy a machine, click Active, collect every 24 hours.</p>
+    <h4>Mining</h4><p class="doc">Unlock mining with ${CONFIG.mining.minReferrals} referral. Free machine is instant. Paid machines need deposit. Collect every 24 hours.</p>
     <h4>Campaigns</h4><p class="doc">No haram content, scams or illegal offers.</p>
     <h4>Leaving a channel</h4><p class="doc">Leaving within ${CONFIG.leave.days} days returns your D Coin reward to the owner.</p>`),
   settings: () => {
@@ -2251,7 +2305,7 @@ const SHEETS = {
     openSheet(`<h2>About DOGS</h2>
       <p class="lead">Earn coins by ads, earn D Coin by tasks, promote with D Coin, withdraw coins to Binance.</p>
       <h4>Daily Spin</h4><ul class="doc"><li>Spin once per day. Win up to 100 coins!</li><li>Every ${CONFIG.spin.milestoneEvery}th spin in the world wins 100 coins.</li></ul>
-      <h4>Mining</h4><ul class="doc"><li>Unlock with ${CONFIG.mining.minReferrals} referral.</li><li>Buy a machine: $1 → 200/day, $3 → 600/day, $5 → 1000/day, $10 → 3000/day.</li><li>Click Active to start. Collect every 24 hours.</li></ul>
+      <h4>Mining</h4><ul class="doc"><li>Unlock with ${CONFIG.mining.minReferrals} referral.</li><li>Free machine: 24 coins/day (1 coin/hour).</li><li>Paid machines: $1 → 200/day, $3 → 600/day, $5 → 1000/day, $10 → 3000/day.</li><li>Click Active to start. Collect every 24 hours.</li></ul>
       <h4>Earn coins</h4><ul class="doc"><li>Ad tasks: ${fmt(CONFIG.adReward)} coins per task, ${L} rounds/day.</li><li>Referral: +${fmt(R.bonusJR)} coins and +${fmt(R.bonusRJ)} D Coin per friend.</li></ul>
       <h4>Withdraw & Deposit</h4><p class="doc">Withdraw coins to Binance (min ${fmt(CONFIG.withdraw.min)} coins, ${CONFIG.withdraw.feePct}% fee). Deposit USD → D Coin via Binance UID + Order ID.</p>
       <h4>Fair use</h4><p class="doc">One account per person. No bots. No haram content.</p>
@@ -2295,8 +2349,13 @@ const ACT = {
   'open-game': b => { const g = (CONFIG.games || []).find(x => x.id === b.dataset.id); if (g && g.link) openLink(g.link); },
   'open-spin': () => openSpinModal(),
   'open-mining': () => openMiningSheet(),
-  'mine-tier': b => { S.mining.selectedTier = b.dataset.id; openMiningSheet(); },
-  'mine-submit': () => submitMiningRequest(),
+  'mine-pick': b => {
+    const id = b.dataset.id;
+    const tier = miningTierById(id);
+    if (!tier) return;
+    if (tier.free) activateFreeMachine();
+    else openMachineDepositForm(tier);
+  },
   'mine-claim': () => claimMining(),
   'mine-activate': () => activateMining(),
   filter: b => { S.filter = b.dataset.k; renderTasks(); },
@@ -2349,12 +2408,11 @@ const _spinCollect = $('#spinCollect'); if (_spinCollect) _spinCollect.addEventL
 const _spinModalEl = $('#spinModal');
 if (_spinModalEl) _spinModalEl.addEventListener('click', e => { if (e.target.id === 'spinModal') closeSpinModal(); });
 
-/* Mining status ticker — update home card every second while mining */
+/* Mining status ticker */
 setInterval(() => {
   if (S.tab !== 'home') return;
   const u = S.user;
   if (u && u.mining && u.mining.active) {
-    // Only re-render if the accrued amount changed visibly (every ~60s)
     const sec = Math.floor(Date.now() / 1000);
     if (sec % 30 === 0) renderHome();
   }
@@ -2400,14 +2458,10 @@ async function boot() {
       try {
         const u = s.val() || {};
         notifySubmissions(u); notifyCredits(u); S.user = u; render();
-
-        // Show daily spin once per day
         if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) {
           S.spin.alreadyShownToday = true;
           setTimeout(() => {
-            if (u.lastSpinDay !== today() && !S.spin.spinning) {
-              openSpinModal();
-            }
+            if (u.lastSpinDay !== today() && !S.spin.spinning) openSpinModal();
           }, 1400);
         }
         if (firstUser) { firstUser = false; checkReferral(u); }

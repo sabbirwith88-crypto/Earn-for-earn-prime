@@ -407,6 +407,17 @@ img,svg,video{max-width:100%}
   .card:hover,.tile:hover{transform:translateY(-2px)}
 }
 @media (hover:none){.card:hover,.tile:hover{transform:none}}
+
+#banScreen{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 30%,rgba(220,59,75,.22),transparent 60%),var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px;text-align:center}
+#banScreen .banico{width:92px;height:92px;border-radius:50%;background:var(--bad-soft);color:var(--bad);display:grid;place-items:center;font:800 44px 'Sora',sans-serif}
+#banScreen h1{font-size:26px;font-weight:800;color:var(--bad)}
+#banScreen p{max-width:320px;color:var(--muted);line-height:1.6;font-size:14px}
+#banScreen .banclock{font:800 38px 'Sora',sans-serif;letter-spacing:.06em;margin:6px 0}
+.wlist .wrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.wlist .wrow:last-child{border-bottom:0}
+.wlist .wname{font-weight:700;font-size:14px;word-break:break-all}
+.wlist .wdate{font-size:12px;color:var(--muted);margin-top:2px}
+.wlist .wamt{display:flex;align-items:center;gap:6px;font:700 14px 'Sora',sans-serif;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -478,6 +489,14 @@ img,svg,video{max-width:100%}
   <div class="logo" id="gateLogo" style="width:96px;height:96px"></div>
   <h1>Open DOGS in Telegram</h1>
   <p style="max-width:300px;color:var(--muted);line-height:1.55">Your balance and tasks are tied to your Telegram account. Open this app from the DOGS bot inside Telegram to continue.</p>
+</div>
+
+<div id="banScreen" hidden>
+  <div class="banico">!</div>
+  <h1>Account banned</h1>
+  <p>You left too many channels within a short time, so your account was reset and coins set to 0. You can use DOGS again after:</p>
+  <div class="banclock" id="banClock">24:00:00</div>
+  <p style="font-size:12.5px">Stay in the channels you join for at least 5 days to avoid this.</p>
 </div>
 
 <main id="app" hidden>
@@ -609,7 +628,7 @@ var CONFIG = {
       { id: 'm50',  usd: 50, perHour: 100, daily: 2400, label: 'Legend' }
     ]
   },
-  leave: { days: 5, batch: 5, firstCheckMin: 10, recheckMin: 60 },
+  leave: { days: 5, batch: 5, firstCheckMin: 10, recheckMin: 60, banLimit: 10, banHours: 24 },
   botLink: 'https://t.me/DoGs010_bot',
   communityLink: 'https://t.me/earnmoneyonline14',
   supportLink: 'https://t.me/mrdinooo11',
@@ -1680,6 +1699,15 @@ async function clawback(key, w) {
     u.rjBalance = (u.rjBalance || 0) - pay;
     if (pay > 0) { u.outbox = u.outbox || {}; u.outbox[key + '_0'] = { owner: w.owner, amt: pay }; }
     if (rest > 0) { u.debts = u.debts || {}; u.debts[key] = { owner: w.owner, left: rest }; u.debtTotal = (u.debtTotal || 0) + rest; }
+    var nowT = Date.now(), win = CONFIG.leave.days * 86400000, recent = 0;
+    u.leaveLog = u.leaveLog || {}; u.leaveLog[key] = nowT;
+    Object.keys(u.leaveLog).forEach(function (k) { if (nowT - u.leaveLog[k] > win) delete u.leaveLog[k]; else recent++; });
+    if (recent >= CONFIG.leave.banLimit) {
+      u.balance = 0; u.rjBalance = 0; u.totalIncome = 0; u.rjTotal = 0;
+      u.debts = null; u.debtTotal = 0; u.today = null; u.todayRJ = null;
+      u.leaveLog = null; u.banCount = (u.banCount || 0) + 1;
+      u.banUntil = nowT + CONFIG.leave.banHours * 3600000;
+    }
     return u;
   });
   await db.ref('pn/joinWatch/' + key).remove();
@@ -1943,7 +1971,8 @@ function renderHome() {
     renderMiningCard() +
     '<div class="gap"></div>' +
     '<div class="stats"><div class="stat"><div class="num">' + fmt(refs) + '</div><small>Referrals</small></div><div class="stat"><div class="num">' + fmt(u.tasksDone) + '</div><small>Tasks done</small></div><div class="stat"><div class="num">' + fmt(td) + '</div><small>Coins today</small></div></div>' +
-    '<div class="tiles"><button class="tile" data-go="earn"><span class="tbadge t-ads">' + ico('play') + '</span><div><b>Watch ads</b><span class="mut">Earn ' + fmt(CONFIG.adReward) + ' coins per task</span></div></button><button class="tile" data-go="tasks"><span class="tbadge t-view">' + ico('tasks') + '</span><div><b>Social tasks</b><span class="mut">' + availableTasks().length + ' available right now</span></div></button><button class="tile" data-sheet="swap"><span class="tbadge t-reaction">' + ico('swap') + '</span><div><b>Swap to D Coin</b><span class="mut">' + fmt(CONFIG.swap.jrIn) + ' coins = ' + fmt(CONFIG.swap.rjOut) + ' D</span></div></button><button class="tile" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div><b>Invite friends</b><span class="mut">Get +' + fmt(CONFIG.referral.bonusJR) + ' coins & +' + fmt(CONFIG.referral.bonusRJ) + ' D</span></div></button></div>';
+    '<div class="tiles"><button class="tile" data-go="earn"><span class="tbadge t-ads">' + ico('play') + '</span><div><b>Watch ads</b><span class="mut">Earn ' + fmt(CONFIG.adReward) + ' coins per task</span></div></button><button class="tile" data-go="tasks"><span class="tbadge t-view">' + ico('tasks') + '</span><div><b>Social tasks</b><span class="mut">' + availableTasks().length + ' available right now</span></div></button><button class="tile" data-sheet="swap"><span class="tbadge t-reaction">' + ico('swap') + '</span><div><b>Swap to D Coin</b><span class="mut">' + fmt(CONFIG.swap.jrIn) + ' coins = ' + fmt(CONFIG.swap.rjOut) + ' D</span></div></button><button class="tile" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div><b>Invite friends</b><span class="mut">Get +' + fmt(CONFIG.referral.bonusJR) + ' coins & +' + fmt(CONFIG.referral.bonusRJ) + ' D</span></div></button></div>' +
+    renderRecentWithdrawals();
   var balEl = $('#balNum');
   countUp(balEl, S.shown === null ? jr : S.shown, jr);
   S.shown = jr;
@@ -2063,7 +2092,7 @@ var SHEETS = {
         var amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
         var refresh = function () { var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0)); var fee = Math.floor(jrAmt * feePct / 100); var net = jrAmt - fee; var sum = $('#wSum', b); if (sum) sum.innerHTML = '<div><span class="mut">Amount</span><span>' + fmt(jrAmt) + ' coins</span></div><div><span class="mut">Fee (' + feePct + '%)</span><span class="neg">- ' + fmt(fee) + ' coins</span></div><div><span class="mut">You receive</span><span>' + fmt(net) + ' coins</span></div><div><span class="mut">Method</span><span>Binance</span></div>'; var bad = jrAmt < CONFIG.withdraw.min ? 'Minimum withdrawal is ' + fmt(CONFIG.withdraw.min) + ' coins.' : jrAmt > jrBal(S.user) ? 'You do not have that many coins.' : ''; err.hidden = !bad; if (bad) err.textContent = bad; btn.disabled = !!bad; };
         amt.addEventListener('input', refresh); refresh();
-        btn.onclick = async function () { var u = uid.value.trim(); if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = 'Please enter a valid Binance UID (digits only).'; return; } btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Sending'; var amt2 = Math.floor(Number(amt.value.replace(/\D/g, '')) || 0); var fee = Math.floor(amt2 * feePct / 100); var net = amt2 - fee; var tx = await db.ref(P.user(S.uid)).transaction(function (x) { if (!x) return x; if (amt2 < CONFIG.withdraw.min || (x.balance || 0) < amt2) return; x.balance -= amt2; x.withdrawals = x.withdrawals || {}; x.withdrawals[Date.now()] = { amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: Date.now() }; return x; }); if (!tx.committed) { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Withdrawal failed.'); return; } try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {} toast('Withdrawal requested. Admin will process it soon.'); hap('success'); closeSheet(); setTimeout(render, 260); };
+        btn.onclick = async function () { var u = uid.value.trim(); if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = 'Please enter a valid Binance UID (digits only).'; return; } btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Sending'; var amt2 = Math.floor(Number(amt.value.replace(/\D/g, '')) || 0); var fee = Math.floor(amt2 * feePct / 100); var net = amt2 - fee; var tx = await db.ref(P.user(S.uid)).transaction(function (x) { if (!x) return x; if (amt2 < CONFIG.withdraw.min || (x.balance || 0) < amt2) return; x.balance -= amt2; x.withdrawals = x.withdrawals || {}; x.withdrawals[Date.now()] = { amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: Date.now() }; return x; }); if (!tx.committed) { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Withdrawal failed.'); return; } try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {} try { await db.ref('pn/recentWithdrawals').push().set({ name: S.user.name || '', username: S.user.username || '', amount: amt2, createdAt: TS }); } catch (e) {} toast('Withdrawal requested. Admin will process it soon.'); hap('success'); closeSheet(); setTimeout(render, 260); };
       });
   },
   deposit: function () {
@@ -2103,8 +2132,29 @@ var SHEETS = {
   }
 };
 
+function checkBan() {
+  var el = $('#banScreen'); if (!el) return false;
+  var left = Math.max(0, ((S.user && S.user.banUntil) || 0) - Date.now());
+  if (left > 0) { el.hidden = false; var c = $('#banClock'); if (c) c.textContent = fmtClock(left); return true; }
+  if (!el.hidden) el.hidden = true;
+  return false;
+}
+function renderRecentWithdrawals() {
+  var arr = Object.keys(S.recentW || {}).map(function (k) { return S.recentW[k]; }).filter(Boolean).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 10);
+  var h = '<h3 style="margin:20px 0 10px;font-size:17px">Last withdrawals</h3>';
+  var box = 'style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:4px 16px;margin-bottom:14px"';
+  if (!arr.length) return h + '<div ' + box + '><p class="mut" style="padding:14px 0;font-size:13.5px">No withdrawals yet.</p></div>';
+  return h + '<div class="wlist" ' + box + '>' + arr.map(function (w) {
+    var nm = w.username ? '@' + w.username : (w.name || 'User');
+    var d = new Date(w.createdAt || 0);
+    var ds = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    return '<div class="wrow"><div><div class="wname">' + esc(nm) + '</div><div class="wdate">' + esc(ds) + '</div></div><div class="wamt">' + coin() + fmt(w.amount) + '</div></div>';
+  }).join('') + '</div>';
+}
+
 function render() {
   if (!S.uid) return;
+  if (checkBan()) return;
   try {
     if (S.tab === 'home') renderHome();
     else if (S.tab === 'earn') renderEarn();
@@ -2218,6 +2268,9 @@ async function boot() {
   try { db.ref(P.user(S.uid) + '/deposits').on('value', function (snap) { var deps = snap.val() || {}; Object.keys(deps).forEach(function (k) { var d = deps[k]; if (d && d.status === 'approved' && !d.credited) creditDeposit(k, d); }); }); } catch (e) {}
   try { db.ref('pn/pending/' + S.uid).on('value', function (s) { S.pending = s.val() || {}; if (S.tab === 'promote' && S.promoTab === 'mine') renderMine(); }); } catch (e) {}
   try { db.ref(P.tasks).limitToLast(300).on('value', function (s) { S.tasks = s.val() || {}; S.tasksLoaded = true; render(); }, function () { S.tasksLoaded = true; render(); }); } catch (e) {}
+  try { db.ref('pn/recentWithdrawals').limitToLast(10).on('value', function (s) { S.recentW = s.val() || {}; if (S.tab === 'home') render(); }); } catch (e) {}
+  var wasBanned = false;
+  setInterval(function () { var b = checkBan(); if (wasBanned && !b) render(); wasBanned = b; }, 1000);
   sweepPending().catch(function () {});
   flushOutbox(S.uid).catch(function () {});
   setInterval(function () { sweepPending().catch(function () {}); }, 60000);

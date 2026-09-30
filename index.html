@@ -174,7 +174,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .spin-head p{font-size:13px;opacity:.75;margin-top:4px}
 .spin-wheel-wrap{position:relative;z-index:2;width:270px;height:270px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center}
 .spin-wheel-svg{width:100%;height:100%;display:block;filter:drop-shadow(0 12px 30px rgba(0,0,0,.45))}
-.spin-wheel-svg .wheel-group{transform-origin:150px 150px;transition:transform 4.5s cubic-bezier(.17,.67,.15,1.05);will-change:transform}
+.spin-wheel-svg .wheel-group{transform-origin:150px 150px;transition:transform 4.8s cubic-bezier(0.15, 0.85, 0.3, 1);will-change:transform;transform: translateZ(0);}
 .spin-pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:28px;height:34px;z-index:5;filter:drop-shadow(0 3px 4px rgba(0,0,0,.4));pointer-events:none}
 .spin-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE79B,#FFC53D 60%,#E39D00);display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,0,0,.4),inset 0 2px 4px rgba(255,255,255,.55),inset 0 -3px 6px rgba(0,0,0,.2);cursor:pointer;z-index:4;border:3px solid #fff;font:800 14px 'Sora',sans-serif;color:#5C4000;letter-spacing:.06em;transition:transform .15s}
 .spin-btn:active{transform:translate(-50%,-50%) scale(.94)}
@@ -1069,7 +1069,7 @@ function renderAdGroup(g) {
     }).join('');
     content = '<div class="adgrid">' + buttons + '</div>';
   }
-  return '<article class="card"><div class="row"><span class="tbadge t-ads">' + ico('play') + '</span><div class="grow"><h3>' + g.label + '</h3><p class="meta">' + g.sub + ' · ' + st.claims + '/' + CONFIG.adDailyLimit + ' ' + t('claimedToday') + '</p></div><span class="reward">+' + fmt(CONFIG.adReward) + '</span></div><div class="bar"><i style="width:' + roundPct + '%"></i></div><p class="meta" style="margin:0 0 10px">' + st.done.length + '/' + ADS_PER_ROUND + ' ' + t('adsCompleted') + (canClaim ? ' — ' + t('claimReward') : '') + '</p>' + content + '</article>';
+  return '<article class="card"><div class="row"><span class="tbadge t-ads">' + ico('play') + '</span><div class="grow"><h3>' + g.label + '</h3><p class="meta">' + g.sub + ' · ' + st.claims + '/' + CONFIG.adDailyLimit + ' ' + t('claimedToday') + '</p></div><span class="reward">+' + fmt(CONFIG.adReward) + ' Dogs coin</span></div><div class="bar"><i style="width:' + roundPct + '%"></i></div><p class="meta" style="margin:0 0 10px">' + st.done.length + '/' + ADS_PER_ROUND + ' ' + t('adsCompleted') + (canClaim ? ' — ' + t('claimReward') : '') + '</p>' + content + '</article>';
 }
 function renderAds() {
   var box = $('#adsBox'); if (!box) return;
@@ -1187,7 +1187,7 @@ async function doSpin() {
     S.spin.spinning = false;
     btn.classList.remove('spinning');
     btnText.textContent = 'SPIN';
-  }, 4600);
+  }, 4800);
 }
 
 /* ============ VIEW / RETURN ============ */
@@ -1489,7 +1489,6 @@ async function boot() {
     try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); $('#joinLogo').innerHTML = logoHTML(); } catch (e) {}
     try { if (tg) { tg.ready(); tg.expand(); if (tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } } catch (e) {}
 
-    // Default to English, no IP tracking
     S.lang = store.get('pn_lang') || 'en';
     S.theme = store.get('pn_theme') || 'auto';
     applyTheme();
@@ -1510,18 +1509,29 @@ async function boot() {
     hideSplash();
 
     if (joined === true) {
-      await ensureUser(tu);
-      await Promise.race([
-        new Promise(function(resolve) {
-          var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
-            S.user = s.val() || {};
-            unsub();
-            resolve();
-          }, function() { resolve(); });
-        }),
-        sleep(3000)
-      ]);
+      // Set default user object to prevent render errors during initial load
+      S.user = { balance: 0, rjBalance: 0, totalIncome: 0, rjTotal: 0, today: { d: today(), a: 0 }, referrals: {}, done: {} };
+      // Show app immediately to avoid black screen
       showApp();
+      
+      // Load user data asynchronously
+      ensureUser(tu).catch(function(e) { console.warn('ensureUser error:', e); });
+      
+      // Set up listeners
+      var firstUser = true;
+      try {
+        db.ref(P.user(S.uid)).on('value', function (s) {
+          try {
+            var u = s.val() || {};
+            S.user = u; render();
+            if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) { S.spin.alreadyShownToday = true; setTimeout(function () { if (u.lastSpinDay !== today() && !S.spin.spinning) openSpinModal(); }, 1400); }
+            if (firstUser) { firstUser = false; checkReferral(u); }
+          } catch (err) { console.error('user listener error:', err); }
+        });
+      } catch (e) {}
+      try { db.ref('pn/recentWithdrawals').limitToLast(10).on('value', function (s) { S.recentW = s.val() || {}; if (S.tab === 'home') render(); }); } catch (e) {}
+      bootCompleted = true;
+      clearTimeout(forceTimeout);
     } else {
       showJoinGate();
       if (joined === null) {
@@ -1537,17 +1547,17 @@ async function boot() {
           toast(t('successJoin'));
           hap('success');
           await ensureUser(tu);
-          await Promise.race([
-            new Promise(function(resolve) {
-              var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
-                S.user = s.val() || {};
-                unsub();
-                resolve();
-              }, function() { resolve(); });
-            }),
-            sleep(3000)
-          ]);
+          S.user = { balance: 0, rjBalance: 0, totalIncome: 0, rjTotal: 0, today: { d: today(), a: 0 }, referrals: {}, done: {} };
           showApp();
+          
+          var firstUser = true;
+          db.ref(P.user(S.uid)).on('value', function (s) {
+            try {
+              var u = s.val() || {};
+              S.user = u; render();
+              if (firstUser) { firstUser = false; checkReferral(u); }
+            } catch (err) {}
+          });
           return;
         }
         gv.disabled = false;
@@ -1560,21 +1570,6 @@ async function boot() {
       clearTimeout(forceTimeout);
       return;
     }
-
-    var firstUser = true;
-    try {
-      db.ref(P.user(S.uid)).on('value', function (s) {
-        try {
-          var u = s.val() || {};
-          S.user = u; render();
-          if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) { S.spin.alreadyShownToday = true; setTimeout(function () { if (u.lastSpinDay !== today() && !S.spin.spinning) openSpinModal(); }, 1400); }
-          if (firstUser) { firstUser = false; checkReferral(u); }
-        } catch (err) { console.error('user listener error:', err); }
-      });
-    } catch (e) {}
-    try { db.ref('pn/recentWithdrawals').limitToLast(10).on('value', function (s) { S.recentW = s.val() || {}; if (S.tab === 'home') render(); }); } catch (e) {}
-    bootCompleted = true;
-    clearTimeout(forceTimeout);
   } catch (e) {
     console.error('boot error:', e);
     hideSplash();

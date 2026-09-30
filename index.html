@@ -51,7 +51,7 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 .sl::after{animation-delay:1.2s}
 #splash .word{font:800 30px 'Sora',sans-serif;letter-spacing:.28em;text-indent:.28em}
 #splash .tag{margin-top:6px;color:var(--muted);font-size:13.5px;font-weight:600;letter-spacing:.06em}
-#splash .tag2{position:absolute;bottom:24%;left:0;right:0;text-align:center;color:var(--muted);font-size:14.5px;font-weight:700;letter-spacing:.07em}
+#splash .tag2{position:absolute;bottom:10%;left:0;right:0;text-align:center;color:var(--muted);font-size:14.5px;font-weight:700;letter-spacing:.07em}
 #splash .bar{width:132px;height:4px;border-radius:4px;background:var(--line);overflow:hidden;margin:30px 0 0}
 #splash .bar i{display:block;height:100%;width:40%;background:var(--brand);border-radius:4px;animation:slide 1s ease-in-out infinite}
 .logo{display:block;border-radius:24%;overflow:hidden;flex:none;line-height:0}
@@ -60,7 +60,7 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 #gate h1,#joinGate h1{font-size:23px;font-weight:800;max-width:320px}
 #gate p,#joinGate p{max-width:320px;color:var(--muted);line-height:1.6;font-size:14px}
 #joinGate .gate-btns{width:100%;max-width:320px;display:flex;flex-direction:column;gap:10px;margin-top:4px}
-#joinGate .gate-hint{font-size:12.5px;color:var(--muted);min-height:18px}
+#joinGate .gate-hint{font-size:12.5px;color:var(--muted);min-height:18px;max-width:320px}
 #app{max-width:480px;width:100%;margin:0 auto;padding:16px 16px calc(104px + env(safe-area-inset-bottom,0px))}
 .page>h1{font-size:26px;font-weight:800;margin:6px 0 4px;letter-spacing:-.02em}
 .page>.sub{color:var(--muted);margin-bottom:18px;max-width:42ch;font-size:14px;line-height:1.55}
@@ -68,7 +68,7 @@ h1,h2,h3,.num{font-family:'Sora','Manrope',sans-serif}
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;font:800 19px 'Sora',sans-serif;letter-spacing:.14em;min-width:0}
 .brand .logo{width:38px;height:38px;box-shadow:0 6px 14px -6px rgba(91,91,245,.6)}
-.icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;transition:transform .12s;flex:none}
+.icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;transition:transform .12s;flex:none;font-size:18px}
 .icon-btn:active{transform:scale(.92)}
 .coin{width:22px;height:22px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;overflow:hidden;vertical-align:middle}
 .coin svg{width:100%;height:100%;display:block}
@@ -138,10 +138,10 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .menu .ico:first-child{color:var(--brand)}
 .menu .ico:last-child{margin-left:auto;color:var(--muted);width:18px;height:18px}
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
-#nav .navbar{pointer-events:auto;width:100%;max-width:480px;display:grid;grid-template-columns:repeat(2,1fr);align-items:end;background:var(--nav);-webkit-backdisplaydrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px))}
-.nb{background:none:;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--flexmuted);font:600 11px 'Manrope',sans-serif;cursor:pointer;min-width;:0}
+#nav .navbar{pointer-events:auto;width:100%;max-width:480px;display:grid;grid-template-columns:repeat(2,1fr);align-items:end;background:var(--nav);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px))}
+.nb{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;color:var(--muted);font:600 11px 'Manrope',sans-serif;cursor:pointer;min-width:0}
 .nb.on{color:var(--brand);font-weight:800}
-#toasts{position:fixedjust;top:calc(12px + env(safe-area-inset-top,0px));left:0;right:0;z-index:300;displayify:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 16px}
+#toasts{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:0;right:0;z-index:300;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 16px}
 .toast{background:var(--ink);color:var(--bg);border-radius:18px;padding:12px 16px;display:flex;align-items:center;gap:12px;max-width:380px;box-shadow:0 14px 30px -12px rgba(0,0,0,.45);font-weight:600;font-size:14px}
 .toast b{display:block;font:800 17px 'Sora',sans-serif}
 .toast small{display:block;opacity:.72;font-size:12.5px;font-weight:500;line-height:1.4}
@@ -165,7 +165,7 @@ button.card>.ico:last-child{color:var(--muted);width:18px;height:18px}
 .kv div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
 .kv div:last-child{border:0}
 .linkbox{display:flex;gap:8px;align-items:center;background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:10px 12px;margin:12px 0;font-size:13px;word-break:break-all}
-.hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.hist{font-size:13.5px;padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
 .gap{height:10px}
 .spin-modal{position:fixed;inset:0;z-index:250;background:rgba(10,15,28,.72);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .spin-modal.open{opacity:1}
@@ -288,14 +288,15 @@ img,svg,video{max-width:100%}
 <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9M19 6h1M4 12h3M13 12h7M4 18h11M21 18h-1"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
 <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></symbol>
 </defs></svg>
 
 <div id="splash">
   <div class="sl"><div class="logo" id="splashLogo"></div></div>
   <div class="word">DOGS</div>
-  <div class="tag">Earn Dogs coin</div>
+  <div class="tag" id="splashTag">Earn Dogs coin</div>
   <div class="bar"><i></i></div>
-  <div class="tag2">Withdraw daily to daily</div>
+  <div class="tag2" id="splashTag2">Withdraw daily to daily</div>
 </div>
 
 <div id="gate" hidden>
@@ -306,35 +307,34 @@ img,svg,video{max-width:100%}
 
 <div id="joinGate" hidden>
   <div class="logo" id="joinLogo" style="width:92px;height:92px"></div>
-  <h1>[Join our Telegram channel</h1>
-  <p>Join our official Telegram channel to use DOGS. This channel is for withdrawal proof and updates.</p>
+  <h1 id="joinTitle">Join our Telegram channel</h1>
+  <p id="joinDesc">Join our official Telegram channel to use DOGS. This channel is for withdrawal proof and updates.</p>
   <div class="gate-btns">
     <button class="btn btn-primary btn-block" id="gateJoin">Join channel</button>
-    <button class="2btn btn-line btn-block" id="gateVerify">Verify</button>
+    <button class="btn btn-line btn-block" id="gateVerify">Verify</button>
   </div>
   <div class="gate-hint" id="gateHint"></div>
 </div>
 
 <main id="app" hidden>
-  <section id="p]-home" class="page"></section>
+  <section id="p-home" class="page"></section>
   <section id="p-friends" class="page" hidden></section>
 </main>
 
-<nav id="nav },
-" hidden><div class="navbar">
-  <button class="nb on" data-go="home"><svg class="ico"><use href="#i-home"/></svg>Home</button>
-  <button class="nb " data-go="friends"><svg class="ico"><use href="#i-userplus"/></svg>Friends</button>
+<nav id="nav" hidden><div class="navbar">
+  <button class="nb on" data-go="home"><svg class="ico"><use href="#i-home"/></svg><span data-i18n="home">Home</span></button>
+  <button class="nb" data-go="friends"><svg class="ico"><use href="#i-userplus"/></svg><span data-i18n="friends">Friends</span></button>
 </div></nav>
 
-<div id="toasts"></div p>
-<div id="sheetWrap" class="sheet-wrap" hidden><div class="sheet" role="dialog"7 aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div></div>
+<div id="toasts"></div>
+<div id="sheetWrap" class="sheet-wrap" hidden><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div id="sheetBody"></div></div></div>
 
 <div id="spinModal" class="spin-modal" hidden>
   <div class="spin-modal-card" role="dialog" aria-modal="true">
     <button class="spin-close" id="spinClose" aria-label="Close">✕</button>
     <div class="spin-head">
-      <h2>Daily Spin</h2>
-      <p id="spinSub">Spin the wheel and win coins!</p>
+      <h2 data-i18n="dailySpin">Daily Spin</h2>
+      <p id="spinSub" data-i18n="spinSub">Spin the wheel and win coins!</p>
     </div>
     <div class="spin-wheel-wrap">
       <svg class="spin-wheel-svg" viewBox="0 0 300 300">
@@ -347,17 +347,32 @@ img,svg,video{max-width:100%}
       <div class="spin-pointer"><svg viewBox="0 0 28 34"><path d="M14 34 L2 8 Q14 -4 26 8 Z" fill="#FFC53D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="14" cy="10" r="3" fill="#fff"/></svg></div>
       <div class="spin-btn" id="spinBtn"><span id="spinBtnText">SPIN</span></div>
     </div>
-    <p class="spin-hint" id="spinHint">You get one free spin every day. Come back tomorrow to spin again.</p>
+    <p class="spin-hint" id="spinHint" data-i18n="spinHint">You get one free spin every day. Come back tomorrow to spin again.</p>
     <div class="spin-result" id="spinResult">
       <div class="win-amount"><span id="spinWinAmount">0</span></div>
-      <div class="win-label">Dogs Coin added to your balance!</div>
-      <button class="btn btn-gold" id="spinCollect">Collect</button>
+      <div class="win-label" data-i18n="spinWinLabel">Dogs Coin added to your balance!</div>
+      <button class="btn btn-gold" id="spinCollect" data-i18n="collect">Collect</button>
     </div>
   </div>
 </div>
 
 <script>
 window.__splashKilled = false;
+// Global error handler to prevent blank screen
+window.onerror = function(msg, url, line, col, error) {
+  console.error('Global error:', msg, 'at', line, ':', col, error);
+  try {
+    var el = document.getElementById('toasts');
+    if (el) {
+      var t = document.createElement('div');
+      t.className = 'toast err';
+      t.innerHTML = '<div><b>Error</b><small>' + msg + '</small></div>';
+      el.appendChild(t);
+      setTimeout(function() { t.remove(); }, 5000);
+    }
+  } catch(e) {}
+  return false;
+};
 setTimeout(function () {
   if (window.__splashKilled) return;
   try {
@@ -383,6 +398,247 @@ var store = { get: function (k) { try { return localStorage.getItem(k); } catch 
 var today = function () { return new Date().toLocaleDateString('en-CA'); };
 var fmtClock = function (ms) { if (ms < 0) ms = 0; var s = Math.floor(ms / 1000); var h = Math.floor(s / 3600); var m = Math.floor((s % 3600) / 60); var sec = s % 60; return (h > 0 ? h + ':' : '') + (m < 10 && h > 0 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec; };
 
+// ========== TRANSLATIONS ==========
+var TRANSLATIONS = {
+  en: {
+    home: 'Home', friends: 'Friends',
+    balance: 'Your balance', totalEarned: 'Total earned', withdraw: 'Withdraw', invite: 'Invite',
+    watchAds: 'Watch ads & earn', adsDesc: 'Watch all 3 ads in each task to earn 20 Dogs Coin. Up to 10 claims per day. Wait 60 seconds between claims. You earned {0} Dogs Coin today.',
+    adTask: 'Ad Task', watch3Ads: 'Watch 3 ads to earn', sponsored: 'Sponsored links · 15 seconds each',
+    claim: 'Claim', claimedToday: 'claimed today', adsCompleted: 'ads completed', claimReward: 'claim your reward now!',
+    dailySpin: 'Daily Spin', spinDesc: 'Spin now to win!', spinDone: 'Already claimed today',
+    spinComeBack: 'Come back tomorrow for another free spin.', spinWin: 'Win up to 100 Dogs Coin. One free spin every day.',
+    spinSub: 'Spin the wheel and win coins!', spinHint: 'You get one free spin every day. Come back tomorrow to spin again.',
+    spinWinLabel: 'Dogs Coin added to your balance!', collect: 'Collect',
+    games: 'Games', playLunch: 'Play lunch the ball — complete 27 levels', playLunchDesc: 'Open the game bot and complete the levels to earn coins', openGame: 'Open game',
+    inviteFriends: 'Invite friends', inviteDesc: 'Get +200 Dogs Coin per friend', referrals: 'referral', referralsPlural: 'referrals',
+    lastWithdrawals: 'Last withdrawals', noWithdrawals: 'No withdrawals yet.',
+    joinChannel: 'Join our Telegram channel', joinDesc: 'Join our official Telegram channel to use DOGS. This channel is for withdrawal proof and updates.',
+    joinBtn: 'Join channel', verify: 'Verify', tryAgain: 'Try again',
+    joining: 'Verifying...', successJoin: 'Thanks for joining!', notJoined: 'You have not joined the channel yet. Please join first.',
+    couldNotVerify: 'Could not verify automatically. Join then tap Verify.',
+    mustJoin: 'You must join the channel to use DOGS.',
+    earnDogsCoin: 'Earn Dogs coin', withdrawDaily: 'Withdraw daily to daily',
+    withdrawTitle: 'Withdraw Dogs Coin', withdrawDesc: 'Withdraw your Dogs Coin to Binance UID. A 3% fee is deducted. Minimum 700 Dogs Coin.',
+    amount: 'Amount', fee: 'Fee', youReceive: 'You receive', method: 'Method',
+    requestWithdrawal: 'Request withdrawal', recentWithdrawals: 'Recent withdrawals',
+    minWithdraw: 'Minimum withdrawal is 700 Dogs Coin.', notEnough: 'You do not have that many Dogs Coin.',
+    invalidUid: 'Please enter a valid Binance UID (digits only).', withdrawalRequested: 'Withdrawal requested. Admin will process it soon.',
+    withdrawalFailed: 'Withdrawal failed.',
+    support: 'Support', supportDesc: 'Have a question or issue? Message us directly on Telegram and our team will help you.',
+    messageSupport: 'Message support',
+    about: 'About DOGS', privacy: 'Privacy policy', terms: 'Terms and conditions', settings: 'Settings',
+    language: 'Language', theme: 'Theme', dark: 'Dark', light: 'Light', auto: 'Auto',
+    close: 'Close', settings: 'Settings', appearance: 'Appearance', vibration: 'Vibration', on: 'On', off: 'Off',
+    aboutDesc: 'DOGS is a Telegram mini app where you earn Dogs Coin by watching ads, spinning the wheel, playing games and inviting friends — then withdraw to Binance.',
+    earnCoin: 'Earn Dogs Coin', adReward: 'Ad tasks: 20 Dogs Coin per task, 10 claims per day.',
+    dailySpinInfo: 'Daily Spin: one free spin per day, win up to 100 coins.',
+    referralInfo: 'Referral: +200 Dogs Coin per friend.',
+    gamesInfo: 'Games', withdrawInfo: 'Withdraw', withdrawInfoDesc: 'Withdraw Dogs Coin to Binance (min 700 Dogs Coin, 3% fee).',
+    fairUse: 'Fair use', fairUseDesc: 'One account per person. No bots.',
+    joinCommunity: 'Join community', contactSupport: 'Contact support',
+    copy: 'Copy', copied: 'Copied to clipboard', shareTelegram: 'Share on Telegram', copyMessage: 'Copy full message',
+    yourReferrals: 'Your referrals', noReferrals: 'No referrals yet. Share your link to start earning!',
+    referralEarnings: 'Referral earnings', totalReferrals: 'Total referrals', coinsEarned: 'Coins earned', perFriend: 'Per friend',
+    referralBonus: 'You get +200 Dogs Coin the moment a friend joins with your link.',
+    linkLabel: 'Your invite link', errorLoading: 'Error loading home. Please refresh.',
+    pleaseJoinChannel: 'Please join the channel first, then tap Try again.',
+    verifyFailed: 'Verification failed. Make sure you joined @earnmoneyonline14 and the bot is an admin.',
+    languageSelect: 'Select Language', languageDesc: 'Choose your preferred language',
+    bangla: 'বাংলা', hindi: 'हिन्दी', arabic: 'العربية', english: 'English',
+    processing: 'Processing...',
+    adCompleted: 'Ad completed!', dailyLimitReached: 'Daily limit reached for this task. Please come back tomorrow.',
+    waitSeconds: 'Please wait {0} seconds before the next round.',
+    alreadyWatched: 'You already watched this ad in this round.',
+    comeBackTooSoon: 'You came back too soon. Please stay on the ad page for {0} seconds before returning.',
+    couldNotClaim: 'Could not claim right now. Please try again.',
+    taskFull: 'This task is full. Try another one.',
+    youAlreadySpun: 'You already spun today. Come back tomorrow!',
+    spinWinMsg: 'You won {0} Dogs Coin!', spinError: 'Could not save spin.'
+  },
+  bn: {
+    home: 'হোম', friends: 'বন্ধুরা',
+    balance: 'আপনার ব্যালেন্স', totalEarned: 'মোট অর্জিত', withdraw: 'উত্তোলন', invite: 'আমন্ত্রণ',
+    watchAds: 'বিজ্ঞাপন দেখুন ও আয় করুন', adsDesc: 'প্রতিটি টাস্কে ৩টি বিজ্ঞাপন দেখে ২০ Dogs Coin পান। দিনে সর্বোচ্চ ১০ বার ক্লেইম। ক্লেইমের মাঝে ৬০ সেকেন্ড অপেক্ষা করুন। আজ আপনি {0} Dogs Coin পেয়েছেন।',
+    adTask: 'বিজ্ঞাপন টাস্ক', watch3Ads: '৩টি বিজ্ঞাপন দেখে আয় করুন', sponsored: 'স্পনসরড লিংক · প্রতিটি ১৫ সেকেন্ড',
+    claim: 'ক্লেইম', claimedToday: 'আজ ক্লেইম করা হয়েছে', adsCompleted: 'বিজ্ঞাপন সম্পন্ন', claimReward: 'এখনই পুরস্কার ক্লেইম করুন!',
+    dailySpin: 'ডেইলি স্পিন', spinDesc: 'এখনই স্পিন করুন এবং জিতুন!', spinDone: 'আজ ইতিমধ্যে ক্লেইম করা হয়েছে',
+    spinComeBack: 'আরেকটি ফ্রি স্পিনের জন্য আগামীকাল ফিরে আসুন।', spinWin: '১০০ Dogs Coin পর্যন্ত জিতুন। প্রতিদিন একটি ফ্রি স্পিন।',
+    spinSub: 'চাকা ঘুরান এবং কয়েন জিতুন!', spinHint: 'আপনি প্রতিদিন একটি ফ্রি স্পিন পাবেন। আবার স্পিন করতে আগামীকাল ফিরে আসুন।',
+    spinWinLabel: 'Dogs Coin আপনার ব্যালেন্সে যোগ হয়েছে!', collect: 'সংগ্রহ করুন',
+    games: 'গেমস', playLunch: 'লাঞ্চ দ্য বল খেলুন — ২৭টি লেভেল সম্পন্ন করুন', playLunchDesc: 'গেম বট খুলুন এবং লেভেল সম্পন্ন করে কয়েন আয় করুন', openGame: 'গেম খুলুন',
+    inviteFriends: 'বন্ধুদের আমন্ত্রণ জানান', inviteDesc: 'প্রতি বন্ধুর জন্য +২০০ Dogs Coin পান', referrals: 'রেফারেল', referralsPlural: 'রেফারেল',
+    lastWithdrawals: 'সর্বশেষ উত্তোলন', noWithdrawals: 'এখনও কোন উত্তোলন নেই।',
+    joinChannel: 'আমাদের টেলিগ্রাম চ্যানেলে যোগ দিন', joinDesc: 'DOGS ব্যবহার করতে আমাদের অফিসিয়াল টেলিগ্রাম চ্যানেলে যোগ দিন। এই চ্যানেলটি উত্তোলনের প্রমাণ এবং আপডেটের জন্য।',
+    joinBtn: 'চ্যানেলে যোগ দিন', verify: 'যাচাই করুন', tryAgain: 'আবার চেষ্টা করুন',
+    joining: 'যাচাই করা হচ্ছে...', successJoin: 'যোগ দেওয়ার জন্য ধন্যবাদ!', notJoined: 'আপনি এখনও চ্যানেলে যোগ দেননি। দয়া করে প্রথমে যোগ দিন।',
+    couldNotVerify: 'স্বয়ংক্রিয়ভাবে যাচাই করা যায়নি। যোগ দেওয়ার পর যাচাই চাপুন।',
+    mustJoin: 'DOGS ব্যবহার করতে আপনাকে অবশ্যই চ্যানেলে যোগ দিতে হবে।',
+    earnDogsCoin: 'Dogs Coin আয় করুন', withdrawDaily: 'প্রতিদিন উত্তোলন',
+    withdrawTitle: 'Dogs Coin উত্তোলন', withdrawDesc: 'আপনার Dogs Coin বাইন্যান্স UID-তে উত্তোলন করুন। ৩% ফি কাটা হবে। সর্বনিম্ন ৭০০ Dogs Coin।',
+    amount: 'পরিমাণ', fee: 'ফি', youReceive: 'আপনি পাবেন', method: 'পদ্ধতি',
+    requestWithdrawal: 'উত্তোলন অনুরোধ', recentWithdrawals: 'সাম্প্রতিক উত্তোলন',
+    minWithdraw: 'সর্বনিম্ন উত্তোলন ৭০০ Dogs Coin।', notEnough: 'আপনার এত Dogs Coin নেই।',
+    invalidUid: 'একটি বৈধ বাইন্যান্স UID দিন (শুধুমাত্র সংখ্যা)।', withdrawalRequested: 'উত্তোলনের অনুরোধ করা হয়েছে। অ্যাডমিন শীঘ্রই প্রক্রিয়া করবে।',
+    withdrawalFailed: 'উত্তোলন ব্যর্থ হয়েছে।',
+    support: 'সাপোর্ট', supportDesc: 'কোন প্রশ্ন বা সমস্যা আছে? সরাসরি টেলিগ্রামে আমাদের বার্তা পাঠান এবং আমাদের দল সাহায্য করবে।',
+    messageSupport: 'সাপোর্টে বার্তা পাঠান',
+    about: 'DOGS সম্পর্কে', privacy: 'গোপনীয়তা নীতি', terms: 'শর্তাবলী', settings: 'সেটিংস',
+    language: 'ভাষা', theme: 'থিম', dark: 'ডার্ক', light: 'লাইট', auto: 'অটো',
+    close: 'বন্ধ করুন', settings: 'সেটিংস', appearance: 'চেহারা', vibration: 'কম্পন', on: 'চালু', off: 'বন্ধ',
+    aboutDesc: 'DOGS একটি টেলিগ্রাম মিনি অ্যাপ যেখানে আপনি বিজ্ঞাপন দেখে, চাকা ঘুরিয়ে, গেম খেলে এবং বন্ধুদের আমন্ত্রণ জানিয়ে Dogs Coin আয় করেন — তারপর বাইন্যান্সে উত্তোলন করেন।',
+    earnCoin: 'Dogs Coin আয় করুন', adReward: 'বিজ্ঞাপন টাস্ক: প্রতি টাস্কে ২০ Dogs Coin, দিনে ১০ বার ক্লেইম।',
+    dailySpinInfo: 'ডেইলি স্পিন: প্রতিদিন একটি ফ্রি স্পিন, ১০০ কয়েন পর্যন্ত জিতুন।',
+    referralInfo: 'রেফারেল: প্রতি বন্ধুর জন্য +২০০ Dogs Coin।',
+    gamesInfo: 'গেমস', withdrawInfo: 'উত্তোলন', withdrawInfoDesc: 'বাইন্যান্সে Dogs Coin উত্তোলন করুন (সর্বনিম্ন ৭০০ Dogs Coin, ৩% ফি)।',
+    fairUse: 'ন্যায্য ব্যবহার', fairUseDesc: 'প্রতি ব্যক্তি একটি অ্যাকাউন্ট। কোন বট নয়।',
+    joinCommunity: 'কমিউনিটিতে যোগ দিন', contactSupport: 'সাপোর্টে যোগাযোগ করুন',
+    copy: 'কপি', copied: 'ক্লিপবোর্ডে কপি করা হয়েছে', shareTelegram: 'টেলিগ্রামে শেয়ার করুন', copyMessage: 'সম্পূর্ণ বার্তা কপি করুন',
+    yourReferrals: 'আপনার রেফারেল', noReferrals: 'এখনও কোন রেফারেল নেই। আয় শুরু করতে আপনার লিংক শেয়ার করুন!',
+    referralEarnings: 'রেফারেল আয়', totalReferrals: 'মোট রেফারেল', coinsEarned: 'অর্জিত কয়েন', perFriend: 'প্রতি বন্ধু',
+    referralBonus: 'একজন বন্ধু আপনার লিংক দিয়ে যোগ দেওয়ার সাথে সাথে আপনি +২০০ Dogs Coin পাবেন।',
+    linkLabel: 'আপনার আমন্ত্রণ লিংক', errorLoading: 'হোম লোড করতে ত্রুটি। রিফ্রেশ করুন।',
+    pleaseJoinChannel: 'দয়া করে প্রথমে চ্যানেলে যোগ দিন, তারপর আবার চেষ্টা চাপুন।',
+    verifyFailed: 'যাচাই ব্যর্থ হয়েছে। নিশ্চিত করুন যে আপনি @earnmoneyonline14-এ যোগ দিয়েছেন এবং বটটি অ্যাডমিন।',
+    languageSelect: 'ভাষা নির্বাচন করুন', languageDesc: 'আপনার পছন্দের ভাষা চয়ন করুন',
+    bangla: 'বাংলা', hindi: 'हिन्दी', arabic: 'العربية', english: 'English',
+    processing: 'প্রক্রিয়া করা হচ্ছে...',
+    adCompleted: 'বিজ্ঞাপন সম্পন্ন!', dailyLimitReached: 'এই টাস্কের জন্য দৈনিক সীমা পূর্ণ। আগামীকাল ফিরে আসুন।',
+    waitSeconds: 'পরবর্তী রাউন্ডের জন্য {0} সেকেন্ড অপেক্ষা করুন।',
+    alreadyWatched: 'আপনি ইতিমধ্যে এই রাউন্ডে এই বিজ্ঞাপনটি দেখেছেন।',
+    comeBackTooSoon: 'আপনি খুব তাড়াতাড়ি ফিরে এসেছেন। ফিরে আসার আগে {0} সেকেন্ড বিজ্ঞাপন পৃষ্ঠায় থাকুন।',
+    couldNotClaim: 'এখনই ক্লেইম করা যায়নি। আবার চেষ্টা করুন।',
+    taskFull: 'এই টাস্কটি পূর্ণ। অন্য একটি চেষ্টা করুন।',
+    youAlreadySpun: 'আপনি আজ ইতিমধ্যে স্পিন করেছেন। আগামীকাল ফিরে আসুন!',
+    spinWinMsg: 'আপনি {0} Dogs Coin জিতেছেন!', spinError: 'স্পিন সংরক্ষণ করা যায়নি।'
+  },
+  hi: {
+    home: 'होम', friends: 'दोस्त',
+    balance: 'आपका बैलेंस', totalEarned: 'कुल कमाई', withdraw: 'निकालें', invite: 'आमंत्रित करें',
+    watchAds: 'विज्ञापन देखें और कमाएं', adsDesc: 'प्रत्येक कार्य में 3 विज्ञापन देखकर 20 Dogs Coin कमाएं। प्रति दिन 10 क्लेम तक। क्लेम के बीच 60 सेकंड प्रतीक्षा करें। आज आपने {0} Dogs Coin कमाए।',
+    adTask: 'विज्ञापन कार्य', watch3Ads: '3 विज्ञापन देखकर कमाएं', sponsored: 'प्रायोजित लिंक · प्रत्येक 15 सेकंड',
+    claim: 'क्लेम', claimedToday: 'आज क्लेम किया', adsCompleted: 'विज्ञापन पूर्ण', claimReward: 'अभी पुरस्कार क्लेम करें!',
+    dailySpin: 'डेली स्पिन', spinDesc: 'अभी स्पिन करें और जीतें!', spinDone: 'आज पहले ही क्लेम किया',
+    spinComeBack: 'एक और मुफ्त स्पिन के लिए कल वापस आएं।', spinWin: '100 Dogs Coin तक जीतें। हर दिन एक मुफ्त स्पिन।',
+    spinSub: 'पहिया घुमाएं और सिक्के जीतें!', spinHint: 'आपको हर दिन एक मुफ्त स्पिन मिलता है। फिर से स्पिन करने के लिए कल वापस आएं।',
+    spinWinLabel: 'Dogs Coin आपके बैलेंस में जोड़े गए!', collect: 'इकट्ठा करें',
+    games: 'गेम्स', playLunch: 'लंच द बॉल खेलें — 27 लेवल पूरे करें', playLunchDesc: 'गेम बॉट खोलें और लेवल पूरे करके सिक्के कमाएं', openGame: 'गेम खोलें',
+    inviteFriends: 'दोस्तों को आमंत्रित करें', inviteDesc: 'प्रति मित्र +200 Dogs Coin पाएं', referrals: 'रेफरल', referralsPlural: 'रेफरल',
+    lastWithdrawals: 'अंतिम निकासी', noWithdrawals: 'अभी तक कोई निकासी नहीं।',
+    joinChannel: 'हमारे टेलीग्राम चैनल से जुड़ें', joinDesc: 'DOGS का उपयोग करने के लिए हमारे आधिकारिक टेलीग्राम चैनल से जुड़ें। यह चैनल निकासी प्रमाण और अपडेट के लिए है।',
+    joinBtn: 'चैनल से जुड़ें', verify: 'सत्यापित करें', tryAgain: 'फिर से प्रयास करें',
+    joining: 'सत्यापित किया जा रहा है...', successJoin: 'जुड़ने के लिए धन्यवाद!', notJoined: 'आपने अभी तक चैनल नहीं जॉइन किया है। कृपया पहले जॉइन करें।',
+    couldNotVerify: 'स्वचालित रूप से सत्यापित नहीं कर सका। जॉइन करें फिर सत्यापित करें पर टैप करें।',
+    mustJoin: 'DOGS का उपयोग करने के लिए आपको चैनल जॉइन करना होगा।',
+    earnDogsCoin: 'Dogs Coin कमाएं', withdrawDaily: 'प्रतिदिन निकालें',
+    withdrawTitle: 'Dogs Coin निकालें', withdrawDesc: 'अपने Dogs Coin को Binance UID में निकालें। 3% शुल्क काटा जाएगा। न्यूनतम 700 Dogs Coin।',
+    amount: 'राशि', fee: 'शुल्क', youReceive: 'आपको मिलेगा', method: 'तरीका',
+    requestWithdrawal: 'निकासी अनुरोध', recentWithdrawals: 'हाल की निकासी',
+    minWithdraw: 'न्यूनतम निकासी 700 Dogs Coin है।', notEnough: 'आपके पास उतने Dogs Coin नहीं हैं।',
+    invalidUid: 'कृपया एक वैध Binance UID दर्ज करें (केवल अंक)।', withdrawalRequested: 'निकासी का अनुरोध किया गया। एडमिन जल्द ही प्रोसेस करेगा।',
+    withdrawalFailed: 'निकासी विफल रही।',
+    support: 'सहायता', supportDesc: 'कोई प्रश्न या समस्या है? सीधे टेलीग्राम पर हमें संदेश भेजें और हमारी टीम मदद करेगी।',
+    messageSupport: 'सहायता को संदेश भेजें',
+    about: 'DOGS के बारे में', privacy: 'गोपनीयता नीति', terms: 'नियम और शर्तें', settings: 'सेटिंग्स',
+    language: 'भाषा', theme: 'थीम', dark: 'डार्क', light: 'लाइट', auto: 'ऑटो',
+    close: 'बंद करें', settings: 'सेटिंग्स', appearance: 'दिखावट', vibration: 'कंपन', on: 'चालू', off: 'बंद',
+    aboutDesc: 'DOGS एक टेलीग्राम मिनी ऐप है जहां आप विज्ञापन देखकर, पहिया घुमाकर, गेम खेलकर और दोस्तों को आमंत्रित करके Dogs Coin कमाते हैं — फिर Binance में निकालते हैं।',
+    earnCoin: 'Dogs Coin कमाएं', adReward: 'विज्ञापन कार्य: प्रति कार्य 20 Dogs Coin, प्रति दिन 10 क्लेम।',
+    dailySpinInfo: 'डेली स्पिन: प्रति दिन एक मुफ्त स्पिन, 100 सिक्के तक जीतें।',
+    referralInfo: 'रेफरल: प्रति मित्र +200 Dogs Coin।',
+    gamesInfo: 'गेम्स', withdrawInfo: 'निकालें', withdrawInfoDesc: 'Binance में Dogs Coin निकालें (न्यूनतम 700 Dogs Coin, 3% शुल्क)।',
+    fairUse: 'उचित उपयोग', fairUseDesc: 'प्रति व्यक्ति एक खाता। कोई बॉट नहीं।',
+    joinCommunity: 'समुदाय से जुड़ें', contactSupport: 'सहायता से संपर्क करें',
+    copy: 'कॉपी', copied: 'क्लिपबोर्ड पर कॉपी किया गया', shareTelegram: 'टेलीग्राम पर शेयर करें', copyMessage: 'पूरा संदेश कॉपी करें',
+    yourReferrals: 'आपके रेफरल', noReferrals: 'अभी तक कोई रेफरल नहीं। कमाई शुरू करने के लिए अपना लिंक शेयर करें!',
+    referralEarnings: 'रेफरल कमाई', totalReferrals: 'कुल रेफरल', coinsEarned: 'कमाए गए सिक्के', perFriend: 'प्रति मित्र',
+    referralBonus: 'जैसे ही कोई मित्र आपके लिंक से जुड़ता है, आपको +200 Dogs Coin मिलते हैं।',
+    linkLabel: 'आपका आमंत्रण लिंक', errorLoading: 'होम लोड करने में त्रुटि। कृपया रीफ्रेश करें।',
+    pleaseJoinChannel: 'कृपया पहले चैनल जॉइन करें, फिर फिर से प्रयास करें पर टैप करें।',
+    verifyFailed: 'सत्यापन विफल। सुनिश्चित करें कि आपने @earnmoneyonline14 जॉइन किया है और बॉट एडमिन है।',
+    languageSelect: 'भाषा चुनें', languageDesc: 'अपनी पसंदीदा भाषा चुनें',
+    bangla: 'বাংলা', hindi: 'हिन्दी', arabic: 'العربية', english: 'English',
+    processing: 'प्रक्रिया हो रही है...',
+    adCompleted: 'विज्ञापन पूर्ण!', dailyLimitReached: 'इस कार्य के लिए दैनिक सीमा पूरी। कल वापस आएं।',
+    waitSeconds: 'अगले राउंड के लिए {0} सेकंड प्रतीक्षा करें।',
+    alreadyWatched: 'आप इस राउंड में यह विज्ञापन पहले ही देख चुके हैं।',
+    comeBackTooSoon: 'आप बहुत जल्दी वापस आ गए। लौटने से पहले {0} सेकंड विज्ञापन पृष्ठ पर रहें।',
+    couldNotClaim: 'अभी क्लेम नहीं कर सके। कृपया पुनः प्रयास करें।',
+    taskFull: 'यह कार्य पूर्ण है। दूसरा प्रयास करें।',
+    youAlreadySpun: 'आप आज पहले ही स्पिन कर चुके हैं। कल वापस आएं!',
+    spinWinMsg: 'आपने {0} Dogs Coin जीते!', spinError: 'स्पिन सहेज नहीं सका।'
+  },
+  ar: {
+    home: 'الرئيسية', friends: 'الأصدقاء',
+    balance: 'رصيدك', totalEarned: 'إجمالي الأرباح', withdraw: 'سحب', invite: 'دعوة',
+    watchAds: 'شاهد الإعلانات واربح', adsDesc: 'شاهد 3 إعلانات في كل مهمة لتربح 20 Dogs Coin. حتى 10 مطالبات يوميًا. انتظر 60 ثانية بين المطالبات. لقد ربحت {0} Dogs Coin اليوم.',
+    adTask: 'مهمة إعلانية', watch3Ads: 'شاهد 3 إعلانات لتربح', sponsored: 'روابط ممولة · 15 ثانية لكل منها',
+    claim: 'مطالبة', claimedToday: 'تمت المطالبة اليوم', adsCompleted: 'إعلانات مكتملة', claimReward: 'اطلب مكافأتك الآن!',
+    dailySpin: 'الدوران اليومي', spinDesc: 'قم بالدوران الآن واربح!', spinDone: 'تمت المطالبة اليوم بالفعل',
+    spinComeBack: 'عد غدًا للحصول على دوران مجاني آخر.', spinWin: 'اربح حتى 100 Dogs Coin. دوران مجاني واحد كل يوم.',
+    spinSub: 'أدر العجلة واربح العملات!', spinHint: 'تحصل على دوران مجاني واحد كل يوم. عد غدًا للدوران مرة أخرى.',
+    spinWinLabel: 'تمت إضافة Dogs Coin إلى رصيدك!', collect: 'جمع',
+    games: 'الألعاب', playLunch: 'العب lunch the ball — أكمل 27 مستوى', playLunchDesc: 'افتح بوت اللعبة وأكمل المستويات لتربح العملات', openGame: 'افتح اللعبة',
+    inviteFriends: 'دعوة الأصدقاء', inviteDesc: 'احصل على +200 Dogs Coin لكل صديق', referrals: 'إحالة', referralsPlural: 'إحالات',
+    lastWithdrawals: 'آخر السحوبات', noWithdrawals: 'لا توجد سحوبات بعد.',
+    joinChannel: 'انضم إلى قناتنا على تيليجرام', joinDesc: 'انضم إلى قناتنا الرسمية على تيليجرام لاستخدام DOGS. هذه القناة مخصصة لإثبات السحب والتحديثات.',
+    joinBtn: 'انضم إلى القناة', verify: 'تحقق', tryAgain: 'حاول مرة أخرى',
+    joining: 'جاري التحقق...', successJoin: 'شكرًا لانضمامك!', notJoined: 'لم تنضم إلى القناة بعد. يرجى الانضمام أولاً.',
+    couldNotVerify: 'تعذر التحقق تلقائيًا. انضم ثم اضغط على تحقق.',
+    mustJoin: 'يجب عليك الانضمام إلى القناة لاستخدام DOGS.',
+    earnDogsCoin: 'اربح Dogs coin', withdrawDaily: 'سحب يومي',
+    withdrawTitle: 'سحب Dogs Coin', withdrawDesc: 'اسحب Dogs Coin إلى Binance UID. يتم خصم رسوم 3%. الحد الأدنى 700 Dogs Coin.',
+    amount: 'المبلغ', fee: 'الرسوم', youReceive: 'ستستلم', method: 'الطريقة',
+    requestWithdrawal: 'طلب سحب', recentWithdrawals: 'السحوبات الأخيرة',
+    minWithdraw: 'الحد الأدنى للسحب هو 700 Dogs Coin.', notEnough: 'ليس لديك هذا العدد من Dogs Coin.',
+    invalidUid: 'يرجى إدخال Binance UID صالح (أرقام فقط).', withdrawalRequested: 'تم طلب السحب. سيقوم المشرف بمعالجته قريبًا.',
+    withdrawalFailed: 'فشل السحب.',
+    support: 'الدعم', supportDesc: 'هل لديك سؤال أو مشكلة؟ راسلنا مباشرة على تيليجرام وسيساعدك فريقنا.',
+    messageSupport: 'راسل الدعم',
+    about: 'حول DOGS', privacy: 'سياسة الخصوصية', terms: 'الشروط والأحكام', settings: 'الإعدادات',
+    language: 'اللغة', theme: 'المظهر', dark: 'داكن', light: 'فاتح', auto: 'تلقائي',
+    close: 'إغلاق', settings: 'الإعدادات', appearance: 'المظهر', vibration: 'الاهتزاز', on: 'تشغيل', off: 'إيقاف',
+    aboutDesc: 'DOGS هو تطبيق مصغر على تيليجرام حيث تربح Dogs Coin من خلال مشاهدة الإعلانات، وتدوير العجلة، ولعب الألعاب، ودعوة الأصدقاء — ثم السحب إلى Binance.',
+    earnCoin: 'اربح Dogs Coin', adReward: 'المهام الإعلانية: 20 Dogs Coin لكل مهمة، 10 مطالبات يوميًا.',
+    dailySpinInfo: 'الدوران اليومي: دوران مجاني واحد يوميًا، اربح حتى 100 عملة.',
+    referralInfo: 'الإحالة: +200 Dogs Coin لكل صديق.',
+    gamesInfo: 'الألعاب', withdrawInfo: 'سحب', withdrawInfoDesc: 'اسحب Dogs Coin إلى Binance (الحد الأدنى 700 Dogs Coin، رسوم 3%).',
+    fairUse: 'الاستخدام العادل', fairUseDesc: 'حساب واحد لكل شخص. لا روبوتات.',
+    joinCommunity: 'انضم إلى المجتمع', contactSupport: 'اتصل بالدعم',
+    copy: 'نسخ', copied: 'تم النسخ إلى الحافظة', shareTelegram: 'شارك على تيليجرام', copyMessage: 'نسخ الرسالة كاملة',
+    yourReferrals: 'إحالاتك', noReferrals: 'لا توجد إحالات بعد. شارك رابطك لبدء الربح!',
+    referralEarnings: 'أرباح الإحالة', totalReferrals: 'إجمالي الإحالات', coinsEarned: 'العملات المكتسبة', perFriend: 'لكل صديق',
+    referralBonus: 'تحصل على +200 Dogs Coin بمجرد انضمام صديق عبر رابطك.',
+    linkLabel: 'رابط الدعوة الخاص بك', errorLoading: 'خطأ في تحميل الرئيسية. يرجى التحديث.',
+    pleaseJoinChannel: 'يرجى الانضمام إلى القناة أولاً، ثم اضغط على حاول مرة أخرى.',
+    verifyFailed: 'فشل التحقق. تأكد من انضمامك إلى @earnmoneyonline14 وأن البوت مشرف.',
+    languageSelect: 'اختر اللغة', languageDesc: 'اختر لغتك المفضلة',
+    bangla: 'বাংলা', hindi: 'हिन्दी', arabic: 'العربية', english: 'English',
+    processing: 'جاري المعالجة...',
+    adCompleted: 'تم الإعلان!', dailyLimitReached: 'تم الوصول إلى الحد اليومي لهذه المهمة. عد غدًا.',
+    waitSeconds: 'يرجى الانتظار {0} ثانية قبل الجولة التالية.',
+    alreadyWatched: 'لقد شاهدت هذا الإعلان بالفعل في هذه الجولة.',
+    comeBackTooSoon: 'لقد عدت مبكرًا جدًا. يرجى البقاء على صفحة الإعلان لمدة {0} ثانية قبل العودة.',
+    couldNotClaim: 'تعذر المطالبة الآن. يرجى المحاولة مرة أخرى.',
+    taskFull: 'هذه المهمة ممتلئة. جرب مهمة أخرى.',
+    youAlreadySpun: 'لقد قمت بالدوران اليوم بالفعل. عد غدًا!',
+    spinWinMsg: 'لقد ربحت {0} Dogs Coin!', spinError: 'تعذر حفظ الدوران.'
+  }
+};
+
+var S = {
+  uid: null, user: {}, tab: 'home',
+  ui: {}, view: null, shown: null,
+  spin: { spinning: false, currentRot: 0, alreadyShownToday: false },
+  lang: 'en', theme: 'auto'
+};
+
+function t(key) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  var str = (TRANSLATIONS[S.lang] && TRANSLATIONS[S.lang][key]) || TRANSLATIONS.en[key] || key;
+  return str.replace(/\{(\d+)\}/g, function(m, i) { return args[i] || ''; });
+}
+
 var CONFIG = {
   adReward: 20,
   adDailyLimit: 10,
@@ -403,16 +659,16 @@ var CONFIG = {
   referral: { bonusJR: 200 },
   spin: {
     prizes: [
-      { amount: :10,  weight: 30, color: '#5B5BF5', label: '10' },
-      { amount: 20,  weight: 20, color: '#22 {C58B', label: '20' },
-      { amount: 15,  weight: 20, color: '#FF8C42', label: label '15' },
+      { amount: 10,  weight: 30, color: '#5B5BF5', label: '10' },
+      { amount: 20,  weight: 20, color: '#22C58B', label: '20' },
+      { amount: 15,  weight: 20, color: '#FF8C42', label: '15' },
       { amount: 12,  weight: 25, color: '#E0457B', label: '12' },
-      { amount:: 100, weight: 0,  color: '#FFC53D', label: '100', milestone: true }
+      { amount: 100, weight: 0,  color: '#FFC53D', label: '100', milestone: true }
     ],
-    ' milestoneEvery: 100, milestoneAmount: 100
+    milestoneEvery: 100, milestoneAmount: 100
   },
   games: [
-    { id: 'game1', title: 'Play lunch the ball —Ad complete 27 levels', reward: 1400, link: 'https://t.me/lunchtheball_bot' }
+    { id: 'game1', title: 'Play lunch the ball — complete 27 levels', reward: 1400, link: 'https://t.me/lunchtheball_bot' }
   ],
   botLink: 'https://t.me/DoGs010_bot',
   communityLink: 'https://t.me/earnmoneyonline14',
@@ -473,7 +729,7 @@ function openLink(url) {
   window.open(url, '_blank');
 }
 function copyText(t) {
-  var done = function () { toast('Copied to clipboard'); hap('success'); };
+  var done = function () { toast(t('copied')); hap('success'); };
   var fallback = function () { var a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); done(); } catch (e) {} a.remove(); };
   if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t).then(done, fallback);
   fallback();
@@ -519,18 +775,55 @@ window.addEventListener('online', function () { toast('Back online'); });
 (function () { var w = $('#sheetWrap'); if (w) w.addEventListener('click', function (e) { if (e.target.id === 'sheetWrap') closeSheet(); }); })();
 
 function applyTheme() {
-  var pref = store.get('pn_theme') || 'auto';
   var sys = (tg && tg.colorScheme) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  var t = pref === 'auto' ? sys : pref;
+  var t = S.theme === 'auto' ? sys : S.theme;
   document.documentElement.dataset.theme = t;
   try { tg.setHeaderColor(t === 'dark' ? '#0A0F1C' : '#F4F6FB'); tg.setBackgroundColor(t === 'dark' ? '#0A0F1C' : '#F4F6FB'); } catch (e) {}
+  var btn = $('#themeBtn');
+  if (btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
 }
 
-var S = {
-  uid: null, user: {}, tab: 'home',
-  ui: {}, view: null, shown: null,
-  spin: { spinning: false, currentRot: 0, alreadyShownToday: false }
-};
+function applyLanguage() {
+  $$('[data-i18n]').forEach(function(el) {
+    var key = el.dataset.i18n;
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = t(key);
+    } else {
+      el.textContent = t(key);
+    }
+  });
+  var st = $('#splashTag'); if (st) st.textContent = t('earnDogsCoin');
+  var st2 = $('#splashTag2'); if (st2) st2.textContent = t('withdrawDaily');
+  var jt = $('#joinTitle'); if (jt) jt.textContent = t('joinChannel');
+  var jd = $('#joinDesc'); if (jd) jd.textContent = t('joinDesc');
+  var gj = $('#gateJoin'); if (gj) gj.textContent = t('joinBtn');
+  var gv = $('#gateVerify'); if (gv) gv.textContent = t('verify');
+  var spinSub = $('#spinSub'); if (spinSub) spinSub.textContent = t('spinSub');
+  var spinHint = $('#spinHint'); if (spinHint) spinHint.textContent = t('spinHint');
+  var spinWinLabel = $('#spinWinLabel'); if (spinWinLabel) spinWinLabel.textContent = t('spinWinLabel');
+  var spinCollect = $('#spinCollect'); if (spinCollect) spinCollect.textContent = t('collect');
+  var spinHead = $('.spin-head h2'); if (spinHead) spinHead.textContent = t('dailySpin');
+}
+
+async function detectLanguage() {
+  // Try IP-based detection first
+  try {
+    var res = await fetch('https://ipapi.co/json/');
+    var data = await res.json();
+    var cc = (data.country_code || '').toUpperCase();
+    if (cc === 'BD') return 'bn';
+    if (cc === 'IN') return 'hi';
+    if (['SA', 'AE', 'EG', 'DZ', 'MA', 'TN', 'LY', 'JO', 'LB', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'SY', 'PS', 'SD'].indexOf(cc) >= 0) return 'ar';
+    return 'en';
+  } catch(e) {
+    // Fallback to Telegram / browser language
+    var tl = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code) || navigator.language || 'en';
+    if (tl.indexOf('bn') === 0) return 'bn';
+    if (tl.indexOf('hi') === 0) return 'hi';
+    if (tl.indexOf('ar') === 0) return 'ar';
+    return 'en';
+  }
+}
 
 function applyIncome(u, amt) {
   var d = today();
@@ -615,7 +908,8 @@ var PROVIDERS = {
   p3: { label: 'Ad 3', run: runAd3 },
   p4: { label: 'Ad 4', link: CONFIG.adLinks[0] },
   p5: { label: 'Ad 5', link: CONFIG.adLinks[1] },
-  p6: { label: 'Ad 6', link: CONFIG.adLinks 7', link: CONFIG.adLinks[3] },
+  p6: { label: 'Ad 6', link: CONFIG.adLinks[2] },
+  p7: { label: 'Ad 7', link: CONFIG.adLinks[3] },
   p8: { label: 'Ad 8', link: CONFIG.adLinks[4] },
   p9: { label: 'Ad 9', link: CONFIG.adLinks[5] }
 };
@@ -674,7 +968,7 @@ async function finishGroupLinkAd(success) {
   S.view = null;
   if (!success) {
     S.ui['adfail_' + key] = true; renderAds();
-    return toastErr('You came back too soon. Please stay on the ad page for ' + secs + ' seconds before returning.');
+    return toastErr(t('comeBackTooSoon', secs));
   }
   S.ui['adfail_' + key] = false;
   S.ui['ad_' + key] = true;
@@ -683,21 +977,21 @@ async function finishGroupLinkAd(success) {
   S.ui['ad_' + key] = false;
   renderAds();
   hap('success');
-  toast('Ad completed!');
+  toast(t('adCompleted'));
 }
 
 async function watchGroupAd(gid, key) {
   try {
     var provider = PROVIDERS[key]; if (!provider) return;
     var st = getGroupState(gid);
-    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task. Please come back tomorrow.');
-    if (groupCooldownLeft(gid) > 0) return toastErr('Please wait ' + groupCooldownLeft(gid) + ' seconds before the next round.');
-    if (st.done.indexOf(key) >= 0) return toastErr('You already watched this ad in this round.');
+    if (st.claims >= CONFIG.adDailyLimit) return toastErr(t('dailyLimitReached'));
+    if (groupCooldownLeft(gid) > 0) return toastErr(t('waitSeconds', groupCooldownLeft(gid)));
+    if (st.done.indexOf(key) >= 0) return toastErr(t('alreadyWatched'));
     if (S.ui['ad_' + key]) return;
     if (provider.link && S.view && Date.now() - S.view.t0 < 180000) return;
     if (provider.link) return startGroupLinkAd(gid, key, provider.link);
     S.ui['ad_' + key] = true; renderAds();
-    try { await provider.run(); S.ui['ad_' + key] = false; await markAdDone(gid, key); toast('Ad completed!'); }
+    try { await provider.run(); S.ui['ad_' + key] = false; await markAdDone(gid, key); toast(t('adCompleted')); }
     catch (e) {
       S.ui['ad_' + key] = false;
       var m = e && e.message;
@@ -710,8 +1004,8 @@ async function claimAdGroup(gid) {
   try {
     var st = getGroupState(gid);
     if (st.done.length < 3) return toastErr('You must watch all 3 ads first.');
-    if (st.claims >= CONFIG.adDailyLimit) return toastErr('Daily limit reached for this task.');
-    if (groupCooldownLeft(gid) > 0) return toastErr('Please wait ' + groupCooldownLeft(gid) + ' seconds before claiming.');
+    if (st.claims >= CONFIG.adDailyLimit) return toastErr(t('dailyLimitReached'));
+    if (groupCooldownLeft(gid) > 0) return toastErr(t('waitSeconds', groupCooldownLeft(gid)));
     var res = await db.ref(P.user(S.uid)).transaction(function (u) {
       if (!u) return u;
       var d = today();
@@ -728,9 +1022,9 @@ async function claimAdGroup(gid) {
     });
     if (res.snapshot && res.snapshot.exists()) S.user = res.snapshot.val();
     if (res.committed) rewarded(CONFIG.adReward, 'Ad task complete');
-    else toastErr('Could not claim right now. Please try again.');
+    else toastErr(t('couldNotClaim'));
     renderHome();
-  } catch (e) { toastErr('Could not claim right now.'); }
+  } catch (e) { toastErr(t('couldNotClaim')); }
 }
 function adButtonHtmlFor(gid, key, st) {
   var p = PROVIDERS[key]; if (!p) return { html: '', dis: true, done: false };
@@ -742,7 +1036,7 @@ function adButtonHtmlFor(gid, key, st) {
     return { html: s > 0 ? '<span class="spin-icon"></span>' + s + 's' : 'Return', dis: true, done: false };
   }
   if (S.ui['ad_' + key]) return { html: '<span class="spin-icon"></span>', dis: true, done: false };
-  if (S.ui['adfail_' + key]) return { html: 'Retry', dis: false, done: false };
+  if (S.ui['adfail_' + key]) return { html: t('tryAgain'), dis: false, done: false };
   return { html: p.label, dis: false, done: false };
 }
 function renderAdGroup(g) {
@@ -754,11 +1048,11 @@ function renderAdGroup(g) {
   var roundPct = Math.min(100, (st.done.length / 3) * 100);
   var content = '';
   if (limitReached) {
-    content = '<div class="note" style="margin:0;text-align:center">Daily limit reached (' + st.claims + '/' + CONFIG.adDailyLimit + '). Please come back tomorrow.</div>';
+    content = '<div class="note" style="margin:0;text-align:center">' + t('dailyLimitReached') + '</div>';
   } else if (waiting) {
-    content = '<button class="btn btn-cool btn-block" disabled><span class="spin-icon"></span> Please wait <span data-cd="' + g.id + '" style="display:inline-block;min-width:2ch;text-align:center">' + cooldown + '</span>s</button>';
+    content = '<button class="btn btn-cool btn-block" disabled><span class="spin-icon"></span> ' + t('waitSeconds', cooldown) + ' <span data-cd="' + g.id + '" style="display:inline-block;min-width:2ch;text-align:center">' + cooldown + '</span>s</button>';
   } else if (canClaim) {
-    content = '<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="' + g.id + '">Claim ' + fmt(CONFIG.adReward) + ' Dogs Coin</button>';
+    content = '<button class="btn btn-jade btn-block" data-act="claim-ad" data-gid="' + g.id + '">' + t('claim') + ' ' + fmt(CONFIG.adReward) + ' Dogs Coin</button>';
   } else {
     var buttons = g.ads.map(function (key) {
       var u = adButtonHtmlFor(g.id, key, st);
@@ -768,7 +1062,7 @@ function renderAdGroup(g) {
     }).join('');
     content = '<div class="adgrid">' + buttons + '</div>';
   }
-  return '<article class="card"><div class="row"><span class="tbadge t-ads">' + ico('play') + '</span><div class="grow"><h3>' + g.label + '</h3><p class="meta">' + g.sub + ' · ' + st.claims + '/' + CONFIG.adDailyLimit + ' claimed today</p></div><span class="reward">+' + fmt(CONFIG.adReward) + '</span></div><div class="bar"><i style="width:' + roundPct + '%"></i></div><p class="meta" style="margin:0 0 10px">' + st.done.length + '/3 ads completed' + (canClaim ? ' — claim your reward now!' : '') + '</p>' + content + '</article>';
+  return '<article class="card"><div class="row"><span class="tbadge t-ads">' + ico('play') + '</span><div class="grow"><h3>' + g.label + '</h3><p class="meta">' + g.sub + ' · ' + st.claims + '/' + CONFIG.adDailyLimit + ' ' + t('claimedToday') + '</p></div><span class="reward">+' + fmt(CONFIG.adReward) + '</span></div><div class="bar"><i style="width:' + roundPct + '%"></i></div><p class="meta" style="margin:0 0 10px">' + st.done.length + '/3 ' + t('adsCompleted') + (canClaim ? ' — ' + t('claimReward') : '') + '</p>' + content + '</article>';
 }
 function renderAds() {
   var box = $('#adsBox'); if (!box) return;
@@ -777,7 +1071,7 @@ function renderAds() {
 function renderGames() {
   var g = (CONFIG.games || [])[0];
   if (!g) return '';
-  return '<article class="card"><div class="row"><span class="tbadge t-game">' + ico('game') + '</span><div class="grow"><h3>' + esc(g.title) + '</h3><p class="meta">Open the game bot and complete the levels to earn coins</p></div><span class="reward">+' + fmt(g.reward) + '</span></div><button class="btn btn-primary btn-block" style="margin-top:12px" data-act="open-game" data-id="' + esc(g.id) + '">Open game</button></article>';
+  return '<article class="card"><div class="row"><span class="tbadge t-game">' + ico('game') + '</span><div class="grow"><h3>' + t('playLunch') + '</h3><p class="meta">' + t('playLunchDesc') + '</p></div><span class="reward">+' + fmt(g.reward) + '</span></div><button class="btn btn-primary btn-block" style="margin-top:12px" data-act="open-game" data-id="' + esc(g.id) + '">' + t('openGame') + '</button></article>';
 }
 
 setInterval(function () {
@@ -834,8 +1128,8 @@ function openSpinModal() {
   setTimeout(function () { var w = $('#wheelGroup'); if (w) w.style.transition = ''; }, 60);
   var res = $('#spinResult'); if (res) res.classList.remove('show');
   var hint = $('#spinHint'), sub = $('#spinSub');
-  if (spinTodayDone()) { if (hint) hint.textContent = 'You already spun today. Come back tomorrow!'; if (sub) sub.textContent = 'See you tomorrow!'; }
-  else { if (hint) hint.textContent = 'Spin and win up to 100 Dogs Coin!'; if (sub) sub.textContent = 'Spin the wheel and win coins!'; }
+  if (spinTodayDone()) { if (hint) hint.textContent = t('spinComeBack'); if (sub) sub.textContent = t('spinDone'); }
+  else { if (hint) hint.textContent = t('spinWin'); if (sub) sub.textContent = t('spinSub'); }
 }
 function closeSpinModal() { var m = $('#spinModal'); if (!m) return; m.classList.remove('open'); setTimeout(function () { m.hidden = true; }, 300); }
 function spinTodayDone() { return S.user && S.user.lastSpinDay === today(); }
@@ -849,7 +1143,7 @@ function pickPrizeIndex() {
 }
 async function doSpin() {
   if (S.spin.spinning) return;
-  if (spinTodayDone()) { toastErr('You already spun today. Come back tomorrow!'); return; }
+  if (spinTodayDone()) { toastErr(t('youAlreadySpun')); return; }
   S.spin.spinning = true;
   var btn = $('#spinBtn'), btnText = $('#spinBtnText'), wheelGroup = $('#wheelGroup');
   btn.classList.add('spinning'); btnText.textContent = '...';
@@ -882,7 +1176,7 @@ async function doSpin() {
       if (amtEl) amtEl.textContent = fmt(amount);
       if (res) res.classList.add('show');
       hap('success');
-    } catch (e) { toastErr('Could not save spin.'); }
+    } catch (e) { toastErr(t('spinError')); }
     S.spin.spinning = false;
     btn.classList.remove('spinning');
     btnText.textContent = 'SPIN';
@@ -909,30 +1203,44 @@ try { tg.onEvent('deactivated', markLeft); tg.onEvent('activated', function () {
 /* ============ RENDER: HOME ============ */
 function renderHome() {
   if (S.tab !== 'home') return;
-  var u = S.user || {};
-  var refs = Object.keys(u.referrals || {}).length;
-  var td = u.today && u.today.d === today() ? u.today.a : 0;
-  var jr = jrBal(u);
-  var spinDone = spinTodayDone();
-  $('#p-home').innerHTML =
-    '<header class="topbar"><div class="brand"><span class="logo">' + logoHTML() + '</span>DOGS</div><button class="icon-btn" data-sheet="support" aria-label="Support">' + ico('help') + '</button></header>' +
-    '<section class="hero" id="hero"><svg class="rings" viewBox="0 0 240 240"><circle cx="150" cy="90" r="30"/><circle cx="150" cy="90" r="60"/><circle cx="150" cy="90" r="90"/><circle cx="150" cy="90" r="120"/></svg>' +
-    '<div class="hero-label">Your balance</div>' +
-    '<div class="hero-amt"><span class="num" id="balNum">0</span><span class="coinlbl">Dogs Coin</span></div>' +
-    '<p class="hero-sub">Total earned: <b>' + fmt(u.totalIncome || 0) + ' Dogs Coin</b></p>' +
-    '<div class="hero-actions"><button class="btn btn-gold" data-sheet="withdraw">' + ico('down', 'sm') + ' Withdraw</button><button class="btn btn-glass" data-go="friends">' + ico('userplus', 'sm') + ' Invite</button></div></section>' +
-    '<button class="card" style="margin-bottom:14px" data-act="open-spin"><span class="tbadge t-spin">' + ico('gift') + '</span><div class="grow"><h3>' + (spinDone ? 'Daily Spin · Already claimed today' : 'Daily Spin · Spin now to win!') + '</h3><p class="meta">' + (spinDone ? 'Come back tomorrow for another free spin.' : 'Win up to 100 Dogs Coin. One free spin every day.') + '</p></div>' + ico('chev') + '</button>' +
-    '<h2 class="section-title">' + ico('play') + ' Watch ads & earn</h2>' +
-    '<p class="sub" style="margin-bottom:12px">Watch all 3 ads in each task to earn ' + fmt(CONFIG.adReward) + ' Dogs Coin. Up to ' + CONFIG.adDailyLimit + ' claims per day. Wait ' + CONFIG.adCooldownSec + ' seconds between claims. You earned ' + fmt(td) + ' Dogs Coin today.</p>' +
-    '<div class="list" id="adsBox">' + AD_GROUPS.map(renderAdGroup).join('') + '</div>' +
-    '<h2 class="section-title">' + ico('game') + ' Games</h2>' +
-    '<div class="list">' + renderGames() + '</div>' +
-    '<h2 class="section-title">' + ico('userplus') + ' Invite friends</h2>' +
-    '<button class="card" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div class="grow"><h3>Get +' + fmt(CONFIG.referral.bonusJR) + ' Dogs Coin per friend</h3><p class="meta">' + refs + ' referral' + (refs === 1 ? '' : 's') + ' so far</p></div>' + ico('chev') + '</button>' +
-    renderRecentWithdrawals();
-  var balEl = $('#balNum');
-  countUp(balEl, S.shown === null ? jr : S.shown, jr);
-  S.shown = jr;
+  try {
+    var u = S.user || {};
+    var refs = Object.keys(u.referrals || {}).length;
+    var td = u.today && u.today.d === today() ? u.today.a : 0;
+    var jr = jrBal(u);
+    var spinDone = spinTodayDone();
+    var $p = $('#p-home');
+    if (!$p) return;
+    $p.innerHTML =
+      '<header class="topbar"><div class="brand"><span class="logo">' + logoHTML() + '</span>DOGS</div>' +
+      '<div style="display:flex;gap:8px">' +
+        '<button class="icon-btn" id="themeBtn" data-act="toggle-theme" aria-label="Theme">🌙</button>' +
+        '<button class="icon-btn" data-sheet="language" aria-label="Language">' + ico('globe') + '</button>' +
+        '<button class="icon-btn" data-sheet="support" aria-label="Support">' + ico('help') + '</button>' +
+      '</div></header>' +
+      '<section class="hero" id="hero"><svg class="rings" viewBox="0 0 240 240"><circle cx="150" cy="90" r="30"/><circle cx="150" cy="90" r="60"/><circle cx="150" cy="90" r="90"/><circle cx="150" cy="90" r="120"/></svg>' +
+      '<div class="hero-label">' + t('balance') + '</div>' +
+      '<div class="hero-amt"><span class="num" id="balNum">0</span><span class="coinlbl">Dogs Coin</span></div>' +
+      '<p class="hero-sub">' + t('totalEarned') + ': <b>' + fmt(u.totalIncome || 0) + ' Dogs Coin</b></p>' +
+      '<div class="hero-actions"><button class="btn btn-gold" data-sheet="withdraw">' + ico('down', 'sm') + ' ' + t('withdraw') + '</button><button class="btn btn-glass" data-go="friends">' + ico('userplus', 'sm') + ' ' + t('invite') + '</button></div></section>' +
+      '<button class="card" style="margin-bottom:14px" data-act="open-spin"><span class="tbadge t-spin">' + ico('gift') + '</span><div class="grow"><h3>' + (spinDone ? t('dailySpin') + ' · ' + t('spinDone') : t('dailySpin') + ' · ' + t('spinDesc')) + '</h3><p class="meta">' + (spinDone ? t('spinComeBack') : t('spinWin')) + '</p></div>' + ico('chev') + '</button>' +
+      '<h2 class="section-title">' + ico('play') + ' ' + t('watchAds') + '</h2>' +
+      '<p class="sub" style="margin-bottom:12px">' + t('adsDesc', fmt(td)) + '</p>' +
+      '<div class="list" id="adsBox">' + AD_GROUPS.map(renderAdGroup).join('') + '</div>' +
+      '<h2 class="section-title">' + ico('game') + ' ' + t('games') + '</h2>' +
+      '<div class="list">' + renderGames() + '</div>' +
+      '<h2 class="section-title">' + ico('userplus') + ' ' + t('inviteFriends') + '</h2>' +
+      '<button class="card" data-sheet="referral"><span class="tbadge t-join">' + ico('userplus') + '</span><div class="grow"><h3>' + t('inviteDesc') + '</h3><p class="meta">' + refs + ' ' + (refs === 1 ? t('referrals') : t('referralsPlural')) + '</p></div>' + ico('chev') + '</button>' +
+      renderRecentWithdrawals();
+    var balEl = $('#balNum');
+    countUp(balEl, S.shown === null ? jr : S.shown, jr);
+    S.shown = jr;
+    applyTheme();
+  } catch (e) {
+    console.error('renderHome error:', e);
+    var el = $('#p-home');
+    if (el) el.innerHTML = '<div class="alert">' + t('errorLoading') + '</div>';
+  }
 }
 function countUp(el, from, to) {
   if (!el) return;
@@ -946,13 +1254,13 @@ function countUp(el, from, to) {
 }
 function renderRecentWithdrawals() {
   var arr = Object.keys(S.recentW || {}).map(function (k) { return S.recentW[k]; }).filter(Boolean).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 10);
-  var h = '<h3 style="margin:20px 0 10px;font-size:17px">Last withdrawals</h3>';
+  var h = '<h3 style="margin:20px 0 10px;font-size:17px">' + t('lastWithdrawals') + '</h3>';
   var box = 'style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:4px 16px;margin-bottom:14px"';
-  if (!arr.length) return h + '<div ' + box + '><p class="mut" style="padding:14px 0;font-size:13.5px">No withdrawals yet.</p></div>';
+  if (!arr.length) return h + '<div ' + box + '><p class="mut" style="padding:14px 0;font-size:13.5px">' + t('noWithdrawals') + '</p></div>';
   return h + '<div class="wlist" ' + box + '>' + arr.map(function (w) {
     var nm = w.username ? '@' + w.username : (w.name || 'User');
     var d = new Date(w.createdAt || 0);
-    var ds = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    var ds = d.toLocaleDateString(S.lang === 'ar' ? 'ar-SA' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + d.toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-GB', { hour: '2-digit', minute: '2-digit' });
     return '<div class="wrow"><div><div class="wname">' + esc(nm) + '</div><div class="wdate">' + esc(ds) + '</div></div><div class="wamt">' + fmt(w.amount) + ' Dogs Coin</div></div>';
   }).join('') + '</div>';
 }
@@ -960,38 +1268,44 @@ function renderRecentWithdrawals() {
 /* ============ RENDER: FRIENDS ============ */
 function renderFriends() {
   if (S.tab !== 'friends') return;
-  var u = S.user || {};
-  var list = Object.values(u.referrals || {});
-  var link = CONFIG.botLink + '?startapp=' + S.uid;
-  var R = CONFIG.referral;
-  var msg = SHARE_TEXT + '\n' + link;
-  $('#p-friends').innerHTML =
-    '<h1>Friends</h1><p class="sub">Invite your friends and earn ' + fmt(R.bonusJR) + ' Dogs Coin for each friend who joins with your link.</p>' +
-    '<div class="income jade"><small>Referral earnings</small><div class="num">' + fmt(u.refEarned || 0) + ' Dogs Coin</div></div>' +
-    '<div class="linkbox"><span class="grow">' + esc(link) + '</span><button class="btn btn-soft btn-sm" data-copy="' + esc(link) + '">' + ico('copy', 'sm') + ' Copy</button></div>' +
-    '<button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT) + '">' + ico('send', 'sm') + ' Share on Telegram</button>' +
-    '<div class="gap"></div>' +
-    '<button class="btn btn-soft btn-block" data-copy="' + esc(msg) + '">' + ico('copy', 'sm') + ' Copy full message</button>' +
-    '<h2 class="section-title">' + ico('userplus') + ' Your referrals</h2>' +
-    '<div class="card">' + (list.length ? list.map(function (r) { return '<div class="hist"><span>' + esc(r.name || 'Friend') + '</span><span class="' + (r.bonus ? '' : 'mut') + '">' + (r.bonus ? '+' + fmt(R.bonusJR) + ' Dogs Coin' : 'Pending') + '</span></div>'; }).join('') : '<p class="mut" style="font-size:13.5px">No referrals yet. Share your link to start earning!</p>') + '</div>';
+  try {
+    var u = S.user || {};
+    var list = Object.values(u.referrals || {});
+    var link = CONFIG.botLink + '?startapp=' + S.uid;
+    var R = CONFIG.referral;
+    var msg = SHARE_TEXT + '\n' + link;
+    var $p = $('#p-friends');
+    if (!$p) return;
+    $p.innerHTML =
+      '<h1>' + t('friends') + '</h1><p class="sub">' + t('inviteFriends') + ' — ' + t('referralBonus') + '</p>' +
+      '<div class="income jade"><small>' + t('referralEarnings') + '</small><div class="num">' + fmt(u.refEarned || 0) + ' Dogs Coin</div></div>' +
+      '<div class="linkbox"><span class="grow">' + esc(link) + '</span><button class="btn btn-soft btn-sm" data-copy="' + esc(link) + '">' + ico('copy', 'sm') + ' ' + t('copy') + '</button></div>' +
+      '<button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT) + '">' + ico('send', 'sm') + ' ' + t('shareTelegram') + '</button>' +
+      '<div class="gap"></div>' +
+      '<button class="btn btn-soft btn-block" data-copy="' + esc(msg) + '">' + ico('copy', 'sm') + ' ' + t('copyMessage') + '</button>' +
+      '<h2 class="section-title">' + ico('userplus') + ' ' + t('yourReferrals') + '</h2>' +
+      '<div class="card">' + (list.length ? list.map(function (r) { return '<div class="hist"><span>' + esc(r.name || 'Friend') + '</span><span class="' + (r.bonus ? '' : 'mut') + '">' + (r.bonus ? '+' + fmt(R.bonusJR) + ' Dogs Coin' : 'Pending') + '</span></div>'; }).join('') : '<p class="mut" style="font-size:13.5px">' + t('noReferrals') + '</p>') + '</div>';
+  } catch (e) {
+    console.error('renderFriends error:', e);
+  }
 }
 
 var SHARE_TEXT = 'Join me on DOGS — the Telegram app where you earn Dogs Coin every day.\n\n- Watch ads and earn Dogs Coin\n- Daily Spin the wheel — win up to 100 coins\n- Play Lunch the Ball game\n- Invite friends and get ' + fmt(CONFIG.referral.bonusJR) + ' Dogs Coin for each\n\nStart earning now:';
 
 /* ============ SHEETS ============ */
 var SHEETS = {
-  support: function () { openSheet('<h2>Support</h2><p class="lead">Have a question or issue? Message us directly on Telegram and our team will help you.</p><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.supportLink) + '">' + ico('send', 'sm') + ' Message support</button>'); },
+  support: function () { openSheet('<h2>' + t('support') + '</h2><p class="lead">' + t('supportDesc') + '</p><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.supportLink) + '">' + ico('send', 'sm') + ' ' + t('messageSupport') + '</button>'); },
   withdraw: function () {
     var feePct = CONFIG.withdraw.feePct;
-    openSheet('<h2>Withdraw Dogs Coin</h2><p class="lead">Withdraw your Dogs Coin to Binance UID. A ' + feePct + '% fee is deducted. Minimum ' + fmt(CONFIG.withdraw.min) + ' Dogs Coin.</p><div class="field"><label for="wAmt">Dogs Coin to withdraw <span>You have ' + fmt(jrBal(S.user)) + '</span></label><input id="wAmt" class="input" inputmode="numeric" placeholder="' + CONFIG.withdraw.min + '" value="' + CONFIG.withdraw.min + '"></div><div class="field"><label for="wUid">Your Binance UID</label><input id="wUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Enter your Binance UID" value=""></div><div class="sum" id="wSum"></div><div class="alert" id="wErr" hidden></div><button class="btn btn-gold btn-block" id="wConfirm">' + ico('down', 'sm') + ' Request withdrawal</button>' + (function () { var list = Object.values(S.user.withdrawals || {}).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 8); if (!list.length) return ''; return '<h4>Recent withdrawals</h4>' + list.map(function (w) { var sc = w.status === 'paid' ? 'ok' : w.status === 'rejected' ? 'bad' : 'brand'; var st = w.status === 'paid' ? 'Paid' : w.status === 'rejected' ? 'Rejected' : 'Pending'; return '<div class="hist"><div class="grow"><b>' + fmt(w.amount) + ' Dogs Coin</b><br><small class="mut">' + esc(w.binanceUid || '') + '</small></div><span class="pill ' + sc + '">' + st + '</span></div>'; }).join(''); })(),
+    openSheet('<h2>' + t('withdrawTitle') + '</h2><p class="lead">' + t('withdrawDesc') + '</p><div class="field"><label for="wAmt">' + t('amount') + ' <span>' + t('balance') + ': ' + fmt(jrBal(S.user)) + '</span></label><input id="wAmt" class="input" inputmode="numeric" placeholder="' + CONFIG.withdraw.min + '" value="' + CONFIG.withdraw.min + '"></div><div class="field"><label for="wUid">Binance UID</label><input id="wUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div><div class="sum" id="wSum"></div><div class="alert" id="wErr" hidden></div><button class="btn btn-gold btn-block" id="wConfirm">' + ico('down', 'sm') + ' ' + t('requestWithdrawal') + '</button>' + (function () { var list = Object.values(S.user.withdrawals || {}).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 8); if (!list.length) return ''; return '<h4>' + t('recentWithdrawals') + '</h4>' + list.map(function (w) { var sc = w.status === 'paid' ? 'ok' : w.status === 'rejected' ? 'bad' : 'brand'; var st = w.status === 'paid' ? 'Paid' : w.status === 'rejected' ? 'Rejected' : 'Pending'; return '<div class="hist"><div class="grow"><b>' + fmt(w.amount) + ' Dogs Coin</b><br><small class="mut">' + esc(w.binanceUid || '') + '</small></div><span class="pill ' + sc + '">' + st + '</span></div>'; }).join(''); })(),
       function (b) {
         var amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
-        var refresh = function () { var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0)); var fee = Math.floor(jrAmt * feePct / 100); var net = jrAmt - fee; var sum = $('#wSum', b); if (sum) sum.innerHTML = '<div><span class="mut">Amount</span><span>' + fmt(jrAmt) + ' Dogs Coin</span></div><div><span class="mut">Fee (' + feePct + '%)</span><span class="neg">- ' + fmt(fee) + ' Dogs Coin</span></div><div><span class="mut">You receive</span><span>' + fmt(net) + ' Dogs Coin</span></div><div><span class="mut">Method</span><span>Binance</span></div>'; var bad = jrAmt < CONFIG.withdraw.min ? 'Minimum withdrawal is ' + fmt(CONFIG.withdraw.min) + ' Dogs Coin.' : jrAmt > jrBal(S.user) ? 'You do not have that many Dogs Coin.' : ''; err.hidden = !bad; if (bad) err.textContent = bad; btn.disabled = !!bad; };
+        var refresh = function () { var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0)); var fee = Math.floor(jrAmt * feePct / 100); var net = jrAmt - fee; var sum = $('#wSum', b); if (sum) sum.innerHTML = '<div><span class="mut">' + t('amount') + '</span><span>' + fmt(jrAmt) + ' Dogs Coin</span></div><div><span class="mut">' + t('fee') + ' (' + feePct + '%)</span><span class="neg">- ' + fmt(fee) + ' Dogs Coin</span></div><div><span class="mut">' + t('youReceive') + '</span><span>' + fmt(net) + ' Dogs Coin</span></div><div><span class="mut">' + t('method') + '</span><span>Binance</span></div>'; var bad = jrAmt < CONFIG.withdraw.min ? t('minWithdraw') : jrAmt > jrBal(S.user) ? t('notEnough') : ''; err.hidden = !bad; if (bad) err.textContent = bad; btn.disabled = !!bad; };
         amt.addEventListener('input', refresh); refresh();
         btn.onclick = async function () {
           var u = uid.value.trim();
-          if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = 'Please enter a valid Binance UID (digits only).'; return; }
-          btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> Sending';
+          if (!/^\d{6,}$/.test(u)) { err.hidden = false; err.textContent = t('invalidUid'); return; }
+          btn.disabled = true; btn.innerHTML = '<span class="spin-icon"></span> ' + t('processing');
           var amt2 = Math.floor(Number(amt.value.replace(/\D/g, '')) || 0);
           var fee = Math.floor(amt2 * feePct / 100); var net = amt2 - fee;
           var tx = await db.ref(P.user(S.uid)).transaction(function (x) {
@@ -1002,10 +1316,10 @@ var SHEETS = {
             x.withdrawals[Date.now()] = { amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: Date.now() };
             return x;
           });
-          if (!tx.committed) { btn.disabled = false; btn.innerHTML = 'Try again'; toastErr('Withdrawal failed.'); return; }
+          if (!tx.committed) { btn.disabled = false; btn.innerHTML = t('tryAgain'); toastErr(t('withdrawalFailed')); return; }
           try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {}
           try { await db.ref('pn/recentWithdrawals').push().set({ name: S.user.name || '', username: S.user.username || '', amount: amt2, createdAt: TS }); } catch (e) {}
-          toast('Withdrawal requested. Admin will process it soon.');
+          toast(t('withdrawalRequested'));
           hap('success'); closeSheet(); setTimeout(render, 260);
         };
       });
@@ -1015,16 +1329,20 @@ var SHEETS = {
     var link = CONFIG.botLink + '?startapp=' + S.uid;
     var R = CONFIG.referral;
     var msg = SHARE_TEXT + '\n' + link;
-    openSheet('<h2>Invite friends</h2><p class="lead">You get ' + fmt(R.bonusJR) + ' Dogs Coin the moment a friend joins with your link.</p><div class="linkbox"><span class="grow">' + esc(link) + '</span><button class="btn btn-soft btn-sm" data-copy="' + esc(link) + '">' + ico('copy', 'sm') + ' Copy</button></div><button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT) + '">' + ico('send', 'sm') + ' Share on Telegram</button><div class="gap"></div><button class="btn btn-soft btn-block" data-copy="' + esc(msg) + '">' + ico('copy', 'sm') + ' Copy message</button><h4>Your referrals (' + list.length + ')</h4>' + (list.length ? list.map(function (r) { return '<div class="hist"><span>' + esc(r.name || 'Friend') + '</span><span class="' + (r.bonus ? '' : 'mut') + '">' + (r.bonus ? '+' + fmt(R.bonusJR) + ' Dogs Coin' : 'Pending') + '</span></div>'; }).join('') : '<p class="doc">No referrals yet. Share your link to start earning!</p>') + '<div class="kv" style="margin-top:14px"><div><span class="mut">Referral coins earned</span><b>' + fmt(u.refEarned || 0) + ' Dogs Coin</b></div></div>');
+    openSheet('<h2>' + t('inviteFriends') + '</h2><p class="lead">' + t('referralBonus') + '</p><div class="linkbox"><span class="grow">' + esc(link) + '</span><button class="btn btn-soft btn-sm" data-copy="' + esc(link) + '">' + ico('copy', 'sm') + ' ' + t('copy') + '</button></div><button class="btn btn-primary btn-block" data-open="https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(SHARE_TEXT) + '">' + ico('send', 'sm') + ' ' + t('shareTelegram') + '</button><div class="gap"></div><button class="btn btn-soft btn-block" data-copy="' + esc(msg) + '">' + ico('copy', 'sm') + ' ' + t('copyMessage') + '</button><h4>' + t('yourReferrals') + ' (' + list.length + ')</h4>' + (list.length ? list.map(function (r) { return '<div class="hist"><span>' + esc(r.name || 'Friend') + '</span><span class="' + (r.bonus ? '' : 'mut') + '">' + (r.bonus ? '+' + fmt(R.bonusJR) + ' Dogs Coin' : 'Pending') + '</span></div>'; }).join('') : '<p class="doc">' + t('noReferrals') + '</p>') + '<div class="kv" style="margin-top:14px"><div><span class="mut">' + t('referralEarnings') + '</span><b>' + fmt(u.refEarned || 0) + ' Dogs Coin</b></div></div>');
   },
-  privacy: function () { openSheet('<h2>Privacy policy</h2><h4>What we collect</h4><p class="doc">We store your Telegram ID, name, username, profile photo, balances, ad progress, withdrawals and spin history. This data is required for the app to function.</p><h4>Ads</h4><p class="doc">Ads are served by third-party networks. Those networks may collect data per their own policies.</p><h4>Sharing</h4><p class="doc">We do not sell your personal data to anyone.</p>'); },
-  terms: function () { openSheet('<h2>Terms and conditions</h2><h4>Using DOGS</h4><p class="doc">One person, one account. Bots and scripts are not allowed.</p><h4>Rewards</h4><p class="doc">Ad tasks pay Dogs Coin. Referrals pay Dogs Coin.</p><h4>Withdrawals</h4><p class="doc">Binance only. Minimum ' + CONFIG.withdraw.min + ' Dogs Coin. ' + CONFIG.withdraw.feePct + '% fee is deducted.</p><h4>Daily Spin</h4><p class="doc">One free spin every day. Every ' + CONFIG.spin.milestoneEvery + 'th spin in the world wins 100 coins.</p><h4>Fair use</h4><p class="doc">No bots, no scams and no illegal content.</p>'); },
+  privacy: function () { openSheet('<h2>' + t('privacy') + '</h2><h4>What we collect</h4><p class="doc">We store your Telegram ID, name, username, profile photo, balances, ad progress, withdrawals and spin history. This data is required for the app to function.</p><h4>Ads</h4><p class="doc">Ads are served by third-party networks. Those networks may collect data per their own policies.</p><h4>Sharing</h4><p class="doc">We do not sell your personal data to anyone.</p>'); },
+  terms: function () { openSheet('<h2>' + t('terms') + '</h2><h4>Using DOGS</h4><p class="doc">One person, one account. Bots and scripts are not allowed.</p><h4>Rewards</h4><p class="doc">Ad tasks pay Dogs Coin. Referrals pay Dogs Coin.</p><h4>Withdrawals</h4><p class="doc">Binance only. Minimum ' + CONFIG.withdraw.min + ' Dogs Coin. ' + CONFIG.withdraw.feePct + '% fee is deducted.</p><h4>Daily Spin</h4><p class="doc">One free spin every day. Every ' + CONFIG.spin.milestoneEvery + 'th spin in the world wins 100 coins.</p><h4>Fair use</h4><p class="doc">No bots, no scams and no illegal content.</p>'); },
   settings: function () {
-    var th = store.get('pn_theme') || 'auto', hp = store.get('pn_haptics') !== 'off';
-    openSheet('<h2>Settings</h2><h4>Appearance</h4><div class="opts">' + ['auto', 'light', 'dark'].map(function (k) { return '<button class="opt ' + (th === k ? 'on' : '') + '" data-set="theme" data-v="' + k + '">' + k[0].toUpperCase() + k.slice(1) + '</button>'; }).join('') + '</div><h4>Vibration</h4><div class="opts"><button class="opt ' + (hp ? 'on' : '') + '" data-set="haptics" data-v="on">On</button><button class="opt ' + (!hp ? 'on' : '') + '" data-set="haptics" data-v="off">Off</button></div>');
+    var hp = store.get('pn_haptics') !== 'off';
+    openSheet('<h2>' + t('settings') + '</h2><h4>' + t('appearance') + '</h4><div class="opts">' + ['auto', 'light', 'dark'].map(function (k) { return '<button class="opt ' + (S.theme === k ? 'on' : '') + '" data-set="theme" data-v="' + k + '">' + t(k) + '</button>'; }).join('') + '</div><h4>' + t('language') + '</h4><div class="opts">' + ['en', 'bn', 'hi', 'ar'].map(function (k) { return '<button class="opt ' + (S.lang === k ? 'on' : '') + '" data-set="lang" data-v="' + k + '">' + t(k === 'en' ? 'english' : k === 'bn' ? 'bangla' : k === 'hi' ? 'hindi' : 'arabic') + '</button>'; }).join('') + '</div><h4>' + t('vibration') + '</h4><div class="opts"><button class="opt ' + (hp ? 'on' : '') + '" data-set="haptics" data-v="on">' + t('on') + '</button><button class="opt ' + (!hp ? 'on' : '') + '" data-set="haptics" data-v="off">' + t('off') + '</button></div>');
+  },
+  language: function () {
+    var langs = [{ code: 'en', name: 'English' }, { code: 'bn', name: 'বাংলা' }, { code: 'hi', name: 'हिन्दी' }, { code: 'ar', name: 'العربية' }];
+    openSheet('<h2>' + t('languageSelect') + '</h2><p class="lead">' + t('languageDesc') + '</p><div class="opts" style="grid-auto-flow:row">' + langs.map(function (l) { return '<button class="opt ' + (S.lang === l.code ? 'on' : '') + '" data-set="lang" data-v="' + l.code + '">' + l.name + '</button>'; }).join('') + '</div>');
   },
   about: function () {
-    openSheet('<h2>About DOGS</h2><p class="lead">DOGS is a Telegram mini app where you earn Dogs Coin by watching ads, spinning the wheel, playing games and inviting friends — then withdraw to Binance.</p><h4>Earn Dogs Coin</h4><ul class="doc"><li>Ad tasks: ' + fmt(CONFIG.adReward) + ' Dogs Coin per task, ' + CONFIG.adDailyLimit + ' claims per day.</li><li>Daily Spin: one free spin per day, win up to 100 coins.</li><li>Referral: +' + fmt(CONFIG.referral.bonusJR) + ' Dogs Coin per friend.</li></ul><h4>Games</h4><ul class="doc"><li>Play lunch the ball — complete 27 levels.</li></ul><h4>Withdraw</h4><p class="doc">Withdraw Dogs Coin to Binance (min ' + fmt(CONFIG.withdraw.min) + ' Dogs Coin, ' + CONFIG.withdraw.feePct + '% fee).</p><h4>Fair use</h4><p class="doc">One account per person. No bots.</p><div class="gap"></div><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.communityLink) + '">' + ico('send', 'sm') + ' Join community</button>');
+    openSheet('<h2>' + t('about') + '</h2><p class="lead">' + t('aboutDesc') + '</p><h4>' + t('earnCoin') + '</h4><ul class="doc"><li>' + t('adReward') + '</li><li>' + t('dailySpinInfo') + '</li><li>' + t('referralInfo') + '</li></ul><h4>' + t('gamesInfo') + '</h4><ul class="doc"><li>' + t('playLunch') + '</li></ul><h4>' + t('withdrawInfo') + '</h4><p class="doc">' + t('withdrawInfoDesc') + '</p><h4>' + t('fairUse') + '</h4><p class="doc">' + t('fairUseDesc') + '</p><div class="gap"></div><button class="btn btn-primary btn-block" data-open="' + esc(CONFIG.communityLink) + '">' + ico('send', 'sm') + ' ' + t('joinCommunity') + '</button>');
   }
 };
 
@@ -1049,7 +1367,14 @@ var ACT = {
   'watch-group': function (b) { watchGroupAd(b.dataset.gid, b.dataset.key); },
   'claim-ad': function (b) { claimAdGroup(b.dataset.gid); },
   'open-game': function (b) { var g = (CONFIG.games || []).filter(function (x) { return x.id === b.dataset.id; })[0]; if (g && g.link) openLink(g.link); },
-  'open-spin': function () { openSpinModal(); }
+  'open-spin': function () { openSpinModal(); },
+  'toggle-theme': function () {
+    var sys = (tg && tg.colorScheme) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var cur = document.documentElement.dataset.theme || sys;
+    var next = cur === 'dark' ? 'light' : 'dark';
+    S.theme = next; store.set('pn_theme', next);
+    applyTheme(); hap('tap');
+  }
 };
 document.addEventListener('click', function (e) {
   var t = e.target, b;
@@ -1059,8 +1384,15 @@ document.addEventListener('click', function (e) {
     b = t.closest('[data-sheet]'); if (b) { hap('tap'); if (!$('#sheetWrap').hidden) { closeSheet(); setTimeout(function () { SHEETS[b.dataset.sheet](); }, 260); } else SHEETS[b.dataset.sheet](); return; }
     b = t.closest('[data-open]'); if (b) { openLink(b.dataset.open); return; }
     b = t.closest('[data-copy]'); if (b) { copyText(b.dataset.copy); return; }
-    b = t.closest('[data-set]'); if (b) { store.set(b.dataset.set === 'theme' ? 'pn_theme' : 'pn_haptics', b.dataset.v); $$('[data-set="' + b.dataset.set + '"]').forEach(function (x) { x.classList.toggle('on', x === b); }); applyTheme(); return; }
-  } catch (err) {}
+    b = t.closest('[data-set]'); if (b) {
+      var set = b.dataset.set, v = b.dataset.v;
+      if (set === 'theme') { S.theme = v; store.set('pn_theme', v); applyTheme(); }
+      else if (set === 'lang') { S.lang = v; store.set('pn_lang', v); applyLanguage(); render(); }
+      else if (set === 'haptics') { store.set('pn_haptics', v); }
+      $$('[data-set="' + set + '"]').forEach(function (x) { x.classList.toggle('on', x === b); });
+      return;
+    }
+  } catch (err) { console.error('click error:', err); }
 });
 (function () {
   var sc = $('#spinClose'); if (sc) sc.addEventListener('click', closeSpinModal);
@@ -1089,13 +1421,15 @@ function showApp() {
   var gt = $('#gate'); if (gt) gt.hidden = true;
   $('#app').hidden = false;
   $('#nav').hidden = false;
-  try { go('home'); } catch (e) {}
+  try { go('home'); } catch (e) { console.error('go home error:', e); }
 }
 function showJoinGate() {
   var g = $('#joinGate'); if (!g) return;
   g.hidden = false;
   $('#app').hidden = true;
   $('#nav').hidden = true;
+  var hint = $('#gateHint');
+  if (hint) hint.textContent = t('pleaseJoinChannel');
 }
 
 /* ============ BOOT ============ */
@@ -1112,64 +1446,100 @@ async function ensureUser(tu) {
 function hideSplash() { var s = $('#splash'); if (!s || s.hidden) return; window.__splashKilled = true; s.classList.add('leave'); setTimeout(function () { s.hidden = true; }, 420); }
 
 async function boot() {
-  var t0 = Date.now();
-  try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); $('#joinLogo').innerHTML = logoHTML(); } catch (e) {}
-  try { if (tg) { tg.ready(); tg.expand(); if (tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } } catch (e) {}
-  try { applyTheme(); } catch (e) {}
-  var tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
-  if (!tu) { $('#splash').hidden = true; $('#gate').hidden = false; window.__splashKilled = true; return; }
-  S.uid = String(tu.id);
-
-  // Minimum splash time
-  var wait = Math.max(0, 1500 - (Date.now() - t0));
-  await sleep(wait);
-
-  // Verify channel membership
-  var joined = PREVIEW ? true : await verifyChannel();
-  hideSplash();
-
-  if (joined === true) {
-    showApp();
-  } else {
-    showJoinGate();
-    var hint = $('#gateHint');
-    if (hint) hint.textContent = joined === null ? 'Could not verify automatically. Join then tap Verify.' : 'You must join the channel to use DOGS.';
-    var gj = $('#gateJoin'), gv = $('#gateVerify');
-    if (gj) gj.onclick = function () { hap('tap'); openLink(CONFIG.communityLink); };
-    if (gv) gv.onclick = async function () {
-      gv.disabled = true; gv.innerHTML = '<span class="spin-icon"></span> Verifying';
-      var res = await verifyChannel();
-      if (res === true) {
-        toast('Thanks for joining!');
-        hap('success');
-        showApp();
-        return;
-      }
-      // Not joined (or verification failed)
-      gv.disabled = false;
-      gv.textContent = 'Try again';
-      toastErr('You have not joined the channel yet. Please join first.');
-      if (hint) hint.textContent = 'Join the channel first, then tap Try again.';
-    };
-    return;
-  }
-
-  try { await Promise.race([ensureUser(tu), new Promise(function (_, rej) { setTimeout(function () { rej(new Error('timeout')); }, 8000); })]); } catch (e) {}
-  var firstUser = true;
   try {
-    db.ref(P.user(S.uid)).on('value', function (s) {
-      try {
-        var u = s.val() || {};
-        S.user = u; render();
-        if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) { S.spin.alreadyShownToday = true; setTimeout(function () { if (u.lastSpinDay !== today() && !S.spin.spinning) openSpinModal(); }, 1400); }
-        if (firstUser) { firstUser = false; checkReferral(u); }
-      } catch (err) {}
-    });
-  } catch (e) {}
-  try { db.ref('pn/recentWithdrawals').limitToLast(10).on('value', function (s) { S.recentW = s.val() || {}; if (S.tab === 'home') render(); }); } catch (e) {}
+    var t0 = Date.now();
+    try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); $('#joinLogo').innerHTML = logoHTML(); } catch (e) {}
+    try { if (tg) { tg.ready(); tg.expand(); if (tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } } catch (e) {}
+
+    // Language detection
+    S.lang = store.get('pn_lang') || await detectLanguage();
+    S.theme = store.get('pn_theme') || 'auto';
+    applyTheme();
+    applyLanguage();
+
+    var tu = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || (PREVIEW ? { id: 'preview', first_name: 'Preview', username: 'preview' } : null);
+    if (!tu) { $('#splash').hidden = true; $('#gate').hidden = false; window.__splashKilled = true; return; }
+    S.uid = String(tu.id);
+
+    // Minimum splash time
+    var wait = Math.max(0, 1500 - (Date.now() - t0));
+    await sleep(wait);
+
+    // Verify channel membership
+    var joined = PREVIEW ? true : await verifyChannel();
+    hideSplash();
+
+    if (joined === true) {
+      // Ensure user is loaded before rendering
+      await ensureUser(tu);
+      // Wait for first user snapshot
+      await new Promise(function(resolve) {
+        var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
+          S.user = s.val() || {};
+          unsub();
+          resolve();
+        }, function() { resolve(); });
+        setTimeout(resolve, 3000);
+      });
+      showApp();
+    } else {
+      showJoinGate();
+      if (joined === null) {
+        var hint = $('#gateHint');
+        if (hint) hint.textContent = t('couldNotVerify');
+      }
+      var gj = $('#gateJoin'), gv = $('#gateVerify');
+      if (gj) gj.onclick = function () { hap('tap'); openLink(CONFIG.communityLink); };
+      if (gv) gv.onclick = async function () {
+        gv.disabled = true; gv.innerHTML = '<span class="spin-icon"></span> ' + t('joining');
+        var res = await verifyChannel();
+        if (res === true) {
+          toast(t('successJoin'));
+          hap('success');
+          await ensureUser(tu);
+          await new Promise(function(resolve) {
+            var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
+              S.user = s.val() || {};
+              unsub();
+              resolve();
+            }, function() { resolve(); });
+            setTimeout(resolve, 3000);
+          });
+          showApp();
+          return;
+        }
+        gv.disabled = false;
+        gv.textContent = t('tryAgain');
+        toastErr(t('notJoined'));
+        var hint = $('#gateHint');
+        if (hint) hint.textContent = t('pleaseJoinChannel');
+      };
+      return;
+    }
+
+    // Setup listeners
+    var firstUser = true;
+    try {
+      db.ref(P.user(S.uid)).on('value', function (s) {
+        try {
+          var u = s.val() || {};
+          S.user = u; render();
+          if (!S.spin.alreadyShownToday && u.lastSpinDay !== today()) { S.spin.alreadyShownToday = true; setTimeout(function () { if (u.lastSpinDay !== today() && !S.spin.spinning) openSpinModal(); }, 1400); }
+          if (firstUser) { firstUser = false; checkReferral(u); }
+        } catch (err) { console.error('user listener error:', err); }
+      });
+    } catch (e) {}
+    try { db.ref('pn/recentWithdrawals').limitToLast(10).on('value', function (s) { S.recentW = s.val() || {}; if (S.tab === 'home') render(); }); } catch (e) {}
+  } catch (e) {
+    console.error('boot error:', e);
+    hideSplash();
+    var a = $('#app'); if (a) a.hidden = false;
+    var n = $('#nav'); if (n) n.hidden = false;
+    try { go('home'); } catch(err) {}
+  }
 }
-try { boot().catch(function (e) { console.error('boot failed:', e); hideSplash(); var a = $('#app'); if (a) a.hidden = false; var n = $('#nav'); if (n) n.hidden = false; }); }
-catch (e) { hideSplash(); var a2 = document.getElementById('app'); if (a2) a2.hidden = false; var n2 = document.getElementById('nav'); if (n2) n2.hidden = false; }
+
+try { boot(); } catch (e) { console.error('boot catch:', e); hideSplash(); var a2 = document.getElementById('app'); if (a2) a2.hidden = false; var n2 = document.getElementById('nav'); if (n2) n2.hidden = false; }
 
 })();
 </script>

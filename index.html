@@ -367,13 +367,21 @@ window.addEventListener('unhandledrejection', function(event) {
   console.error('Unhandled rejection:', event.reason);
   event.preventDefault();
 });
+
+// Fallback timeout to force hide splash screen after 6 seconds
 setTimeout(function () {
   if (window.__splashKilled) return;
+  window.__splashKilled = true;
   try {
     var s = document.getElementById('splash');
     if (s && !s.hidden) { s.style.opacity = '0'; setTimeout(function () { try { s.style.display = 'none'; } catch (e) {} }, 400); }
+    var app = document.getElementById('app');
+    var nav = document.getElementById('nav');
+    if (app && app.hidden) { app.hidden = false; }
+    if (nav && nav.hidden) { nav.hidden = false; }
+    if (typeof window.__forceRender === 'function') { window.__forceRender(); }
   } catch (e) {}
-}, 8000);
+}, 6000);
 </script>
 
 <script>
@@ -1290,8 +1298,8 @@ var SHEETS = {
     var feePct = CONFIG.withdraw.feePct;
     openSheet('<h2>' + t('withdrawTitle') + '</h2><p class="lead">' + t('withdrawDesc') + '</p><div class="field"><label for="wAmt">' + t('amount') + ' <span>' + t('balance') + ': ' + fmt(jrBal(S.user)) + '</span></label><input id="wAmt" class="input" inputmode="numeric" placeholder="' + CONFIG.withdraw.min + '" value="' + CONFIG.withdraw.min + '"></div><div class="field"><label for="wUid">Binance UID</label><input id="wUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div><div class="sum" id="wSum"></div><div class="alert" id="wErr" hidden></div><button class="btn btn-gold btn-block" id="wConfirm">' + ico('down', 'sm') + ' ' + t('requestWithdrawal') + '</button>' + (function () { var list = Object.values(S.user.withdrawals || {}).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 8); if (!list.length) return ''; return '<h4>' + t('recentWithdrawals') + '</h4>' + list.map(function (w) { var sc = w.status === 'paid' ? 'ok' : w.status === 'rejected' ? 'bad' : 'brand'; var st = w.status === 'paid' ? 'Paid' : w.status === 'rejected' ? 'Rejected' : 'Pending'; return '<div class="hist"><div class="grow"><b>' + fmt(w.amount) + ' Dogs Coin</b><br><small class="mut">' + esc(w.binanceUid || '') + '</small></div><span class="pill ' + sc + '">' + st + '</span></div>'; }).join(''); })(),
       function (b) {
-        var: amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', u b);
-        var refresh = function () { var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0)); var fee = Math.floor(jr,Amt * feePct / 100); var net = jrAmt - fee; var sum = $('#wSum', b); if (sum) sum.innerHTML = '< methoddiv><span class="mut">' + t('amount') + '</span><span>' + fmt(jrAmt) + ' Dogs Coin</span></div><div><span class:="mut">' + t('fee') + ' (' + feePct + '%)</span><span class="neg">- ' + fmt(fee) + ' Dogs Coin</span></div>< 'div><span class="mut">' + t('youReceive') + '</span><span>' + fmt(net) + ' Dogs Coin</span></div><div><span class="mut">' + t('method') + '</span><span>Binance</span></div>'; var bad = jrAmt < CONFIG.withdraw.min ? t('minWithdraw') : jrAmt > jrBal(S.user) ? t('notEnough') : ''; err.hidden = !bad; if (bad) err.textContent = bad; btn.disabled = !!bad; };
+        var amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
+        var refresh = function () { var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0)); var fee = Math.floor(jrAmt * feePct / 100); var net = jrAmt - fee; var sum = $('#wSum', b); if (sum) sum.innerHTML = '<div><span class="mut">' + t('amount') + '</span><span>' + fmt(jrAmt) + ' Dogs Coin</span></div><div><span class="mut">' + t('fee') + ' (' + feePct + '%)</span><span class="neg">- ' + fmt(fee) + ' Dogs Coin</span></div><div><span class="mut">' + t('youReceive') + '</span><span>' + fmt(net) + ' Dogs Coin</span></div><div><span class="mut">' + t('method') + '</span><span>Binance</span></div>'; var bad = jrAmt < CONFIG.withdraw.min ? t('minWithdraw') : jrAmt > jrBal(S.user) ? t('notEnough') : ''; err.hidden = !bad; if (bad) err.textContent = bad; btn.disabled = !!bad; };
         amt.addEventListener('input', refresh); refresh();
         btn.onclick = async function () {
           var u = uid.value.trim();
@@ -1308,7 +1316,7 @@ var SHEETS = {
             return x;
           });
           if (!tx.committed) { btn.disabled = false; btn.innerHTML = t('tryAgain'); toastErr(t('withdrawalFailed')); return; }
-          try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee: fee, net: net, binanceUidBinance', status: 'pending', createdAt: TS }); } catch (e) {}
+          try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {}
           try { await db.ref('pn/recentWithdrawals').push().set({ name: S.user.name || '', username: S.user.username || '', amount: amt2, createdAt: TS }); } catch (e) {}
           toast(t('withdrawalRequested'));
           hap('success'); closeSheet(); setTimeout(render, 260);
@@ -1344,6 +1352,8 @@ function render() {
     else if (S.tab === 'friends') renderFriends();
   } catch (e) { console.error('render error:', e); }
 }
+window.__forceRender = render;
+
 function go(tab) {
   S.tab = tab;
   $$('.page').forEach(function (p) { p.hidden = p.id !== 'p-' + tab; });
@@ -1393,7 +1403,18 @@ document.addEventListener('click', function (e) {
 })();
 
 /* ============ TELEGRAM HELPERS ============ */
-async function tgApi(method, qs) { var r = await fetch('https://api.telegram.org/bot' + CONFIG.botToken + '/' + method + '?' + qs); return r.json(); }
+async function tgApi(method, qs) {
+  var controller = new AbortController();
+  var timeoutId = setTimeout(function() { controller.abort(); }, 4000); // 4 second timeout
+  try {
+    var r = await fetch('https://api.telegram.org/bot' + CONFIG.botToken + '/' + method + '?' + qs, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    return r.json();
+  } catch (e) {
+    clearTimeout(timeoutId);
+    throw e;
+  }
+}
 
 async function verifyChannel() {
   if (!CONFIG.botToken || !S.uid) return null;
@@ -1425,18 +1446,36 @@ function showJoinGate() {
 
 /* ============ BOOT ============ */
 async function ensureUser(tu) {
-  var ref = db.ref(P.user(S.uid)), snap = await ref.once('value');
-  var profile = { name: [tu.first_name, tu.last_name].filter(Boolean).join(' ') || tu.username || 'User', username: tu.username || '', photo: tu.photo_url || '' };
-  if (snap.exists()) return ref.update(profile);
-  var start = tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
-  var referredBy = null;
-  if (start && /^\d+$/.test(start) && start !== S.uid) { try { var r = await db.ref(P.user(start) + '/name').once('value'); if (r.exists()) referredBy = start; } catch (e) {} }
-  await ref.set(Object.assign({ balance: 0, rjBalance: 0, totalIncome: 0, rjTotal: 0, createdAt: TS, referredBy: referredBy }, profile));
-  if (referredBy) try { await db.ref(P.user(referredBy) + '/referrals/' + S.uid).set({ name: profile.name, bonus: 0 }); } catch (e) {}
+  try {
+    var ref = db.ref(P.user(S.uid));
+    var snap = await Promise.race([
+      ref.once('value'),
+      sleep(3000).then(function() { return { exists: function() { return false; }, val: function() { return null; } }; })
+    ]);
+    var profile = { name: [tu.first_name, tu.last_name].filter(Boolean).join(' ') || tu.username || 'User', username: tu.username || '', photo: tu.photo_url || '' };
+    if (snap.exists()) return ref.update(profile);
+    var start = tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
+    var referredBy = null;
+    if (start && /^\d+$/.test(start) && start !== S.uid) { try { var r = await db.ref(P.user(start) + '/name').once('value'); if (r.exists()) referredBy = start; } catch (e) {} }
+    await ref.set(Object.assign({ balance: 0, rjBalance: 0, totalIncome: 0, rjTotal: 0, createdAt: TS, referredBy: referredBy }, profile));
+    if (referredBy) try { await db.ref(P.user(referredBy) + '/referrals/' + S.uid).set({ name: profile.name, bonus: 0 }); } catch (e) {}
+  } catch (e) { console.warn('ensureUser error:', e); }
 }
 function hideSplash() { var s = $('#splash'); if (!s || s.hidden) return; window.__splashKilled = true; s.classList.add('leave'); setTimeout(function () { s.hidden = true; }, 420); }
 
 async function boot() {
+  var bootCompleted = false;
+  var forceTimeout = setTimeout(function() {
+    if (!bootCompleted) {
+      console.warn('Boot timeout forced');
+      window.__splashKilled = true;
+      hideSplash();
+      var a = $('#app'); if (a) a.hidden = false;
+      var n = $('#nav'); if (n) n.hidden = false;
+      try { go('home'); } catch(e) {}
+    }
+  }, 5500); // Force complete after 5.5 seconds
+
   try {
     var t0 = Date.now();
     try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); $('#joinLogo').innerHTML = logoHTML(); } catch (e) {}
@@ -1453,25 +1492,31 @@ async function boot() {
     S.uid = String(tu.id);
 
     // Minimum splash time
-    var wait = Math.max(0, 1500 - (Date.now() - t0));
+    var wait = Math.max(0, 1200 - (Date.now() - t0));
     await sleep(wait);
 
-    // Verify channel membership
-    var joined = PREVIEW ? true : await verifyChannel();
+    // Verify channel membership with timeout
+    var joined = PREVIEW ? true : await Promise.race([
+      verifyChannel(),
+      sleep(4000).then(function() { return null; }) // 4s timeout for verification
+    ]);
+
     hideSplash();
 
     if (joined === true) {
       // Ensure user is loaded before rendering
       await ensureUser(tu);
-      // Wait for first user snapshot
-      await new Promise(function(resolve) {
-        var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
-          S.user = s.val() || {};
-          unsub();
-          resolve();
-        }, function() { resolve(); });
-        setTimeout(resolve, 3000);
-      });
+      // Wait for first user snapshot with timeout
+      await Promise.race([
+        new Promise(function(resolve) {
+          var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
+            S.user = s.val() || {};
+            unsub();
+            resolve();
+          }, function() { resolve(); });
+        }),
+        sleep(3000)
+      ]);
       showApp();
     } else {
       showJoinGate();
@@ -1488,14 +1533,16 @@ async function boot() {
           toast(t('successJoin'));
           hap('success');
           await ensureUser(tu);
-          await new Promise(function(resolve) {
-            var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
-              S.user = s.val() || {};
-              unsub();
-              resolve();
-            }, function() { resolve(); });
-            setTimeout(resolve, 3000);
-          });
+          await Promise.race([
+            new Promise(function(resolve) {
+              var unsub = db.ref(P.user(S.uid)).on('value', function(s) {
+                S.user = s.val() || {};
+                unsub();
+                resolve();
+              }, function() { resolve(); });
+            }),
+            sleep(3000)
+          ]);
           showApp();
           return;
         }
@@ -1505,6 +1552,8 @@ async function boot() {
         var hint = $('#gateHint');
         if (hint) hint.textContent = t('pleaseJoinChannel');
       };
+      bootCompleted = true;
+      clearTimeout(forceTimeout);
       return;
     }
 
@@ -1521,12 +1570,16 @@ async function boot() {
       });
     } catch (e) {}
     try { db.ref('pn/recentWithdrawals').limitToLast(10).on('value', function (s) { S.recentW = s.val() || {}; if (S.tab === 'home') render(); }); } catch (e) {}
+    bootCompleted = true;
+    clearTimeout(forceTimeout);
   } catch (e) {
     console.error('boot error:', e);
     hideSplash();
     var a = $('#app'); if (a) a.hidden = false;
     var n = $('#nav'); if (n) n.hidden = false;
     try { go('home'); } catch(err) {}
+    bootCompleted = true;
+    clearTimeout(forceTimeout);
   }
 }
 

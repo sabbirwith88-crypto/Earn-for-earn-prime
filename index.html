@@ -358,21 +358,15 @@ img,svg,video{max-width:100%}
 
 <script>
 window.__splashKilled = false;
-// Global error handler to prevent blank screen
+// Global error handler to prevent blank screen and "Script error" popups
 window.onerror = function(msg, url, line, col, error) {
   console.error('Global error:', msg, 'at', line, ':', col, error);
-  try {
-    var el = document.getElementById('toasts');
-    if (el) {
-      var t = document.createElement('div');
-      t.className = 'toast err';
-      t.innerHTML = '<div><b>Error</b><small>' + msg + '</small></div>';
-      el.appendChild(t);
-      setTimeout(function() { t.remove(); }, 5000);
-    }
-  } catch(e) {}
-  return false;
+  return true; // Prevent default browser error handling
 };
+window.addEventListener('unhandledrejection', function(event) {
+  console.error('Unhandled rejection:', event.reason);
+  event.preventDefault();
+});
 setTimeout(function () {
   if (window.__splashKilled) return;
   try {
@@ -691,7 +685,7 @@ try {
   db = firebase.database();
   TS = firebase.database.ServerValue.TIMESTAMP;
   P = { user: function (id) { return 'pn/users/' + id; } };
-} catch (e) { alert('Firebase error: ' + (e.message || e)); return; }
+} catch (e) { console.error('Firebase init error:', e); }
 
 var _loadedScripts = {};
 function loadScriptOnce(src) {
@@ -805,24 +799,21 @@ function applyLanguage() {
   var spinHead = $('.spin-head h2'); if (spinHead) spinHead.textContent = t('dailySpin');
 }
 
-async function detectLanguage() {
-  // Try IP-based detection first
+// Language detection WITHOUT IP tracking
+function detectLanguage() {
+  var tl = '';
   try {
-    var res = await fetch('https://ipapi.co/json/');
-    var data = await res.json();
-    var cc = (data.country_code || '').toUpperCase();
-    if (cc === 'BD') return 'bn';
-    if (cc === 'IN') return 'hi';
-    if (['SA', 'AE', 'EG', 'DZ', 'MA', 'TN', 'LY', 'JO', 'LB', 'IQ', 'KW', 'QA', 'BH', 'OM', 'YE', 'SY', 'PS', 'SD'].indexOf(cc) >= 0) return 'ar';
-    return 'en';
-  } catch(e) {
-    // Fallback to Telegram / browser language
-    var tl = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code) || navigator.language || 'en';
-    if (tl.indexOf('bn') === 0) return 'bn';
-    if (tl.indexOf('hi') === 0) return 'hi';
-    if (tl.indexOf('ar') === 0) return 'ar';
-    return 'en';
+    if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code) {
+      tl = tg.initDataUnsafe.user.language_code.toLowerCase();
+    }
+  } catch(e) {}
+  if (!tl) {
+    tl = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
   }
+  if (tl.indexOf('bn') === 0) return 'bn';
+  if (tl.indexOf('hi') === 0) return 'hi';
+  if (tl.indexOf('ar') === 0) return 'ar';
+  return 'en';
 }
 
 function applyIncome(u, amt) {
@@ -1299,8 +1290,8 @@ var SHEETS = {
     var feePct = CONFIG.withdraw.feePct;
     openSheet('<h2>' + t('withdrawTitle') + '</h2><p class="lead">' + t('withdrawDesc') + '</p><div class="field"><label for="wAmt">' + t('amount') + ' <span>' + t('balance') + ': ' + fmt(jrBal(S.user)) + '</span></label><input id="wAmt" class="input" inputmode="numeric" placeholder="' + CONFIG.withdraw.min + '" value="' + CONFIG.withdraw.min + '"></div><div class="field"><label for="wUid">Binance UID</label><input id="wUid" class="input" autocomplete="off" autocapitalize="off" placeholder="Binance UID" value=""></div><div class="sum" id="wSum"></div><div class="alert" id="wErr" hidden></div><button class="btn btn-gold btn-block" id="wConfirm">' + ico('down', 'sm') + ' ' + t('requestWithdrawal') + '</button>' + (function () { var list = Object.values(S.user.withdrawals || {}).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); }).slice(0, 8); if (!list.length) return ''; return '<h4>' + t('recentWithdrawals') + '</h4>' + list.map(function (w) { var sc = w.status === 'paid' ? 'ok' : w.status === 'rejected' ? 'bad' : 'brand'; var st = w.status === 'paid' ? 'Paid' : w.status === 'rejected' ? 'Rejected' : 'Pending'; return '<div class="hist"><div class="grow"><b>' + fmt(w.amount) + ' Dogs Coin</b><br><small class="mut">' + esc(w.binanceUid || '') + '</small></div><span class="pill ' + sc + '">' + st + '</span></div>'; }).join(''); })(),
       function (b) {
-        var amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', b);
-        var refresh = function () { var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0)); var fee = Math.floor(jrAmt * feePct / 100); var net = jrAmt - fee; var sum = $('#wSum', b); if (sum) sum.innerHTML = '<div><span class="mut">' + t('amount') + '</span><span>' + fmt(jrAmt) + ' Dogs Coin</span></div><div><span class="mut">' + t('fee') + ' (' + feePct + '%)</span><span class="neg">- ' + fmt(fee) + ' Dogs Coin</span></div><div><span class="mut">' + t('youReceive') + '</span><span>' + fmt(net) + ' Dogs Coin</span></div><div><span class="mut">' + t('method') + '</span><span>Binance</span></div>'; var bad = jrAmt < CONFIG.withdraw.min ? t('minWithdraw') : jrAmt > jrBal(S.user) ? t('notEnough') : ''; err.hidden = !bad; if (bad) err.textContent = bad; btn.disabled = !!bad; };
+        var: amt = $('#wAmt', b), uid = $('#wUid', b), err = $('#wErr', b), btn = $('#wConfirm', u b);
+        var refresh = function () { var jrAmt = Math.max(0, Math.floor(Number(amt.value.replace(/\D/g, '')) || 0)); var fee = Math.floor(jr,Amt * feePct / 100); var net = jrAmt - fee; var sum = $('#wSum', b); if (sum) sum.innerHTML = '< methoddiv><span class="mut">' + t('amount') + '</span><span>' + fmt(jrAmt) + ' Dogs Coin</span></div><div><span class:="mut">' + t('fee') + ' (' + feePct + '%)</span><span class="neg">- ' + fmt(fee) + ' Dogs Coin</span></div>< 'div><span class="mut">' + t('youReceive') + '</span><span>' + fmt(net) + ' Dogs Coin</span></div><div><span class="mut">' + t('method') + '</span><span>Binance</span></div>'; var bad = jrAmt < CONFIG.withdraw.min ? t('minWithdraw') : jrAmt > jrBal(S.user) ? t('notEnough') : ''; err.hidden = !bad; if (bad) err.textContent = bad; btn.disabled = !!bad; };
         amt.addEventListener('input', refresh); refresh();
         btn.onclick = async function () {
           var u = uid.value.trim();
@@ -1317,7 +1308,7 @@ var SHEETS = {
             return x;
           });
           if (!tx.committed) { btn.disabled = false; btn.innerHTML = t('tryAgain'); toastErr(t('withdrawalFailed')); return; }
-          try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee: fee, net: net, binanceUid: u, method: 'Binance', status: 'pending', createdAt: TS }); } catch (e) {}
+          try { await db.ref('pn/withdrawals').push().set({ uid: S.uid, name: S.user.name || '', username: S.user.username || '', amount: amt2, fee: fee, net: net, binanceUidBinance', status: 'pending', createdAt: TS }); } catch (e) {}
           try { await db.ref('pn/recentWithdrawals').push().set({ name: S.user.name || '', username: S.user.username || '', amount: amt2, createdAt: TS }); } catch (e) {}
           toast(t('withdrawalRequested'));
           hap('success'); closeSheet(); setTimeout(render, 260);
@@ -1451,8 +1442,8 @@ async function boot() {
     try { $('#splashLogo').innerHTML = logoHTML(); $('#gateLogo').innerHTML = logoHTML(); $('#joinLogo').innerHTML = logoHTML(); } catch (e) {}
     try { if (tg) { tg.ready(); tg.expand(); if (tg.disableVerticalSwipes) tg.disableVerticalSwipes(); } } catch (e) {}
 
-    // Language detection
-    S.lang = store.get('pn_lang') || await detectLanguage();
+    // Language detection WITHOUT IP tracking
+    S.lang = store.get('pn_lang') || detectLanguage();
     S.theme = store.get('pn_theme') || 'auto';
     applyTheme();
     applyLanguage();
